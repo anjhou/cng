@@ -78,6 +78,8 @@
             color: #0a1a3c;
             margin-bottom: 20px;
         }
+
+        /* Services grid */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -92,6 +94,42 @@
         .service-box h4 {
             margin-top: 0;
             color: #0a1a3c;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            max-width: 600px;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #0a1a3c;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .contact-form button {
+            background: #1e90ff;
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background: #0f6ad1;
         }
 
         /* Footer */
@@ -149,23 +187,24 @@
     </div>
 </section>
 
-<section id="expertise">
-    <h3>Industry Expertise</h3>
-    <p>With deep experience in chemical process technology, Houston CNG Consulting supports clients across:</p>
-    <ul>
-        <li>Ethylene oxide / MEG value chain</li>
-        <li>Refining & petrochemicals</li>
-        <li>Natural gas processing</li>
-        <li>Specialty chemicals</li>
-        <li>Energy transition technologies</li>
-    </ul>
-</section>
-
 <section id="contact">
     <h3>Contact</h3>
-    <p>Ready to discuss your project? Reach out for a consultation.</p>
-    <p><strong>Email:</strong> tc@houstoncng.com</p>
-    <p><strong>Location:</strong> Houston, Texas</p>
+    <p>Ready to discuss your project? Submit your inquiry below.</p>
+
+    <div class="contact-form">
+        <form action="https://formspree.io/f/xlgzbngj" method="POST">
+            <label>Name</label>
+            <input type="text" name="name" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Message</label>
+            <textarea name="message" rows="6" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
 </section>
 
 <footer>
