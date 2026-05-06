@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Live U.S. energy price charts — gasoline, diesel, jet fuel, and natural gas — powered by EIA Open Data." />
     <title>Energy Prices | Houston CNG Consulting</title>
     <style>
         body {
@@ -30,48 +31,63 @@
             border: none;
             border-radius: 8px;
             margin-bottom: 40px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
 
 <body>
 
-<!-- Shared Header -->
-<div id="header"></div>
-<script>
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("header").innerHTML = data);
-</script>
+    <!-- Shared Header -->
+    <div id="header"></div>
 
-<section>
-    <h2>U.S. Gasoline Price</h2>
-    <iframe src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMM_EPMRR_PTE_NUS_DPG"></iframe>
-</section>
+    <section>
+        <h2>U.S. Gasoline Price</h2>
+        <iframe
+            title="U.S. Gasoline Price — EIA"
+            loading="lazy"
+            src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMM_EPMRR_PTE_NUS_DPG">
+        </iframe>
+    </section>
 
-<section>
-    <h2>U.S. Diesel Price</h2>
-    <iframe src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMD_EPD2D_PTE_NUS_DPG"></iframe>
-</section>
+    <section>
+        <h2>U.S. Diesel Price</h2>
+        <iframe
+            title="U.S. Diesel Price — EIA"
+            loading="lazy"
+            src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMD_EPD2D_PTE_NUS_DPG">
+        </iframe>
+    </section>
 
-<section>
-    <h2>U.S. Jet Fuel Price</h2>
-    <iframe src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMJ_EPD2D_PTE_NUS_DPG"></iframe>
-</section>
+    <section>
+        <h2>U.S. Jet Fuel Price</h2>
+        <iframe
+            title="U.S. Jet Fuel Price — EIA"
+            loading="lazy"
+            src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=PET.EMJ_EPD2D_PTE_NUS_DPG">
+        </iframe>
+    </section>
 
-<section>
-    <h2>Henry Hub Natural Gas Spot Price</h2>
-    <iframe src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=NG.RNGWHHD.D"></iframe>
-</section>
+    <section>
+        <h2>Henry Hub Natural Gas Spot Price</h2>
+        <iframe
+            title="Henry Hub Natural Gas Spot Price — EIA"
+            loading="lazy"
+            src="https://www.eia.gov/opendata/v1/embed/iframe.php?api_key=KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT&series_id=NG.RNGWHHD.D">
+        </iframe>
+    </section>
 
-<!-- Shared Footer -->
-<div id="footer"></div>
-<script>
-fetch("footer.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("footer").innerHTML = data);
-</script>
+    <!-- Shared Footer -->
+    <div id="footer"></div>
+
+    <script>
+        // Load shared header and footer
+        ["header", "footer"].forEach(function (id) {
+            fetch(id + ".html")
+                .then(function (res) { return res.text(); })
+                .then(function (data) { document.getElementById(id).innerHTML = data; });
+        });
+    </script>
 
 </body>
 </html>
