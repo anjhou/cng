@@ -1,1 +1,37 @@
-
+[
+  {
+    "title": "Global MEG Supply–Demand Outlook (2020–2026)",
+    "description": "A comprehensive analysis of global monoethylene glycol supply, demand, operating rates, and regional trade flows, including China coal-to-EO dynamics and Middle East competitiveness.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/MEG_Supply_Demand_2020_2026.pdf"
+  },
+  {
+    "title": "Ethylene Oxide Cost Curve Benchmarking (North America vs. Middle East vs. Asia)",
+    "description": "A benchmarking study comparing EO production costs across major regions, including feedstock sensitivity, energy intensity, and integrated EO/EG economics.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/EO_Cost_Curve_Benchmarking.pdf"
+  },
+  {
+    "title": "Ethylene Glycol Market Drivers and Price Trends (2019–2025)",
+    "description": "A review of global EG pricing, margin cycles, PET demand growth, and the impact of new capacity additions on long‑term price floors.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/EG_Price_Trends_2019_2025.pdf"
+  },
+  {
+    "title": "Process Safety Lessons from EO/EG Incidents (Technical Review)",
+    "description": "A technical summary of key process safety learnings from historical EO/EG plant incidents, focusing on runaway reactions, vent sizing, and oxidizer management.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/EO_EG_Process_Safety_Lessons.pdf"
+  },
+  {
+    "title": "Energy Transition Impacts on Petrochemical Feedstocks",
+    "description": "An assessment of how electrification, refinery rationalization, and renewable fuels policies are reshaping NGL and naphtha availability for petrochemical producers.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/Energy_Transition_Feedstock_Impacts.pdf"
+  },
+  {
+    "title": "North American Natural Gas & NGL Outlook for Chemical Producers",
+    "description": "A forward-looking view of natural gas, ethane, propane, and butane fundamentals and their implications for U.S. petrochemical competitiveness.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/North_America_Gas_NGL_Outlook.pdf"
+  },
+  {
+    "title": "Carbon Intensity Benchmarking for EO/EG Production Routes",
+    "description": "A comparison of carbon intensity across steam cracking, coal-to-EO, and methanol-to-olefins pathways, including abatement options and cost impacts.",
+    "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/EO_EG_Carbon_Intensity_Benchmarking.pdf"
+  }
+]
