@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+
+    <link rel="stylesheet" href="/static/header.css">
+    <script src="/static/header.js" defer></script>
+
+    <style>
+        .quiz-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 2px solid #1f3b5c;
+            border-radius: 8px;
+            background: #f8f8f8;
+            font-size: 18px;
+        }
+
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #e6e6e6;
+        }
+
+        .selected {
+            background-color: #d0e0ff;
+            border-color: #1f3b5c;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<h1 style="text-align:center; margin-top:20px;">Quick Quiz</h1>
+
+<div class="quiz-container">
+
+    <div id="question">What is the boiling point of water at 1 atm?</div>
+
+    <div class="option" data-value="A">80°C</div>
+    <div class="option" data-value="B">90°C</div>
+    <div class="option" data-value="C">100°C</div> <!-- Correct -->
+    <div class="option" data-value="D">120°C</div>
+
+    <button id="submitBtn" style="margin-top:20px; padding:10px 20px;">Submit</button>
+
+    <div id="result"></div>
+</div>
+
+<div id="footer"></div>
+<script src="/static/footer.js" defer></script>
+
+<script>
+/* -------------------------------
+   QUIZ LOGIC
+--------------------------------*/
+let selectedOption = null;
+const correctAnswer = "C";
+
+document.querySelectorAll(".option").forEach(opt => {
+    opt.addEventListener("click", () => {
+        document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+        opt.classList.add("selected");
+        selectedOption = opt.getAttribute("data-value");
+    });
+});
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+    const result = document.getElementById("result");
+
+    if (!selectedOption) {
+        result.textContent = "Please select an answer.";
+        result.style.color = "red";
+        return;
+    }
+
+    if (selectedOption === correctAnswer) {
+        result.textContent = "Correct! Score: 1/1";
+        result.style.color = "green";
+    } else {
+        result.textContent = "Incorrect. Score: 0/1";
+        result.style.color = "red";
+    }
+});
+</script>
+
+</body>
+</html>
