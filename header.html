@@ -101,7 +101,7 @@
     display: none;
 }
 
-/* Navigation */
+/* Navigation (desktop base) */
 nav {
     display: flex;
     gap: 20px;
@@ -142,14 +142,8 @@ nav a {
     z-index: 10;
 }
 
-/* Desktop hover behavior */
-@media (min-width: 769px) {
-    .dropdown:hover > .dropdown-content {
-        display: flex;
-    }
-    .dropdown.nested:hover > .nested-content {
-        display: flex;
-    }
+.dropdown-content a {
+    padding: 6px 0;
 }
 
 /* Nested dropdown (EPC) */
@@ -172,24 +166,35 @@ nav a {
     display: none;
 }
 
-/* Mobile collapse behavior */
+/* Desktop hover behavior */
+@media (min-width: 769px) {
+    .dropdown:hover > .dropdown-content {
+        display: flex;
+    }
+    .dropdown.nested:hover > .nested-content {
+        display: flex;
+    }
+}
+
+/* Mobile behavior */
 @media (max-width: 768px) {
     .nav-toggle {
         display: block;
     }
 
+    /* Hide nav by default, show when expanded */
     nav {
+        display: none;
         flex-direction: column;
         gap: 12px;
-        overflow: hidden;
-        max-height: 0;
-        transition: max-height 0.3s ease-out;
+        margin-top: 10px;
     }
 
     nav.nav-expanded {
-        max-height: 1500px;
+        display: flex;
     }
 
+    /* Dropdowns inline on mobile */
     .dropdown-content,
     .nested-content {
         position: relative;
@@ -205,19 +210,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("navToggle");
     const menu = document.getElementById("navMenu");
 
+    // Mobile: show/hide whole nav
     toggle.addEventListener("click", () => {
         menu.classList.toggle("nav-expanded");
     });
 
-    // Mobile dropdown toggle
+    // Mobile: tap to expand each dropdown
     document.querySelectorAll(".dropdown-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const parent = btn.parentElement;
-            parent.classList.toggle("show");
+        btn.addEventListener("click", (e) => {
+            // On desktop, let hover handle it
+            if (window.innerWidth > 768) return;
 
+            e.preventDefault();
             const content = btn.nextElementSibling;
-            content.style.display =
-                content.style.display === "flex" ? "none" : "flex";
+            if (!content) return;
+
+            const isOpen = content.style.display === "flex";
+            content.style.display = isOpen ? "none" : "flex";
         });
     });
 });
