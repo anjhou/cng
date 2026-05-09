@@ -13,14 +13,24 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Services</a>
-        <a href="prices.html">Prices</a>
+
+        <!-- Tools Dropdown -->
+        <div class="dropdown">
+            <button class="dropdown-btn">Tools ▾</button>
+            <div class="dropdown-content">
+                <a href="Flowsheet.html">Flowsheet</a>
+                <a href="Quiz.html">Quiz</a>
+                <a href="Prices.html">Prices</a>
+            </div>
+        </div>
+
         <a href="articles.html">Articles</a>
         <a href="contact.html">Contact</a>
     </nav>
 </header>
 
 <style>
-/* Layout */
+/* Header Layout */
 .site-header {
     background: #0b1e39;
     color: white;
@@ -57,6 +67,45 @@ nav a {
     font-weight: 500;
 }
 
+/* Dropdown container */
+.dropdown {
+    position: relative;
+}
+
+/* Dropdown button */
+.dropdown-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Dropdown menu */
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+    background: #102544;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    z-index: 10;
+}
+
+.dropdown-content a {
+    padding: 6px 0;
+}
+
+/* Desktop hover behavior */
+@media (min-width: 769px) {
+    .dropdown:hover .dropdown-content {
+        display: flex;
+    }
+}
+
 /* Mobile collapse behavior */
 @media (max-width: 768px) {
     .nav-toggle {
@@ -72,7 +121,15 @@ nav a {
     }
 
     nav.nav-expanded {
-        max-height: 300px; /* enough for all links */
+        max-height: 500px; /* enough for all links + dropdown */
+    }
+
+    /* Mobile dropdown expands inline */
+    .dropdown-content {
+        position: relative;
+        border: none;
+        background: none;
+        padding-left: 15px;
     }
 }
 </style>
@@ -84,6 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     toggle.addEventListener("click", () => {
         menu.classList.toggle("nav-expanded");
+    });
+
+    // Mobile dropdown toggle
+    document.querySelectorAll(".dropdown-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const content = btn.nextElementSibling;
+            content.style.display =
+                content.style.display === "flex" ? "none" : "flex";
+        });
     });
 });
 </script>
