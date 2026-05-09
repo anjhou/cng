@@ -1,0 +1,103 @@
+/* ============================================================
+   DARK MODE THEME — Houston Chemical & Energy AI Consulting
+   Deep Blue: #0d1a2b
+   Silver:    #c0c7d1
+   Accent:    #1f3b5c
+   ============================================================ */
+
+/* ====== GLOBAL RESET ====== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0d1a2b;          /* Dark deep blue */
+    color: #e4e8ef;               /* Soft silver-white */
+    line-height: 1.6;
+    padding-bottom: 60px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+header {
+    background-color: #1f3b5c;    /* Deep blue */
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 4px solid #c0c7d1;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+nav {
+    margin-top: 12px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 14px;
+    font-size: 18px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover {
+    background-color: #c0c7d1;
+    color: #0d1a2b;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    background-color: #1f3b5c;
+    color: #ffffff;
+    text-align: center;
+    padding: 18px 0;
+    margin-top: 40px;
+    border-top: 4px solid #c0c7d1;
+    font-size: 16px;
+}
+
+footer a {
+    color: #c0c7d1;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button, .btn {
+    background-color: #1f3b5c;
+    color: #ffffff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #16304a;
+}
+
+button:disabled {
+    background-color: #4a5560;
