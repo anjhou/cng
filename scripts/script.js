@@ -62,12 +62,14 @@ function setCanvasSize(canvasId, width = 900, height = 450) {
 // --------------------------------------------------
 export function renderExpCurve(canvasId, inputId, buttonId) {
 
+    // Limit k to 0.1–10
     function clampK(k) {
         if (k < 0.1) return 0.1;
         if (k > 10) return 10;
         return k;
     }
 
+    // Generate curve within y-range 0.1–10
     function generateCurve(k) {
         const xmin = -Math.log(10) / k;
         const xmax =  Math.log(10) / k;
@@ -84,6 +86,28 @@ export function renderExpCurve(canvasId, inputId, buttonId) {
 
         return { xValues, yValues };
     }
+
+    // Custom plugin to draw text on top-left of chart
+    const topLeftTextPlugin = {
+        id: "topLeftTextPlugin",
+        afterDraw(chart, args, options) {
+            const { ctx } = chart;
+
+            ctx.save();
+            ctx.font = "14px sans-serif";
+            ctx.fillStyle = "#000";
+
+            const padding = 10;
+
+            // First line: user input (k)
+            ctx.fillText(`k = ${options.kValue}`, padding, padding + 10);
+
+            // Second line: y-axis variable
+            ctx.fillText(`y = exp(-k·x)`, padding, padding + 30);
+
+            ctx.restore();
+        }
+    };
 
     document.addEventListener("DOMContentLoaded", function () {
         const canvas = document.getElementById(canvasId);
@@ -110,11 +134,15 @@ export function renderExpCurve(canvasId, inputId, buttonId) {
             },
             options: {
                 responsive: true,
+                plugins: {
+                    topLeftTextPlugin: { kValue: k }
+                },
                 scales: {
                     x: { title: { display: true, text: "x" } },
                     y: { title: { display: true, text: "exp(-k·x)" } }
                 }
-            }
+            },
+            plugins: [topLeftTextPlugin]
         });
 
         button.addEventListener("click", function () {
@@ -126,12 +154,14 @@ export function renderExpCurve(canvasId, inputId, buttonId) {
             chart.data.labels = xValues;
             chart.data.datasets[0].data = yValues;
             chart.data.datasets[0].label = `exp(-${newK}x)`;
+
+            // Update plugin text
+            chart.options.plugins.topLeftTextPlugin.kValue = newK;
+
             chart.update();
         });
     });
 }
-
-
 // --------------------------------------------------
 // 2. Temperature Conversion Chart (F → C/K/R)
 // --------------------------------------------------
