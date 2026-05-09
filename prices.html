@@ -150,7 +150,7 @@ loadCSVChart();
 
 <script>
 async function loadMultiSeriesCSV() {
-    const response = await fetch('/static/data/multiseries.csv');
+    const response = await fetch('/data/multiseries.csv');
     const csvText = await response.text();
 
     const lines = csvText.trim().split('\n');
