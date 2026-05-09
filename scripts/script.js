@@ -60,39 +60,77 @@ function setCanvasSize(canvasId, width = 900, height = 450) {
 // --------------------------------------------------
 // 1. Exponential Curve Chart
 // --------------------------------------------------
-export function renderExpCurve(canvasId, k = 2.72) {
-    setCanvasSize(canvasId);
+export function renderExpCurve(canvasId, inputId, buttonId) {
 
-    const xValues = [];
-    const yValues = [];
-
-    for (let i = 0; i <= 200; i++) {
-        const x = i / 200;
-        xValues.push(x);
-        yValues.push(Math.exp(-k * x));
+    function clampK(k) {
+        if (k < 0.1) return 0.1;
+        if (k > 10) return 10;
+        return k;
     }
 
-    const ctx = document.getElementById(canvasId).getContext("2d");
+    function generateCurve(k) {
+        const xmin = -Math.log(10) / k;
+        const xmax =  Math.log(10) / k;
 
-    new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: xValues,
-            datasets: [{
-                label: `exp(-${k}x)`,
-                data: yValues,
-                borderColor: theme.blue,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: { title: { display: true, text: "x" } },
-                y: { title: { display: true, text: "exp(-kx)" } }
-            }
+        const xValues = [];
+        const yValues = [];
+
+        const steps = 200;
+        for (let i = 0; i <= steps; i++) {
+            const x = xmin + (i / steps) * (xmax - xmin);
+            xValues.push(x);
+            yValues.push(Math.exp(-k * x));
         }
+
+        return { xValues, yValues };
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById(canvasId);
+        const input = document.getElementById(inputId);
+        const button = document.getElementById(buttonId);
+
+        let k = clampK(parseFloat(input.value) || 2.72);
+        input.value = k;
+
+        let { xValues, yValues } = generateCurve(k);
+
+        const chart = new Chart(canvas, {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: `exp(-${k}x)`,
+                    data: yValues,
+                    borderColor: "#1f77b4",
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: "x" } },
+                    y: { title: { display: true, text: "exp(-k·x)" } }
+                }
+            }
+        });
+
+        button.addEventListener("click", function () {
+            let newK = clampK(parseFloat(input.value));
+            input.value = newK;
+
+            const { xValues, yValues } = generateCurve(newK);
+
+            chart.data.labels = xValues;
+            chart.data.datasets[0].data = yValues;
+            chart.data.datasets[0].label = `exp(-${newK}x)`;
+            chart.update();
+        });
     });
 }
+
 
 // --------------------------------------------------
 // 2. Temperature Conversion Chart (F → C/K/R)
