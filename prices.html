@@ -99,7 +99,7 @@
 
 <script>
 async function loadCSVChart() {
-    const response = await fetch('/static/data/mydata.csv');
+    const response = await fetch('/data/mydata.csv');
     const csvText = await response.text();
 
     const rows = csvText.trim().split('\n').slice(1); // skip header
