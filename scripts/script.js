@@ -1,4 +1,5 @@
-// 20260509 Start
+// 20260509-A Start
+// 20260509-A exp(-k * x)
 document.addEventListener("DOMContentLoaded", function () {
 
     function generateCurve(k) {
@@ -50,4 +51,81 @@ document.addEventListener("DOMContentLoaded", function () {
         chart.update();
     });
 });
-// 20260509 END
+// 20260509-A END
+	
+
+// 20260509-B Start
+// tempChart
+export function renderTemperatureChart(canvasId) {
+    const F = [];
+    for (let t = -150; t <= 1150; t += 10) F.push(t);
+
+    const C = F.map(f => (f - 32) * 5/9);
+    const K = C.map(c => c + 273.15);
+    const R = F.map(f => f + 459.67);
+
+    const ctx = document.getElementById(canvasId).getContext("2d");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: F,
+            datasets: [
+                {
+                    label: "Celsius (°C)",
+                    data: C,
+                    borderColor: "#1e90ff",
+                    backgroundColor: "rgba(30,144,255,0.2)",
+                    borderWidth: 2,
+                    tension: 0.1
+                },
+                {
+                    label: "Kelvin (K)",
+                    data: K,
+                    borderColor: "#00bcd4",
+                    backgroundColor: "rgba(0,188,212,0.2)",
+                    borderWidth: 2,
+                    tension: 0.1
+                },
+                {
+                    label: "Rankine (°R)",
+                    data: R,
+                    borderColor: "#c0c0c0",
+                    backgroundColor: "rgba(192,192,192,0.2)",
+                    borderWidth: 2,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#e0e0e0",
+                        font: { size: 14 }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Temperature (°F)",
+                        color: "#e0e0e0"
+                    },
+                    ticks: { color: "#e0e0e0" }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Converted Temperature",
+                        color: "#e0e0e0"
+                    },
+                    ticks: { color: "#e0e0e0" }
+                }
+            }
+        }
+    });
+}
+// 20260509-B END
