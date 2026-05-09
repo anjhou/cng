@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>Quiz from CSV</title>
 
     <link rel="stylesheet" href="/static/header.css">
     <script src="/static/header.js" defer></script>
 
     <style>
-        .quiz-container {
-            max-width: 600px;
+        .quiz-box {
+            max-width: 650px;
             margin: 40px auto;
             padding: 20px;
             border: 2px solid #1f3b5c;
@@ -19,29 +18,16 @@
             background: #f8f8f8;
             font-size: 18px;
         }
-
         .option {
-            margin: 10px 0;
             padding: 10px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
             cursor: pointer;
         }
-
-        .option:hover {
-            background-color: #e6e6e6;
-        }
-
-        .selected {
-            background-color: #d0e0ff;
-            border-color: #1f3b5c;
-        }
-
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 20px;
-        }
+        .option:hover { background: #e6e6e6; }
+        .selected { background: #d0e0ff; border-color: #1f3b5c; }
+        #result { margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 
@@ -49,16 +35,12 @@
 
 <div id="header"></div>
 
-<h1 style="text-align:center; margin-top:20px;">Quick Quiz</h1>
+<h1 style="text-align:center;">Quiz</h1>
 
-<div class="quiz-container">
+<div class="quiz-box">
+    <div id="question"></div>
 
-    <div id="question">What is the boiling point of water at 1 atm?</div>
-
-    <div class="option" data-value="A">80°C</div>
-    <div class="option" data-value="B">90°C</div>
-    <div class="option" data-value="C">100°C</div> <!-- Correct -->
-    <div class="option" data-value="D">120°C</div>
+    <div id="options"></div>
 
     <button id="submitBtn" style="margin-top:20px; padding:10px 20px;">Submit</button>
 
@@ -69,37 +51,79 @@
 <script src="/static/footer.js" defer></script>
 
 <script>
-/* -------------------------------
-   QUIZ LOGIC
---------------------------------*/
-let selectedOption = null;
-const correctAnswer = "C";
+let questions = [];
+let current = 0;
+let score = 0;
+let selected = null;
 
-document.querySelectorAll(".option").forEach(opt => {
-    opt.addEventListener("click", () => {
-        document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
-        opt.classList.add("selected");
-        selectedOption = opt.getAttribute("data-value");
+/* Load CSV */
+async function loadCSV() {
+    const res = await fetch("/static/data/questions.csv");
+    const text = await res.text();
+    const rows = text.trim().split("\n").slice(1); // skip header
+
+    rows.forEach(row => {
+        const cols = row.split(",");
+        questions.push({
+            question: cols[0],
+            A: cols[1],
+            B: cols[2],
+            C: cols[3],
+            D: cols[4],
+            correct: cols[5]
+        });
     });
-});
 
-document.getElementById("submitBtn").addEventListener("click", () => {
-    const result = document.getElementById("result");
+    showQuestion();
+}
 
-    if (!selectedOption) {
-        result.textContent = "Please select an answer.";
-        result.style.color = "red";
+/* Display question */
+function showQuestion() {
+    const q = questions[current];
+    selected = null;
+
+    document.getElementById("question").textContent = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    ["A","B","C","D"].forEach(letter => {
+        const div = document.createElement("div");
+        div.className = "option";
+        div.textContent = q[letter];
+        div.dataset.value = letter;
+
+        div.onclick = () => {
+            document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+            div.classList.add("selected");
+            selected = letter;
+        };
+
+        optionsDiv.appendChild(div);
+    });
+}
+
+/* Submit answer */
+document.getElementById("submitBtn").onclick = () => {
+    if (!selected) {
+        document.getElementById("result").textContent = "Please select an answer.";
         return;
     }
 
-    if (selectedOption === correctAnswer) {
-        result.textContent = "Correct! Score: 1/1";
-        result.style.color = "green";
+    if (selected === questions[current].correct) score++;
+
+    current++;
+
+    if (current < questions.length) {
+        showQuestion();
+        document.getElementById("result").textContent = "";
     } else {
-        result.textContent = "Incorrect. Score: 0/1";
-        result.style.color = "red";
+        document.getElementById("result").textContent =
+            "Quiz complete! Score: " + score + "/" + questions.length;
     }
-});
+};
+
+loadCSV();
 </script>
 
 </body>
