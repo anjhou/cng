@@ -137,9 +137,14 @@ nav a {
     border: 1px solid #4a90e2;
     padding: 10px;
     position: absolute;
-    top: 25px;
+    top: 100%;
     left: 0;
     z-index: 10;
+}
+
+/* Keep submenu open on hover OR focus */
+.dropdown.show > .dropdown-content {
+    display: flex !important;
 }
 
 .dropdown-content a {
@@ -158,22 +163,16 @@ nav a {
 
 .nested-content {
     position: absolute;
-    left: 150px;
     top: 0;
+    left: 100%;
     background: #102544;
     border: 1px solid #4a90e2;
     padding: 10px;
     display: none;
 }
 
-/* Desktop hover behavior */
-@media (min-width: 769px) {
-    .dropdown:hover > .dropdown-content {
-        display: flex;
-    }
-    .dropdown.nested:hover > .nested-content {
-        display: flex;
-    }
+.dropdown.nested.show > .nested-content {
+    display: flex !important;
 }
 
 /* Mobile collapse behavior */
@@ -194,7 +193,6 @@ nav a {
         max-height: 1500px;
     }
 
-    /* Mobile dropdown expands inline */
     .dropdown-content,
     .nested-content {
         position: relative;
@@ -214,12 +212,27 @@ document.addEventListener("DOMContentLoaded", () => {
         menu.classList.toggle("nav-expanded");
     });
 
+    // Hover delay logic (150ms)
+    document.querySelectorAll(".dropdown").forEach(drop => {
+        let timer;
+
+        drop.addEventListener("mouseenter", () => {
+            clearTimeout(timer);
+            drop.classList.add("show");
+        });
+
+        drop.addEventListener("mouseleave", () => {
+            timer = setTimeout(() => {
+                drop.classList.remove("show");
+            }, 150);
+        });
+    });
+
     // Mobile dropdown toggle
     document.querySelectorAll(".dropdown-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            const content = btn.nextElementSibling;
-            content.style.display =
-                content.style.display === "flex" ? "none" : "flex";
+            const parent = btn.parentElement;
+            parent.classList.toggle("show");
         });
     });
 });
