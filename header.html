@@ -1,16 +1,89 @@
-<header>
-    <nav class="navbar">
-        <div class="logo">Houston CNG Consulting</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="prices.html">Prices</a></li>
-			<li><a href="plot-eqn.html">plot-eqn</a></li>
-            <li><a href="articles.html">Articles</a></li>
-			<li><a href="Flowsheet.html">Flowsheet</a></li>
-			<li><a href="Quiz.html">Quiz</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
+<header class="site-header">
+    <div class="header-top">
+        <h1>Houston Chemical and Energy AI Consulting</h1>
+
+        <!-- Hamburger Button -->
+        <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">
+            ☰
+        </button>
+    </div>
+
+    <!-- Collapsible Navigation -->
+    <nav id="navMenu" class="nav-collapsed">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="prices.html">Prices</a>
+        <a href="articles.html">Articles</a>
+        <a href="contact.html">Contact</a>
     </nav>
 </header>
+
+<style>
+/* Layout */
+.site-header {
+    background: #0b1e39;
+    color: white;
+    padding: 10px 20px;
+    border-bottom: 3px solid #4a90e2;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hamburger */
+.nav-toggle {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none; /* hidden on desktop */
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Mobile collapse behavior */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 12px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-out;
+    }
+
+    nav.nav-expanded {
+        max-height: 300px; /* enough for all links */
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("navToggle");
+    const menu = document.getElementById("navMenu");
+
+    toggle.addEventListener("click", () => {
+        menu.classList.toggle("nav-expanded");
+    });
+});
+</script>
