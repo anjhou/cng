@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowsheet</title>
+
+    <link rel="stylesheet" href="/static/header.css">
+    <script src="/static/header.js" defer></script>
+
+    <style>
+        .flowsheet-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        svg {
+            border: 2px solid #1f3b5c;
+            background-color: #f8f8f8;
+            cursor: default;
+        }
+
+        text {
+            user-select: none;
+        }
+
+        /* Context menu styling */
+        #contextMenu div:hover {
+            background-color: #e6e6e6;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<h1 style="text-align:center; margin-top:20px;">Process Flowsheet</h1>
+
+<div class="flowsheet-container">
+    <svg id="flowsheetSVG" width="800" height="500">
+
+        <!-- Rectangle (Reactor) -->
+        <rect id="reactor" x="80" y="180" width="150" height="80"
+              fill="#d9d9d9" stroke="#1f3b5c" stroke-width="3" />
+
+        <text id="reactorLabel" x="110" y="225" font-size="16" fill="#1f3b5c">Reactor</text>
+
+        <!-- Circle (Tank) -->
+        <circle id="tank" cx="450" cy="220" r="50"
+                fill="#1f3b5c" stroke="#ccc" stroke-width="3" />
+
+        <text id="tankLabel" x="430" y="225" font-size="16" fill="white">Tank</text>
+
+    </svg>
+</div>
+
+<!-- Right-click context menu -->
+<div id="contextMenu" 
+     style="position:absolute; display:none; background:white; border:1px solid #1f3b5c; 
+            padding:5px; border-radius:4px; z-index:1000; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+    <div id="duplicateBtn" style="padding:6px 12px; cursor:pointer;">Duplicate</div>
+    <div id="deleteBtn" style="padding:6px 12px; cursor:pointer;">Delete</div>
+</div>
+
+<div id="footer"></div>
+<script src="/static/footer.js" defer></script>
+
+<script>
+/* -------------------------------
+   DRAG & DROP FOR SVG SHAPES
+--------------------------------*/
+const svg = document.getElementById("flowsheetSVG");
+let selectedElement = null;
+let offset = { x: 0, y: 0 };
+
+svg.addEventListener("mousedown", startDrag);
+svg.addEventListener("mousemove", drag);
+svg.addEventListener("mouseup", endDrag);
+svg.addEventListener("mouseleave", endDrag);
+
+function getMousePosition(evt) {
+    const CTM = svg.getScreenCTM();
+    return {
+        x: (evt.clientX - CTM.e) / CTM.a,
+        y: (evt.clientY - CTM.f) / CTM.d
+    };
+}
+
+function startDrag(evt) {
+    if (evt.target.tagName === "rect" || evt.target.tagName === "circle") {
+        selectedElement = evt.target;
+        const mousePos = getMousePosition(evt);
+
+        if (selectedElement.tagName === "rect") {
+            offset.x = mousePos.x - parseFloat(selectedElement.getAttribute("x"));
+            offset.y = mousePos.y - parseFloat(selectedElement.getAttribute("y"));
+        } else if (selectedElement.tagName === "circle") {
+            offset.x = mousePos.x - parseFloat(selectedElement.getAttribute("cx"));
+            offset.y = mousePos.y - parseFloat(selectedElement.getAttribute("cy"));
+        }
+    }
+}
+
+function drag(evt) {
+    if (!selectedElement) return;
+
+    evt.preventDefault();
+    const mousePos = getMousePosition(evt);
+
+    if (selectedElement.tagName === "rect") {
+        selectedElement.setAttribute("x", mousePos.x - offset.x);
+        selectedElement.setAttribute("y", mousePos.y - offset.y);
+
+        const label = document.getElementById(selectedElement.id + "Label");
+        if (label) {
+            label.setAttribute("x", mousePos.x - offset.x + 30);
+            label.setAttribute("y", mousePos.y - offset.y + 45);
+        }
+
+    } else if (selectedElement.tagName === "circle") {
+        selectedElement.setAttribute("cx", mousePos.x - offset.x);
+        selectedElement.setAttribute("cy", mousePos.y - offset.y);
+
+        const label = document.getElementById(selectedElement.id + "Label");
+        if (label) {
+            label.setAttribute("x", mousePos.x - offset.x - 20);
+            label.setAttribute("y", mousePos.y - offset.y + 5);
+        }
+    }
+}
+
+function endDrag() {
+    selectedElement = null;
+}
+
+/* -------------------------------
+   RIGHT-CLICK CONTEXT MENU
+--------------------------------*/
+let rightClickedElement = null;
+const menu = document.getElementById("contextMenu");
+const duplicateBtn = document.getElementById("duplicateBtn");
+const deleteBtn = document.getElementById("deleteBtn");
+
+// Show menu on right-click
+svg.addEventListener("contextmenu", function(evt) {
+    evt.preventDefault();
+
+    if (evt.target.tagName === "rect" || evt.target.tagName === "circle") {
+        rightClickedElement = evt.target;
+
+        menu.style.left = evt.clientX + "px";
+        menu.style.top = evt.clientY + "px";
+        menu.style.display = "block";
+    } else {
+        menu.style.display = "none";
+    }
+});
+
+// Hide menu when clicking elsewhere
+document.addEventListener("click", function() {
+    menu.style.display = "none";
+});
+
+// Duplicate shape
+duplicateBtn.addEventListener("click", function() {
+    if (!rightClickedElement) return;
+
+    const clone = rightClickedElement.cloneNode(true);
+
+    if (clone.tagName === "rect") {
+        clone.setAttribute("x", parseFloat(clone.getAttribute("x")) + 20);
+        clone.setAttribute("y", parseFloat(clone.getAttribute("y")) + 20);
+    } else if (clone.tagName === "circle") {
+        clone.setAttribute("cx", parseFloat(clone.getAttribute("cx")) + 20);
+        clone.setAttribute("cy", parseFloat(clone.getAttribute("cy")) + 20);
+    }
+
+    svg.appendChild(clone);
+    menu.style.display = "none";
+});
+
+// Delete shape
+deleteBtn.addEventListener("click", function() {
+    if (!rightClickedElement) return;
+
+    rightClickedElement.remove();
+    menu.style.display = "none";
+});
+</script>
+
+</body>
+</html>
