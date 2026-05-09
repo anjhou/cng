@@ -40,6 +40,12 @@
 
     <!-- Shared Header -->
     <div id="header"></div>
+	
+	<section>
+        <h2>U.S. Gasoline Price from mydata.csv</h2>
+        <canvas id="csvChart" width="600" height="300"></canvas>
+
+    </section>
 
     <section>
         <h2>U.S. Gasoline Price</h2>
@@ -88,6 +94,53 @@
                 .then(function (data) { document.getElementById(id).innerHTML = data; });
         });
     </script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+async function loadCSVChart() {
+    const response = await fetch('/static/data/mydata.csv');
+    const csvText = await response.text();
+
+    const rows = csvText.trim().split('\n').slice(1); // skip header
+
+    const labels = [];
+    const values = [];
+
+    rows.forEach(row => {
+        const [date, value] = row.split(',');
+        labels.push(date);
+        values.push(parseFloat(value));
+    });
+
+    const ctx = document.getElementById('csvChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'CSV Trend',
+                data: values,
+                borderColor: '#1f77b4',
+                backgroundColor: 'rgba(31,119,180,0.2)',
+                borderWidth: 2,
+                tension: 0.2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: 'Date' }},
+                y: { title: { display: true, text: 'Value' }}
+            }
+        }
+    });
+}
+
+loadCSVChart();
+</script>
+
 
 </body>
 </html>
