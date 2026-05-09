@@ -12,7 +12,32 @@
     <nav id="navMenu" class="nav-collapsed">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="services.html">Services</a>
+
+        <!-- Services Dropdown -->
+        <div class="dropdown">
+            <button class="dropdown-btn">Services ▾</button>
+            <div class="dropdown-content">
+
+                <a href="Licensors.html">Licensors</a>
+                <a href="Technology.html">Technology</a>
+                <a href="Vendors.html">Vendors</a>
+
+                <!-- EPC Nested Dropdown -->
+                <div class="dropdown nested">
+                    <button class="dropdown-btn nested-btn">EPC ▾</button>
+                    <div class="dropdown-content nested-content">
+                        <a href="FEED.html">FEED</a>
+                        <a href="Modeling.html">Modeling</a>
+                        <a href="Study.html">Study</a>
+                        <a href="Relief.html">Relief</a>
+                        <a href="Project-Control.html">Project Control</a>
+                        <a href="Instrumentation.html">Instrumentation</a>
+                        <a href="Model-Review.html">Model Review</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <!-- Tools Dropdown -->
         <div class="dropdown">
@@ -114,9 +139,32 @@ nav a {
     padding: 6px 0;
 }
 
+/* Nested dropdown (EPC) */
+.dropdown.nested {
+    position: relative;
+    padding-left: 10px;
+}
+
+.nested-btn {
+    font-size: 15px;
+}
+
+.nested-content {
+    position: absolute;
+    left: 150px;
+    top: 0;
+    background: #102544;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    display: none;
+}
+
 /* Desktop hover behavior */
 @media (min-width: 769px) {
-    .dropdown:hover .dropdown-content {
+    .dropdown:hover > .dropdown-content {
+        display: flex;
+    }
+    .dropdown.nested:hover > .nested-content {
         display: flex;
     }
 }
@@ -136,11 +184,12 @@ nav a {
     }
 
     nav.nav-expanded {
-        max-height: 1000px; /* enough for all links */
+        max-height: 1500px;
     }
 
     /* Mobile dropdown expands inline */
-    .dropdown-content {
+    .dropdown-content,
+    .nested-content {
         position: relative;
         border: none;
         background: none;
