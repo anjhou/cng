@@ -42,9 +42,14 @@
     <div id="header"></div>
 	
 	<section>
+        <h2>U.S. Gasoline Price from multiseries.csv</h2>
+        <canvas id="multiSeriesChart" width="600" height="300"></canvas>
+
+    </section>
+	
+	<section>
         <h2>U.S. Gasoline Price from mydata.csv</h2>
         <canvas id="csvChart" width="600" height="300"></canvas>
-
     </section>
 
     <section>
@@ -140,6 +145,80 @@ async function loadCSVChart() {
 
 loadCSVChart();
 </script>
+
+
+
+<script>
+async function loadMultiSeriesCSV() {
+    const response = await fetch('/static/data/multiseries.csv');
+    const csvText = await response.text();
+
+    const lines = csvText.trim().split('\n');
+    const headers = lines[0].split(',');
+
+    const labels = [];
+    const datasets = [];
+
+    // Initialize dataset objects for each series (except date)
+    for (let i = 1; i < headers.length; i++) {
+        datasets.push({
+            label: headers[i],
+            data: [],
+            borderWidth: 2,
+            tension: 0.25,
+            borderColor: getColor(i),
+            backgroundColor: getColor(i, 0.2),
+        });
+    }
+
+    // Parse rows
+    for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',');
+        labels.push(cols[0]); // date column
+
+        for (let j = 1; j < cols.length; j++) {
+            datasets[j - 1].data.push(parseFloat(cols[j]));
+        }
+    }
+
+    const ctx = document.getElementById('multiSeriesChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Date' }},
+                y: { title: { display: true, text: 'Value' }}
+            }
+        }
+    });
+}
+
+// Color palette (deep‑blue/silver friendly)
+function getColor(index, alpha = 1) {
+    const palette = [
+        'rgba(31,119,180,ALPHA)',   // blue
+        'rgba(255,127,14,ALPHA)',   // orange
+        'rgba(44,160,44,ALPHA)',    // green
+        'rgba(214,39,40,ALPHA)',    // red
+        'rgba(148,103,189,ALPHA)',  // purple
+        'rgba(140,86,75,ALPHA)'     // brown
+    ];
+    const color = palette[(index - 1) % palette.length];
+    return color.replace('ALPHA', alpha);
+}
+
+loadMultiSeriesCSV();
+</script>
+
 
 
 </body>
