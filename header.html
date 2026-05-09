@@ -142,13 +142,14 @@ nav a {
     z-index: 10;
 }
 
-/* Keep submenu open on hover OR focus */
-.dropdown.show > .dropdown-content {
-    display: flex !important;
-}
-
-.dropdown-content a {
-    padding: 6px 0;
+/* Desktop hover behavior */
+@media (min-width: 769px) {
+    .dropdown:hover > .dropdown-content {
+        display: flex;
+    }
+    .dropdown.nested:hover > .nested-content {
+        display: flex;
+    }
 }
 
 /* Nested dropdown (EPC) */
@@ -169,10 +170,6 @@ nav a {
     border: 1px solid #4a90e2;
     padding: 10px;
     display: none;
-}
-
-.dropdown.nested.show > .nested-content {
-    display: flex !important;
 }
 
 /* Mobile collapse behavior */
@@ -212,27 +209,15 @@ document.addEventListener("DOMContentLoaded", () => {
         menu.classList.toggle("nav-expanded");
     });
 
-    // Hover delay logic (150ms)
-    document.querySelectorAll(".dropdown").forEach(drop => {
-        let timer;
-
-        drop.addEventListener("mouseenter", () => {
-            clearTimeout(timer);
-            drop.classList.add("show");
-        });
-
-        drop.addEventListener("mouseleave", () => {
-            timer = setTimeout(() => {
-                drop.classList.remove("show");
-            }, 150);
-        });
-    });
-
     // Mobile dropdown toggle
     document.querySelectorAll(".dropdown-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             const parent = btn.parentElement;
             parent.classList.toggle("show");
+
+            const content = btn.nextElementSibling;
+            content.style.display =
+                content.style.display === "flex" ? "none" : "flex";
         });
     });
 });
