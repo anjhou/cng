@@ -11,24 +11,8 @@
     <div id="header"></div>
 
     <main class="content-section">
-        <section class="hero-section">
-            <h1>Articles & Insights</h1>
-            <p>Technical insights, market analysis, and practical guidance for chemical process technology and energy systems.</p>
-        </section>
+        <section id="articles-container" class="articles-list"></section>
 
-        <section class="articles-list">
-            <article class="article-card">
-                <h2>Sample Article Title</h2>
-                <p>A short preview of the article content goes here. Replace this with real posts as you develop them.</p>
-                <a href="#" class="btn-primary">Read More</a>
-            </article>
-
-            <article class="article-card">
-                <h2>Another Article</h2>
-                <p>Use this section to publish thought leadership, market commentary, or technical explainers.</p>
-                <a href="#" class="btn-primary">Read More</a>
-            </article>
-        </section>
     </main>
 
     <div id="footer"></div>
@@ -42,5 +26,39 @@
             document.getElementById("footer").innerHTML = html;
         });
     </script>
+	
+	<script>
+    // Load shared header and footer
+    fetch("header.html").then(r => r.text()).then(html => {
+        document.getElementById("header").innerHTML = html;
+    });
+    fetch("footer.html").then(r => r.text()).then(html => {
+        document.getElementById("footer").innerHTML = html;
+    });
+
+    // Load articles from GitHub JSON
+    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/articles.json")
+        .then(response => response.json())
+        .then(articles => {
+            const container = document.getElementById("articles-container");
+
+            articles.forEach(article => {
+                const card = document.createElement("article");
+                card.className = "article-card";
+
+                card.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.description}</p>
+                    <a href="${article.pdf}" download class="btn-primary">Download PDF</a>
+                `;
+
+                container.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading articles:", err);
+        });
+</script>
+
 </body>
 </html>
