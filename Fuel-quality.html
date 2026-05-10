@@ -1,80 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Quality Monitoring</title>
-
+    <meta charset="UTF-8" />
+    <title>Fuel Quality – Gasoline, ULSD, Marine Fuel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
+        .page-title {
+            color: #0b2c4d;
+            border-bottom: 2px solid #c0c7d1;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
         }
-
-        header {
-            background: #003366;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
+        .section-title {
+            color: #123a63;
+            margin-top: 1.5rem;
         }
-
-        .container {
-            padding: 20px;
+        .fuel-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
         }
-
-        .info-box {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+        .fuel-summary-table th,
+        .fuel-summary-table td {
+            border: 1px solid #d0d4dd;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
         }
-
-        .info-box h3 {
-            margin-top: 0;
+        .fuel-summary-table th {
+            background: #0b2c4d;
+            color: #ffffff;
         }
-
-        .status-good {
-            color: green;
-            font-weight: bold;
+        .fuel-summary-table tr:nth-child(even) {
+            background: #f4f6fa;
         }
-
-        .status-warning {
-            color: orange;
-            font-weight: bold;
-        }
-
-        .status-bad {
-            color: red;
-            font-weight: bold;
+        .param-list {
+            margin-left: 1.2rem;
         }
     </style>
 </head>
+
 <body>
+    <!-- Shared header include -->
+    <div id="header-placeholder"></div>
 
-<header>Fuel Quality Monitoring</header>
+    <main class="content">
+        <h1 class="page-title">Fuel Quality Specifications</h1>
 
-<div class="container">
+        <p>
+            This page summarizes fuel quality requirements for refined transportation fuels:
+            gasoline, ultra-low sulfur diesel (ULSD), and marine bunker fuel oils. Values
+            are aligned with commonly applied standards and regulatory frameworks and are
+            intended as engineering-reference ranges.
+        </p>
 
-    <div class="info-box">
-        <h3>Fuel Station Information</h3>
-        <p><strong>Station Name:</strong> Example Fuel Station</p>
-        <p><strong>Location:</strong> Rosenberg, TX</p>
-        <p><strong>Fuel Type:</strong> Premium Unleaded</p>
-    </div>
+        <!-- Gasoline section -->
+        <section id="gasoline">
+            <h2 class="section-title">Gasoline (ASTM D4814 – U.S. Market)</h2>
+            <p>
+                Gasoline quality in the U.S. is governed primarily by ASTM D4814 and EPA Tier 3
+                regulations. The standard defines volatility classes, allowable oxygenates, and
+                limits on contaminants to ensure drivability, emissions control, and engine
+                protection.
+            </p>
 
-    <div class="info-box">
-        <h3>Fuel Quality Status</h3>
-        <p><strong>Quality Rating:</strong> 92/100</p>
-        <p><strong>Status:</strong> <span class="status-good">Good</span></p>
-        <p><strong>Last Inspection:</strong> 2026‑05‑10</p>
-    </div>
+            <ul class="param-list">
+                <li><strong>Octane (AKI):</strong> Regular 87, Mid‑grade 89–90, Premium 91–94.</li>
+                <li><strong>Sulfur:</strong> Tier 3 gasoline sulfur cap of approximately 10 ppm average.</li>
+                <li><strong>Reid Vapor Pressure (RVP):</strong> Seasonal and regional limits.</li>
+                <li><strong>Distillation curve:</strong> ASTM D86 limits for drivability.</li>
+                <li><strong>Oxygenates:</strong> Ethanol up to 10% (E10) or 15% (E15).</li>
+                <li><strong>Contaminants:</strong> Limits on gum, sulfur, and metals.</li>
+            </ul>
 
-</div>
+            <!-- NEW Gasoline Specification Table -->
+            <h3 class="section-title">Gasoline Specification – U.S. (ASTM D4814 & EPA Tier 3)</h3>
 
+            <table class="fuel-summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Typical U.S. Requirement / Range</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Octane (AKI)</td>
+                        <td>87 (Regular), 89–90 (Mid‑grade), 91–94 (Premium)</td>
+                        <td>Anti‑knock index = (R+M)/2</td>
+                    </tr>
+                    <tr>
+                        <td>Sulfur</td>
+                        <td>~10 ppm average (Tier 3)</td>
+                        <td>Strict emissions control requirement</td>
+                    </tr>
+                    <tr>
+                        <td>Reid Vapor Pressure (RVP)</td>
+                        <td>7.0–15.0 psi (seasonal)</td>
+                        <td>Lower RVP in summer</td>
+                    </tr>
+                    <tr>
+                        <td>Distillation (ASTM D86)</td>
+                        <td>T10, T50, T90 vary by volatility class</td>
+                        <td>Controls drivability</td>
+                    </tr>
+                    <tr>
+                        <td>Oxygenates</td>
+                        <td>E10 or E15</td>
+                        <td>E15 allowed for 2001+ vehicles</td>
+                    </tr>
+                    <tr>
+                        <td>Aromatics</td>
+                        <td>20–35% by volume</td>
+                        <td>Higher aromatics increase octane</td>
+                    </tr>
+                    <tr>
+                        <td>Benzene</td>
+                        <td>≤ 0.62% average</td>
+                        <td>EPA MSAT rule</td>
+                    </tr>
+                    <tr>
+                        <td>Gum & Deposits</td>
+                        <td>Strict limits</td>
+                        <td>Protects injectors</td>
+                    </tr>
+                    <tr>
+                        <td>Detergent Additives</td>
+                        <td>Required</td>
+                        <td>Top‑Tier fuels exceed minimum</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ULSD section -->
+        <section id="ulsd">
+            <h2 class="section-title">Ultra-Low Sulfur Diesel (ULSD – ASTM D975)</h2>
+            <p>
+                ULSD quality is defined by ASTM D975 and U.S. diesel regulations. The
+                specification focuses on sulfur reduction, ignition quality, lubricity, and
+                cold‑flow behavior.
+            </p>
+
+            <ul class="param-list">
+                <li><strong>Sulfur:</strong> ≤ 15 ppm.</li>
+                <li><strong>Cetane number:</strong> ≥ 40.</li>
+                <li><strong>Lubricity:</strong> HFRR wear scar ≤ 520 µm.</li>
+                <li><strong>Water & sediment:</strong> Tight limits.</li>
+                <li><strong>Cold flow properties:</strong> Seasonal cloud point & CFPP.</li>
+                <li><strong>Density & viscosity:</strong> Controlled ranges.</li>
+            </ul>
+        </section>
+
+        <!-- Marine fuel section -->
+        <section id="marine-fuel">
+            <h2 class="section-title">Marine Bunker Fuel Oil (ISO 8217)</h2>
+            <p>
+                Marine fuels are specified by ISO 8217, which defines quality requirements for
+                distillate and residual grades used in marine engines and boilers.
+            </p>
+
+            <h3 class="section-title">Key Marine Fuel Categories</h3>
+            <ul class="param-list">
+                <li><strong>MGO / MDO:</strong> Distillate fuels.</li>
+                <li><strong>IFO 180/380/500:</strong> Residual blends.</li>
+                <li><strong>VLSFO 0.5%:</strong> IMO 2020 compliant.</li>
+                <li><strong>HSFO 3.5%:</strong> For scrubber‑equipped vessels.</li>
+            </ul>
+
+            <h3 class="section-title">Typical ISO 8217 Quality Parameters</h3>
+            <ul class="param-list">
+                <li><strong>Sulfur:</strong> 0.5% global cap; 0.1% in ECAs; up to 3.5% with scrubbers.</li>
+                <li><strong>Viscosity:</strong> Grade‑dependent; RMG 380 ≈ 380 cSt at 50°C.</li>
+                <li><strong>Stability & compatibility:</strong> Total sediment limits.</li>
+                <li><strong>Contaminants:</strong> Water, ash, catalytic fines (Al+Si).</li>
+                <li><strong>Acidity:</strong> Must be free of inorganic acids.</li>
+                <li><strong>Bio‑components:</strong> FAME reporting in ISO 8217:2024.</li>
+                <li><strong>Net heat of combustion:</strong> Minimum energy content.</li>
+            </ul>
+        </section>
+
+        <!-- Summary table -->
+        <section id="summary">
+            <h2 class="section-title">Summary – Fuel Quality by Type</h2>
+
+            <table class="fuel-summary-table">
+                <thead>
+                    <tr>
+                        <th>Fuel Type</th>
+                        <th>Primary Standard</th>
+                        <th>Key Quality Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gasoline</td>
+                        <td>ASTM D4814, EPA Tier 3</td>
+                        <td>Octane, sulfur, RVP, distillation, oxygenates, contaminants</td>
+                    </tr>
+                    <tr>
+                        <td>ULSD</td>
+                        <td>ASTM D975</td>
+                        <td>Sulfur ≤ 15 ppm, cetane ≥ 40, lubricity, cold flow</td>
+                    </tr>
+                    <tr>
+                        <td>Marine Fuel</td>
+                        <td>ISO 8217</td>
+                        <td>Sulfur limits, viscosity, stability, contaminants</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Shared footer include -->
+    <div id="footer-placeholder"></div>
+
+    <script src="header-footer.js"></script>
 </body>
 </html>
