@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>U.S. Primary Energy Consumption | Energy Data</title>
+  <meta name="description" content="U.S. primary energy consumption by source (2020–2025), sourced from EIA Monthly Energy Review Table 1.3." />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-page:        #0a1628;
+      --bg-card:        #0f1f3d;
+      --bg-card-alt:    #112040;
+      --bg-header-row:  #162850;
+      --border:         #1e3a6e;
+      --border-light:   #2a4a80;
+
+      --text-primary:   #e8edf5;
+      --text-secondary: #a8b8d0;
+      --text-muted:     #6a82a0;
+      --text-accent:    #c8d8f0;
+
+      --silver:         #c0ccd8;
+      --silver-bright:  #dce6f0;
+
+      /* Series colours — warm accent palette on dark blue */
+      --c-coal:         #e8a030;   /* amber          */
+      --c-gas:          #60c8f0;   /* sky blue       */
+      --c-petro:        #d85858;   /* coral red      */
+      --c-nuclear:      #a070d8;   /* violet         */
+      --c-renew:        #50c878;   /* emerald        */
+      --c-total:        #f0e060;   /* gold (table only) */
+
+      --radius-card:    8px;
+      --radius-sm:      4px;
+      --font-main:      'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono:      'Cascadia Mono', 'Consolas', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    /* ─── Header / Footer injection targets ────────────────────── */
+    #site-header { min-height: 64px; }
+    #site-footer { margin-top: auto; min-height: 48px; }
+
+    /* ─── Page Layout ───────────────────────────────────────────── */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ─── Hero / Page Header ────────────────────────────────────── */
+    .page-hero {
+      border-left: 4px solid var(--silver);
+      padding: 1.25rem 0 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .page-hero .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .page-hero h1 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--silver-bright);
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+    }
+    .page-hero p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 70ch;
+    }
+
+    /* ─── Section Cards ─────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--bg-header-row);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .card-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--silver-bright);
+      text-transform: uppercase;
+    }
+    .card-header .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--border-light);
+      color: var(--text-secondary);
+      border-radius: 99px;
+      padding: 0.2em 0.7em;
+    }
+    .card-body { padding: 1.5rem; }
+
+    /* ─── Chart container ───────────────────────────────────────── */
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      height: 420px;
+    }
+    @media (max-width: 600px) { .chart-wrap { height: 280px; } }
+
+    /* ─── Note strip ────────────────────────────────────────────── */
+    .note-strip {
+      background: rgba(22, 40, 80, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+    .note-strip .icon { flex-shrink: 0; opacity: 0.7; }
+
+    /* ─── Data Table ────────────────────────────────────────────── */
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    thead tr {
+      background: var(--bg-header-row);
+    }
+    thead th {
+      padding: 0.85rem 1rem;
+      text-align: right;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border-bottom: 2px solid var(--border-light);
+      white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; }
+
+    /* Colour-coded column headers */
+    thead th.col-coal    { color: var(--c-coal); }
+    thead th.col-gas     { color: var(--c-gas); }
+    thead th.col-petro   { color: var(--c-petro); }
+    thead th.col-nuclear { color: var(--c-nuclear); }
+    thead th.col-renew   { color: var(--c-renew); }
+    thead th.col-total   { color: var(--c-total); }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:nth-child(even) { background: var(--bg-card-alt); }
+    tbody tr:hover            { background: rgba(30, 58, 110, 0.45); }
+    tbody tr.row-projected td { font-style: italic; color: var(--text-secondary); }
+    tbody tr.row-projected td:first-child::after {
+      content: ' *';
+      color: var(--text-muted);
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      text-align: right;
+      font-family: var(--font-mono);
+      color: var(--text-accent);
+    }
+    td:first-child {
+      text-align: left;
+      font-family: var(--font-main);
+      font-weight: 700;
+      color: var(--silver-bright);
+    }
+    td.col-total {
+      font-weight: 700;
+      color: var(--silver-bright);
+      border-left: 1px solid var(--border-light);
+    }
+
+    /* ─── Source Legend ─────────────────────────────────────────── */
+    .legend-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.5rem;
+      margin-top: 1.25rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── Attribution block ─────────────────────────────────────── */
+    .attribution {
+      margin-top: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .attribution strong { color: var(--text-secondary); }
+    .attribution a {
+      color: var(--c-gas);
+      text-decoration: none;
+    }
+    .attribution a:hover { text-decoration: underline; }
+    .attribution ul {
+      margin: 0.5rem 0 0 1.2rem;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      main { padding: 1.5rem 1rem 3rem; }
+      .card-body { padding: 1rem; }
+      thead th, td { padding: 0.6rem 0.6rem; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Shared site header (fetched from Cloudflare Pages) ── -->
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- ── Page Hero ─────────────────────────────────────────── -->
+    <div class="page-hero">
+      <div class="eyebrow">Energy Intelligence / Data Series</div>
+      <h1>U.S. Primary Energy Consumption by Source</h1>
+      <p>
+        Annual consumption in quadrillion British thermal units (QBtu) across all major
+        primary energy sources, 2020–2025. Data sourced directly from the U.S. Energy
+        Information Administration Monthly Energy Review (MER), Table&nbsp;1.3.
+      </p>
+    </div>
+
+    <!-- ── Multi-series Chart ─────────────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Trend Overview</h2>
+        <span class="badge">2020 – 2025</span>
+        <span class="badge">QBtu</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap">
+          <canvas id="energyChart" aria-label="U.S. primary energy consumption line chart 2020–2025"></canvas>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend-grid" role="list" aria-label="Chart legend">
+          <div class="legend-item" role="listitem">
+            <span class="legend-dot" style="background:var(--c-coal)"></span> Coal
+          </div>
+          <div class="legend-item" role="listitem">
+            <span class="legend-dot" style="background:var(--c-gas)"></span> Natural Gas
+          </div>
+          <div class="legend-item" role="listitem">
+            <span class="legend-dot" style="background:var(--c-petro)"></span> Petroleum
+          </div>
+          <div class="legend-item" role="listitem">
+            <span class="legend-dot" style="background:var(--c-nuclear)"></span> Nuclear
+          </div>
+          <div class="legend-item" role="listitem">
+            <span class="legend-dot" style="background:var(--c-renew)"></span> Renewable Energy
+          </div>
+        </div>
+
+        <div class="note-strip">
+          <span class="icon">ℹ</span>
+          <span>
+            2025 values are <strong>preliminary projections</strong> from the EIA April 2026 MER
+            edition and are subject to revision. All other years reflect final annual totals.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Data Table ─────────────────────────────────────────── -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Annual Data Table</h2>
+        <span class="badge">Quadrillion Btu</span>
+        <span class="badge">EIA MER T1.3</span>
+      </div>
+      <div class="card-body">
+        <div class="table-scroll">
+          <table>
+            <caption style="display:none">
+              U.S. primary energy consumption by source, 2020–2025, in quadrillion Btu
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Year</th>
+                <th scope="col" class="col-coal">Coal</th>
+                <th scope="col" class="col-gas">Natural Gas</th>
+                <th scope="col" class="col-petro">Petroleum</th>
+                <th scope="col" class="col-nuclear">Nuclear</th>
+                <th scope="col" class="col-renew">Renewable</th>
+                <th scope="col" class="col-total">Total</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note-strip" style="margin-top:1rem;">
+          <span class="icon">★</span>
+          <span>
+            Coal and Natural Gas 2020–2025 annual totals are CSV-verified directly from the
+            EIA live data browser endpoint (CLTCBUS / NNTCBUS). Petroleum (PMTCBUS), Nuclear
+            (NUETBUS), Renewable (RETCBUS), and Total (TETCBUS) reflect authoritative EIA MER
+            published figures. Row marked&nbsp;<em>*</em>&nbsp;indicates preliminary/projected data.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Attribution ────────────────────────────────────────── -->
+    <div class="attribution" role="contentinfo" aria-label="Data attribution">
+      <strong>Data Source</strong><br />
+      U.S. Energy Information Administration (EIA) — <em>Monthly Energy Review</em>, April 2026
+      Edition, Table&nbsp;1.3: Primary Energy Consumption by Source.<br />
+      <a href="https://www.eia.gov/totalenergy/data/monthly/" target="_blank" rel="noopener noreferrer">
+        www.eia.gov/totalenergy/data/monthly/
+      </a>
+      <ul>
+        <li>Coal (CLTCBUS) — annual totals CSV-verified via EIA data browser</li>
+        <li>Natural Gas excl. Supplemental Gaseous Fuels (NNTCBUS) — annual totals CSV-verified</li>
+        <li>Petroleum excl. Biofuels (PMTCBUS) — from EIA MER published tables</li>
+        <li>Nuclear Electric Power (NUETBUS) — from EIA MER published tables</li>
+        <li>Renewable Energy (RETCBUS) — from EIA MER published tables</li>
+        <li>Total Primary Energy (TETCBUS) — from EIA MER published tables</li>
+      </ul>
+      <br />
+      EIA data is published in the public domain. Totals may not sum exactly due to rounding
+      and minor additional categories captured in EIA's full accounting methodology.
+    </div>
+
+  </main>
+
+  <!-- ── Shared site footer (fetched from Cloudflare Pages) ── -->
+  <div id="site-footer"></div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       Page Data & Logic
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+    /* ── 1. EIA MER Table 1.3 data ──────────────────────────────
+       Sources:
+         CLTCBUS  — coal, CSV-verified from EIA live endpoint
+         NNTCBUS  — natural gas excl. suppl., CSV-verified
+         PMTCBUS  — petroleum excl. biofuels, EIA MER published
+         NUETBUS  — nuclear electric power, EIA MER published
+         RETCBUS  — renewable energy total, EIA MER published
+         TETCBUS  — total primary energy, EIA MER published
+       All values: quadrillion Btu (annual totals)
+       2025: preliminary/projected (EIA April 2026 MER edition)
+    ──────────────────────────────────────────────────────────── */
+    const ENERGY_DATA = [
+      //  year   coal   gas    petro  nuclear renew  total  projected
+      [ 2020,   9.18, 31.67,  35.07,   8.25, 11.59,  92.94, false ],
+      [ 2021,  10.55, 31.71,  36.06,   8.13, 12.16,  97.33, false ],
+      [ 2022,   9.89, 33.38,  36.79,   8.10, 13.12, 100.41, false ],
+      [ 2023,   8.17, 33.68,  36.39,   8.09, 13.42, 100.55, false ],
+      [ 2024,   7.91, 34.18,  36.10,   8.19, 13.92, 100.50, false ],
+      [ 2025,   8.71, 34.63,  36.20,   8.10, 14.30, 101.10, true  ],
+    ];
+
+    const YEARS = ENERGY_DATA.map(r => r[0]);
+
+    const SERIES = [
+      { key: 'coal',    label: 'Coal',          data: ENERGY_DATA.map(r => r[1]), color: '#e8a030', cssVar: '--c-coal'    },
+      { key: 'gas',     label: 'Natural Gas',    data: ENERGY_DATA.map(r => r[2]), color: '#60c8f0', cssVar: '--c-gas'    },
+      { key: 'petro',   label: 'Petroleum',      data: ENERGY_DATA.map(r => r[3]), color: '#d85858', cssVar: '--c-petro'  },
+      { key: 'nuclear', label: 'Nuclear',         data: ENERGY_DATA.map(r => r[4]), color: '#a070d8', cssVar: '--c-nuclear'},
+      { key: 'renew',   label: 'Renewable',       data: ENERGY_DATA.map(r => r[5]), color: '#50c878', cssVar: '--c-renew'  },
+    ];
+
+
+    /* ── 2. Build Chart ─────────────────────────────────────── */
+    (function initChart() {
+      const ctx = document.getElementById('energyChart');
+      if (!ctx) return;
+
+      // Projected segment: dashed last segment for 2025
+      const datasets = SERIES.map(s => {
+        // Solid points for final, hollow for projected
+        const pointStyles  = ENERGY_DATA.map(r => r[7] ? 'triangle' : 'circle');
+        const pointRadii   = ENERGY_DATA.map(r => r[7] ? 6 : 4);
+
+        return {
+          label:           s.label,
+          data:            s.data,
+          borderColor:     s.color,
+          backgroundColor: s.color + '22',
+          borderWidth:     2.5,
+          pointStyle:      pointStyles,
+          pointRadius:     pointRadii,
+          pointHoverRadius: 7,
+          pointBackgroundColor: s.color,
+          pointBorderColor:    s.color,
+          tension:         0.35,
+          fill:            false,
+          // Segment: dashed for last point (index 5 = 2025)
+          segment: {
+            borderDash: ctx => ctx.p0DataIndex === 4 ? [6, 4] : [],
+          },
+        };
+      });
+
+      new Chart(ctx, {
+        type: 'line',
+        data: { labels: YEARS.map(String), datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false }, // using our custom legend
+            tooltip: {
+              backgroundColor: '#0f1f3d',
+              borderColor:     '#1e3a6e',
+              borderWidth:     1,
+              titleColor:      '#c0ccd8',
+              bodyColor:       '#a8b8d0',
+              padding:         12,
+              titleFont:       { weight: 'bold', size: 13 },
+              callbacks: {
+                title: items => `${items[0].label}${items[0].label === '2025' ? '  (preliminary)' : ''}`,
+                label: item => `  ${item.dataset.label}: ${item.parsed.y.toFixed(2)} QBtu`,
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid:   { color: '#1e3a6e' },
+              border: { color: '#2a4a80' },
+              ticks:  { color: '#a8b8d0', font: { size: 12 } },
+              title:  { display: true, text: 'Year', color: '#6a82a0', font: { size: 11 } },
+            },
+            y: {
+              min:   0,
+              suggestedMax: 42,
+              grid:   { color: '#1e3a6e' },
+              border: { color: '#2a4a80', dash: [4, 4] },
+              ticks:  {
+                color: '#a8b8d0',
+                font:  { size: 11 },
+                callback: v => `${v.toFixed(0)}`,
+              },
+              title: {
+                display: true,
+                text:    'Quadrillion Btu',
+                color:   '#6a82a0',
+                font:    { size: 11 },
+              },
+            },
+          },
+          animation: {
+            duration: 900,
+            easing:   'easeInOutQuart',
+          },
+        },
+      });
+    })();
+
+
+    /* ── 3. Build Table ─────────────────────────────────────── */
+    (function buildTable() {
+      const tbody = document.getElementById('tableBody');
+      if (!tbody) return;
+
+      ENERGY_DATA.forEach(row => {
+        const [ year, coal, gas, petro, nuclear, renew, total, projected ] = row;
+        const tr = document.createElement('tr');
+        if (projected) tr.classList.add('row-projected');
+
+        const fmt = v => v.toFixed(2);
+
+        tr.innerHTML = `
+          <td>${year}</td>
+          <td>${fmt(coal)}</td>
+          <td>${fmt(gas)}</td>
+          <td>${fmt(petro)}</td>
+          <td>${fmt(nuclear)}</td>
+          <td>${fmt(renew)}</td>
+          <td class="col-total">${fmt(total)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })();
+
+
+    /* ── 4. Header / Footer injection ───────────────────────── */
+    async function injectPartial(url, targetId) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return;                    // fail silently — standalone use
+        const html = await res.text();
+        const el = document.getElementById(targetId);
+        if (el) el.innerHTML = html;
+      } catch (_) {
+        // Standalone / local: no header/footer — no-op
+      }
+    }
+
+    injectPartial('/header.html', 'site-header');
+    injectPartial('/footer.html', 'site-footer');
+  </script>
+
+</body>
+</html>
