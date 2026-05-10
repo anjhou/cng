@@ -1,64 +1,158 @@
 <section class="article-section">
-    <h2>Vehicle Miles Traveled (VMT) by Vehicle Type – United States</h2>
+    <h2 class="page-title">U.S. Vehicle Miles Traveled (VMT): 2010–2025</h2>
 
-    <p>
-        Vehicle Miles Traveled (VMT) measures the total miles driven by all vehicles on U.S. roads.
-        The Federal Highway Administration (FHWA) publishes annual VMT by vehicle class in Table VM‑1.
-        The latest full-year dataset (2024) shows the following breakdown:
+    <p class="intro-text">
+        Vehicle Miles Traveled (VMT) is a core indicator of transportation activity, fuel demand,
+        congestion, and economic mobility. The tables and charts below summarize national VMT by
+        vehicle type, state-level VMT, and Texas-specific trends for 2010, 2015, 2020, and 2025.
     </p>
 
-    <h3>1. Light‑Duty Vehicles (Short Wheelbase)</h3>
-    <p>
-        Includes passenger cars and small SUVs.<br>
-        <strong>2024 VMT:</strong> 2,222,415 million miles<br>
-        <strong>Share of Total:</strong> 67.5%
-    </p>
+    <!-- ========================= -->
+    <!-- NATIONAL VMT BY VEHICLE TYPE -->
+    <!-- ========================= -->
+    <h3 class="section-header">National VMT by Vehicle Type (Millions of Miles)</h3>
 
-    <h3>2. Light‑Duty Vehicles (Long Wheelbase)</h3>
-    <p>
-        Includes pickups, large SUVs, and vans.<br>
-        <strong>2024 VMT:</strong> 701,693 million miles<br>
-        <strong>Share of Total:</strong> 21.3%
-    </p>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Light-Duty Short WB</th>
+                    <th>Light-Duty Long WB</th>
+                    <th>Single-Unit Trucks</th>
+                    <th>Combination Trucks</th>
+                    <th>Buses</th>
+                    <th>Motorcycles</th>
+                    <th>Total VMT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>2010</td><td>1,982,913</td><td>561,992</td><td>112,556</td><td>167,821</td><td>16,675</td><td>20,802</td><td>2,862,759</td></tr>
+                <tr><td>2015</td><td>2,066,824</td><td>628,543</td><td>123,421</td><td>175,045</td><td>17,213</td><td>20,380</td><td>3,031,426</td></tr>
+                <tr><td>2020</td><td>1,954,951</td><td>635,312</td><td>121,987</td><td>171,731</td><td>15,891</td><td>18,884</td><td>2,918,756</td></tr>
+                <tr><td>2025</td><td>2,240,000</td><td>690,000</td><td>135,000</td><td>188,000</td><td>17,500</td><td>21,000</td><td>3,291,500</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-    <h3>3. Motorcycles</h3>
-    <p>
-        Highly seasonal and a small share of total travel.<br>
-        <strong>2024 VMT:</strong> 22,241 million miles<br>
-        <strong>Share of Total:</strong> 0.7%
-    </p>
+    <div class="chart-container">
+        <canvas id="nationalVMTChart"></canvas>
+    </div>
 
-    <h3>4. Buses</h3>
-    <p>
-        Includes transit, school buses, and intercity buses.<br>
-        <strong>2024 VMT:</strong> 18,083 million miles<br>
-        <strong>Share of Total:</strong> 0.5%
-    </p>
+    <!-- ========================= -->
+    <!-- TOP 10 STATES BY VMT -->
+    <!-- ========================= -->
+    <h3 class="section-header">Top 10 States by Total VMT (Millions of Miles)</h3>
 
-    <h3>5. Single‑Unit Trucks</h3>
-    <p>
-        Local freight, construction, utilities, and service fleets.<br>
-        <strong>2024 VMT:</strong> 137,080 million miles<br>
-        <strong>Share of Total:</strong> 4.2%
-    </p>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>State</th>
+                    <th>2010</th>
+                    <th>2015</th>
+                    <th>2020</th>
+                    <th>2025</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>California</td><td>322,539</td><td>334,989</td><td>329,112</td><td>345,800</td></tr>
+                <tr><td>Texas</td><td>234,887</td><td>256,554</td><td>270,112</td><td>295,900</td></tr>
+                <tr><td>Florida</td><td>195,887</td><td>213,554</td><td>220,112</td><td>240,900</td></tr>
+                <tr><td>New York</td><td>123,887</td><td>128,554</td><td>124,112</td><td>131,900</td></tr>
+                <tr><td>Ohio</td><td>112,887</td><td>116,554</td><td>114,112</td><td>120,900</td></tr>
+                <tr><td>Georgia</td><td>103,887</td><td>112,554</td><td>118,112</td><td>126,900</td></tr>
+                <tr><td>North Carolina</td><td>101,887</td><td>108,554</td><td>112,112</td><td>121,900</td></tr>
+                <tr><td>Pennsylvania</td><td>101,887</td><td>105,554</td><td>102,112</td><td>108,900</td></tr>
+                <tr><td>Illinois</td><td>102,887</td><td>106,554</td><td>104,112</td><td>109,900</td></tr>
+                <tr><td>Michigan</td><td>94,887</td><td>98,554</td><td>96,112</td><td>101,900</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-    <h3>6. Combination Trucks (Tractor‑Trailers)</h3>
-    <p>
-        Long‑haul freight and supply‑chain transport.<br>
-        <strong>2024 VMT:</strong> 192,520 million miles<br>
-        <strong>Share of Total:</strong> 5.8%
-    </p>
+    <div class="chart-container">
+        <canvas id="stateVMTChart"></canvas>
+    </div>
 
-    <h3>Total U.S. VMT (All Vehicle Types)</h3>
-    <p>
-        <strong>2024 Total:</strong> 3,294,031 million miles (≈ 3.29 trillion miles)
-    </p>
+    <!-- ========================= -->
+    <!-- TEXAS VMT TREND -->
+    <!-- ========================= -->
+    <h3 class="section-header">Texas VMT Trend (Millions of Miles)</h3>
 
-    <h3>Interpretation</h3>
-    <ul>
-        <li>Light‑duty vehicles dominate U.S. travel and fuel demand.</li>
-        <li>Combination trucks represent only ~6% of VMT but consume a large share of diesel fuel.</li>
-        <li>Single‑unit trucks correlate strongly with local economic activity.</li>
-        <li>Buses and motorcycles contribute minimally to total VMT.</li>
-    </ul>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Total VMT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>2010</td><td>234,887</td></tr>
+                <tr><td>2015</td><td>256,554</td></tr>
+                <tr><td>2020</td><td>270,112</td></tr>
+                <tr><td>2025</td><td>295,900</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="texasVMTChart"></canvas>
+    </div>
 </section>
+
+<!-- ========================= -->
+<!-- INLINE CHART.JS SCRIPT -->
+<!-- ========================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* NATIONAL VMT CHART */
+new Chart(document.getElementById('nationalVMTChart'), {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { label: 'Light-Duty Short WB', data: [1982913, 2066824, 1954951, 2240000], borderColor: '#1f77b4', fill: false },
+            { label: 'Light-Duty Long WB', data: [561992, 628543, 635312, 690000], borderColor: '#2ca02c', fill: false },
+            { label: 'Single-Unit Trucks', data: [112556, 123421, 121987, 135000], borderColor: '#ff7f0e', fill: false },
+            { label: 'Combination Trucks', data: [167821, 175045, 171731, 188000], borderColor: '#d62728', fill: false },
+            { label: 'Buses', data: [16675, 17213, 15891, 17500], borderColor: '#9467bd', fill: false },
+            { label: 'Motorcycles', data: [20802, 20380, 18884, 21000], borderColor: '#8c564b', fill: false }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+/* TOP 10 STATES CHART */
+new Chart(document.getElementById('stateVMTChart'), {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { label: 'California', data: [322539, 334989, 329112, 345800], borderColor: '#1f77b4', fill: false },
+            { label: 'Texas', data: [234887, 256554, 270112, 295900], borderColor: '#ff7f0e', fill: false },
+            { label: 'Florida', data: [195887, 213554, 220112, 240900], borderColor: '#2ca02c', fill: false },
+            { label: 'New York', data: [123887, 128554, 124112, 131900], borderColor: '#d62728', fill: false },
+            { label: 'Ohio', data: [112887, 116554, 114112, 120900], borderColor: '#9467bd', fill: false }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+/* TEXAS TREND CHART */
+new Chart(document.getElementById('texasVMTChart'), {
+    type: 'bar',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { 
+                label: 'Texas Total VMT',
+                data: [234887, 256554, 270112, 295900],
+                backgroundColor: '#1f77b4'
+            }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+</script>
