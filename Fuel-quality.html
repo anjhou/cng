@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fuel Quality Monitoring</title>
 
-    <!-- Leaflet CSS -->
-    <link 
-        rel="stylesheet" 
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-sA+4J1rGgGkS2Jp3xO2j5g9Qf0LrY9IuPbi3yZ9P0SY="
-        crossorigin=""
-    />
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,22 +26,31 @@
             padding: 20px;
         }
 
-        #map {
-            height: 350px;
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
         .info-box {
             background: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
         .info-box h3 {
             margin-top: 0;
+        }
+
+        .status-good {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-warning {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .status-bad {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -59,41 +60,21 @@
 
 <div class="container">
 
-    <!-- Leaflet Map -->
-    <div id="map"></div>
+    <div class="info-box">
+        <h3>Fuel Station Information</h3>
+        <p><strong>Station Name:</strong> Example Fuel Station</p>
+        <p><strong>Location:</strong> Rosenberg, TX</p>
+        <p><strong>Fuel Type:</strong> Premium Unleaded</p>
+    </div>
 
-    <!-- Fuel Quality Info Section -->
     <div class="info-box">
         <h3>Fuel Quality Status</h3>
-        <p><strong>Station:</strong> Example Fuel Station</p>
-        <p><strong>Fuel Type:</strong> Premium Unleaded</p>
         <p><strong>Quality Rating:</strong> 92/100</p>
+        <p><strong>Status:</strong> <span class="status-good">Good</span></p>
         <p><strong>Last Inspection:</strong> 2026‑05‑10</p>
     </div>
 
 </div>
-
-<!-- Leaflet JS -->
-<script 
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j7kPvxwpw9H1kP8Zb0m3FQ1pYtS2a1x4fF3Q0E4="
-    crossorigin="">
-</script>
-
-<script>
-    // Initialize map
-    const map = L.map('map').setView([29.5577, -95.8080], 12); // Rosenberg, TX default
-
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    // Add marker
-    const marker = L.marker([29.5577, -95.8080]).addTo(map);
-    marker.bindPopup("<b>Fuel Station</b><br>Rosenberg, TX").openPopup();
-</script>
 
 </body>
 </html>
