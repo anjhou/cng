@@ -93,4 +93,82 @@
     <!-- TAB NAVIGATION -->
     <div class="tabs">
         <div class="tab active" data-tab="gasoline">Gasoline</div>
-        <div class="tab" data-tab="ulsd">
+        <div class="tab" data-tab="ulsd">ULSD</div>
+        <div class="tab" data-tab="marine">Marine Bunker</div>
+    </div>
+
+    <!-- GASOLINE TAB -->
+    <div id="gasoline" class="tab-content active">
+        <div class="section">
+            <h2>Gasoline Fuel Quality (U.S.)</h2>
+            <p>Key gasoline specifications required across the United States.</p>
+
+            <table>
+                <tr><th>Property</th><th>Specification</th></tr>
+                <tr><td>Octane (AKI)</td><td>87 Regular, 89 Midgrade, 91–93 Premium</td></tr>
+                <tr><td>Reid Vapor Pressure (RVP)</td><td>7.0–15.0 psi (seasonal & regional)</td></tr>
+                <tr><td>Ethanol Content</td><td>Up to 10% (E10); E15 allowed for 2001+ vehicles</td></tr>
+                <tr><td>Sulfur Content</td><td>10 ppm average (Tier 3)</td></tr>
+                <tr><td>Aromatics</td><td>25–35% typical</td></tr>
+                <tr><td>Benzene</td><td>0.62% max</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ULSD TAB -->
+    <div id="ulsd" class="tab-content">
+        <div class="section">
+            <h2>Ultra-Low Sulfur Diesel (ULSD)</h2>
+            <p>ULSD is required for all on-road diesel in the U.S.</p>
+
+            <table>
+                <tr><th>Property</th><th>Specification</th></tr>
+                <tr><td>Sulfur</td><td>15 ppm max</td></tr>
+                <tr><td>Cetane Number</td><td>40 minimum</td></tr>
+                <tr><td>Cloud Point</td><td>Region & season dependent</td></tr>
+                <tr><td>Lubricity</td><td>520 μm HFRR max</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- MARINE BUNKER TAB -->
+    <div id="marine" class="tab-content">
+        <div class="section">
+            <h2>Marine Fuel (IMO 2020)</h2>
+            <p>Marine fuels must comply with IMO 2020 sulfur limits.</p>
+
+            <table>
+                <tr><th>Fuel Type</th><th>Sulfur Limit</th></tr>
+                <tr><td>VLSFO</td><td>0.50% max</td></tr>
+                <tr><td>ULSFO</td><td>0.10% max (ECA zones)</td></tr>
+                <tr><td>HSFO</td><td>3.50% max (allowed only with scrubbers)</td></tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div data-include-html="footer.html"></div>
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+</body>
+</html>
