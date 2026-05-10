@@ -1,136 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Quality Monitoring</title>
+    <meta charset="UTF-8" />
+    <title>Fuel Quality – Gasoline, ULSD, Marine Fuel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
 
     <!-- Leaflet CSS -->
-    <link 
-        rel="stylesheet" 
+    <link
+        rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-sA+e2atf4ZtP2zFEpPz9vyvye6Z9erjRzCQoxT0p3pU="
         crossorigin=""
     />
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
+        .page-title {
+            color: #0b2c4d;
+            border-bottom: 2px solid #c0c7d1;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
         }
-
-        header {
-            background: #003366;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
+        .section-title {
+            color: #123a63;
+            margin-top: 1.5rem;
         }
-
-        .container {
-            padding: 20px;
-        }
-
-        #map {
-            height: 450px;
+        .fuel-summary-table {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .fuel-summary-table th,
+        .fuel-summary-table td {
+            border: 1px solid #d0d4dd;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .fuel-summary-table th {
+            background: #0b2c4d;
+            color: #ffffff;
+        }
+        .fuel-summary-table tr:nth-child(even) {
+            background: #f4f6fa;
+        }
+        .param-list {
+            margin-left: 1.2rem;
         }
 
-        .info-box {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .info-box h3 {
-            margin-top: 0;
+        /* Map container — FIXED WITH !important */
+        #us-map {
+            height: 450px !important;
+            width: 100%;
+            margin-top: 1.5rem;
+            border: 2px solid #c0c7d1;
+            border-radius: 6px;
         }
     </style>
 </head>
+
 <body>
+    <!-- Shared header include -->
+    <div id="header-placeholder"></div>
 
-<header>Fuel Quality Monitoring</header>
+    <main class="content">
+        <h1 class="page-title">Fuel Quality Specifications</h1>
 
-<div class="container">
+        <p>
+            This page summarizes fuel quality requirements for refined transportation fuels:
+            gasoline, ultra-low sulfur diesel (ULSD), and marine bunker fuel oils.
+        </p>
 
-    <!-- USA Leaflet Map -->
-    <div id="map"></div>
+        <!-- Gasoline section -->
+        <section id="gasoline">
+            <h2 class="section-title">Gasoline (ASTM D4814 – U.S. Market)</h2>
+            <p>
+                Gasoline quality in the U.S. is governed primarily by ASTM D4814 and EPA Tier 3
+                regulations.
+            </p>
 
-    <!-- Fuel Quality Info Section -->
-    <div class="info-box">
-        <h3>Fuel Quality Status</h3>
-        <p><strong>Station:</strong> Example Fuel Station</p>
-        <p><strong>Fuel Type:</strong> Premium Unleaded</p>
-        <p><strong>Quality Rating:</strong> 92/100</p>
-        <p><strong>Last Inspection:</strong> 2026‑05‑10</p>
-    </div>
+            <ul class="param-list">
+                <li><strong>Octane (AKI):</strong> Regular 87, Mid‑grade 89–90, Premium 91–94.</li>
+                <li><strong>Sulfur:</strong> Tier 3 gasoline sulfur cap of ~10 ppm average.</li>
+                <li><strong>Reid Vapor Pressure (RVP):</strong> Seasonal and regional limits.</li>
+                <li><strong>Distillation curve:</strong> ASTM D86 limits for drivability.</li>
+                <li><strong>Oxygenates:</strong> Ethanol up to 10% (E10) or 15% (E15).</li>
+                <li><strong>Contaminants:</strong> Limits on gum, sulfur, and metals.</li>
+            </ul>
 
-</div>
+            <!-- Gasoline Specification Table -->
+            <h3 class="section-title">Gasoline Specification – U.S. (ASTM D4814 & EPA Tier 3)</h3>
 
-<!-- Leaflet JS -->
-<script 
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    crossorigin="">
-</script>
+            <table class="fuel-summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Typical U.S. Requirement / Range</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Octane (AKI)</td>
+                        <td>87 / 89–90 / 91–94</td>
+                        <td>Anti‑knock index</td>
+                    </tr>
+                    <tr>
+                        <td>Sulfur</td>
+                        <td>~10 ppm average</td>
+                        <td>Tier 3 requirement</td>
+                    </tr>
+                    <tr>
+                        <td>RVP</td>
+                        <td>7–15 psi</td>
+                        <td>Seasonal</td>
+                    </tr>
+                    <tr>
+                        <td>Distillation</td>
+                        <td>T10/T50/T90 limits</td>
+                        <td>Volatility control</td>
+                    </tr>
+                    <tr>
+                        <td>Oxygenates</td>
+                        <td>E10–E15</td>
+                        <td>Varies by state</td>
+                    </tr>
+                    <tr>
+                        <td>Aromatics</td>
+                        <td>20–35%</td>
+                        <td>Octane contributor</td>
+                    </tr>
+                    <tr>
+                        <td>Benzene</td>
+                        <td>≤ 0.62%</td>
+                        <td>EPA MSAT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-<script>
-    // Initialize USA map
-    const map = L.map('map').setView([39.5, -98.35], 4); // Geographic center of USA
+        <!-- ULSD section -->
+        <section id="ulsd">
+            <h2 class="section-title">Ultra-Low Sulfur Diesel (ULSD – ASTM D975)</h2>
+            <ul class="param-list">
+                <li><strong>Sulfur:</strong> ≤ 15 ppm.</li>
+                <li><strong>Cetane:</strong> ≥ 40.</li>
+                <li><strong>Lubricity:</strong> HFRR ≤ 520 µm.</li>
+                <li><strong>Cold flow:</strong> Seasonal.</li>
+            </ul>
+        </section>
 
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
+        <!-- Marine fuel section -->
+        <section id="marine-fuel">
+            <h2 class="section-title">Marine Bunker Fuel Oil (ISO 8217)</h2>
+            <ul class="param-list">
+                <li><strong>VLSFO:</strong> 0.5% sulfur.</li>
+                <li><strong>HSFO:</strong> 3.5% sulfur (scrubbers).</li>
+                <li><strong>MGO/MDO:</strong> Distillates.</li>
+            </ul>
+        </section>
 
-    // Custom icons
-    const airportIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
+        <!-- Summary -->
+        <section id="summary">
+            <h2 class="section-title">Summary – Fuel Quality by Type</h2>
+            <table class="fuel-summary-table">
+                <thead>
+                    <tr>
+                        <th>Fuel Type</th>
+                        <th>Standard</th>
+                        <th>Key Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gasoline</td>
+                        <td>ASTM D4814</td>
+                        <td>Octane, sulfur, RVP, distillation</td>
+                    </tr>
+                    <tr>
+                        <td>ULSD</td>
+                        <td>ASTM D975</td>
+                        <td>Sulfur ≤ 15 ppm, cetane ≥ 40</td>
+                    </tr>
+                    <tr>
+                        <td>Marine Fuel</td>
+                        <td>ISO 8217</td>
+                        <td>Sulfur limits, viscosity</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- U.S. Major Cities Map -->
+        <section id="us-map-section">
+            <h2 class="section-title">U.S. Major Cities Map</h2>
+            <p>This map displays major U.S. cities using Leaflet.</p>
+
+            <div id="us-map"></div>
+        </section>
+
+    </main>
+
+    <!-- Shared footer include -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Leaflet JS -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-o9N1j7kGStG3bWcJr2dI+tvkmHGWk+y3OC/qo+4E0XI="
+        crossorigin=""
+    ></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const map = L.map('us-map').setView([39.5, -98.35], 4);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        const cities = [
+            ["New York City", 40.7128, -74.0060],
+            ["Los Angeles", 34.0522, -118.2437],
+            ["Chicago", 41.8781, -87.6298],
+            ["Houston", 29.7604, -95.3698],
+            ["Phoenix", 33.4484, -112.0740],
+            ["Philadelphia", 39.9526, -75.1652],
+            ["San Antonio", 29.4241, -98.4936],
+            ["San Diego", 32.7157, -117.1611],
+            ["Dallas", 32.7767, -96.7970],
+            ["San Jose", 37.3382, -121.8863]
+        ];
+
+        cities.forEach(city => {
+            L.marker([city[1], city[2]]).addTo(map).bindPopup(`<b>${city[0]}</b>`);
+        });
+
     });
+    </script>
 
-    const refineryIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/854/854878.png',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-    });
-
-    // Major U.S. Airports
-    const airports = [
-        { name: "Atlanta (ATL)", coords: [33.6407, -84.4277] },
-        { name: "Los Angeles (LAX)", coords: [33.9416, -118.4085] },
-        { name: "Chicago O’Hare (ORD)", coords: [41.9742, -87.9073] },
-        { name: "Dallas/Fort Worth (DFW)", coords: [32.8998, -97.0403] },
-        { name: "Denver (DEN)", coords: [39.8561, -104.6737] }
-    ];
-
-    airports.forEach(a => {
-        L.marker(a.coords, { icon: airportIcon })
-            .addTo(map)
-            .bindPopup(`<b>Airport:</b> ${a.name}`);
-    });
-
-    // Major U.S. Refineries
-    const refineries = [
-        { name: "Baytown Refinery (TX)", coords: [29.7360, -94.9774] },
-        { name: "Port Arthur Refinery (TX)", coords: [29.8849, -93.9399] },
-        { name: "Baton Rouge Refinery (LA)", coords: [30.5285, -91.1871] },
-        { name: "Garyville Refinery (LA)", coords: [30.0560, -90.6180] },
-        { name: "Martinez Refinery (CA)", coords: [38.0330, -122.1330] }
-    ];
-
-    refineries.forEach(r => {
-        L.marker(r.coords, { icon: refineryIcon })
-            .addTo(map)
-            .bindPopup(`<b>Refinery:</b> ${r.name}`);
-    });
-</script>
-
+    <script src="header-footer.js"></script>
 </body>
 </html>
