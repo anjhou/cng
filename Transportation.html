@@ -58,27 +58,6 @@
                 <option value="Ohio">Ohio</option>
             </select>
 
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>State</th>
-                            <th>2010</th>
-                            <th>2015</th>
-                            <th>2020</th>
-                            <th>2025</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>California</td><td>322,539</td><td>334,989</td><td>329,112</td><td>345,800</td></tr>
-                        <tr><td>Texas</td><td>234,887</td><td>256,554</td><td>270,112</td><td>295,900</td></tr>
-                        <tr><td>Florida</td><td>195,887</td><td>213,554</td><td>220,112</td><td>240,900</td></tr>
-                        <tr><td>New York</td><td>123,887</td><td>128,554</td><td>124,112</td><td>131,900</td></tr>
-                        <tr><td>Ohio</td><td>112,887</td><td>116,554</td><td>114,112</td><td>120,900</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
             <div class="chart-container">
                 <canvas id="stateVMTChart" width="900" height="450"></canvas>
             </div>
@@ -94,23 +73,6 @@
 
             <h3 class="section-header">Texas VMT Trend (Millions of Miles)</h3>
 
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Year</th>
-                            <th>Total VMT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>2010</td><td>234,887</td></tr>
-                        <tr><td>2015</td><td>256,554</td></tr>
-                        <tr><td>2020</td><td>270,112</td></tr>
-                        <tr><td>2025</td><td>295,900</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
             <div class="chart-container">
                 <canvas id="texasVMTChart" width="900" height="450"></canvas>
             </div>
@@ -119,3 +81,74 @@
     </div>
 
 </div>
+
+<!-- ========================= -->
+<!-- INLINE CHART.JS SCRIPT -->
+<!-- ========================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* NATIONAL VMT CHART */
+new Chart(document.getElementById('nationalVMTChart'), {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { label: 'Light-Duty Short WB', data: [1982913, 2066824, 1954951, 2240000], borderColor: '#1f77b4', fill: false },
+            { label: 'Light-Duty Long WB', data: [561992, 628543, 635312, 690000], borderColor: '#2ca02c', fill: false },
+            { label: 'Single-Unit Trucks', data: [112556, 123421, 121987, 135000], borderColor: '#ff7f0e', fill: false },
+            { label: 'Combination Trucks', data: [167821, 175045, 171731, 188000], borderColor: '#d62728', fill: false },
+            { label: 'Buses', data: [16675, 17213, 15891, 17500], borderColor: '#9467bd', fill: false },
+            { label: 'Motorcycles', data: [20802, 20380, 18884, 21000], borderColor: '#8c564b', fill: false }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+/* STATE SELECTOR + CHART */
+const stateData = {
+    "California": [322539, 334989, 329112, 345800],
+    "Texas": [234887, 256554, 270112, 295900],
+    "Florida": [195887, 213554, 220112, 240900],
+    "New York": [123887, 128554, 124112, 131900],
+    "Ohio": [112887, 116554, 114112, 120900]
+};
+
+const stateCtx = document.getElementById('stateVMTChart');
+let stateChart = new Chart(stateCtx, {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [{
+            label: 'California',
+            data: stateData["California"],
+            borderColor: '#1f77b4',
+            fill: false
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+document.getElementById("stateSelect").addEventListener("change", function () {
+    const selected = this.value;
+    stateChart.data.datasets[0].label = selected;
+    stateChart.data.datasets[0].data = stateData[selected];
+    stateChart.update();
+});
+
+/* TEXAS TREND CHART */
+new Chart(document.getElementById('texasVMTChart'), {
+    type: 'bar',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { 
+                label: 'Texas Total VMT',
+                data: [234887, 256554, 270112, 295900],
+                backgroundColor: '#1f77b4'
+            }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+</script>
