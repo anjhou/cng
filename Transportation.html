@@ -1,4 +1,14 @@
-<!-- Scroll Snap Container -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transportation | Houston CNG Consulting</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="header"></div><!-- Scroll Snap Container -->
 <div class="scroll-snap-container">
 
     <!-- ========================= -->
@@ -6,7 +16,7 @@
     <!-- ========================= -->
     <div class="scroll-snap-section">
         <section class="article-section">
-            <h2 class="page-title">U.S. Vehicle Miles Traveled (VMT): 2010–2025</h2>
+            <h2 class="page-title">U.S. Vehicle Miles Traveled (VMT): 2010 to 2025</h2>
 
             <button id="downloadCSV" class="btn-primary">Download VMT CSV</button>
 
@@ -81,7 +91,8 @@
     </div>
 
 </div>
-
+<!-- Articles -->
+<section id="articles-container" class="articles-list"></section>
 <!-- ========================= -->
 <!-- INLINE CHART.JS SCRIPT -->
 <!-- ========================= -->
@@ -152,3 +163,48 @@ new Chart(document.getElementById('texasVMTChart'), {
     options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
 });
 </script>
+    <script>
+        // Load shared header and footer
+        fetch("header.html").then(r => r.text()).then(html => {
+            document.getElementById("header").innerHTML = html;
+        });
+        fetch("footer.html").then(r => r.text()).then(html => {
+            document.getElementById("footer").innerHTML = html;
+        });
+    </script>
+	
+	<script>
+    // Load shared header and footer
+    fetch("header.html").then(r => r.text()).then(html => {
+        document.getElementById("header").innerHTML = html;
+    });
+    fetch("footer.html").then(r => r.text()).then(html => {
+        document.getElementById("footer").innerHTML = html;
+    });
+
+    // Load articles from GitHub JSON
+    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/articles.json")
+        .then(response => response.json())
+        .then(articles => {
+            const container = document.getElementById("articles-container");
+
+            articles.forEach(article => {
+                const card = document.createElement("article");
+                card.className = "article-card";
+
+                card.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.description}</p>
+                    <a href="${article.pdf}" download class="btn-primary">Download PDF</a>
+                `;
+
+                container.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading articles:", err);
+        });
+</script>
+
+</body>
+</html>
