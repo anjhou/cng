@@ -2,208 +2,121 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Fuel Quality – Gasoline, ULSD, Marine Fuel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuel Quality Standards</title>
+
+    <!-- Modular Header Include -->
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-sA+e2atf4ZtP2zFEpPz9vyvye6Z9erjRzCQoxT0p3pU="
-        crossorigin=""
-    />
-
     <style>
-        .page-title {
-            color: #0b2c4d;
-            border-bottom: 2px solid #c0c7d1;
-            padding-bottom: 0.3rem;
-            margin-bottom: 1rem;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
         }
-        .section-title {
-            color: #123a63;
-            margin-top: 1.5rem;
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
         }
-        .fuel-summary-table {
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        .fuel-summary-table th,
-        .fuel-summary-table td {
-            border: 1px solid #d0d4dd;
-            padding: 0.5rem 0.75rem;
-            text-align: left;
-        }
-        .fuel-summary-table th {
-            background: #0b2c4d;
-            color: #ffffff;
-        }
-        .fuel-summary-table tr:nth-child(even) {
-            background: #f4f6fa;
-        }
-        .param-list {
-            margin-left: 1.2rem;
+            margin: 20px 0;
+            background: white;
         }
 
-        /* Tabs */
-        .tab-container {
-            margin-top: 2rem;
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
         }
-        .tab-buttons {
-            display: flex;
-            border-bottom: 2px solid #c0c7d1;
-        }
-        .tab-buttons button {
-            background: #e8ecf2;
-            border: none;
-            padding: 0.75rem 1.25rem;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #0b2c4d;
-        }
-        .tab-buttons button.active {
-            background: #0b2c4d;
+
+        table th {
+            background: #0b2e59;
             color: white;
         }
-        .tab-content {
-            display: none;
-            padding-top: 1rem;
-        }
-        .tab-content.active {
-            display: block;
-        }
 
-        /* Map container */
-        #us-map {
-            height: 450px !important;
-            width: 100%;
-            margin-top: 1.5rem;
-            border: 2px solid #c0c7d1;
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
             border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 
 <body>
-    <!-- Shared header include -->
-    <div id="header-placeholder"></div>
 
-    <main class="content">
-        <h1 class="page-title">Fuel Quality Specifications</h1>
+<!-- Header Include -->
+<div data-include-html="header.html"></div>
 
-        <!-- TAB SYSTEM -->
-        <div class="tab-container">
-            <div class="tab-buttons">
-                <button class="active" onclick="openTab(event, 'gasoline')">Gasoline</button>
-                <button onclick="openTab(event, 'ulsd')">ULSD</button>
-                <button onclick="openTab(event, 'marine')">Marine Fuel</button>
-                <button onclick="openTab(event, 'map')">U.S. Map</button>
-            </div>
+<div class="container">
 
-            <!-- GASOLINE TAB -->
-            <div id="gasoline" class="tab-content active">
-                <h2 class="section-title">Gasoline (ASTM D4814 – U.S. Market)</h2>
-                <p>Gasoline quality in the U.S. is governed primarily by ASTM D4814 and EPA Tier 3 regulations.</p>
+    <h1>Fuel Quality Standards</h1>
 
-                <ul class="param-list">
-                    <li><strong>Octane (AKI):</strong> 87–94.</li>
-                    <li><strong>Sulfur:</strong> ~10 ppm average.</li>
-                    <li><strong>RVP:</strong> Seasonal limits.</li>
-                    <li><strong>Distillation:</strong> ASTM D86 limits.</li>
-                    <li><strong>Oxygenates:</strong> E10 or E15.</li>
-                </ul>
-            </div>
+    <!-- Gasoline Section -->
+    <div class="section">
+        <h2>Gasoline Fuel Quality (U.S.)</h2>
+        <p>Key gasoline specifications required across the United States.</p>
 
-            <!-- ULSD TAB -->
-            <div id="ulsd" class="tab-content">
-                <h2 class="section-title">Ultra-Low Sulfur Diesel (ULSD – ASTM D975)</h2>
-                <ul class="param-list">
-                    <li><strong>Sulfur:</strong> ≤ 15 ppm.</li>
-                    <li><strong>Cetane:</strong> ≥ 40.</li>
-                    <li><strong>Lubricity:</strong> HFRR ≤ 520 µm.</li>
-                    <li><strong>Cold flow:</strong> Seasonal.</li>
-                </ul>
-            </div>
+        <table>
+            <tr><th>Property</th><th>Specification</th></tr>
+            <tr><td>Octane (AKI)</td><td>87 Regular, 89 Midgrade, 91–93 Premium</td></tr>
+            <tr><td>Reid Vapor Pressure (RVP)</td><td>7.0–15.0 psi (seasonal & regional)</td></tr>
+            <tr><td>Ethanol Content</td><td>Up to 10% (E10) nationwide; E15 allowed for 2001+ vehicles</td></tr>
+            <tr><td>Sulfur Content</td><td>10 ppm average (Tier 3 standard)</td></tr>
+            <tr><td>Aromatics</td><td>25–35% typical</td></tr>
+            <tr><td>Benzene</td><td>0.62% max</td></tr>
+        </table>
+    </div>
 
-            <!-- MARINE FUEL TAB -->
-            <div id="marine" class="tab-content">
-                <h2 class="section-title">Marine Bunker Fuel Oil (ISO 8217)</h2>
-                <ul class="param-list">
-                    <li><strong>VLSFO:</strong> 0.5% sulfur.</li>
-                    <li><strong>HSFO:</strong> 3.5% sulfur (scrubbers).</li>
-                    <li><strong>MGO/MDO:</strong> Distillates.</li>
-                </ul>
-            </div>
+    <!-- ULSD Section -->
+    <div class="section">
+        <h2>Ultra-Low Sulfur Diesel (ULSD)</h2>
+        <p>ULSD is required for all on-road diesel in the U.S.</p>
 
-            <!-- MAP TAB -->
-            <div id="map" class="tab-content">
-                <h2 class="section-title">U.S. Major Cities Map</h2>
-                <p>This map displays major U.S. cities using Leaflet.</p>
-                <div id="us-map"></div>
-            </div>
-        </div>
-    </main>
+        <table>
+            <tr><th>Property</th><th>Specification</th></tr>
+            <tr><td>Sulfur</td><td>15 ppm max</td></tr>
+            <tr><td>Cetane Number</td><td>40 minimum</td></tr>
+            <tr><td>Cloud Point</td><td>Region & season dependent</td></tr>
+            <tr><td>Lubricity</td><td>520 μm HFRR max</td></tr>
+        </table>
+    </div>
 
-    <!-- Shared footer include -->
-    <div id="footer-placeholder"></div>
+    <!-- Marine Fuel Section -->
+    <div class="section">
+        <h2>Marine Fuel (IMO 2020)</h2>
+        <p>Marine fuels must comply with IMO 2020 sulfur limits.</p>
 
-    <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-o9N1j7kGStG3bWcJr2dI+tvkmHGWk+y3OC/qo+4E0XI="
-        crossorigin=""
-    ></script>
+        <table>
+            <tr><th>Fuel Type</th><th>Sulfur Limit</th></tr>
+            <tr><td>VLSFO</td><td>0.50% max</td></tr>
+            <tr><td>ULSFO</td><td>0.10% max (ECA zones)</td></tr>
+            <tr><td>HSFO</td><td>3.50% max (allowed only with scrubbers)</td></tr>
+        </table>
+    </div>
 
-    <!-- TAB SWITCHING + MAP INITIALIZATION FIX -->
-    <script>
-        let mapInitialized = false;
-        let map;
+</div>
 
-        function openTab(evt, tabName) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+<!-- Footer Include -->
+<div data-include-html="footer.html"></div>
 
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+</script>
 
-            if (tabName === 'map' && !mapInitialized) {
-                initializeMap();
-                mapInitialized = true;
-            }
-
-            if (tabName === 'map') {
-                setTimeout(() => map.invalidateSize(), 200);
-            }
-        }
-
-        function initializeMap() {
-            map = L.map('us-map').setView([39.5, -98.35], 4);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-            }).addTo(map);
-
-            const cities = [
-                ["New York City", 40.7128, -74.0060],
-                ["Los Angeles", 34.0522, -118.2437],
-                ["Chicago", 41.8781, -87.6298],
-                ["Houston", 29.7604, -95.3698],
-                ["Phoenix", 33.4484, -112.0740],
-                ["Philadelphia", 39.9526, -75.1652],
-                ["San Antonio", 29.4241, -98.4936],
-                ["San Diego", 32.7157, -117.1611],
-                ["Dallas", 32.7767, -96.7970],
-                ["San Jose", 37.3382, -121.8863]
-            ];
-
-            cities.forEach(city => {
-                L.marker([city[1], city[2]]).addTo(map).bindPopup(`<b>${city[0]}</b>`);
-            });
-        }
-    </script>
-
-    <script src="header-footer.js"></script>
 </body>
 </html>
