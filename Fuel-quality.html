@@ -47,7 +47,35 @@
             margin-left: 1.2rem;
         }
 
-        /* Map container — FIXED WITH !important */
+        /* Tabs */
+        .tab-container {
+            margin-top: 2rem;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #c0c7d1;
+        }
+        .tab-buttons button {
+            background: #e8ecf2;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #0b2c4d;
+        }
+        .tab-buttons button.active {
+            background: #0b2c4d;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding-top: 1rem;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Map container */
         #us-map {
             height: 450px !important;
             width: 100%;
@@ -65,139 +93,77 @@
     <main class="content">
         <h1 class="page-title">Fuel Quality Specifications</h1>
 
-        <p>
-            This page summarizes fuel quality requirements for refined transportation fuels:
-            gasoline, ultra-low sulfur diesel (ULSD), and marine bunker fuel oils.
-        </p>
+        <!-- TAB SYSTEM -->
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="active" onclick="openTab(event, 'gasoline')">Gasoline</button>
+                <button onclick="openTab(event, 'ulsd')">ULSD</button>
+                <button onclick="openTab(event, 'marine')">Marine Fuel</button>
+                <button onclick="openTab(event, 'map')">U.S. Map</button>
+            </div>
 
-        <!-- Gasoline section -->
-        <section id="gasoline">
-            <h2 class="section-title">Gasoline (ASTM D4814 – U.S. Market)</h2>
-            <p>
-                Gasoline quality in the U.S. is governed primarily by ASTM D4814 and EPA Tier 3
-                regulations.
-            </p>
+            <!-- GASOLINE TAB -->
+            <div id="gasoline" class="tab-content active">
+                <h2 class="section-title">Gasoline (ASTM D4814 – U.S. Market)</h2>
+                <p>
+                    Gasoline quality in the U.S. is governed primarily by ASTM D4814 and EPA Tier 3 regulations.
+                </p>
 
-            <ul class="param-list">
-                <li><strong>Octane (AKI):</strong> Regular 87, Mid‑grade 89–90, Premium 91–94.</li>
-                <li><strong>Sulfur:</strong> Tier 3 gasoline sulfur cap of ~10 ppm average.</li>
-                <li><strong>Reid Vapor Pressure (RVP):</strong> Seasonal and regional limits.</li>
-                <li><strong>Distillation curve:</strong> ASTM D86 limits for drivability.</li>
-                <li><strong>Oxygenates:</strong> Ethanol up to 10% (E10) or 15% (E15).</li>
-                <li><strong>Contaminants:</strong> Limits on gum, sulfur, and metals.</li>
-            </ul>
+                <ul class="param-list">
+                    <li><strong>Octane (AKI):</strong> Regular 87, Mid‑grade 89–90, Premium 91–94.</li>
+                    <li><strong>Sulfur:</strong> ~10 ppm average.</li>
+                    <li><strong>RVP:</strong> Seasonal limits.</li>
+                    <li><strong>Distillation:</strong> ASTM D86 limits.</li>
+                    <li><strong>Oxygenates:</strong> E10 or E15.</li>
+                </ul>
 
-            <!-- Gasoline Specification Table -->
-            <h3 class="section-title">Gasoline Specification – U.S. (ASTM D4814 & EPA Tier 3)</h3>
+                <h3 class="section-title">Gasoline Specification – U.S.</h3>
+                <table class="fuel-summary-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Typical Range</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Octane</td><td>87–94</td><td>AKI</td></tr>
+                        <tr><td>Sulfur</td><td>~10 ppm</td><td>Tier 3</td></tr>
+                        <tr><td>RVP</td><td>7–15 psi</td><td>Seasonal</td></tr>
+                        <tr><td>Distillation</td><td>T10/T50/T90</td><td>Volatility</td></tr>
+                        <tr><td>Oxygenates</td><td>E10–E15</td><td>State dependent</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <table class="fuel-summary-table">
-                <thead>
-                    <tr>
-                        <th>Parameter</th>
-                        <th>Typical U.S. Requirement / Range</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Octane (AKI)</td>
-                        <td>87 / 89–90 / 91–94</td>
-                        <td>Anti‑knock index</td>
-                    </tr>
-                    <tr>
-                        <td>Sulfur</td>
-                        <td>~10 ppm average</td>
-                        <td>Tier 3 requirement</td>
-                    </tr>
-                    <tr>
-                        <td>RVP</td>
-                        <td>7–15 psi</td>
-                        <td>Seasonal</td>
-                    </tr>
-                    <tr>
-                        <td>Distillation</td>
-                        <td>T10/T50/T90 limits</td>
-                        <td>Volatility control</td>
-                    </tr>
-                    <tr>
-                        <td>Oxygenates</td>
-                        <td>E10–E15</td>
-                        <td>Varies by state</td>
-                    </tr>
-                    <tr>
-                        <td>Aromatics</td>
-                        <td>20–35%</td>
-                        <td>Octane contributor</td>
-                    </tr>
-                    <tr>
-                        <td>Benzene</td>
-                        <td>≤ 0.62%</td>
-                        <td>EPA MSAT</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+            <!-- ULSD TAB -->
+            <div id="ulsd" class="tab-content">
+                <h2 class="section-title">Ultra-Low Sulfur Diesel (ULSD – ASTM D975)</h2>
+                <ul class="param-list">
+                    <li><strong>Sulfur:</strong> ≤ 15 ppm.</li>
+                    <li><strong>Cetane:</strong> ≥ 40.</li>
+                    <li><strong>Lubricity:</strong> HFRR ≤ 520 µm.</li>
+                    <li><strong>Cold flow:</strong> Seasonal.</li>
+                </ul>
+            </div>
 
-        <!-- ULSD section -->
-        <section id="ulsd">
-            <h2 class="section-title">Ultra-Low Sulfur Diesel (ULSD – ASTM D975)</h2>
-            <ul class="param-list">
-                <li><strong>Sulfur:</strong> ≤ 15 ppm.</li>
-                <li><strong>Cetane:</strong> ≥ 40.</li>
-                <li><strong>Lubricity:</strong> HFRR ≤ 520 µm.</li>
-                <li><strong>Cold flow:</strong> Seasonal.</li>
-            </ul>
-        </section>
+            <!-- MARINE FUEL TAB -->
+            <div id="marine" class="tab-content">
+                <h2 class="section-title">Marine Bunker Fuel Oil (ISO 8217)</h2>
+                <ul class="param-list">
+                    <li><strong>VLSFO:</strong> 0.5% sulfur.</li>
+                    <li><strong>HSFO:</strong> 3.5% sulfur (scrubbers).</li>
+                    <li><strong>MGO/MDO:</strong> Distillates.</li>
+                </ul>
+            </div>
 
-        <!-- Marine fuel section -->
-        <section id="marine-fuel">
-            <h2 class="section-title">Marine Bunker Fuel Oil (ISO 8217)</h2>
-            <ul class="param-list">
-                <li><strong>VLSFO:</strong> 0.5% sulfur.</li>
-                <li><strong>HSFO:</strong> 3.5% sulfur (scrubbers).</li>
-                <li><strong>MGO/MDO:</strong> Distillates.</li>
-            </ul>
-        </section>
-
-        <!-- Summary -->
-        <section id="summary">
-            <h2 class="section-title">Summary – Fuel Quality by Type</h2>
-            <table class="fuel-summary-table">
-                <thead>
-                    <tr>
-                        <th>Fuel Type</th>
-                        <th>Standard</th>
-                        <th>Key Parameters</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Gasoline</td>
-                        <td>ASTM D4814</td>
-                        <td>Octane, sulfur, RVP, distillation</td>
-                    </tr>
-                    <tr>
-                        <td>ULSD</td>
-                        <td>ASTM D975</td>
-                        <td>Sulfur ≤ 15 ppm, cetane ≥ 40</td>
-                    </tr>
-                    <tr>
-                        <td>Marine Fuel</td>
-                        <td>ISO 8217</td>
-                        <td>Sulfur limits, viscosity</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- U.S. Major Cities Map -->
-        <section id="us-map-section">
-            <h2 class="section-title">U.S. Major Cities Map</h2>
-            <p>This map displays major U.S. cities using Leaflet.</p>
-
-            <div id="us-map"></div>
-        </section>
-
+            <!-- MAP TAB -->
+            <div id="map" class="tab-content">
+                <h2 class="section-title">U.S. Major Cities Map</h2>
+                <p>This map displays major U.S. cities using Leaflet.</p>
+                <div id="us-map"></div>
+            </div>
+        </div>
     </main>
 
     <!-- Shared footer include -->
@@ -210,10 +176,30 @@
         crossorigin=""
     ></script>
 
+    <!-- TAB SWITCHING -->
     <script>
+        function openTab(evt, tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+
+            if (tabName === 'map') {
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 200);
+            }
+        }
+    </script>
+
+    <!-- LEAFLET MAP INITIALIZATION -->
+    <script>
+    let map;
+
     document.addEventListener("DOMContentLoaded", function () {
 
-        const map = L.map('us-map').setView([39.5, -98.35], 4);
+        map = L.map('us-map').setView([39.5, -98.35], 4);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -235,7 +221,6 @@
         cities.forEach(city => {
             L.marker([city[1], city[2]]).addTo(map).bindPopup(`<b>${city[0]}</b>`);
         });
-
     });
     </script>
 
