@@ -183,7 +183,7 @@ new Chart(document.getElementById('texasVMTChart'), {
     });
 
     // Load articles from GitHub JSON
-    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/articles.json")
+    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/transportation.json")
         .then(response => response.json())
         .then(articles => {
             const container = document.getElementById("articles-container");
