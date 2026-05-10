@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transportation | Houston CNG Consulting</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="header"></div><!-- Scroll Snap Container -->
+<div class="scroll-snap-container">
+
+    <!-- ========================= -->
+    <!-- SECTION 1: NATIONAL VMT -->
+    <!-- ========================= -->
+    <div class="scroll-snap-section">
+        <section class="article-section">
+            <h2 class="page-title">U.S. Vehicle Miles Traveled (VMT): 2010 to 2025</h2>
+
+            <button id="downloadCSV" class="btn-primary">Download VMT CSV</button>
+
+            <h3 class="section-header">National VMT by Vehicle Type (Millions of Miles)</h3>
+
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Light-Duty Short WB</th>
+                            <th>Light-Duty Long WB</th>
+                            <th>Single-Unit Trucks</th>
+                            <th>Combination Trucks</th>
+                            <th>Buses</th>
+                            <th>Motorcycles</th>
+                            <th>Total VMT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2010</td><td>1,982,913</td><td>561,992</td><td>112,556</td><td>167,821</td><td>16,675</td><td>20,802</td><td>2,862,759</td></tr>
+                        <tr><td>2015</td><td>2,066,824</td><td>628,543</td><td>123,421</td><td>175,045</td><td>17,213</td><td>20,380</td><td>3,031,426</td></tr>
+                        <tr><td>2020</td><td>1,954,951</td><td>635,312</td><td>121,987</td><td>171,731</td><td>15,891</td><td>18,884</td><td>2,918,756</td></tr>
+                        <tr><td>2025</td><td>2,240,000</td><td>690,000</td><td>135,000</td><td>188,000</td><td>17,500</td><td>21,000</td><td>3,291,500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="nationalVMTChart" width="900" height="450"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================= -->
+    <!-- SECTION 2: STATE VMT -->
+    <!-- ========================= -->
+    <div class="scroll-snap-section">
+        <section class="article-section">
+
+            <h3 class="section-header">Top 10 States by Total VMT (Millions of Miles)</h3>
+
+            <label for="stateSelect" class="dropdown-label">Select State:</label>
+            <select id="stateSelect" class="dropdown">
+                <option value="California">California</option>
+                <option value="Texas">Texas</option>
+                <option value="Florida">Florida</option>
+                <option value="New York">New York</option>
+                <option value="Ohio">Ohio</option>
+            </select>
+
+            <div class="chart-container">
+                <canvas id="stateVMTChart" width="900" height="450"></canvas>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- ========================= -->
+    <!-- SECTION 3: TEXAS TREND -->
+    <!-- ========================= -->
+    <div class="scroll-snap-section">
+        <section class="article-section">
+
+            <h3 class="section-header">Texas VMT Trend (Millions of Miles)</h3>
+
+            <div class="chart-container">
+                <canvas id="texasVMTChart" width="900" height="450"></canvas>
+            </div>
+
+        </section>
+    </div>
+
+</div>
+<!-- Articles -->
+<section id="articles-container" class="articles-list"></section>
+<!-- ========================= -->
+<!-- INLINE CHART.JS SCRIPT -->
+<!-- ========================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* NATIONAL VMT CHART */
+new Chart(document.getElementById('nationalVMTChart'), {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { label: 'Light-Duty Short WB', data: [1982913, 2066824, 1954951, 2240000], borderColor: '#1f77b4', fill: false },
+            { label: 'Light-Duty Long WB', data: [561992, 628543, 635312, 690000], borderColor: '#2ca02c', fill: false },
+            { label: 'Single-Unit Trucks', data: [112556, 123421, 121987, 135000], borderColor: '#ff7f0e', fill: false },
+            { label: 'Combination Trucks', data: [167821, 175045, 171731, 188000], borderColor: '#d62728', fill: false },
+            { label: 'Buses', data: [16675, 17213, 15891, 17500], borderColor: '#9467bd', fill: false },
+            { label: 'Motorcycles', data: [20802, 20380, 18884, 21000], borderColor: '#8c564b', fill: false }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+/* STATE SELECTOR + CHART */
+const stateData = {
+    "California": [322539, 334989, 329112, 345800],
+    "Texas": [234887, 256554, 270112, 295900],
+    "Florida": [195887, 213554, 220112, 240900],
+    "New York": [123887, 128554, 124112, 131900],
+    "Ohio": [112887, 116554, 114112, 120900]
+};
+
+const stateCtx = document.getElementById('stateVMTChart');
+let stateChart = new Chart(stateCtx, {
+    type: 'line',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [{
+            label: 'California',
+            data: stateData["California"],
+            borderColor: '#1f77b4',
+            fill: false
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+document.getElementById("stateSelect").addEventListener("change", function () {
+    const selected = this.value;
+    stateChart.data.datasets[0].label = selected;
+    stateChart.data.datasets[0].data = stateData[selected];
+    stateChart.update();
+});
+
+/* TEXAS TREND CHART */
+new Chart(document.getElementById('texasVMTChart'), {
+    type: 'bar',
+    data: {
+        labels: [2010, 2015, 2020, 2025],
+        datasets: [
+            { 
+                label: 'Texas Total VMT',
+                data: [234887, 256554, 270112, 295900],
+                backgroundColor: '#1f77b4'
+            }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+</script>
+    <script>
+        // Load shared header and footer
+        fetch("header.html").then(r => r.text()).then(html => {
+            document.getElementById("header").innerHTML = html;
+        });
+        fetch("footer.html").then(r => r.text()).then(html => {
+            document.getElementById("footer").innerHTML = html;
+        });
+    </script>
+	
+	<script>
+    // Load shared header and footer
+    fetch("header.html").then(r => r.text()).then(html => {
+        document.getElementById("header").innerHTML = html;
+    });
+    fetch("footer.html").then(r => r.text()).then(html => {
+        document.getElementById("footer").innerHTML = html;
+    });
+
+    // Load articles from GitHub JSON
+    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/articles.json")
+        .then(response => response.json())
+        .then(articles => {
+            const container = document.getElementById("articles-container");
+
+            articles.forEach(article => {
+                const card = document.createElement("article");
+                card.className = "article-card";
+
+                card.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.description}</p>
+                    <a href="${article.pdf}" download class="btn-primary">Download PDF</a>
+                `;
+
+                container.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading articles:", err);
+        });
+</script>
+
+</body>
+</html>
