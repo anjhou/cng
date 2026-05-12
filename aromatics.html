@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aromatics</title>
-  <link rel="stylesheet" href="/static/data/header.css" />
+  <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
 
 <body>
@@ -12,7 +12,7 @@
   <!-- Shared Header -->
   <div id="header-placeholder"></div>
   <script>
-    fetch('/header.html')
+    fetch('/static/includes/header.html')
       .then(res => res.text())
       .then(html => document.getElementById('header-placeholder').innerHTML = html);
   </script>
@@ -30,11 +30,11 @@
     </section>
 
     <script type="module">
-      import { renderCsvMultiSeriesChart } from '/engineeringCharts.js';
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
       renderCsvMultiSeriesChart({
         canvasId: 'benzeneDemandChart',
-        csvPath: '/data/us_benzene_demand_2020_2025.csv',
+        csvPath: '/static/data/us_benzene_demand_2020_2025.csv',
         xKey: 'Year',
         yKeys: ['Demand_MMT'],
         chartTitle: 'U.S. Benzene Demand (2020–2025)',
@@ -51,11 +51,11 @@
     </section>
 
     <script type="module">
-      import { renderCsvMultiSeriesChart } from '/engineeringCharts.js';
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
       renderCsvMultiSeriesChart({
         canvasId: 'tolueneDemandChart',
-        csvPath: '/data/toluene_demand_2020_2025.csv',
+        csvPath: '/static/data/toluene_demand_2020_2025.csv',
         xKey: 'Year',
         yKeys: ['Demand_MMT'],
         chartTitle: 'U.S. Toluene Demand (2020–2025)',
@@ -72,11 +72,11 @@
     </section>
 
     <script type="module">
-      import { renderCsvMultiSeriesChart } from '/engineeringCharts.js';
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
       renderCsvMultiSeriesChart({
         canvasId: 'pxDemandChart',
-        csvPath: '/data/px_demand_2020_2025.csv',
+        csvPath: '/static/data/px_demand_2020_2025.csv',
         xKey: 'Year',
         yKeys: ['Demand_MMT'],
         chartTitle: 'U.S. PX Demand (2020–2025)',
@@ -93,11 +93,11 @@
     </section>
 
     <script type="module">
-      import { renderCsvMultiSeriesChart } from '/engineeringCharts.js';
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
       renderCsvMultiSeriesChart({
         canvasId: 'oxDemandChart',
-        csvPath: '/data/ox_demand_2020_2025.csv',
+        csvPath: '/static/data/ox_demand_2020_2025.csv',
         xKey: 'Year',
         yKeys: ['Demand_MMT'],
         chartTitle: 'U.S. OX Demand (2020–2025)',
@@ -114,11 +114,11 @@
     </section>
 
     <script type="module">
-      import { renderCsvMultiSeriesChart } from '/engineeringCharts.js';
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
       renderCsvMultiSeriesChart({
         canvasId: 'mxDemandChart',
-        csvPath: '/data/mx_demand_2020_2025.csv',
+        csvPath: '/static/data/mx_demand_2020_2025.csv',
         xKey: 'Year',
         yKeys: ['Demand_MMT'],
         chartTitle: 'U.S. MX Demand (2020–2025)',
@@ -131,7 +131,7 @@
   <!-- Shared Footer -->
   <div id="footer-placeholder"></div>
   <script>
-    fetch('/footer.html')
+    fetch('/static/includes/footer.html')
       .then(res => res.text())
       .then(html => document.getElementById('footer-placeholder').innerHTML = html);
   </script>
