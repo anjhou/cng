@@ -48,7 +48,6 @@ export function renderExpCurve(canvasId, inputId, buttonId) {
         return { xValues, yValues };
     }
 
-    // Plugin for top-left text overlay
     const topLeftTextPlugin = {
         id: "topLeftTextPlugin",
         afterDraw(chart, args, options) {
@@ -155,7 +154,7 @@ export function renderTemperatureChart(canvasId) {
 }
 
 /* ============================================================
-   3. CSV MULTI‑SERIES CHART
+   3. CSV MULTI‑SERIES CHART (FILE INPUT)
    ============================================================ */
 export function renderMultiSeriesCSV(canvasId, fileInputId) {
 
@@ -200,6 +199,49 @@ export function renderMultiSeriesCSV(canvasId, fileInputId) {
                     }
                 }
             });
+        });
+    });
+}
+
+/* ============================================================
+   4. CSV MULTI‑SERIES CHART (STATIC CSV PATH)
+   ============================================================ */
+export function renderCsvMultiSeriesChart({ 
+    canvasId, csvPath, xKey, yKeys, chartTitle, yLabel 
+}) {
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const canvas = document.getElementById(canvasId);
+
+        const response = await fetch(csvPath);
+        const text = await response.text();
+
+        const rows = text.trim().split("\n").map(r => r.split(","));
+        const headers = rows[0];
+        const dataRows = rows.slice(1);
+
+        const labels = dataRows.map(r => r[headers.indexOf(xKey)]);
+
+        const datasets = yKeys.map((key, idx) => ({
+            label: key,
+            data: dataRows.map(r => parseFloat(r[headers.indexOf(key)])),
+            borderColor: colorPalette[idx % colorPalette.length],
+            borderWidth: 2
+        }));
+
+        new Chart(canvas, {
+            type: "line",
+            data: { labels, datasets },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: chartTitle }
+                },
+                scales: {
+                    x: { title: { display: true, text: xKey } },
+                    y: { title: { display: true, text: yLabel } }
+                }
+            }
         });
     });
 }
