@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aromatics</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+
+<body>
+
+  <!-- Shared Header -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('/static/includes/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('header-placeholder').innerHTML = html);
+  </script>
+
+  <main>
+
+    <h1>Aromatics (BTX)</h1>
+
+    <!-- ========================= -->
+    <!-- BENZENE DEMAND CHART -->
+    <!-- ========================= -->
+    <section class="chart-section">
+      <h2>U.S. Benzene Demand (2020–2025)</h2>
+      <canvas id="benzeneDemandChart"></canvas>
+    </section>
+
+    <script type="module">
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+
+      renderCsvMultiSeriesChart({
+        canvasId: 'benzeneDemandChart',
+        csvPath: '/static/data/us_benzene_demand_2020_2025.csv',
+        xKey: 'Year',
+        yKeys: ['Demand_MMT'],
+        chartTitle: 'U.S. Benzene Demand (2020–2025)',
+        yLabel: 'Demand (MMT)'
+      });
+    </script>
+
+    <!-- ========================= -->
+    <!-- TOLUENE DEMAND CHART -->
+    <!-- ========================= -->
+    <section class="chart-section">
+      <h2>U.S. Toluene Demand (2020–2025)</h2>
+      <canvas id="tolueneDemandChart"></canvas>
+    </section>
+
+    <script type="module">
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+
+      renderCsvMultiSeriesChart({
+        canvasId: 'tolueneDemandChart',
+        csvPath: '/static/data/toluene_demand_2020_2025.csv',
+        xKey: 'Year',
+        yKeys: ['Demand_MMT'],
+        chartTitle: 'U.S. Toluene Demand (2020–2025)',
+        yLabel: 'Demand (MMT)'
+      });
+    </script>
+
+    <!-- ========================= -->
+    <!-- PARAXYLENE (PX) DEMAND -->
+    <!-- ========================= -->
+    <section class="chart-section">
+      <h2>U.S. Paraxylene (PX) Demand (2020–2025)</h2>
+      <canvas id="pxDemandChart"></canvas>
+    </section>
+
+    <script type="module">
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+
+      renderCsvMultiSeriesChart({
+        canvasId: 'pxDemandChart',
+        csvPath: '/static/data/px_demand_2020_2025.csv',
+        xKey: 'Year',
+        yKeys: ['Demand_MMT'],
+        chartTitle: 'U.S. PX Demand (2020–2025)',
+        yLabel: 'Demand (MMT)'
+      });
+    </script>
+
+    <!-- ========================= -->
+    <!-- ORTHOXYLENE (OX) DEMAND -->
+    <!-- ========================= -->
+    <section class="chart-section">
+      <h2>U.S. Orthoxylene (OX) Demand (2020–2025)</h2>
+      <canvas id="oxDemandChart"></canvas>
+    </section>
+
+    <script type="module">
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+
+      renderCsvMultiSeriesChart({
+        canvasId: 'oxDemandChart',
+        csvPath: '/static/data/ox_demand_2020_2025.csv',
+        xKey: 'Year',
+        yKeys: ['Demand_MMT'],
+        chartTitle: 'U.S. OX Demand (2020–2025)',
+        yLabel: 'Demand (MMT)'
+      });
+    </script>
+
+    <!-- ========================= -->
+    <!-- MIXED XYLENES (MX) DEMAND -->
+    <!-- ========================= -->
+    <section class="chart-section">
+      <h2>U.S. Mixed Xylenes (MX) Demand (2020–2025)</h2>
+      <canvas id="mxDemandChart"></canvas>
+    </section>
+
+    <script type="module">
+      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+
+      renderCsvMultiSeriesChart({
+        canvasId: 'mxDemandChart',
+        csvPath: '/static/data/mx_demand_2020_2025.csv',
+        xKey: 'Year',
+        yKeys: ['Demand_MMT'],
+        chartTitle: 'U.S. MX Demand (2020–2025)',
+        yLabel: 'Demand (MMT)'
+      });
+    </script>
+
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('/static/includes/footer.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('footer-placeholder').innerHTML = html);
+  </script>
+
+</body>
+</html>
