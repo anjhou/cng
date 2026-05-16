@@ -168,8 +168,8 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*position: relative;
-    z-index: 2000; */ /* Always on top */
+    position: relative;
+    z-index: 2000; /**/ /* Always on top */
 }
 
 /* Hamburger */
