@@ -82,18 +82,138 @@
 </header>
 
 <style>
+/* Header Layout */
 .site-header {
     background: #0b1e39;
     color: white;
     padding: 10px 20px;
     border-bottom: 3px solid #4a90e2;
-    /*position: relative;
-    z-index: 1000;*/
 }
+
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* Hamburger */
+.nav-toggle {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+/* Navigation (desktop base) */
+
+header nav a,
+header .logo,
+header .site-title {
+    color: #ffffff !important;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+}
+
+/* Dropdown button */
+.dropdown-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Dropdown menu */
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+    background: #102544;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+}
+
+.dropdown-content a {
+    padding: 6px 0;
+}
+
+/* Nested dropdown (EPC) */
+.dropdown.nested {
+    position: relative;
+    padding-left: 10px;
+}
+
+.nested-btn {
+    font-size: 15px;
+}
+
+.nested-content {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: #102544;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    display: none;
+}
+
+/* Desktop hover behavior */
+@media (min-width: 769px) {
+    .dropdown:hover > .dropdown-content {
+        display: flex;
+    }
+    .dropdown.nested:hover > .nested-content {
+        display: flex;
+    }
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Hide nav by default, show when expanded */
+    nav {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    nav.nav-expanded {
+        display: flex;
+    }
+
+    /* Dropdowns inline on mobile */
+    .dropdown-content,
+    .nested-content {
+        position: relative;
+        border: none;
+        background: none;
+        padding-left: 15px;
+    }
 }
 </style>
 <link rel="stylesheet" href="static/css/global-styles.css">
