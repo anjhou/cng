@@ -1,0 +1,268 @@
+/* ============================================================
+   GLOBAL THEME VARIABLES — Deep Blue / Silver
+   ============================================================ */
+:root {
+    --deep-blue: #1f3b5c;
+    --dark-blue: #0d1a2b;
+    --silver: #c0c7d1;
+    --light-silver: #e4e7eb;
+    --text-dark: #222;
+    --text-light: #f5f5f5;
+    --accent-blue: #1f77b4;
+}
+
+/* ============================================================
+   GLOBAL RESET
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fafafa;
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding-bottom: 60px;
+}
+
+/* ============================================================
+   PAGE LAYOUT
+   ============================================================ */
+main {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    color: var(--deep-blue);
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.6rem;
+    color: var(--deep-blue);
+    margin-bottom: 15px;
+}
+
+/* ============================================================
+   HEADER (Unified from header.css + theme.css)
+   ============================================================ */
+header {
+    background-color: var(--deep-blue);
+    color: #ffffff;
+    padding: 20px 0;
+    border-bottom: 4px solid var(--silver);
+}
+
+.header-inner {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff !important;
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+}
+
+nav a {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover {
+    background-color: var(--silver);
+    color: var(--deep-blue) !important;
+}
+
+/* Submenus */
+.has-submenu {
+    position: relative;
+}
+
+.nav-level-1 {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-level-2 {
+    display: none;
+    position: absolute;
+    background-color: var(--deep-blue);
+    border: 1px solid var(--silver);
+    padding: 10px 0;
+    border-radius: 4px;
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.has-submenu.open > .nav-level-2 {
+    display: block;
+}
+
+.nav-level-2 a {
+    display: block;
+    padding: 8px 14px;
+    color: #ffffff !important;
+}
+
+.nav-level-2 a:hover {
+    background-color: var(--silver);
+    color: var(--deep-blue) !important;
+}
+
+/* Mobile Menu */
+#menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    #menu-toggle {
+        display: block;
+    }
+
+    #nav-menu {
+        display: none;
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    #nav-menu.open {
+        display: block;
+    }
+
+    .nav-level-1 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-level-2 {
+        position: static;
+        border: none;
+        background: var(--deep-blue);
+    }
+}
+
+/* ============================================================
+   FOOTER (Unified from footer.css + theme.css)
+   ============================================================ */
+footer {
+    background-color: var(--deep-blue);
+    color: #ffffff;
+    text-align: center;
+    padding: 18px 0;
+    margin-top: 40px;
+    border-top: 4px solid var(--silver);
+    font-size: 16px;
+    letter-spacing: 0.3px;
+}
+
+footer a {
+    color: var(--silver);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    footer {
+        font-size: 14px;
+        padding: 14px 0;
+    }
+}
+
+/* ============================================================
+   CHART SECTIONS
+   ============================================================ */
+.chart-section {
+    background: white;
+    border: 1px solid var(--light-silver);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.chart-section canvas {
+    width: 100% !important;
+    height: 420px !important;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.95rem;
+}
+
+table th {
+    background: var(--deep-blue);
+    color: var(--text-light);
+    padding: 10px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--light-silver);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+button, .btn {
+    background-color: var(--deep-blue);
+    color: #ffffff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #16304a;
+}
+
+button:disabled {
+    background-color: #4a5560;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    main {
+        padding: 0 15px;
+    }
+}
