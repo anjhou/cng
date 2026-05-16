@@ -68,6 +68,12 @@
   </style>
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
   <header>
     <h1>Global Refineries & Major International Airports</h1>
   </header>
@@ -202,5 +208,10 @@
     };
     legend.addTo(map);
   </script>
+  
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>
