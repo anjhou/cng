@@ -84,6 +84,13 @@
 
 <body>
 
+
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <div data-include-html="header.html"></div>
 
 <div class="container">
@@ -262,5 +269,9 @@
     });
 </script>
 
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>
