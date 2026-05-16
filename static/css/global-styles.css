@@ -150,13 +150,13 @@ section {
 }
 
 /* ============================================================
-   HEADER (Unified + New Dropdown System)
+   HEADER (White Font Everywhere)
    ============================================================ */
 
 /* Main header container */
 .site-header {
     background: #0b1e39;
-    color: white;
+    color: #ffffff;
     padding: 10px 20px;
     border-bottom: 3px solid #4a90e2;
 }
@@ -172,7 +172,7 @@ section {
     font-size: 26px;
     background: none;
     border: none;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
     display: none;
 }
@@ -191,7 +191,7 @@ nav {
 }
 
 nav a {
-    color: white;
+    color: #ffffff !important;
     text-decoration: none;
     font-weight: 500;
 }
@@ -205,7 +205,7 @@ nav a {
 .dropdown-btn {
     background: none;
     border: none;
-    color: white;
+    color: #ffffff;
     font-size: 16px;
     cursor: pointer;
     padding: 0;
@@ -226,9 +226,10 @@ nav a {
 
 .dropdown-content a {
     padding: 6px 0;
+    color: #ffffff !important;
 }
 
-/* Nested dropdown (EPC) */
+/* Nested dropdown */
 .dropdown.nested {
     position: relative;
     padding-left: 10px;
@@ -236,6 +237,7 @@ nav a {
 
 .nested-btn {
     font-size: 15px;
+    color: #ffffff !important;
 }
 
 .nested-content {
@@ -248,7 +250,11 @@ nav a {
     display: none;
 }
 
-/* Desktop hover behavior */
+.nested-content a {
+    color: #ffffff !important;
+}
+
+/* Desktop hover */
 @media (min-width: 769px) {
     .dropdown:hover > .dropdown-content {
         display: flex;
