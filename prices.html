@@ -93,17 +93,8 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
-	<script type="module">
-			import {
-				loadCSVChart,
-				loadMultiSeriesChart,
-				loadPriceTable
-			} from "/static/charts-and-tables.js";
-
-			loadCSVChart("/data/mydata.csv", "csvChart");
-			loadMultiSeriesChart("/data/multiseries.csv", "multiSeriesChart");
-			loadPriceTable("/data/prices.csv", "priceTableContainer");
-	</script>
+	<script src="/scripts/charts-and-tables.js"></script>
+	
 
 
 
