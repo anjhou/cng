@@ -1,4 +1,4 @@
-product,price,date
-Gasoline,2.95,2024-05-01
-Diesel,3.45,2024-05-01
-Jet Fuel,2.75,2024-05-01
+Month,RBOB Gasoline (USGC),Conventional Gasoline (USGC),ULSD (USGC),Jet Fuel (USGC),Heating Oil (USGC),Propane Wholesale (USGC),Naphtha (USGC)
+2026-04,2.31,2.239,2.365,2.338,2.42,0.910,1.63
+2026-03,2.57,2.485,2.734,2.699,2.68,0.853,1.78
+2026-02,2.09,2.017,2.222,2.114,2.41,0.829,1.55
