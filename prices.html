@@ -36,15 +36,6 @@
 	<script>
 	fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 	</script>
-
-    <script>
-        // Load shared header and footer
-        ["header", "footer"].forEach(function (id) {
-            fetch(id + ".html")
-                .then(function (res) { return res.text(); })
-                .then(function (data) { document.getElementById(id).innerHTML = data; });
-        });
-    </script>
 	
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
