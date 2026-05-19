@@ -20,6 +20,10 @@
   </style>
 </head>
 <body>
+		<div id="header"></div>
+		<script>
+		fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+		</script>
 
 <h1>Gasoline Blend Optimization Calculator</h1>
 <div class="subtitle">
@@ -112,6 +116,11 @@
 <button class="btn" id="optimizeBtn">Optimize Blend</button>
 
 <div id="results" class="results" style="display:none;"></div>
+
+		<div id="footer"></div>
+		<script>
+		fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+		</script>
 
 <script>
 function readComp(i) {
