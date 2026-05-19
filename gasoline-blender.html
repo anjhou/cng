@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gasoline Blend Optimization Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; max-width: 950px; }
+    h1 { margin-bottom: 0.2rem; }
+    .subtitle { color: #555; margin-bottom: 1rem; font-size: 0.9rem; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: center; font-size: 0.9rem; }
+    th { background: #f2f2f2; }
+    input[type="number"], input[type="text"] { width: 90px; }
+    .btn { padding: 8px 14px; background: #004b8d; color: #fff; border: none; cursor: pointer; border-radius: 3px; font-size: 0.9rem; }
+    .results { margin-top: 1rem; padding: 10px; border-radius: 4px; border: 1px solid #ccc; background: #fafafa; font-size: 0.9rem; }
+    .ok { border-color: #2e7d32; }
+    .fail { border-color: #c62828; }
+    .label { font-weight: bold; }
+    .row-header { text-align: left; font-weight: bold; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+
+<h1>Gasoline Blend Optimization Calculator</h1>
+<div class="subtitle">
+  3 component gasoline blend optimizer minimizing cost while meeting RON, MON, AKI, RVP, sulfur, aromatics, and benzene specs.
+</div>
+
+<h2>Component Data</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Label</th>
+      <th>RON</th>
+      <th>MON</th>
+      <th>RVP (psi)</th>
+      <th>Sulfur (ppm)</th>
+      <th>Aromatics (%)</th>
+      <th>Benzene (%)</th>
+      <th>Density (kg/m³)</th>
+      <th>Price ($/gal)</th>
+      <th>Min %</th>
+      <th>Max %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="row-header">Comp 1</td>
+      <td><input type="text" id="c1_label" value="Reformate" /></td>
+      <td><input type="number" id="c1_ron" value="98" /></td>
+      <td><input type="number" id="c1_mon" value="88" /></td>
+      <td><input type="number" id="c1_rvp" value="2" /></td>
+      <td><input type="number" id="c1_s" value="30" /></td>
+      <td><input type="number" id="c1_arom" value="65" /></td>
+      <td><input type="number" id="c1_benz" value="3" /></td>
+      <td><input type="number" id="c1_rho" value="780" /></td>
+      <td><input type="number" id="c1_price" value="2.20" step="0.01" /></td>
+      <td><input type="number" id="c1_min" value="0" /></td>
+      <td><input type="number" id="c1_max" value="100" /></td>
+    </tr>
+
+    <tr>
+      <td class="row-header">Comp 2</td>
+      <td><input type="text" id="c2_label" value="Alkylate" /></td>
+      <td><input type="number" id="c2_ron" value="94" /></td>
+      <td><input type="number" id="c2_mon" value="92" /></td>
+      <td><input type="number" id="c2_rvp" value="5" /></td>
+      <td><input type="number" id="c2_s" value="5" /></td>
+      <td><input type="number" id="c2_arom" value="2" /></td>
+      <td><input type="number" id="c2_benz" value="0.1" /></td>
+      <td><input type="number" id="c2_rho" value="700" /></td>
+      <td><input type="number" id="c2_price" value="2.50" step="0.01" /></td>
+      <td><input type="number" id="c2_min" value="0" /></td>
+      <td><input type="number" id="c2_max" value="100" /></td>
+    </tr>
+
+    <tr>
+      <td class="row-header">Comp 3</td>
+      <td><input type="text" id="c3_label" value="FCC Naphtha" /></td>
+      <td><input type="number" id="c3_ron" value="90" /></td>
+      <td><input type="number" id="c3_mon" value="80" /></td>
+      <td><input type="number" id="c3_rvp" value="10" /></td>
+      <td><input type="number" id="c3_s" value="150" /></td>
+      <td><input type="number" id="c3_arom" value="25" /></td>
+      <td><input type="number" id="c3_benz" value="1" /></td>
+      <td><input type="number" id="c3_rho" value="740" /></td>
+      <td><input type="number" id="c3_price" value="1.80" step="0.01" /></td>
+      <td><input type="number" id="c3_min" value="0" /></td>
+      <td><input type="number" id="c3_max" value="100" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Blend Specifications</h2>
+<table>
+  <tbody>
+    <tr><td class="row-header">Min RON</td><td><input type="number" id="spec_ron" value="93" /></td></tr>
+    <tr><td class="row-header">Min MON</td><td><input type="number" id="spec_mon" value="83" /></td></tr>
+    <tr><td class="row-header">Max RVP (psi)</td><td><input type="number" id="spec_rvp" value="7" /></td></tr>
+    <tr><td class="row-header">Max Sulfur (ppm)</td><td><input type="number" id="spec_s" value="30" /></td></tr>
+    <tr><td class="row-header">Max Aromatics (%)</td><td><input type="number" id="spec_arom" value="35" /></td></tr>
+    <tr><td class="row-header">Max Benzene (%)</td><td><input type="number" id="spec_benz" value="1.0" /></td></tr>
+    <tr><td class="row-header">Max Cost ($/gal)</td><td><input type="number" id="spec_cost" /></td></tr>
+    <tr>
+      <td class="row-header">Search Step (%)</td>
+      <td><input type="number" id="step_pct" value="2" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn" id="optimizeBtn">Optimize Blend</button>
+
+<div id="results" class="results" style="display:none;"></div>
+
+<script>
+function readComp(i) {
+  return {
+    label: document.getElementById(`c${i}_label`).value,
+    ron: parseFloat(document.getElementById(`c${i}_ron`).value),
+    mon: parseFloat(document.getElementById(`c${i}_mon`).value),
+    rvp: parseFloat(document.getElementById(`c${i}_rvp`).value),
+    s: parseFloat(document.getElementById(`c${i}_s`).value),
+    arom: parseFloat(document.getElementById(`c${i}_arom`).value),
+    benz: parseFloat(document.getElementById(`c${i}_benz`).value),
+    rho: parseFloat(document.getElementById(`c${i}_rho`).value),
+    price: parseFloat(document.getElementById(`c${i}_price`).value),
+    minPct: parseFloat(document.getElementById(`c${i}_min`).value)/100,
+    maxPct: parseFloat(document.getElementById(`c${i}_max`).value)/100
+  };
+}
+
+function optimize() {
+  const c1 = readComp(1), c2 = readComp(2), c3 = readComp(3);
+
+  const specRON = parseFloat(document.getElementById("spec_ron").value);
+  const specMON = parseFloat(document.getElementById("spec_mon").value);
+  const specRVP = parseFloat(document.getElementById("spec_rvp").value);
+  const specS   = parseFloat(document.getElementById("spec_s").value);
+  const specArom = parseFloat(document.getElementById("spec_arom").value);
+  const specBenz = parseFloat(document.getElementById("spec_benz").value);
+  const specCost = parseFloat(document.getElementById("spec_cost").value);
+  const step = parseFloat(document.getElementById("step_pct").value)/100;
+
+  let best = null;
+
+  for (let x1 = c1.minPct; x1 <= c1.maxPct + 1e-9; x1 += step) {
+    for (let x2 = c2.minPct; x2 <= c2.maxPct + 1e-9; x2 += step) {
+      const x3 = 1 - x1 - x2;
+      if (x3 < c3.minPct - 1e-9 || x3 > c3.maxPct + 1e-9) continue;
+
+      const ron = x1*c1.ron + x2*c2.ron + x3*c3.ron;
+      const mon = x1*c1.mon + x2*c2.mon + x3*c3.mon;
+      const rvp = x1*c1.rvp + x2*c2.rvp + x3*c3.rvp;
+
+      const m1 = x1*c1.rho, m2 = x2*c2.rho, m3 = x3*c3.rho;
+      const mt = m1+m2+m3;
+
+      const s = (m1*c1.s + m2*c2.s + m3*c3.s)/mt;
+      const arom = (m1*c1.arom + m2*c2.arom + m3*c3.arom)/mt;
+      const benz = (m1*c1.benz + m2*c2.benz + m3*c3.benz)/mt;
+
+      const cost = x1*c1.price + x2*c2.price + x3*c3.price;
+
+      if (ron < specRON) continue;
+      if (mon < specMON) continue;
+      if (rvp > specRVP) continue;
+      if (s > specS) continue;
+      if (arom > specArom) continue;
+      if (benz > specBenz) continue;
+      if (!isNaN(specCost) && cost > specCost) continue;
+
+      if (!best || cost < best.cost) {
+        best = {x1,x2,x3,ron,mon,rvp,s,arom,benz,cost};
+      }
+    }
+  }
+
+  const div = document.getElementById("results");
+  div.style.display = "block";
+
+  if (!best) {
+    div.className = "results fail";
+    div.innerHTML = `<b>No feasible blend found.</b>`;
+    return;
+  }
+
+  div.className = "results ok";
+  div.innerHTML = `
+    <b>Optimal Blend Found</b><br><br>
+    ${c1.label}: ${(best.x1*100).toFixed(1)}%<br>
+    ${c2.label}: ${(best.x2*100).toFixed(1)}%<br>
+    ${c3.label}: ${(best.x3*100).toFixed(1)}%<br><br>
+
+    RON: ${best.ron.toFixed(2)}<br>
+    MON: ${best.mon.toFixed(2)}<br>
+    RVP: ${best.rvp.toFixed(2)} psi<br>
+    Sulfur: ${best.s.toFixed(1)} ppm<br>
+    Aromatics: ${best.arom.toFixed(1)}%<br>
+    Benzene: ${best.benz.toFixed(2)}%<br>
+    Cost: $${best.cost.toFixed(3)} /gal
+  `;
+}
+
+document.getElementById("optimizeBtn").addEventListener("click", optimize);
+</script>
+
+</body>
+</html>
