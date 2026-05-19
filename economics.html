@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3‑Variable Solver with Constraints</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        input { width: 80px; }
+        #result { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<h2>3‑Variable Minimizer (Bounds + Linear Constraints)</h2>
+
+<h3>Variables</h3>
+x1: <input id="x1" type="number" value="0">
+min: <input id="x1min" type="number" value="-10">
+max: <input id="x1max" type="number" value="10"><br><br>
+
+x2: <input id="x2" type="number" value="0">
+min: <input id="x2min" type="number" value="-10">
+max: <input id="x2max" type="number" value="10"><br><br>
+
+x3: <input id="x3" type="number" value="0">
+min: <input id="x3min" type="number" value="-10">
+max: <input id="x3max" type="number" value="10"><br><br>
+
+<h3>Linear Constraints</h3>
+Format: a1*x1 + a2*x2 + a3*x3  (≤, =, ≥)  RHS  
+<br><br>
+
+<div id="constraints"></div>
+
+<button onclick="addConstraint()">Add Constraint</button>
+<br><br>
+
+<button onclick="solve()">Run Solver</button>
+
+<div id="result"></div>
+
+<script>
+// Objective function — customize this
+function objective(x1, x2, x3) {
+    return (x1 - 3)**2 + (x2 + 1)**2 + (x3 - 2)**2;
+}
+
+// Add a new constraint row
+function addConstraint() {
+    const div = document.createElement("div");
+    div.innerHTML = `
+        <input type="number" class="a1" value="1"> x1 +
+        <input type="number" class="a2" value="1"> x2 +
+        <input type="number" class="a3" value="1"> x3
+        <select class="type">
+            <option value="<=">&le;</option>
+            <option value="=">=</option>
+            <option value=">=">&ge;</option>
+        </select>
+        <input type="number" class="rhs" value="5">
+        <br><br>
+    `;
+    document.getElementById("constraints").appendChild(div);
+}
+
+// Penalty for violating constraints
+function constraintPenalty(x1, x2, x3) {
+    let penalty = 0;
+    const rows = document.querySelectorAll("#constraints > div");
+
+    rows.forEach(row => {
+        const a1 = parseFloat(row.querySelector(".a1").value);
+        const a2 = parseFloat(row.querySelector(".a2").value);
+        const a3 = parseFloat(row.querySelector(".a3").value);
+        const type = row.querySelector(".type").value;
+        const rhs = parseFloat(row.querySelector(".rhs").value);
+
+        const lhs = a1*x1 + a2*x2 + a3*x3;
+
+        if (type === "<=" && lhs > rhs)
+            penalty += (lhs - rhs)**2 * 1000;
+
+        if (type === ">=" && lhs < rhs)
+            penalty += (rhs - lhs)**2 * 1000;
+
+        if (type === "=")
+            penalty += (lhs - rhs)**2 * 1000;
+    });
+
+    return penalty;
+}
+
+// Combined objective + penalties
+function totalObjective(x1, x2, x3) {
+    return objective(x1, x2, x3) + constraintPenalty(x1, x2, x3);
+}
+
+// Solver
+function solve() {
+    let x1 = parseFloat(document.getElementById("x1").value);
+    let x2 = parseFloat(document.getElementById("x2").value);
+    let x3 = parseFloat(document.getElementById("x3").value);
+
+    const min1 = parseFloat(document.getElementById("x1min").value);
+    const max1 = parseFloat(document.getElementById("x1max").value);
+    const min2 = parseFloat(document.getElementById("x2min").value);
+    const max2 = parseFloat(document.getElementById("x2max").value);
+    const min3 = parseFloat(document.getElementById("x3min").value);
+    const max3 = parseFloat(document.getElementById("x3max").value);
+
+    let step = 1.0;
+    let best = totalObjective(x1, x2, x3);
+
+    for (let iter = 0; iter < 8000; iter++) {
+        let nx1 = x1 + (Math.random() - 0.5) * step;
+        let nx2 = x2 + (Math.random() - 0.5) * step;
+        let nx3 = x3 + (Math.random() - 0.5) * step;
+
+        // Enforce bounds
+        nx1 = Math.max(min1, Math.min(max1, nx1));
+        nx2 = Math.max(min2, Math.min(max2, nx2));
+        nx3 = Math.max(min3, Math.min(max3, nx3));
+
+        let val = totalObjective(nx1, nx2, nx3);
+
+        if (val < best) {
+            best = val;
+            x1 = nx1;
+            x2 = nx2;
+            x3 = nx3;
+        }
+
+        if (iter % 2000 === 0) step *= 0.5;
+    }
+
+    document.getElementById("result").innerHTML =
+        `<b>Optimal Solution:</b><br>
+         x1 = ${x1.toFixed(4)}<br>
+         x2 = ${x2.toFixed(4)}<br>
+         x3 = ${x3.toFixed(4)}<br><br>
+         <b>Minimum Value:</b> ${best.toFixed(6)}`;
+}
+</script>
+
+</body>
+</html>
