@@ -27,7 +27,7 @@
     </section>
 	
 	<section>
-        <h2>U.S. Gasoline Price from mydata.csv</h2>
+        <h2>USGC Natural Gas Prices (USD/MMBtu)</h2>
         <canvas id="csvChart" width="600" height="300"></canvas>
     </section>
 
@@ -86,7 +86,7 @@
 
 <script>
 async function loadCSVChart() {
-    const response = await fetch('/data/mydata.csv');
+    const response = await fetch('/data/natural-gas.csv');
     const csvText = await response.text();
 
     const rows = csvText.trim().split('\n').slice(1); // skip header
