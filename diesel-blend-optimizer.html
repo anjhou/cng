@@ -72,6 +72,12 @@
   </style>
 </head>
 <body>
+
+	<div id="header"></div>
+	<script>
+	fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+	</script>
+
   <h1>Diesel Blend Optimization Calculator</h1>
   <div class="subtitle">
     3‑component diesel blend, minimizing cost while meeting cetane, sulfur, and density specs.
@@ -168,7 +174,11 @@
   <button class="btn" id="optimizeBtn">Optimize blend</button>
 
   <div id="results" class="results" style="display:none;"></div>
-
+	<div id="footer"></div>
+	<script>
+	fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+	</script>
+	
   <script>
     function readComponent(i) {
       return {
