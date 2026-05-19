@@ -1,6 +1,11 @@
-Blendstock,Cetane Index,Cetane Number,Specific Gravity,Viscosity (cSt @ 40C),Sulfur (ppm)
-Heavy Naphtha,20-35,25-40,0.730-0.760,0.5-1.0,10-300
-VGO (Vacuum Gas Oil),20-35,25-40,0.880-0.920,3.0-6.0,500-5000
-Straight-Run Gas Oil (SRGO),45-55,50-60,0.820-0.860,2.0-4.0,50-500
-Coker Gas Oil (CGO),15-30,20-35,0.900-0.940,3.5-7.0,5000-15000
-Hydrocracker Gas Oil (HCGO),50-60,55-65,0.800-0.840,2.0-3.5,5-50
+Blendstock,Cetane Index,Cetane Number,Specific Gravity,Viscosity (cSt @ 40C),Viscosity (cP @ 40C),Sulfur (ppm),Cloud Point (C),Pour Point (C),Aromatics (%),Polyaromatics (%),T95 (C)
+Heavy Naphtha,20-35,25-40,0.730-0.760,0.5-1.0,0.4-0.8,10-300,-40 to -20,-50 to -30,5-15,0-2,160-200
+VGO (Vacuum Gas Oil),20-35,25-40,0.880-0.920,3.0-6.0,2.6-5.5,500-5000,-5 to 5,-10 to 0,30-50,5-15,360-400
+Straight-Run Gas Oil (SRGO),45-55,50-60,0.820-0.860,2.0-4.0,1.7-3.5,50-500,-15 to -5,-25 to -10,20-30,2-6,320-360
+Coker Gas Oil (CGO),15-30,20-35,0.900-0.940,3.5-7.0,3.2-6.5,5000-15000,0 to 10,-5 to 5,40-60,10-20,360-420
+Hydrocracker Gas Oil (HCGO),50-60,55-65,0.800-0.840,2.0-3.5,1.6-3.0,5-50,-20 to -10,-30 to -20,5-15,0-2,300-340
+ULSD (Ultra-Low Sulfur Diesel),45-55,47-55,0.820-0.845,1.9-4.1,1.6-3.5,≤15,-20 to -10,-30 to -20,20-30,1-3,320-350
+LSD (Low Sulfur Diesel),40-50,42-50,0.830-0.860,2.0-4.5,1.8-3.9,500,-15 to -5,-25 to -10,25-35,2-5,320-360
+HSD (High Sulfur Diesel),40-50,42-50,0.830-0.870,2.0-5.0,1.8-4.5,5000-10000,-10 to 0,-20 to -5,30-40,5-10,330-380
+Heating Oil,35-45,40-50,0.830-0.880,2.0-6.0,1.8-5.3,5000-15000,-5 to 5,-15 to 0,30-45,5-12,340-400
+MGO (Marine Gas Oil),40-55,45-60,0.820-0.870,2.0-6.0,1.7-5.2,500-15000,-10 to 0,-20 to -5,20-40,3-10,340-380
