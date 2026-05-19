@@ -49,6 +49,11 @@ Format: a1*x1 + a2*x2 + a3*x3  (&le;, =, &ge;)  RHS
 <div id="blendstock-table-container"></div>
 </section>
 
+<h2>Diesel Blendstock Properties</h2>
+<section>
+<div id="diesel-blendstock-table-container"></div>
+</section>
+
 <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
@@ -156,12 +161,9 @@ function solve() {
          <b>Minimum Value:</b> ${best.toFixed(6)}`;
 }
 </script>
-
-
-
 <script>
-async function loadBlendstockTable() {
-    const response = await fetch('/data/blendstock_properties.csv');
+async function loadCSVTable(csvPath, containerId) {
+    const response = await fetch(csvPath);
     const csvText = await response.text();
 
     const rows = csvText.trim().split('\n').map(r => r.split(','));
@@ -195,11 +197,14 @@ async function loadBlendstockTable() {
     });
     table.appendChild(tbody);
 
-    document.getElementById('blendstock-table-container').appendChild(table);
+    document.getElementById(containerId).appendChild(table);
 }
 
-loadBlendstockTable();
+// Load both tables
+loadCSVTable('/data/blendstock_properties.csv', 'blendstock-table-container');
+loadCSVTable('/data/diesel_blendstock_properties.csv', 'diesel-blendstock-table-container');
 </script>
+
 
 
 </body>
