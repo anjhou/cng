@@ -15,7 +15,7 @@
 		fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 		</script>
 
-<h2>3‑Variable Minimizer (Bounds + Linear Constraints)</h2>
+<h2>3 Variable Minimizer (Bounds + Linear Constraints)</h2>
 
 <h3>Variables</h3>
 x1: <input id="x1" type="number" value="0">
@@ -31,7 +31,7 @@ min: <input id="x3min" type="number" value="-10">
 max: <input id="x3max" type="number" value="10"><br><br>
 
 <h3>Linear Constraints</h3>
-Format: a1*x1 + a2*x2 + a3*x3  (≤, =, ≥)  RHS  
+Format: a1*x1 + a2*x2 + a3*x3  (&le; =, &ge;)  RHS  
 <br><br>
 
 <div id="constraints"></div>
