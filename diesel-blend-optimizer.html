@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diesel Blend Optimization Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      max-width: 900px;
+    }
+    h1 {
+      margin-bottom: 0.2rem;
+    }
+    .subtitle {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #f2f2f2;
+    }
+    input[type="number"], input[type="text"] {
+      width: 90px;
+    }
+    .btn {
+      padding: 8px 14px;
+      background: #004b8d;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+    .btn:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+    .results {
+      margin-top: 1rem;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background: #fafafa;
+      font-size: 0.9rem;
+    }
+    .ok {
+      border-color: #2e7d32;
+    }
+    .fail {
+      border-color: #c62828;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .row-header {
+      text-align: left;
+      font-weight: bold;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Diesel Blend Optimization Calculator</h1>
+  <div class="subtitle">
+    3‑component diesel blend, minimizing cost while meeting cetane, sulfur, and density specs.
+    Fractions are optimized for a total blend of 100%.
+  </div>
+
+  <h2>Component data</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Label</th>
+        <th>Cetane<br>(CN)</th>
+        <th>Sulfur<br>(ppm)</th>
+        <th>Density<br>(kg/m³)</th>
+        <th>Price<br>($/L)</th>
+        <th>Min Vol %</th>
+        <th>Max Vol %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-header">Comp 1</td>
+        <td><input type="text" id="c1_label" value="ULSD base" /></td>
+        <td><input type="number" id="c1_cn" step="0.1" value="45" /></td>
+        <td><input type="number" id="c1_s" step="1" value="10" /></td>
+        <td><input type="number" id="c1_rho" step="1" value="830" /></td>
+        <td><input type="number" id="c1_price" step="0.001" value="0.80" /></td>
+        <td><input type="number" id="c1_min" step="1" value="0" /></td>
+        <td><input type="number" id="c1_max" step="1" value="100" /></td>
+      </tr>
+      <tr>
+        <td class="row-header">Comp 2</td>
+        <td><input type="text" id="c2_label" value="High CN stream" /></td>
+        <td><input type="number" id="c2_cn" step="0.1" value="60" /></td>
+        <td><input type="number" id="c2_s" step="1" value="5" /></td>
+        <td><input type="number" id="c2_rho" step="1" value="820" /></td>
+        <td><input type="number" id="c2_price" step="0.001" value="0.95" /></td>
+        <td><input type="number" id="c2_min" step="1" value="0" /></td>
+        <td><input type="number" id="c2_max" step="1" value="100" /></td>
+      </tr>
+      <tr>
+        <td class="row-header">Comp 3</td>
+        <td><input type="text" id="c3_label" value="Low sulfur stream" /></td>
+        <td><input type="number" id="c3_cn" step="0.1" value="50" /></td>
+        <td><input type="number" id="c3_s" step="1" value="2" /></td>
+        <td><input type="number" id="c3_rho" step="1" value="840" /></td>
+        <td><input type="number" id="c3_price" step="0.001" value="0.90" /></td>
+        <td><input type="number" id="c3_min" step="1" value="0" /></td>
+        <td><input type="number" id="c3_max" step="1" value="100" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Blend specifications</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td class="row-header">Cetane number</td>
+        <td class="label">Min CN</td>
+        <td><input type="number" id="spec_cn_min" step="0.1" value="51" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="row-header">Sulfur</td>
+        <td class="label">Max sulfur (ppm)</td>
+        <td><input type="number" id="spec_s_max" step="1" value="10" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="row-header">Density</td>
+        <td class="label">Min density (kg/m³)</td>
+        <td><input type="number" id="spec_rho_min" step="1" value="820" /></td>
+        <td class="label">Max density (kg/m³)</td>
+        <td><input type="number" id="spec_rho_max" step="1" value="845" /></td>
+      </tr>
+      <tr>
+        <td class="row-header">Cost</td>
+        <td class="label">Max cost ($/L, optional)</td>
+        <td><input type="number" id="spec_cost_max" step="0.001" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="row-header">Search resolution</td>
+        <td class="label">Step size (% per component)</td>
+        <td><input type="number" id="step_pct" step="1" value="2" /></td>
+        <td colspan="2" style="text-align:left;font-size:0.8rem;color:#555;">
+          Smaller step = finer search but slower (e.g. 1–2%). Total volume is fixed at 100%.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn" id="optimizeBtn">Optimize blend</button>
+
+  <div id="results" class="results" style="display:none;"></div>
+
+  <script>
+    function readComponent(i) {
+      return {
+        label: document.getElementById('c' + i + '_label').value || ('Comp ' + i),
+        cn: parseFloat(document.getElementById('c' + i + '_cn').value),
+        s: parseFloat(document.getElementById('c' + i + '_s').value),
+        rho: parseFloat(document.getElementById('c' + i + '_rho').value),
+        price: parseFloat(document.getElementById('c' + i + '_price').value),
+        minPct: parseFloat(document.getElementById('c' + i + '_min').value) || 0,
+        maxPct: parseFloat(document.getElementById('c' + i + '_max').value) || 100
+      };
+    }
+
+    function optimizeBlend() {
+      const c1 = readComponent(1);
+      const c2 = readComponent(2);
+      const c3 = readComponent(3);
+
+      const specCnMin = parseFloat(document.getElementById('spec_cn_min').value);
+      const specSMax = parseFloat(document.getElementById('spec_s_max').value);
+      const specRhoMin = parseFloat(document.getElementById('spec_rho_min').value);
+      const specRhoMax = parseFloat(document.getElementById('spec_rho_max').value);
+      const specCostMax = parseFloat(document.getElementById('spec_cost_max').value);
+      const stepPct = parseFloat(document.getElementById('step_pct').value) || 2;
+
+      const step = stepPct / 100.0;
+
+      let best = null;
+
+      // Convert min/max to fractions
+      const c1min = c1.minPct / 100.0, c1max = c1.maxPct / 100.0;
+      const c2min = c2.minPct / 100.0, c2max = c2.maxPct / 100.0;
+      const c3min = c3.minPct / 100.0, c3max = c3.maxPct / 100.0;
+
+      // Simple 2D loop; x3 is determined by 1 - x1 - x2
+      for (let x1 = c1min; x1 <= c1max + 1e-9; x1 += step) {
+        for (let x2 = c2min; x2 <= c2max + 1e-9; x2 += step) {
+          const x3 = 1.0 - x1 - x2;
+          if (x3 < c3min - 1e-9 || x3 > c3max + 1e-9) continue;
+          if (x3 < -1e-9) continue; // total > 100%
+          if (x3 > 1 + 1e-9) continue;
+
+          // Cetane (volume-based linear)
+          const cnBlend = x1 * c1.cn + x2 * c2.cn + x3 * c3.cn;
+
+          // Density (volume-based linear)
+          const rhoBlend = x1 * c1.rho + x2 * c2.rho + x3 * c3.rho;
+
+          // Mass fractions for sulfur (approximate)
+          const m1 = x1 * c1.rho;
+          const m2 = x2 * c2.rho;
+          const m3 = x3 * c3.rho;
+          const mTot = m1 + m2 + m3;
+          const sBlend = (m1 * c1.s + m2 * c2.s + m3 * c3.s) / (mTot || 1);
+
+          // Cost (volume-based)
+          const costBlend = x1 * c1.price + x2 * c2.price + x3 * c3.price;
+
+          // Check specs
+          if (cnBlend < specCnMin) continue;
+          if (sBlend > specSMax) continue;
+          if (rhoBlend < specRhoMin || rhoBlend > specRhoMax) continue;
+          if (!isNaN(specCostMax) && costBlend > specCostMax) continue;
+
+          if (!best || costBlend < best.cost) {
+            best = {
+              x1, x2, x3,
+              cn: cnBlend,
+              s: sBlend,
+              rho: rhoBlend,
+              cost: costBlend
+            };
+          }
+        }
+      }
+
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.style.display = 'block';
+
+      if (!best) {
+        resultsDiv.className = 'results fail';
+        resultsDiv.innerHTML = `
+          <div class="label">No feasible blend found.</div>
+          <p>Try relaxing one or more specs (e.g. lower CN minimum, higher sulfur max, wider density range)
+          or increase the search step size.</p>
+        `;
+        return;
+      }
+
+      const pct1 = (best.x1 * 100).toFixed(1);
+      const pct2 = (best.x2 * 100).toFixed(1);
+      const pct3 = (best.x3 * 100).toFixed(1);
+
+      resultsDiv.className = 'results ok';
+      resultsDiv.innerHTML = `
+        <div class="label">Optimal blend found (minimum cost meeting specs)</div>
+        <ul>
+          <li><span class="label">${c1.label}:</span> ${pct1} % vol</li>
+          <li><span class="label">${c2.label}:</span> ${pct2} % vol</li>
+          <li><span class="label">${c3.label}:</span> ${pct3} % vol</li>
+        </ul>
+        <p>
+          <span class="label">Blend cetane:</span> ${best.cn.toFixed(2)}<br>
+          <span class="label">Blend sulfur:</span> ${best.s.toFixed(1)} ppm<br>
+          <span class="label">Blend density:</span> ${best.rho.toFixed(1)} kg/m³<br>
+          <span class="label">Blend cost:</span> $${best.cost.toFixed(4)} per L
+        </p>
+        <p style="font-size:0.8rem;color:#555;">
+          Notes: Cetane and cost are treated as volume-linear. Sulfur uses a simple mass-weighted estimate
+          based on density. For commercial use, validate with lab data and more detailed non-linear models.
+        </p>
+      `;
+    }
+
+    document.getElementById('optimizeBtn').addEventListener('click', optimizeBlend);
+  </script>
+</body>
+</html>
