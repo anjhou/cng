@@ -175,9 +175,17 @@ async function loadPriceTable() {
     rows.slice(1).forEach(row => {
         const cols = row.split(',');
         html += '<tr>';
+
         cols.forEach(c => {
-            html += `<td>${c}</td>`;
+            // Try converting to number
+            const num = parseFloat(c);
+
+            // If it's a valid number, format to 2 decimals
+            const formatted = !isNaN(num) ? num.toFixed(2) : c;
+
+            html += `<td>${formatted}</td>`;
         });
+
         html += '</tr>';
     });
 
@@ -188,6 +196,7 @@ async function loadPriceTable() {
 
 loadPriceTable();
 </script>
+
 
 
 
