@@ -44,15 +44,13 @@
             }]
         },
         options: {
-            responsive: true,
-            scales: {
-                x: {
-                    ticks: { maxTicksLimit: 10 }
-                },
-                y: {
-                    title: { display: true, text: "USD per Gallon" }
-                }
-            }
-        }
+			responsive: true,
+			maintainAspectRatio: false,
+			scales: {
+				x: { ticks: { maxTicksLimit: 10 }},
+				y: { title: { display: true, text: "USD per Gallon" }}
+			}
+		}
+
     });
 })();
