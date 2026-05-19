@@ -1,9 +1,9 @@
-Blendstock,RON,MON,RVP (psi),Sulfur (ppm)
-Alkylate,92,90,5,1-5
-Reformate,100,88,1,30-200
-Naphtha,60,55,7,50-300
-RBOB (Reformulated Gasoline BOB),92,83,7.0,5-10
-CBOB (Conventional Gasoline BOB),84,82,8.0,20-30
-Regular Gasoline (E10),91,82,7.8,10
-Mid-Grade Gasoline (E10),93,84,7.8,10
-Premium Gasoline (E10),96,87,7.8,10
+Blendstock,RON,MON,RVP (psi),Sulfur (ppm),Benzene (% vol)
+Alkylate,92,90,5,1-5,0.0-0.1
+Reformate,100,88,1,30-200,2.5-5.0
+Naphtha,60,55,7,50-300,0.5-1.5
+RBOB (Reformulated Gasoline BOB),92,83,7.0,5-10,0.6-0.9
+CBOB (Conventional Gasoline BOB),84,82,8.0,20-30,0.8-1.2
+Regular Gasoline (E10),91,82,7.8,10,0.6
+Mid-Grade Gasoline (E10),93,84,7.8,10,0.6
+Premium Gasoline (E10),96,87,7.8,10,0.6
