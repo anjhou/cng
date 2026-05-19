@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>3‑Variable Solver with Constraints</title>
+    <title>3 Variable Solver with Constraints</title>
     <style>
         body { font-family: Arial; margin: 20px; }
         input { width: 80px; }
@@ -9,6 +9,11 @@
     </style>
 </head>
 <body>
+
+		<div id="header"></div>
+		<script>
+		fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+		</script>
 
 <h2>3‑Variable Minimizer (Bounds + Linear Constraints)</h2>
 
@@ -37,6 +42,11 @@ Format: a1*x1 + a2*x2 + a3*x3  (≤, =, ≥)  RHS
 <button onclick="solve()">Run Solver</button>
 
 <div id="result"></div>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 
 <script>
 // Objective function — customize this
