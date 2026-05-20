@@ -34,6 +34,12 @@
 <body>
 
 <div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+
 
 <h1 style="text-align:center;">Quiz</h1>
 
@@ -48,7 +54,9 @@
 </div>
 
 <div id="footer"></div>
-<script src="/static/footer.js" defer></script>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 
 <script>
 let questions = [];
