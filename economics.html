@@ -1,211 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>3 Variable Solver with Constraints</title>
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        input { width: 80px; }
-        #result { margin-top: 20px; font-size: 18px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>NPV / IRR / MIRR / Payback Calculator (20 Years)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { margin-bottom: 5px; }
+    .container { max-width: 900px; }
+    label { display: inline-block; width: 180px; }
+    input[type="number"] { width: 140px; }
+    table { border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: right; }
+    th { background: #f0f0f0; }
+    .btn { margin-top: 15px; padding: 8px 16px; }
+    .results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #fafafa; }
+    .results div { margin: 4px 0; }
+  </style>
 </head>
 <body>
+<div class="container">
+  <h1>20-Year Project Cash Flow Calculator</h1>
+  <p>Enter TIC (year 0), discount rate, and 20 years of revenues.</p>
 
-		<div id="header"></div>
-		<script>
-		fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-		</script>
+  <div>
+    <div>
+      <label for="tic">TIC (Year 0, negative):</label>
+      <input type="number" id="tic" value="-500000" step="0.01">
+    </div>
+    <div>
+      <label for="discountRate">Discount rate (%):</label>
+      <input type="number" id="discountRate" value="10" step="0.01">
+    </div>
+    <div>
+      <label for="reinvestRate">Reinvest rate for MIRR (%):</label>
+      <input type="number" id="reinvestRate" value="10" step="0.01">
+    </div>
+  </div>
 
-<h2>3 Variable Minimizer (Bounds + Linear Constraints)</h2>
+  <h3>Yearly Revenues (Years 1–20)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Revenue</th>
+      </tr>
+    </thead>
+    <tbody id="revenueTableBody"></tbody>
+  </table>
 
-<h3>Variables</h3>
-x1- naphtha bbl: <input id="x1" type="number" value="0">
-min: <input id="x1min" type="number" value="-10">
-max: <input id="x1max" type="number" value="10"><br><br>
+  <button class="btn" onclick="calculate()">Calculate</button>
 
-x2- reformate bbl: <input id="x2" type="number" value="0">
-min: <input id="x2min" type="number" value="-10">
-max: <input id="x2max" type="number" value="10"><br><br>
-
-x3- alkylate bbl: <input id="x3" type="number" value="0">
-min: <input id="x3min" type="number" value="-10">
-max: <input id="x3max" type="number" value="10"><br><br>
-
-<h3>Linear Constraints</h3>
-<h4>a1: x1 price ($/bbl)</h4>
-Format: a1*x1 + a2*x2 + a3*x3  (&le;, =, &ge;)  RHS  
-<br><br>
-
-<div id="constraints"></div>
-
-<button onclick="addConstraint()">Add Constraint</button>
-<br><br>
-
-<button onclick="solve()">Run Solver</button>
-
-<div id="result"></div>
-
-<h2>Gasoline Blendstock Properties</h2>
-<section>
-<div id="blendstock-table-container"></div>
-</section>
-
-<h2>Diesel Blendstock Properties</h2>
-<section>
-<div id="diesel-blendstock-table-container"></div>
-</section>
-
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
+  <div class="results" id="results"></div>
+</div>
 
 <script>
-// Objective function — customize this
-function objective(x1, x2, x3) {
-    return (x1 - 3)**2 + (x2 + 1)**2 + (x3 - 2)**2;
-}
+  // Build 20 revenue input rows
+  (function buildRevenueRows() {
+    const tbody = document.getElementById('revenueTableBody');
+    for (let i = 1; i <= 20; i++) {
+      const tr = document.createElement('tr');
 
-// Add a new constraint row
-function addConstraint() {
-    const div = document.createElement("div");
-    div.innerHTML = `
-        <input type="number" class="a1" value="1"> x1 +
-        <input type="number" class="a2" value="1"> x2 +
-        <input type="number" class="a3" value="1"> x3
-        <select class="type">
-            <option value="<=">&le;</option>
-            <option value="=">=</option>
-            <option value=">=">&ge;</option>
-        </select>
-        <input type="number" class="rhs" value="5">
-        <br><br>
-    `;
-    document.getElementById("constraints").appendChild(div);
-}
+      const tdYear = document.createElement('td');
+      tdYear.textContent = i;
+      tdYear.style.textAlign = 'center';
 
-// Penalty for violating constraints
-function constraintPenalty(x1, x2, x3) {
-    let penalty = 0;
-    const rows = document.querySelectorAll("#constraints > div");
+      const tdRev = document.createElement('td');
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.step = '0.01';
+      input.value = '60000';
+      input.id = 'rev_' + i;
+      tdRev.appendChild(input);
 
-    rows.forEach(row => {
-        const a1 = parseFloat(row.querySelector(".a1").value);
-        const a2 = parseFloat(row.querySelector(".a2").value);
-        const a3 = parseFloat(row.querySelector(".a3").value);
-        const type = row.querySelector(".type").value;
-        const rhs = parseFloat(row.querySelector(".rhs").value);
+      tr.appendChild(tdYear);
+      tr.appendChild(tdRev);
+      tbody.appendChild(tr);
+    }
+  })();
 
-        const lhs = a1*x1 + a2*x2 + a3*x3;
+  function npv(rate, cashflows) {
+    let total = 0;
+    for (let t = 0; t < cashflows.length; t++) {
+      total += cashflows[t] / Math.pow(1 + rate, t);
+    }
+    return total;
+  }
 
-        if (type === "<=" && lhs > rhs)
-            penalty += (lhs - rhs)**2 * 1000;
+  // IRR via bisection method
+  function irr(cashflows, guessLow = -0.99, guessHigh = 1.0, tol = 1e-7, maxIter = 1000) {
+    let low = guessLow;
+    let high = guessHigh;
+    let npvLow = npv(low, cashflows);
+    let npvHigh = npv(high, cashflows);
 
-        if (type === ">=" && lhs < rhs)
-            penalty += (rhs - lhs)**2 * 1000;
-
-        if (type === "=")
-            penalty += (lhs - rhs)**2 * 1000;
-    });
-
-    return penalty;
-}
-
-// Combined objective + penalties
-function totalObjective(x1, x2, x3) {
-    return objective(x1, x2, x3) + constraintPenalty(x1, x2, x3);
-}
-
-// Solver
-function solve() {
-    let x1 = parseFloat(document.getElementById("x1").value);
-    let x2 = parseFloat(document.getElementById("x2").value);
-    let x3 = parseFloat(document.getElementById("x3").value);
-
-    const min1 = parseFloat(document.getElementById("x1min").value);
-    const max1 = parseFloat(document.getElementById("x1max").value);
-    const min2 = parseFloat(document.getElementById("x2min").value);
-    const max2 = parseFloat(document.getElementById("x2max").value);
-    const min3 = parseFloat(document.getElementById("x3min").value);
-    const max3 = parseFloat(document.getElementById("x3max").value);
-
-    let step = 1.0;
-    let best = totalObjective(x1, x2, x3);
-
-    for (let iter = 0; iter < 8000; iter++) {
-        let nx1 = x1 + (Math.random() - 0.5) * step;
-        let nx2 = x2 + (Math.random() - 0.5) * step;
-        let nx3 = x3 + (Math.random() - 0.5) * step;
-
-        // Enforce bounds
-        nx1 = Math.max(min1, Math.min(max1, nx1));
-        nx2 = Math.max(min2, Math.min(max2, nx2));
-        nx3 = Math.max(min3, Math.min(max3, nx3));
-
-        let val = totalObjective(nx1, nx2, nx3);
-
-        if (val < best) {
-            best = val;
-            x1 = nx1;
-            x2 = nx2;
-            x3 = nx3;
-        }
-
-        if (iter % 2000 === 0) step *= 0.5;
+    // If signs are same, expand search range
+    if (npvLow * npvHigh > 0) {
+      // Try expanding high
+      for (let i = 0; i < 10 && npvLow * npvHigh > 0; i++) {
+        high += 1;
+        npvHigh = npv(high, cashflows);
+      }
+      if (npvLow * npvHigh > 0) return NaN;
     }
 
-    document.getElementById("result").innerHTML =
-        `<b>Optimal Solution:</b><br>
-         x1 = ${x1.toFixed(4)}<br>
-         x2 = ${x2.toFixed(4)}<br>
-         x3 = ${x3.toFixed(4)}<br><br>
-         <b>Minimum Value:</b> ${best.toFixed(6)}`;
-}
+    for (let i = 0; i < maxIter; i++) {
+      const mid = (low + high) / 2;
+      const npvMid = npv(mid, cashflows);
+
+      if (Math.abs(npvMid) < tol) return mid;
+
+      if (npvLow * npvMid < 0) {
+        high = mid;
+        npvHigh = npvMid;
+      } else {
+        low = mid;
+        npvLow = npvMid;
+      }
+    }
+    return (low + high) / 2;
+  }
+
+  // MIRR: finance_rate for negatives, reinvest_rate for positives
+  function mirr(cashflows, financeRate, reinvestRate) {
+    let pvNeg = 0;
+    let fvPos = 0;
+    const n = cashflows.length - 1;
+
+    for (let t = 0; t <= n; t++) {
+      const cf = cashflows[t];
+      if (cf < 0) {
+        pvNeg += cf / Math.pow(1 + financeRate, t);
+      } else if (cf > 0) {
+        fvPos += cf * Math.pow(1 + reinvestRate, n - t);
+      }
+    }
+    if (pvNeg === 0) return NaN;
+    return Math.pow(-fvPos / pvNeg, 1 / n) - 1;
+  }
+
+  // Payback period (simple, non-discounted)
+  function paybackPeriod(cashflows) {
+    let cumulative = 0;
+    for (let t = 0; t < cashflows.length; t++) {
+      const cf = cashflows[t];
+      if (t === 0) {
+        cumulative += cf;
+        continue;
+      }
+      const prevCumulative = cumulative;
+      cumulative += cf;
+      if (cumulative >= 0) {
+        const fraction = (0 - prevCumulative) / cf;
+        return (t - 1) + fraction;
+      }
+    }
+    return NaN; // never pays back
+  }
+
+  function calculate() {
+    const tic = parseFloat(document.getElementById('tic').value || 0);
+    const discountRate = parseFloat(document.getElementById('discountRate').value || 0) / 100;
+    const reinvestRate = parseFloat(document.getElementById('reinvestRate').value || 0) / 100;
+
+    const cashflows = [tic];
+    for (let i = 1; i <= 20; i++) {
+      const v = parseFloat(document.getElementById('rev_' + i).value || 0);
+      cashflows.push(v);
+    }
+
+    const npvVal = npv(discountRate, cashflows);
+    const irrVal = irr(cashflows);
+    const mirrVal = mirr(cashflows, discountRate, reinvestRate);
+    const pbVal = paybackPeriod(cashflows);
+
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = `
+      <div><strong>NPV:</strong> ${isFinite(npvVal) ? npvVal.toFixed(2) : 'NaN'}</div>
+      <div><strong>IRR:</strong> ${isFinite(irrVal) ? (irrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
+      <div><strong>MIRR:</strong> ${isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
+      <div><strong>Payback Period:</strong> ${isFinite(pbVal) ? pbVal.toFixed(2) + ' years' : 'No payback within 20 years'}</div>
+    `;
+  }
 </script>
-<script>
-async function loadCSVTable(csvPath, containerId) {
-    const response = await fetch(csvPath);
-    const csvText = await response.text();
-
-    const rows = csvText.trim().split('\n').map(r => r.split(','));
-    const headers = rows[0];
-    const dataRows = rows.slice(1);
-
-    const table = document.createElement('table');
-    table.classList.add('styled-table');
-
-    // Header
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    headers.forEach(h => {
-        const th = document.createElement('th');
-        th.textContent = h;
-        headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    // Body
-    const tbody = document.createElement('tbody');
-    dataRows.forEach(row => {
-        const tr = document.createElement('tr');
-        row.forEach(cell => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-            tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-
-    document.getElementById(containerId).appendChild(table);
-}
-
-// Load both tables
-loadCSVTable('/data/blendstock_properties.csv', 'blendstock-table-container');
-loadCSVTable('/data/diesel_blendstock_properties.csv', 'diesel-blendstock-table-container');
-</script>
-
-
-
 </body>
 </html>
