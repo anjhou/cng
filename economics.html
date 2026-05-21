@@ -5,7 +5,6 @@
   <title>NPV / IRR / MIRR / Payback Calculator (20 Years)</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { margin-bottom: 5px; }
     .container { max-width: 1100px; }
     table { border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: right; }
@@ -13,10 +12,15 @@
     input[type="number"] { width: 120px; }
     .btn { margin-top: 15px; padding: 8px 16px; }
     .results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #fafafa; }
-    .results div { margin: 4px 0; }
   </style>
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <div class="container">
   <h1>20-Year Project Cash Flow Calculator</h1>
 
@@ -27,6 +31,10 @@
   <div>
     <label>Reinvest rate for MIRR (%):</label>
     <input type="number" id="reinvestRate" value="10" step="0.01">
+  </div>
+  <div>
+    <label>Inflation rate (%):</label>
+    <input type="number" id="inflationRate" value="3" step="0.01">
   </div>
 
   <h3>TIC and Revenues (Years 0–20)</h3>
@@ -47,6 +55,11 @@
   <div class="results" id="results"></div>
 </div>
 
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
 <script>
   // Build 21 rows (Year 0–20)
   (function buildRows() {
@@ -62,7 +75,7 @@
       const ticInput = document.createElement('input');
       ticInput.type = 'number';
       ticInput.step = '0.01';
-      ticInput.value = i === 0 ? -500000 : 0; // TIC default only in year 0
+      ticInput.value = i === 0 ? -500000 : 0;
       ticInput.id = 'tic_' + i;
       tdTIC.appendChild(ticInput);
 
@@ -70,7 +83,7 @@
       const revInput = document.createElement('input');
       revInput.type = 'number';
       revInput.step = '0.01';
-      revInput.value = i === 0 ? 0 : 60000; // No revenue in year 0
+      revInput.value = i === 0 ? 0 : 60000;
       revInput.id = 'rev_' + i;
       tdRev.appendChild(revInput);
 
@@ -85,17 +98,14 @@
     return cashflows.reduce((acc, cf, t) => acc + cf / Math.pow(1 + rate, t), 0);
   }
 
-  // IRR via bisection
   function irr(cashflows, low = -0.99, high = 1.5, tol = 1e-7, maxIter = 1000) {
     let npvLow = npv(low, cashflows);
     let npvHigh = npv(high, cashflows);
-
     if (npvLow * npvHigh > 0) return NaN;
 
     for (let i = 0; i < maxIter; i++) {
       const mid = (low + high) / 2;
       const npvMid = npv(mid, cashflows);
-
       if (Math.abs(npvMid) < tol) return mid;
 
       if (npvLow * npvMid < 0) {
@@ -137,12 +147,21 @@
   function calculate() {
     const discountRate = parseFloat(document.getElementById('discountRate').value) / 100;
     const reinvestRate = parseFloat(document.getElementById('reinvestRate').value) / 100;
+    const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
 
     const cashflows = [];
+
     for (let i = 0; i <= 20; i++) {
       const tic = parseFloat(document.getElementById('tic_' + i).value || 0);
       const rev = parseFloat(document.getElementById('rev_' + i).value || 0);
-      cashflows.push(tic + rev);
+
+      // Inflation adjustment
+      const inflFactor = Math.pow(1 + inflationRate, i);
+
+      const adjTIC = tic * inflFactor;
+      const adjRev = rev * inflFactor;
+
+      cashflows.push(adjTIC + adjRev);
     }
 
     const npvVal = npv(discountRate, cashflows);
