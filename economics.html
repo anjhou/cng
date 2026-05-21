@@ -15,6 +15,12 @@
   </style>
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <div class="container">
   <h1>20-Year Project Cash Flow Calculator</h1>
 
@@ -30,10 +36,6 @@
     <label>Inflation rate (%):</label>
     <input type="number" id="inflationRate" value="3" step="0.01">
   </div>
-
-  <h3>Cashflow Mode</h3>
-  <label><input type="radio" name="mode" value="real" checked> Real (no inflation)</label>
-  <label><input type="radio" name="mode" value="nominal"> Nominal (apply inflation)</label>
 
   <h3>TIC and Revenues (Years 0–20)</h3>
 
@@ -52,6 +54,11 @@
 
   <div class="results" id="results"></div>
 </div>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 
 <script>
   // Build 21 rows (Year 0–20)
@@ -142,22 +149,17 @@
     const reinvestRate = parseFloat(document.getElementById('reinvestRate').value) / 100;
     const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
 
-    const mode = document.querySelector('input[name="mode"]:checked').value;
-
     const cashflows = [];
 
     for (let i = 0; i <= 20; i++) {
       const tic = parseFloat(document.getElementById('tic_' + i).value || 0);
       const rev = parseFloat(document.getElementById('rev_' + i).value || 0);
 
-      let adjTIC = tic;
-      let adjRev = rev;
+      // Inflation adjustment
+      const inflFactor = Math.pow(1 + inflationRate, i);
 
-      if (mode === "nominal") {
-        const inflFactor = Math.pow(1 + inflationRate, i);
-        adjTIC *= inflFactor;
-        adjRev *= inflFactor;
-      }
+      const adjTIC = tic * inflFactor;
+      const adjRev = rev * inflFactor;
 
       cashflows.push(adjTIC + adjRev);
     }
@@ -168,5 +170,12 @@
     const pbVal = paybackPeriod(cashflows);
 
     document.getElementById('results').innerHTML = `
-      <div><strong>Mode:</strong> ${mode === "real" ? "Real (no inflation)" : "Nominal (inflation applied)"}</div>
       <div><strong>NPV:</strong> ${npvVal.toFixed(2)}</div>
+      <div><strong>IRR:</strong> ${isFinite(irrVal) ? (irrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
+      <div><strong>MIRR:</strong> ${isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
+      <div><strong>Payback Period:</strong> ${isFinite(pbVal) ? pbVal.toFixed(2) + ' years' : 'No payback within 20 years'}</div>
+    `;
+  }
+</script>
+</body>
+</html>
