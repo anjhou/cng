@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>NPV / IRR / MIRR / Payback Calculator (20 Years)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .container { max-width: 1100px; }
@@ -11,6 +12,7 @@
     th { background: #f0f0f0; }
     input[type="number"] { width: 120px; }
     .btn { margin-top: 15px; padding: 8px 16px; }
+    canvas { margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -51,7 +53,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
   <button class="btn" onclick="calculate()">Calculate</button>
 
-  <!-- NEW RESULTS TABLE -->
+  <!-- RESULTS TABLE -->
   <table id="resultsTable" style="margin-top:20px; display:none;">
     <thead>
       <tr>
@@ -66,6 +68,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       <tr><td>Payback Period</td><td id="r_payback"></td></tr>
     </tbody>
   </table>
+
+  <!-- CHARTS -->
+  <canvas id="cashflowChart"></canvas>
+  <canvas id="cumulativeChart"></canvas>
 
 </div>
 
@@ -158,12 +164,15 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
     return NaN;
   }
 
+  let cashflowChart, cumulativeChart;
+
   function calculate() {
     const discountRate = parseFloat(document.getElementById('discountRate').value) / 100;
     const reinvestRate = parseFloat(document.getElementById('reinvestRate').value) / 100;
     const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
 
     const cashflows = [];
+    const years = [...Array(21).keys()];
 
     for (let i = 0; i <= 20; i++) {
       const tic = parseFloat(document.getElementById('tic_' + i).value || 0);
@@ -177,18 +186,53 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
       cashflows.push(adjTIC + adjRev);
     }
 
+    const cumulative = cashflows.reduce((acc, cf, i) => {
+      acc.push((acc[i - 1] || 0) + cf);
+      return acc;
+    }, []);
+
     const npvVal = npv(discountRate, cashflows);
     const irrVal = irr(cashflows);
     const mirrVal = mirr(cashflows, discountRate, reinvestRate);
     const pbVal = paybackPeriod(cashflows);
 
-    // Show results table
     document.getElementById("resultsTable").style.display = "table";
-
     document.getElementById("r_npv").textContent = npvVal.toFixed(2);
     document.getElementById("r_irr").textContent = isFinite(irrVal) ? (irrVal * 100).toFixed(3) + " %" : "NaN";
     document.getElementById("r_mirr").textContent = isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + " %" : "NaN";
     document.getElementById("r_payback").textContent = isFinite(pbVal) ? pbVal.toFixed(2) + " years" : "No payback within 20 years";
+
+    // Destroy old charts if they exist
+    if (cashflowChart) cashflowChart.destroy();
+    if (cumulativeChart) cumulativeChart.destroy();
+
+    // Cashflow Chart
+    cashflowChart = new Chart(document.getElementById("cashflowChart"), {
+      type: "bar",
+      data: {
+        labels: years,
+        datasets: [{
+          label: "Yearly Cashflow",
+          data: cashflows,
+          backgroundColor: cashflows.map(v => v >= 0 ? "green" : "red")
+        }]
+      }
+    });
+
+    // Cumulative Chart
+    cumulativeChart = new Chart(document.getElementById("cumulativeChart"), {
+      type: "line",
+      data: {
+        labels: years,
+        datasets: [{
+          label: "Cumulative Cashflow",
+          data: cumulative,
+          borderColor: "blue",
+          fill: false,
+          tension: 0.2
+        }]
+      }
+    });
   }
 </script>
 
