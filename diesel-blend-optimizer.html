@@ -174,6 +174,13 @@
   <button class="btn" id="optimizeBtn">Optimize blend</button>
 
   <div id="results" class="results" style="display:none;"></div>
+  
+  <h2>Diesel Blendstock Properties</h2>
+<section>
+<div id="diesel-blendstock-table-container"></div>
+</section>
+
+
 	<div id="footer"></div>
 	<script>
 	fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
@@ -295,5 +302,50 @@
 
     document.getElementById('optimizeBtn').addEventListener('click', optimizeBlend);
   </script>
+  
+  <script>
+async function loadCSVTable(csvPath, containerId) {
+    const response = await fetch(csvPath);
+    const csvText = await response.text();
+
+    const rows = csvText.trim().split('\n').map(r => r.split(','));
+    const headers = rows[0];
+    const dataRows = rows.slice(1);
+
+    const table = document.createElement('table');
+    table.classList.add('styled-table');
+
+    // Header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement('tbody');
+    dataRows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    document.getElementById(containerId).appendChild(table);
+}
+
+// Load both tables
+loadCSVTable('/data/blendstock_properties.csv', 'blendstock-table-container');
+loadCSVTable('/data/diesel_blendstock_properties.csv', 'diesel-blendstock-table-container');
+</script>
+
 </body>
 </html>
