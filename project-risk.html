@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Project Risk – Monte Carlo Simulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #0b1b33;
+      color: #f5f7fb;
+    }
+    h1, h2 {
+      color: #e0ecff;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #111b2b;
+      padding: 20px 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    label {
+      font-size: 0.9rem;
+      color: #c7d4f5;
+    }
+    input {
+      width: 100%;
+      padding: 6px 8px;
+      margin-top: 4px;
+      border-radius: 4px;
+      border: 1px solid #3b4a6a;
+      background: #0b1320;
+      color: #f5f7fb;
+    }
+    input:focus {
+      outline: none;
+      border-color: #4f8cff;
+      box-shadow: 0 0 0 1px #4f8cff55;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: none;
+      background: #4f8cff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    button:disabled {
+      background: #3b4a6a;
+      cursor: default;
+    }
+    .results {
+      margin-top: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #0b1320;
+    }
+    th, td {
+      border: 1px solid #2a3854;
+      padding: 6px 8px;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #18253a;
+      color: #e0ecff;
+    }
+    td:first-child, th:first-child {
+      text-align: left;
+    }
+    .note {
+      font-size: 0.8rem;
+      color: #9aa7c7;
+      margin-top: 8px;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #c7d4f5;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Project Risk – Monte Carlo Simulation</h1>
+  <p class="note">
+    Simulates uncertainty in Total Installed Cost (TIC) and annual net cash flow (revenue – OPEX) to estimate
+    distributions for NPV, VIR, IRR, and Payback Time.
+  </p>
+
+  <h2>Input assumptions</h2>
+  <div class="grid">
+    <div>
+      <label for="ticMean">TIC mean (USD, positive)</label>
+      <input id="ticMean" type="number" value="100000000" step="1000000" />
+    </div>
+    <div>
+      <label for="ticStd">TIC standard deviation (USD)</label>
+      <input id="ticStd" type="number" value="15000000" step="1000000" />
+    </div>
+    <div>
+      <label for="cfMean">Annual net cash flow mean (USD/year)</label>
+      <input id="cfMean" type="number" value="18000000" step="500000" />
+    </div>
+    <div>
+      <label for="cfStd">Annual net cash flow standard deviation (USD/year)</label>
+      <input id="cfStd" type="number" value="4000000" step="500000" />
+    </div>
+    <div>
+      <label for="lifeYears">Project life (years)</label>
+      <input id="lifeYears" type="number" value="20" step="1" />
+    </div>
+    <div>
+      <label for="discountRate">Discount rate (% per year)</label>
+      <input id="discountRate" type="number" value="10" step="0.5" />
+    </div>
+    <div>
+      <label for="iterations">Number of Monte Carlo iterations</label>
+      <input id="iterations" type="number" value="10000" step="1000" />
+    </div>
+  </div>
+
+  <button id="runBtn">Run Monte Carlo Simulation</button>
+  <div class="status" id="status"></div>
+
+  <div class="results" id="results" style="display:none;">
+    <h2>Simulation results (distributions)</h2>
+    <p class="note">
+      VIR = Present value of inflows ÷ Present value of outflows. IRR and Payback are computed per iteration.
+    </p>
+    <table>
+      <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Mean</th>
+        <th>Std dev</th>
+        <th>P5</th>
+        <th>P50</th>
+        <th>P95</th>
+      </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Box–Muller transform for normal random variable
+  function randNormal(mean, std) {
+    let u = 0, v = 0;
+    while (u === 0) u = Math.random();
+    while (v === 0) v = Math.random();
+    const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    return mean + std * z;
+  }
+
+  function npv(rate, cashFlows) {
+    let total = 0;
+    for (let t = 0; t < cashFlows.length; t++) {
+      total += cashFlows[t] / Math.pow(1 + rate, t);
+    }
+    return total;
+  }
+
+  function vir(rate, cashFlows) {
+    let pvIn = 0;
+    let pvOut = 0;
+    for (let t = 0; t < cashFlows.length; t++) {
+      const pv = cashFlows[t] / Math.pow(1 + rate, t);
+      if (pv >= 0) pvIn += pv;
+      else pvOut += pv; // negative
+    }
+    if (pvOut === 0) return Infinity;
+    return pvIn / Math.abs(pvOut);
+  }
+
+  // Simple IRR via bisection
+  function irr(cashFlows, guessLow = -0.9, guessHigh = 1.0, tol = 1e-5, maxIter = 100) {
+    let low = guessLow;
+    let high = guessHigh;
+    let npvLow = npv(low, cashFlows);
+    let npvHigh = npv(high, cashFlows);
+
+    if (npvLow * npvHigh > 0) {
+      return NaN; // no sign change
+    }
+
+    for (let i = 0; i < maxIter; i++) {
+      const mid = (low + high) / 2;
+      const npvMid = npv(mid, cashFlows);
+      if (Math.abs(npvMid) < tol) return mid;
+      if (npvLow * npvMid < 0) {
+        high = mid;
+        npvHigh = npvMid;
+      } else {
+        low = mid;
+        npvLow = npvMid;
+      }
+    }
+    return (low + high) / 2;
+  }
+
+  function paybackTime(cashFlows) {
+    let cum = 0;
+    for (let t = 0; t < cashFlows.length; t++) {
+      cum += cashFlows[t];
+      if (cum >= 0) return t; // in years, assuming annual periods
+    }
+    return NaN; // never paid back
+  }
+
+  function mean(arr) {
+    return arr.reduce((a, b) => a + b, 0) / arr.length;
+  }
+
+  function stdDev(arr) {
+    const m = mean(arr);
+    const v = arr.reduce((acc, x) => acc + Math.pow(x - m, 2), 0) / (arr.length - 1);
+    return Math.sqrt(v);
+  }
+
+  function percentile(arr, p) {
+    if (arr.length === 0) return NaN;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const idx = (p / 100) * (sorted.length - 1);
+    const lower = Math.floor(idx);
+    const upper = Math.ceil(idx);
+    if (lower === upper) return sorted[lower];
+    const weight = idx - lower;
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
+  }
+
+  function formatNumber(x, decimals = 2) {
+    if (!isFinite(x)) return '—';
+    return x.toLocaleString(undefined, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  document.getElementById('runBtn').addEventListener('click', () => {
+    const ticMean = parseFloat(document.getElementById('ticMean').value);
+    const ticStd = parseFloat(document.getElementById('ticStd').value);
+    const cfMean = parseFloat(document.getElementById('cfMean').value);
+    const cfStd = parseFloat(document.getElementById('cfStd').value);
+    const lifeYears = parseInt(document.getElementById('lifeYears').value, 10);
+    const discountRate = parseFloat(document.getElementById('discountRate').value) / 100;
+    const iterations = parseInt(document.getElementById('iterations').value, 10);
+
+    const statusEl = document.getElementById('status');
+    const resultsDiv = document.getElementById('results');
+    const resultsBody = document.getElementById('resultsBody');
+    const runBtn = document.getElementById('runBtn');
+
+    if (iterations <= 0 || lifeYears <= 0 || ticMean <= 0) {
+      statusEl.textContent = 'Please enter valid positive values for TIC mean, project life, and iterations.';
+      return;
+    }
+
+    runBtn.disabled = true;
+    statusEl.textContent = 'Running simulation… this may take a few seconds.';
+    resultsDiv.style.display = 'none';
+
+    setTimeout(() => {
+      const npvArr = [];
+      const virArr = [];
+      const irrArr = [];
+      const pbArr = [];
+
+      for (let i = 0; i < iterations; i++) {
+        let tic = randNormal(ticMean, ticStd);
+        if (tic < 0) tic = Math.abs(tic); // enforce positive TIC
+
+        const annualCF = randNormal(cfMean, cfStd);
+
+        const cashFlows = [-tic];
+        for (let t = 1; t <= lifeYears; t++) {
+          cashFlows.push(annualCF);
+        }
+
+        const npvVal = npv(discountRate, cashFlows);
+        const virVal = vir(discountRate, cashFlows);
+        const irrVal = irr(cashFlows);
+        const pbVal = paybackTime(cashFlows);
+
+        npvArr.push(npvVal);
+        virArr.push(virVal);
+        irrArr.push(irrVal * 100); // convert to %
+        pbArr.push(pbVal);
+      }
+
+      const metrics = [
+        {
+          name: 'NPV (USD)',
+          data: npvArr,
+          decimals: 0
+        },
+        {
+          name: 'VIR (PV inflows / PV outflows)',
+          data: virArr,
+          decimals: 2
+        },
+        {
+          name: 'IRR (% per year)',
+          data: irrArr,
+          decimals: 2
+        },
+        {
+          name: 'Payback time (years)',
+          data: pbArr,
+          decimals: 2
+        }
+      ];
+
+      resultsBody.innerHTML = '';
+      metrics.forEach(m => {
+        const row = document.createElement('tr');
+        const mMean = mean(m.data);
+        const mStd = stdDev(m.data);
+        const p5 = percentile(m.data, 5);
+        const p50 = percentile(m.data, 50);
+        const p95 = percentile(m.data, 95);
+
+        row.innerHTML = `
+          <td>${m.name}</td>
+          <td>${formatNumber(mMean, m.decimals)}</td>
+          <td>${formatNumber(mStd, m.decimals)}</td>
+          <td>${formatNumber(p5, m.decimals)}</td>
+          <td>${formatNumber(p50, m.decimals)}</td>
+          <td>${formatNumber(p95, m.decimals)}</td>
+        `;
+        resultsBody.appendChild(row);
+      });
+
+      resultsDiv.style.display = 'block';
+      statusEl.textContent = `Simulation complete (${iterations.toLocaleString()} iterations).`;
+      runBtn.disabled = false;
+    }, 10);
+  });
+</script>
+</body>
+</html>
