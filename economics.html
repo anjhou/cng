@@ -11,7 +11,6 @@
     th { background: #f0f0f0; }
     input[type="number"] { width: 120px; }
     .btn { margin-top: 15px; padding: 8px 16px; }
-    .results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #fafafa; }
   </style>
 </head>
 <body>
@@ -52,7 +51,22 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
   <button class="btn" onclick="calculate()">Calculate</button>
 
-  <div class="results" id="results"></div>
+  <!-- NEW RESULTS TABLE -->
+  <table id="resultsTable" style="margin-top:20px; display:none;">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>NPV</td><td id="r_npv"></td></tr>
+      <tr><td>IRR</td><td id="r_irr"></td></tr>
+      <tr><td>MIRR</td><td id="r_mirr"></td></tr>
+      <tr><td>Payback Period</td><td id="r_payback"></td></tr>
+    </tbody>
+  </table>
+
 </div>
 
 <div id="footer"></div>
@@ -155,7 +169,6 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
       const tic = parseFloat(document.getElementById('tic_' + i).value || 0);
       const rev = parseFloat(document.getElementById('rev_' + i).value || 0);
 
-      // Inflation adjustment
       const inflFactor = Math.pow(1 + inflationRate, i);
 
       const adjTIC = tic * inflFactor;
@@ -169,13 +182,15 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
     const mirrVal = mirr(cashflows, discountRate, reinvestRate);
     const pbVal = paybackPeriod(cashflows);
 
-    document.getElementById('results').innerHTML = `
-      <div><strong>NPV:</strong> ${npvVal.toFixed(2)}</div>
-      <div><strong>IRR:</strong> ${isFinite(irrVal) ? (irrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
-      <div><strong>MIRR:</strong> ${isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
-      <div><strong>Payback Period:</strong> ${isFinite(pbVal) ? pbVal.toFixed(2) + ' years' : 'No payback within 20 years'}</div>
-    `;
+    // Show results table
+    document.getElementById("resultsTable").style.display = "table";
+
+    document.getElementById("r_npv").textContent = npvVal.toFixed(2);
+    document.getElementById("r_irr").textContent = isFinite(irrVal) ? (irrVal * 100).toFixed(3) + " %" : "NaN";
+    document.getElementById("r_mirr").textContent = isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + " %" : "NaN";
+    document.getElementById("r_payback").textContent = isFinite(pbVal) ? pbVal.toFixed(2) + " years" : "No payback within 20 years";
   }
 </script>
+
 </body>
 </html>
