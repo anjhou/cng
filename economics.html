@@ -6,12 +6,11 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h1 { margin-bottom: 5px; }
-    .container { max-width: 900px; }
-    label { display: inline-block; width: 180px; }
-    input[type="number"] { width: 140px; }
+    .container { max-width: 1100px; }
     table { border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: right; }
     th { background: #f0f0f0; }
+    input[type="number"] { width: 120px; }
     .btn { margin-top: 15px; padding: 8px 16px; }
     .results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #fafafa; }
     .results div { margin: 4px 0; }
@@ -20,32 +19,27 @@
 <body>
 <div class="container">
   <h1>20-Year Project Cash Flow Calculator</h1>
-  <p>Enter TIC (year 0), discount rate, and 20 years of revenues.</p>
 
   <div>
-    <div>
-      <label for="tic">TIC (Year 0, negative):</label>
-      <input type="number" id="tic" value="-500000" step="0.01">
-    </div>
-    <div>
-      <label for="discountRate">Discount rate (%):</label>
-      <input type="number" id="discountRate" value="10" step="0.01">
-    </div>
-    <div>
-      <label for="reinvestRate">Reinvest rate for MIRR (%):</label>
-      <input type="number" id="reinvestRate" value="10" step="0.01">
-    </div>
+    <label>Discount rate (%):</label>
+    <input type="number" id="discountRate" value="10" step="0.01">
+  </div>
+  <div>
+    <label>Reinvest rate for MIRR (%):</label>
+    <input type="number" id="reinvestRate" value="10" step="0.01">
   </div>
 
-  <h3>Yearly Revenues (Years 1–20)</h3>
+  <h3>TIC and Revenues (Years 0–20)</h3>
+
   <table>
     <thead>
       <tr>
         <th>Year</th>
+        <th>TIC (Capex)</th>
         <th>Revenue</th>
       </tr>
     </thead>
-    <tbody id="revenueTableBody"></tbody>
+    <tbody id="cashflowTableBody"></tbody>
   </table>
 
   <button class="btn" onclick="calculate()">Calculate</button>
@@ -54,54 +48,49 @@
 </div>
 
 <script>
-  // Build 20 revenue input rows
-  (function buildRevenueRows() {
-    const tbody = document.getElementById('revenueTableBody');
-    for (let i = 1; i <= 20; i++) {
+  // Build 21 rows (Year 0–20)
+  (function buildRows() {
+    const tbody = document.getElementById('cashflowTableBody');
+    for (let i = 0; i <= 20; i++) {
       const tr = document.createElement('tr');
 
       const tdYear = document.createElement('td');
       tdYear.textContent = i;
       tdYear.style.textAlign = 'center';
 
+      const tdTIC = document.createElement('td');
+      const ticInput = document.createElement('input');
+      ticInput.type = 'number';
+      ticInput.step = '0.01';
+      ticInput.value = i === 0 ? -500000 : 0; // TIC default only in year 0
+      ticInput.id = 'tic_' + i;
+      tdTIC.appendChild(ticInput);
+
       const tdRev = document.createElement('td');
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.step = '0.01';
-      input.value = '60000';
-      input.id = 'rev_' + i;
-      tdRev.appendChild(input);
+      const revInput = document.createElement('input');
+      revInput.type = 'number';
+      revInput.step = '0.01';
+      revInput.value = i === 0 ? 0 : 60000; // No revenue in year 0
+      revInput.id = 'rev_' + i;
+      tdRev.appendChild(revInput);
 
       tr.appendChild(tdYear);
+      tr.appendChild(tdTIC);
       tr.appendChild(tdRev);
       tbody.appendChild(tr);
     }
   })();
 
   function npv(rate, cashflows) {
-    let total = 0;
-    for (let t = 0; t < cashflows.length; t++) {
-      total += cashflows[t] / Math.pow(1 + rate, t);
-    }
-    return total;
+    return cashflows.reduce((acc, cf, t) => acc + cf / Math.pow(1 + rate, t), 0);
   }
 
-  // IRR via bisection method
-  function irr(cashflows, guessLow = -0.99, guessHigh = 1.0, tol = 1e-7, maxIter = 1000) {
-    let low = guessLow;
-    let high = guessHigh;
+  // IRR via bisection
+  function irr(cashflows, low = -0.99, high = 1.5, tol = 1e-7, maxIter = 1000) {
     let npvLow = npv(low, cashflows);
     let npvHigh = npv(high, cashflows);
 
-    // If signs are same, expand search range
-    if (npvLow * npvHigh > 0) {
-      // Try expanding high
-      for (let i = 0; i < 10 && npvLow * npvHigh > 0; i++) {
-        high += 1;
-        npvHigh = npv(high, cashflows);
-      }
-      if (npvLow * npvHigh > 0) return NaN;
-    }
+    if (npvLow * npvHigh > 0) return NaN;
 
     for (let i = 0; i < maxIter; i++) {
       const mid = (low + high) / 2;
@@ -120,52 +109,40 @@
     return (low + high) / 2;
   }
 
-  // MIRR: finance_rate for negatives, reinvest_rate for positives
   function mirr(cashflows, financeRate, reinvestRate) {
-    let pvNeg = 0;
-    let fvPos = 0;
+    let pvNeg = 0, fvPos = 0;
     const n = cashflows.length - 1;
 
-    for (let t = 0; t <= n; t++) {
-      const cf = cashflows[t];
-      if (cf < 0) {
-        pvNeg += cf / Math.pow(1 + financeRate, t);
-      } else if (cf > 0) {
-        fvPos += cf * Math.pow(1 + reinvestRate, n - t);
-      }
-    }
+    cashflows.forEach((cf, t) => {
+      if (cf < 0) pvNeg += cf / Math.pow(1 + financeRate, t);
+      if (cf > 0) fvPos += cf * Math.pow(1 + reinvestRate, n - t);
+    });
+
     if (pvNeg === 0) return NaN;
     return Math.pow(-fvPos / pvNeg, 1 / n) - 1;
   }
 
-  // Payback period (simple, non-discounted)
   function paybackPeriod(cashflows) {
     let cumulative = 0;
     for (let t = 0; t < cashflows.length; t++) {
-      const cf = cashflows[t];
-      if (t === 0) {
-        cumulative += cf;
-        continue;
-      }
-      const prevCumulative = cumulative;
-      cumulative += cf;
-      if (cumulative >= 0) {
-        const fraction = (0 - prevCumulative) / cf;
-        return (t - 1) + fraction;
+      const prev = cumulative;
+      cumulative += cashflows[t];
+      if (cumulative >= 0 && t > 0) {
+        return (t - 1) + (0 - prev) / cashflows[t];
       }
     }
-    return NaN; // never pays back
+    return NaN;
   }
 
   function calculate() {
-    const tic = parseFloat(document.getElementById('tic').value || 0);
-    const discountRate = parseFloat(document.getElementById('discountRate').value || 0) / 100;
-    const reinvestRate = parseFloat(document.getElementById('reinvestRate').value || 0) / 100;
+    const discountRate = parseFloat(document.getElementById('discountRate').value) / 100;
+    const reinvestRate = parseFloat(document.getElementById('reinvestRate').value) / 100;
 
-    const cashflows = [tic];
-    for (let i = 1; i <= 20; i++) {
-      const v = parseFloat(document.getElementById('rev_' + i).value || 0);
-      cashflows.push(v);
+    const cashflows = [];
+    for (let i = 0; i <= 20; i++) {
+      const tic = parseFloat(document.getElementById('tic_' + i).value || 0);
+      const rev = parseFloat(document.getElementById('rev_' + i).value || 0);
+      cashflows.push(tic + rev);
     }
 
     const npvVal = npv(discountRate, cashflows);
@@ -173,9 +150,8 @@
     const mirrVal = mirr(cashflows, discountRate, reinvestRate);
     const pbVal = paybackPeriod(cashflows);
 
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = `
-      <div><strong>NPV:</strong> ${isFinite(npvVal) ? npvVal.toFixed(2) : 'NaN'}</div>
+    document.getElementById('results').innerHTML = `
+      <div><strong>NPV:</strong> ${npvVal.toFixed(2)}</div>
       <div><strong>IRR:</strong> ${isFinite(irrVal) ? (irrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
       <div><strong>MIRR:</strong> ${isFinite(mirrVal) ? (mirrVal * 100).toFixed(3) + ' %' : 'NaN'}</div>
       <div><strong>Payback Period:</strong> ${isFinite(pbVal) ? pbVal.toFixed(2) + ' years' : 'No payback within 20 years'}</div>
