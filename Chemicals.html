@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuel Quality Standards</title>
+
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #0b2e59;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #d9e2ef;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #0b2e59;
+        }
+
+        .tab.active {
+            background: #0b2e59;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        table th {
+            background: #0b2e59;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+
+<div class="container">
+
+    <h1>Fuel Quality Standards</h1>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+        <div class="tab active" data-tab="Prices">Prices</div>
+		<div class="tab" data-tab="Economics">Economics</div>
+        <div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
+        <div class="tab" data-tab="Capacity">Marine Bunker</div>
+        <div class="tab" data-tab="Quality">Quality</div>
+		<div class="tab" data-tab="Property">Property</div>
+		<div class="tab" data-tab="Pathway">Production Pathway</div>
+        
+    </div>
+
+    <!-- GASOLINE TAB -->
+    <div id="gasoline" class="tab-content active">
+        <div class="section">
+            <h2>Gasoline Fuel Quality (U.S.)</h2>
+            <p>Key gasoline specifications required across the United States.</p>
+
+            <table>
+                <tr><th>Property</th><th>Specification</th></tr>
+                <tr><td>Octane (AKI)</td><td>87 Regular, 89 Midgrade, 91–93 Premium</td></tr>
+                <tr><td>Reid Vapor Pressure (RVP)</td><td>7.0–15.0 psi (seasonal & regional)</td></tr>
+                <tr><td>Ethanol Content</td><td>Up to 10% (E10); E15 allowed for 2001+ vehicles</td></tr>
+                <tr><td>Sulfur Content</td><td>10 ppm average (Tier 3)</td></tr>
+                <tr><td>Aromatics</td><td>25–35% typical</td></tr>
+                <tr><td>Benzene</td><td>0.62% max</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ULSD TAB -->
+    <div id="ulsd" class="tab-content">
+        <div class="section">
+            <h2>Ultra-Low Sulfur Diesel (ULSD)</h2>
+            <p>ULSD is required for all on-road diesel in the U.S.</p>
+
+            <table>
+                <tr><th>Property</th><th>Specification</th></tr>
+                <tr><td>Sulfur</td><td>15 ppm max</td></tr>
+                <tr><td>Cetane Number</td><td>40 minimum</td></tr>
+                <tr><td>Cloud Point</td><td>Region & season dependent</td></tr>
+                <tr><td>Lubricity</td><td>520 μm HFRR max</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- MARINE BUNKER TAB -->
+    <div id="marine" class="tab-content">
+        <div class="section">
+            <h2>Marine Fuel (IMO 2020)</h2>
+            <p>Marine fuels must comply with IMO 2020 sulfur limits.</p>
+
+            <table>
+                <tr><th>Fuel Type</th><th>Sulfur Limit</th></tr>
+                <tr><td>VLSFO</td><td>0.50% max</td></tr>
+                <tr><td>ULSFO</td><td>0.10% max (ECA zones)</td></tr>
+                <tr><td>HSFO</td><td>3.50% max (allowed only with scrubbers)</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ASTM / ISO Standards TAB -->
+    <div id="standards" class="tab-content">
+        <div class="section">
+            <h2>ASTM & ISO Fuel Standards</h2>
+            <p>Key international and U.S. standards governing gasoline, diesel, and marine fuels.</p>
+
+            <table>
+                <tr><th>Standard</th><th>Applies To</th><th>Description</th></tr>
+
+                <tr>
+                    <td>ASTM D4814</td>
+                    <td>Gasoline</td>
+                    <td>Defines volatility, distillation, RVP, oxygenates, and seasonal gasoline classes.</td>
+                </tr>
+
+                <tr>
+                    <td>ASTM D975</td>
+                    <td>Diesel (ULSD)</td>
+                    <td>Specifies sulfur, cetane, lubricity, cloud point, and distillation for diesel fuels.</td>
+                </tr>
+
+                <tr>
+                    <td>ASTM D6751</td>
+                    <td>Biodiesel (B100)</td>
+                    <td>Defines purity, glycerin, sulfur, and stability requirements for biodiesel blends.</td>
+                </tr>
+
+                <tr>
+                    <td>ISO 8217</td>
+                    <td>Marine Fuels</td>
+                    <td>Global marine fuel standard covering VLSFO, ULSFO, HSFO, viscosity, sulfur, and contaminants.</td>
+                </tr>
+
+                <tr>
+                    <td>ISO 22241</td>
+                    <td>DEF / AdBlue</td>
+                    <td>Specifies urea concentration, purity, and handling requirements for diesel exhaust fluid.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- EPA / IMO REGULATORY LIMITS TAB -->
+    <div id="regulatory" class="tab-content">
+        <div class="section">
+            <h2>EPA & IMO Regulatory Limits</h2>
+            <p>Key environmental and emissions regulations affecting transportation fuels.</p>
+
+            <table>
+                <tr><th>Regulation</th><th>Applies To</th><th>Limit / Requirement</th></tr>
+
+                <tr>
+                    <td>EPA Tier 3 Gasoline Sulfur</td>
+                    <td>Gasoline</td>
+                    <td>10 ppm sulfur average nationwide.</td>
+                </tr>
+
+                <tr>
+                    <td>EPA ULSD Rule</td>
+                    <td>Diesel</td>
+                    <td>15 ppm sulfur max for all on-road diesel.</td>
+                </tr>
+
+                <tr>
+                    <td>EPA RFS (Renewable Fuel Standard)</td>
+                    <td>Gasoline & Diesel</td>
+                    <td>Annual renewable volume obligations (ethanol, biodiesel, advanced biofuels).</td>
+                </tr>
+
+                <tr>
+                    <td>IMO 2020 Global Sulfur Cap</td>
+                    <td>Marine Fuels</td>
+                    <td>0.50% sulfur max globally.</td>
+                </tr>
+
+                <tr>
+                    <td>IMO ECA Sulfur Limit</td>
+                    <td>Marine Fuels</td>
+                    <td>0.10% sulfur max in Emission Control Areas.</td>
+                </tr>
+
+                <tr>
+                    <td>MARPOL Annex VI NOx Tier III</td>
+                    <td>Marine Engines</td>
+                    <td>80% NOx reduction for new ships in ECAs.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
