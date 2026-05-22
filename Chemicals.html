@@ -116,8 +116,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <p>Last week Price (LWP) - Current Week Price (CWP)  - Next Week Price (NWP)</p>
 			<p>Updated 2026-May-XX</p>
             <table>
+				<tr><th>Commodity</th><th>Unit</th><th>LWP</th><th>CWP</th><th>NWP</th><th>Notes</th></tr>
 				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><th>Sulfuric Acid</th><th>Unit</th><th>LWP</th><th>CWP</th><th>NWP</th><th>Notes</th></tr>
+                <tr><td>Sulfuric Acid</td><td>¢/gal</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
                 <tr><td>Ethylene</td><td>¢/gal</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
                 <tr><td>Ammonia</td><td>¢/gal</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
                 <tr><td>Urea</td><td>¢/gal</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
@@ -158,34 +159,35 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         </div>
     </div>
 
-    <!-- MARINE BUNKER TAB -->
+    <!-- Supply-Demand TAB -->
     <div id="Supply-Demand" class="tab-content">
         <div class="section">
             <h2>Supply-Demand Yearly</h2>
             <p>Last 3rd Year Demand (L3YD) - Current Year Demand (CYD)  - Next 6th Year Demand (N6YD)</p>
 
             <table>
+				<tr><th>Commodity</th><th>Unit</th><th>L3YD</th><th>CYD</th><th>N6YD, CAGR</th><th>Notes</th></tr>
 				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><th>Sulfuric Acid</th><th>Unit</th><th>L3YD</th><th>CYD</th><th>N6YD</th><th>Notes</th></tr>
-                <tr><td>Ethylene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Ammonia</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Urea</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Propylene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Polyethylene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
+                <tr><td>Sulfuric Acid</td><td>MMTPA</td><td>XX1</td><td>280</td><td>335–345,2.8%</td><td>Fertilizers, refining, mining, batteries</td></tr>
+                <tr><td>Ethylene</td><td>MMTPA</td><td>XX1</td><td>220</td><td>295–310,4.2%</td><td>Plastics, polyethylene, chemicals</td></tr>
+                <tr><td>Ammonia</td><td>MMTPA</td><td>XX1</td><td>180</td><td>225–235,3.2%</td><td>Fertilizers, explosives, refrigerants</td></tr>
+                <tr><td>Urea</td><td>MMTPA</td><td>XX1</td><td>180</td><td>220–230,3.0%</td><td>Fertilizers, diesel exhaust fluid</td></tr>
+                <tr><td>Propylene</td><td>MMTPA</td><td>XX1</td><td>140</td><td>185–195,4.0%</td><td>Polypropylene, acrylonitrile</td></tr>
+                <tr><td>Polyethylene</td><td>MMTPA</td><td>XX1</td><td>130</td><td>175–185,4.5%</td><td>Packaging, containers, films</td></tr>
 				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>Methanol</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-				<tr><td>Polypropylene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-				<tr><td>Chlorine</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Caustic Soda</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Nitric Acid</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Xylene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
+                <tr><td>Methanol</td><td>MMTPA</td><td>XX1</td><td>110</td><td>150–160,4.3%</td><td>Fuels, formaldehyde, olefins</td></tr>
+				<tr><td>Polypropylene</td><td>MMTPA</td><td>XX1</td><td>90</td><td>118–125,4.0%</td><td>Automotive, packaging, fibers</td></tr>
+				<tr><td>Chlorine</td><td>MMTPA</td><td>XX1</td><td>90</td><td>108–112,2.9%</td><td>PVC, water treatment, chemicals</td></tr>
+                <tr><td>Caustic Soda</td><td>MMTPA</td><td>XX1</td><td>85</td><td>103–108,3.0%</td><td>Alumina, soaps, pulp & paper</td></tr>
+                <tr><td>Nitric Acid</td><td>MMTPA</td><td>XX1</td><td>70</td><td>83–87,2.8%</td><td>Fertilizers, explosives</td></tr>
+                <tr><td>Xylene</td><td>MMTPA</td><td>XX1</td><td>55</td><td>72–76,3.8%</td><td>PET, polyester, solvents</td></tr>
 				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>Phosphoric Acid</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Benzene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-				<tr><td>Toluene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-				<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-                <tr><td>Styrene</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
-				<tr><td>Formaldehyde</td><td>MMTPA</td><td>XX1</td><td>XX2</td><td>XX3</td><td>XX4</td></tr>
+                <tr><td>Phosphoric Acid</td><td>MMTPA</td><td>XX1</td><td>50</td><td>60–64,3.0%</td><td>Fertilizers, food additives</td></tr>
+                <tr><td>Benzene</td><td>MMTPA</td><td>XX1</td><td>50</td><td>63–67,3.5%</td><td>Fertilizers, food additives</td></tr>
+				<tr><td>Toluene</td><td>MMTPA</td><td>XX1</td><td>35</td><td>42–45,3.0%</td><td>Solvents, gasoline blending</td></tr>
+				<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>XX1</td><td>35</td><td>46–49,4.0%</td><td>Polyester fibers, antifreeze</td></tr>
+                <tr><td>Styrene</td><td>MMTPA</td><td>XX1</td><td>30</td><td>38–40,3.6%</td><td>Polystyrene, ABS plastics</td></tr>
+				<tr><td>Formaldehyde</td><td>MMTPA</td><td>XX1</td><td>25</td><td>30–32,3.0%</td><td>Resins, adhesives, wood products</td></tr>
 				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </table>
 			
