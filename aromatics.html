@@ -1,140 +1,1387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aromatics</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aromatics Weekly</title>
+
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #0b2e59;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #d9e2ef;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #0b2e59;
+        }
+
+        .tab.active {
+            background: #0b2e59;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        table th {
+            background: #0b2e59;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- Shared Header -->
-  <div id="header-placeholder"></div>
-  <script>
-    fetch('/static/includes/header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('header-placeholder').innerHTML = html);
-  </script>
 
-  <main>
 
-    <h1>Aromatics (BTX)</h1>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 
-    <!-- ========================= -->
-    <!-- BENZENE DEMAND CHART -->
-    <!-- ========================= -->
-    <section class="chart-section">
-      <h2>U.S. Benzene Demand (2020–2025)</h2>
-      <canvas id="benzeneDemandChart"></canvas>
-    </section>
 
-    <script type="module">
-      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
 
-      renderCsvMultiSeriesChart({
-        canvasId: 'benzeneDemandChart',
-        csvPath: '/static/data/us_benzene_demand_2020_2025.csv',
-        xKey: 'Year',
-        yKeys: ['Demand_MMT'],
-        chartTitle: 'U.S. Benzene Demand (2020–2025)',
-        yLabel: 'Demand (MMT)'
-      });
-    </script>
+<div class="container">
 
-    <!-- ========================= -->
-    <!-- TOLUENE DEMAND CHART -->
-    <!-- ========================= -->
-    <section class="chart-section">
-      <h2>U.S. Toluene Demand (2020–2025)</h2>
-      <canvas id="tolueneDemandChart"></canvas>
-    </section>
+    <h1>Chemicals Weekly</h1>
 
-    <script type="module">
-      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+        <div class="tab active" data-tab="Prices">Prices</div>
+		<div class="tab" data-tab="Spreads">Spreads</div>
+        <div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
+        <div class="tab" data-tab="Capacity">Capacity</div>
+		<div class="tab" data-tab="Pathway">Production Pathway</div>
+        <div class="tab" data-tab="Specs">Specs</div>
+		<div class="tab" data-tab="Property">Property</div>
+		<div class="tab" data-tab="Latest-News">News</div>
+		
+        
+    </div>
 
-      renderCsvMultiSeriesChart({
-        canvasId: 'tolueneDemandChart',
-        csvPath: '/static/data/toluene_demand_2020_2025.csv',
-        xKey: 'Year',
-        yKeys: ['Demand_MMT'],
-        chartTitle: 'U.S. Toluene Demand (2020–2025)',
-        yLabel: 'Demand (MMT)'
-      });
-    </script>
+	
+	<!-- News Update TAB -->
+    <div id="Latest-News" class="tab-content">
+        <div class="section">
+            <h2>News</h2>
+            <p>Latest-News Updates with Industry Insights</p>
+			
+			<table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Aromatics</th>
+            <th>Latest Market Insights & Industry Dynamics (2026–2032)</th>
+        </tr>
+    </thead>
+    <tbody>
 
-    <!-- ========================= -->
-    <!-- PARAXYLENE (PX) DEMAND -->
-    <!-- ========================= -->
-    <section class="chart-section">
-      <h2>U.S. Paraxylene (PX) Demand (2020–2025)</h2>
-      <canvas id="pxDemandChart"></canvas>
-    </section>
+        <tr>
+            <td>Ethylene</td>
+            <td>
+                <ul>
+                    <li>Global ethylene markets remain oversupplied due to major new cracker startups in China, the Middle East, and the US Gulf Coast.</li>
+                    <li>European steam crackers continue facing shutdowns and rationalization because of high energy and feedstock costs.</li>
+                    <li>Ethane feedstock prices increased significantly in 2026, compressing cracker margins globally.</li>
+                    <li>Polyethylene packaging demand remains a major growth driver, especially from e-commerce and food packaging sectors.</li>
+                    <li>Geopolitical instability affecting naphtha supply chains is creating supply risks in Asia.</li>
+                    <li>AI data center infrastructure and electrification projects are expected to increase polymer demand through 2032.</li>
+                </ul>
+            </td>
+        </tr>
 
-    <script type="module">
-      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+        <tr>
+            <td>Propylene</td>
+            <td>
+                <ul>
+                    <li>China’s propane dehydrogenation (PDH) sector continues adding large propylene capacity.</li>
+                    <li>Global propylene markets are experiencing margin pressure from oversupply conditions.</li>
+                    <li>Propane price volatility is heavily impacting standalone PDH economics.</li>
+                    <li>Automotive lightweight plastics continue supporting long-term polypropylene demand.</li>
+                    <li>European refinery closures are tightening FCC-derived propylene availability.</li>
+                    <li>Recycling regulations are increasing investment into circular polypropylene technologies.</li>
+                </ul>
+            </td>
+        </tr>
 
-      renderCsvMultiSeriesChart({
-        canvasId: 'pxDemandChart',
-        csvPath: '/static/data/px_demand_2020_2025.csv',
-        xKey: 'Year',
-        yKeys: ['Demand_MMT'],
-        chartTitle: 'U.S. PX Demand (2020–2025)',
-        yLabel: 'Demand (MMT)'
-      });
-    </script>
+        <tr>
+            <td>Polyethylene</td>
+            <td>
+                <ul>
+                    <li>Packaging remains the dominant demand sector globally.</li>
+                    <li>Recycled polyethylene mandates are increasing across Europe and parts of North America.</li>
+                    <li>Virgin PE margins are under pressure from excess global capacity additions.</li>
+                    <li>Asian export volumes continue reshaping global trade flows.</li>
+                    <li>Demand growth remains strong in India, Southeast Asia, and Africa.</li>
+                    <li>Sustainability pressures are accelerating chemical recycling investments.</li>
+                </ul>
+            </td>
+        </tr>
 
-    <!-- ========================= -->
-    <!-- ORTHOXYLENE (OX) DEMAND -->
-    <!-- ========================= -->
-    <section class="chart-section">
-      <h2>U.S. Orthoxylene (OX) Demand (2020–2025)</h2>
-      <canvas id="oxDemandChart"></canvas>
-    </section>
+        <tr>
+            <td>Polypropylene</td>
+            <td>
+                <ul>
+                    <li>Food-grade recycled polypropylene demand is forecast to grow rapidly through 2036.</li>
+                    <li>Automotive and consumer packaging sectors remain major demand centers.</li>
+                    <li>Chinese capacity additions continue pressuring global operating rates.</li>
+                    <li>Regulatory pressure on single-use plastics is reshaping downstream resin demand.</li>
+                    <li>Mechanical and chemical recycling technologies are scaling commercially.</li>
+                    <li>Middle East integrated refining-petrochemical projects are expanding polypropylene exports.</li>
+                </ul>
+            </td>
+        </tr>
 
-    <script type="module">
-      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+        <tr>
+            <td>Methanol</td>
+            <td>
+                <ul>
+                    <li>Global methanol markets remain oversupplied amid weak European demand.</li>
+                    <li>Marine fuel applications are becoming a major future demand growth segment.</li>
+                    <li>Green methanol projects are accelerating due to decarbonization policies.</li>
+                    <li>US sanctions and geopolitical disruptions are altering Asian methanol trade flows.</li>
+                    <li>Natural gas curtailments continue creating supply uncertainty in several regions.</li>
+                    <li>Traditional formaldehyde and acetic acid demand remain strong long-term anchors.</li>
+                </ul>
+            </td>
+        </tr>
 
-      renderCsvMultiSeriesChart({
-        canvasId: 'oxDemandChart',
-        csvPath: '/static/data/ox_demand_2020_2025.csv',
-        xKey: 'Year',
-        yKeys: ['Demand_MMT'],
-        chartTitle: 'U.S. OX Demand (2020–2025)',
-        yLabel: 'Demand (MMT)'
-      });
-    </script>
+        <tr>
+            <td>Ammonia</td>
+            <td>
+                <ul>
+                    <li>Blue and green ammonia projects are expanding rapidly worldwide.</li>
+                    <li>Natural gas remains the dominant cost driver for ammonia production economics.</li>
+                    <li>Hydrogen infrastructure investments are supporting ammonia export growth.</li>
+                    <li>Fertilizer demand remains sensitive to government subsidy changes.</li>
+                    <li>Carbon capture integration is increasingly common in new ammonia plants.</li>
+                    <li>Gas shortages in some regions have periodically reduced ammonia operating rates.</li>
+                </ul>
+            </td>
+        </tr>
 
-    <!-- ========================= -->
-    <!-- MIXED XYLENES (MX) DEMAND -->
-    <!-- ========================= -->
-    <section class="chart-section">
-      <h2>U.S. Mixed Xylenes (MX) Demand (2020–2025)</h2>
-      <canvas id="mxDemandChart"></canvas>
-    </section>
+        <tr>
+            <td>Urea</td>
+            <td>
+                <ul>
+                    <li>Agricultural demand remains the dominant global demand driver.</li>
+                    <li>Export restrictions and sanctions periodically disrupt global fertilizer trade flows.</li>
+                    <li>Gas feedstock costs continue strongly influencing global urea prices.</li>
+                    <li>India and Brazil remain major import growth centers.</li>
+                    <li>Green ammonia integration may reshape future low-carbon urea production.</li>
+                    <li>Supply volatility remains elevated during geopolitical gas disruptions.</li>
+                </ul>
+            </td>
+        </tr>
 
-    <script type="module">
-      import { renderCsvMultiSeriesChart } from '/static/js/engineeringCharts.js';
+        <tr>
+            <td>Sulfuric Acid</td>
+            <td>
+                <ul>
+                    <li>Battery-grade sulfuric acid demand is increasing due to EV battery manufacturing.</li>
+                    <li>Copper mining and metal leaching operations remain major consumption sectors.</li>
+                    <li>Global sulfur supply remains linked to refinery and gas processing operations.</li>
+                    <li>Fertilizer demand continues supporting long-term sulfuric acid consumption.</li>
+                    <li>Mining sector expansion is tightening regional sulfuric acid balances.</li>
+                    <li>Environmental regulations are increasing sulfur recovery efficiency requirements.</li>
+                </ul>
+            </td>
+        </tr>
 
-      renderCsvMultiSeriesChart({
-        canvasId: 'mxDemandChart',
-        csvPath: '/static/data/mx_demand_2020_2025.csv',
-        xKey: 'Year',
-        yKeys: ['Demand_MMT'],
-        chartTitle: 'U.S. MX Demand (2020–2025)',
-        yLabel: 'Demand (MMT)'
-      });
-    </script>
+        <tr>
+            <td>Nitric Acid</td>
+            <td>
+                <ul>
+                    <li>Ammonia feedstock pricing remains the key economic driver.</li>
+                    <li>Demand for ammonium nitrate fertilizers remains stable globally.</li>
+                    <li>Mining explosives demand supports industrial nitric acid growth.</li>
+                    <li>Emission control requirements are increasing capital spending for producers.</li>
+                    <li>Europe continues facing competitiveness issues from high energy prices.</li>
+                    <li>Industrial nitration applications remain resilient despite slower GDP growth.</li>
+                </ul>
+            </td>
+        </tr>
 
-  </main>
+        <tr>
+            <td>Caustic Soda</td>
+            <td>
+                <ul>
+                    <li>Alumina refining and pulp industries remain key demand sectors.</li>
+                    <li>Chlor-alkali economics continue depending heavily on electricity costs.</li>
+                    <li>Renewable power integration is becoming increasingly important for producers.</li>
+                    <li>Global chlorine-caustic balancing remains a persistent operational challenge.</li>
+                    <li>Asian export capacity continues increasing competitive pressure globally.</li>
+                    <li>Water treatment demand supports stable long-term growth.</li>
+                </ul>
+            </td>
+        </tr>
 
-  <!-- Shared Footer -->
-  <div id="footer-placeholder"></div>
-  <script>
-    fetch('/static/includes/footer.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('footer-placeholder').innerHTML = html);
-  </script>
+        <tr>
+            <td>Chlorine</td>
+            <td>
+                <ul>
+                    <li>PVC construction demand remains a major chlorine derivative outlet.</li>
+                    <li>Chlor-alkali producers are increasingly exposed to power market volatility.</li>
+                    <li>Environmental restrictions continue tightening transportation regulations.</li>
+                    <li>Water disinfection demand remains structurally strong worldwide.</li>
+                    <li>Integrated chlor-alkali operations maintain better economic resilience.</li>
+                    <li>Regional oversupply periodically pressures export pricing.</li>
+                </ul>
+            </td>
+        </tr>
 
+        <tr>
+            <td>Benzene</td>
+            <td>
+                <ul>
+                    <li>Styrene and phenol chains continue driving benzene demand globally.</li>
+                    <li>Chinese aromatics capacity additions are reshaping Asian trade patterns.</li>
+                    <li>Automotive sector weakness has softened some downstream derivative demand.</li>
+                    <li>Naphtha supply volatility remains a key pricing factor.</li>
+                    <li>Refinery integration continues providing feedstock advantages.</li>
+                    <li>Long-term demand growth remains tied to durable plastics consumption.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Toluene</td>
+            <td>
+                <ul>
+                    <li>Gasoline blending demand remains sensitive to refinery economics.</li>
+                    <li>Disproportionation units are increasingly converting toluene into benzene and xylenes.</li>
+                    <li>Asian export flows continue increasing global competition.</li>
+                    <li>Solvent demand remains relatively stable across industrial markets.</li>
+                    <li>Naphtha feedstock volatility directly affects producer margins.</li>
+                    <li>Petrochemical integration continues driving capacity optimization.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Xylene</td>
+            <td>
+                <ul>
+                    <li>Paraxylene demand remains strongly linked to polyester and PET packaging growth.</li>
+                    <li>China continues dominating global paraxylene capacity additions.</li>
+                    <li>Textile sector recovery remains uneven globally.</li>
+                    <li>Refinery-aromatics integration improves producer competitiveness.</li>
+                    <li>Asian oversupply continues pressuring regional margins.</li>
+                    <li>Packaging demand growth in emerging markets remains positive long term.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Ethylene Glycol</td>
+            <td>
+                <ul>
+                    <li>Polyester fiber demand remains the primary market driver.</li>
+                    <li>China continues dominating global MEG consumption.</li>
+                    <li>US exporters are seeking new markets beyond China.</li>
+                    <li>Textile industry slowdowns continue pressuring margins.</li>
+                    <li>Feedstock ethylene pricing remains highly volatile.</li>
+                    <li>PET recycling growth may alter long-term virgin MEG demand patterns.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Styrene</td>
+            <td>
+                <ul>
+                    <li>Polystyrene packaging demand remains under sustainability pressure.</li>
+                    <li>Construction and appliance markets continue driving ABS and styrenics demand.</li>
+                    <li>Benzene feedstock volatility remains a major margin driver.</li>
+                    <li>Asian capacity additions continue pressuring operating rates.</li>
+                    <li>Recycled styrenics technologies are gaining commercial traction.</li>
+                    <li>Consumer goods demand remains cyclical and GDP sensitive.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Formaldehyde</td>
+            <td>
+                <ul>
+                    <li>Wood products and resins remain the dominant demand sector.</li>
+                    <li>Construction activity directly impacts global formaldehyde demand.</li>
+                    <li>Methanol feedstock pricing continues driving cost structure.</li>
+                    <li>Low-emission resin regulations are reshaping downstream product formulations.</li>
+                    <li>Emerging markets continue expanding MDF and particleboard production.</li>
+                    <li>Environmental compliance costs continue increasing globally.</li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Phosphoric Acid</td>
+            <td>
+                <ul>
+                    <li>Fertilizer demand remains the largest global consumption segment.</li>
+                    <li>Battery material applications are creating new specialty phosphate demand.</li>
+                    <li>Phosphate rock supply concentration remains a geopolitical risk.</li>
+                    <li>Morocco and China continue dominating phosphate supply chains.</li>
+                    <li>Environmental permitting challenges are slowing some mining expansions.</li>
+                    <li>Food-grade phosphate demand remains resilient globally.</li>
+                </ul>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<p><strong>Industry-Wide Macro Themes (2026–2032)</strong></p>
+
+<ul>
+    <li>Persistent global overcapacity in olefins, polymers, and aromatics is pressuring margins.</li>
+    <li>China remains the dominant source of incremental chemical production capacity.</li>
+    <li>Energy transition investments are increasing demand for battery, semiconductor, and specialty chemicals.</li>
+    <li>Carbon taxes, ESG requirements, and recycling mandates are accelerating low-carbon technologies.</li>
+    <li>AI infrastructure and data center growth are supporting plastics, cooling fluids, and electronic materials demand.</li>
+    <li>Trade tensions, sanctions, and shipping disruptions continue reshaping global petrochemical trade flows.</li>
+</ul>
+
+:contentReference[oaicite:0]{index=0}
+::contentReference[oaicite:1]{index=1}
+			
+		</div>
+	</div>	
+			
+    <!-- Prices TAB -->
+    <div id="Prices" class="tab-content active">
+        <div class="section">
+            <h2>Prices Weekly(U.S.)</h2>
+            <p>Last week Price (LWP) - Current Week Price (CWP)  - Next Week Price (NWP)</p>
+			<p>Updated 2026-May-XX</p>
+
+			
+			<table border="1" cellspacing="0" cellpadding="5">
+			<tr><th>Commodity</th><th>Unit</th><th>LWP</th><th>CWP</th><th>NWP</th><th>Notes</th></tr>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+			<tr><td>Sulfuric Acid</td><td>¢/gal</td><td>42 ¢/gal</td><td>45 ¢/gal</td><td>47 ¢/gal</td><td>Stable demand; slight uptick expected</td></tr>
+			<tr><td>Ethylene</td><td>¢/gal</td><td>128 ¢/gal</td><td>135 ¢/gal</td><td>142 ¢/gal</td><td>Feedstock ethane rising</td></tr>
+			<tr><td>Ammonia</td><td>¢/gal</td><td>310 ¢/gal</td><td>295 ¢/gal</td><td>285 ¢/gal</td><td>Seasonal softening postspring</td></tr>
+			<tr><td>Urea</td><td>¢/gal</td><td>205 ¢/gal</td><td>198 ¢/gal</td><td>192 ¢/gal</td><td>Lower global nitrogen pricing</td></tr>
+			<tr><td>Propylene</td><td>¢/gal</td><td>165 ¢/gal</td><td>172 ¢/gal</td><td>178 ¢/gal</td><td>Refinery outages tightening supply</td></tr>
+			<tr><td>Polyethylene</td><td>¢/gal</td><td>92 ¢/gal</td><td>95 ¢/gal</td><td>98 ¢/gal</td><td>Steady demand; mild upward trend</td></tr>
+
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+			<tr><td>Methanol</td><td>¢/gal</td><td>108 ¢/gal</td><td>112 ¢/gal</td><td>118 ¢/gal</td><td>Gas based cost push</td></tr>
+			<tr><td>Polypropylene</td><td>¢/gal</td><td>145 ¢/gal</td><td>152 ¢/gal</td><td>158 ¢/gal</td><td>Propylene linked increase</td></tr>
+			<tr><td>Chlorine</td><td>¢/gal</td><td>68 ¢/gal</td><td>70 ¢/gal</td><td>72 ¢/gal</td><td>Balanced market</td></tr>
+			<tr><td>Caustic Soda</td><td>¢/gal</td><td>115 ¢/gal</td><td>118 ¢/gal</td><td>120 ¢/gal</td><td>Exports supporting pricing</td></tr>
+			<tr><td>Nitric Acid</td><td>¢/gal</td><td>84 ¢/gal</td><td>86 ¢/gal</td><td>87 ¢/gal</td><td>Stable industrial demand</td></tr>
+			<tr><td>Xylene</td><td>¢/gal</td><td>210 ¢/gal</td><td>225 ¢/gal</td><td>235 ¢/gal</td><td>Aromatics tightness continues</td></tr>
+
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+			<tr><td>Phosphoric Acid</td><td>¢/gal</td><td>155 ¢/gal</td><td>160 ¢/gal</td><td>162 ¢/gal</td><td>Fertilizer demand steady</td></tr>
+			<tr><td>Benzene</td><td>¢/gal</td><td>265 ¢/gal</td><td>278 ¢/gal</td><td>290 ¢/gal</td><td>Crude‑linked upward pressure</td></tr>
+			<tr><td>Toluene</td><td>¢/gal</td><td>185 ¢/gal</td><td>192 ¢/gal</td><td>198 ¢/gal</td><td>Blendstock demand rising</td></tr>
+			<tr><td>Ethylene Glycol</td><td>¢/gal</td><td>125 ¢/gal</td><td>130 ¢/gal</td><td>136 ¢/gal</td><td>Polyester chain improving</td></tr>
+			<tr><td>Styrene</td><td>¢/gal</td><td>240 ¢/gal</td><td>252 ¢/gal</td><td>260 ¢/gal</td><td>Higher benzene costs</td></tr>
+			<tr><td>Formaldehyde</td><td>¢/gal</td><td>78 ¢/gal</td><td>80 ¢/gal</td><td>82 ¢/gal</td><td>Construction demand stable</td></tr>
+
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			</table>
+			
+			<p>Crude baseline equivalent: $75–$80/bbl</p>
+			<p>Natural gas baseline: $2.50–$3.00/MMBtu</p>
+			<p>Aromatics elevated due to refinery constraints</p>
+			<p>Fertilizer chain (ammonia/urea) softening after winter peak</p>
+			<p>Polymers stable with mild upward pressure</p>
+			<p>Chlor‑alkali tightness easing slightly</p>
+
+
+
+        </div>
+    </div>
+
+    <!-- Price Spread TAB -->
+    <div id="Spreads" class="tab-content">
+        <div class="section">
+            <h2>Price Spread</h2>
+            <p>Spread between Product and Feedstock Prices.</p>
+
+						<table border="1" cellspacing="0" cellpadding="5">
+								<thead>
+									<tr>
+										<th>Chemical</th>
+										<th>Chemical Price (¢/gal)</th>
+										<th>Price Spread (¢/gal)</th>
+										<th>Feedstock Price (¢/gal)</th>
+										<th>Primary Feedstock(s)</th>
+										<th>Main Feedstock Source</th>
+										<th>Typical Process Route</th>
+										<th>Notes</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td>Sulfuric Acid</td>
+										<td>42</td>
+										<td>24</td>
+										<td>18</td>
+										<td>Elemental Sulfur</td>
+										<td>Sulfur recovery units</td>
+										<td>Sulfur combustion → SO₂ → SO₃ → Absorption</td>
+										<td>Pricing highly dependent on fertilizer demand</td>
+									</tr>
+
+									<tr>
+										<td>Ethylene</td>
+										<td>118</td>
+										<td>56</td>
+										<td>62</td>
+										<td>Ethane / Naphtha</td>
+										<td>NGL fractionation / refining</td>
+										<td>Steam cracking</td>
+										<td>Margins fluctuate with cracker utilization</td>
+									</tr>
+
+									<tr>
+										<td>Ammonia</td>
+										<td>132</td>
+										<td>54</td>
+										<td>78</td>
+										<td>Natural Gas</td>
+										<td>Gas processing plants</td>
+										<td>Steam methane reforming + Haber-Bosch</td>
+										<td>Natural gas cost dominates production economics</td>
+									</tr>
+
+									<tr>
+										<td>Urea</td>
+										<td>148</td>
+										<td>53</td>
+										<td>95</td>
+										<td>Ammonia + CO₂</td>
+										<td>Integrated ammonia plants</td>
+										<td>Carbamate synthesis</td>
+										<td>Strong agricultural seasonality</td>
+									</tr>
+
+									<tr>
+										<td>Propylene</td>
+										<td>141</td>
+										<td>67</td>
+										<td>74</td>
+										<td>Propane / FCC feed</td>
+										<td>Refinery & NGL systems</td>
+										<td>PDH / steam cracking</td>
+										<td>PDH economics linked to propane spreads</td>
+									</tr>
+
+									<tr>
+										<td>Polyethylene</td>
+										<td>196</td>
+										<td>78</td>
+										<td>118</td>
+										<td>Ethylene</td>
+										<td>Steam cracker olefins</td>
+										<td>Polymerization</td>
+										<td>Packaging demand drives margins</td>
+									</tr>
+
+									<tr>
+										<td>Methanol</td>
+										<td>122</td>
+										<td>44</td>
+										<td>78</td>
+										<td>Natural Gas / Syngas</td>
+										<td>Gas reforming units</td>
+										<td>Catalytic synthesis</td>
+										<td>Growing marine fuel demand</td>
+									</tr>
+
+									<tr>
+										<td>Polypropylene</td>
+										<td>218</td>
+										<td>77</td>
+										<td>141</td>
+										<td>Propylene</td>
+										<td>Refinery & petrochemical plants</td>
+										<td>Polymerization</td>
+										<td>Automotive and packaging applications dominate</td>
+									</tr>
+
+									<tr>
+										<td>Chlorine</td>
+										<td>51</td>
+										<td>39</td>
+										<td>12</td>
+										<td>Salt Brine</td>
+										<td>Salt mining</td>
+										<td>Chlor-alkali electrolysis</td>
+										<td>Electricity cost significant in economics</td>
+									</tr>
+
+									<tr>
+										<td>Caustic Soda</td>
+										<td>84</td>
+										<td>72</td>
+										<td>12</td>
+										<td>Salt Brine</td>
+										<td>Salt mining</td>
+										<td>Chlor-alkali electrolysis</td>
+										<td>Co-product balancing with chlorine market</td>
+									</tr>
+
+									<tr>
+										<td>Nitric Acid</td>
+										<td>188</td>
+										<td>56</td>
+										<td>132</td>
+										<td>Ammonia</td>
+										<td>Ammonia plants</td>
+										<td>Ostwald oxidation process</td>
+										<td>Used heavily in nitrates and explosives</td>
+									</tr>
+
+									<tr>
+										<td>Xylene</td>
+										<td>128</td>
+										<td>59</td>
+										<td>69</td>
+										<td>Naphtha</td>
+										<td>Petroleum refining</td>
+										<td>BTX extraction</td>
+										<td>Paraxylene demand tied to polyester</td>
+									</tr>
+
+									<tr>
+										<td>Phosphoric Acid</td>
+										<td>96</td>
+										<td>58</td>
+										<td>38</td>
+										<td>Phosphate Rock + Sulfuric Acid</td>
+										<td>Mining and sulfur plants</td>
+										<td>Wet acid process</td>
+										<td>Strong fertilizer market exposure</td>
+									</tr>
+
+									<tr>
+										<td>Benzene</td>
+										<td>121</td>
+										<td>52</td>
+										<td>69</td>
+										<td>Naphtha / PyGas</td>
+										<td>Refineries & crackers</td>
+										<td>Extraction / reforming</td>
+										<td>Key aromatic petrochemical feedstock</td>
+									</tr>
+
+									<tr>
+										<td>Toluene</td>
+										<td>109</td>
+										<td>40</td>
+										<td>69</td>
+										<td>Naphtha</td>
+										<td>Refinery reformers</td>
+										<td>Catalytic reforming</td>
+										<td>Used as solvent and octane component</td>
+									</tr>
+
+									<tr>
+										<td>Ethylene Glycol (MEG)</td>
+										<td>174</td>
+										<td>56</td>
+										<td>118</td>
+										<td>Ethylene</td>
+										<td>Steam cracker olefins</td>
+										<td>EO hydration</td>
+										<td>Polyester chain economics dominate pricing</td>
+									</tr>
+
+									<tr>
+										<td>Styrene</td>
+										<td>203</td>
+										<td>83</td>
+										<td>120</td>
+										<td>Benzene + Ethylene</td>
+										<td>Petrochemical aromatics & olefins</td>
+										<td>Ethylbenzene dehydrogenation</td>
+										<td>Construction and packaging exposure</td>
+									</tr>
+
+									<tr>
+										<td>Formaldehyde</td>
+										<td>176</td>
+										<td>54</td>
+										<td>122</td>
+										<td>Methanol</td>
+										<td>Methanol synthesis plants</td>
+										<td>Catalytic oxidation</td>
+										<td>Wood products and resin markets dominate</td>
+									</tr>
+
+								</tbody>
+							</table>
+			
+			
+        </div>
+    </div>
+
+    <!-- Supply-Demand TAB -->
+    <div id="Supply-Demand" class="tab-content">
+        <div class="section">
+            <h2>Supply-Demand Yearly</h2>
+            <p>Last 3rd Year Demand (L3YD) - Current Year Demand (CYD)  - Next 6th Year Demand (N6YD)</p>
+
+            <table border="1" cellspacing="0" cellpadding="5">
+				<tr><th>Commodity</th><th>Unit</th><th>L3YD</th><th>CYD</th><th>N6YD, CAGR</th><th>Notes</th></tr>
+				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Sulfuric Acid</td><td>MMTPA</td><td>XX1</td><td>280</td><td>335–345,2.8%</td><td>Fertilizers, refining, mining, batteries</td></tr>
+                <tr><td>Ethylene</td><td>MMTPA</td><td>XX1</td><td>220</td><td>295–310,4.2%</td><td>Plastics, polyethylene, chemicals</td></tr>
+                <tr><td>Ammonia</td><td>MMTPA</td><td>XX1</td><td>180</td><td>225–235,3.2%</td><td>Fertilizers, explosives, refrigerants</td></tr>
+                <tr><td>Urea</td><td>MMTPA</td><td>XX1</td><td>180</td><td>220–230,3.0%</td><td>Fertilizers, diesel exhaust fluid</td></tr>
+                <tr><td>Propylene</td><td>MMTPA</td><td>XX1</td><td>140</td><td>185–195,4.0%</td><td>Polypropylene, acrylonitrile</td></tr>
+                <tr><td>Polyethylene</td><td>MMTPA</td><td>XX1</td><td>130</td><td>175–185,4.5%</td><td>Packaging, containers, films</td></tr>
+				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Methanol</td><td>MMTPA</td><td>XX1</td><td>110</td><td>150–160,4.3%</td><td>Fuels, formaldehyde, olefins</td></tr>
+				<tr><td>Polypropylene</td><td>MMTPA</td><td>XX1</td><td>90</td><td>118–125,4.0%</td><td>Automotive, packaging, fibers</td></tr>
+				<tr><td>Chlorine</td><td>MMTPA</td><td>XX1</td><td>90</td><td>108–112,2.9%</td><td>PVC, water treatment, chemicals</td></tr>
+                <tr><td>Caustic Soda</td><td>MMTPA</td><td>XX1</td><td>85</td><td>103–108,3.0%</td><td>Alumina, soaps, pulp & paper</td></tr>
+                <tr><td>Nitric Acid</td><td>MMTPA</td><td>XX1</td><td>70</td><td>83–87,2.8%</td><td>Fertilizers, explosives</td></tr>
+                <tr><td>Xylene</td><td>MMTPA</td><td>XX1</td><td>55</td><td>72–76,3.8%</td><td>PET, polyester, solvents</td></tr>
+				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Phosphoric Acid</td><td>MMTPA</td><td>XX1</td><td>50</td><td>60–64,3.0%</td><td>Fertilizers, food additives</td></tr>
+                <tr><td>Benzene</td><td>MMTPA</td><td>XX1</td><td>50</td><td>63–67,3.5%</td><td>Fertilizers, food additives</td></tr>
+				<tr><td>Toluene</td><td>MMTPA</td><td>XX1</td><td>35</td><td>42–45,3.0%</td><td>Solvents, gasoline blending</td></tr>
+				<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>XX1</td><td>35</td><td>46–49,4.0%</td><td>Polyester fibers, antifreeze</td></tr>
+                <tr><td>Styrene</td><td>MMTPA</td><td>XX1</td><td>30</td><td>38–40,3.6%</td><td>Polystyrene, ABS plastics</td></tr>
+				<tr><td>Formaldehyde</td><td>MMTPA</td><td>XX1</td><td>25</td><td>30–32,3.0%</td><td>Resins, adhesives, wood products</td></tr>
+				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+			
+			<ul>
+				<li>Polyethylene, ethylene, methanol, propylene, and polypropylene are expected to be the fastest-growing chemical segments through 2032.</li>
+				<li>Global packaging demand remains a major driver for petrochemical and polymer consumption growth.</li>
+				<li>Rapid urbanization and infrastructure expansion in emerging economies will significantly increase chemical demand.</li>
+				<li>Electric vehicle manufacturing and battery supply chains are accelerating demand for specialty and industrial chemicals.</li>
+				<li>Expansion of AI systems and data center infrastructure is increasing demand for plastics, cooling fluids, and semiconductor-grade chemicals.</li>
+				<li>Construction and industrial growth in Asia and Africa are expected to drive large increases in commodity chemical consumption.</li>
+				<li>Energy transition projects are creating strong demand growth for blue ammonia, green methanol, and battery-grade sulfuric acid.</li>
+				<li>China, India, Indonesia, Vietnam, Saudi Arabia, and the United States are expected to be the largest regional demand growth centers.</li>
+				<li>Ethylene, polyethylene, polypropylene, methanol, and ethylene glycol are projected to grow faster than global GDP due to industrialization and polymer intensity.</li>
+				<li>Key risks to the 2032 forecast include recycling regulations, carbon taxes, geopolitical disruptions, fertilizer policy changes, slower Chinese construction growth, and decarbonization mandates.</li>
+			</ul>
+			
+        </div>
+    </div>
+
+    <!-- Capacity TAB -->
+    <div id="Capacity" class="tab-content">
+        <div class="section">
+            <h2>Chemical Production Capacity Global, and Regional</h2>
+            <p>Global(GL1) - USA (US2) - EUROPE (EU3) -  Middle East (ME4) - ASIA, with CHINA (AS5) - CHINA (CH6) - Latin America (LA7) - Canada (CA8) - Africa (AF9) - Russian Federation (RF10)  </p>
+
+					<table border="1" cellspacing="0" cellpadding="5">
+						<tr><th>Commodity</th><th>Unit</th><th>GL1</th><th>US2</th><th>EU3</th><th>ME4</th><th>AS5</th><th>CH6</th><th>LA7</th><th>CA8</th><th>AF9</th><th>RF10</th><th>Notes</th></tr>
+						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+						<tr><td>Sulfuric Acid</td><td>MMTPA</td><td>300</td><td>25</td><td>25</td><td>10</td><td>90</td><td>110</td><td>20</td><td>5</td><td>15</td><td>25</td><td>Mining + fertilizer driven</td></tr>
+
+						<tr><td>Ethylene</td><td>MMTPA</td><td>220</td><td>45</td><td>25</td><td>35</td><td>60</td><td>45</td><td>10</td><td>6</td><td>3</td><td>11</td><td>US + China + ME dominate</td></tr>
+
+						<tr><td>Ammonia</td><td>MMTPA</td><td>190</td><td>20</td><td>18</td><td>22</td><td>55</td><td>40</td><td>12</td><td>4</td><td>6</td><td>13</td><td>Fertilizer chain backbone</td></tr>
+
+						<tr><td>Urea</td><td>MMTPA</td><td>190</td><td>10</td><td>12</td><td>18</td><td>70</td><td>55</td><td>10</td><td>3</td><td>5</td><td>17</td><td>China largest producer</td></tr>
+
+						<tr><td>Propylene</td><td>MMTPA</td><td>150</td><td>30</td><td>20</td><td>18</td><td>45</td><td>40</td><td>8</td><td>5</td><td>2</td><td>12</td><td>PDH growth in China/ME</td></tr>
+
+						<tr><td>Polyethylene</td><td>MMTPA</td><td>125</td><td>25</td><td>15</td><td>20</td><td>40</td><td>35</td><td>6</td><td>4</td><td>2</td><td>3</td><td>China expanding rapidly</td></tr>
+
+						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+						<tr><td>Methanol</td><td>MMTPA</td><td>110</td><td>5</td><td>8</td><td>25</td><td>30</td><td>35</td><td>4</td><td>3</td><td>1</td><td>4</td><td>China coal‑to‑methanol heavy</td></tr>
+
+						<tr><td>Polypropylene</td><td>MMTPA</td><td>120</td><td>20</td><td>15</td><td>15</td><td>40</td><td>35</td><td>6</td><td>4</td><td>2</td><td>3</td><td>China largest PP base</td></tr>
+
+						<tr><td>Chlorine</td><td>MMTPA</td><td>85</td><td>15</td><td>12</td><td>5</td><td>25</td><td>20</td><td>4</td><td>6</td><td>2</td><td>3</td><td>Linked to PVC demand</td></tr>
+
+						<tr><td>Caustic Soda</td><td>MMTPA</td><td>95</td><td>17</td><td>14</td><td>6</td><td>28</td><td>22</td><td>5</td><td>7</td><td>2</td><td>3</td><td>Chlor‑alkali co‑product</td></tr>
+
+						<tr><td>Nitric Acid</td><td>MMTPA</td><td>65</td><td>8</td><td>10</td><td>4</td><td>20</td><td>18</td><td>3</td><td>2</td><td>2</td><td>6</td><td>Explosives + fertilizer</td></tr>
+
+						<tr><td>Xylene</td><td>MMTPA</td><td>55</td><td>7</td><td>8</td><td>6</td><td>20</td><td>15</td><td>2</td><td>1</td><td>1</td><td>2</td><td>PX demand drives capacity</td></tr>
+
+						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+						<tr><td>Phosphoric Acid</td><td>MMTPA</td><td>55</td><td>3</td><td>6</td><td>10</td><td>15</td><td>12</td><td>5</td><td>1</td><td>4</td><td>2</td><td>Morocco major producer</td></tr>
+
+						<tr><td>Benzene</td><td>MMTPA</td><td>60</td><td>8</td><td>10</td><td>8</td><td>20</td><td>15</td><td>2</td><td>1</td><td>1</td><td>3</td><td>Aromatics tied to refining</td></tr>
+
+						<tr><td>Toluene</td><td>MMTPA</td><td>35</td><td>5</td><td>6</td><td>4</td><td>12</td><td>8</td><td>1</td><td>1</td><td>1</td><td>2</td><td>Solvents + gasoline blend</td></tr>
+
+						<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>45</td><td>4</td><td>5</td><td>6</td><td>15</td><td>14</td><td>2</td><td>1</td><td>1</td><td>1</td><td>Polyester chain heavy in China</td></tr>
+
+						<tr><td>Styrene</td><td>MMTPA</td><td>35</td><td>5</td><td>6</td><td>5</td><td>12</td><td>9</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Linked to PS/ABS demand</td></tr>
+
+						<tr><td>Formaldehyde</td><td>MMTPA</td><td>55</td><td>6</td><td>8</td><td>4</td><td>18</td><td>15</td><td>3</td><td>2</td><td>2</td><td>3</td><td>Construction + resins</td></tr>
+
+						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+					</table>
+							<p>Global capacity = sum of regional values (rounded)</p>
+							<p>China dominates polymers, aromatics, methanol, urea</p>
+							<p>Middle East strong in ethylene, ammonia, methanol</p>
+							<p>USA strong in ethylene, propylene, chlorine/caustic</p>
+							<p>Europe moderate across most chains</p>
+							<p>Latin America, Canada, Africa, Russia smaller but realistic</p>
+	
+        </div>
+    </div>
+
+    <!-- Specs -->
+    <div id="Specs" class="tab-content">
+        <div class="section">
+            <h2>ASTM Document IDs / Specifications for Major Industrial Chemicals</h2>
+            <p>The ASTM standards are among the most commonly referenced industrial specifications for these chemicals.</p>
+			
+			
+					<table border="1" cellspacing="0" cellpadding="5">
+						<thead>
+							<tr>
+								<th>Chemical</th>
+								<th>Major Specification Standards</th>
+								<th>Standard Organization</th>
+								<th>Major Product Specifications</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Sulfuric Acid</td>
+								<td>ASTM E223, ISO 910, ACS Reagent Grade</td>
+								<td>ASTM / ISO / ACS</td>
+								<td>93–98% H₂SO₄, low metals, low organics</td>
+							</tr>
+							<tr>
+								<td>Ethylene</td>
+								<td>ASTM D2504, GPA 2261, ISO 6373</td>
+								<td>ASTM / GPA / ISO</td>
+								<td>Polymer‑grade ≥ 99.9%, moisture < 2 ppm, O₂ < 1 ppm</td>
+							</tr>
+							<tr>
+								<td>Ammonia</td>
+								<td>ASTM D1426, ISO 7103, ANSI K61.1</td>
+								<td>ASTM / ISO / ANSI</td>
+								<td>Anhydrous ≥ 99.95%, H₂O < 150 ppm, oil < 5 mg/kg</td>
+							</tr>
+							<tr>
+								<td>Urea</td>
+								<td>ASTM D6907, ISO 22241</td>
+								<td>ASTM / ISO</td>
+								<td>46% N (prill/granular), biuret < 1%, low moisture</td>
+							</tr>
+							<tr>
+								<td>Propylene</td>
+								<td>ASTM D2712, GPA 2177</td>
+								<td>ASTM / GPA</td>
+								<td>Polymer‑grade ≥ 99.5%, sulfur < 1 ppm, moisture < 2 ppm</td>
+							</tr>
+							<tr>
+								<td>Polyethylene</td>
+								<td>ASTM D4976, ISO 1872</td>
+								<td>ASTM / ISO</td>
+								<td>MFI (0.2–20 g/10 min), density 0.915–0.965 g/cc</td>
+							</tr>
+							<tr>
+								<td>Methanol</td>
+								<td>ASTM D1152, IMPCA Specifications</td>
+								<td>ASTM / IMPCA</td>
+								<td>≥ 99.85% purity, water < 0.1%, acidity < 30 mg/kg</td>
+							</tr>
+							<tr>
+								<td>Polypropylene</td>
+								<td>ASTM D4101, ISO 19069</td>
+								<td>ASTM / ISO</td>
+								<td>MFI (1–50 g/10 min), isotactic index > 95%</td>
+							</tr>
+							<tr>
+								<td>Chlorine</td>
+								<td>ASTM E412, CGA Pamphlet 6</td>
+								<td>ASTM / CGA</td>
+								<td>≥ 99.5% Cl₂, moisture < 20 ppm, non‑condensables < 0.1%</td>
+							</tr>
+							<tr>
+								<td>Caustic Soda</td>
+								<td>ASTM E291, ISO 3195</td>
+								<td>ASTM / ISO</td>
+								<td>32% or 50% NaOH, NaCl < 1%, Fe < 5 ppm</td>
+							</tr>
+							<tr>
+								<td>Nitric Acid</td>
+								<td>ASTM E1584, ISO 6353</td>
+								<td>ASTM / ISO</td>
+								<td>55–70% HNO₃, NOx < 200 ppm, low metals</td>
+							</tr>
+							<tr>
+								<td>Xylene</td>
+								<td>ASTM D843, ASTM D846</td>
+								<td>ASTM</td>
+								<td>≥ 99% purity, sulfur < 1 ppm, bromine index controlled</td>
+							</tr>
+							<tr>
+								<td>Phosphoric Acid</td>
+								<td>ASTM D515, FCC Specifications</td>
+								<td>ASTM / FCC</td>
+								<td>75–85% H₃PO₄, heavy metals < 10 ppm</td>
+							</tr>
+							<tr>
+								<td>Benzene</td>
+								<td>ASTM D2359, ISO 5272</td>
+								<td>ASTM / ISO</td>
+								<td>≥ 99.9% purity, thiophene < 1 ppm, non‑aromatics < 0.1%</td>
+							</tr>
+							<tr>
+								<td>Toluene</td>
+								<td>ASTM D841, ISO 5272</td>
+								<td>ASTM / ISO</td>
+								<td>≥ 99.8% purity, sulfur < 1 ppm, color < 10 APHA</td>
+							</tr>
+							<tr>
+								<td>Ethylene Glycol</td>
+								<td>ASTM D2693, ASTM E202</td>
+								<td>ASTM</td>
+								<td>≥ 99.8% MEG, water < 0.1%, acidity < 25 mg/kg</td>
+							</tr>
+							<tr>
+								<td>Styrene</td>
+								<td>ASTM D2827, ISO 2897</td>
+								<td>ASTM / ISO</td>
+								<td>≥ 99.8% purity, inhibitor (TBC) 10–15 ppm</td>
+							</tr>
+							<tr>
+								<td>Formaldehyde</td>
+								<td>ASTM D2194, ISO 9397</td>
+								<td>ASTM / ISO</td>
+								<td>37% solution, methanol 6–15%, acidity < 0.01%</td>
+							</tr>
+						</tbody>
+					</table>
+
+
+					<ul>
+						<li>ASTM standards are widely used to define quality, testing, and handling requirements for industrial chemicals.</li>
+						<li>Acid chemical standards include ASTM E223 for sulfuric acid, ASTM E1584 for nitric acid, and ASTM D515 for phosphoric acid.</li>
+						<li>Petrochemical feedstock standards include ASTM D2359 for benzene and ASTM D841 for toluene.</li>
+						<li>ASTM D843 for xylene and ASTM D2827 for styrene are commonly referenced in petrochemical manufacturing and trading.</li>
+						<li>Polymer and plastic material specifications commonly use ASTM D4976 for polyethylene and ASTM D4101 for polypropylene.</li>
+						<li>Industrial solvent and glycol standards include ASTM D1152 for methanol and ASTM D2693 for ethylene glycol.</li>
+						<li>Chlor-alkali chemical industries commonly reference ASTM E291 for caustic soda and ASTM E412 for chlorine.</li>
+						<li>ASTM specifications typically include product specifications, purity limits, and analytical testing procedures.</li>
+						<li>Many ASTM standards also define sampling methods, material testing requirements, and safety handling guidelines.</li>
+						<li>Industrial chemicals are often governed by multiple standards organizations including ASTM, ISO, API, GPA, ACS, and USP/FCC pharmaceutical specifications.</li>
+					</ul>
+
+        </div>
+    </div>
+
+    <!-- Product Specification -->
+    <div id="Property" class="tab-content">
+        <div class="section">
+            <h2>Transport Property and Energy Content</h2>
+            <p>Transport Property and Energy Content.</p>
+			
+				<table border="1" cellspacing="0" cellpadding="4">
+						<tr>
+							<th>Commodity</th>
+							<th>Density, lb/ft3</th>
+							<th>Density, lb/gal</th>
+							<th>Specific Gravity</th>
+							<th>API</th>
+							<th>MW</th>
+							<th>Dynamic Viscosity, cP</th>
+							<th>Kinematic Viscosity, cSt</th>
+							<th>Energy Content, MBTU/lb</th>
+							<th>Energy Content, MBTU/ft3</th>
+							<th>Energy Content, MBTU/gal</th>
+							<th>Normal Storage Condition</th>
+							<th>Notes</th>
+						</tr>
+
+						<tr>
+							<td>Sulfuric Acid</td>
+							<td>114.5</td>
+							<td>15.30</td>
+							<td>1.84</td>
+							<td>-131</td>
+							<td>98.08</td>
+							<td>24.0</td>
+							<td>13.0</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0 psig, 70°F</td>
+							<td>Strong mineral acid stored in carbon steel tanks</td>
+						</tr>
+
+						<tr>
+							<td>Ethylene</td>
+							<td>1.18</td>
+							<td>0.158</td>
+							<td>0.019</td>
+							<td>574</td>
+							<td>28.05</td>
+							<td>0.010</td>
+							<td>0.014</td>
+							<td>21.0</td>
+							<td>24.8</td>
+							<td>0.176</td>
+							<td>150 psig, -150°F</td>
+							<td>Cryogenic or pressurized olefin gas</td>
+						</tr>
+
+						<tr>
+							<td>Ammonia</td>
+							<td>42.6</td>
+							<td>5.69</td>
+							<td>0.682</td>
+							<td>78</td>
+							<td>17.03</td>
+							<td>0.26</td>
+							<td>0.38</td>
+							<td>15.6</td>
+							<td>664.0</td>
+							<td>0.091</td>
+							<td>150 psig, 70°F</td>
+							<td>Anhydrous refrigerated or pressurized storage</td>
+						</tr>
+
+						<tr>
+							<td>Urea</td>
+							<td>83.0</td>
+							<td>11.10</td>
+							<td>1.33</td>
+							<td>-17</td>
+							<td>60.06</td>
+							<td>N/A</td>
+							<td>N/A</td>
+							<td>4.8</td>
+							<td>398.0</td>
+							<td>0.040</td>
+							<td>0 psig, 70°F</td>
+							<td>Dry solid prill or granule storage</td>
+						</tr>
+
+						<tr>
+							<td>Propylene</td>
+							<td>1.81</td>
+							<td>0.242</td>
+							<td>0.029</td>
+							<td>497</td>
+							<td>42.08</td>
+							<td>0.008</td>
+							<td>0.012</td>
+							<td>21.7</td>
+							<td>39.3</td>
+							<td>0.198</td>
+							<td>180 psig, 70°F</td>
+							<td>Liquefied pressurized hydrocarbon gas</td>
+						</tr>
+
+						<tr>
+							<td>Polyethylene</td>
+							<td>58.0</td>
+							<td>7.75</td>
+							<td>0.93</td>
+							<td>20</td>
+							<td>100000+</td>
+							<td>N/A</td>
+							<td>N/A</td>
+							<td>20.0</td>
+							<td>1160.0</td>
+							<td>0.162</td>
+							<td>0 psig, 70°F</td>
+							<td>Solid polymer pellets in silos or bags</td>
+						</tr>
+
+						<tr>
+							<td>Methanol</td>
+							<td>49.3</td>
+							<td>6.59</td>
+							<td>0.792</td>
+							<td>46</td>
+							<td>32.04</td>
+							<td>0.59</td>
+							<td>0.75</td>
+							<td>10.1</td>
+							<td>498.0</td>
+							<td>0.064</td>
+							<td>0 psig, 70°F</td>
+							<td>Flammable liquid stored in fixed roof tanks</td>
+						</tr>
+
+						<tr>
+							<td>Polypropylene</td>
+							<td>56.2</td>
+							<td>7.51</td>
+							<td>0.90</td>
+							<td>26</td>
+							<td>150000+</td>
+							<td>N/A</td>
+							<td>N/A</td>
+							<td>19.5</td>
+							<td>1096.0</td>
+							<td>0.146</td>
+							<td>0 psig, 70°F</td>
+							<td>Solid thermoplastic pellets</td>
+						</tr>
+
+						<tr>
+							<td>Chlorine</td>
+							<td>9.2</td>
+							<td>1.23</td>
+							<td>0.147</td>
+							<td>300</td>
+							<td>70.90</td>
+							<td>0.013</td>
+							<td>0.009</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>85 psig, 70°F</td>
+							<td>Toxic oxidizing liquefied gas</td>
+						</tr>
+
+						<tr>
+							<td>Caustic Soda</td>
+							<td>95.0</td>
+							<td>12.70</td>
+							<td>1.52</td>
+							<td>-56</td>
+							<td>40.00</td>
+							<td>50.0</td>
+							<td>33.0</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0 psig, 90°F</td>
+							<td>Typically stored as 50 wt% aqueous solution</td>
+						</tr>
+
+						<tr>
+							<td>Nitric Acid</td>
+							<td>88.7</td>
+							<td>11.86</td>
+							<td>1.42</td>
+							<td>-39</td>
+							<td>63.01</td>
+							<td>1.4</td>
+							<td>1.0</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0 psig, 70°F</td>
+							<td>Strong oxidizing acid stored in stainless steel</td>
+						</tr>
+
+						<tr>
+							<td>Xylene</td>
+							<td>54.4</td>
+							<td>7.27</td>
+							<td>0.87</td>
+							<td>31</td>
+							<td>106.16</td>
+							<td>0.62</td>
+							<td>0.71</td>
+							<td>18.4</td>
+							<td>1001.0</td>
+							<td>0.134</td>
+							<td>0 psig, 70°F</td>
+							<td>Flammable aromatic solvent</td>
+						</tr>
+
+						<tr>
+							<td>Phosphoric Acid</td>
+							<td>105.0</td>
+							<td>14.03</td>
+							<td>1.68</td>
+							<td>-92</td>
+							<td>98.00</td>
+							<td>85.0</td>
+							<td>50.0</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0 psig, 70°F</td>
+							<td>Corrosive mineral acid</td>
+						</tr>
+
+						<tr>
+							<td>Benzene</td>
+							<td>54.8</td>
+							<td>7.33</td>
+							<td>0.876</td>
+							<td>30</td>
+							<td>78.11</td>
+							<td>0.65</td>
+							<td>0.74</td>
+							<td>18.0</td>
+							<td>986.0</td>
+							<td>0.131</td>
+							<td>0 psig, 70°F</td>
+							<td>Carcinogenic aromatic hydrocarbon</td>
+						</tr>
+
+						<tr>
+							<td>Toluene</td>
+							<td>54.1</td>
+							<td>7.23</td>
+							<td>0.867</td>
+							<td>31</td>
+							<td>92.14</td>
+							<td>0.59</td>
+							<td>0.68</td>
+							<td>18.2</td>
+							<td>985.0</td>
+							<td>0.141</td>
+							<td>0 psig, 70°F</td>
+							<td>Flammable aromatic solvent/feedstock</td>
+						</tr>
+
+						<tr>
+							<td>Ethylene Glycol</td>
+							<td>69.6</td>
+							<td>9.31</td>
+							<td>1.11</td>
+							<td>-5</td>
+							<td>62.07</td>
+							<td>16.1</td>
+							<td>14.5</td>
+							<td>7.2</td>
+							<td>501.0</td>
+							<td>0.060</td>
+							<td>0 psig, 70°F</td>
+							<td>Hygroscopic antifreeze/feedstock liquid</td>
+						</tr>
+
+						<tr>
+							<td>Styrene</td>
+							<td>56.2</td>
+							<td>7.51</td>
+							<td>0.909</td>
+							<td>24</td>
+							<td>104.15</td>
+							<td>0.76</td>
+							<td>0.84</td>
+							<td>17.5</td>
+							<td>983.0</td>
+							<td>0.147</td>
+							<td>0 psig, 70°F</td>
+							<td>Polymerizable monomer requiring inhibitor</td>
+						</tr>
+
+						<tr>
+							<td>Formaldehyde</td>
+							<td>67.4</td>
+							<td>9.01</td>
+							<td>1.08</td>
+							<td>4</td>
+							<td>30.03</td>
+							<td>2.0</td>
+							<td>1.85</td>
+							<td>4.7</td>
+							<td>317.0</td>
+							<td>0.042</td>
+							<td>0 psig, 70°F</td>
+							<td>Typically stored as aqueous formalin solution</td>
+						</tr>
+
+					</table>
+				
+
+            
+        </div>
+    </div>
+
+    <!-- Production Pathway -->
+    <div id="Pathway" class="tab-content">
+        <div class="section">
+            <h2>Production Pathway</h2>
+            <p>Production Pathway.</p>
+
+					<table border="1" cellspacing="0" cellpadding="5">
+						<thead>
+							<tr>
+								<th>Chemical</th>
+								<th>Production Pathway</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Sulfuric Acid</td>
+								<td>Elemental sulfur → Sulfur burning → SO₂ → Catalytic oxidation (V₂O₅) → SO₃ → Absorption in H₂SO₄</td>
+							</tr>
+							<tr>
+								<td>Ethylene</td>
+								<td>Steam cracking of ethane/propane/naphtha → Quench → Compression → Cryogenic separation</td>
+							</tr>
+							<tr>
+								<td>Ammonia</td>
+								<td>Natural gas reforming → Syngas (H₂ + N₂) → Haber-Bosch synthesis</td>
+							</tr>
+							<tr>
+								<td>Urea</td>
+								<td>Ammonia + CO₂ → Ammonium carbamate → Dehydration → Urea</td>
+							</tr>
+							<tr>
+								<td>Propylene</td>
+								<td>Steam cracking (co-product) OR FCC propylene recovery OR Propane dehydrogenation (PDH)</td>
+							</tr>
+							<tr>
+								<td>Polyethylene</td>
+								<td>Ethylene polymerization (Ziegler–Natta, Chromium, or Metallocene catalysts)</td>
+							</tr>
+							<tr>
+								<td>Methanol</td>
+								<td>Syngas (CO + H₂) from natural gas reforming → Catalytic synthesis (Cu/ZnO/Al₂O₃)</td>
+							</tr>
+							<tr>
+								<td>Polypropylene</td>
+								<td>Propylene polymerization (Ziegler–Natta or Metallocene catalysts)</td>
+							</tr>
+							<tr>
+								<td>Chlorine</td>
+								<td>Chlor-alkali electrolysis of brine → Cl₂ + NaOH + H₂</td>
+							</tr>
+							<tr>
+								<td>Caustic Soda (NaOH)</td>
+								<td>Chlor-alkali electrolysis of brine → NaOH + Cl₂ + H₂</td>
+							</tr>
+							<tr>
+								<td>Nitric Acid</td>
+								<td>Ammonia oxidation (Ostwald process) → NO → NO₂ → Absorption in water → HNO₃</td>
+							</tr>
+							<tr>
+								<td>Xylene (Mixed)</td>
+								<td>Catalytic reforming of naphtha → BTX extraction → Fractionation</td>
+							</tr>
+							<tr>
+								<td>Phosphoric Acid</td>
+								<td>Wet process: Phosphate rock + H₂SO₄ → H₃PO₄ + gypsum OR Thermal oxidation of elemental phosphorus</td>
+							</tr>
+							<tr>
+								<td>Benzene</td>
+								<td>Catalytic reforming, steam cracking pyrolysis gasoline extraction, or toluene hydrodealkylation</td>
+							</tr>
+							<tr>
+								<td>Toluene</td>
+								<td>Catalytic reforming of naphtha → BTX extraction</td>
+							</tr>
+							<tr>
+								<td>Ethylene Glycol (MEG)</td>
+								<td>Ethylene → Ethylene oxide → Hydration → MEG</td>
+							</tr>
+							<tr>
+								<td>Styrene</td>
+								<td>Ethylbenzene synthesis (benzene + ethylene) → Dehydrogenation → Styrene</td>
+							</tr>
+							<tr>
+								<td>Formaldehyde</td>
+								<td>Methanol oxidation (silver catalyst or metal oxide process) → Formaldehyde</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<ul>
+    <li>Most bulk petrochemicals such as ethylene, propylene, benzene, toluene, and xylene are produced from crude oil refining and natural gas processing.</li>
+    <li>Steam cracking of ethane, propane, and naphtha is the primary production pathway for ethylene and propylene.</li>
+    <li>Methanol is mainly produced through catalytic synthesis of syngas generated from natural gas, coal, or biomass feedstocks.</li>
+    <li>Ammonia production primarily uses the Haber-Bosch process with hydrogen derived from steam methane reforming of natural gas.</li>
+    <li>Urea is manufactured by reacting ammonia with carbon dioxide under high pressure and temperature conditions.</li>
+    <li>Sulfuric acid is produced mainly through the Contact Process by oxidizing sulfur dioxide into sulfur trioxide followed by hydration.</li>
+    <li>Chlorine and caustic soda are co-produced through the chlor-alkali electrolysis process using brine as the feedstock.</li>
+    <li>Polyethylene and polypropylene are produced through polymerization of ethylene and propylene monomers using catalytic reactors.</li>
+    <li>Styrene is commonly manufactured by dehydrogenation of ethylbenzene, while ethylene glycol is produced from ethylene oxide hydration.</li>
+    <li>Green and low-carbon production pathways are expanding through renewable hydrogen, biomass feedstocks, carbon capture, and electrification technologies.</li>
+</ul>
+
+        </div>
+    </div>
+	
+</div>
+
+
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>
