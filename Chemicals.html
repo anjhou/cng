@@ -167,164 +167,221 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Price Spread</h2>
             <p>Spread between Product and Feedstock Prices.</p>
 
-            <table border="1" cellspacing="0" cellpadding="5">
-    <thead>
-        <tr>
-            <th>Chemical</th>
-            <th>Primary Feedstock(s)</th>
-            <th>Main Feedstock Source</th>
-            <th>Typical Process Route</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody>
+						<table>
+						<thead>
+							<tr>
+								<th>Chemical</th>
+								<th>Primary Feedstock(s)</th>
+								<th>Main Feedstock Source</th>
+								<th>Typical Process Route</th>
+								<th>Feedstock Price (¢/gal)</th>
+								<th>Chemical Price (¢/gal)</th>
+								<th>Price Spread (¢/gal)</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+						<tbody>
 
-        <tr>
-            <td>Sulfuric Acid</td>
-            <td>Elemental Sulfur, Sulfur-bearing gases</td>
-            <td>Oil & gas refining, sulfur recovery units</td>
-            <td>Sulfur combustion → SO₂ → SO₃ → Absorption</td>
-            <td>Largest use in phosphate fertilizer production</td>
-        </tr>
+							<tr>
+								<td>Sulfuric Acid</td>
+								<td>Elemental Sulfur</td>
+								<td>Sulfur recovery units</td>
+								<td>Sulfur combustion → SO₂ → SO₃ → Absorption</td>
+								<td>18</td>
+								<td>42</td>
+								<td>24</td>
+								<td>Pricing highly dependent on fertilizer demand</td>
+							</tr>
 
-        <tr>
-            <td>Ethylene</td>
-            <td>Ethane, Propane, Naphtha</td>
-            <td>Natural gas liquids and crude oil refining</td>
-            <td>Steam cracking</td>
-            <td>Most important petrochemical building block</td>
-        </tr>
+							<tr>
+								<td>Ethylene</td>
+								<td>Ethane / Naphtha</td>
+								<td>NGL fractionation / refining</td>
+								<td>Steam cracking</td>
+								<td>62</td>
+								<td>118</td>
+								<td>56</td>
+								<td>Margins fluctuate with cracker utilization</td>
+							</tr>
 
-        <tr>
-            <td>Ammonia</td>
-            <td>Natural Gas, Air</td>
-            <td>Methane reforming and nitrogen separation</td>
-            <td>Steam methane reforming + Haber-Bosch</td>
-            <td>Hydrogen source may shift toward green hydrogen</td>
-        </tr>
+							<tr>
+								<td>Ammonia</td>
+								<td>Natural Gas</td>
+								<td>Gas processing plants</td>
+								<td>Steam methane reforming + Haber-Bosch</td>
+								<td>78</td>
+								<td>132</td>
+								<td>54</td>
+								<td>Natural gas cost dominates production economics</td>
+							</tr>
 
-        <tr>
-            <td>Urea</td>
-            <td>Ammonia, Carbon Dioxide</td>
-            <td>Ammonia plant synthesis loop</td>
-            <td>Ammonium carbamate synthesis</td>
-            <td>Largest nitrogen fertilizer globally</td>
-        </tr>
+							<tr>
+								<td>Urea</td>
+								<td>Ammonia + CO₂</td>
+								<td>Integrated ammonia plants</td>
+								<td>Carbamate synthesis</td>
+								<td>95</td>
+								<td>148</td>
+								<td>53</td>
+								<td>Strong agricultural seasonality</td>
+							</tr>
 
-        <tr>
-            <td>Propylene</td>
-            <td>Propane, Naphtha, FCC offgas</td>
-            <td>Refinery FCC units and NGLs</td>
-            <td>PDH, steam cracking, FCC recovery</td>
-            <td>Strong growth from PDH plants</td>
-        </tr>
+							<tr>
+								<td>Propylene</td>
+								<td>Propane / FCC feed</td>
+								<td>Refinery & NGL systems</td>
+								<td>PDH / steam cracking</td>
+								<td>74</td>
+								<td>141</td>
+								<td>67</td>
+								<td>PDH economics linked to propane spreads</td>
+							</tr>
 
-        <tr>
-            <td>Polyethylene</td>
-            <td>Ethylene</td>
-            <td>Steam cracker ethylene units</td>
-            <td>Polymerization</td>
-            <td>Largest volume plastic resin globally</td>
-        </tr>
+							<tr>
+								<td>Polyethylene</td>
+								<td>Ethylene</td>
+								<td>Steam cracker olefins</td>
+								<td>Polymerization</td>
+								<td>118</td>
+								<td>196</td>
+								<td>78</td>
+								<td>Packaging demand drives margins</td>
+							</tr>
 
-        <tr>
-            <td>Methanol</td>
-            <td>Natural Gas, Coal, Biomass, CO₂ + H₂</td>
-            <td>Syngas production units</td>
-            <td>Syngas catalytic synthesis</td>
-            <td>Green methanol demand increasing rapidly</td>
-        </tr>
+							<tr>
+								<td>Methanol</td>
+								<td>Natural Gas / Syngas</td>
+								<td>Gas reforming units</td>
+								<td>Catalytic synthesis</td>
+								<td>78</td>
+								<td>122</td>
+								<td>44</td>
+								<td>Growing marine fuel demand</td>
+							</tr>
 
-        <tr>
-            <td>Polypropylene</td>
-            <td>Propylene</td>
-            <td>Refinery and petrochemical propylene units</td>
-            <td>Polymerization</td>
-            <td>Major packaging and automotive polymer</td>
-        </tr>
+							<tr>
+								<td>Polypropylene</td>
+								<td>Propylene</td>
+								<td>Refinery & petrochemical plants</td>
+								<td>Polymerization</td>
+								<td>141</td>
+								<td>218</td>
+								<td>77</td>
+								<td>Automotive and packaging applications dominate</td>
+							</tr>
 
-        <tr>
-            <td>Chlorine</td>
-            <td>Salt Brine (NaCl solution)</td>
-            <td>Salt mining or seawater processing</td>
-            <td>Chlor-alkali electrolysis</td>
-            <td>Produced jointly with caustic soda</td>
-        </tr>
+							<tr>
+								<td>Chlorine</td>
+								<td>Salt Brine</td>
+								<td>Salt mining</td>
+								<td>Chlor-alkali electrolysis</td>
+								<td>12</td>
+								<td>51</td>
+								<td>39</td>
+								<td>Electricity cost significant in economics</td>
+							</tr>
 
-        <tr>
-            <td>Caustic Soda (NaOH)</td>
-            <td>Salt Brine</td>
-            <td>Salt mining and brine purification</td>
-            <td>Chlor-alkali electrolysis</td>
-            <td>Co-product with chlorine and hydrogen</td>
-        </tr>
+							<tr>
+								<td>Caustic Soda</td>
+								<td>Salt Brine</td>
+								<td>Salt mining</td>
+								<td>Chlor-alkali electrolysis</td>
+								<td>12</td>
+								<td>84</td>
+								<td>72</td>
+								<td>Co-product balancing with chlorine market</td>
+							</tr>
 
-        <tr>
-            <td>Nitric Acid</td>
-            <td>Ammonia, Air</td>
-            <td>Ammonia production plants</td>
-            <td>Ostwald oxidation process</td>
-            <td>Key feedstock for nitrates and explosives</td>
-        </tr>
+							<tr>
+								<td>Nitric Acid</td>
+								<td>Ammonia</td>
+								<td>Ammonia plants</td>
+								<td>Ostwald oxidation process</td>
+								<td>132</td>
+								<td>188</td>
+								<td>56</td>
+								<td>Used heavily in nitrates and explosives</td>
+							</tr>
 
-        <tr>
-            <td>Xylene</td>
-            <td>Naphtha</td>
-            <td>Petroleum refining</td>
-            <td>Catalytic reforming + BTX extraction</td>
-            <td>Paraxylene used for polyester production</td>
-        </tr>
+							<tr>
+								<td>Xylene</td>
+								<td>Naphtha</td>
+								<td>Petroleum refining</td>
+								<td>BTX extraction</td>
+								<td>69</td>
+								<td>128</td>
+								<td>59</td>
+								<td>Paraxylene demand tied to polyester</td>
+							</tr>
 
-        <tr>
-            <td>Phosphoric Acid</td>
-            <td>Phosphate Rock, Sulfuric Acid</td>
-            <td>Mining operations and sulfur plants</td>
-            <td>Wet acid process</td>
-            <td>Critical fertilizer intermediate</td>
-        </tr>
+							<tr>
+								<td>Phosphoric Acid</td>
+								<td>Phosphate Rock + Sulfuric Acid</td>
+								<td>Mining and sulfur plants</td>
+								<td>Wet acid process</td>
+								<td>38</td>
+								<td>96</td>
+								<td>58</td>
+								<td>Strong fertilizer market exposure</td>
+							</tr>
 
-        <tr>
-            <td>Benzene</td>
-            <td>Naphtha, Pyrolysis Gasoline, Toluene</td>
-            <td>Refineries and steam crackers</td>
-            <td>Reforming, extraction, hydrodealkylation</td>
-            <td>Major aromatic feedstock</td>
-        </tr>
+							<tr>
+								<td>Benzene</td>
+								<td>Naphtha / PyGas</td>
+								<td>Refineries & crackers</td>
+								<td>Extraction / reforming</td>
+								<td>69</td>
+								<td>121</td>
+								<td>52</td>
+								<td>Key aromatic petrochemical feedstock</td>
+							</tr>
 
-        <tr>
-            <td>Toluene</td>
-            <td>Naphtha</td>
-            <td>Petroleum refining streams</td>
-            <td>Catalytic reforming</td>
-            <td>Used as solvent and gasoline blendstock</td>
-        </tr>
+							<tr>
+								<td>Toluene</td>
+								<td>Naphtha</td>
+								<td>Refinery reformers</td>
+								<td>Catalytic reforming</td>
+								<td>69</td>
+								<td>109</td>
+								<td>40</td>
+								<td>Used as solvent and octane component</td>
+							</tr>
 
-        <tr>
-            <td>Ethylene Glycol (MEG)</td>
-            <td>Ethylene</td>
-            <td>Steam cracker ethylene</td>
-            <td>EO production + hydration</td>
-            <td>Used in polyester and antifreeze</td>
-        </tr>
+							<tr>
+								<td>Ethylene Glycol (MEG)</td>
+								<td>Ethylene</td>
+								<td>Steam cracker olefins</td>
+								<td>EO hydration</td>
+								<td>118</td>
+								<td>174</td>
+								<td>56</td>
+								<td>Polyester chain economics dominate pricing</td>
+							</tr>
 
-        <tr>
-            <td>Styrene</td>
-            <td>Benzene, Ethylene</td>
-            <td>Petrochemical aromatic and olefin units</td>
-            <td>Ethylbenzene synthesis + dehydrogenation</td>
-            <td>Main feedstock for polystyrene</td>
-        </tr>
+							<tr>
+								<td>Styrene</td>
+								<td>Benzene + Ethylene</td>
+								<td>Petrochemical aromatics & olefins</td>
+								<td>Ethylbenzene dehydrogenation</td>
+								<td>120</td>
+								<td>203</td>
+								<td>83</td>
+								<td>Construction and packaging exposure</td>
+							</tr>
 
-        <tr>
-            <td>Formaldehyde</td>
-            <td>Methanol</td>
-            <td>Methanol synthesis plants</td>
-            <td>Catalytic oxidation</td>
-            <td>Used in resins and wood products</td>
-        </tr>
+							<tr>
+								<td>Formaldehyde</td>
+								<td>Methanol</td>
+								<td>Methanol synthesis plants</td>
+								<td>Catalytic oxidation</td>
+								<td>122</td>
+								<td>176</td>
+								<td>54</td>
+								<td>Wood products and resin markets dominate</td>
+							</tr>
 
-    </tbody>
-</table>
+						</tbody>
+					</table>
 			
 			
         </div>
