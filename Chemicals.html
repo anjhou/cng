@@ -437,54 +437,266 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         <div class="section">
             <h2>EPA & IMO Regulatory Limits</h2>
             <p>Key environmental and emissions regulations affecting transportation fuels.</p>
+			
+				<table>
+					<tr>
+						<th>Commodity</th>
+						<th>Density, lb/ft3</th>
+						<th>Specific Gravity</th>
+						<th>API Gravity</th>
+						<th>Molecular Weight</th>
+						<th>Dynamic Viscosity, cP</th>
+						<th>Kinematic Viscosity, cSt</th>
+						<th>Energy Content, lb/MMBTU</th>
+						<th>Energy Content, ft3/MMBTU</th>
+						<th>Notes</th>
+					</tr>
 
-            <table>
-                <tr><th>Regulation</th><th>Applies To</th><th>Limit / Requirement</th></tr>
+					<tr>
+						<td>Sulfuric Acid</td>
+						<td>114.5</td>
+						<td>1.84</td>
+						<td>-131</td>
+						<td>98.08</td>
+						<td>24.0</td>
+						<td>13.0</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>Strong mineral acid</td>
+					</tr>
 
-                <tr>
-                    <td>EPA Tier 3 Gasoline Sulfur</td>
-                    <td>Gasoline</td>
-                    <td>10 ppm sulfur average nationwide.</td>
-                </tr>
+					<tr>
+						<td>Ethylene</td>
+						<td>1.18</td>
+						<td>0.019</td>
+						<td>574</td>
+						<td>28.05</td>
+						<td>0.010</td>
+						<td>0.014</td>
+						<td>47.5</td>
+						<td>15,900</td>
+						<td>Olefin petrochemical feedstock</td>
+					</tr>
 
-                <tr>
-                    <td>EPA ULSD Rule</td>
-                    <td>Diesel</td>
-                    <td>15 ppm sulfur max for all on-road diesel.</td>
-                </tr>
+					<tr>
+						<td>Ammonia</td>
+						<td>42.6</td>
+						<td>0.682</td>
+						<td>78</td>
+						<td>17.03</td>
+						<td>0.26</td>
+						<td>0.38</td>
+						<td>64.0</td>
+						<td>20,500</td>
+						<td>Anhydrous liquid ammonia</td>
+					</tr>
 
-                <tr>
-                    <td>EPA RFS (Renewable Fuel Standard)</td>
-                    <td>Gasoline & Diesel</td>
-                    <td>Annual renewable volume obligations (ethanol, biodiesel, advanced biofuels).</td>
-                </tr>
+					<tr>
+						<td>Urea</td>
+						<td>83.0</td>
+						<td>1.33</td>
+						<td>-17</td>
+						<td>60.06</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>10.5</td>
+						<td>N/A</td>
+						<td>Solid fertilizer product</td>
+					</tr>
 
-                <tr>
-                    <td>IMO 2020 Global Sulfur Cap</td>
-                    <td>Marine Fuels</td>
-                    <td>0.50% sulfur max globally.</td>
-                </tr>
+					<tr>
+						<td>Propylene</td>
+						<td>1.81</td>
+						<td>0.029</td>
+						<td>497</td>
+						<td>42.08</td>
+						<td>0.008</td>
+						<td>0.012</td>
+						<td>46.0</td>
+						<td>13,700</td>
+						<td>Olefin feedstock</td>
+					</tr>
 
-                <tr>
-                    <td>IMO ECA Sulfur Limit</td>
-                    <td>Marine Fuels</td>
-                    <td>0.10% sulfur max in Emission Control Areas.</td>
-                </tr>
+					<tr>
+						<td>Polyethylene</td>
+						<td>58.0</td>
+						<td>0.93</td>
+						<td>20</td>
+						<td>~100,000+</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>20.0</td>
+						<td>N/A</td>
+						<td>Thermoplastic polymer</td>
+					</tr>
 
-                <tr>
-                    <td>MARPOL Annex VI NOx Tier III</td>
-                    <td>Marine Engines</td>
-                    <td>80% NOx reduction for new ships in ECAs.</td>
-                </tr>
-            </table>
+					<tr>
+						<td>Methanol</td>
+						<td>49.3</td>
+						<td>0.792</td>
+						<td>46</td>
+						<td>32.04</td>
+						<td>0.59</td>
+						<td>0.75</td>
+						<td>22.7</td>
+						<td>8,600</td>
+						<td>Industrial alcohol</td>
+					</tr>
+
+					<tr>
+						<td>Polypropylene</td>
+						<td>56.2</td>
+						<td>0.90</td>
+						<td>26</td>
+						<td>~150,000+</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>19.5</td>
+						<td>N/A</td>
+						<td>Thermoplastic polymer</td>
+					</tr>
+
+					<tr>
+						<td>Chlorine</td>
+						<td>9.2</td>
+						<td>0.147</td>
+						<td>300</td>
+						<td>70.90</td>
+						<td>0.013</td>
+						<td>0.009</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>Toxic oxidizing gas</td>
+					</tr>
+
+					<tr>
+						<td>Caustic Soda</td>
+						<td>95.0</td>
+						<td>1.52</td>
+						<td>-56</td>
+						<td>40.00</td>
+						<td>50.0</td>
+						<td>33.0</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>50 wt% NaOH solution</td>
+					</tr>
+
+					<tr>
+						<td>Nitric Acid</td>
+						<td>88.7</td>
+						<td>1.42</td>
+						<td>-39</td>
+						<td>63.01</td>
+						<td>1.4</td>
+						<td>1.0</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>Strong oxidizing acid</td>
+					</tr>
+
+					<tr>
+						<td>Xylene</td>
+						<td>54.4</td>
+						<td>0.87</td>
+						<td>31</td>
+						<td>106.16</td>
+						<td>0.62</td>
+						<td>0.71</td>
+						<td>13.0</td>
+						<td>5,300</td>
+						<td>Aromatic solvent</td>
+					</tr>
+
+					<tr>
+						<td>Phosphoric Acid</td>
+						<td>105.0</td>
+						<td>1.68</td>
+						<td>-92</td>
+						<td>98.00</td>
+						<td>85.0</td>
+						<td>50.0</td>
+						<td>N/A</td>
+						<td>N/A</td>
+						<td>Mineral acid</td>
+					</tr>
+
+					<tr>
+						<td>Benzene</td>
+						<td>54.8</td>
+						<td>0.876</td>
+						<td>30</td>
+						<td>78.11</td>
+						<td>0.65</td>
+						<td>0.74</td>
+						<td>12.5</td>
+						<td>4,900</td>
+						<td>Aromatic hydrocarbon</td>
+					</tr>
+
+					<tr>
+						<td>Toluene</td>
+						<td>54.1</td>
+						<td>0.867</td>
+						<td>31</td>
+						<td>92.14</td>
+						<td>0.59</td>
+						<td>0.68</td>
+						<td>12.8</td>
+						<td>4,700</td>
+						<td>Aromatic solvent/feedstock</td>
+					</tr>
+
+					<tr>
+						<td>Ethylene Glycol</td>
+						<td>69.6</td>
+						<td>1.11</td>
+						<td>-5</td>
+						<td>62.07</td>
+						<td>16.1</td>
+						<td>14.5</td>
+						<td>10.0</td>
+						<td>N/A</td>
+						<td>Antifreeze/feedstock</td>
+					</tr>
+
+					<tr>
+						<td>Styrene</td>
+						<td>56.2</td>
+						<td>0.909</td>
+						<td>24</td>
+						<td>104.15</td>
+						<td>0.76</td>
+						<td>0.84</td>
+						<td>11.8</td>
+						<td>4,500</td>
+						<td>Monomer for plastics</td>
+					</tr>
+
+					<tr>
+						<td>Formaldehyde</td>
+						<td>67.4</td>
+						<td>1.08</td>
+						<td>4</td>
+						<td>30.03</td>
+						<td>2.0</td>
+						<td>1.85</td>
+						<td>9.5</td>
+						<td>N/A</td>
+						<td>Typically 37% aqueous solution</td>
+					</tr>
+
+				</table>
+
+            
         </div>
     </div>
 
-    <!-- EPA / IMO REGULATORY LIMITS TAB -->
+    <!-- Production Pathway -->
     <div id="Pathway" class="tab-content">
         <div class="section">
-            <h2>EPA & IMO Regulatory Limits</h2>
-            <p>Key environmental and emissions regulations affecting transportation fuels.</p>
+            <h2>Production Pathway</h2>
+            <p>Production Pathway.</p>
 
             <table>
                 <tr><th>Regulation</th><th>Applies To</th><th>Limit / Requirement</th></tr>
