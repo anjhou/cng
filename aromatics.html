@@ -95,7 +95,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <div class="container">
 
-    <h1>Chemicals Weekly</h1>
+    <h1>Aromatics Weekly</h1>
 
     <!-- TAB NAVIGATION -->
     <div class="tabs">
@@ -683,31 +683,100 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Supply-Demand Yearly</h2>
             <p>Last 3rd Year Demand (L3YD) - Current Year Demand (CYD)  - Next 6th Year Demand (N6YD)</p>
 
-            <table border="1" cellspacing="0" cellpadding="5">
-				<tr><th>Commodity</th><th>Unit</th><th>L3YD</th><th>CYD</th><th>N6YD, CAGR</th><th>Notes</th></tr>
-				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>Sulfuric Acid</td><td>MMTPA</td><td>XX1</td><td>280</td><td>335–345,2.8%</td><td>Fertilizers, refining, mining, batteries</td></tr>
-                <tr><td>Ethylene</td><td>MMTPA</td><td>XX1</td><td>220</td><td>295–310,4.2%</td><td>Plastics, polyethylene, chemicals</td></tr>
-                <tr><td>Ammonia</td><td>MMTPA</td><td>XX1</td><td>180</td><td>225–235,3.2%</td><td>Fertilizers, explosives, refrigerants</td></tr>
-                <tr><td>Urea</td><td>MMTPA</td><td>XX1</td><td>180</td><td>220–230,3.0%</td><td>Fertilizers, diesel exhaust fluid</td></tr>
-                <tr><td>Propylene</td><td>MMTPA</td><td>XX1</td><td>140</td><td>185–195,4.0%</td><td>Polypropylene, acrylonitrile</td></tr>
-                <tr><td>Polyethylene</td><td>MMTPA</td><td>XX1</td><td>130</td><td>175–185,4.5%</td><td>Packaging, containers, films</td></tr>
-				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>Methanol</td><td>MMTPA</td><td>XX1</td><td>110</td><td>150–160,4.3%</td><td>Fuels, formaldehyde, olefins</td></tr>
-				<tr><td>Polypropylene</td><td>MMTPA</td><td>XX1</td><td>90</td><td>118–125,4.0%</td><td>Automotive, packaging, fibers</td></tr>
-				<tr><td>Chlorine</td><td>MMTPA</td><td>XX1</td><td>90</td><td>108–112,2.9%</td><td>PVC, water treatment, chemicals</td></tr>
-                <tr><td>Caustic Soda</td><td>MMTPA</td><td>XX1</td><td>85</td><td>103–108,3.0%</td><td>Alumina, soaps, pulp & paper</td></tr>
-                <tr><td>Nitric Acid</td><td>MMTPA</td><td>XX1</td><td>70</td><td>83–87,2.8%</td><td>Fertilizers, explosives</td></tr>
-                <tr><td>Xylene</td><td>MMTPA</td><td>XX1</td><td>55</td><td>72–76,3.8%</td><td>PET, polyester, solvents</td></tr>
-				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>Phosphoric Acid</td><td>MMTPA</td><td>XX1</td><td>50</td><td>60–64,3.0%</td><td>Fertilizers, food additives</td></tr>
-                <tr><td>Benzene</td><td>MMTPA</td><td>XX1</td><td>50</td><td>63–67,3.5%</td><td>Fertilizers, food additives</td></tr>
-				<tr><td>Toluene</td><td>MMTPA</td><td>XX1</td><td>35</td><td>42–45,3.0%</td><td>Solvents, gasoline blending</td></tr>
-				<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>XX1</td><td>35</td><td>46–49,4.0%</td><td>Polyester fibers, antifreeze</td></tr>
-                <tr><td>Styrene</td><td>MMTPA</td><td>XX1</td><td>30</td><td>38–40,3.6%</td><td>Polystyrene, ABS plastics</td></tr>
-				<tr><td>Formaldehyde</td><td>MMTPA</td><td>XX1</td><td>25</td><td>30–32,3.0%</td><td>Resins, adhesives, wood products</td></tr>
-				<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            </table>
+				<table border="1" cellspacing="0" cellpadding="6">
+				  <thead>
+					<tr>
+					  <th>Rank</th>
+					  <th>Aromatic</th>
+					  <th>Key Demand Drivers / Uses</th>
+					  <th>2032 Demand Forecast (Mtpa, est.)</th>
+					  <th>CAGR (2026–2032)</th>
+					  <th>Notes (Demand Drivers & Market Structure)</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  <td>1</td>
+					  <td>Benzene</td>
+					  <td>Ethylbenzene/styrene, cumene, aniline, detergents</td>
+					  <td>~65–70</td>
+					  <td>~2.5–3.2%</td>
+					  <td>Core petrochemical building block; demand closely tied to downstream polymers (styrene, polyurethane). Highly sensitive to refinery reformate output and naphtha cracking economics. Substitution is limited, making it structurally rigid in supply-demand balancing.</td>
+					</tr>
+
+					<tr>
+					  <td>2</td>
+					  <td>Xylenes (total)</td>
+					  <td>PTA → PET for bottles, fibers, films</td>
+					  <td>~85–95</td>
+					  <td>~4.0–5.0%</td>
+					  <td>Fastest-growing aromatic segment due to polyester/textile expansion and packaging demand. Dominated by para-xylene (p-xylene). Growth strongly linked to Asia (China/India) PET capacity additions and beverage packaging consumption trends.</td>
+					</tr>
+
+					<tr>
+					  <td>3</td>
+					  <td>Toluene</td>
+					  <td>Gasoline blending, TDI, solvents</td>
+					  <td>~35–40</td>
+					  <td>~2.0–2.8%</td>
+					  <td>Dual-use chemical and fuel blending component. Demand driven by octane enhancement in gasoline and polyurethane chain (TDI). Refining severity and EV penetration trends can moderate long-term growth in fuel use.</td>
+					</tr>
+
+					<tr>
+					  <td>4</td>
+					  <td>Ethylbenzene</td>
+					  <td>Styrene precursor for plastics and rubber</td>
+					  <td>~35–38</td>
+					  <td>~2.5–3.0%</td>
+					  <td>Effectively a derivative market of styrene demand. Highly integrated production economics with benzene/styrene chain. Demand growth tied to automotive plastics, insulation, and packaging applications.</td>
+					</tr>
+
+					<tr>
+					  <td>5</td>
+					  <td>Styrene</td>
+					  <td>Polystyrene, ABS, SBR rubber</td>
+					  <td>~45–50</td>
+					  <td>~3.0–3.8%</td>
+					  <td>Driven by consumer goods, electronics housings, and insulation materials. Growth supported by construction and appliance manufacturing. Environmental pressure on single-use plastics may constrain polystyrene in mature markets.</td>
+					</tr>
+
+					<tr>
+					  <td>6</td>
+					  <td>Cumene</td>
+					  <td>Phenol + acetone production chain</td>
+					  <td>~18–22</td>
+					  <td>~3.5–4.2%</td>
+					  <td>Intermediate chemical tightly linked to phenol economics. Demand influenced by bisphenol-A (BPA) production for polycarbonate and epoxy resins used in automotive, electronics, and construction coatings.</td>
+					</tr>
+
+					<tr>
+					  <td>7</td>
+					  <td>Phenol</td>
+					  <td>Polycarbonate, epoxy resins, phenolic resins</td>
+					  <td>~15–18</td>
+					  <td>~4.0–5.0%</td>
+					  <td>Strong structural demand from construction adhesives, coatings, and electronics encapsulation. Also linked to automotive lightweighting trends via polycarbonate substitution for metals/glass.</td>
+					</tr>
+
+					<tr>
+					  <td>8</td>
+					  <td>o-Xylene</td>
+					  <td>Phthalic anhydride → plasticizers and coatings</td>
+					  <td>~8–10</td>
+					  <td>~3.0–3.8%</td>
+					  <td>Demand tied to flexible PVC production and construction materials. Growth moderated by regulatory pressure on phthalate plasticizers in developed regions, partially offset by emerging market demand.</td>
+					</tr>
+
+					<tr>
+					  <td>9</td>
+					  <td>m-Xylene</td>
+					  <td>Isophthalic acid → PET resins and coatings</td>
+					  <td>~6–8</td>
+					  <td>~3.2–4.0%</td>
+					  <td>Used in specialty PET and high-performance polyester resins. Demand supported by packaging durability requirements, coatings, and engineering plastics requiring higher thermal resistance.</td>
+					</tr>
+				  </tbody>
+				</table>
 			
 			<ul>
 				<li>Polyethylene, ethylene, methanol, propylene, and polypropylene are expected to be the fastest-growing chemical segments through 2032.</li>
