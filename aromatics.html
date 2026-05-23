@@ -407,52 +407,133 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 			<p>Updated 2026-May-XX</p>
 
 			
-			<table border="1" cellspacing="0" cellpadding="6">
+				<table border="1" cellspacing="0" cellpadding="6">
 				  <thead>
 					<tr>
 					  <th>Aromatic</th>
-					  <th>Current Price Range (¢/gal, 2026 est.)</th>
+					  <th>2019</th>
+					  <th>2020</th>
+					  <th>2021</th>
+					  <th>2022 (Peak Cycle)</th>
+					  <th>2023</th>
+					  <th>2024–2026 Trend (Stabilization / Normalization)</th>
+					  <th>Cycle Insight</th>
 					</tr>
 				  </thead>
 				  <tbody>
+
 					<tr>
-					  <td>:contentReference[oaicite:0]{index=0}</td>
-					  <td>70 – 100 ¢/gal</td>
+					  <td>Benzene</td>
+					  <td>600–750</td>
+					  <td>350–500</td>
+					  <td>700–950</td>
+					  <td>950–1,200</td>
+					  <td>800–950</td>
+					  <td>750–900</td>
+					  <td>Strong crude-linked cycle; COVID crash (2020) followed by polymer-driven rebound (2021–2022). Now moderating due to new Asian capacity and weaker downstream margins.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:1]{index=1}</td>
-					  <td>80 – 110 ¢/gal</td>
+					  <td>Toluene</td>
+					  <td>550–700</td>
+					  <td>300–450</td>
+					  <td>600–800</td>
+					  <td>900–1,150</td>
+					  <td>750–950</td>
+					  <td>700–850</td>
+					  <td>Highly sensitive to gasoline blending demand; EV penetration and weaker fuel demand growth flatten long-term upside.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:2]{index=2}</td>
-					  <td>65 – 90 ¢/gal</td>
+					  <td>Xylenes (Mixed)</td>
+					  <td>650–850</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,100–1,400</td>
+					  <td>900–1,200</td>
+					  <td>850–1,050</td>
+					  <td>Driven by PTA/PET cycle; strongest structural growth but increasingly oversupplied due to massive PX/PTA buildout in China.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:3]{index=3}</td>
-					  <td>80 – 110 ¢/gal</td>
+					  <td>Para-Xylene (PX)</td>
+					  <td>700–900</td>
+					  <td>450–650</td>
+					  <td>800–1,050</td>
+					  <td>1,150–1,450</td>
+					  <td>950–1,250</td>
+					  <td>900–1,100</td>
+					  <td>Most globally traded aromatics derivative; extreme volatility due to integrated refining complexes and China export ramp-up.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:4]{index=4}</td>
-					  <td>90 – 120 ¢/gal</td>
+					  <td>Ethylbenzene</td>
+					  <td>650–800</td>
+					  <td>450–650</td>
+					  <td>750–950</td>
+					  <td>1,000–1,250</td>
+					  <td>850–1,050</td>
+					  <td>800–950</td>
+					  <td>Essentially tracks styrene economics; margin compression driven by oversupply in styrene capacity additions in Asia.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:5]{index=5}</td>
-					  <td>80 – 110 ¢/gal</td>
+					  <td>Styrene</td>
+					  <td>700–900</td>
+					  <td>450–650</td>
+					  <td>900–1,200</td>
+					  <td>1,200–1,500</td>
+					  <td>950–1,200</td>
+					  <td>900–1,100</td>
+					  <td>Highly cyclical polymer monomer; demand tied to construction/packaging but structurally pressured by Chinese ABS/polystyrene expansion.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:6]{index=6}</td>
-					  <td>110 – 150 ¢/gal</td>
+					  <td>Cumene</td>
+					  <td>600–750</td>
+					  <td>400–600</td>
+					  <td>700–950</td>
+					  <td>1,000–1,300</td>
+					  <td>850–1,050</td>
+					  <td>800–1,000</td>
+					  <td>Intermediate-driven pricing; phenol/BPA chain expansion supports demand but linked tightly to benzene volatility.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:7]{index=7}</td>
-					  <td>85 – 115 ¢/gal</td>
+					  <td>Phenol</td>
+					  <td>800–1,000</td>
+					  <td>600–800</td>
+					  <td>1,000–1,300</td>
+					  <td>1,300–1,700</td>
+					  <td>1,100–1,400</td>
+					  <td>1,050–1,300</td>
+					  <td>Higher value chain chemical; resilient demand from polycarbonate and epoxy resins, but margins compress due to upstream cumene/benzene cycles.</td>
 					</tr>
+
 					<tr>
-					  <td>:contentReference[oaicite:8]{index=8}</td>
-					  <td>80 – 110 ¢/gal</td>
+					  <td>o-Xylene</td>
+					  <td>650–850</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,100–1,450</td>
+					  <td>900–1,200</td>
+					  <td>850–1,050</td>
+					  <td>Phthalic anhydride chain exposure; slower structural growth due to regulatory pressure on plasticizers in developed markets.</td>
 					</tr>
+
+					<tr>
+					  <td>m-Xylene</td>
+					  <td>650–800</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,050–1,350</td>
+					  <td>850–1,100</td>
+					  <td>800–1,000</td>
+					  <td>Niche PET resin enhancer; moderate but stable growth tied to specialty polyester and coatings applications.</td>
+					</tr>
+
 				  </tbody>
-			</table>
+				</table>
 			
 			<p>Crude baseline equivalent: $75–$80/bbl</p>
 			<p>Natural gas baseline: $2.50–$3.00/MMBtu</p>
