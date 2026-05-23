@@ -698,45 +698,89 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Production Pathway</h2>
             <p>Production Pathway.</p>
 
-            <table>
-                <tr><th>Regulation</th><th>Applies To</th><th>Limit / Requirement</th></tr>
+					<table>
+						<thead>
+							<tr>
+								<th>Chemical</th>
+								<th>Production Pathway</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Sulfuric Acid</td>
+								<td>Elemental sulfur → Sulfur burning → SO₂ → Catalytic oxidation (V₂O₅) → SO₃ → Absorption in H₂SO₄</td>
+							</tr>
+							<tr>
+								<td>Ethylene</td>
+								<td>Steam cracking of ethane/propane/naphtha → Quench → Compression → Cryogenic separation</td>
+							</tr>
+							<tr>
+								<td>Ammonia</td>
+								<td>Natural gas reforming → Syngas (H₂ + N₂) → Haber-Bosch synthesis</td>
+							</tr>
+							<tr>
+								<td>Urea</td>
+								<td>Ammonia + CO₂ → Ammonium carbamate → Dehydration → Urea</td>
+							</tr>
+							<tr>
+								<td>Propylene</td>
+								<td>Steam cracking (co-product) OR FCC propylene recovery OR Propane dehydrogenation (PDH)</td>
+							</tr>
+							<tr>
+								<td>Polyethylene</td>
+								<td>Ethylene polymerization (Ziegler–Natta, Chromium, or Metallocene catalysts)</td>
+							</tr>
+							<tr>
+								<td>Methanol</td>
+								<td>Syngas (CO + H₂) from natural gas reforming → Catalytic synthesis (Cu/ZnO/Al₂O₃)</td>
+							</tr>
+							<tr>
+								<td>Polypropylene</td>
+								<td>Propylene polymerization (Ziegler–Natta or Metallocene catalysts)</td>
+							</tr>
+							<tr>
+								<td>Chlorine</td>
+								<td>Chlor-alkali electrolysis of brine → Cl₂ + NaOH + H₂</td>
+							</tr>
+							<tr>
+								<td>Caustic Soda (NaOH)</td>
+								<td>Chlor-alkali electrolysis of brine → NaOH + Cl₂ + H₂</td>
+							</tr>
+							<tr>
+								<td>Nitric Acid</td>
+								<td>Ammonia oxidation (Ostwald process) → NO → NO₂ → Absorption in water → HNO₃</td>
+							</tr>
+							<tr>
+								<td>Xylene (Mixed)</td>
+								<td>Catalytic reforming of naphtha → BTX extraction → Fractionation</td>
+							</tr>
+							<tr>
+								<td>Phosphoric Acid</td>
+								<td>Wet process: Phosphate rock + H₂SO₄ → H₃PO₄ + gypsum OR Thermal oxidation of elemental phosphorus</td>
+							</tr>
+							<tr>
+								<td>Benzene</td>
+								<td>Catalytic reforming, steam cracking pyrolysis gasoline extraction, or toluene hydrodealkylation</td>
+							</tr>
+							<tr>
+								<td>Toluene</td>
+								<td>Catalytic reforming of naphtha → BTX extraction</td>
+							</tr>
+							<tr>
+								<td>Ethylene Glycol (MEG)</td>
+								<td>Ethylene → Ethylene oxide → Hydration → MEG</td>
+							</tr>
+							<tr>
+								<td>Styrene</td>
+								<td>Ethylbenzene synthesis (benzene + ethylene) → Dehydrogenation → Styrene</td>
+							</tr>
+							<tr>
+								<td>Formaldehyde</td>
+								<td>Methanol oxidation (silver catalyst or metal oxide process) → Formaldehyde</td>
+							</tr>
+						</tbody>
+					</table>
 
-                <tr>
-                    <td>EPA Tier 3 Gasoline Sulfur</td>
-                    <td>Gasoline</td>
-                    <td>10 ppm sulfur average nationwide.</td>
-                </tr>
-
-                <tr>
-                    <td>EPA ULSD Rule</td>
-                    <td>Diesel</td>
-                    <td>15 ppm sulfur max for all on-road diesel.</td>
-                </tr>
-
-                <tr>
-                    <td>EPA RFS (Renewable Fuel Standard)</td>
-                    <td>Gasoline & Diesel</td>
-                    <td>Annual renewable volume obligations (ethanol, biodiesel, advanced biofuels).</td>
-                </tr>
-
-                <tr>
-                    <td>IMO 2020 Global Sulfur Cap</td>
-                    <td>Marine Fuels</td>
-                    <td>0.50% sulfur max globally.</td>
-                </tr>
-
-                <tr>
-                    <td>IMO ECA Sulfur Limit</td>
-                    <td>Marine Fuels</td>
-                    <td>0.10% sulfur max in Emission Control Areas.</td>
-                </tr>
-
-                <tr>
-                    <td>MARPOL Annex VI NOx Tier III</td>
-                    <td>Marine Engines</td>
-                    <td>80% NOx reduction for new ships in ECAs.</td>
-                </tr>
-            </table>
         </div>
     </div>
 	
