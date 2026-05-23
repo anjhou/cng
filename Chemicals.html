@@ -161,19 +161,172 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         </div>
     </div>
 
-    <!-- ULSD TAB -->
+    <!-- Price Spread TAB -->
     <div id="Spreads" class="tab-content">
         <div class="section">
-            <h2>Ultra-Low Sulfur Diesel (ULSD)</h2>
-            <p>ULSD is required for all on-road diesel in the U.S.</p>
+            <h2>Price Spread</h2>
+            <p>Spread between Product and Feedstock Prices.</p>
 
-            <table>
-                <tr><th>Property</th><th>Specification</th></tr>
-                <tr><td>Sulfur</td><td>15 ppm max</td></tr>
-                <tr><td>Cetane Number</td><td>40 minimum</td></tr>
-                <tr><td>Cloud Point</td><td>Region & season dependent</td></tr>
-                <tr><td>Lubricity</td><td>520 μm HFRR max</td></tr>
-            </table>
+            <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Chemical</th>
+            <th>Primary Feedstock(s)</th>
+            <th>Main Feedstock Source</th>
+            <th>Typical Process Route</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>Sulfuric Acid</td>
+            <td>Elemental Sulfur, Sulfur-bearing gases</td>
+            <td>Oil & gas refining, sulfur recovery units</td>
+            <td>Sulfur combustion → SO₂ → SO₃ → Absorption</td>
+            <td>Largest use in phosphate fertilizer production</td>
+        </tr>
+
+        <tr>
+            <td>Ethylene</td>
+            <td>Ethane, Propane, Naphtha</td>
+            <td>Natural gas liquids and crude oil refining</td>
+            <td>Steam cracking</td>
+            <td>Most important petrochemical building block</td>
+        </tr>
+
+        <tr>
+            <td>Ammonia</td>
+            <td>Natural Gas, Air</td>
+            <td>Methane reforming and nitrogen separation</td>
+            <td>Steam methane reforming + Haber-Bosch</td>
+            <td>Hydrogen source may shift toward green hydrogen</td>
+        </tr>
+
+        <tr>
+            <td>Urea</td>
+            <td>Ammonia, Carbon Dioxide</td>
+            <td>Ammonia plant synthesis loop</td>
+            <td>Ammonium carbamate synthesis</td>
+            <td>Largest nitrogen fertilizer globally</td>
+        </tr>
+
+        <tr>
+            <td>Propylene</td>
+            <td>Propane, Naphtha, FCC offgas</td>
+            <td>Refinery FCC units and NGLs</td>
+            <td>PDH, steam cracking, FCC recovery</td>
+            <td>Strong growth from PDH plants</td>
+        </tr>
+
+        <tr>
+            <td>Polyethylene</td>
+            <td>Ethylene</td>
+            <td>Steam cracker ethylene units</td>
+            <td>Polymerization</td>
+            <td>Largest volume plastic resin globally</td>
+        </tr>
+
+        <tr>
+            <td>Methanol</td>
+            <td>Natural Gas, Coal, Biomass, CO₂ + H₂</td>
+            <td>Syngas production units</td>
+            <td>Syngas catalytic synthesis</td>
+            <td>Green methanol demand increasing rapidly</td>
+        </tr>
+
+        <tr>
+            <td>Polypropylene</td>
+            <td>Propylene</td>
+            <td>Refinery and petrochemical propylene units</td>
+            <td>Polymerization</td>
+            <td>Major packaging and automotive polymer</td>
+        </tr>
+
+        <tr>
+            <td>Chlorine</td>
+            <td>Salt Brine (NaCl solution)</td>
+            <td>Salt mining or seawater processing</td>
+            <td>Chlor-alkali electrolysis</td>
+            <td>Produced jointly with caustic soda</td>
+        </tr>
+
+        <tr>
+            <td>Caustic Soda (NaOH)</td>
+            <td>Salt Brine</td>
+            <td>Salt mining and brine purification</td>
+            <td>Chlor-alkali electrolysis</td>
+            <td>Co-product with chlorine and hydrogen</td>
+        </tr>
+
+        <tr>
+            <td>Nitric Acid</td>
+            <td>Ammonia, Air</td>
+            <td>Ammonia production plants</td>
+            <td>Ostwald oxidation process</td>
+            <td>Key feedstock for nitrates and explosives</td>
+        </tr>
+
+        <tr>
+            <td>Xylene</td>
+            <td>Naphtha</td>
+            <td>Petroleum refining</td>
+            <td>Catalytic reforming + BTX extraction</td>
+            <td>Paraxylene used for polyester production</td>
+        </tr>
+
+        <tr>
+            <td>Phosphoric Acid</td>
+            <td>Phosphate Rock, Sulfuric Acid</td>
+            <td>Mining operations and sulfur plants</td>
+            <td>Wet acid process</td>
+            <td>Critical fertilizer intermediate</td>
+        </tr>
+
+        <tr>
+            <td>Benzene</td>
+            <td>Naphtha, Pyrolysis Gasoline, Toluene</td>
+            <td>Refineries and steam crackers</td>
+            <td>Reforming, extraction, hydrodealkylation</td>
+            <td>Major aromatic feedstock</td>
+        </tr>
+
+        <tr>
+            <td>Toluene</td>
+            <td>Naphtha</td>
+            <td>Petroleum refining streams</td>
+            <td>Catalytic reforming</td>
+            <td>Used as solvent and gasoline blendstock</td>
+        </tr>
+
+        <tr>
+            <td>Ethylene Glycol (MEG)</td>
+            <td>Ethylene</td>
+            <td>Steam cracker ethylene</td>
+            <td>EO production + hydration</td>
+            <td>Used in polyester and antifreeze</td>
+        </tr>
+
+        <tr>
+            <td>Styrene</td>
+            <td>Benzene, Ethylene</td>
+            <td>Petrochemical aromatic and olefin units</td>
+            <td>Ethylbenzene synthesis + dehydrogenation</td>
+            <td>Main feedstock for polystyrene</td>
+        </tr>
+
+        <tr>
+            <td>Formaldehyde</td>
+            <td>Methanol</td>
+            <td>Methanol synthesis plants</td>
+            <td>Catalytic oxidation</td>
+            <td>Used in resins and wood products</td>
+        </tr>
+
+    </tbody>
+</table>
+			
+			
         </div>
     </div>
 
