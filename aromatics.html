@@ -457,221 +457,171 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Price Spread</h2>
             <p>Spread between Product and Feedstock Prices.</p>
 
-						<table border="1" cellspacing="0" cellpadding="5">
-								<thead>
-									<tr>
-										<th>Chemical</th>
-										<th>Chemical Price (¢/gal)</th>
-										<th>Price Spread (¢/gal)</th>
-										<th>Feedstock Price (¢/gal)</th>
-										<th>Primary Feedstock(s)</th>
-										<th>Main Feedstock Source</th>
-										<th>Typical Process Route</th>
-										<th>Notes</th>
-									</tr>
-								</thead>
-								<tbody>
+				<table border="1" cellspacing="0" cellpadding="6">
+				  <thead>
+					<tr>
+					  <th>Aromatic Component</th>
+					  <th>Primary Feedstock</th>
+					  <th>Current Aromatic Price ($/ton, est.)</th>
+					  <th>Feedstock Price ($/ton, est.)</th>
+					  <th>Current Spread ($/ton)</th>
+					  <th>Market Insights (Trade Imbalance, Demand Drivers, Logistics)</th>
+					</tr>
+				  </thead>
+				  <tbody>
 
-									<tr>
-										<td>Sulfuric Acid</td>
-										<td>42</td>
-										<td>24</td>
-										<td>18</td>
-										<td>Elemental Sulfur</td>
-										<td>Sulfur recovery units</td>
-										<td>Sulfur combustion → SO₂ → SO₃ → Absorption</td>
-										<td>Pricing highly dependent on fertilizer demand</td>
-									</tr>
+					<tr>
+					  <td>Benzene</td>
+					  <td>Naphtha / Reformate</td>
+					  <td>800–900</td>
+					  <td>550–650</td>
+					  <td>200–300</td>
+					  <td>
+						<ul>
+						  <li>China continues adding integrated benzene extraction capacity, increasing export pressure across Asia.</li>
+						  <li>Demand remains supported by styrene, phenol, and polyurethane chains despite weaker OECD industrial growth.</li>
+						  <li>Refinery operating rate volatility and shipping disruptions continue affecting spot cargo availability.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Ethylene</td>
-										<td>118</td>
-										<td>56</td>
-										<td>62</td>
-										<td>Ethane / Naphtha</td>
-										<td>NGL fractionation / refining</td>
-										<td>Steam cracking</td>
-										<td>Margins fluctuate with cracker utilization</td>
-									</tr>
+					<tr>
+					  <td>Toluene</td>
+					  <td>Naphtha / Reformate</td>
+					  <td>700–850</td>
+					  <td>550–650</td>
+					  <td>120–220</td>
+					  <td>
+						<ul>
+						  <li>Gasoline blending demand remains a key pricing driver globally.</li>
+						  <li>EV penetration is gradually reducing long-term fuel demand growth in mature markets.</li>
+						  <li>Freight rate volatility and storage constraints continue impacting regional arbitrage economics.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Ammonia</td>
-										<td>132</td>
-										<td>54</td>
-										<td>78</td>
-										<td>Natural Gas</td>
-										<td>Gas processing plants</td>
-										<td>Steam methane reforming + Haber-Bosch</td>
-										<td>Natural gas cost dominates production economics</td>
-									</tr>
+					<tr>
+					  <td>Mixed Xylenes</td>
+					  <td>Reformate / Naphtha</td>
+					  <td>850–1,050</td>
+					  <td>550–650</td>
+					  <td>250–400</td>
+					  <td>
+						<ul>
+						  <li>Strong polyester and PET demand continue supporting xylene consumption growth.</li>
+						  <li>China PX/PTA mega-capacity additions are creating structural oversupply risks.</li>
+						  <li>Marine logistics disruptions in Asia-Europe trade routes continue influencing landed costs.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Urea</td>
-										<td>148</td>
-										<td>53</td>
-										<td>95</td>
-										<td>Ammonia + CO₂</td>
-										<td>Integrated ammonia plants</td>
-										<td>Carbamate synthesis</td>
-										<td>Strong agricultural seasonality</td>
-									</tr>
+					<tr>
+					  <td>Para-Xylene (PX)</td>
+					  <td>Mixed Xylenes</td>
+					  <td>900–1,100</td>
+					  <td>850–1,000</td>
+					  <td>50–120</td>
+					  <td>
+						<ul>
+						  <li>Integrated Chinese refining-petrochemical complexes dominate new PX supply growth.</li>
+						  <li>Polyester textile demand in India and Southeast Asia remains the largest demand driver.</li>
+						  <li>Persistent overcapacity is compressing PX margins globally.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Propylene</td>
-										<td>141</td>
-										<td>67</td>
-										<td>74</td>
-										<td>Propane / FCC feed</td>
-										<td>Refinery & NGL systems</td>
-										<td>PDH / steam cracking</td>
-										<td>PDH economics linked to propane spreads</td>
-									</tr>
+					<tr>
+					  <td>Ethylbenzene</td>
+					  <td>Benzene + Ethylene</td>
+					  <td>800–950</td>
+					  <td>650–800</td>
+					  <td>120–180</td>
+					  <td>
+						<ul>
+						  <li>Styrene chain oversupply in Asia continues weakening profitability.</li>
+						  <li>Construction and appliance demand still support downstream styrenics demand.</li>
+						  <li>Feedstock ethylene price volatility remains a key margin risk.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Polyethylene</td>
-										<td>196</td>
-										<td>78</td>
-										<td>118</td>
-										<td>Ethylene</td>
-										<td>Steam cracker olefins</td>
-										<td>Polymerization</td>
-										<td>Packaging demand drives margins</td>
-									</tr>
+					<tr>
+					  <td>Styrene</td>
+					  <td>Ethylbenzene</td>
+					  <td>900–1,100</td>
+					  <td>800–950</td>
+					  <td>80–180</td>
+					  <td>
+						<ul>
+						  <li>ABS and packaging sectors remain primary consumption drivers.</li>
+						  <li>Single-use plastics regulation creates long-term demand uncertainty in OECD regions.</li>
+						  <li>Asian export competition continues pressuring global styrene operating rates.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Methanol</td>
-										<td>122</td>
-										<td>44</td>
-										<td>78</td>
-										<td>Natural Gas / Syngas</td>
-										<td>Gas reforming units</td>
-										<td>Catalytic synthesis</td>
-										<td>Growing marine fuel demand</td>
-									</tr>
+					<tr>
+					  <td>Cumene</td>
+					  <td>Benzene + Propylene</td>
+					  <td>800–1,000</td>
+					  <td>650–850</td>
+					  <td>100–180</td>
+					  <td>
+						<ul>
+						  <li>Phenol and acetone chain demand remain structurally resilient.</li>
+						  <li>Feedstock propylene price spikes periodically compress cumene margins.</li>
+						  <li>Integrated production economics increasingly determine competitiveness.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Polypropylene</td>
-										<td>218</td>
-										<td>77</td>
-										<td>141</td>
-										<td>Propylene</td>
-										<td>Refinery & petrochemical plants</td>
-										<td>Polymerization</td>
-										<td>Automotive and packaging applications dominate</td>
-									</tr>
+					<tr>
+					  <td>Phenol</td>
+					  <td>Cumene</td>
+					  <td>1,050–1,300</td>
+					  <td>800–1,000</td>
+					  <td>180–320</td>
+					  <td>
+						<ul>
+						  <li>Demand from epoxy and polycarbonate sectors remains relatively stable.</li>
+						  <li>BPA-related environmental scrutiny may alter future downstream growth patterns.</li>
+						  <li>Energy-intensive European production remains under economic pressure.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Chlorine</td>
-										<td>51</td>
-										<td>39</td>
-										<td>12</td>
-										<td>Salt Brine</td>
-										<td>Salt mining</td>
-										<td>Chlor-alkali electrolysis</td>
-										<td>Electricity cost significant in economics</td>
-									</tr>
+					<tr>
+					  <td>o-Xylene</td>
+					  <td>Mixed Xylenes</td>
+					  <td>850–1,050</td>
+					  <td>850–1,000</td>
+					  <td>20–100</td>
+					  <td>
+						<ul>
+						  <li>Demand tied to phthalic anhydride and plasticizer production.</li>
+						  <li>Regulatory restrictions on certain plasticizers are moderating growth in developed economies.</li>
+						  <li>Regional supply rationalization may tighten European balances.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Caustic Soda</td>
-										<td>84</td>
-										<td>72</td>
-										<td>12</td>
-										<td>Salt Brine</td>
-										<td>Salt mining</td>
-										<td>Chlor-alkali electrolysis</td>
-										<td>Co-product balancing with chlorine market</td>
-									</tr>
+					<tr>
+					  <td>m-Xylene</td>
+					  <td>Mixed Xylenes</td>
+					  <td>800–1,000</td>
+					  <td>850–1,000</td>
+					  <td>0–80</td>
+					  <td>
+						<ul>
+						  <li>Specialty PET and coatings applications support relatively stable demand.</li>
+						  <li>Supply-demand balance is healthier compared with para-xylene markets.</li>
+						  <li>Smaller market size increases sensitivity to logistics and inventory disruptions.</li>
+						</ul>
+					  </td>
+					</tr>
 
-									<tr>
-										<td>Nitric Acid</td>
-										<td>188</td>
-										<td>56</td>
-										<td>132</td>
-										<td>Ammonia</td>
-										<td>Ammonia plants</td>
-										<td>Ostwald oxidation process</td>
-										<td>Used heavily in nitrates and explosives</td>
-									</tr>
-
-									<tr>
-										<td>Xylene</td>
-										<td>128</td>
-										<td>59</td>
-										<td>69</td>
-										<td>Naphtha</td>
-										<td>Petroleum refining</td>
-										<td>BTX extraction</td>
-										<td>Paraxylene demand tied to polyester</td>
-									</tr>
-
-									<tr>
-										<td>Phosphoric Acid</td>
-										<td>96</td>
-										<td>58</td>
-										<td>38</td>
-										<td>Phosphate Rock + Sulfuric Acid</td>
-										<td>Mining and sulfur plants</td>
-										<td>Wet acid process</td>
-										<td>Strong fertilizer market exposure</td>
-									</tr>
-
-									<tr>
-										<td>Benzene</td>
-										<td>121</td>
-										<td>52</td>
-										<td>69</td>
-										<td>Naphtha / PyGas</td>
-										<td>Refineries & crackers</td>
-										<td>Extraction / reforming</td>
-										<td>Key aromatic petrochemical feedstock</td>
-									</tr>
-
-									<tr>
-										<td>Toluene</td>
-										<td>109</td>
-										<td>40</td>
-										<td>69</td>
-										<td>Naphtha</td>
-										<td>Refinery reformers</td>
-										<td>Catalytic reforming</td>
-										<td>Used as solvent and octane component</td>
-									</tr>
-
-									<tr>
-										<td>Ethylene Glycol (MEG)</td>
-										<td>174</td>
-										<td>56</td>
-										<td>118</td>
-										<td>Ethylene</td>
-										<td>Steam cracker olefins</td>
-										<td>EO hydration</td>
-										<td>Polyester chain economics dominate pricing</td>
-									</tr>
-
-									<tr>
-										<td>Styrene</td>
-										<td>203</td>
-										<td>83</td>
-										<td>120</td>
-										<td>Benzene + Ethylene</td>
-										<td>Petrochemical aromatics & olefins</td>
-										<td>Ethylbenzene dehydrogenation</td>
-										<td>Construction and packaging exposure</td>
-									</tr>
-
-									<tr>
-										<td>Formaldehyde</td>
-										<td>176</td>
-										<td>54</td>
-										<td>122</td>
-										<td>Methanol</td>
-										<td>Methanol synthesis plants</td>
-										<td>Catalytic oxidation</td>
-										<td>Wood products and resin markets dominate</td>
-									</tr>
-
-								</tbody>
-							</table>
+				  </tbody>
+				</table>
 			
 			
         </div>
