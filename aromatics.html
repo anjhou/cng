@@ -992,128 +992,274 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>ASTM Document IDs / Specifications for Major Industrial Chemicals</h2>
             <p>The ASTM standards are among the most commonly referenced industrial specifications for these chemicals.</p>
 			
-			
-					<table border="1" cellspacing="0" cellpadding="5">
-						<thead>
-							<tr>
-								<th>Chemical</th>
-								<th>Major Specification Standards</th>
-								<th>Standard Organization</th>
-								<th>Major Product Specifications</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Sulfuric Acid</td>
-								<td>ASTM E223, ISO 910, ACS Reagent Grade</td>
-								<td>ASTM / ISO / ACS</td>
-								<td>93–98% H₂SO₄, low metals, low organics</td>
-							</tr>
-							<tr>
-								<td>Ethylene</td>
-								<td>ASTM D2504, GPA 2261, ISO 6373</td>
-								<td>ASTM / GPA / ISO</td>
-								<td>Polymer‑grade ≥ 99.9%, moisture < 2 ppm, O₂ < 1 ppm</td>
-							</tr>
-							<tr>
-								<td>Ammonia</td>
-								<td>ASTM D1426, ISO 7103, ANSI K61.1</td>
-								<td>ASTM / ISO / ANSI</td>
-								<td>Anhydrous ≥ 99.95%, H₂O < 150 ppm, oil < 5 mg/kg</td>
-							</tr>
-							<tr>
-								<td>Urea</td>
-								<td>ASTM D6907, ISO 22241</td>
-								<td>ASTM / ISO</td>
-								<td>46% N (prill/granular), biuret < 1%, low moisture</td>
-							</tr>
-							<tr>
-								<td>Propylene</td>
-								<td>ASTM D2712, GPA 2177</td>
-								<td>ASTM / GPA</td>
-								<td>Polymer‑grade ≥ 99.5%, sulfur < 1 ppm, moisture < 2 ppm</td>
-							</tr>
-							<tr>
-								<td>Polyethylene</td>
-								<td>ASTM D4976, ISO 1872</td>
-								<td>ASTM / ISO</td>
-								<td>MFI (0.2–20 g/10 min), density 0.915–0.965 g/cc</td>
-							</tr>
-							<tr>
-								<td>Methanol</td>
-								<td>ASTM D1152, IMPCA Specifications</td>
-								<td>ASTM / IMPCA</td>
-								<td>≥ 99.85% purity, water < 0.1%, acidity < 30 mg/kg</td>
-							</tr>
-							<tr>
-								<td>Polypropylene</td>
-								<td>ASTM D4101, ISO 19069</td>
-								<td>ASTM / ISO</td>
-								<td>MFI (1–50 g/10 min), isotactic index > 95%</td>
-							</tr>
-							<tr>
-								<td>Chlorine</td>
-								<td>ASTM E412, CGA Pamphlet 6</td>
-								<td>ASTM / CGA</td>
-								<td>≥ 99.5% Cl₂, moisture < 20 ppm, non‑condensables < 0.1%</td>
-							</tr>
-							<tr>
-								<td>Caustic Soda</td>
-								<td>ASTM E291, ISO 3195</td>
-								<td>ASTM / ISO</td>
-								<td>32% or 50% NaOH, NaCl < 1%, Fe < 5 ppm</td>
-							</tr>
-							<tr>
-								<td>Nitric Acid</td>
-								<td>ASTM E1584, ISO 6353</td>
-								<td>ASTM / ISO</td>
-								<td>55–70% HNO₃, NOx < 200 ppm, low metals</td>
-							</tr>
-							<tr>
-								<td>Xylene</td>
-								<td>ASTM D843, ASTM D846</td>
-								<td>ASTM</td>
-								<td>≥ 99% purity, sulfur < 1 ppm, bromine index controlled</td>
-							</tr>
-							<tr>
-								<td>Phosphoric Acid</td>
-								<td>ASTM D515, FCC Specifications</td>
-								<td>ASTM / FCC</td>
-								<td>75–85% H₃PO₄, heavy metals < 10 ppm</td>
-							</tr>
-							<tr>
-								<td>Benzene</td>
-								<td>ASTM D2359, ISO 5272</td>
-								<td>ASTM / ISO</td>
-								<td>≥ 99.9% purity, thiophene < 1 ppm, non‑aromatics < 0.1%</td>
-							</tr>
-							<tr>
-								<td>Toluene</td>
-								<td>ASTM D841, ISO 5272</td>
-								<td>ASTM / ISO</td>
-								<td>≥ 99.8% purity, sulfur < 1 ppm, color < 10 APHA</td>
-							</tr>
-							<tr>
-								<td>Ethylene Glycol</td>
-								<td>ASTM D2693, ASTM E202</td>
-								<td>ASTM</td>
-								<td>≥ 99.8% MEG, water < 0.1%, acidity < 25 mg/kg</td>
-							</tr>
-							<tr>
-								<td>Styrene</td>
-								<td>ASTM D2827, ISO 2897</td>
-								<td>ASTM / ISO</td>
-								<td>≥ 99.8% purity, inhibitor (TBC) 10–15 ppm</td>
-							</tr>
-							<tr>
-								<td>Formaldehyde</td>
-								<td>ASTM D2194, ISO 9397</td>
-								<td>ASTM / ISO</td>
-								<td>37% solution, methanol 6–15%, acidity < 0.01%</td>
-							</tr>
-						</tbody>
-					</table>
+				<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%;">
+					<thead>
+						<tr>
+							<th>ASTM Document ID</th>
+							<th>Title / Specification</th>
+							<th>Applicable Aromatics</th>
+							<th>Important Product Specifications</th>
+							<th>Purpose</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ASTM D2359</td>
+							<td>Standard Specification for Refined Benzene-535</td>
+							<td>Benzene</td>
+							<td>
+								Purity ≥ 99.9 wt%<br>
+								Sulfur ≤ 1 ppm<br>
+								Non-aromatics ≤ 0.1 wt%<br>
+								Water clear appearance
+							</td>
+							<td>Product quality specification for nitration/chemical grade benzene</td>
+						</tr>
 
+						<tr>
+							<td>ASTM D841</td>
+							<td>Standard Specification for Nitration Grade Toluene</td>
+							<td>Toluene</td>
+							<td>
+								Toluene purity ≥ 99.5 wt%<br>
+								Sulfur ≤ 1 ppm<br>
+								Non-aromatics controlled<br>
+								Acid wash color specification
+							</td>
+							<td>Defines purity and impurity limits for nitration-grade toluene</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D2360</td>
+							<td>Trace Impurities in Monocyclic Aromatic Hydrocarbons by GC</td>
+							<td>Toluene, Xylenes, Aromatics</td>
+							<td>
+								Trace paraffins<br>
+								Olefins content<br>
+								Sulfur impurities<br>
+								Oxygenates detection
+							</td>
+							<td>GC analysis of trace impurities and non-aromatics</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3437</td>
+							<td>Sampling and Handling Liquid Cyclic Products</td>
+							<td>Aromatics &amp; cyclic hydrocarbons</td>
+							<td>
+								Representative sampling<br>
+								Moisture contamination prevention<br>
+								Vapor loss control
+							</td>
+							<td>Sampling and sample handling procedures</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D4492</td>
+							<td>Analysis of Benzene by Gas Chromatography</td>
+							<td>Benzene</td>
+							<td>
+								Benzene assay<br>
+								Non-aromatics concentration<br>
+								Toluene trace measurement
+							</td>
+							<td>Purity determination</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3797</td>
+							<td>Analysis of o-Xylene by Gas Chromatography</td>
+							<td>o-Xylene</td>
+							<td>
+								o-Xylene purity ≥ 99 wt%<br>
+								Ethylbenzene trace control<br>
+								Isomer distribution
+							</td>
+							<td>Purity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3798</td>
+							<td>Analysis of p-Xylene by Gas Chromatography</td>
+							<td>p-Xylene</td>
+							<td>
+								p-Xylene purity ≥ 99.7 wt%<br>
+								Non-aromatics control<br>
+								Sulfur trace limits
+							</td>
+							<td>Purity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D7504</td>
+							<td>Trace Impurities in Aromatics by GC</td>
+							<td>Benzene, Toluene, Xylenes</td>
+							<td>
+								Effective carbon number analysis<br>
+								Trace oxygenates<br>
+								Low-level sulfur analysis
+							</td>
+							<td>Advanced impurity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5917</td>
+							<td>Trace Impurities in Aromatics by Capillary GC</td>
+							<td>BTX Aromatics</td>
+							<td>
+								Hydrocarbon impurity profile<br>
+								Trace olefins<br>
+								C9+ aromatics
+							</td>
+							<td>Trace impurity measurement</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D4735</td>
+							<td>Hydrocarbon Types by Fluorescent Indicator Adsorption</td>
+							<td>Aromatics in fuels</td>
+							<td>
+								Aromatics volume %<br>
+								Olefins content<br>
+								Saturates composition
+							</td>
+							<td>Aromatics content determination</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1319</td>
+							<td>Hydrocarbon Types in Petroleum Products</td>
+							<td>Gasoline aromatics</td>
+							<td>
+								Aromatics concentration<br>
+								Olefins and saturates<br>
+								Fuel composition profile
+							</td>
+							<td>Aromatics, olefins, saturates analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5580</td>
+							<td>BTEX and Heavy Aromatics in Gasoline by GC</td>
+							<td>BTEX</td>
+							<td>
+								Benzene vol%<br>
+								Total aromatics<br>
+								Ethylbenzene and xylene analysis
+							</td>
+							<td>Aromatics composition in gasoline</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5769</td>
+							<td>Benzene, Toluene and Total Aromatics by GC/MS</td>
+							<td>BTX &amp; total aromatics</td>
+							<td>
+								Benzene concentration<br>
+								Total aromatic content<br>
+								GC/MS fingerprinting
+							</td>
+							<td>Gasoline aromatic analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3606</td>
+							<td>Benzene and Toluene in Gasoline by GC</td>
+							<td>Benzene/Toluene</td>
+							<td>
+								Benzene vol%<br>
+								Toluene concentration<br>
+								Fuel compliance monitoring
+							</td>
+							<td>Fuel quality testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D6563</td>
+							<td>C8 Aromatic Isomers in Xylenes by GC</td>
+							<td>Mixed xylenes</td>
+							<td>
+								p-Xylene concentration<br>
+								m-Xylene and o-Xylene distribution<br>
+								Ethylbenzene level
+							</td>
+							<td>Xylene isomer distribution analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D848</td>
+							<td>Acid Wash Color of Industrial Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Acid wash color rating<br>
+								Oxidation impurities<br>
+								Product appearance
+							</td>
+							<td>Color quality testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D849</td>
+							<td>Copper Strip Corrosion by Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Copper corrosion rating<br>
+								Sulfur reactivity<br>
+								Corrosive contaminants
+							</td>
+							<td>Corrosion tendency testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1209</td>
+							<td>Color of Clear Liquids (Pt-Co Scale)</td>
+							<td>Aromatics / solvents</td>
+							<td>
+								APHA color<br>
+								Clarity<br>
+								Haze evaluation
+							</td>
+							<td>Product color measurement</td>
+						</tr>
+
+						<tr>
+							<td>ASTM E2680</td>
+							<td>Appearance of Clear Liquids</td>
+							<td>Aromatics / solvents</td>
+							<td>
+								Visual clarity<br>
+								Haze detection<br>
+								Free water observation
+							</td>
+							<td>Visual appearance and haze evaluation</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1685</td>
+							<td>Ethylbenzene Content of Xylene Mixtures by GC</td>
+							<td>Ethylbenzene / xylene mixtures</td>
+							<td>
+								Ethylbenzene wt%<br>
+								Xylene isomer balance<br>
+								Composition accuracy
+							</td>
+							<td>Composition analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D6809</td>
+							<td>QA/QC Procedures for Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Laboratory QA/QC limits<br>
+								Calibration verification<br>
+								Repeatability and reproducibility
+							</td>
+							<td>QA/QC procedures and laboratory practices</td>
+						</tr>
+
+					</tbody>
+				</table>					
 
 					<ul>
 						<li>ASTM standards are widely used to define quality, testing, and handling requirements for industrial chemicals.</li>
