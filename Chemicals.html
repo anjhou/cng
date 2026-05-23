@@ -444,11 +444,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<th>Density, lb/ft3</th>
 						<th>Specific Gravity</th>
 						<th>API Gravity</th>
-						<th>Molecular Weight</th>
+						<th>MW</th>
 						<th>Dynamic Viscosity, cP</th>
 						<th>Kinematic Viscosity, cSt</th>
-						<th>Energy Content, lb/MMBTU</th>
-						<th>Energy Content, ft3/MMBTU</th>
+						<th>Energy Content, MMBTU/lb</th>
+						<th>Energy Content, MMBTU/ft3</th>
 						<th>Notes</th>
 					</tr>
 
@@ -460,8 +460,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>98.08</td>
 						<td>24.0</td>
 						<td>13.0</td>
-						<td>N/A</td>
-						<td>N/A</td>
+						<td>0.0000</td>
+						<td>0.0000</td>
 						<td>Strong mineral acid</td>
 					</tr>
 
@@ -473,8 +473,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>28.05</td>
 						<td>0.010</td>
 						<td>0.014</td>
-						<td>47.5</td>
-						<td>15,900</td>
+						<td>0.0210</td>
+						<td>0.0248</td>
 						<td>Olefin petrochemical feedstock</td>
 					</tr>
 
@@ -486,9 +486,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>17.03</td>
 						<td>0.26</td>
 						<td>0.38</td>
-						<td>64.0</td>
-						<td>20,500</td>
-						<td>Anhydrous liquid ammonia</td>
+						<td>0.0156</td>
+						<td>0.6640</td>
+						<td>Anhydrous ammonia</td>
 					</tr>
 
 					<tr>
@@ -499,9 +499,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>60.06</td>
 						<td>N/A</td>
 						<td>N/A</td>
-						<td>10.5</td>
-						<td>N/A</td>
-						<td>Solid fertilizer product</td>
+						<td>0.0048</td>
+						<td>0.3980</td>
+						<td>Solid fertilizer chemical</td>
 					</tr>
 
 					<tr>
@@ -512,9 +512,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>42.08</td>
 						<td>0.008</td>
 						<td>0.012</td>
-						<td>46.0</td>
-						<td>13,700</td>
-						<td>Olefin feedstock</td>
+						<td>0.0217</td>
+						<td>0.0393</td>
+						<td>Petrochemical feedstock</td>
 					</tr>
 
 					<tr>
@@ -522,11 +522,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>58.0</td>
 						<td>0.93</td>
 						<td>20</td>
-						<td>~100,000+</td>
+						<td>100000+</td>
 						<td>N/A</td>
 						<td>N/A</td>
-						<td>20.0</td>
-						<td>N/A</td>
+						<td>0.0200</td>
+						<td>1.1600</td>
 						<td>Thermoplastic polymer</td>
 					</tr>
 
@@ -538,8 +538,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>32.04</td>
 						<td>0.59</td>
 						<td>0.75</td>
-						<td>22.7</td>
-						<td>8,600</td>
+						<td>0.0101</td>
+						<td>0.4980</td>
 						<td>Industrial alcohol</td>
 					</tr>
 
@@ -548,11 +548,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>56.2</td>
 						<td>0.90</td>
 						<td>26</td>
-						<td>~150,000+</td>
+						<td>150000+</td>
 						<td>N/A</td>
 						<td>N/A</td>
-						<td>19.5</td>
-						<td>N/A</td>
+						<td>0.0195</td>
+						<td>1.0960</td>
 						<td>Thermoplastic polymer</td>
 					</tr>
 
@@ -564,9 +564,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>70.90</td>
 						<td>0.013</td>
 						<td>0.009</td>
-						<td>N/A</td>
-						<td>N/A</td>
-						<td>Toxic oxidizing gas</td>
+						<td>0.0000</td>
+						<td>0.0000</td>
+						<td>Oxidizing gas</td>
 					</tr>
 
 					<tr>
@@ -577,8 +577,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>40.00</td>
 						<td>50.0</td>
 						<td>33.0</td>
-						<td>N/A</td>
-						<td>N/A</td>
+						<td>0.0000</td>
+						<td>0.0000</td>
 						<td>50 wt% NaOH solution</td>
 					</tr>
 
@@ -590,8 +590,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>63.01</td>
 						<td>1.4</td>
 						<td>1.0</td>
-						<td>N/A</td>
-						<td>N/A</td>
+						<td>0.0000</td>
+						<td>0.0000</td>
 						<td>Strong oxidizing acid</td>
 					</tr>
 
@@ -603,8 +603,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>106.16</td>
 						<td>0.62</td>
 						<td>0.71</td>
-						<td>13.0</td>
-						<td>5,300</td>
+						<td>0.0184</td>
+						<td>1.0010</td>
 						<td>Aromatic solvent</td>
 					</tr>
 
@@ -616,8 +616,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>98.00</td>
 						<td>85.0</td>
 						<td>50.0</td>
-						<td>N/A</td>
-						<td>N/A</td>
+						<td>0.0000</td>
+						<td>0.0000</td>
 						<td>Mineral acid</td>
 					</tr>
 
@@ -629,8 +629,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>78.11</td>
 						<td>0.65</td>
 						<td>0.74</td>
-						<td>12.5</td>
-						<td>4,900</td>
+						<td>0.0180</td>
+						<td>0.9860</td>
 						<td>Aromatic hydrocarbon</td>
 					</tr>
 
@@ -642,8 +642,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>92.14</td>
 						<td>0.59</td>
 						<td>0.68</td>
-						<td>12.8</td>
-						<td>4,700</td>
+						<td>0.0182</td>
+						<td>0.9850</td>
 						<td>Aromatic solvent/feedstock</td>
 					</tr>
 
@@ -655,8 +655,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>62.07</td>
 						<td>16.1</td>
 						<td>14.5</td>
-						<td>10.0</td>
-						<td>N/A</td>
+						<td>0.0072</td>
+						<td>0.5010</td>
 						<td>Antifreeze/feedstock</td>
 					</tr>
 
@@ -668,9 +668,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>104.15</td>
 						<td>0.76</td>
 						<td>0.84</td>
-						<td>11.8</td>
-						<td>4,500</td>
-						<td>Monomer for plastics</td>
+						<td>0.0175</td>
+						<td>0.9830</td>
+						<td>Plastic monomer</td>
 					</tr>
 
 					<tr>
@@ -681,8 +681,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 						<td>30.03</td>
 						<td>2.0</td>
 						<td>1.85</td>
-						<td>9.5</td>
-						<td>N/A</td>
+						<td>0.0047</td>
+						<td>0.3170</td>
 						<td>Typically 37% aqueous solution</td>
 					</tr>
 
