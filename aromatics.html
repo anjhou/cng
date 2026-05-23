@@ -930,52 +930,240 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Chemical Production Capacity Global, and Regional</h2>
             <p>Global(GL1) - USA (US2) - EUROPE (EU3) -  Middle East (ME4) - ASIA, with CHINA (AS5) - CHINA (CH6) - Latin America (LA7) - Canada (CA8) - Africa (AF9) - Russian Federation (RF10)  </p>
 
-					<table border="1" cellspacing="0" cellpadding="5">
-						<tr><th>Commodity</th><th>Unit</th><th>GL1</th><th>US2</th><th>EU3</th><th>ME4</th><th>AS5</th><th>CH6</th><th>LA7</th><th>CA8</th><th>AF9</th><th>RF10</th><th>Notes</th></tr>
-						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
 
-						<tr><td>Sulfuric Acid</td><td>MMTPA</td><td>300</td><td>25</td><td>25</td><td>10</td><td>90</td><td>110</td><td>20</td><td>5</td><td>15</td><td>25</td><td>Mining + fertilizer driven</td></tr>
+							<thead>
+								<tr>
+									<th>Aromatic Product</th>
+									<th>Global Installed Capacity<br>(MMTPA)</th>
+									<th>North America<br>(MMTPA)</th>
+									<th>Europe<br>(MMTPA)</th>
+									<th>China<br>(MMTPA)</th>
+									<th>Rest of Asia<br>(MMTPA)</th>
+									<th>Middle East<br>(MMTPA)</th>
+									<th>India<br>(MMTPA)</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
 
-						<tr><td>Ethylene</td><td>MMTPA</td><td>220</td><td>45</td><td>25</td><td>35</td><td>60</td><td>45</td><td>10</td><td>6</td><td>3</td><td>11</td><td>US + China + ME dominate</td></tr>
+							<tbody>
 
-						<tr><td>Ammonia</td><td>MMTPA</td><td>190</td><td>20</td><td>18</td><td>22</td><td>55</td><td>40</td><td>12</td><td>4</td><td>6</td><td>13</td><td>Fertilizer chain backbone</td></tr>
+								<tr>
+									<td>Benzene</td>
+									<td>~68</td>
+									<td>11</td>
+									<td>8</td>
+									<td>24</td>
+									<td>17</td>
+									<td>5</td>
+									<td>3</td>
+									<td>China dominates incremental capacity growth due to styrene and phenol demand expansion.</td>
+								</tr>
 
-						<tr><td>Urea</td><td>MMTPA</td><td>190</td><td>10</td><td>12</td><td>18</td><td>70</td><td>55</td><td>10</td><td>3</td><td>5</td><td>17</td><td>China largest producer</td></tr>
+								<tr>
+									<td>Toluene</td>
+									<td>~36</td>
+									<td>6</td>
+									<td>4</td>
+									<td>13</td>
+									<td>9</td>
+									<td>2</td>
+									<td>2</td>
+									<td>Toluene production is strongly linked to refinery reforming severity and gasoline economics.</td>
+								</tr>
 
-						<tr><td>Propylene</td><td>MMTPA</td><td>150</td><td>30</td><td>20</td><td>18</td><td>45</td><td>40</td><td>8</td><td>5</td><td>2</td><td>12</td><td>PDH growth in China/ME</td></tr>
+								<tr>
+									<td>Ethylbenzene</td>
+									<td>~42</td>
+									<td>7</td>
+									<td>4</td>
+									<td>18</td>
+									<td>9</td>
+									<td>2</td>
+									<td>2</td>
+									<td>Most ethylbenzene units are integrated directly with styrene production facilities.</td>
+								</tr>
 
-						<tr><td>Polyethylene</td><td>MMTPA</td><td>125</td><td>25</td><td>15</td><td>20</td><td>40</td><td>35</td><td>6</td><td>4</td><td>2</td><td>3</td><td>China expanding rapidly</td></tr>
+								<tr>
+									<td>Mixed Xylenes</td>
+									<td>~95</td>
+									<td>12</td>
+									<td>8</td>
+									<td>39</td>
+									<td>24</td>
+									<td>7</td>
+									<td>5</td>
+									<td>Asia represents the largest mixed xylene production and consumption region globally.</td>
+								</tr>
 
-						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+								<tr>
+									<td>o-Xylene</td>
+									<td>~9</td>
+									<td>1.2</td>
+									<td>1.0</td>
+									<td>3.5</td>
+									<td>2.0</td>
+									<td>0.5</td>
+									<td>0.8</td>
+									<td>Demand is driven primarily by phthalic anhydride and plasticizer production.</td>
+								</tr>
 
-						<tr><td>Methanol</td><td>MMTPA</td><td>110</td><td>5</td><td>8</td><td>25</td><td>30</td><td>35</td><td>4</td><td>3</td><td>1</td><td>4</td><td>China coal‑to‑methanol heavy</td></tr>
+								<tr>
+									<td>p-Xylene</td>
+									<td>~78</td>
+									<td>8</td>
+									<td>5</td>
+									<td>37</td>
+									<td>18</td>
+									<td>6</td>
+									<td>4</td>
+									<td>Paraxylene capacity expansion is concentrated in China and broader Asia due to polyester demand.</td>
+								</tr>
 
-						<tr><td>Polypropylene</td><td>MMTPA</td><td>120</td><td>20</td><td>15</td><td>15</td><td>40</td><td>35</td><td>6</td><td>4</td><td>2</td><td>3</td><td>China largest PP base</td></tr>
+								<tr>
+									<td>C9 Aromatics</td>
+									<td>~18</td>
+									<td>3</td>
+									<td>2</td>
+									<td>6</td>
+									<td>4</td>
+									<td>1</td>
+									<td>1</td>
+									<td>Used mainly in solvents, gasoline blending, and hydrocarbon resin applications.</td>
+								</tr>
 
-						<tr><td>Chlorine</td><td>MMTPA</td><td>85</td><td>15</td><td>12</td><td>5</td><td>25</td><td>20</td><td>4</td><td>6</td><td>2</td><td>3</td><td>Linked to PVC demand</td></tr>
+								<tr>
+									<td>Solvent Aromatics</td>
+									<td>~22</td>
+									<td>4</td>
+									<td>3</td>
+									<td>7</td>
+									<td>5</td>
+									<td>1</td>
+									<td>2</td>
+									<td>Industrial coatings and agrochemical demand strongly influence regional solvent aromatic markets.</td>
+								</tr>
 
-						<tr><td>Caustic Soda</td><td>MMTPA</td><td>95</td><td>17</td><td>14</td><td>6</td><td>28</td><td>22</td><td>5</td><td>7</td><td>2</td><td>3</td><td>Chlor‑alkali co‑product</td></tr>
+								<tr>
+									<td>Petrochemical-Grade Aromatics</td>
+									<td>~140</td>
+									<td>22</td>
+									<td>15</td>
+									<td>55</td>
+									<td>33</td>
+									<td>10</td>
+									<td>5</td>
+									<td>Integrated refinery-petrochemical complexes dominate new aromatics investments globally.</td>
+								</tr>
 
-						<tr><td>Nitric Acid</td><td>MMTPA</td><td>65</td><td>8</td><td>10</td><td>4</td><td>20</td><td>18</td><td>3</td><td>2</td><td>2</td><td>6</td><td>Explosives + fertilizer</td></tr>
+							</tbody>
 
-						<tr><td>Xylene</td><td>MMTPA</td><td>55</td><td>7</td><td>8</td><td>6</td><td>20</td><td>15</td><td>2</td><td>1</td><td>1</td><td>2</td><td>PX demand drives capacity</td></tr>
+						</table>
 
-						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<br><br>
 
-						<tr><td>Phosphoric Acid</td><td>MMTPA</td><td>55</td><td>3</td><td>6</td><td>10</td><td>15</td><td>12</td><td>5</td><td>1</td><td>4</td><td>2</td><td>Morocco major producer</td></tr>
+					<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
 
-						<tr><td>Benzene</td><td>MMTPA</td><td>60</td><td>8</td><td>10</td><td>8</td><td>20</td><td>15</td><td>2</td><td>1</td><td>1</td><td>3</td><td>Aromatics tied to refining</td></tr>
+						<thead>
+							<tr>
+								<th>Aromatic Product</th>
+								<th>USA Installed Capacity<br>(MMTPA)</th>
+								<th>China Installed Capacity<br>(MMTPA)</th>
+								<th>Primary Production Pathway</th>
+								<th>Main Downstream Demand</th>
+							</tr>
+						</thead>
 
-						<tr><td>Toluene</td><td>MMTPA</td><td>35</td><td>5</td><td>6</td><td>4</td><td>12</td><td>8</td><td>1</td><td>1</td><td>1</td><td>2</td><td>Solvents + gasoline blend</td></tr>
+						<tbody>
 
-						<tr><td>Ethylene Glycol</td><td>MMTPA</td><td>45</td><td>4</td><td>5</td><td>6</td><td>15</td><td>14</td><td>2</td><td>1</td><td>1</td><td>1</td><td>Polyester chain heavy in China</td></tr>
+							<tr>
+								<td>Benzene</td>
+								<td>11</td>
+								<td>24</td>
+								<td>CCR Reforming + PyGas Extraction</td>
+								<td>Styrene, phenol, cyclohexane</td>
+							</tr>
 
-						<tr><td>Styrene</td><td>MMTPA</td><td>35</td><td>5</td><td>6</td><td>5</td><td>12</td><td>9</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Linked to PS/ABS demand</td></tr>
+							<tr>
+								<td>Toluene</td>
+								<td>6</td>
+								<td>13</td>
+								<td>Reforming + TDP</td>
+								<td>Gasoline blending, TDI, solvents</td>
+							</tr>
 
-						<tr><td>Formaldehyde</td><td>MMTPA</td><td>55</td><td>6</td><td>8</td><td>4</td><td>18</td><td>15</td><td>3</td><td>2</td><td>2</td><td>3</td><td>Construction + resins</td></tr>
+							<tr>
+								<td>Ethylbenzene</td>
+								<td>7</td>
+								<td>18</td>
+								<td>Benzene Alkylation</td>
+								<td>Styrene monomer</td>
+							</tr>
 
-						<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+							<tr>
+								<td>Mixed Xylenes</td>
+								<td>12</td>
+								<td>39</td>
+								<td>Reforming + Steam Cracking</td>
+								<td>Paraxylene extraction</td>
+							</tr>
+
+							<tr>
+								<td>o-Xylene</td>
+								<td>1.2</td>
+								<td>3.5</td>
+								<td>Xylene Fractionation</td>
+								<td>Phthalic anhydride</td>
+							</tr>
+
+							<tr>
+								<td>p-Xylene</td>
+								<td>8</td>
+								<td>37</td>
+								<td>Parex + Isomerization</td>
+								<td>PTA and polyester</td>
+							</tr>
+
+							<tr>
+								<td>C9 Aromatics</td>
+								<td>3</td>
+								<td>6</td>
+								<td>Heavy Reformate Recovery</td>
+								<td>Solvents and resins</td>
+							</tr>
+
+							<tr>
+								<td>Solvent Aromatics</td>
+								<td>4</td>
+								<td>7</td>
+								<td>Fractionation + Blending</td>
+								<td>Paints, coatings, agrochemicals</td>
+							</tr>
+
+							<tr>
+								<td>Petrochemical-Grade Aromatics</td>
+								<td>22</td>
+								<td>55</td>
+								<td>Integrated Aromatics Complexes</td>
+								<td>BTX derivative chains</td>
+							</tr>
+
+						</tbody>
+
 					</table>
+
+					<p style="font-size:11px;">
+					Notes: Capacity values are approximate 2025–2026 industry estimates derived from refinery reforming capacity, aromatics extraction capacity, paraxylene installations, and petrochemical integration trends. China continues to dominate global aromatics capacity additions, especially in paraxylene and mixed xylenes, while North America remains highly competitive due to shale-driven feedstock advantages. 
+					</p>
+
+<p style="font-size:11px;">
+Sources include industry market outlooks and capacity studies from GlobalData, S&amp;P Global Commodity Insights, NexantECA, and regional petrochemical industry publications.
+</p>
+			
+			
+			
+			
+			
 							<p>Global capacity = sum of regional values (rounded)</p>
 							<p>China dominates polymers, aromatics, methanol, urea</p>
 							<p>Middle East strong in ethylene, ammonia, methanol</p>
