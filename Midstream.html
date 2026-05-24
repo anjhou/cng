@@ -698,7 +698,227 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             
 			<h2>Hydrocarbon Specs Data for H2, LNG, NGLs, condensate Oils</h2>
 
-								
+				<table border="1" cellspacing="0" cellpadding="6">
+					<thead>
+					<tr>
+					<th>Stream Type</th>
+					<th>ASTM / Industry Document ID</th>
+					<th>Specification Title</th>
+					<th>Primary Application</th>
+					<th>Typical Composition / Limit</th>
+					<th>Notes</th>
+					</tr>
+					</thead>
+					<tbody>
+
+					<tr>
+					<td>LNG</td>
+					<td>ASTM D4784</td>
+					<td>Standard Specification for LNG Density Calculation</td>
+					<td>LNG custody transfer and inventory</td>
+					<td>Methane-rich LNG; density correction factors</td>
+					<td>Widely used for LNG cargo measurement and custody transfer calculations.</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>ASTM D1945</td>
+					<td>Analysis of Natural Gas by Gas Chromatography</td>
+					<td>LNG composition testing</td>
+					<td>CH4, C2, C3, N2, CO2 analysis</td>
+					<td>Common analytical standard for LNG vapor composition.</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>ASTM D3588</td>
+					<td>Heating Value and Relative Density of Natural Gas</td>
+					<td>Energy content calculation</td>
+					<td>Gross heating value determination</td>
+					<td>Used for commercial gas sales and LNG energy calculations.</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>ASTM D7165</td>
+					<td>Gaseous Hydrocarbon and Natural Gas Analysis</td>
+					<td>Extended LNG composition analysis</td>
+					<td>C1–C6+ hydrocarbon range</td>
+					<td>Supports LNG process optimization and boil-off gas analysis.</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>ISO 6976</td>
+					<td>Natural Gas — Calculation of Calorific Values</td>
+					<td>International LNG trade</td>
+					<td>Energy and Wobbe Index calculations</td>
+					<td>Frequently referenced alongside ASTM standards in global LNG contracts.</td>
+					</tr>
+
+					<tr>
+					<td>NGL</td>
+					<td>ASTM D1835</td>
+					<td>Standard Specification for LPG</td>
+					<td>Commercial propane and butane</td>
+					<td>Vapor pressure and sulfur limits</td>
+					<td>Key specification for HD-5 propane and commercial LPG grades.</td>
+					</tr>
+
+					<tr>
+					<td>NGL</td>
+					<td>ASTM D2598</td>
+					<td>Calculation of Certain LPG Properties</td>
+					<td>LPG density and vapor pressure</td>
+					<td>Propane / butane mixtures</td>
+					<td>Used for LPG transportation and storage calculations.</td>
+					</tr>
+
+					<tr>
+					<td>NGL</td>
+					<td>ASTM D2163</td>
+					<td>Hydrocarbons in LPG and Propane</td>
+					<td>LPG composition testing</td>
+					<td>C1–C5 hydrocarbon measurement</td>
+					<td>Supports LPG product certification and quality control.</td>
+					</tr>
+
+					<tr>
+					<td>NGL</td>
+					<td>ASTM D6667</td>
+					<td>Vapor Pressure of LPG</td>
+					<td>NGL handling safety</td>
+					<td>Reid Vapor Pressure limits</td>
+					<td>Critical for LPG storage and marine export operations.</td>
+					</tr>
+
+					<tr>
+					<td>NGL</td>
+					<td>GPA 2140</td>
+					<td>LPG Hydrocarbon Composition Standard</td>
+					<td>NGL industry trade</td>
+					<td>Ethane, propane, butane purity</td>
+					<td>Gas Processors Association standard widely used in North America.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D86</td>
+					<td>Distillation of Petroleum Products</td>
+					<td>Condensate boiling range</td>
+					<td>IBP/FBP distillation profile</td>
+					<td>Primary refinery assay method for condensate quality.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D4052</td>
+					<td>Density and Relative Density by Digital Meter</td>
+					<td>Condensate density testing</td>
+					<td>API gravity measurement</td>
+					<td>Used for custody transfer and export blending.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D4294</td>
+					<td>Sulfur in Petroleum Products</td>
+					<td>Condensate sulfur testing</td>
+					<td>ppm sulfur measurement</td>
+					<td>Critical for sweet versus sour condensate classification.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D4815</td>
+					<td>MTBE and Oxygenates by GC</td>
+					<td>Condensate refinery feed analysis</td>
+					<td>Oxygenate trace limits</td>
+					<td>Supports petrochemical and refinery feedstock quality control.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D5002</td>
+					<td>Density and Relative Density of Crude Oils</td>
+					<td>Condensate export specification</td>
+					<td>API gravity correction</td>
+					<td>Used in condensate blending and marine export certification.</td>
+					</tr>
+
+					<tr>
+					<td>General Hydrocarbon</td>
+					<td>ASTM D3230</td>
+					<td>Salts in Crude Oil</td>
+					<td>Condensate and crude contamination</td>
+					<td>Salt content limits</td>
+					<td>Important for corrosion control in pipelines and refining.</td>
+					</tr>
+
+					<tr>
+					<td>General Hydrocarbon</td>
+					<td>ASTM D4177</td>
+					<td>Automatic Sampling of Petroleum Products</td>
+					<td>Custody transfer sampling</td>
+					<td>Representative sample collection</td>
+					<td>Applied at LNG, NGL, and condensate export terminals.</td>
+					</tr>
+
+					<tr>
+					<td>General Hydrocarbon</td>
+					<td>API MPMS Chapter 14</td>
+					<td>Natural Gas Fluids Measurement</td>
+					<td>Gas and NGL metering</td>
+					<td>Flow and energy calculations</td>
+					<td>Widely used by pipeline operators and LNG exporters.</td>
+					</tr>
+
+					<tr>
+					<td>General Hydrocarbon</td>
+					<td>ISO 8943</td>
+					<td>Liquefied Natural Gas Sampling</td>
+					<td>LNG cargo testing</td>
+					<td>Cryogenic LNG sampling procedures</td>
+					<td>International LNG custody transfer reference document.</td>
+					</tr>
+
+					<tr>
+					<td>General Hydrocarbon</td>
+					<td>EN 589</td>
+					<td>Automotive LPG Specification</td>
+					<td>European LPG markets</td>
+					<td>Sulfur and olefin limits</td>
+					<td>Primary LPG automotive fuel standard in Europe.</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<br>
+
+					<ul>
+
+					<li>Major LNG-exporting countries such as <b>Qatar</b>, <b>United States</b>, and <b>Australia</b> commonly apply a combination of <b>ASTM</b>, <b>ISO</b>, and <b>API MPMS</b> standards for custody transfer and product certification.</li>
+
+					<li><b>ExxonMobil</b> typically references ASTM, GPA Midstream, API MPMS, and ISO standards in LNG and condensate sales agreements and terminal operations.</li>
+
+					<li><b>Shell</b> commonly integrates ASTM D1945, ISO 6976, and ISO LNG sampling procedures within global LNG trading contracts and marine operations.</li>
+
+					<li><b>BP</b> frequently uses API MPMS standards for hydrocarbon measurement and ASTM sulfur, density, and vapor pressure methods for condensate and LPG quality verification.</li>
+
+					<li><b>Saudi Aramco</b>, <b>QatarEnergy</b>, and <b>ADNOC</b> often apply customized export specifications derived from ASTM and GPA standards for LPG and condensate exports.</li>
+
+					<li>European LNG terminals heavily utilize <b>ISO 6976</b>, <b>EN standards</b>, and ASTM gas chromatography methods for calorific value harmonization across pipeline systems.</li>
+
+					<li>Most LNG contracts specify limits for <b>nitrogen</b>, <b>CO₂</b>, <b>H₂S</b>, sulfur, water content, and heating value to ensure compatibility with downstream regasification systems.</li>
+
+					<li>Commercial propane under ASTM D1835 HD-5 grade generally limits <b>propylene concentration to 5 vol%</b> and controls sulfur and moisture levels.</li>
+
+					<li>Condensate export specifications commonly define acceptable ranges for <b>API gravity</b>, <b>Reid Vapor Pressure (RVP)</b>, sulfur content, and distillation endpoints.</li>
+
+					<li>Large LNG and NGL marine terminals normally require compliance with ASTM/API analytical standards before cargo loading, customs certification, and international shipping documentation approval.</li>
+
+					</ul>						
 			
         </div>
     </div>
