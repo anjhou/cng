@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Midstream Weekly</title>
+
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #0b2e59;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #d9e2ef;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #0b2e59;
+        }
+
+        .tab.active {
+            background: #0b2e59;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        table th {
+            background: #0b2e59;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+
+<div class="container">
+
+    <h1>Midstream Weekly</h1>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+        <div class="tab active" data-tab="Prices">Prices</div>
+		<div class="tab" data-tab="Spreads">Spreads</div>        
+        <div class="tab" data-tab="Demand">Demand</div>
+		<div class="tab" data-tab="Supply">Supply</div>
+		<div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
+		<div class="tab" data-tab="Trade-Flow">Trade-Flow</div>
+		<div class="tab" data-tab="Property">Property</div>
+        <div class="tab" data-tab="Assay">Assay</div>		
+		<div class="tab" data-tab="Latest-News">News</div>
+		
+        
+    </div>
+
+		<!-- Trade Flow TAB -->
+    <div id="Trade-Flow" class="tab-content">
+        <div class="section">
+            <h2>Trade-Flow</h2>
+            <p>Trade-Flow with Industry Insights</p>
+			
+			<h2>Global H2, LNG, NGLs, condensate Trade Flow Forecast by Region (2027–2032)</h2>
+
+			
+		</div>
+	</div>	
+	
+	<!-- News Update TAB -->
+    <div id="Latest-News" class="tab-content">
+        <div class="section">
+            <h2>News</h2>
+					<h2>Latest H2, LNG, NGLs, condensate Market News Updates and Industry Insights (2026)</h2>
+
+		
+		</div>
+	</div>	
+			
+    <!-- Prices TAB -->
+    <div id="Prices" class="tab-content active">
+        <div class="section">
+            <h2>Prices (U.S.)</h2>
+            
+			<h2>Current Market Prices for H2, LNG, NGLs, condensate (2026)</h2>
+
+
+        </div>
+    </div>
+
+    <!-- Price Spread TAB -->
+    <div id="Spreads" class="tab-content">
+        <div class="section">
+            <h2>Price Spread</h2>
+            <p>Spread between Product and Feedstock Prices.</p>
+
+			<h2>Price Spread Between H2, LNG, NGLs, condensate Versus Natural Gas (Energy Basis)</h2>
+
+
+
+			
+        </div>
+    </div>
+
+    <!-- Supply-Demand TAB -->
+    <div id="Supply-Demand" class="tab-content">
+        <div class="section">
+            <h2>Supply-Demand </h2>
+            <p> 2026 and 2032 demand</p>
+				<h2>Global H2, LNG, NGLs, condensate Supply and Demand Forecast (2027–2032)</h2>
+
+								
+		</div>
+    </div>
+
+    <!-- Capacity TAB -->
+    <div id="Demand" class="tab-content">
+        <div class="section">
+            
+<h2>Global H2, LNG, NGLs, condensate Demand by Region and Major Consuming Countries (2026)</h2>
+
+	
+        </div>
+    </div>
+
+    <!-- Assay -->
+    <div id="Assay" class="tab-content">
+        <div class="section">
+            
+			<h2>Hydrocarbon Assay Data for H2, LNG, NGLs, condensate Oils</h2>
+
+								
+			
+        </div>
+    </div>
+
+    <!-- Product Specification -->
+    <div id="Property" class="tab-content">
+        <div class="section">
+            <h2>Transport Property and Energy Content</h2>
+            <p>Transport Property and Energy Content.</p>
+			
+			<h2>Physical and Thermodynamic Properties of H2, LNG, NGLs, Condensate, and Crude Oil</h2>
+
+									
+        </div>
+    </div>
+
+    <!-- Supply -->
+    <div id="Supply" class="tab-content">
+        <div class="section">
+            <h2>Production Upstream</h2>
+            <p>Production Pathway.</p>
+			
+				
+		</div>
+    </div>
+	
+</div>
+
+
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
