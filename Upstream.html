@@ -791,267 +791,444 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     <!-- Capacity TAB -->
     <div id="Demand" class="tab-content">
         <div class="section">
-            <h2>Aromatics Production Capacity Global, and Regional</h2>
-            <p> </p>
+            
+<h2>Global Hydrocarbon Demand by Region and Major Consuming Countries (2026)</h2>
 
-			<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+					<table border="1" cellspacing="0" cellpadding="6">
 
-							<thead>
-								<tr>
-									<th>Aromatic Product</th>
-									<th>Global Installed Capacity<br>(MMTPA)</th>
-									<th>North America<br>(MMTPA)</th>
-									<th>Europe<br>(MMTPA)</th>
-									<th>China<br>(MMTPA)</th>
-									<th>Rest of Asia<br>(MMTPA)</th>
-									<th>Middle East<br>(MMTPA)</th>
-									<th>India<br>(MMTPA)</th>
-									<th>Notes</th>
-								</tr>
-							</thead>
+					<thead>
+					<tr>
+					<th>Hydrocarbon Stream</th>
+					<th>Major Demand Regions</th>
+					<th>Regional Demand Share (%)</th>
+					<th>Top 6 Consuming Countries</th>
+					<th>Estimated Demand</th>
+					<th>Primary Demand Sectors</th>
+					<th>Primary Unit</th>
+					</tr>
+					</thead>
 
-							<tbody>
+					<tbody>
 
-								<tr>
-									<td>Benzene</td>
-									<td>~68</td>
-									<td>11</td>
-									<td>8</td>
-									<td>24</td>
-									<td>17</td>
-									<td>5</td>
-									<td>3</td>
-									<td>China dominates incremental capacity growth due to styrene and phenol demand expansion.</td>
-								</tr>
+					<tr>
+					<td>Natural Gas</td>
 
-								<tr>
-									<td>Toluene</td>
-									<td>~36</td>
-									<td>6</td>
-									<td>4</td>
-									<td>13</td>
-									<td>9</td>
-									<td>2</td>
-									<td>2</td>
-									<td>Toluene production is strongly linked to refinery reforming severity and gasoline economics.</td>
-								</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific</li>
+					<li>North America</li>
+					<li>Europe</li>
+					<li>Middle East</li>
+					<li>Russia & CIS</li>
+					</ul>
+					</td>
 
-								<tr>
-									<td>Ethylbenzene</td>
-									<td>~42</td>
-									<td>7</td>
-									<td>4</td>
-									<td>18</td>
-									<td>9</td>
-									<td>2</td>
-									<td>2</td>
-									<td>Most ethylbenzene units are integrated directly with styrene production facilities.</td>
-								</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific: ~33%</li>
+					<li>North America: ~27%</li>
+					<li>Europe: ~16%</li>
+					<li>Middle East: ~11%</li>
+					<li>Russia & CIS: ~7%</li>
+					</ul>
+					</td>
 
-								<tr>
-									<td>Mixed Xylenes</td>
-									<td>~95</td>
-									<td>12</td>
-									<td>8</td>
-									<td>39</td>
-									<td>24</td>
-									<td>7</td>
-									<td>5</td>
-									<td>Asia represents the largest mixed xylene production and consumption region globally.</td>
-								</tr>
+					<td>
+					<ol>
+					<li>USA</li>
+					<li>China</li>
+					<li>Russia</li>
+					<li>India</li>
+					<li>Japan</li>
+					<li>Iran</li>
+					</ol>
+					</td>
 
-								<tr>
-									<td>o-Xylene</td>
-									<td>~9</td>
-									<td>1.2</td>
-									<td>1.0</td>
-									<td>3.5</td>
-									<td>2.0</td>
-									<td>0.5</td>
-									<td>0.8</td>
-									<td>Demand is driven primarily by phthalic anhydride and plasticizer production.</td>
-								</tr>
+					<td>
+					<ul>
+					<li>USA: ~905 BCM/yr</li>
+					<li>China: ~445 BCM/yr</li>
+					<li>Russia: ~470 BCM/yr</li>
+					<li>India: ~72 BCM/yr</li>
+					<li>Japan: ~92 BCM/yr</li>
+					<li>Iran: ~250 BCM/yr</li>
+					</ul>
+					</td>
 
-								<tr>
-									<td>p-Xylene</td>
-									<td>~78</td>
-									<td>8</td>
-									<td>5</td>
-									<td>37</td>
-									<td>18</td>
-									<td>6</td>
-									<td>4</td>
-									<td>Paraxylene capacity expansion is concentrated in China and broader Asia due to polyester demand.</td>
-								</tr>
+					<td>
+					<ul>
+					<li>Power generation</li>
+					<li>Fertilizer / Ammonia</li>
+					<li>Petrochemicals</li>
+					<li>Residential & Commercial</li>
+					<li>Industrial fuel</li>
+					<li>Hydrogen / Syngas</li>
+					</ul>
+					</td>
 
-								<tr>
-									<td>C9 Aromatics</td>
-									<td>~18</td>
-									<td>3</td>
-									<td>2</td>
-									<td>6</td>
-									<td>4</td>
-									<td>1</td>
-									<td>1</td>
-									<td>Used mainly in solvents, gasoline blending, and hydrocarbon resin applications.</td>
-								</tr>
+					<td>BCM per year</td>
+					</tr>
 
-								<tr>
-									<td>Solvent Aromatics</td>
-									<td>~22</td>
-									<td>4</td>
-									<td>3</td>
-									<td>7</td>
-									<td>5</td>
-									<td>1</td>
-									<td>2</td>
-									<td>Industrial coatings and agrochemical demand strongly influence regional solvent aromatic markets.</td>
-								</tr>
+					<tr>
+					<td>NGLs (Natural Gas Liquids)</td>
 
-								<tr>
-									<td>Petrochemical-Grade Aromatics</td>
-									<td>~140</td>
-									<td>22</td>
-									<td>15</td>
-									<td>55</td>
-									<td>33</td>
-									<td>10</td>
-									<td>5</td>
-									<td>Integrated refinery-petrochemical complexes dominate new aromatics investments globally.</td>
-								</tr>
+					<td>
+					<ul>
+					<li>North America</li>
+					<li>Asia Pacific</li>
+					<li>Middle East</li>
+					<li>Europe</li>
+					<li>Latin America</li>
+					</ul>
+					</td>
 
-							</tbody>
+					<td>
+					<ul>
+					<li>North America: ~37%</li>
+					<li>Asia Pacific: ~28%</li>
+					<li>Middle East: ~18%</li>
+					<li>Europe: ~9%</li>
+					<li>Latin America: ~5%</li>
+					</ul>
+					</td>
 
-						</table>
+					<td>
+					<ol>
+					<li>USA</li>
+					<li>China</li>
+					<li>Saudi Arabia</li>
+					<li>India</li>
+					<li>Japan</li>
+					<li>South Korea</li>
+					</ol>
+					</td>
 
-<br><br>
+					<td>
+					<ul>
+					<li>USA: ~5.8 MMBPD</li>
+					<li>China: ~2.3 MMBPD</li>
+					<li>Saudi Arabia: ~1.7 MMBPD</li>
+					<li>India: ~0.9 MMBPD</li>
+					<li>Japan: ~0.8 MMBPD</li>
+					<li>South Korea: ~0.7 MMBPD</li>
+					</ul>
+					</td>
 
-					<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+					<td>
+					<ul>
+					<li>Steam crackers</li>
+					<li>LPG fuel</li>
+					<li>Petrochemical feedstock</li>
+					<li>Residential heating</li>
+					<li>Refinery blending</li>
+					<li>Propylene production</li>
+					</ul>
+					</td>
 
-						<thead>
-							<tr>
-								<th>Aromatic Product</th>
-								<th>USA Installed Capacity<br>(MMTPA)</th>
-								<th>China Installed Capacity<br>(MMTPA)</th>
-								<th>Primary Production Pathway</th>
-								<th>Main Downstream Demand</th>
-							</tr>
-						</thead>
+					<td>Million barrels/day</td>
+					</tr>
 
-						<tbody>
+					<tr>
+					<td>Crude Oil</td>
 
-							<tr>
-								<td>Benzene</td>
-								<td>11</td>
-								<td>24</td>
-								<td>CCR Reforming + PyGas Extraction</td>
-								<td>Styrene, phenol, cyclohexane</td>
-							</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific</li>
+					<li>North America</li>
+					<li>Europe</li>
+					<li>Middle East</li>
+					<li>Latin America</li>
+					</ul>
+					</td>
 
-							<tr>
-								<td>Toluene</td>
-								<td>6</td>
-								<td>13</td>
-								<td>Reforming + TDP</td>
-								<td>Gasoline blending, TDI, solvents</td>
-							</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific: ~39%</li>
+					<li>North America: ~24%</li>
+					<li>Europe: ~16%</li>
+					<li>Middle East: ~10%</li>
+					<li>Latin America: ~6%</li>
+					</ul>
+					</td>
 
-							<tr>
-								<td>Ethylbenzene</td>
-								<td>7</td>
-								<td>18</td>
-								<td>Benzene Alkylation</td>
-								<td>Styrene monomer</td>
-							</tr>
+					<td>
+					<ol>
+					<li>USA</li>
+					<li>China</li>
+					<li>India</li>
+					<li>Japan</li>
+					<li>Saudi Arabia</li>
+					<li>South Korea</li>
+					</ol>
+					</td>
 
-							<tr>
-								<td>Mixed Xylenes</td>
-								<td>12</td>
-								<td>39</td>
-								<td>Reforming + Steam Cracking</td>
-								<td>Paraxylene extraction</td>
-							</tr>
+					<td>
+					<ul>
+					<li>USA: ~20.4 MMBPD</li>
+					<li>China: ~16.3 MMBPD</li>
+					<li>India: ~5.7 MMBPD</li>
+					<li>Japan: ~3.2 MMBPD</li>
+					<li>Saudi Arabia: ~3.7 MMBPD</li>
+					<li>South Korea: ~3.1 MMBPD</li>
+					</ul>
+					</td>
 
-							<tr>
-								<td>o-Xylene</td>
-								<td>1.2</td>
-								<td>3.5</td>
-								<td>Xylene Fractionation</td>
-								<td>Phthalic anhydride</td>
-							</tr>
+					<td>
+					<ul>
+					<li>Transportation fuels</li>
+					<li>Refining</li>
+					<li>Petrochemicals</li>
+					<li>Marine fuels</li>
+					<li>Aviation fuels</li>
+					<li>Industrial fuel oil</li>
+					</ul>
+					</td>
 
-							<tr>
-								<td>p-Xylene</td>
-								<td>8</td>
-								<td>37</td>
-								<td>Parex + Isomerization</td>
-								<td>PTA and polyester</td>
-							</tr>
+					<td>Million barrels/day</td>
+					</tr>
 
-							<tr>
-								<td>C9 Aromatics</td>
-								<td>3</td>
-								<td>6</td>
-								<td>Heavy Reformate Recovery</td>
-								<td>Solvents and resins</td>
-							</tr>
+					<tr>
+					<td>Condensate</td>
 
-							<tr>
-								<td>Solvent Aromatics</td>
-								<td>4</td>
-								<td>7</td>
-								<td>Fractionation + Blending</td>
-								<td>Paints, coatings, agrochemicals</td>
-							</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific</li>
+					<li>Middle East</li>
+					<li>North America</li>
+					<li>Europe</li>
+					<li>Africa</li>
+					</ul>
+					</td>
 
-							<tr>
-								<td>Petrochemical-Grade Aromatics</td>
-								<td>22</td>
-								<td>55</td>
-								<td>Integrated Aromatics Complexes</td>
-								<td>BTX derivative chains</td>
-							</tr>
+					<td>
+					<ul>
+					<li>Asia Pacific: ~36%</li>
+					<li>Middle East: ~24%</li>
+					<li>North America: ~22%</li>
+					<li>Europe: ~10%</li>
+					<li>Africa: ~4%</li>
+					</ul>
+					</td>
 
-						</tbody>
+					<td>
+					<ol>
+					<li>South Korea</li>
+					<li>China</li>
+					<li>Japan</li>
+					<li>Singapore</li>
+					<li>USA</li>
+					<li>UAE</li>
+					</ol>
+					</td>
 
+					<td>
+					<ul>
+					<li>South Korea: ~1.4 MMBPD</li>
+					<li>China: ~1.2 MMBPD</li>
+					<li>Japan: ~0.9 MMBPD</li>
+					<li>Singapore: ~0.6 MMBPD</li>
+					<li>USA: ~0.7 MMBPD</li>
+					<li>UAE: ~0.5 MMBPD</li>
+					</ul>
+					</td>
+
+					<td>
+					<ul>
+					<li>Condensate splitters</li>
+					<li>Aromatics production</li>
+					<li>Naphtha crackers</li>
+					<li>Refinery feedstock</li>
+					<li>Gasoline blending</li>
+					<li>Petrochemical feedstock</li>
+					</ul>
+					</td>
+
+					<td>Million barrels/day</td>
+					</tr>
+
+					<tr>
+					<td>Crude + Condensate</td>
+
+					<td>
+					<ul>
+					<li>Asia Pacific</li>
+					<li>North America</li>
+					<li>Europe</li>
+					<li>Middle East</li>
+					<li>Latin America</li>
+					</ul>
+					</td>
+
+					<td>
+					<ul>
+					<li>Asia Pacific: ~40%</li>
+					<li>North America: ~24%</li>
+					<li>Europe: ~15%</li>
+					<li>Middle East: ~10%</li>
+					<li>Latin America: ~6%</li>
+					</ul>
+					</td>
+
+					<td>
+					<ol>
+					<li>USA</li>
+					<li>China</li>
+					<li>India</li>
+					<li>Japan</li>
+					<li>Saudi Arabia</li>
+					<li>South Korea</li>
+					</ol>
+					</td>
+
+					<td>
+					<ul>
+					<li>USA: ~21.1 MMBPD</li>
+					<li>China: ~17.2 MMBPD</li>
+					<li>India: ~6.0 MMBPD</li>
+					<li>Japan: ~3.5 MMBPD</li>
+					<li>Saudi Arabia: ~3.9 MMBPD</li>
+					<li>South Korea: ~3.2 MMBPD</li>
+					</ul>
+					</td>
+
+					<td>
+					<ul>
+					<li>Transportation fuels</li>
+					<li>Refining</li>
+					<li>Petrochemicals</li>
+					<li>Marine fuels</li>
+					<li>Steam crackers</li>
+					<li>Industrial energy</li>
+					</ul>
+					</td>
+
+					<td>Million barrels/day</td>
+					</tr>
+
+					</tbody>
 					</table>
 
-					<p style="font-size:11px;">
-					Notes: Capacity values are approximate 2025–2026 industry estimates derived from refinery reforming capacity, aromatics extraction capacity, paraxylene installations, and petrochemical integration trends. China continues to dominate global aromatics capacity additions, especially in paraxylene and mixed xylenes, while North America remains highly competitive due to shale-driven feedstock advantages. 
-					</p>
-					
+					<h2>Global Hydrocarbon Demand Market Insights (2026)</h2>
+
 					<ul>
-						<li>
-							<b>China (Dominant PX and BTX expansion):</b> Installed aromatics capacity is heavily weighted toward paraxylene, mixed xylenes, and benzene due to massive polyester (PTA-PET) demand, integrated refinery–petrochemical mega-complexes, and state-backed investment in COTC (crude-to-chemicals) projects. Feedstock advantage comes from imported crude and condensate with strong downstream textile export demand.
-						</li>
-						<li>
-							<b>United States (Reforming + steam cracking balance):</b> Capacity is driven by catalytic reforming and steam cracker PyGas recovery, supported by low-cost shale gas and NGLs. Strong gasoline blending economics and ethylene derivatives market shape aromatics output, with benzene and toluene often optimized for styrene and TDI chains.
-						</li>
-						<li>
-							<b>Europe (Capacity stagnation and optimization focus):</b> Aromatics capacity is relatively flat due to high energy costs, strict environmental regulations (REACH, VOC limits), and aging crackers. Plants focus on high-value benzene and PX integration rather than capacity expansion, with imports filling structural demand gaps.
-						</li>
-						<li>
-							<b>Middle East (Feedstock-advantaged export hub):</b> Aromatics capacity is expanding through integrated refining and petrochemical complexes leveraging low-cost crude and condensates. Governments prioritize downstream diversification (Saudi Vision 2030, UAE industrial strategy), targeting export markets in Asia, especially PX and benzene.
-						</li>
-						<li>
-							<b>India (Demand-led moderate expansion):</b> Capacity growth is moderate but rising, driven by domestic polyester demand, gasoline pool blending, and import substitution policies. Reliance on refinery expansion (MRPL, IOCL, RIL) supports benzene, toluene, and PX production growth.
-						</li>
-						<li>
-							<b>Rest of Asia (South Korea, Japan, Taiwan):</b> Mature but highly efficient aromatics capacity optimized for export-grade PX and benzene. High dependence on imported naphtha feedstock, strong integration with global petrochemical trade flows, and advanced separation technologies like Parex and Isomar.
-						</li>
-						<li>
-							<b>North America structural advantage:</b> Competitive feedstock pricing from shale gas liquids and condensates enables strong aromatics margins. Capacity is optimized for benzene-styrene chains and gasoline blending, with export of PX and mixed xylenes to Asia when arbitrage is favorable.
-						</li>
-						<li>
-							<b>Feedstock availability as a key driver globally:</b> Naphtha-rich regions (Asia, Europe) rely on crude imports, while gas-rich regions (US, Middle East) leverage ethane/NGL economics, influencing whether aromatics are produced via reforming or steam cracking PyGas recovery.
-						</li>
-						<li>
-							<b>Government regulation impact:</b> Environmental policies (VOC limits, benzene exposure restrictions, carbon pricing) strongly influence aromatics investments. Europe and parts of Asia restrict benzene usage, while China enforces tighter emissions standards but continues capacity expansion for strategic self-sufficiency.
-						</li>
-						<li>
-							<b>Downstream demand and trade imbalance:</b> Asia (especially China and India) is structurally long in PX demand due to polyester growth, creating global trade flows from US, Middle East, and Northeast Asia exporters. Benzene and mixed xylenes follow similar arbitrage-driven trade patterns.
-						</li>
+
+					<li>
+					Asia Pacific remains the largest hydrocarbon demand center globally due to rapid industrialization, urbanization, transportation growth, and petrochemical capacity expansion led by China and India.
+					</li>
+
+					<li>
+					Natural gas demand growth is increasingly driven by power generation transition policies replacing coal-fired generation with lower-carbon gas-fired combined cycle systems.
+					</li>
+
+					<li>
+					Petrochemical feedstock demand for ethane, propane, butane, and condensate continues to expand due to global polyethylene, polypropylene, and aromatics capacity additions.
+					</li>
+
+					<li>
+					China dominates incremental crude and petrochemical feedstock demand because of integrated refinery-petrochemical complexes and strategic energy security investments.
+					</li>
+
+					<li>
+					Middle East demand growth is increasingly linked to domestic petrochemical integration, blue ammonia projects, hydrogen production, and industrial diversification strategies.
+					</li>
+
+					<li>
+					North America maintains strong NGL demand due to shale gas economics and highly competitive ethane-based steam cracking feedstock advantages.
+					</li>
+
+					<li>
+					European hydrocarbon demand growth remains constrained by decarbonization mandates, carbon taxation, renewable electrification policies, and refinery rationalization.
+					</li>
+
+					<li>
+					Fertilizer and ammonia sectors remain major natural gas demand drivers because methane serves both as fuel and hydrogen feedstock for ammonia synthesis.
+					</li>
+
+					<li>
+					Condensate demand growth is highly concentrated in Asia due to condensate splitter investments and aromatics manufacturing for polyester and packaging industries.
+					</li>
+
+					<li>
+					Transportation fuels still represent the largest crude demand segment globally; however, petrochemical feedstock demand is becoming the primary long-term oil demand growth driver.
+					</li>
+
 					</ul>
+
+					<h2>Approximate Global Demand Share by Sector (2026)</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+
+					<thead>
+					<tr>
+					<th>Sector</th>
+					<th>Natural Gas</th>
+					<th>NGLs</th>
+					<th>Crude / Condensate</th>
+					<th>Key Applications</th>
+					</tr>
+					</thead>
+
+					<tbody>
+
+					<tr>
+					<td>Power Generation</td>
+					<td>~34%</td>
+					<td>~4%</td>
+					<td>~6%</td>
+					<td>Combined cycle gas turbines, industrial power</td>
+					</tr>
+
+					<tr>
+					<td>Petrochemicals</td>
+					<td>~16%</td>
+					<td>~52%</td>
+					<td>~18%</td>
+					<td>Steam crackers, aromatics, olefins</td>
+					</tr>
+
+					<tr>
+					<td>Refining</td>
+					<td>~8%</td>
+					<td>~10%</td>
+					<td>~58%</td>
+					<td>Transportation fuel production</td>
+					</tr>
+
+					<tr>
+					<td>Fertilizer / Ammonia</td>
+					<td>~14%</td>
+					<td>~2%</td>
+					<td>~1%</td>
+					<td>Ammonia and urea production</td>
+					</tr>
+
+					<tr>
+					<td>Hydrogen / Syngas</td>
+					<td>~10%</td>
+					<td>~2%</td>
+					<td>~3%</td>
+					<td>Methanol, hydrogen, GTL, FT fuels</td>
+					</tr>
+
+					<tr>
+					<td>Residential & Commercial</td>
+					<td>~12%</td>
+					<td>~18%</td>
+					<td>~2%</td>
+					<td>Heating, cooking, distributed fuel</td>
+					</tr>
+
+					<tr>
+					<td>Transportation</td>
+					<td>~6%</td>
+					<td>~12%</td>
+					<td>~12%</td>
+					<td>LPG vehicles, marine, aviation</td>
+					</tr>
+
+					</tbody>
+
+					</table>
 	
         </div>
     </div>
