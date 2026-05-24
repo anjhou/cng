@@ -1238,184 +1238,386 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <h2>Price Spread</h2>
             <p>Spread between Product and Feedstock Prices.</p>
 
-				<table border="1" cellspacing="0" cellpadding="6">
-				  <thead>
-					<tr>
-					  <th>Aromatic Component</th>
-					  <th>Primary Feedstock</th>
-					  <th>Current Aromatic Price ($/ton, est.)</th>
-					  <th>Feedstock Price ($/ton, est.)</th>
-					  <th>Current Spread ($/ton)</th>
-					  <th>Market Insights (Trade Imbalance, Demand Drivers, Logistics)</th>
-					</tr>
-				  </thead>
-				  <tbody>
+			<h2>Price Spread Between H₂, LNG, NGLs, Condensate, and Crude Versus Natural Gas (Energy Basis)</h2>
 
-					<tr>
-					  <td>Benzene</td>
-					  <td>Naphtha / Reformate</td>
-					  <td>800–900</td>
-					  <td>550–650</td>
-					  <td>200–300</td>
-					  <td>
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
+						<tr>
+						<th>Stream</th>
+						<th>Typical Market Price</th>
+						<th>Energy Basis</th>
+						<th>Equivalent Price (USD/MMBTU)</th>
+						<th>Natural Gas Benchmark (USD/MMBTU)</th>
+						<th>Price Spread vs Natural Gas</th>
+						<th>Spread Driver Notes</th>
+						</tr>
+						</thead>
+
+						<tbody>
+
+						<tr>
+						<td>Natural Gas (Henry Hub)</td>
+						<td>$3.0 – $4.5</td>
+						<td>MMBTU</td>
+						<td>$3.0 – $4.5</td>
+						<td>$3.0 – $4.5</td>
+						<td>Baseline</td>
+						<td>
+						North American gas remains globally competitive due to shale supply abundance.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Gray Hydrogen</td>
+						<td>$1.2 – $2.5/kg</td>
+						<td>1 kg ≈ 0.114 MMBTU</td>
+						<td>$10 – $22/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$7 – $18/MMBTU</td>
+						<td>
+						Hydrogen carries substantial conversion, compression, purification, and infrastructure costs.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Blue Hydrogen</td>
+						<td>$2 – $4/kg</td>
+						<td>1 kg ≈ 0.114 MMBTU</td>
+						<td>$18 – $35/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$14 – $31/MMBTU</td>
+						<td>
+						Carbon capture costs and sequestration infrastructure significantly increase blue hydrogen economics.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Green Hydrogen</td>
+						<td>$3.5 – $8/kg</td>
+						<td>1 kg ≈ 0.114 MMBTU</td>
+						<td>$31 – $70/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$27 – $66/MMBTU</td>
+						<td>
+						Electrolyzer CAPEX and renewable electricity pricing dominate green hydrogen spreads.
+						</td>
+						</tr>
+
+						<tr>
+						<td>LNG</td>
+						<td>$8 – $15/MMBTU</td>
+						<td>Delivered LNG</td>
+						<td>$8 – $15/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$4 – $11/MMBTU</td>
+						<td>
+						Liquefaction, shipping, and regasification costs drive LNG premiums over pipeline gas.
+						</td>
+						</tr>
+
+						<tr>
+						<td>NGLs (Mixed)</td>
+						<td>$0.75 – $1.10/gal</td>
+						<td>~0.091 MMBTU/gal</td>
+						<td>$8 – $12/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$4 – $8/MMBTU</td>
+						<td>
+						Petrochemical feedstock demand creates sustained premium over fuel gas value.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Condensate</td>
+						<td>$68 – $82/bbl</td>
+						<td>~5.2 MMBTU/bbl</td>
+						<td>$13 – $16/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$9 – $13/MMBTU</td>
+						<td>
+						High naphtha and aromatics feedstock value support condensate pricing premium.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Light Sweet Crude</td>
+						<td>$72 – $88/bbl</td>
+						<td>~5.8 MMBTU/bbl</td>
+						<td>$12 – $15/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$8 – $12/MMBTU</td>
+						<td>
+						Transportation fuel demand and refinery margins support crude premium over gas.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Medium Crude</td>
+						<td>$67 – $82/bbl</td>
+						<td>~5.9 MMBTU/bbl</td>
+						<td>$11 – $14/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$7 – $11/MMBTU</td>
+						<td>
+						Conversion refinery demand stabilizes medium crude economics.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Heavy Sour Crude</td>
+						<td>$52 – $72/bbl</td>
+						<td>~6.1 MMBTU/bbl</td>
+						<td>$8 – $12/MMBTU</td>
+						<td>$3 – $4.5/MMBTU</td>
+						<td>+$4 – $8/MMBTU</td>
+						<td>
+						Higher sulfur and residue reduce heavy crude relative value.
+						</td>
+						</tr>
+
+						</tbody>
+
+						</table>
+
+						<h2>Price Spread Between Condensate and NGLs (Per Gallon Basis)</h2>
+
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
+						<tr>
+						<th>Stream Comparison</th>
+						<th>Typical Price (USD/gal)</th>
+						<th>Price Spread</th>
+						<th>Primary Market Driver</th>
+						<th>Notes</th>
+						</tr>
+						</thead>
+
+						<tbody>
+
+						<tr>
+						<td>Condensate vs Ethane</td>
+						<td>
+						Condensate: $1.62 – $1.95<br>
+						Ethane: $0.20 – $0.35
+						</td>
+						<td>
+						+$1.30 – $1.70/gal
+						</td>
+						<td>
+						Naphtha and aromatics value
+						</td>
+						<td>
+						Condensate contains significantly higher liquid transportation and petrochemical value.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Condensate vs Propane</td>
+						<td>
+						Condensate: $1.62 – $1.95<br>
+						Propane: $0.65 – $1.05
+						</td>
+						<td>
+						+$0.70 – $1.10/gal
+						</td>
+						<td>
+						Gasoline blending and petrochemical margins
+						</td>
+						<td>
+						Propane prices remain more seasonal because of heating demand exposure.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Condensate vs Butane</td>
+						<td>
+						Condensate: $1.62 – $1.95<br>
+						Butane: $0.75 – $1.15
+						</td>
+						<td>
+						+$0.55 – $1.00/gal
+						</td>
+						<td>
+						Refinery naphtha economics
+						</td>
+						<td>
+						Condensate values rise with stronger reformer and splitter utilization.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Condensate vs Natural Gasoline</td>
+						<td>
+						Condensate: $1.62 – $1.95<br>
+						Natural Gasoline: $1.45 – $1.85
+						</td>
+						<td>
+						+$0.05 – $0.25/gal
+						</td>
+						<td>
+						Octane and gasoline blending demand
+						</td>
+						<td>
+						Natural gasoline closely tracks condensate due to similar hydrocarbon range.
+						</td>
+						</tr>
+
+						</tbody>
+
+						</table>
+
+						<h2>Price Spread Between Sweet Medium Crude and Sour Crudes</h2>
+
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
+						<tr>
+						<th>Crude Comparison</th>
+						<th>Typical Current Price</th>
+						<th>Price Spread</th>
+						<th>Quality Differential</th>
+						<th>Spread Driver Notes</th>
+						</tr>
+						</thead>
+
+						<tbody>
+
+						<tr>
+						<td>Sweet Medium vs Sour Light</td>
+						<td>
+						Sweet Medium: $74 – $82/bbl<br>
+						Sour Light: $68 – $78/bbl
+						</td>
+						<td>
+						+$4 – $8/bbl
+						</td>
+						<td>
+						Sulfur penalty
+						</td>
+						<td>
+						Sweet crudes require lower hydrogen consumption and reduced sulfur recovery severity.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Sweet Medium vs Sour Medium</td>
+						<td>
+						Sweet Medium: $74 – $82/bbl<br>
+						Sour Medium: $64 – $75/bbl
+						</td>
+						<td>
+						+$6 – $10/bbl
+						</td>
+						<td>
+						Sulfur + residue discount
+						</td>
+						<td>
+						Sour medium crudes face higher refinery desulfurization and conversion costs.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Sweet Medium vs Sour Heavy</td>
+						<td>
+						Sweet Medium: $74 – $82/bbl<br>
+						Sour Heavy: $52 – $68/bbl
+						</td>
+						<td>
+						+$12 – $22/bbl
+						</td>
+						<td>
+						Sulfur + metals + asphaltene penalty
+						</td>
+						<td>
+						Heavy sour crudes require coking, hydrocracking, dilution, and elevated hydrogen consumption.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Sweet Medium vs Heavy Canadian Sour</td>
+						<td>
+						Sweet Medium: $74 – $82/bbl<br>
+						WCS: $50 – $65/bbl
+						</td>
+						<td>
+						+$14 – $24/bbl
+						</td>
+						<td>
+						Pipeline and quality discount
+						</td>
+						<td>
+						Canadian heavy crude discounts widen during transportation bottlenecks and refinery outages.
+						</td>
+						</tr>
+
+						<tr>
+						<td>Sweet Medium vs Arab Heavy Sour</td>
+						<td>
+						Sweet Medium: $74 – $82/bbl<br>
+						Arab Heavy: $58 – $72/bbl
+						</td>
+						<td>
+						+$8 – $18/bbl
+						</td>
+						<td>
+						Sulfur and residue content
+						</td>
+						<td>
+						Arab Heavy economics depend heavily on Asian refinery conversion margins.
+						</td>
+						</tr>
+
+						</tbody>
+
+						</table>
+
+						<h2>Hydrocarbon Price Spread Market Insights</h2>
+
 						<ul>
-						  <li>China continues adding integrated benzene extraction capacity, increasing export pressure across Asia.</li>
-						  <li>Demand remains supported by styrene, phenol, and polyurethane chains despite weaker OECD industrial growth.</li>
-						  <li>Refinery operating rate volatility and shipping disruptions continue affecting spot cargo availability.</li>
-						</ul>
-					  </td>
-					</tr>
 
-					<tr>
-					  <td>Toluene</td>
-					  <td>Naphtha / Reformate</td>
-					  <td>700–850</td>
-					  <td>550–650</td>
-					  <td>120–220</td>
-					  <td>
-						<ul>
-						  <li>Gasoline blending demand remains a key pricing driver globally.</li>
-						  <li>EV penetration is gradually reducing long-term fuel demand growth in mature markets.</li>
-						  <li>Freight rate volatility and storage constraints continue impacting regional arbitrage economics.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Natural gas remains the lowest-cost hydrocarbon energy source in North America because of large shale reserve availability and pipeline infrastructure expansion.
+						</li>
 
-					<tr>
-					  <td>Mixed Xylenes</td>
-					  <td>Reformate / Naphtha</td>
-					  <td>850–1,050</td>
-					  <td>550–650</td>
-					  <td>250–400</td>
-					  <td>
-						<ul>
-						  <li>Strong polyester and PET demand continue supporting xylene consumption growth.</li>
-						  <li>China PX/PTA mega-capacity additions are creating structural oversupply risks.</li>
-						  <li>Marine logistics disruptions in Asia-Europe trade routes continue influencing landed costs.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Hydrogen price spreads versus natural gas remain structurally high due to conversion inefficiencies, infrastructure requirements, and carbon management costs.
+						</li>
 
-					<tr>
-					  <td>Para-Xylene (PX)</td>
-					  <td>Mixed Xylenes</td>
-					  <td>900–1,100</td>
-					  <td>850–1,000</td>
-					  <td>50–120</td>
-					  <td>
-						<ul>
-						  <li>Integrated Chinese refining-petrochemical complexes dominate new PX supply growth.</li>
-						  <li>Polyester textile demand in India and Southeast Asia remains the largest demand driver.</li>
-						  <li>Persistent overcapacity is compressing PX margins globally.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						LNG premiums over pipeline gas reflect liquefaction CAPEX, LNG shipping costs, regasification infrastructure, and regional supply-demand imbalances.
+						</li>
 
-					<tr>
-					  <td>Ethylbenzene</td>
-					  <td>Benzene + Ethylene</td>
-					  <td>800–950</td>
-					  <td>650–800</td>
-					  <td>120–180</td>
-					  <td>
-						<ul>
-						  <li>Styrene chain oversupply in Asia continues weakening profitability.</li>
-						  <li>Construction and appliance demand still support downstream styrenics demand.</li>
-						  <li>Feedstock ethylene price volatility remains a key margin risk.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Asian LNG pricing remains consistently above Henry Hub because Asia depends heavily on imported LNG cargoes rather than domestic pipeline gas systems.
+						</li>
 
-					<tr>
-					  <td>Styrene</td>
-					  <td>Ethylbenzene</td>
-					  <td>900–1,100</td>
-					  <td>800–950</td>
-					  <td>80–180</td>
-					  <td>
-						<ul>
-						  <li>ABS and packaging sectors remain primary consumption drivers.</li>
-						  <li>Single-use plastics regulation creates long-term demand uncertainty in OECD regions.</li>
-						  <li>Asian export competition continues pressuring global styrene operating rates.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						NGL price spreads are increasingly supported by global petrochemical demand growth, especially ethane and propane feedstock demand in Asia.
+						</li>
 
-					<tr>
-					  <td>Cumene</td>
-					  <td>Benzene + Propylene</td>
-					  <td>800–1,000</td>
-					  <td>650–850</td>
-					  <td>100–180</td>
-					  <td>
-						<ul>
-						  <li>Phenol and acetone chain demand remain structurally resilient.</li>
-						  <li>Feedstock propylene price spikes periodically compress cumene margins.</li>
-						  <li>Integrated production economics increasingly determine competitiveness.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Condensate maintains premium pricing relative to most NGL streams because of strong naphtha, reformer, and aromatics feedstock economics.
+						</li>
 
-					<tr>
-					  <td>Phenol</td>
-					  <td>Cumene</td>
-					  <td>1,050–1,300</td>
-					  <td>800–1,000</td>
-					  <td>180–320</td>
-					  <td>
-						<ul>
-						  <li>Demand from epoxy and polycarbonate sectors remains relatively stable.</li>
-						  <li>BPA-related environmental scrutiny may alter future downstream growth patterns.</li>
-						  <li>Energy-intensive European production remains under economic pressure.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Sweet-sour crude spreads widen significantly when hydrogen costs, sulfur regulations, and refinery conversion utilization rates increase.
+						</li>
 
-					<tr>
-					  <td>o-Xylene</td>
-					  <td>Mixed Xylenes</td>
-					  <td>850–1,050</td>
-					  <td>850–1,000</td>
-					  <td>20–100</td>
-					  <td>
-						<ul>
-						  <li>Demand tied to phthalic anhydride and plasticizer production.</li>
-						  <li>Regulatory restrictions on certain plasticizers are moderating growth in developed economies.</li>
-						  <li>Regional supply rationalization may tighten European balances.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Heavy sour crude discounts are strongly affected by pipeline congestion, coking refinery outages, and limited diluent availability.
+						</li>
 
-					<tr>
-					  <td>m-Xylene</td>
-					  <td>Mixed Xylenes</td>
-					  <td>800–1,000</td>
-					  <td>850–1,000</td>
-					  <td>0–80</td>
-					  <td>
-						<ul>
-						  <li>Specialty PET and coatings applications support relatively stable demand.</li>
-						  <li>Supply-demand balance is healthier compared with para-xylene markets.</li>
-						  <li>Smaller market size increases sensitivity to logistics and inventory disruptions.</li>
-						</ul>
-					  </td>
-					</tr>
+						<li>
+						Middle Eastern sour crude pricing increasingly targets Asian complex refineries optimized for heavy and sulfur-rich feedstocks.
+						</li>
 
-				  </tbody>
-				</table>
-			
-			<ul>
-				  <li><b>Feedstock-to-aromatics spread sensitivity:</b> Aromatics margins are highly dependent on the spread between crude/naphtha feedstocks and downstream BTX pricing. Rising crude or condensate costs can rapidly compress benzene, toluene, and xylene profitability when downstream demand weakens.</li>
-				  <li><b>Refinery operating rates directly impact spreads:</b> Lower refinery utilization reduces reformate and pyrolysis gasoline availability, tightening aromatics supply and widening product spreads. Conversely, high refinery runs during weak demand periods often create oversupply and margin erosion.</li>
-				  <li><b>China-driven trade imbalance continues pressuring global spreads:</b> Massive integrated PX, styrene, and benzene derivative capacity additions in China have created structural oversupply conditions, reducing regional arbitrage opportunities and compressing global crack spreads.</li>
-				  <li><b>Downstream polyester and packaging demand remain the strongest margin drivers:</b> Para-xylene and mixed xylene spreads are closely tied to PTA/PET operating rates, beverage packaging demand, and textile manufacturing growth across Asia and emerging economies.</li>
-				  <li><b>Styrene and polyurethane cycles strongly influence benzene economics:</b> Benzene spreads fluctuate with styrene monomer, ABS, and MDI/TDI demand cycles. Construction, insulation, automotive, and appliance sectors remain key downstream indicators.</li>
-				  <li><b>Capital investment gaps are widening outside Asia:</b> Europe and parts of North America face underinvestment in new aromatics capacity due to high energy costs, carbon compliance expenses, and uncertain long-term demand outlooks. This creates regional supply tightness despite global oversupply.</li>
-				  <li><b>Government environmental policy is reshaping profitability:</b> Carbon pricing, VOC regulations, plastics recycling mandates, and restrictions on hazardous intermediates are increasing compliance costs and pressuring older standalone aromatics facilities.</li>
-				  <li><b>Logistics disruptions continue affecting regional price spreads:</b> Tanker shortages, Red Sea shipping risks, Panama Canal constraints, and port congestion periodically widen regional aromatics price differentials and increase landed product costs.</li>
-				  <li><b>Integrated mega-complexes are structurally lowering marginal production costs:</b> Modern refinery-petrochemical integration in China and the Middle East improves energy efficiency, hydrogen integration, and feedstock optimization, allowing producers to sustain profitability even during low-margin cycles.</li>
-				  <li><b>Long-term spread outlook remains cyclical but structurally softer:</b> Although periodic supply outages and refinery rationalization can temporarily widen spreads, long-term global aromatics margins are expected to remain under pressure due to excess Asian capacity, slower OECD demand growth, and increasing sustainability regulations.</li>
-				</ul>
+						<li>
+						Trade imbalances between Asia’s import dependence and Middle East/North America export growth continue driving global hydrocarbon arbitrage opportunities and freight market volatility.
+						</li>
+
+						</ul>
 
 
 			
