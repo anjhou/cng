@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upstream Weekly</title>
+
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #0b2e59;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #d9e2ef;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #0b2e59;
+        }
+
+        .tab.active {
+            background: #0b2e59;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        table th {
+            background: #0b2e59;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+
+<div class="container">
+
+    <h1>Upstream Weekly</h1>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+        <div class="tab active" data-tab="Prices">Prices</div>
+		<div class="tab" data-tab="Spreads">Spreads</div>        
+        <div class="tab" data-tab="Demand">Demand</div>
+		<div class="tab" data-tab="Supply">Supply</div>
+		<div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
+		<div class="tab" data-tab="Trade-Flow">Trade-Flow</div>
+		<div class="tab" data-tab="Property">Property</div>
+        <div class="tab" data-tab="Specs">Assay</div>		
+		<div class="tab" data-tab="Latest-News">News</div>
+		
+        
+    </div>
+
+		<!-- Trade Flow TAB -->
+    <div id="Trade-Flow" class="tab-content">
+        <div class="section">
+            <h2>Trade-Flow</h2>
+            <p>Trade-Flow with Industry Insights</p>
+			
+		</div>
+	</div>	
+	
+	<!-- News Update TAB -->
+    <div id="Latest-News" class="tab-content">
+        <div class="section">
+            <h2>News</h2>
+            <p>Latest-News Updates with Industry Insights</p>
+			
+					<table border="1" cellspacing="0" cellpadding="6">
+					  <thead>
+						<tr>
+						  <th>Aromatic</th>
+						  <th>Latest Market Insights, Capacity Updates & Outlook (2026–2032)</th>
+						</tr>
+					  </thead>
+					  <tbody>
+
+						<tr>
+						  <td>Benzene</td>
+						  <td>
+							<ul>
+							  <li>Large integrated refinery-petrochemical projects in China continue adding benzene extraction capacity, increasing regional oversupply pressure.</li>
+							  <li>Global benzene demand growth remains tied to styrene, phenol, and MDI/polyurethane chains despite weaker OECD industrial demand.</li>
+							  <li>Feedstock volatility from naphtha and reformate pricing continues to drive short-term benzene margin instability.</li>
+							  <li>European refinery rationalization and steam cracker closures are tightening regional supply despite global surplus conditions.</li>
+							  <li>US Gulf Coast producers face narrowing export arbitrage opportunities into Asia due to Chinese self-sufficiency expansion.</li>
+							  <li>Downstream automotive and construction slowdown risks in Europe and China may weaken benzene derivative demand through the late 2020s.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Toluene</td>
+						  <td>
+							<ul>
+							  <li>Toluene demand remains highly sensitive to gasoline blending economics and octane requirements in global refining markets.</li>
+							  <li>Growth in TDI/polyurethane applications supports moderate chemical demand growth despite fuel-market uncertainty.</li>
+							  <li>Refinery operating rate reductions in Europe continue limiting aromatics co-product availability.</li>
+							  <li>EV penetration and lower gasoline demand growth are gradually reducing long-term blending demand in mature economies.</li>
+							  <li>Asian refiners continue redirecting toluene streams toward para-xylene conversion units to optimize integrated margins.</li>
+							  <li>Freight and storage costs remain elevated for spot cargo movement due to continued tanker market volatility.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Xylenes (Mixed)</td>
+						  <td>
+							<ul>
+							  <li>Global mixed xylene demand continues expanding due to strong polyester and PET packaging consumption growth.</li>
+							  <li>Massive para-xylene (PX) expansion projects in China have significantly altered regional trade balances.</li>
+							  <li>India is emerging as a major incremental demand center due to textile and packaging manufacturing growth.</li>
+							  <li>Global oversupply risk remains elevated as PX/PTA capacity additions exceed near-term downstream demand growth.</li>
+							  <li>Feedstock sensitivity to naphtha pricing and refinery reformate yields continues driving strong margin volatility.</li>
+							  <li>Environmental regulations on plastics recycling and circular economy initiatives could moderate long-term virgin PET demand growth.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Para-Xylene (PX)</td>
+						  <td>
+							<ul>
+							  <li>China continues dominating new PX capacity additions through integrated mega refining-petrochemical complexes.</li>
+							  <li>Traditional exporters from South Korea, Japan, and the Middle East face declining export market share.</li>
+							  <li>Polyester fiber demand in Southeast Asia and India remains the strongest structural demand driver.</li>
+							  <li>PX margins remain under pressure due to persistent global overcapacity and PTA integration.</li>
+							  <li>Shipping bottlenecks and periodic Red Sea/Suez disruptions continue impacting Asia-Europe trade flows.</li>
+							  <li>Long-term sustainability regulations promoting recycled PET may eventually soften virgin PX demand growth.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Ethylbenzene</td>
+						  <td>
+							<ul>
+							  <li>Ethylbenzene demand remains almost entirely dependent on global styrene operating rates.</li>
+							  <li>Integrated benzene-styrene producers in China continue increasing self-sufficiency and reducing imports.</li>
+							  <li>Oversupply in the styrene chain is compressing ethylbenzene margins globally.</li>
+							  <li>Construction insulation demand continues supporting styrene derivative consumption despite slower macroeconomic growth.</li>
+							  <li>Refinery integration advantages increasingly determine producer competitiveness.</li>
+							  <li>Energy cost inflation in Europe remains a major challenge for standalone styrenics producers.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Styrene</td>
+						  <td>
+							<ul>
+							  <li>Large-scale styrene monomer capacity additions in China continue pressuring global operating rates and pricing.</li>
+							  <li>ABS and polystyrene demand from appliances and electronics remains relatively stable in Asia.</li>
+							  <li>Single-use plastics regulations in Europe are creating long-term uncertainty for polystyrene demand growth.</li>
+							  <li>Packaging and insulation applications continue providing baseline structural support.</li>
+							  <li>High energy and utility costs continue impacting European styrene competitiveness.</li>
+							  <li>Trade flows are increasingly shifting toward intra-Asia supply chains rather than Atlantic Basin exports.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Cumene</td>
+						  <td>
+							<ul>
+							  <li>Cumene demand remains closely linked to phenol and acetone derivative expansion.</li>
+							  <li>Polycarbonate and epoxy resin demand continue supporting medium-term growth.</li>
+							  <li>Feedstock benzene price volatility remains the largest driver of cumene economics.</li>
+							  <li>Integrated phenol-acetone complexes in Asia continue expanding capacity.</li>
+							  <li>Electronics, automotive coatings, and adhesives demand provide stable downstream consumption.</li>
+							  <li>Margin pressure is increasing due to regional oversupply and slowing industrial growth in OECD markets.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>Phenol</td>
+						  <td>
+							<ul>
+							  <li>Phenol demand remains supported by epoxy resins, bisphenol-A, and polycarbonate applications.</li>
+							  <li>Construction, electronics, and automotive lightweighting continue driving downstream resin demand.</li>
+							  <li>Environmental scrutiny around BPA-related products may influence long-term regulatory frameworks.</li>
+							  <li>Asian producers continue expanding integrated phenol-acetone production capacity.</li>
+							  <li>Feedstock benzene and propylene volatility continues affecting production economics.</li>
+							  <li>European producers face competitiveness pressure from higher energy and carbon compliance costs.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>o-Xylene</td>
+						  <td>
+							<ul>
+							  <li>Demand remains linked to phthalic anhydride production for plasticizers and coatings.</li>
+							  <li>Regulatory restrictions on certain phthalate plasticizers are limiting growth in developed markets.</li>
+							  <li>Emerging economies continue supporting demand through PVC construction applications.</li>
+							  <li>Integrated refinery-aromatics optimization increasingly prioritizes para-xylene over o-xylene production.</li>
+							  <li>Supply rationalization in Europe may tighten regional balances despite global surplus conditions.</li>
+							  <li>Raw material and utility cost inflation continue impacting downstream coatings manufacturers.</li>
+							</ul>
+						  </td>
+						</tr>
+
+						<tr>
+						  <td>m-Xylene</td>
+						  <td>
+							<ul>
+							  <li>Demand growth remains tied to isophthalic acid production for specialty PET and coatings.</li>
+							  <li>Higher-performance polyester resin applications continue supporting niche demand growth.</li>
+							  <li>Production economics are increasingly influenced by integrated xylene isomerization units.</li>
+							  <li>Global supply remains relatively balanced compared with para-xylene markets.</li>
+							  <li>Coatings, marine applications, and industrial resins remain key downstream sectors.</li>
+							  <li>Long-term demand outlook remains moderate but structurally stable due to specialty applications.</li>
+							</ul>
+						  </td>
+						</tr>
+
+					  </tbody>
+					</table>			
+
+				<p><strong>Industry-Wide Macro Themes (2026–2032)</strong></p>
+
+				<ul>
+				  <li><b>Global demand expansion remains Asia-centric:</b> Aromatics demand growth continues to be led by China, India, and Southeast Asia due to rising polyester, packaging, automotive, construction, and consumer goods demand. Para-xylene and benzene chains remain the largest structural growth segments globally.</li>
+				  <li><b>China dominates global capacity additions:</b> China has aggressively expanded integrated refining-petrochemical-aromatics complexes, significantly increasing benzene, para-xylene, styrene, and phenol production capacity. This has shifted global trade flows and created structural oversupply risks in several aromatics chains.</li>
+				  <li><b>Regional divergence in competitiveness:</b> North America benefits from relatively advantaged feedstock economics tied to shale hydrocarbons, while Europe faces structural disadvantages from high energy costs, carbon compliance expenses, and refinery rationalization. Middle Eastern producers continue leveraging integration and export-oriented scale advantages.</li>
+				  <li><b>Feedstock economics remain the primary macro driver:</b> Aromatics economics are tightly linked to crude oil, naphtha, condensate, reformate, and steam cracker operating dynamics. Refinery utilization rates and gasoline blending demand directly influence BTX availability and pricing cycles.</li>
+				  <li><b>Trade imbalances are reshaping global markets:</b> China's growing self-sufficiency in PX, styrene, and benzene derivatives has reduced import demand while increasing exports of downstream intermediates. Traditional exporters in Japan, South Korea, Europe, and the Middle East are facing margin compression and reduced arbitrage opportunities.</li>
+				  <li><b>Regulatory pressure is intensifying globally:</b> Environmental regulations targeting VOC emissions, carbon intensity, hazardous intermediates, and single-use plastics are influencing aromatics demand patterns. Europe remains the most aggressive regulatory region, while Asia continues balancing industrial growth with environmental tightening.</li>
+				  <li><b>Demand growth drivers remain downstream polymer-focused:</b> Polyester fibers, PET packaging, ABS plastics, polyurethane foams, epoxy resins, and engineering plastics remain the dominant consumption engines. Infrastructure expansion, lightweight vehicles, electronics, and consumer packaging continue underpinning medium-term demand growth.</li>
+				  <li><b>Capital investment requirements are increasing sharply:</b> Modern aromatics facilities increasingly require multi-billion-dollar integrated refining and petrochemical investments to remain globally competitive. Economies of scale, energy efficiency, hydrogen integration, and downstream integration are becoming critical for long-term profitability.</li>
+				  <li><b>Technology and process optimization are becoming key differentiators:</b> Advanced catalytic reforming, aromatics extraction, xylene isomerization, para-xylene separation, digital process optimization, and AI-enabled predictive operations are improving yields and lowering operating costs. Integration depth increasingly determines competitiveness.</li>
+				  <li><b>Long-term market risks are becoming more structural:</b> Slower global economic growth, plastics recycling mandates, circular economy initiatives, EV penetration, and carbon reduction policies may gradually moderate aromatics demand growth in mature markets. Future winners are likely to be highly integrated, low-cost producers located near growing downstream demand centers.</li>
+				</ul>
+		
+		</div>
+	</div>	
+			
+    <!-- Prices TAB -->
+    <div id="Prices" class="tab-content active">
+        <div class="section">
+            <h2>Prices (U.S.)</h2>
+            <p>Aromatics Prices</p>
+			<p>Updated 2026-May-XX</p>
+
+			
+				<table border="1" cellspacing="0" cellpadding="6">
+				  <thead>
+					<tr>
+					  <th>Aromatic</th>
+					  <th>2019 ($/ton)</th>
+					  <th>2020 ($/ton)</th>
+					  <th>2021 ($/ton)</th>
+					  <th>2022 Peak ($/ton)</th>
+					  <th>2023 ($/ton)</th>
+					  <th>2024–2026 Range ($/ton)</th>
+					  <th>Cycle Insight</th>
+					</tr>
+				  </thead>
+				  <tbody>
+
+					<tr>
+					  <td>Benzene</td>
+					  <td>600–750</td>
+					  <td>350–500</td>
+					  <td>700–950</td>
+					  <td>950–1,200</td>
+					  <td>800–950</td>
+					  <td>750–900</td>
+					  <td>Highly crude-linked; 2020 collapse from COVID demand destruction followed by tight styrene-driven rebound. Now moderating due to Asia capacity additions and weaker derivatives.</td>
+					</tr>
+
+					<tr>
+					  <td>Toluene</td>
+					  <td>550–700</td>
+					  <td>300–450</td>
+					  <td>600–800</td>
+					  <td>900–1,150</td>
+					  <td>750–950</td>
+					  <td>700–850</td>
+					  <td>Dual chemical/fuel product; gasoline blending economics dominate. EV penetration limits long-term upside in OECD regions.</td>
+					</tr>
+
+					<tr>
+					  <td>Xylenes (Mixed)</td>
+					  <td>650–850</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,100–1,400</td>
+					  <td>900–1,200</td>
+					  <td>850–1,050</td>
+					  <td>Strongest structural growth aromatics due to PTA/PET expansion. China’s PX/PTA integration is creating persistent global oversupply cycles.</td>
+					</tr>
+
+					<tr>
+					  <td>Para-Xylene (PX)</td>
+					  <td>700–900</td>
+					  <td>450–650</td>
+					  <td>800–1,050</td>
+					  <td>1,150–1,450</td>
+					  <td>950–1,250</td>
+					  <td>900–1,100</td>
+					  <td>Most globally traded aromatics derivative; extreme volatility driven by polyester chain demand and Chinese export expansion.</td>
+					</tr>
+
+					<tr>
+					  <td>Ethylbenzene</td>
+					  <td>650–800</td>
+					  <td>450–650</td>
+					  <td>750–950</td>
+					  <td>1,000–1,250</td>
+					  <td>850–1,050</td>
+					  <td>800–950</td>
+					  <td>Directly linked to styrene economics; integrated production economics dominate pricing behavior.</td>
+					</tr>
+
+					<tr>
+					  <td>Styrene</td>
+					  <td>700–900</td>
+					  <td>450–650</td>
+					  <td>900–1,200</td>
+					  <td>1,200–1,500</td>
+					  <td>950–1,200</td>
+					  <td>900–1,100</td>
+					  <td>Cyclical polymer monomer; demand steady but structurally oversupplied due to Asia ABS/polystyrene capacity growth.</td>
+					</tr>
+
+					<tr>
+					  <td>Cumene</td>
+					  <td>600–750</td>
+					  <td>400–600</td>
+					  <td>700–950</td>
+					  <td>1,000–1,300</td>
+					  <td>850–1,050</td>
+					  <td>800–1,000</td>
+					  <td>Intermediate in phenol-acetone chain; pricing tightly tracks benzene volatility and BPA demand cycles.</td>
+					</tr>
+
+					<tr>
+					  <td>Phenol</td>
+					  <td>800–1,000</td>
+					  <td>600–800</td>
+					  <td>1,000–1,300</td>
+					  <td>1,300–1,700</td>
+					  <td>1,100–1,400</td>
+					  <td>1,050–1,300</td>
+					  <td>Higher-value derivative; resilient demand from epoxy, polycarbonate, and adhesives, but still exposed to upstream benzene swings.</td>
+					</tr>
+
+					<tr>
+					  <td>o-Xylene</td>
+					  <td>650–850</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,100–1,450</td>
+					  <td>900–1,200</td>
+					  <td>850–1,050</td>
+					  <td>Driven by phthalic anhydride/plasticizers; regulatory constraints in OECD slow demand growth.</td>
+					</tr>
+
+					<tr>
+					  <td>m-Xylene</td>
+					  <td>650–800</td>
+					  <td>400–600</td>
+					  <td>750–1,000</td>
+					  <td>1,050–1,350</td>
+					  <td>850–1,100</td>
+					  <td>800–1,000</td>
+					  <td>Niche specialty aromatics; stable but limited scale growth compared with PX-driven chain.</td>
+					</tr>
+
+				  </tbody>
+				</table>
+			
+				<ul>
+					  <li><b>Feedstock sensitivity (naphtha / reformate / condensate):</b> Aromatics pricing is structurally anchored to upstream refinery economics. Benzene, toluene, and xylenes fluctuate directly with naphtha cracking margins and reformate availability. Tight refinery runs or shifts toward lighter feedslates reduce aromatics yield and tighten supply.</li>
+
+					  <li><b>Crude oil volatility transmission:</b> Crude benchmarks (Brent/WTI/Dubai) indirectly set aromatics floor pricing through gasoline blending economics and refinery economics. Rapid crude swings create lagged but amplified price volatility in benzene and toluene chains.</li>
+
+					  <li><b>Trade imbalance from China capacity expansion:</b> Large-scale integrated aromatics complexes in China (PX, styrene, benzene derivatives) have shifted the global supply-demand balance into structural oversupply. This suppresses global margins and reduces import dependency across Asia.</li>
+
+					  <li><b>Export competition and arbitrage compression:</b> Middle East, Northeast Asia, and USGC exporters face shrinking arbitrage windows due to Chinese self-sufficiency. Price differentials between regions are compressing, reducing traditional trading profitability.</li>
+
+					  <li><b>Downstream polymer demand cycles:</b> Aromatics pricing is heavily driven by PET (xylenes), polystyrene (styrene), polyurethane (toluene/benzene derivatives), and epoxy/polycarbonate demand. Construction, automotive, and packaging cycles create synchronized upstream price movements.</li>
+
+					  <li><b>Regulatory tightening (environment & plastics policy):</b> Restrictions on single-use plastics, VOC emissions, and hazardous intermediates are structurally impacting demand in OECD markets. Phenol derivatives and polystyrene are particularly exposed to substitution risk.</li>
+
+					  <li><b>Refinery closures and capacity rationalization:</b> Europe and parts of North America are reducing aromatics production due to high energy costs and carbon policies. This creates regional tightness but is often offset globally by Asian capacity additions.</li>
+
+					  <li><b>Logistics and freight bottlenecks:</b> Aromatics are highly trade-dependent bulk liquids requiring specialized storage and shipping. Freight rate spikes, port congestion, and tanker availability constraints directly influence landed pricing spreads between regions.</li>
+
+					  <li><b>Inventory cycles and speculative stocking:</b> Aromatics markets exhibit strong inventory-driven price swings. Downstream buyers (PTA, styrene, phenol chains) often amplify cycles through restocking or destocking behavior, especially during crude volatility periods.</li>
+
+					  <li><b>Energy transition and long-term demand uncertainty:</b> EV adoption, lightweighting materials, and circular economy policies gradually reduce incremental growth in fuel-related aromatics demand while increasing reliance on packaging and specialty chemicals—reshaping long-term price elasticity.</li>
+				</ul>
+
+
+
+        </div>
+    </div>
+
+    <!-- Price Spread TAB -->
+    <div id="Spreads" class="tab-content">
+        <div class="section">
+            <h2>Price Spread</h2>
+            <p>Spread between Product and Feedstock Prices.</p>
+
+				<table border="1" cellspacing="0" cellpadding="6">
+				  <thead>
+					<tr>
+					  <th>Aromatic Component</th>
+					  <th>Primary Feedstock</th>
+					  <th>Current Aromatic Price ($/ton, est.)</th>
+					  <th>Feedstock Price ($/ton, est.)</th>
+					  <th>Current Spread ($/ton)</th>
+					  <th>Market Insights (Trade Imbalance, Demand Drivers, Logistics)</th>
+					</tr>
+				  </thead>
+				  <tbody>
+
+					<tr>
+					  <td>Benzene</td>
+					  <td>Naphtha / Reformate</td>
+					  <td>800–900</td>
+					  <td>550–650</td>
+					  <td>200–300</td>
+					  <td>
+						<ul>
+						  <li>China continues adding integrated benzene extraction capacity, increasing export pressure across Asia.</li>
+						  <li>Demand remains supported by styrene, phenol, and polyurethane chains despite weaker OECD industrial growth.</li>
+						  <li>Refinery operating rate volatility and shipping disruptions continue affecting spot cargo availability.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Toluene</td>
+					  <td>Naphtha / Reformate</td>
+					  <td>700–850</td>
+					  <td>550–650</td>
+					  <td>120–220</td>
+					  <td>
+						<ul>
+						  <li>Gasoline blending demand remains a key pricing driver globally.</li>
+						  <li>EV penetration is gradually reducing long-term fuel demand growth in mature markets.</li>
+						  <li>Freight rate volatility and storage constraints continue impacting regional arbitrage economics.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Mixed Xylenes</td>
+					  <td>Reformate / Naphtha</td>
+					  <td>850–1,050</td>
+					  <td>550–650</td>
+					  <td>250–400</td>
+					  <td>
+						<ul>
+						  <li>Strong polyester and PET demand continue supporting xylene consumption growth.</li>
+						  <li>China PX/PTA mega-capacity additions are creating structural oversupply risks.</li>
+						  <li>Marine logistics disruptions in Asia-Europe trade routes continue influencing landed costs.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Para-Xylene (PX)</td>
+					  <td>Mixed Xylenes</td>
+					  <td>900–1,100</td>
+					  <td>850–1,000</td>
+					  <td>50–120</td>
+					  <td>
+						<ul>
+						  <li>Integrated Chinese refining-petrochemical complexes dominate new PX supply growth.</li>
+						  <li>Polyester textile demand in India and Southeast Asia remains the largest demand driver.</li>
+						  <li>Persistent overcapacity is compressing PX margins globally.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Ethylbenzene</td>
+					  <td>Benzene + Ethylene</td>
+					  <td>800–950</td>
+					  <td>650–800</td>
+					  <td>120–180</td>
+					  <td>
+						<ul>
+						  <li>Styrene chain oversupply in Asia continues weakening profitability.</li>
+						  <li>Construction and appliance demand still support downstream styrenics demand.</li>
+						  <li>Feedstock ethylene price volatility remains a key margin risk.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Styrene</td>
+					  <td>Ethylbenzene</td>
+					  <td>900–1,100</td>
+					  <td>800–950</td>
+					  <td>80–180</td>
+					  <td>
+						<ul>
+						  <li>ABS and packaging sectors remain primary consumption drivers.</li>
+						  <li>Single-use plastics regulation creates long-term demand uncertainty in OECD regions.</li>
+						  <li>Asian export competition continues pressuring global styrene operating rates.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Cumene</td>
+					  <td>Benzene + Propylene</td>
+					  <td>800–1,000</td>
+					  <td>650–850</td>
+					  <td>100–180</td>
+					  <td>
+						<ul>
+						  <li>Phenol and acetone chain demand remain structurally resilient.</li>
+						  <li>Feedstock propylene price spikes periodically compress cumene margins.</li>
+						  <li>Integrated production economics increasingly determine competitiveness.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>Phenol</td>
+					  <td>Cumene</td>
+					  <td>1,050–1,300</td>
+					  <td>800–1,000</td>
+					  <td>180–320</td>
+					  <td>
+						<ul>
+						  <li>Demand from epoxy and polycarbonate sectors remains relatively stable.</li>
+						  <li>BPA-related environmental scrutiny may alter future downstream growth patterns.</li>
+						  <li>Energy-intensive European production remains under economic pressure.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>o-Xylene</td>
+					  <td>Mixed Xylenes</td>
+					  <td>850–1,050</td>
+					  <td>850–1,000</td>
+					  <td>20–100</td>
+					  <td>
+						<ul>
+						  <li>Demand tied to phthalic anhydride and plasticizer production.</li>
+						  <li>Regulatory restrictions on certain plasticizers are moderating growth in developed economies.</li>
+						  <li>Regional supply rationalization may tighten European balances.</li>
+						</ul>
+					  </td>
+					</tr>
+
+					<tr>
+					  <td>m-Xylene</td>
+					  <td>Mixed Xylenes</td>
+					  <td>800–1,000</td>
+					  <td>850–1,000</td>
+					  <td>0–80</td>
+					  <td>
+						<ul>
+						  <li>Specialty PET and coatings applications support relatively stable demand.</li>
+						  <li>Supply-demand balance is healthier compared with para-xylene markets.</li>
+						  <li>Smaller market size increases sensitivity to logistics and inventory disruptions.</li>
+						</ul>
+					  </td>
+					</tr>
+
+				  </tbody>
+				</table>
+			
+			<ul>
+				  <li><b>Feedstock-to-aromatics spread sensitivity:</b> Aromatics margins are highly dependent on the spread between crude/naphtha feedstocks and downstream BTX pricing. Rising crude or condensate costs can rapidly compress benzene, toluene, and xylene profitability when downstream demand weakens.</li>
+				  <li><b>Refinery operating rates directly impact spreads:</b> Lower refinery utilization reduces reformate and pyrolysis gasoline availability, tightening aromatics supply and widening product spreads. Conversely, high refinery runs during weak demand periods often create oversupply and margin erosion.</li>
+				  <li><b>China-driven trade imbalance continues pressuring global spreads:</b> Massive integrated PX, styrene, and benzene derivative capacity additions in China have created structural oversupply conditions, reducing regional arbitrage opportunities and compressing global crack spreads.</li>
+				  <li><b>Downstream polyester and packaging demand remain the strongest margin drivers:</b> Para-xylene and mixed xylene spreads are closely tied to PTA/PET operating rates, beverage packaging demand, and textile manufacturing growth across Asia and emerging economies.</li>
+				  <li><b>Styrene and polyurethane cycles strongly influence benzene economics:</b> Benzene spreads fluctuate with styrene monomer, ABS, and MDI/TDI demand cycles. Construction, insulation, automotive, and appliance sectors remain key downstream indicators.</li>
+				  <li><b>Capital investment gaps are widening outside Asia:</b> Europe and parts of North America face underinvestment in new aromatics capacity due to high energy costs, carbon compliance expenses, and uncertain long-term demand outlooks. This creates regional supply tightness despite global oversupply.</li>
+				  <li><b>Government environmental policy is reshaping profitability:</b> Carbon pricing, VOC regulations, plastics recycling mandates, and restrictions on hazardous intermediates are increasing compliance costs and pressuring older standalone aromatics facilities.</li>
+				  <li><b>Logistics disruptions continue affecting regional price spreads:</b> Tanker shortages, Red Sea shipping risks, Panama Canal constraints, and port congestion periodically widen regional aromatics price differentials and increase landed product costs.</li>
+				  <li><b>Integrated mega-complexes are structurally lowering marginal production costs:</b> Modern refinery-petrochemical integration in China and the Middle East improves energy efficiency, hydrogen integration, and feedstock optimization, allowing producers to sustain profitability even during low-margin cycles.</li>
+				  <li><b>Long-term spread outlook remains cyclical but structurally softer:</b> Although periodic supply outages and refinery rationalization can temporarily widen spreads, long-term global aromatics margins are expected to remain under pressure due to excess Asian capacity, slower OECD demand growth, and increasing sustainability regulations.</li>
+				</ul>
+
+
+			
+        </div>
+    </div>
+
+    <!-- Supply-Demand TAB -->
+    <div id="Supply-Demand" class="tab-content">
+        <div class="section">
+            <h2>Supply-Demand </h2>
+            <p> 2026 and 2032 demand</p>
+
+				<table border="1" cellspacing="0" cellpadding="6">
+					  <thead>
+						<tr>
+						  <th>Rank</th>
+						  <th>Aromatic</th>
+						  <th>Key Demand Drivers / Uses</th>
+						  <th>2026 Demand (Mtpa, est.)</th>
+						  <th>2032 Demand Forecast (Mtpa, est.)</th>
+						  <th>CAGR (2026–2032)</th>
+						  <th>Notes (Demand Drivers & Market Structure)</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td>1</td>
+						  <td>Benzene</td>
+						  <td>Ethylbenzene/styrene, cumene, aniline, detergents</td>
+						  <td>~55–58</td>
+						  <td>~65–70</td>
+						  <td>~2.5–3.2%</td>
+						  <td>Core petrochemical building block; demand tied to styrene, phenol, and MDI chains. Supply is refinery-dependent and structurally rigid. Global margins are increasingly influenced by integrated Asian (especially China) capacity additions.</td>
+						</tr>
+
+						<tr>
+						  <td>2</td>
+						  <td>Xylenes (total)</td>
+						  <td>PTA → PET for bottles, fibers, films</td>
+						  <td>~70–75</td>
+						  <td>~85–95</td>
+						  <td>~4.0–5.0%</td>
+						  <td>Driven by polyester expansion in packaging and textiles. China dominates both demand and incremental capacity, but also increasingly exports PTA, reducing import dependency and reshaping global trade flows.</td>
+						</tr>
+
+						<tr>
+						  <td>3</td>
+						  <td>Toluene</td>
+						  <td>Gasoline blending, TDI, solvents</td>
+						  <td>~30–33</td>
+						  <td>~35–40</td>
+						  <td>~2.0–2.8%</td>
+						  <td>Highly dependent on fuel blending economics and refining operations. EV adoption and lower gasoline growth in developed markets partially offset chemical derivative demand growth.</td>
+						</tr>
+
+						<tr>
+						  <td>4</td>
+						  <td>Ethylbenzene</td>
+						  <td>Styrene precursor</td>
+						  <td>~30–32</td>
+						  <td>~35–38</td>
+						  <td>~2.5–3.0%</td>
+						  <td>Directly linked to styrene demand cycles. Production is typically integrated with benzene/styrene units; regional capacity shifts (China/Middle East) influence global balance.</td>
+						</tr>
+
+						<tr>
+						  <td>5</td>
+						  <td>Styrene</td>
+						  <td>Polystyrene, ABS, SBR rubber</td>
+						  <td>~40–42</td>
+						  <td>~45–50</td>
+						  <td>~3.0–3.8%</td>
+						  <td>Demand driven by appliances, packaging, and construction insulation. Oversupply risk elevated due to rapid expansion of Chinese integrated styrene and downstream ABS capacity.</td>
+						</tr>
+
+						<tr>
+						  <td>6</td>
+						  <td>Cumene</td>
+						  <td>Phenol + acetone production chain</td>
+						  <td>~16–18</td>
+						  <td>~18–22</td>
+						  <td>~3.5–4.2%</td>
+						  <td>Intermediate tightly coupled to phenol/BPA chain. Growth linked to epoxy resins and polycarbonate demand in automotive and electronics sectors.</td>
+						</tr>
+
+						<tr>
+						  <td>7</td>
+						  <td>Phenol</td>
+						  <td>Polycarbonate, epoxy resins</td>
+						  <td>~13–14</td>
+						  <td>~15–18</td>
+						  <td>~4.0–5.0%</td>
+						  <td>Strong demand from construction adhesives, coatings, and electronics. Regulatory pressure on phenol derivatives varies by region but overall demand remains structurally resilient.</td>
+						</tr>
+
+						<tr>
+						  <td>8</td>
+						  <td>o-Xylene</td>
+						  <td>Phthalic anhydride → plasticizers</td>
+						  <td>~7–8</td>
+						  <td>~8–10</td>
+						  <td>~3.0–3.8%</td>
+						  <td>Demand affected by PVC flexibility needs in construction. Growth moderated in developed markets due to stricter regulation of phthalate plasticizers.</td>
+						</tr>
+
+						<tr>
+						  <td>9</td>
+						  <td>m-Xylene</td>
+						  <td>Isophthalic acid → PET resins</td>
+						  <td>~5–6</td>
+						  <td>~6–8</td>
+						  <td>~3.2–4.0%</td>
+						  <td>Driven by specialty PET and coatings applications requiring higher thermal and chemical resistance. More niche but higher value chain exposure.</td>
+						</tr>
+					  </tbody>
+					</table>
+					<p>Global Aromatics Market Dynamics and Price Drivers </p>
+					
+			
+			<ul>
+				  <li><b>Global demand structure:</b> Aromatics demand is primarily driven by downstream polymers—especially polyester (PTA from xylenes), polystyrene (styrene), polyurethanes (toluene/benzene derivatives), and epoxy/polycarbonate chains. Packaging, construction, automotive, and textiles remain the dominant consumption sectors globally.</li>
+
+				  <li><b>China-led capacity expansion:</b> Large-scale integrated refining–aromatics–petrochemical complexes in China have significantly expanded benzene, para-xylene, and styrene capacity. This has created structural oversupply in several aromatics chains, particularly xylenes and styrene derivatives, pressuring global margins.</li>
+
+				  <li><b>Global trade imbalance:</b> Excess Chinese production is increasingly displacing imports in Asia while exporting surplus aromatics and derivatives. This is reshaping global trade flows, reducing export opportunities for traditional suppliers in Northeast Asia, the Middle East, and Europe.</li>
+
+				  <li><b>Regional divergence – Asia:</b> Asia (especially China and India) remains the fastest-growing demand center due to textile (polyester), packaging, and construction growth. However, China’s self-sufficiency trend is reducing regional import dependence and intensifying intra-Asia competition.</li>
+
+				  <li><b>Regional divergence – Europe:</b> Europe faces declining aromatics competitiveness due to high energy costs, stricter carbon regulations, and refinery closures. This is leading to net capacity rationalization and increased import reliance for benzene and xylenes.</li>
+
+				  <li><b>North America positioning:</b> The US remains relatively balanced in benzene and toluene due to shale-derived feedstock advantages. However, export exposure is increasing as global oversupply reduces arbitrage margins, especially for styrene chain products.</li>
+
+				  <li><b>Feedstock and refinery constraints:</b> Aromatics production is tightly linked to naphtha reforming and steam cracking. Refinery run cuts, shifting fuel demand (EV penetration), and reduced gasoline blending demand for toluene affect supply stability and co-product availability.</li>
+
+				  <li><b>Regulatory tightening:</b> Environmental regulations targeting VOC emissions, plastic waste (especially polystyrene), and hazardous aromatic intermediates are tightening in Europe and parts of North America, indirectly suppressing demand growth in certain derivatives.</li>
+
+				  <li><b>Capacity addition vs demand mismatch:</b> While demand grows at mid-single digits in select segments (PET and polyester), capacity additions—particularly in China for para-xylene, styrene, and phenol chains—are outpacing global demand growth, leading to persistent margin compression cycles.</li>
+
+				  <li><b>Underpinning market impact:</b> The resulting oversupply cycle is causing price volatility, lower integration margins for independent aromatics producers, and increased consolidation pressure globally. Future competitiveness will depend on integration depth, energy efficiency, and proximity to downstream polymer demand hubs.</li>
+</ul>
+			
+        </div>
+    </div>
+
+    <!-- Capacity TAB -->
+    <div id="Demand" class="tab-content">
+        <div class="section">
+            <h2>Aromatics Production Capacity Global, and Regional</h2>
+            <p> </p>
+
+			<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+
+							<thead>
+								<tr>
+									<th>Aromatic Product</th>
+									<th>Global Installed Capacity<br>(MMTPA)</th>
+									<th>North America<br>(MMTPA)</th>
+									<th>Europe<br>(MMTPA)</th>
+									<th>China<br>(MMTPA)</th>
+									<th>Rest of Asia<br>(MMTPA)</th>
+									<th>Middle East<br>(MMTPA)</th>
+									<th>India<br>(MMTPA)</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+
+							<tbody>
+
+								<tr>
+									<td>Benzene</td>
+									<td>~68</td>
+									<td>11</td>
+									<td>8</td>
+									<td>24</td>
+									<td>17</td>
+									<td>5</td>
+									<td>3</td>
+									<td>China dominates incremental capacity growth due to styrene and phenol demand expansion.</td>
+								</tr>
+
+								<tr>
+									<td>Toluene</td>
+									<td>~36</td>
+									<td>6</td>
+									<td>4</td>
+									<td>13</td>
+									<td>9</td>
+									<td>2</td>
+									<td>2</td>
+									<td>Toluene production is strongly linked to refinery reforming severity and gasoline economics.</td>
+								</tr>
+
+								<tr>
+									<td>Ethylbenzene</td>
+									<td>~42</td>
+									<td>7</td>
+									<td>4</td>
+									<td>18</td>
+									<td>9</td>
+									<td>2</td>
+									<td>2</td>
+									<td>Most ethylbenzene units are integrated directly with styrene production facilities.</td>
+								</tr>
+
+								<tr>
+									<td>Mixed Xylenes</td>
+									<td>~95</td>
+									<td>12</td>
+									<td>8</td>
+									<td>39</td>
+									<td>24</td>
+									<td>7</td>
+									<td>5</td>
+									<td>Asia represents the largest mixed xylene production and consumption region globally.</td>
+								</tr>
+
+								<tr>
+									<td>o-Xylene</td>
+									<td>~9</td>
+									<td>1.2</td>
+									<td>1.0</td>
+									<td>3.5</td>
+									<td>2.0</td>
+									<td>0.5</td>
+									<td>0.8</td>
+									<td>Demand is driven primarily by phthalic anhydride and plasticizer production.</td>
+								</tr>
+
+								<tr>
+									<td>p-Xylene</td>
+									<td>~78</td>
+									<td>8</td>
+									<td>5</td>
+									<td>37</td>
+									<td>18</td>
+									<td>6</td>
+									<td>4</td>
+									<td>Paraxylene capacity expansion is concentrated in China and broader Asia due to polyester demand.</td>
+								</tr>
+
+								<tr>
+									<td>C9 Aromatics</td>
+									<td>~18</td>
+									<td>3</td>
+									<td>2</td>
+									<td>6</td>
+									<td>4</td>
+									<td>1</td>
+									<td>1</td>
+									<td>Used mainly in solvents, gasoline blending, and hydrocarbon resin applications.</td>
+								</tr>
+
+								<tr>
+									<td>Solvent Aromatics</td>
+									<td>~22</td>
+									<td>4</td>
+									<td>3</td>
+									<td>7</td>
+									<td>5</td>
+									<td>1</td>
+									<td>2</td>
+									<td>Industrial coatings and agrochemical demand strongly influence regional solvent aromatic markets.</td>
+								</tr>
+
+								<tr>
+									<td>Petrochemical-Grade Aromatics</td>
+									<td>~140</td>
+									<td>22</td>
+									<td>15</td>
+									<td>55</td>
+									<td>33</td>
+									<td>10</td>
+									<td>5</td>
+									<td>Integrated refinery-petrochemical complexes dominate new aromatics investments globally.</td>
+								</tr>
+
+							</tbody>
+
+						</table>
+
+<br><br>
+
+					<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+
+						<thead>
+							<tr>
+								<th>Aromatic Product</th>
+								<th>USA Installed Capacity<br>(MMTPA)</th>
+								<th>China Installed Capacity<br>(MMTPA)</th>
+								<th>Primary Production Pathway</th>
+								<th>Main Downstream Demand</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<tr>
+								<td>Benzene</td>
+								<td>11</td>
+								<td>24</td>
+								<td>CCR Reforming + PyGas Extraction</td>
+								<td>Styrene, phenol, cyclohexane</td>
+							</tr>
+
+							<tr>
+								<td>Toluene</td>
+								<td>6</td>
+								<td>13</td>
+								<td>Reforming + TDP</td>
+								<td>Gasoline blending, TDI, solvents</td>
+							</tr>
+
+							<tr>
+								<td>Ethylbenzene</td>
+								<td>7</td>
+								<td>18</td>
+								<td>Benzene Alkylation</td>
+								<td>Styrene monomer</td>
+							</tr>
+
+							<tr>
+								<td>Mixed Xylenes</td>
+								<td>12</td>
+								<td>39</td>
+								<td>Reforming + Steam Cracking</td>
+								<td>Paraxylene extraction</td>
+							</tr>
+
+							<tr>
+								<td>o-Xylene</td>
+								<td>1.2</td>
+								<td>3.5</td>
+								<td>Xylene Fractionation</td>
+								<td>Phthalic anhydride</td>
+							</tr>
+
+							<tr>
+								<td>p-Xylene</td>
+								<td>8</td>
+								<td>37</td>
+								<td>Parex + Isomerization</td>
+								<td>PTA and polyester</td>
+							</tr>
+
+							<tr>
+								<td>C9 Aromatics</td>
+								<td>3</td>
+								<td>6</td>
+								<td>Heavy Reformate Recovery</td>
+								<td>Solvents and resins</td>
+							</tr>
+
+							<tr>
+								<td>Solvent Aromatics</td>
+								<td>4</td>
+								<td>7</td>
+								<td>Fractionation + Blending</td>
+								<td>Paints, coatings, agrochemicals</td>
+							</tr>
+
+							<tr>
+								<td>Petrochemical-Grade Aromatics</td>
+								<td>22</td>
+								<td>55</td>
+								<td>Integrated Aromatics Complexes</td>
+								<td>BTX derivative chains</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+
+					<p style="font-size:11px;">
+					Notes: Capacity values are approximate 2025–2026 industry estimates derived from refinery reforming capacity, aromatics extraction capacity, paraxylene installations, and petrochemical integration trends. China continues to dominate global aromatics capacity additions, especially in paraxylene and mixed xylenes, while North America remains highly competitive due to shale-driven feedstock advantages. 
+					</p>
+					
+					<ul>
+						<li>
+							<b>China (Dominant PX and BTX expansion):</b> Installed aromatics capacity is heavily weighted toward paraxylene, mixed xylenes, and benzene due to massive polyester (PTA-PET) demand, integrated refinery–petrochemical mega-complexes, and state-backed investment in COTC (crude-to-chemicals) projects. Feedstock advantage comes from imported crude and condensate with strong downstream textile export demand.
+						</li>
+						<li>
+							<b>United States (Reforming + steam cracking balance):</b> Capacity is driven by catalytic reforming and steam cracker PyGas recovery, supported by low-cost shale gas and NGLs. Strong gasoline blending economics and ethylene derivatives market shape aromatics output, with benzene and toluene often optimized for styrene and TDI chains.
+						</li>
+						<li>
+							<b>Europe (Capacity stagnation and optimization focus):</b> Aromatics capacity is relatively flat due to high energy costs, strict environmental regulations (REACH, VOC limits), and aging crackers. Plants focus on high-value benzene and PX integration rather than capacity expansion, with imports filling structural demand gaps.
+						</li>
+						<li>
+							<b>Middle East (Feedstock-advantaged export hub):</b> Aromatics capacity is expanding through integrated refining and petrochemical complexes leveraging low-cost crude and condensates. Governments prioritize downstream diversification (Saudi Vision 2030, UAE industrial strategy), targeting export markets in Asia, especially PX and benzene.
+						</li>
+						<li>
+							<b>India (Demand-led moderate expansion):</b> Capacity growth is moderate but rising, driven by domestic polyester demand, gasoline pool blending, and import substitution policies. Reliance on refinery expansion (MRPL, IOCL, RIL) supports benzene, toluene, and PX production growth.
+						</li>
+						<li>
+							<b>Rest of Asia (South Korea, Japan, Taiwan):</b> Mature but highly efficient aromatics capacity optimized for export-grade PX and benzene. High dependence on imported naphtha feedstock, strong integration with global petrochemical trade flows, and advanced separation technologies like Parex and Isomar.
+						</li>
+						<li>
+							<b>North America structural advantage:</b> Competitive feedstock pricing from shale gas liquids and condensates enables strong aromatics margins. Capacity is optimized for benzene-styrene chains and gasoline blending, with export of PX and mixed xylenes to Asia when arbitrage is favorable.
+						</li>
+						<li>
+							<b>Feedstock availability as a key driver globally:</b> Naphtha-rich regions (Asia, Europe) rely on crude imports, while gas-rich regions (US, Middle East) leverage ethane/NGL economics, influencing whether aromatics are produced via reforming or steam cracking PyGas recovery.
+						</li>
+						<li>
+							<b>Government regulation impact:</b> Environmental policies (VOC limits, benzene exposure restrictions, carbon pricing) strongly influence aromatics investments. Europe and parts of Asia restrict benzene usage, while China enforces tighter emissions standards but continues capacity expansion for strategic self-sufficiency.
+						</li>
+						<li>
+							<b>Downstream demand and trade imbalance:</b> Asia (especially China and India) is structurally long in PX demand due to polyester growth, creating global trade flows from US, Middle East, and Northeast Asia exporters. Benzene and mixed xylenes follow similar arbitrage-driven trade patterns.
+						</li>
+					</ul>
+	
+        </div>
+    </div>
+
+    <!-- Specs -->
+    <div id="Specs" class="tab-content">
+        <div class="section">
+            <h2>ASTM Document IDs / Specifications for Major Industrial Chemicals</h2>
+            <p>The ASTM standards are among the most commonly referenced industrial specifications for these chemicals.</p>
+			
+				<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%;">
+					<thead>
+						<tr>
+							<th>ASTM Document ID</th>
+							<th>Title / Specification</th>
+							<th>Applicable Aromatics</th>
+							<th>Important Product Specifications</th>
+							<th>Purpose</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ASTM D2359</td>
+							<td>Standard Specification for Refined Benzene-535</td>
+							<td>Benzene</td>
+							<td>
+								Purity ≥ 99.9 wt%<br>
+								Sulfur ≤ 1 ppm<br>
+								Non-aromatics ≤ 0.1 wt%<br>
+								Water clear appearance
+							</td>
+							<td>Product quality specification for nitration/chemical grade benzene</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D841</td>
+							<td>Standard Specification for Nitration Grade Toluene</td>
+							<td>Toluene</td>
+							<td>
+								Toluene purity ≥ 99.5 wt%<br>
+								Sulfur ≤ 1 ppm<br>
+								Non-aromatics controlled<br>
+								Acid wash color specification
+							</td>
+							<td>Defines purity and impurity limits for nitration-grade toluene</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D2360</td>
+							<td>Trace Impurities in Monocyclic Aromatic Hydrocarbons by GC</td>
+							<td>Toluene, Xylenes, Aromatics</td>
+							<td>
+								Trace paraffins<br>
+								Olefins content<br>
+								Sulfur impurities<br>
+								Oxygenates detection
+							</td>
+							<td>GC analysis of trace impurities and non-aromatics</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3437</td>
+							<td>Sampling and Handling Liquid Cyclic Products</td>
+							<td>Aromatics &amp; cyclic hydrocarbons</td>
+							<td>
+								Representative sampling<br>
+								Moisture contamination prevention<br>
+								Vapor loss control
+							</td>
+							<td>Sampling and sample handling procedures</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D4492</td>
+							<td>Analysis of Benzene by Gas Chromatography</td>
+							<td>Benzene</td>
+							<td>
+								Benzene assay<br>
+								Non-aromatics concentration<br>
+								Toluene trace measurement
+							</td>
+							<td>Purity determination</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3797</td>
+							<td>Analysis of o-Xylene by Gas Chromatography</td>
+							<td>o-Xylene</td>
+							<td>
+								o-Xylene purity ≥ 99 wt%<br>
+								Ethylbenzene trace control<br>
+								Isomer distribution
+							</td>
+							<td>Purity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3798</td>
+							<td>Analysis of p-Xylene by Gas Chromatography</td>
+							<td>p-Xylene</td>
+							<td>
+								p-Xylene purity ≥ 99.7 wt%<br>
+								Non-aromatics control<br>
+								Sulfur trace limits
+							</td>
+							<td>Purity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D7504</td>
+							<td>Trace Impurities in Aromatics by GC</td>
+							<td>Benzene, Toluene, Xylenes</td>
+							<td>
+								Effective carbon number analysis<br>
+								Trace oxygenates<br>
+								Low-level sulfur analysis
+							</td>
+							<td>Advanced impurity analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5917</td>
+							<td>Trace Impurities in Aromatics by Capillary GC</td>
+							<td>BTX Aromatics</td>
+							<td>
+								Hydrocarbon impurity profile<br>
+								Trace olefins<br>
+								C9+ aromatics
+							</td>
+							<td>Trace impurity measurement</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D4735</td>
+							<td>Hydrocarbon Types by Fluorescent Indicator Adsorption</td>
+							<td>Aromatics in fuels</td>
+							<td>
+								Aromatics volume %<br>
+								Olefins content<br>
+								Saturates composition
+							</td>
+							<td>Aromatics content determination</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1319</td>
+							<td>Hydrocarbon Types in Petroleum Products</td>
+							<td>Gasoline aromatics</td>
+							<td>
+								Aromatics concentration<br>
+								Olefins and saturates<br>
+								Fuel composition profile
+							</td>
+							<td>Aromatics, olefins, saturates analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5580</td>
+							<td>BTEX and Heavy Aromatics in Gasoline by GC</td>
+							<td>BTEX</td>
+							<td>
+								Benzene vol%<br>
+								Total aromatics<br>
+								Ethylbenzene and xylene analysis
+							</td>
+							<td>Aromatics composition in gasoline</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D5769</td>
+							<td>Benzene, Toluene and Total Aromatics by GC/MS</td>
+							<td>BTX &amp; total aromatics</td>
+							<td>
+								Benzene concentration<br>
+								Total aromatic content<br>
+								GC/MS fingerprinting
+							</td>
+							<td>Gasoline aromatic analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D3606</td>
+							<td>Benzene and Toluene in Gasoline by GC</td>
+							<td>Benzene/Toluene</td>
+							<td>
+								Benzene vol%<br>
+								Toluene concentration<br>
+								Fuel compliance monitoring
+							</td>
+							<td>Fuel quality testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D6563</td>
+							<td>C8 Aromatic Isomers in Xylenes by GC</td>
+							<td>Mixed xylenes</td>
+							<td>
+								p-Xylene concentration<br>
+								m-Xylene and o-Xylene distribution<br>
+								Ethylbenzene level
+							</td>
+							<td>Xylene isomer distribution analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D848</td>
+							<td>Acid Wash Color of Industrial Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Acid wash color rating<br>
+								Oxidation impurities<br>
+								Product appearance
+							</td>
+							<td>Color quality testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D849</td>
+							<td>Copper Strip Corrosion by Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Copper corrosion rating<br>
+								Sulfur reactivity<br>
+								Corrosive contaminants
+							</td>
+							<td>Corrosion tendency testing</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1209</td>
+							<td>Color of Clear Liquids (Pt-Co Scale)</td>
+							<td>Aromatics / solvents</td>
+							<td>
+								APHA color<br>
+								Clarity<br>
+								Haze evaluation
+							</td>
+							<td>Product color measurement</td>
+						</tr>
+
+						<tr>
+							<td>ASTM E2680</td>
+							<td>Appearance of Clear Liquids</td>
+							<td>Aromatics / solvents</td>
+							<td>
+								Visual clarity<br>
+								Haze detection<br>
+								Free water observation
+							</td>
+							<td>Visual appearance and haze evaluation</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D1685</td>
+							<td>Ethylbenzene Content of Xylene Mixtures by GC</td>
+							<td>Ethylbenzene / xylene mixtures</td>
+							<td>
+								Ethylbenzene wt%<br>
+								Xylene isomer balance<br>
+								Composition accuracy
+							</td>
+							<td>Composition analysis</td>
+						</tr>
+
+						<tr>
+							<td>ASTM D6809</td>
+							<td>QA/QC Procedures for Aromatic Hydrocarbons</td>
+							<td>Aromatics</td>
+							<td>
+								Laboratory QA/QC limits<br>
+								Calibration verification<br>
+								Repeatability and reproducibility
+							</td>
+							<td>QA/QC procedures and laboratory practices</td>
+						</tr>
+
+					</tbody>
+				</table>					
+
+					<ul>
+						<li>Benzene is one of the primary aromatic hydrocarbons covered under ASTM standards for purity, sulfur content, trace impurities, and product quality verification.</li>
+						<li>Toluene ASTM specifications commonly address nitration-grade quality, gas chromatography analysis, impurity profiling, and sulfur monitoring.</li>
+						<li>Ethylbenzene and mixed xylenes are analyzed using ASTM gas chromatography methods to determine composition accuracy, isomer distribution, and contaminant levels.</li>
+						<li>o-Xylene and p-Xylene specifications focus on high-purity aromatic applications, including petrochemical feedstocks and polyester manufacturing intermediates.</li>
+						<li>C9 aromatics and solvent aromatics are evaluated for composition, appearance, corrosion characteristics, color quality, and non-aromatic hydrocarbon content.</li>
+						<li>Frequently used ASTM categories in the aromatics industry include product specifications, gas chromatography methods, trace impurity analysis, and purity determination.</li>
+						<li>Additional ASTM testing categories include sampling procedures, corrosion testing, sulfur analysis, and color or appearance evaluation for quality assurance purposes.</li>
+						<li>ASTM D2359 and ASTM D4492 are commonly referenced together for benzene specification compliance, purity verification, and chromatographic analysis.</li>
+						<li>ASTM D841 and ASTM D2360 are widely used together for toluene quality specifications, impurity analysis, and detailed GC-based compositional testing, while ASTM D6563 is important for mixed xylene isomer analysis.</li>
+						<li>These ASTM standards are extensively applied across petrochemical plants, refineries, storage terminals, laboratory QA/QC programs, trading specifications, and downstream derivative manufacturing operations.</li>
+						</ul>
+        </div>
+    </div>
+
+    <!-- Product Specification -->
+    <div id="Property" class="tab-content">
+        <div class="section">
+            <h2>Transport Property and Energy Content</h2>
+            <p>Transport Property and Energy Content.</p>
+			
+					<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+
+						<thead>
+							<tr>
+								<th>Aromatic Product</th>
+								<th>Density<br>(lb/ft³)</th>
+								<th>Density<br>(lb/gal)</th>
+								<th>Specific Gravity<br>@60°F</th>
+								<th>API Gravity</th>
+								<th>MW<br>(lb/lbmol)</th>
+								<th>Dynamic Viscosity<br>(cP @ 77°F)</th>
+								<th>Kinematic Viscosity<br>(cSt @ 77°F)</th>
+								<th>Energy Content<br>(MBTU/lb)</th>
+								<th>Energy Content<br>(MBTU/ft³)</th>
+								<th>Energy Content<br>(MBTU/gal)</th>
+								<th>Normal Storage Pressure<br>(Psig)</th>
+								<th>Normal Storage Temp<br>(°F)</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<tr>
+								<td>Benzene</td>
+								<td>54.8</td>
+								<td>7.33</td>
+								<td>0.879</td>
+								<td>29.7</td>
+								<td>78.11</td>
+								<td>0.65</td>
+								<td>0.74</td>
+								<td>0.018</td>
+								<td>0.99</td>
+								<td>0.120</td>
+								<td>0 – 5</td>
+								<td>Ambient (60 – 90)</td>
+								<td>Highly flammable aromatic feedstock used in styrene, phenol, and cyclohexane production.</td>
+							</tr>
+
+							<tr>
+								<td>Toluene</td>
+								<td>54.1</td>
+								<td>7.24</td>
+								<td>0.867</td>
+								<td>31.4</td>
+								<td>92.14</td>
+								<td>0.56</td>
+								<td>0.65</td>
+								<td>0.0184</td>
+								<td>1.00</td>
+								<td>0.125</td>
+								<td>0 – 5</td>
+								<td>Ambient (60 – 100)</td>
+								<td>Widely used as solvent, gasoline blendstock, and TDI precursor feedstock.</td>
+							</tr>
+
+							<tr>
+								<td>Ethylbenzene</td>
+								<td>54.0</td>
+								<td>7.23</td>
+								<td>0.867</td>
+								<td>31.5</td>
+								<td>106.17</td>
+								<td>0.68</td>
+								<td>0.78</td>
+								<td>0.0186</td>
+								<td>1.00</td>
+								<td>0.129</td>
+								<td>0 – 5</td>
+								<td>Ambient</td>
+								<td>Primary feedstock for styrene monomer manufacturing.</td>
+							</tr>
+
+							<tr>
+								<td>Mixed Xylenes</td>
+								<td>54.4</td>
+								<td>7.28</td>
+								<td>0.872</td>
+								<td>30.8</td>
+								<td>106.16</td>
+								<td>0.62</td>
+								<td>0.71</td>
+								<td>0.0187</td>
+								<td>1.02</td>
+								<td>0.130</td>
+								<td>0 – 5</td>
+								<td>Ambient</td>
+								<td>Mixture of o-, m-, and p-xylene used for PX extraction and solvents.</td>
+							</tr>
+
+							<tr>
+								<td>o-Xylene</td>
+								<td>55.1</td>
+								<td>7.37</td>
+								<td>0.884</td>
+								<td>29.0</td>
+								<td>106.16</td>
+								<td>0.81</td>
+								<td>0.92</td>
+								<td>0.0187</td>
+								<td>1.03</td>
+								<td>0.132</td>
+								<td>0 – 5</td>
+								<td>Ambient</td>
+								<td>Used in phthalic anhydride production and specialty solvents.</td>
+							</tr>
+
+							<tr>
+								<td>p-Xylene</td>
+								<td>53.8</td>
+								<td>7.20</td>
+								<td>0.861</td>
+								<td>32.2</td>
+								<td>106.16</td>
+								<td>0.60</td>
+								<td>0.70</td>
+								<td>0.0187</td>
+								<td>1.01</td>
+								<td>0.129</td>
+								<td>0 – 5</td>
+								<td>Ambient</td>
+								<td>Major feedstock for PTA and polyester manufacturing.</td>
+							</tr>
+
+							<tr>
+								<td>C9 Aromatics</td>
+								<td>56.0</td>
+								<td>7.49</td>
+								<td>0.898</td>
+								<td>27.0</td>
+								<td>120 – 134</td>
+								<td>1.10</td>
+								<td>1.22</td>
+								<td>0.0189</td>
+								<td>1.06</td>
+								<td>0.140</td>
+								<td>0 – 5</td>
+								<td>Ambient</td>
+								<td>Contains trimethylbenzenes and heavier aromatics used in solvents and gasoline blending.</td>
+							</tr>
+
+							<tr>
+								<td>Solvent Aromatics</td>
+								<td>55 – 58</td>
+								<td>7.35 – 7.75</td>
+								<td>0.88 – 0.93</td>
+								<td>24 – 30</td>
+								<td>100 – 140</td>
+								<td>0.8 – 1.5</td>
+								<td>0.9 – 1.7</td>
+								<td>0.0185 – 0.0190</td>
+								<td>1.00 – 1.08</td>
+								<td>0.130 – 0.145</td>
+								<td>Atmospheric</td>
+								<td>Ambient</td>
+								<td>Industrial solvent blends used in paints, coatings, adhesives, and extraction services.</td>
+							</tr>
+
+							<tr>
+								<td>Petrochemical-Grade Aromatics</td>
+								<td>53 – 57</td>
+								<td>7.10 – 7.62</td>
+								<td>0.85 – 0.91</td>
+								<td>25 – 33</td>
+								<td>78 – 134</td>
+								<td>0.5 – 1.5</td>
+								<td>0.6 – 1.7</td>
+								<td>0.0180 – 0.0190</td>
+								<td>0.98 – 1.08</td>
+								<td>0.120 – 0.145</td>
+								<td>Atmospheric</td>
+								<td>Ambient</td>
+								<td>General category including BTX and higher aromatics used in petrochemical production chains.</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+					
+				<ul>
+
+					<li>
+						Aromatic hydrocarbon density is commonly determined using 
+						ASTM D4052 (Digital Density Meter), ASTM D1298 (Hydrometer Method), 
+						and ISO 12185 standards, with densities typically ranging from 
+						7.2–7.5 lb/gal for BTX and heavier aromatic streams.
+					</li>
+
+					<li>
+						Dynamic viscosity of aromatics is generally measured using 
+						ASTM D445, ASTM D7042, or ISO 3104 methods, while kinematic viscosity 
+						for benzene, toluene, and xylenes normally ranges between 
+						0.6–1.2 cSt at 40°C depending on molecular weight and aromatic composition.
+					</li>
+
+					<li>
+						Energy content or heating value of aromatics is commonly determined using 
+						ASTM D240, ASTM D4809, ISO 1928, and calculated correlations from 
+						API Technical Data Book standards, with typical values around 
+						0.018–0.019 MBTU/lb.
+					</li>
+
+					<li>
+						Petrochemical-grade aromatics such as benzene, toluene, ethylbenzene, 
+						and paraxylene are manufactured at very high purity levels 
+						(typically ≥99.5 wt%) for use in styrene, phenol, PTA, nylon, 
+						and polyurethane production chains.
+					</li>
+
+					<li>
+						Solvent-grade aromatics are available as aromatic 100, aromatic 150, 
+						aromatic 200, heavy aromatic naphtha, and mixed solvent streams, 
+						commonly used in paints, coatings, adhesives, agrochemicals, 
+						degreasers, and extraction applications.
+					</li>
+
+					<li>
+						Fuel-grade aromatics are blended into gasoline and refinery fuel pools 
+						to improve octane rating and combustion characteristics, with aromatics 
+						content typically monitored using ASTM D1319, ASTM D5769, and ASTM D5580 methods.
+					</li>
+
+					<li>
+						Higher aromatic density generally correlates with increased molecular weight 
+						and higher volumetric heating value, making C9 and heavy aromatics attractive 
+						for gasoline blending, refinery fuel oils, and carbon black feedstock applications.
+					</li>
+
+					<li>
+						Aromatic viscosity increases with carbon number and boiling range; 
+						benzene and toluene exhibit very low viscosities, while C9+ aromatics 
+						and solvent aromatic blends display higher viscosity and lower volatility characteristics.
+					</li>
+
+					<li>
+						Most aromatics are stored at near-atmospheric pressure and ambient temperature, 
+						although nitrogen blanketing, floating roof tanks, and vapor recovery systems 
+						are widely applied due to flammability, VOC emissions, and environmental regulations.
+					</li>
+
+					<li>
+						ASTM and ISO aromatic testing standards are extensively applied across 
+						petrochemical plants, refineries, tank terminals, laboratories, trading operations, 
+						and downstream manufacturing facilities to ensure product quality, process consistency, 
+						safety compliance, and international trade specification conformity.
+					</li>
+
+				</ul>
+
+            
+        </div>
+    </div>
+
+    <!-- Supply -->
+    <div id="Supply" class="tab-content">
+        <div class="section">
+            <h2>Production Pathway</h2>
+            <p>Production Pathway.</p>
+			
+				<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
+
+						<thead>
+							<tr>
+								<th>Aromatic Product</th>
+								<th>Main Production Pathway</th>
+								<th>Typical Feedstocks</th>
+								<th>Key Process Technologies</th>
+								<th>Main Reaction / Process</th>
+								<th>Advantages</th>
+								<th>Disadvantages</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<tr>
+								<td>Benzene</td>
+								<td>Catalytic Reforming + Aromatics Extraction</td>
+								<td>Naphtha, reformate</td>
+								<td>Platforming, CCR Reforming, Sulfolane Extraction</td>
+								<td>Dehydrogenation of naphthenes and aromatization of paraffins</td>
+								<td>
+									High benzene purity;<br>
+									Large commercial scale;<br>
+									Integrated refinery operation
+								</td>
+								<td>
+									High capital cost;<br>
+									Hydrogen management required;<br>
+									Benzene environmental restrictions
+								</td>
+							</tr>
+
+							<tr>
+								<td>Benzene</td>
+								<td>Steam Cracker Pyrolysis Gasoline Extraction</td>
+								<td>Ethane, LPG, naphtha</td>
+								<td>Steam Cracking + PyGas Hydrogenation</td>
+								<td>Recovery from pyrolysis gasoline stream</td>
+								<td>
+									High aromatic recovery;<br>
+									Valuable co-product integration
+								</td>
+								<td>
+									Complex separation;<br>
+									Feedstock dependent yields
+								</td>
+							</tr>
+
+							<tr>
+								<td>Toluene</td>
+								<td>Catalytic Reforming</td>
+								<td>Straight-run naphtha</td>
+								<td>CCR Reforming</td>
+								<td>Paraffin cyclization and dehydrogenation</td>
+								<td>
+									Mature technology;<br>
+									High octane reformate production
+								</td>
+								<td>
+									Aromatic equilibrium limits;<br>
+									Catalyst deactivation
+								</td>
+							</tr>
+
+							<tr>
+								<td>Toluene</td>
+								<td>Toluene Disproportionation (TDP)</td>
+								<td>Toluene-rich streams</td>
+								<td>Zeolite Catalytic Conversion</td>
+								<td>2 Toluene → Benzene + Xylene</td>
+								<td>
+									Produces valuable PX and benzene;<br>
+									Improves aromatics economics
+								</td>
+								<td>
+									Requires high catalyst selectivity;<br>
+									Hydrogen consumption
+								</td>
+							</tr>
+
+							<tr>
+								<td>Ethylbenzene</td>
+								<td>Alkylation of Benzene with Ethylene</td>
+								<td>Benzene, ethylene</td>
+								<td>Zeolite Alkylation, AlCl3 Process</td>
+								<td>Benzene + Ethylene → Ethylbenzene</td>
+								<td>
+									High selectivity;<br>
+									Strong styrene integration
+								</td>
+								<td>
+									Ethylene feedstock cost sensitivity;<br>
+									Catalyst handling complexity
+								</td>
+							</tr>
+
+							<tr>
+								<td>Mixed Xylenes</td>
+								<td>Catalytic Reforming</td>
+								<td>Naphtha</td>
+								<td>CCR Platforming</td>
+								<td>Aromatization and isomerization reactions</td>
+								<td>
+									Large-scale xylene generation;<br>
+									Integrated refinery production
+								</td>
+								<td>
+									Mixed isomer separation required
+								</td>
+							</tr>
+
+							<tr>
+								<td>Mixed Xylenes</td>
+								<td>Steam Cracker PyGas Recovery</td>
+								<td>Naphtha, LPG</td>
+								<td>Pyrolysis Gasoline Extraction</td>
+								<td>Aromatics recovery from cracked gasoline</td>
+								<td>
+									Additional aromatics recovery;<br>
+									Petrochemical integration
+								</td>
+								<td>
+									Hydrogenation and extraction complexity
+								</td>
+							</tr>
+
+							<tr>
+								<td>o-Xylene</td>
+								<td>Xylene Fractionation</td>
+								<td>Mixed xylene stream</td>
+								<td>Distillation and Fractionation</td>
+								<td>Boiling point separation</td>
+								<td>
+									Mature separation technology;<br>
+									High purity achievable
+								</td>
+								<td>
+									Energy intensive distillation;<br>
+									Close boiling components
+								</td>
+							</tr>
+
+							<tr>
+								<td>p-Xylene</td>
+								<td>Adsorptive Separation + Isomerization</td>
+								<td>Mixed xylene stream</td>
+								<td>UOP Parex, Isomar</td>
+								<td>Selective adsorption and xylene isomerization</td>
+								<td>
+									Very high PX purity;<br>
+									PTA-grade production capability
+								</td>
+								<td>
+									High capital cost;<br>
+									Complex adsorbent system
+								</td>
+							</tr>
+
+							<tr>
+								<td>C9 Aromatics</td>
+								<td>Heavy Reformate Recovery</td>
+								<td>Heavy naphtha, reformate</td>
+								<td>Fractionation and Extraction</td>
+								<td>Recovery of trimethylbenzenes and heavier aromatics</td>
+								<td>
+									Valuable solvent production;<br>
+									High octane blending component
+								</td>
+								<td>
+									Lower demand compared to BTX;<br>
+									Variable composition
+								</td>
+							</tr>
+
+							<tr>
+								<td>Solvent Aromatics</td>
+								<td>Heavy Aromatic Solvent Blending</td>
+								<td>Reformate, pyrolysis gasoline</td>
+								<td>Fractionation and Solvent Blending</td>
+								<td>Controlled aromatic boiling range blending</td>
+								<td>
+									Flexible product grades;<br>
+									Strong industrial solvent demand
+								</td>
+								<td>
+									VOC environmental concerns;<br>
+									Regulatory exposure limits
+								</td>
+							</tr>
+
+							<tr>
+								<td>Petrochemical-Grade Aromatics</td>
+								<td>Integrated Aromatics Complex</td>
+								<td>Naphtha, condensate</td>
+								<td>CCR Reforming + Extraction + Fractionation</td>
+								<td>Integrated BTX production and purification</td>
+								<td>
+									Maximum BTX recovery;<br>
+									High purity products;<br>
+									Strong refinery integration
+								</td>
+								<td>
+									High energy consumption;<br>
+									Large investment requirement;<br>
+									Process complexity
+								</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+
+
+										
+					<ul>
+						<li>
+							Catalytic reforming remains the dominant global aromatics production pathway because it is strongly integrated with refinery gasoline production and hydrogen generation, particularly in North America, Europe, the Middle East, India, and East Asia.
+						</li>
+						<li>
+							Steam cracker pyrolysis gasoline (PyGas) extraction is highly preferred in regions with large ethylene production capacity such as China, South Korea, Japan, the United States Gulf Coast, and the Middle East due to strong olefins-aromatics integration economics.
+						</li>
+						<li>
+							North America primarily depends on catalytic reforming and steam cracking pathways because of abundant shale gas, low-cost NGL feedstocks, and extensive petrochemical integration along the Gulf Coast region.
+						</li>
+						<li>
+							China has aggressively expanded integrated refinery-petrochemical complexes using condensate, naphtha, and mixed crude feedstocks to maximize paraxylene and benzene production for polyester and derivative demand growth.
+						</li>
+						<li>
+							Middle Eastern producers increasingly favor crude oil-to-chemicals (COTC) and integrated aromatics complexes because of advantaged hydrocarbon feedstocks, export-driven petrochemical strategies, and strong Asian aromatics demand.
+						</li>
+						<li>
+							Europe faces competitive disadvantages in aromatics production due to higher energy costs, environmental regulations, aging steam crackers, and weaker feedstock economics compared to North America and the Middle East.
+						</li>
+						<li>
+							Paraxylene production pathways using adsorption and isomerization technologies such as UOP Parex and Isomar are especially important in Asia because polyester and PTA demand dominate regional downstream petrochemical consumption.
+						</li>
+						<li>
+							Toluene disproportionation (TDP) and transalkylation technologies are increasingly used in regions experiencing benzene or paraxylene shortages because they improve BTX yield flexibility and optimize refinery aromatics value chains.
+						</li>
+						<li>
+							Heavy aromatics and solvent aromatic production pathways are strongly influenced by regional fuel specifications, VOC regulations, coatings demand, and industrial solvent consumption trends, particularly in developing economies.
+						</li>
+
+						<li>
+							Global aromatics trade imbalances are heavily influenced by downstream polyester growth in Asia, refinery operating rates, gasoline blending economics, steam cracker feed flexibility, shipping costs, and regional crude-to-chemical investment strategies.
+						</li>
+					</ul>
+        </div>
+    </div>
+	
+</div>
+
+
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
