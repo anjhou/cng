@@ -655,137 +655,393 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         <div class="section">
             <h2>Supply-Demand </h2>
             <p> 2026 and 2032 demand</p>
+				<h2>Global Hydrocarbon Supply and Demand Forecast (2027–2032)</h2>
 
-				<table border="1" cellspacing="0" cellpadding="6">
-					  <thead>
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
 						<tr>
-						  <th>Rank</th>
-						  <th>Aromatic</th>
-						  <th>Key Demand Drivers / Uses</th>
-						  <th>2026 Demand (Mtpa, est.)</th>
-						  <th>2032 Demand Forecast (Mtpa, est.)</th>
-						  <th>CAGR (2026–2032)</th>
-						  <th>Notes (Demand Drivers & Market Structure)</th>
+						<th>Year</th>
+						<th>Natural Gas Supply</th>
+						<th>Natural Gas Demand</th>
+						<th>NGL Supply</th>
+						<th>NGL Demand</th>
+						<th>Crude Oil Supply</th>
+						<th>Crude Oil Demand</th>
+						<th>Condensate Supply</th>
+						<th>Condensate Demand</th>
+						<th>Crude + Condensate Supply</th>
+						<th>Crude + Condensate Demand</th>
 						</tr>
-					  </thead>
-					  <tbody>
-						<tr>
-						  <td>1</td>
-						  <td>Benzene</td>
-						  <td>Ethylbenzene/styrene, cumene, aniline, detergents</td>
-						  <td>~55–58</td>
-						  <td>~65–70</td>
-						  <td>~2.5–3.2%</td>
-						  <td>Core petrochemical building block; demand tied to styrene, phenol, and MDI chains. Supply is refinery-dependent and structurally rigid. Global margins are increasingly influenced by integrated Asian (especially China) capacity additions.</td>
-						</tr>
+						</thead>
+
+						<tbody>
 
 						<tr>
-						  <td>2</td>
-						  <td>Xylenes (total)</td>
-						  <td>PTA → PET for bottles, fibers, films</td>
-						  <td>~70–75</td>
-						  <td>~85–95</td>
-						  <td>~4.0–5.0%</td>
-						  <td>Driven by polyester expansion in packaging and textiles. China dominates both demand and incremental capacity, but also increasingly exports PTA, reducing import dependency and reshaping global trade flows.</td>
-						</tr>
-
-						<tr>
-						  <td>3</td>
-						  <td>Toluene</td>
-						  <td>Gasoline blending, TDI, solvents</td>
-						  <td>~30–33</td>
-						  <td>~35–40</td>
-						  <td>~2.0–2.8%</td>
-						  <td>Highly dependent on fuel blending economics and refining operations. EV adoption and lower gasoline growth in developed markets partially offset chemical derivative demand growth.</td>
+						<td>2027</td>
+						<td>4,420 BCM</td>
+						<td>4,390 BCM</td>
+						<td>16.5 MMBPD</td>
+						<td>16.1 MMBPD</td>
+						<td>103.5 MMBPD</td>
+						<td>103.1 MMBPD</td>
+						<td>14.2 MMBPD</td>
+						<td>13.8 MMBPD</td>
+						<td>117.7 MMBPD</td>
+						<td>116.9 MMBPD</td>
 						</tr>
 
 						<tr>
-						  <td>4</td>
-						  <td>Ethylbenzene</td>
-						  <td>Styrene precursor</td>
-						  <td>~30–32</td>
-						  <td>~35–38</td>
-						  <td>~2.5–3.0%</td>
-						  <td>Directly linked to styrene demand cycles. Production is typically integrated with benzene/styrene units; regional capacity shifts (China/Middle East) influence global balance.</td>
+						<td>2028</td>
+						<td>4,560 BCM</td>
+						<td>4,530 BCM</td>
+						<td>17.1 MMBPD</td>
+						<td>16.8 MMBPD</td>
+						<td>104.2 MMBPD</td>
+						<td>103.8 MMBPD</td>
+						<td>14.7 MMBPD</td>
+						<td>14.3 MMBPD</td>
+						<td>118.9 MMBPD</td>
+						<td>118.1 MMBPD</td>
 						</tr>
 
 						<tr>
-						  <td>5</td>
-						  <td>Styrene</td>
-						  <td>Polystyrene, ABS, SBR rubber</td>
-						  <td>~40–42</td>
-						  <td>~45–50</td>
-						  <td>~3.0–3.8%</td>
-						  <td>Demand driven by appliances, packaging, and construction insulation. Oversupply risk elevated due to rapid expansion of Chinese integrated styrene and downstream ABS capacity.</td>
+						<td>2029</td>
+						<td>4,710 BCM</td>
+						<td>4,680 BCM</td>
+						<td>17.8 MMBPD</td>
+						<td>17.5 MMBPD</td>
+						<td>105.0 MMBPD</td>
+						<td>104.7 MMBPD</td>
+						<td>15.2 MMBPD</td>
+						<td>14.9 MMBPD</td>
+						<td>120.2 MMBPD</td>
+						<td>119.6 MMBPD</td>
 						</tr>
 
 						<tr>
-						  <td>6</td>
-						  <td>Cumene</td>
-						  <td>Phenol + acetone production chain</td>
-						  <td>~16–18</td>
-						  <td>~18–22</td>
-						  <td>~3.5–4.2%</td>
-						  <td>Intermediate tightly coupled to phenol/BPA chain. Growth linked to epoxy resins and polycarbonate demand in automotive and electronics sectors.</td>
+						<td>2030</td>
+						<td>4,860 BCM</td>
+						<td>4,820 BCM</td>
+						<td>18.4 MMBPD</td>
+						<td>18.1 MMBPD</td>
+						<td>105.7 MMBPD</td>
+						<td>105.3 MMBPD</td>
+						<td>15.7 MMBPD</td>
+						<td>15.3 MMBPD</td>
+						<td>121.4 MMBPD</td>
+						<td>120.6 MMBPD</td>
 						</tr>
 
 						<tr>
-						  <td>7</td>
-						  <td>Phenol</td>
-						  <td>Polycarbonate, epoxy resins</td>
-						  <td>~13–14</td>
-						  <td>~15–18</td>
-						  <td>~4.0–5.0%</td>
-						  <td>Strong demand from construction adhesives, coatings, and electronics. Regulatory pressure on phenol derivatives varies by region but overall demand remains structurally resilient.</td>
+						<td>2031</td>
+						<td>5,010 BCM</td>
+						<td>4,970 BCM</td>
+						<td>19.0 MMBPD</td>
+						<td>18.7 MMBPD</td>
+						<td>106.3 MMBPD</td>
+						<td>105.9 MMBPD</td>
+						<td>16.1 MMBPD</td>
+						<td>15.8 MMBPD</td>
+						<td>122.4 MMBPD</td>
+						<td>121.7 MMBPD</td>
 						</tr>
 
 						<tr>
-						  <td>8</td>
-						  <td>o-Xylene</td>
-						  <td>Phthalic anhydride → plasticizers</td>
-						  <td>~7–8</td>
-						  <td>~8–10</td>
-						  <td>~3.0–3.8%</td>
-						  <td>Demand affected by PVC flexibility needs in construction. Growth moderated in developed markets due to stricter regulation of phthalate plasticizers.</td>
+						<td>2032</td>
+						<td>5,160 BCM</td>
+						<td>5,110 BCM</td>
+						<td>19.7 MMBPD</td>
+						<td>19.3 MMBPD</td>
+						<td>106.8 MMBPD</td>
+						<td>106.5 MMBPD</td>
+						<td>16.6 MMBPD</td>
+						<td>16.2 MMBPD</td>
+						<td>123.4 MMBPD</td>
+						<td>122.7 MMBPD</td>
+						</tr>
+
+						</tbody>
+						</table>
+
+						<h2>Top 6 Countries Forecast Supply and Demand Outlook (2032)</h2>
+
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
+						<tr>
+						<th>Country</th>
+						<th>Natural Gas</th>
+						<th>NGLs</th>
+						<th>Crude Oil</th>
+						<th>Condensate</th>
+						<th>Crude + Condensate</th>
+						<th>Key Growth Driver</th>
+						</tr>
+						</thead>
+
+						<tbody>
+
+						<tr>
+						<td>USA</td>
+						<td>
+						Supply: ~1,320 BCM<br>
+						Demand: ~1,020 BCM
+						</td>
+						<td>
+						Supply: ~8.8 MMBPD<br>
+						Demand: ~6.8 MMBPD
+						</td>
+						<td>
+						Supply: ~15.2 MMBPD<br>
+						Demand: ~21.0 MMBPD
+						</td>
+						<td>
+						Supply: ~3.3 MMBPD<br>
+						Demand: ~1.0 MMBPD
+						</td>
+						<td>
+						Supply: ~18.5 MMBPD<br>
+						Demand: ~22.0 MMBPD
+						</td>
+						<td>Shale expansion and LNG exports</td>
 						</tr>
 
 						<tr>
-						  <td>9</td>
-						  <td>m-Xylene</td>
-						  <td>Isophthalic acid → PET resins</td>
-						  <td>~5–6</td>
-						  <td>~6–8</td>
-						  <td>~3.2–4.0%</td>
-						  <td>Driven by specialty PET and coatings applications requiring higher thermal and chemical resistance. More niche but higher value chain exposure.</td>
+						<td>China</td>
+						<td>
+						Supply: ~340 BCM<br>
+						Demand: ~620 BCM
+						</td>
+						<td>
+						Supply: ~0.9 MMBPD<br>
+						Demand: ~3.5 MMBPD
+						</td>
+						<td>
+						Supply: ~4.5 MMBPD<br>
+						Demand: ~18.5 MMBPD
+						</td>
+						<td>
+						Supply: ~0.5 MMBPD<br>
+						Demand: ~1.8 MMBPD
+						</td>
+						<td>
+						Supply: ~5.0 MMBPD<br>
+						Demand: ~20.3 MMBPD
+						</td>
+						<td>Petrochemical and refining growth</td>
 						</tr>
-					  </tbody>
-					</table>
-					<p>Global Aromatics Market Dynamics and Price Drivers </p>
-					
-			
-			<ul>
-				  <li><b>Global demand structure:</b> Aromatics demand is primarily driven by downstream polymers—especially polyester (PTA from xylenes), polystyrene (styrene), polyurethanes (toluene/benzene derivatives), and epoxy/polycarbonate chains. Packaging, construction, automotive, and textiles remain the dominant consumption sectors globally.</li>
 
-				  <li><b>China-led capacity expansion:</b> Large-scale integrated refining–aromatics–petrochemical complexes in China have significantly expanded benzene, para-xylene, and styrene capacity. This has created structural oversupply in several aromatics chains, particularly xylenes and styrene derivatives, pressuring global margins.</li>
+						<tr>
+						<td>Saudi Arabia</td>
+						<td>
+						Supply: ~340 BCM<br>
+						Demand: ~210 BCM
+						</td>
+						<td>
+						Supply: ~3.1 MMBPD<br>
+						Demand: ~2.1 MMBPD
+						</td>
+						<td>
+						Supply: ~11.5 MMBPD<br>
+						Demand: ~4.5 MMBPD
+						</td>
+						<td>
+						Supply: ~1.8 MMBPD<br>
+						Demand: ~0.8 MMBPD
+						</td>
+						<td>
+						Supply: ~13.3 MMBPD<br>
+						Demand: ~5.3 MMBPD
+						</td>
+						<td>Integrated refinery-petrochemical projects</td>
+						</tr>
 
-				  <li><b>Global trade imbalance:</b> Excess Chinese production is increasingly displacing imports in Asia while exporting surplus aromatics and derivatives. This is reshaping global trade flows, reducing export opportunities for traditional suppliers in Northeast Asia, the Middle East, and Europe.</li>
+						<tr>
+						<td>India</td>
+						<td>
+						Supply: ~55 BCM<br>
+						Demand: ~125 BCM
+						</td>
+						<td>
+						Supply: ~0.3 MMBPD<br>
+						Demand: ~1.4 MMBPD
+						</td>
+						<td>
+						Supply: ~1.0 MMBPD<br>
+						Demand: ~7.5 MMBPD
+						</td>
+						<td>
+						Supply: ~0.1 MMBPD<br>
+						Demand: ~0.6 MMBPD
+						</td>
+						<td>
+						Supply: ~1.1 MMBPD<br>
+						Demand: ~8.1 MMBPD
+						</td>
+						<td>Transportation and industrialization demand</td>
+						</tr>
 
-				  <li><b>Regional divergence – Asia:</b> Asia (especially China and India) remains the fastest-growing demand center due to textile (polyester), packaging, and construction growth. However, China’s self-sufficiency trend is reducing regional import dependence and intensifying intra-Asia competition.</li>
+						<tr>
+						<td>Russia</td>
+						<td>
+						Supply: ~780 BCM<br>
+						Demand: ~520 BCM
+						</td>
+						<td>
+						Supply: ~1.5 MMBPD<br>
+						Demand: ~1.0 MMBPD
+						</td>
+						<td>
+						Supply: ~10.1 MMBPD<br>
+						Demand: ~4.2 MMBPD
+						</td>
+						<td>
+						Supply: ~1.4 MMBPD<br>
+						Demand: ~0.7 MMBPD
+						</td>
+						<td>
+						Supply: ~11.5 MMBPD<br>
+						Demand: ~4.9 MMBPD
+						</td>
+						<td>Asian export diversification</td>
+						</tr>
 
-				  <li><b>Regional divergence – Europe:</b> Europe faces declining aromatics competitiveness due to high energy costs, stricter carbon regulations, and refinery closures. This is leading to net capacity rationalization and increased import reliance for benzene and xylenes.</li>
+						<tr>
+						<td>Qatar</td>
+						<td>
+						Supply: ~310 BCM<br>
+						Demand: ~55 BCM
+						</td>
+						<td>
+						Supply: ~1.9 MMBPD<br>
+						Demand: ~0.4 MMBPD
+						</td>
+						<td>
+						Supply: ~1.8 MMBPD<br>
+						Demand: ~0.5 MMBPD
+						</td>
+						<td>
+						Supply: ~2.2 MMBPD<br>
+						Demand: ~0.4 MMBPD
+						</td>
+						<td>
+						Supply: ~4.0 MMBPD<br>
+						Demand: ~0.9 MMBPD
+						</td>
+						<td>North Field LNG expansion</td>
+						</tr>
 
-				  <li><b>North America positioning:</b> The US remains relatively balanced in benzene and toluene due to shale-derived feedstock advantages. However, export exposure is increasing as global oversupply reduces arbitrage margins, especially for styrene chain products.</li>
+						</tbody>
+						</table>
 
-				  <li><b>Feedstock and refinery constraints:</b> Aromatics production is tightly linked to naphtha reforming and steam cracking. Refinery run cuts, shifting fuel demand (EV penetration), and reduced gasoline blending demand for toluene affect supply stability and co-product availability.</li>
+						<h2>Hydrocarbon Market Outlook and Investment Insights (2027–2032)</h2>
 
-				  <li><b>Regulatory tightening:</b> Environmental regulations targeting VOC emissions, plastic waste (especially polystyrene), and hazardous aromatic intermediates are tightening in Europe and parts of North America, indirectly suppressing demand growth in certain derivatives.</li>
+						<ul>
 
-				  <li><b>Capacity addition vs demand mismatch:</b> While demand grows at mid-single digits in select segments (PET and polyester), capacity additions—particularly in China for para-xylene, styrene, and phenol chains—are outpacing global demand growth, leading to persistent margin compression cycles.</li>
+						<li>
+						Global upstream capital investment is expected to rise significantly in LNG, deepwater, shale, and condensate-rich gas developments due to strong long-term gas and petrochemical feedstock demand growth.
+						</li>
 
-				  <li><b>Underpinning market impact:</b> The resulting oversupply cycle is causing price volatility, lower integration margins for independent aromatics producers, and increased consolidation pressure globally. Future competitiveness will depend on integration depth, energy efficiency, and proximity to downstream polymer demand hubs.</li>
-</ul>
-			
-        </div>
+						<li>
+						North America will remain the dominant supply growth region because shale reserves offer shorter project cycles, lower development risk, and rapid capital payback compared to conventional megaprojects.
+						</li>
+
+						<li>
+						Middle East production growth is highly dependent on sustained sovereign investment in integrated oil, gas, LNG, refining, and petrochemical infrastructure.
+						</li>
+
+						<li>
+						Crude prices above approximately $75/bbl significantly improve economics for offshore, Arctic, ultra-deepwater, and oil sands developments, accelerating global reserve monetization.
+						</li>
+
+						<li>
+						Low-cost conventional reserves in Saudi Arabia, UAE, Iraq, and Qatar continue attracting major investment because lifting costs remain among the lowest globally.
+						</li>
+
+						<li>
+						Asia Pacific demand growth will remain the primary driver for refining, LNG import terminals, condensate splitters, petrochemical crackers, and downstream infrastructure investment.
+						</li>
+
+						<li>
+						NGL demand growth is expected to outpace crude demand growth due to increasing global petrochemical consumption and competitive ethane-based cracking economics.
+						</li>
+
+						<li>
+						Natural gas investment is increasingly supported by energy transition policies because gas is viewed as a bridge fuel supporting renewable intermittency and lower carbon intensity power generation.
+						</li>
+
+						<li>
+						Condensate-rich LNG projects are becoming strategically important because condensate provides premium petrochemical and naphtha feedstock value in addition to LNG export revenue.
+						</li>
+
+						<li>
+						Geopolitical risks, sanctions, shipping disruptions, carbon taxation, and OPEC+ production management policies will remain major macroeconomic variables influencing global hydrocarbon supply-demand balances and investment timing.
+						</li>
+
+						</ul>
+
+						<h2>Regional Supply Growth Outlook Through 2032</h2>
+
+						<table border="1" cellspacing="0" cellpadding="6">
+
+						<thead>
+						<tr>
+						<th>Region</th>
+						<th>Primary Growth Stream</th>
+						<th>Main Investment Driver</th>
+						<th>Key Challenges</th>
+						</tr>
+						</thead>
+
+						<tbody>
+
+						<tr>
+						<td>North America</td>
+						<td>Natural Gas, NGLs</td>
+						<td>Shale and LNG exports</td>
+						<td>Pipeline constraints and labor inflation</td>
+						</tr>
+
+						<tr>
+						<td>Middle East</td>
+						<td>Crude, LNG, Condensate</td>
+						<td>Low-cost reserves and export projects</td>
+						<td>Geopolitical exposure</td>
+						</tr>
+
+						<tr>
+						<td>Asia Pacific</td>
+						<td>Refining and Petrochemicals</td>
+						<td>Industrialization and population growth</td>
+						<td>Import dependency</td>
+						</tr>
+
+						<tr>
+						<td>Russia & CIS</td>
+						<td>Gas and Crude Exports</td>
+						<td>Asian market redirection</td>
+						<td>Sanctions and financing access</td>
+						</tr>
+
+						<tr>
+						<td>Latin America</td>
+						<td>Offshore Crude</td>
+						<td>Deepwater reserve development</td>
+						<td>Political instability</td>
+						</tr>
+
+						<tr>
+						<td>Africa</td>
+						<td>LNG and Condensate</td>
+						<td>Untapped reserves</td>
+						<td>Infrastructure limitations</td>
+						</tr>
+
+						</tbody>
+						</table>
+								
+		</div>
     </div>
 
     <!-- Capacity TAB -->
