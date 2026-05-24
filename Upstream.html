@@ -106,7 +106,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 		<div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
 		<div class="tab" data-tab="Trade-Flow">Trade-Flow</div>
 		<div class="tab" data-tab="Property">Property</div>
-        <div class="tab" data-tab="Specs">Assay</div>		
+        <div class="tab" data-tab="Assay">Assay</div>		
 		<div class="tab" data-tab="Latest-News">News</div>
 		
         
@@ -1900,290 +1900,554 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     <!-- Specs -->
     <div id="Specs" class="tab-content">
         <div class="section">
-            <h2>ASTM Document IDs / Specifications for Major Industrial Chemicals</h2>
-            <p>The ASTM standards are among the most commonly referenced industrial specifications for these chemicals.</p>
-			
-				<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%;">
+            
+			<h2>Hydrocarbon Assay Data for H₂, LNG, NGLs, Condensate, and Crude Oils</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+
 					<thead>
-						<tr>
-							<th>ASTM Document ID</th>
-							<th>Title / Specification</th>
-							<th>Applicable Aromatics</th>
-							<th>Important Product Specifications</th>
-							<th>Purpose</th>
-						</tr>
+					<tr>
+					<th>Stream</th>
+					<th>Typical Composition / Assay Data</th>
+					<th>API Gravity</th>
+					<th>Sulfur wt%</th>
+					<th>Nitrogen ppm</th>
+					<th>TAN (mg KOH/g)</th>
+					<th>Metals (Ni+V ppm)</th>
+					<th>Paraffins / Aromatics / Naphthenes</th>
+					<th>Boiling Range</th>
+					<th>Key Refining Yield Characteristics</th>
+					<th>Notes</th>
+					</tr>
 					</thead>
+
 					<tbody>
-						<tr>
-							<td>ASTM D2359</td>
-							<td>Standard Specification for Refined Benzene-535</td>
-							<td>Benzene</td>
-							<td>
-								Purity ≥ 99.9 wt%<br>
-								Sulfur ≤ 1 ppm<br>
-								Non-aromatics ≤ 0.1 wt%<br>
-								Water clear appearance
-							</td>
-							<td>Product quality specification for nitration/chemical grade benzene</td>
-						</tr>
 
-						<tr>
-							<td>ASTM D841</td>
-							<td>Standard Specification for Nitration Grade Toluene</td>
-							<td>Toluene</td>
-							<td>
-								Toluene purity ≥ 99.5 wt%<br>
-								Sulfur ≤ 1 ppm<br>
-								Non-aromatics controlled<br>
-								Acid wash color specification
-							</td>
-							<td>Defines purity and impurity limits for nitration-grade toluene</td>
-						</tr>
+					<tr>
+					<td>Hydrogen (H₂)</td>
 
-						<tr>
-							<td>ASTM D2360</td>
-							<td>Trace Impurities in Monocyclic Aromatic Hydrocarbons by GC</td>
-							<td>Toluene, Xylenes, Aromatics</td>
-							<td>
-								Trace paraffins<br>
-								Olefins content<br>
-								Sulfur impurities<br>
-								Oxygenates detection
-							</td>
-							<td>GC analysis of trace impurities and non-aromatics</td>
-						</tr>
+					<td>
+					&gt;99.9 mol% H₂
+					</td>
 
-						<tr>
-							<td>ASTM D3437</td>
-							<td>Sampling and Handling Liquid Cyclic Products</td>
-							<td>Aromatics &amp; cyclic hydrocarbons</td>
-							<td>
-								Representative sampling<br>
-								Moisture contamination prevention<br>
-								Vapor loss control
-							</td>
-							<td>Sampling and sample handling procedures</td>
-						</tr>
+					<td>N/A</td>
+					<td>Nil</td>
+					<td>Nil</td>
+					<td>Nil</td>
+					<td>Nil</td>
 
-						<tr>
-							<td>ASTM D4492</td>
-							<td>Analysis of Benzene by Gas Chromatography</td>
-							<td>Benzene</td>
-							<td>
-								Benzene assay<br>
-								Non-aromatics concentration<br>
-								Toluene trace measurement
-							</td>
-							<td>Purity determination</td>
-						</tr>
+					<td>
+					Non-hydrocarbon gas
+					</td>
 
-						<tr>
-							<td>ASTM D3797</td>
-							<td>Analysis of o-Xylene by Gas Chromatography</td>
-							<td>o-Xylene</td>
-							<td>
-								o-Xylene purity ≥ 99 wt%<br>
-								Ethylbenzene trace control<br>
-								Isomer distribution
-							</td>
-							<td>Purity analysis</td>
-						</tr>
+					<td>
+					Cryogenic / compressed gas
+					</td>
 
-						<tr>
-							<td>ASTM D3798</td>
-							<td>Analysis of p-Xylene by Gas Chromatography</td>
-							<td>p-Xylene</td>
-							<td>
-								p-Xylene purity ≥ 99.7 wt%<br>
-								Non-aromatics control<br>
-								Sulfur trace limits
-							</td>
-							<td>Purity analysis</td>
-						</tr>
+					<td>
+					Hydrotreating, hydrocracking, ammonia synthesis
+					</td>
 
-						<tr>
-							<td>ASTM D7504</td>
-							<td>Trace Impurities in Aromatics by GC</td>
-							<td>Benzene, Toluene, Xylenes</td>
-							<td>
-								Effective carbon number analysis<br>
-								Trace oxygenates<br>
-								Low-level sulfur analysis
-							</td>
-							<td>Advanced impurity analysis</td>
-						</tr>
+					<td>
+					Hydrogen assay mainly focuses on purity, moisture, oxygen, nitrogen, sulfur traces, and pressure-temperature conditions.
+					</td>
+					</tr>
 
-						<tr>
-							<td>ASTM D5917</td>
-							<td>Trace Impurities in Aromatics by Capillary GC</td>
-							<td>BTX Aromatics</td>
-							<td>
-								Hydrocarbon impurity profile<br>
-								Trace olefins<br>
-								C9+ aromatics
-							</td>
-							<td>Trace impurity measurement</td>
-						</tr>
+					<tr>
+					<td>LNG</td>
 
-						<tr>
-							<td>ASTM D4735</td>
-							<td>Hydrocarbon Types by Fluorescent Indicator Adsorption</td>
-							<td>Aromatics in fuels</td>
-							<td>
-								Aromatics volume %<br>
-								Olefins content<br>
-								Saturates composition
-							</td>
-							<td>Aromatics content determination</td>
-						</tr>
+					<td>
+					CH₄: 85–96%<br>
+					C₂: 2–8%<br>
+					C₃+: 1–5%<br>
+					N₂: &lt;1%
+					</td>
 
-						<tr>
-							<td>ASTM D1319</td>
-							<td>Hydrocarbon Types in Petroleum Products</td>
-							<td>Gasoline aromatics</td>
-							<td>
-								Aromatics concentration<br>
-								Olefins and saturates<br>
-								Fuel composition profile
-							</td>
-							<td>Aromatics, olefins, saturates analysis</td>
-						</tr>
+					<td>
+					120–180
+					</td>
 
-						<tr>
-							<td>ASTM D5580</td>
-							<td>BTEX and Heavy Aromatics in Gasoline by GC</td>
-							<td>BTEX</td>
-							<td>
-								Benzene vol%<br>
-								Total aromatics<br>
-								Ethylbenzene and xylene analysis
-							</td>
-							<td>Aromatics composition in gasoline</td>
-						</tr>
+					<td>
+					&lt;0.01
+					</td>
 
-						<tr>
-							<td>ASTM D5769</td>
-							<td>Benzene, Toluene and Total Aromatics by GC/MS</td>
-							<td>BTX &amp; total aromatics</td>
-							<td>
-								Benzene concentration<br>
-								Total aromatic content<br>
-								GC/MS fingerprinting
-							</td>
-							<td>Gasoline aromatic analysis</td>
-						</tr>
+					<td>
+					Negligible
+					</td>
 
-						<tr>
-							<td>ASTM D3606</td>
-							<td>Benzene and Toluene in Gasoline by GC</td>
-							<td>Benzene/Toluene</td>
-							<td>
-								Benzene vol%<br>
-								Toluene concentration<br>
-								Fuel compliance monitoring
-							</td>
-							<td>Fuel quality testing</td>
-						</tr>
+					<td>
+					Nil
+					</td>
 
-						<tr>
-							<td>ASTM D6563</td>
-							<td>C8 Aromatic Isomers in Xylenes by GC</td>
-							<td>Mixed xylenes</td>
-							<td>
-								p-Xylene concentration<br>
-								m-Xylene and o-Xylene distribution<br>
-								Ethylbenzene level
-							</td>
-							<td>Xylene isomer distribution analysis</td>
-						</tr>
+					<td>
+					Nil
+					</td>
 
-						<tr>
-							<td>ASTM D848</td>
-							<td>Acid Wash Color of Industrial Aromatic Hydrocarbons</td>
-							<td>Aromatics</td>
-							<td>
-								Acid wash color rating<br>
-								Oxidation impurities<br>
-								Product appearance
-							</td>
-							<td>Color quality testing</td>
-						</tr>
+					<td>
+					Highly paraffinic
+					</td>
 
-						<tr>
-							<td>ASTM D849</td>
-							<td>Copper Strip Corrosion by Aromatic Hydrocarbons</td>
-							<td>Aromatics</td>
-							<td>
-								Copper corrosion rating<br>
-								Sulfur reactivity<br>
-								Corrosive contaminants
-							</td>
-							<td>Corrosion tendency testing</td>
-						</tr>
+					<td>
+					-260°F cryogenic liquid
+					</td>
 
-						<tr>
-							<td>ASTM D1209</td>
-							<td>Color of Clear Liquids (Pt-Co Scale)</td>
-							<td>Aromatics / solvents</td>
-							<td>
-								APHA color<br>
-								Clarity<br>
-								Haze evaluation
-							</td>
-							<td>Product color measurement</td>
-						</tr>
+					<td>
+					High methane heating value and clean combustion
+					</td>
 
-						<tr>
-							<td>ASTM E2680</td>
-							<td>Appearance of Clear Liquids</td>
-							<td>Aromatics / solvents</td>
-							<td>
-								Visual clarity<br>
-								Haze detection<br>
-								Free water observation
-							</td>
-							<td>Visual appearance and haze evaluation</td>
-						</tr>
+					<td>
+					LNG assay quality depends heavily on methane concentration, Wobbe Index, heating value, and inert gas content.
+					</td>
+					</tr>
 
-						<tr>
-							<td>ASTM D1685</td>
-							<td>Ethylbenzene Content of Xylene Mixtures by GC</td>
-							<td>Ethylbenzene / xylene mixtures</td>
-							<td>
-								Ethylbenzene wt%<br>
-								Xylene isomer balance<br>
-								Composition accuracy
-							</td>
-							<td>Composition analysis</td>
-						</tr>
+					<tr>
+					<td>NGLs (Mixed)</td>
 
-						<tr>
-							<td>ASTM D6809</td>
-							<td>QA/QC Procedures for Aromatic Hydrocarbons</td>
-							<td>Aromatics</td>
-							<td>
-								Laboratory QA/QC limits<br>
-								Calibration verification<br>
-								Repeatability and reproducibility
-							</td>
-							<td>QA/QC procedures and laboratory practices</td>
-						</tr>
+					<td>
+					Ethane: 15–40%<br>
+					Propane: 20–45%<br>
+					Butanes: 15–35%<br>
+					Natural gasoline: 5–20%
+					</td>
+
+					<td>
+					80–140
+					</td>
+
+					<td>
+					&lt;0.05
+					</td>
+
+					<td>
+					Low
+					</td>
+
+					<td>
+					Negligible
+					</td>
+
+					<td>
+					Nil
+					</td>
+
+					<td>
+					Strongly paraffinic
+					</td>
+
+					<td>
+					-128°F to 400°F
+					</td>
+
+					<td>
+					Petrochemical feedstock and LPG production
+					</td>
+
+					<td>
+					NGL assay composition varies significantly depending on shale basin, gas processing design, and fractionation sequence.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+
+					<td>
+					C₅–C₁₂ dominant<br>
+					High naphtha fraction
+					</td>
+
+					<td>
+					50–75
+					</td>
+
+					<td>
+					0.02–0.30
+					</td>
+
+					<td>
+					50–500
+					</td>
+
+					<td>
+					0.01–0.20
+					</td>
+
+					<td>
+					&lt;1
+					</td>
+
+					<td>
+					Highly paraffinic and light naphthenic
+					</td>
+
+					<td>
+					100°F – 550°F
+					</td>
+
+					<td>
+					High naphtha and reformer feed yield
+					</td>
+
+					<td>
+					Condensate assays emphasize light-end composition, Reid vapor pressure, and naphtha yield quality.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Light Sweet Crude</td>
+
+					<td>
+					High gasoline and distillate fractions
+					</td>
+
+					<td>
+					35–45
+					</td>
+
+					<td>
+					0.05–0.50
+					</td>
+
+					<td>
+					100–1,000
+					</td>
+
+					<td>
+					0.05–0.50
+					</td>
+
+					<td>
+					1–20
+					</td>
+
+					<td>
+					Paraffinic / mixed base
+					</td>
+
+					<td>
+					100°F – 1,050°F
+					</td>
+
+					<td>
+					High gasoline, diesel, and jet fuel yield
+					</td>
+
+					<td>
+					Preferred refinery feedstock because of lower sulfur and reduced upgrading severity.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Medium Crude</td>
+
+					<td>
+					Balanced distillate and vacuum gas oil profile
+					</td>
+
+					<td>
+					22–34
+					</td>
+
+					<td>
+					0.5–1.5
+					</td>
+
+					<td>
+					500–2,000
+					</td>
+
+					<td>
+					0.10–1.00
+					</td>
+
+					<td>
+					10–80
+					</td>
+
+					<td>
+					Mixed paraffinic and naphthenic
+					</td>
+
+					<td>
+					150°F – 1,100°F
+					</td>
+
+					<td>
+					Balanced FCC and hydrocracker feed production
+					</td>
+
+					<td>
+					Medium crude assays are widely used for conversion refinery optimization and blending economics.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+
+					<td>
+					High residue and asphaltene content
+					</td>
+
+					<td>
+					8–22
+					</td>
+
+					<td>
+					1.5–5.5
+					</td>
+
+					<td>
+					2,000–8,000
+					</td>
+
+					<td>
+					0.5–4.0
+					</td>
+
+					<td>
+					50–500
+					</td>
+
+					<td>
+					Naphthenic / aromatic dominant
+					</td>
+
+					<td>
+					200°F – 1,200°F+
+					</td>
+
+					<td>
+					High residue, coke, and fuel oil production
+					</td>
+
+					<td>
+					Heavy crude assays focus heavily on residuum quality, CCR, asphaltenes, sulfur, and metals.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+
+					<td>
+					Low sulfur hydrocarbon mixture
+					</td>
+
+					<td>
+					30–45
+					</td>
+
+					<td>
+					&lt;0.5
+					</td>
+
+					<td>
+					Low
+					</td>
+
+					<td>
+					Low
+					</td>
+
+					<td>
+					Low
+					</td>
+
+					<td>
+					Paraffinic dominant
+					</td>
+
+					<td>
+					100°F – 1,050°F
+					</td>
+
+					<td>
+					Lower hydrotreating requirement
+					</td>
+
+					<td>
+					Sweet crude commands premium pricing due to lower sulfur removal costs and cleaner product slate.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sour Crude</td>
+
+					<td>
+					High sulfur and heavier fractions
+					</td>
+
+					<td>
+					15–35
+					</td>
+
+					<td>
+					&gt;0.5
+					</td>
+
+					<td>
+					Moderate–high
+					</td>
+
+					<td>
+					Moderate
+					</td>
+
+					<td>
+					Elevated
+					</td>
+
+					<td>
+					Aromatic / naphthenic
+					</td>
+
+					<td>
+					150°F – 1,200°F
+					</td>
+
+					<td>
+					Higher residue and desulfurization load
+					</td>
+
+					<td>
+					Sour crude processing requires larger hydrogen capacity, sulfur recovery units, and corrosion management.
+					</td>
+					</tr>
 
 					</tbody>
-				</table>					
+					</table>
+
+					<h2>Additional Assay Parameter Notes</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+
+					<thead>
+					<tr>
+					<th>Assay Parameter</th>
+					<th>Technical Notes</th>
+					</tr>
+					</thead>
+
+					<tbody>
+
+					<tr>
+					<td>API Gravity</td>
+					<td>
+					Indicates crude density relative to water and strongly influences refinery product yield economics.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sulfur Content</td>
+					<td>
+					Critical parameter for environmental compliance, catalyst life, and refinery hydrotreating severity.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Nitrogen Content</td>
+					<td>
+					High nitrogen compounds can poison catalysts and reduce hydroprocessing efficiency.
+					</td>
+					</tr>
+
+					<tr>
+					<td>TAN (Total Acid Number)</td>
+					<td>
+					Measures crude acidity and corrosion potential in refinery high-temperature systems.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Nickel and Vanadium</td>
+					<td>
+					Metals contribute to catalyst fouling, coke formation, and refinery operational challenges.
+					</td>
+					</tr>
+
+					<tr>
+					<td>PNA Distribution</td>
+					<td>
+					Paraffin-Naphthene-Aromatic analysis influences octane quality, cracking behavior, and petrochemical value.
+					</td>
+					</tr>
+
+					<tr>
+					<td>TBP Distillation Curve</td>
+					<td>
+					True Boiling Point assay defines refinery cut yields and fractionation behavior.
+					</td>
+					</tr>
+
+					<tr>
+					<td>CCR (Conradson Carbon Residue)</td>
+					<td>
+					Higher CCR indicates elevated coke-forming tendency during thermal conversion processing.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Asphaltenes</td>
+					<td>
+					Asphaltene concentration affects stability, blending compatibility, and fouling potential.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Gas Composition</td>
+					<td>
+					Gas and LNG assays typically focus on methane purity, Wobbe Index, HHV, and dew point specifications.
+					</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<h2>Hydrocarbon Assay Discussion and Industry References</h2>
 
 					<ul>
-						<li>Benzene is one of the primary aromatic hydrocarbons covered under ASTM standards for purity, sulfur content, trace impurities, and product quality verification.</li>
-						<li>Toluene ASTM specifications commonly address nitration-grade quality, gas chromatography analysis, impurity profiling, and sulfur monitoring.</li>
-						<li>Ethylbenzene and mixed xylenes are analyzed using ASTM gas chromatography methods to determine composition accuracy, isomer distribution, and contaminant levels.</li>
-						<li>o-Xylene and p-Xylene specifications focus on high-purity aromatic applications, including petrochemical feedstocks and polyester manufacturing intermediates.</li>
-						<li>C9 aromatics and solvent aromatics are evaluated for composition, appearance, corrosion characteristics, color quality, and non-aromatic hydrocarbon content.</li>
-						<li>Frequently used ASTM categories in the aromatics industry include product specifications, gas chromatography methods, trace impurity analysis, and purity determination.</li>
-						<li>Additional ASTM testing categories include sampling procedures, corrosion testing, sulfur analysis, and color or appearance evaluation for quality assurance purposes.</li>
-						<li>ASTM D2359 and ASTM D4492 are commonly referenced together for benzene specification compliance, purity verification, and chromatographic analysis.</li>
-						<li>ASTM D841 and ASTM D2360 are widely used together for toluene quality specifications, impurity analysis, and detailed GC-based compositional testing, while ASTM D6563 is important for mixed xylene isomer analysis.</li>
-						<li>These ASTM standards are extensively applied across petrochemical plants, refineries, storage terminals, laboratory QA/QC programs, trading specifications, and downstream derivative manufacturing operations.</li>
-						</ul>
+
+					<li>
+					Crude oil assays are fundamental for refinery planning, crude valuation, blending optimization, and product yield forecasting.
+					</li>
+
+					<li>
+					True Boiling Point (TBP) distillation curves are among the most important refinery assay tools for cut-point optimization.
+					</li>
+
+					<li>
+					Sulfur concentration strongly impacts refinery hydrogen demand, catalyst replacement frequency, and sulfur recovery capacity.
+					</li>
+
+					<li>
+					Heavy crude oils typically contain elevated metals, CCR, and asphaltenes that require complex upgrading infrastructure.
+					</li>
+
+					<li>
+					Sweet crude oils generally command premium pricing because of lower processing costs and higher light-product yields.
+					</li>
+
+					<li>
+					Condensate assays are increasingly important because condensates are widely used in petrochemical naphtha and aromatics production.
+					</li>
+
+					<li>
+					LNG quality specifications focus heavily on methane number, heating value, Wobbe Index, and liquefaction compatibility.
+					</li>
+
+					<li>
+					NGL assays vary substantially by shale basin, gas composition, and fractionation plant operating conditions.
+					</li>
+
+					<li>
+					Common industry assay standards include ASTM, GPA, UOP, IP Test Methods, ISO, GPSA Engineering Data Book, and refinery-specific assay systems.
+					</li>
+
+					<li>
+					Modern refinery LP models integrate detailed assay databases to optimize crude selection, product margins, energy efficiency, and emissions management.
+					</li>
+
+					</ul>
+								
+			
         </div>
     </div>
 
