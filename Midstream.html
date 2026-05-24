@@ -105,14 +105,284 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 		<div class="tab" data-tab="Supply">Supply</div>
 		<div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
 		<div class="tab" data-tab="Trade-Flow">Trade-Flow</div>
+		<div class="tab" data-tab="Pipe">Pipelines</div>
+		<div class="tab" data-tab="Ports">Ports</div>
 		<div class="tab" data-tab="Property">Property</div>
-        <div class="tab" data-tab="Assay">Assay</div>		
+        <div class="tab" data-tab="Specs">Specs</div>		
 		<div class="tab" data-tab="Latest-News">News</div>
 		
         
     </div>
 
-		<!-- Trade Flow TAB -->
+			<!-- Ports Infrastucture  TAB -->
+    <div id="Ports" class="tab-content">
+        <div class="section">
+            <h2>Seaports</h2>
+            <p>Seaports with Demand centers</p>
+			
+			<h2>Global H2, LNG, NGLs, condensate Seaports </h2>
+
+			
+		</div>
+	</div>	
+	
+	
+		<!-- Pipelines Infrastucture  TAB -->
+    <div id="Pipe" class="tab-content">
+        <div class="section">
+            <h2>Pipelines</h2>
+            <p>Pipelines with Demand centers</p>
+			
+			<h2>Global H2, LNG, NGLs, condensate Pipelines </h2>
+				
+				<table border="1" cellspacing="0" cellpadding="6">
+					<thead>
+					<tr>
+					<th>Region</th>
+					<th>Pipeline Name</th>
+					<th>Type</th>
+					<th>Countries / Route</th>
+					<th>Major Owner / Operator</th>
+					<th>Approx. Capacity</th>
+					<th>Notes</th>
+					</tr>
+					</thead>
+					<tbody>
+
+					<tr>
+					<td>USA</td>
+					<td>Permian Highway Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Texas Permian Basin to Gulf Coast</td>
+					<td>Kinder Morgan</td>
+					<td>~2.1 Bcf/d</td>
+					<td>Major shale gas evacuation system supporting LNG export demand from Gulf Coast terminals.</td>
+					</tr>
+
+					<tr>
+					<td>USA</td>
+					<td>Transco Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Texas to New York</td>
+					<td>Williams Companies</td>
+					<td>~20 Bcf/d</td>
+					<td>Largest interstate gas pipeline in the U.S.; critical for Northeast heating demand.</td>
+					</tr>
+
+					<tr>
+					<td>USA</td>
+					<td>EPIC NGL Pipeline</td>
+					<td>NGL</td>
+					<td>Permian Basin to Corpus Christi</td>
+					<td>EPIC Midstream</td>
+					<td>~175,000 bpd+</td>
+					<td>Transports Y-grade NGLs to Gulf Coast fractionation and export hubs.</td>
+					</tr>
+
+					<tr>
+					<td>USA</td>
+					<td>Shin Oak Pipeline</td>
+					<td>NGL</td>
+					<td>Permian Basin to Texas Gulf Coast</td>
+					<td>Enterprise Products</td>
+					<td>~550,000 bpd</td>
+					<td>Feeds Mont Belvieu fractionation complex and export terminals.</td>
+					</tr>
+
+					<tr>
+					<td>USA</td>
+					<td>Double E Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Delaware Basin to Waha Hub</td>
+					<td>MPLX / Summit Midstream</td>
+					<td>~1.35 Bcf/d</td>
+					<td>Supports Permian gas takeaway capacity expansion.</td>
+					</tr>
+
+					<tr>
+					<td>Europe</td>
+					<td>Trans Adriatic Pipeline (TAP)</td>
+					<td>Natural Gas</td>
+					<td>Greece–Albania–Italy</td>
+					<td>Snam / BP / SOCAR</td>
+					<td>~10 bcm/year</td>
+					<td>Part of Southern Gas Corridor bringing Azeri gas to Europe.</td>
+					</tr>
+
+					<tr>
+					<td>Europe</td>
+					<td>Yamal-Europe Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Russia–Belarus–Poland–Germany</td>
+					<td>Gazprom / EuRoPol Gaz</td>
+					<td>~33 bcm/year</td>
+					<td>Strategic Russian export route; geopolitical disruptions after Ukraine conflict.</td>
+					</tr>
+
+					<tr>
+					<td>Europe</td>
+					<td>Nord Stream 1</td>
+					<td>Natural Gas</td>
+					<td>Russia to Germany via Baltic Sea</td>
+					<td>Gazprom</td>
+					<td>~55 bcm/year</td>
+					<td>Subsea pipeline heavily impacted by sanctions and sabotage events. </td>
+					</tr>
+
+					<tr>
+					<td>Russia</td>
+					<td>Power of Siberia</td>
+					<td>Natural Gas</td>
+					<td>Russia to China</td>
+					<td>Gazprom</td>
+					<td>~38 bcm/year</td>
+					<td>Key eastward export diversification route to China.</td>
+					</tr>
+
+					<tr>
+					<td>Russia</td>
+					<td>Central Asia-Center Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Turkmenistan–Uzbekistan–Kazakhstan–Russia</td>
+					<td>Gazprom</td>
+					<td>~90 bcm/year</td>
+					<td>Historically major Soviet-era gas transmission network.</td>
+					</tr>
+
+					<tr>
+					<td>Latin America</td>
+					<td>GASBOL Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Bolivia to Brazil</td>
+					<td>TBG / YPFB / Petrobras</td>
+					<td>~30 million m³/day</td>
+					<td>Largest cross-border gas pipeline in South America.</td>
+					</tr>
+
+					<tr>
+					<td>Latin America</td>
+					<td>YABOG Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Bolivia to Argentina</td>
+					<td>YPFB / TGN</td>
+					<td>~6.2 bcm/year</td>
+					<td>Operational since 1972; major Bolivia gas export corridor.</td>
+					</tr>
+
+					<tr>
+					<td>Africa</td>
+					<td>West African Gas Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Nigeria–Benin–Togo–Ghana</td>
+					<td>WAPCo</td>
+					<td>~474 MMcf/d</td>
+					<td>Supports regional power generation and industrial fuel supply.</td>
+					</tr>
+
+					<tr>
+					<td>Africa</td>
+					<td>Trans-Saharan Gas Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Nigeria–Niger–Algeria</td>
+					<td>NNPC / Sonatrach (planned)</td>
+					<td>~30 bcm/year</td>
+					<td>Planned mega-project targeting European gas markets.</td>
+					</tr>
+
+					<tr>
+					<td>Asia</td>
+					<td>Central Asia-China Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Turkmenistan to China</td>
+					<td>CNPC</td>
+					<td>~55 bcm/year</td>
+					<td>Major Chinese import route reducing LNG dependency.</td>
+					</tr>
+
+					<tr>
+					<td>Asia</td>
+					<td>HVJ Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Hazira–Vijaipur–Jagdishpur (India)</td>
+					<td>GAIL India</td>
+					<td>~18 MMSCMD+</td>
+					<td>India’s backbone natural gas transmission system.</td>
+					</tr>
+
+					<tr>
+					<td>Asia</td>
+					<td>Dolphin Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Qatar–UAE–Oman</td>
+					<td>Dolphin Energy</td>
+					<td>~3.2 Bcf/d</td>
+					<td>Critical Gulf regional gas supply network.</td>
+					</tr>
+
+					<tr>
+					<td>Asia</td>
+					<td>Arab Gas Pipeline</td>
+					<td>Natural Gas</td>
+					<td>Egypt–Jordan–Syria–Lebanon</td>
+					<td>Multiple State Operators</td>
+					<td>~10 bcm/year</td>
+					<td>Subject to geopolitical instability and intermittent operations.</td>
+					</tr>
+
+					<tr>
+					<td>Global</td>
+					<td>Druzhba Pipeline</td>
+					<td>Condensate / Crude</td>
+					<td>Russia to Eastern Europe</td>
+					<td>Transneft</td>
+					<td>~1.2–1.4 million bpd</td>
+					<td>One of the world’s largest hydrocarbon pipeline systems.</td>
+					</tr>
+
+					<tr>
+					<td>USA</td>
+					<td>Cactus II Pipeline</td>
+					<td>Condensate / Crude</td>
+					<td>Permian Basin to Corpus Christi</td>
+					<td>Plains All American</td>
+					<td>~670,000 bpd</td>
+					<td>Supports condensate and light crude exports from Gulf Coast.</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<br>
+
+					<ul>
+					<li>Most major interstate natural gas pipelines in North America began operations between the 1950s and 2000s, while newer shale-related pipelines were commissioned after 2015.</li>
+
+					<li>Key global choke points impacting pipeline economics include the Strait of Hormuz, Turkish Straits, Suez Canal, Panama Canal, Baltic Sea corridor, and Ukraine transit routes.</li>
+
+					<li>Large operators include <b>Gazprom</b>, <b>Kinder Morgan</b>, <b>Williams</b>, <b>Enterprise Products</b>, <b>CNPC</b>, <b>GAIL</b>, <b>Petrobras</b>, and <b>Sonatrach</b>.</li>
+
+					<li>Typical natural gas transportation tariffs range from approximately <b>$0.20–$1.50/MMBtu</b> depending on distance, compression requirements, and regulatory structure.</li>
+
+					<li>Operational and maintenance (O&M) cost for major gas pipelines typically ranges between <b>1–4% of installed capital cost annually</b>.</li>
+
+					<li>NGL pipelines generally have lower per-unit transport cost than trucking or rail, commonly ranging from <b>$1–$5 per barrel</b> depending on route length.</li>
+
+					<li>Russian and European pipelines experienced significant utilization declines after the Russia–Ukraine conflict, leading Europe to increase LNG imports from the U.S., Qatar, and Norway.</li>
+
+					<li>Permian Basin pipeline expansions in the U.S. were primarily driven by associated gas production growth and LNG export demand from the Gulf Coast.</li>
+
+					<li>African gas pipeline developments face security risks, financing constraints, and geopolitical instability, particularly in the Sahel and North African transit corridors.</li>
+
+					<li>Asian gas pipelines increasingly support long-term energy security strategies, especially China’s diversification away from seaborne LNG imports and India’s expansion of city gas distribution networks.</li>
+					</ul>
+					 
+					Major pipeline capacities, regional routes, and ownership structures were compiled from EIA, Nord Stream AG, Planète Énergies, Rigzone, and global pipeline databases. :contentReference[oaicite:0]{index=0}
+					::contentReference[oaicite:1]{index=1}
+			
+		</div>
+	</div>	
+
+	<!-- Trade Flow TAB -->
     <div id="Trade-Flow" class="tab-content">
         <div class="section">
             <h2>Trade-Flow</h2>
@@ -180,11 +450,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         </div>
     </div>
 
-    <!-- Assay -->
-    <div id="Assay" class="tab-content">
+    <!-- Specs -->
+    <div id="Specs" class="tab-content">
         <div class="section">
             
-			<h2>Hydrocarbon Assay Data for H2, LNG, NGLs, condensate Oils</h2>
+			<h2>Hydrocarbon Specs Data for H2, LNG, NGLs, condensate Oils</h2>
 
 								
 			
