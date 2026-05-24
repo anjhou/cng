@@ -712,158 +712,524 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <p>Aromatics Prices</p>
 			<p>Updated 2026-May-XX</p>
 
-			
-				<table border="1" cellspacing="0" cellpadding="6">
-				  <thead>
+<h2>Current Market Prices for H₂, LNG, NGLs, Condensate, and Crude Oils (2026)</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+
+					<thead>
 					<tr>
-					  <th>Aromatic</th>
-					  <th>2019 ($/ton)</th>
-					  <th>2020 ($/ton)</th>
-					  <th>2021 ($/ton)</th>
-					  <th>2022 Peak ($/ton)</th>
-					  <th>2023 ($/ton)</th>
-					  <th>2024–2026 Range ($/ton)</th>
-					  <th>Cycle Insight</th>
+					<th>Stream</th>
+					<th>Typical Benchmark / Market</th>
+					<th>Current Price Range</th>
+					<th>Primary Unit</th>
+					<th>Regional Pricing Basis</th>
+					<th>Primary Price Drivers</th>
+					<th>Market Notes</th>
 					</tr>
-				  </thead>
-				  <tbody>
+					</thead>
+
+					<tbody>
 
 					<tr>
-					  <td>Benzene</td>
-					  <td>600–750</td>
-					  <td>350–500</td>
-					  <td>700–950</td>
-					  <td>950–1,200</td>
-					  <td>800–950</td>
-					  <td>750–900</td>
-					  <td>Highly crude-linked; 2020 collapse from COVID demand destruction followed by tight styrene-driven rebound. Now moderating due to Asia capacity additions and weaker derivatives.</td>
-					</tr>
+					<td>Hydrogen (Gray H₂)</td>
 
-					<tr>
-					  <td>Toluene</td>
-					  <td>550–700</td>
-					  <td>300–450</td>
-					  <td>600–800</td>
-					  <td>900–1,150</td>
-					  <td>750–950</td>
-					  <td>700–850</td>
-					  <td>Dual chemical/fuel product; gasoline blending economics dominate. EV penetration limits long-term upside in OECD regions.</td>
-					</tr>
+					<td>
+					US Gulf Coast SMR / Industrial H₂
+					</td>
 
-					<tr>
-					  <td>Xylenes (Mixed)</td>
-					  <td>650–850</td>
-					  <td>400–600</td>
-					  <td>750–1,000</td>
-					  <td>1,100–1,400</td>
-					  <td>900–1,200</td>
-					  <td>850–1,050</td>
-					  <td>Strongest structural growth aromatics due to PTA/PET expansion. China’s PX/PTA integration is creating persistent global oversupply cycles.</td>
+					<td>
+					$1.2 – $2.5
+					</td>
+
+					<td>
+					USD/kg
+					</td>
+
+					<td>
+					Natural gas linked
+					</td>
+
+					<td>
+					Natural gas feedstock cost, carbon pricing, SMR efficiency, hydrogen purity requirements
+					</td>
+
+					<td>
+					Gray hydrogen pricing is strongly tied to natural gas prices and regional carbon regulations.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>Para-Xylene (PX)</td>
-					  <td>700–900</td>
-					  <td>450–650</td>
-					  <td>800–1,050</td>
-					  <td>1,150–1,450</td>
-					  <td>950–1,250</td>
-					  <td>900–1,100</td>
-					  <td>Most globally traded aromatics derivative; extreme volatility driven by polyester chain demand and Chinese export expansion.</td>
+					<td>Blue Hydrogen</td>
+
+					<td>
+					Carbon capture integrated H₂
+					</td>
+
+					<td>
+					$2.0 – $4.0
+					</td>
+
+					<td>
+					USD/kg
+					</td>
+
+					<td>
+					Gas + CCS economics
+					</td>
+
+					<td>
+					Carbon capture cost, tax incentives, sequestration infrastructure, gas pricing
+					</td>
+
+					<td>
+					Blue hydrogen economics depend heavily on carbon capture rates and government incentives.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>Ethylbenzene</td>
-					  <td>650–800</td>
-					  <td>450–650</td>
-					  <td>750–950</td>
-					  <td>1,000–1,250</td>
-					  <td>850–1,050</td>
-					  <td>800–950</td>
-					  <td>Directly linked to styrene economics; integrated production economics dominate pricing behavior.</td>
+					<td>Green Hydrogen</td>
+
+					<td>
+					Electrolysis-based H₂
+					</td>
+
+					<td>
+					$3.5 – $8.0
+					</td>
+
+					<td>
+					USD/kg
+					</td>
+
+					<td>
+					Renewable electricity linked
+					</td>
+
+					<td>
+					Power cost, electrolyzer CAPEX, renewable availability, utilization factor
+					</td>
+
+					<td>
+					Green hydrogen remains capital-intensive but costs continue declining with electrolyzer scale-up.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>Styrene</td>
-					  <td>700–900</td>
-					  <td>450–650</td>
-					  <td>900–1,200</td>
-					  <td>1,200–1,500</td>
-					  <td>950–1,200</td>
-					  <td>900–1,100</td>
-					  <td>Cyclical polymer monomer; demand steady but structurally oversupplied due to Asia ABS/polystyrene capacity growth.</td>
+					<td>LNG</td>
+
+					<td>
+					JKM / TTF / Henry Hub linked LNG
+					</td>
+
+					<td>
+					$8 – $15
+					</td>
+
+					<td>
+					USD/MMBTU
+					</td>
+
+					<td>
+					Asia, Europe, Atlantic Basin
+					</td>
+
+					<td>
+					Seasonal demand, storage inventory, shipping rates, geopolitics, weather
+					</td>
+
+					<td>
+					Asian spot LNG prices remain highly sensitive to winter demand and shipping bottlenecks.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>Cumene</td>
-					  <td>600–750</td>
-					  <td>400–600</td>
-					  <td>700–950</td>
-					  <td>1,000–1,300</td>
-					  <td>850–1,050</td>
-					  <td>800–1,000</td>
-					  <td>Intermediate in phenol-acetone chain; pricing tightly tracks benzene volatility and BPA demand cycles.</td>
+					<td>NGLs – Ethane</td>
+
+					<td>
+					Mont Belvieu Ethane
+					</td>
+
+					<td>
+					$0.20 – $0.35
+					</td>
+
+					<td>
+					USD/gal
+					</td>
+
+					<td>
+					US Gulf Coast
+					</td>
+
+					<td>
+					Steam cracker demand, gas production growth, export capacity
+					</td>
+
+					<td>
+					Ethane pricing strongly correlates with petrochemical cracker utilization rates.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>Phenol</td>
-					  <td>800–1,000</td>
-					  <td>600–800</td>
-					  <td>1,000–1,300</td>
-					  <td>1,300–1,700</td>
-					  <td>1,100–1,400</td>
-					  <td>1,050–1,300</td>
-					  <td>Higher-value derivative; resilient demand from epoxy, polycarbonate, and adhesives, but still exposed to upstream benzene swings.</td>
+					<td>NGLs – Propane</td>
+
+					<td>
+					Mont Belvieu Propane / CP
+					</td>
+
+					<td>
+					$0.65 – $1.05
+					</td>
+
+					<td>
+					USD/gal
+					</td>
+
+					<td>
+					USGC / Middle East
+					</td>
+
+					<td>
+					Heating demand, LPG exports, petrochemical demand, crop drying
+					</td>
+
+					<td>
+					Propane markets remain highly seasonal with strong winter heating sensitivity.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>o-Xylene</td>
-					  <td>650–850</td>
-					  <td>400–600</td>
-					  <td>750–1,000</td>
-					  <td>1,100–1,450</td>
-					  <td>900–1,200</td>
-					  <td>850–1,050</td>
-					  <td>Driven by phthalic anhydride/plasticizers; regulatory constraints in OECD slow demand growth.</td>
+					<td>NGLs – Butane</td>
+
+					<td>
+					Normal Butane FOB
+					</td>
+
+					<td>
+					$0.75 – $1.15
+					</td>
+
+					<td>
+					USD/gal
+					</td>
+
+					<td>
+					Global LPG markets
+					</td>
+
+					<td>
+					Gasoline blending, alkylation demand, refinery utilization
+					</td>
+
+					<td>
+					Butane demand increases significantly during gasoline blending seasons.
+					</td>
 					</tr>
 
 					<tr>
-					  <td>m-Xylene</td>
-					  <td>650–800</td>
-					  <td>400–600</td>
-					  <td>750–1,000</td>
-					  <td>1,050–1,350</td>
-					  <td>850–1,100</td>
-					  <td>800–1,000</td>
-					  <td>Niche specialty aromatics; stable but limited scale growth compared with PX-driven chain.</td>
+					<td>Condensate</td>
+
+					<td>
+					North Field / Eagle Ford Condensate
+					</td>
+
+					<td>
+					$68 – $82
+					</td>
+
+					<td>
+					USD/bbl
+					</td>
+
+					<td>
+					Asia-linked condensate market
+					</td>
+
+					<td>
+					Naphtha margins, petrochemical demand, splitter utilization
+					</td>
+
+					<td>
+					Condensate pricing often tracks light crude and naphtha economics.
+					</td>
 					</tr>
 
-				  </tbody>
-				</table>
-			
-				<ul>
-					  <li><b>Feedstock sensitivity (naphtha / reformate / condensate):</b> Aromatics pricing is structurally anchored to upstream refinery economics. Benzene, toluene, and xylenes fluctuate directly with naphtha cracking margins and reformate availability. Tight refinery runs or shifts toward lighter feedslates reduce aromatics yield and tighten supply.</li>
+					<tr>
+					<td>Light Sweet Crude</td>
 
-					  <li><b>Crude oil volatility transmission:</b> Crude benchmarks (Brent/WTI/Dubai) indirectly set aromatics floor pricing through gasoline blending economics and refinery economics. Rapid crude swings create lagged but amplified price volatility in benzene and toluene chains.</li>
+					<td>
+					WTI / Brent
+					</td>
 
-					  <li><b>Trade imbalance from China capacity expansion:</b> Large-scale integrated aromatics complexes in China (PX, styrene, benzene derivatives) have shifted the global supply-demand balance into structural oversupply. This suppresses global margins and reduces import dependency across Asia.</li>
+					<td>
+					$72 – $88
+					</td>
 
-					  <li><b>Export competition and arbitrage compression:</b> Middle East, Northeast Asia, and USGC exporters face shrinking arbitrage windows due to Chinese self-sufficiency. Price differentials between regions are compressing, reducing traditional trading profitability.</li>
+					<td>
+					USD/bbl
+					</td>
 
-					  <li><b>Downstream polymer demand cycles:</b> Aromatics pricing is heavily driven by PET (xylenes), polystyrene (styrene), polyurethane (toluene/benzene derivatives), and epoxy/polycarbonate demand. Construction, automotive, and packaging cycles create synchronized upstream price movements.</li>
+					<td>
+					Global benchmark crude
+					</td>
 
-					  <li><b>Regulatory tightening (environment & plastics policy):</b> Restrictions on single-use plastics, VOC emissions, and hazardous intermediates are structurally impacting demand in OECD markets. Phenol derivatives and polystyrene are particularly exposed to substitution risk.</li>
+					<td>
+					OPEC+, inventories, geopolitics, refinery runs, GDP growth
+					</td>
 
-					  <li><b>Refinery closures and capacity rationalization:</b> Europe and parts of North America are reducing aromatics production due to high energy costs and carbon policies. This creates regional tightness but is often offset globally by Asian capacity additions.</li>
+					<td>
+					Light sweet crudes command premium pricing due to higher light-product yields.
+					</td>
+					</tr>
 
-					  <li><b>Logistics and freight bottlenecks:</b> Aromatics are highly trade-dependent bulk liquids requiring specialized storage and shipping. Freight rate spikes, port congestion, and tanker availability constraints directly influence landed pricing spreads between regions.</li>
+					<tr>
+					<td>Medium Crude</td>
 
-					  <li><b>Inventory cycles and speculative stocking:</b> Aromatics markets exhibit strong inventory-driven price swings. Downstream buyers (PTA, styrene, phenol chains) often amplify cycles through restocking or destocking behavior, especially during crude volatility periods.</li>
+					<td>
+					Mars / Arab Medium
+					</td>
 
-					  <li><b>Energy transition and long-term demand uncertainty:</b> EV adoption, lightweighting materials, and circular economy policies gradually reduce incremental growth in fuel-related aromatics demand while increasing reliance on packaging and specialty chemicals—reshaping long-term price elasticity.</li>
-				</ul>
+					<td>
+					$67 – $82
+					</td>
 
+					<td>
+					USD/bbl
+					</td>
 
+					<td>
+					USGC / Middle East
+					</td>
+
+					<td>
+					Refinery complexity demand, sour crude availability, coking economics
+					</td>
+
+					<td>
+					Medium crudes remain preferred feedstocks for complex conversion refineries.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+
+					<td>
+					Maya / Western Canadian Select
+					</td>
+
+					<td>
+					$52 – $72
+					</td>
+
+					<td>
+					USD/bbl
+					</td>
+
+					<td>
+					Canada / Latin America
+					</td>
+
+					<td>
+					Diluent cost, coking capacity, pipeline availability, sulfur penalties
+					</td>
+
+					<td>
+					Heavy crude discounts widen during transportation bottlenecks and refinery outages.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+
+					<td>
+					Brent / WTI
+					</td>
+
+					<td>
+					$72 – $88
+					</td>
+
+					<td>
+					USD/bbl
+					</td>
+
+					<td>
+					Atlantic Basin
+					</td>
+
+					<td>
+					Sulfur regulations, refinery hydrogen economics, gasoline demand
+					</td>
+
+					<td>
+					Sweet crude values benefit from stricter marine and transportation sulfur standards.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sour Crude</td>
+
+					<td>
+					Dubai / Arab Heavy
+					</td>
+
+					<td>
+					$60 – $80
+					</td>
+
+					<td>
+					USD/bbl
+					</td>
+
+					<td>
+					Middle East / Asia
+					</td>
+
+					<td>
+					Hydrogen costs, sulfur spreads, refinery upgrading margins
+					</td>
+
+					<td>
+					Sour crude discounts fluctuate significantly with refinery conversion capacity utilization.
+					</td>
+					</tr>
+
+					</tbody>
+
+					</table>
+
+					<h2>Additional Price Driver and Market Notes</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+
+					<thead>
+					<tr>
+					<th>Category</th>
+					<th>Price Driver Notes</th>
+					</tr>
+					</thead>
+
+					<tbody>
+
+					<tr>
+					<td>Crude Oil</td>
+					<td>
+					Global crude pricing is primarily influenced by OPEC+ production policy, global GDP growth, inventory balances, and geopolitical disruptions.
+					</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>
+					LNG spot pricing is highly volatile due to weather-driven demand swings, shipping constraints, and regional storage inventory levels.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Hydrogen</td>
+					<td>
+					Hydrogen economics vary significantly between gray, blue, and green pathways depending on gas prices, power prices, and carbon intensity.
+					</td>
+					</tr>
+
+					<tr>
+					<td>NGLs</td>
+					<td>
+					NGL pricing depends heavily on petrochemical demand, LPG exports, refinery blending economics, and seasonal heating consumption.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>
+					Condensate prices correlate strongly with naphtha margins, splitter utilization, and aromatics demand in Asia.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+					<td>
+					Heavy crude discounts increase when coking refinery utilization weakens or transportation bottlenecks develop.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Sweet vs Sour</td>
+					<td>
+					Sweet-sour crude spreads depend heavily on hydrogen prices, sulfur regulations, and refinery desulfurization economics.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Freight Markets</td>
+					<td>
+					VLCC, LNG carrier, and LPG shipping rates materially impact delivered hydrocarbon prices between regions.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Petrochemicals</td>
+					<td>
+					Ethane, propane, and condensate pricing increasingly reflects global steam cracker and aromatics operating rates.
+					</td>
+					</tr>
+
+					<tr>
+					<td>Carbon Policies</td>
+					<td>
+					Carbon taxes, methane emission penalties, and low-carbon fuel standards increasingly affect long-term hydrocarbon pricing structures.
+					</td>
+					</tr>
+
+					</tbody>
+
+					</table>
+
+					<h2>Hydrocarbon Pricing Market Discussion</h2>
+
+					<ul>
+
+					<li>
+					WTI and Brent remain the dominant global crude oil benchmarks influencing refinery economics and international trade pricing.
+					</li>
+
+					<li>
+					Asian JKM LNG pricing has become one of the most important global gas benchmarks because of rapid LNG demand growth in Asia Pacific.
+					</li>
+
+					<li>
+					Natural gas feedstock prices remain the single largest cost component for gray and blue hydrogen production economics.
+					</li>
+
+					<li>
+					Green hydrogen pricing is highly dependent on renewable electricity pricing and electrolyzer utilization rates.
+					</li>
+
+					<li>
+					NGL markets increasingly reflect petrochemical demand rather than traditional residential heating demand.
+					</li>
+
+					<li>
+					Condensate pricing has strengthened structurally due to growing condensate splitter and petrochemical feedstock demand in Asia.
+					</li>
+
+					<li>
+					Heavy crude oil discounts are strongly linked to refinery coking capacity availability and diluent transportation costs.
+					</li>
+
+					<li>
+					Sweet crude oils command premium values because they require lower hydrotreating severity and generate lower sulfur emissions.
+					</li>
+
+					<li>
+					Crude price volatility remains heavily influenced by geopolitical events, sanctions, OPEC+ policy decisions, and global recession risks.
+					</li>
+
+					<li>
+					Major pricing references include Platts, Argus, NYMEX, ICE Brent, Mont Belvieu, Henry Hub, JKM, TTF, and Dubai benchmarks.
+					</li>
+
+					</ul>			
 
         </div>
     </div>
