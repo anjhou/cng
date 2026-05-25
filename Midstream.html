@@ -836,8 +836,121 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 			<h2>Price Spread Between H2, LNG, NGLs, condensate Versus Natural Gas (Energy Basis)</h2>
 
+					<table border="1" cellspacing="0" cellpadding="6">
+						<tr>
+							<th>Stream</th>
+							<th>Typical Market Price</th>
+							<th>Energy Equivalent Basis</th>
+							<th>Equivalent Price vs. Henry Hub Natural Gas</th>
+							<th>Indicative Spread to Natural Gas</th>
+							<th>Spread Multiple</th>
+							<th>Primary Driver</th>
+						</tr>
 
+						<tr>
+							<td>Natural Gas (Henry Hub)</td>
+							<td>$3.00/MMBtu</td>
+							<td>1.0 MMBtu</td>
+							<td>$3.00/MMBtu</td>
+							<td>Base Reference</td>
+							<td>1.0x</td>
+							<td>US gas supply-demand balance</td>
+						</tr>
 
+						<tr>
+							<td>Hydrogen (Gray H₂)</td>
+							<td>$1.80/kg</td>
+							<td>0.114 MMBtu/kg</td>
+							<td>$15.80/MMBtu</td>
+							<td>+$12.80/MMBtu</td>
+							<td>5.3x</td>
+							<td>SMR production cost and carbon intensity</td>
+						</tr>
+
+						<tr>
+							<td>Hydrogen (Blue H₂)</td>
+							<td>$3.50/kg</td>
+							<td>0.114 MMBtu/kg</td>
+							<td>$30.70/MMBtu</td>
+							<td>+$27.70/MMBtu</td>
+							<td>10.2x</td>
+							<td>CCS cost and clean-energy premiums</td>
+						</tr>
+
+						<tr>
+							<td>LNG (FOB Gulf Coast)</td>
+							<td>$8.50/MMBtu</td>
+							<td>1.0 MMBtu</td>
+							<td>$8.50/MMBtu</td>
+							<td>+$5.50/MMBtu</td>
+							<td>2.8x</td>
+							<td>Liquefaction and export arbitrage</td>
+						</tr>
+
+						<tr>
+							<td>NGLs – Ethane</td>
+							<td>$0.25/gal</td>
+							<td>0.066 MMBtu/gal</td>
+							<td>$3.80/MMBtu</td>
+							<td>+$0.80/MMBtu</td>
+							<td>1.3x</td>
+							<td>Petrochemical feedstock demand</td>
+						</tr>
+
+						<tr>
+							<td>NGLs – Propane</td>
+							<td>$0.82/gal</td>
+							<td>0.091 MMBtu/gal</td>
+							<td>$9.00/MMBtu</td>
+							<td>+$6.00/MMBtu</td>
+							<td>3.0x</td>
+							<td>Winter heating and export demand</td>
+						</tr>
+
+						<tr>
+							<td>NGLs – Butane</td>
+							<td>$0.95/gal</td>
+							<td>0.103 MMBtu/gal</td>
+							<td>$9.20/MMBtu</td>
+							<td>+$6.20/MMBtu</td>
+							<td>3.1x</td>
+							<td>Gasoline blending economics</td>
+						</tr>
+
+						<tr>
+							<td>Condensate</td>
+							<td>$96/bbl</td>
+							<td>5.8 MMBtu/bbl</td>
+							<td>$16.55/MMBtu</td>
+							<td>+$13.55/MMBtu</td>
+							<td>5.5x</td>
+							<td>WTI-linked crude pricing</td>
+						</tr>
+					</table>
+
+					<br>
+
+					<ul>
+						<li>Henry Hub natural gas prices remain the primary benchmark for energy spread calculations across LNG, hydrogen, NGLs, and condensate markets, with current spot pricing near $3/MMBtu. :contentReference[oaicite:0]{index=0}</li>
+
+						<li>LNG spreads versus natural gas continue expanding because liquefaction tolling fees, shipping costs, and export arbitrage premiums significantly increase delivered LNG pricing. :contentReference[oaicite:1]{index=1}</li>
+
+						<li>Hydrogen energy-equivalent pricing remains substantially above natural gas because steam methane reforming, carbon capture systems, compression, storage, and transportation add significant conversion costs.</li>
+
+						<li>Blue hydrogen premiums continue widening due to carbon sequestration infrastructure investment, clean-fuel tax incentives, and low-carbon fuel standards in US and export markets.</li>
+
+						<li>Seasonal winter heating demand materially strengthens propane and LNG spreads, while mild shoulder-season temperatures reduce gas and power demand, compressing spreads. :contentReference[oaicite:2]{index=2}</li>
+
+						<li>Electric power generation economics continue supporting natural gas demand because gas-fired combined-cycle plants remain the dominant marginal power source in the US grid. :contentReference[oaicite:3]{index=3}</li>
+
+						<li>Rapid data center expansion, AI computing infrastructure, and electrification trends are increasing long-term US power demand, tightening natural gas balances and supporting wider LNG and hydrogen spreads.</li>
+
+						<li>Permian Basin associated gas production growth and elevated storage inventories periodically soften natural gas prices, narrowing energy-equivalent spreads for NGLs and condensate. :contentReference[oaicite:4]{index=4}</li>
+
+						<li>Pipeline constraints, LNG export terminal utilization, and Gulf Coast marine logistics continue impacting Gulf Coast gas availability and LNG netback economics.</li>
+
+						<li>Global geopolitical concerns including Middle East shipping risks, European LNG import dependency, and Asian spot LNG demand continue supporting elevated LNG and condensate energy spreads. :contentReference[oaicite:5]{index=5}</li>
+					</ul>
 			
         </div>
     </div>
