@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Temperature Conversion Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Engineering Unit Converter</title>
 
     <style>
         body {
@@ -14,9 +14,9 @@
         }
 
         .container {
-            max-width: 550px;
+            max-width: 650px;
             margin: auto;
-            background: white;
+            background: #ffffff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -24,8 +24,8 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
-            color: #333;
+            margin-bottom: 30px;
+            color: #222;
         }
 
         .form-group {
@@ -36,26 +36,27 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #444;
+            color: #333;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
             border-radius: 6px;
+            border: 1px solid #cfcfcf;
             box-sizing: border-box;
         }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
-            background: #0078d7;
-            color: white;
             border: none;
             border-radius: 6px;
+            background: #0078d7;
+            color: white;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -66,129 +67,287 @@
 
         .result {
             margin-top: 25px;
-            padding: 15px;
+            padding: 18px;
             background: #eef4ff;
             border-left: 5px solid #0078d7;
+            border-radius: 6px;
             font-size: 18px;
             color: #222;
-            border-radius: 5px;
         }
 
-        .unit-note {
+        .footer-note {
+            margin-top: 20px;
             font-size: 13px;
             color: #666;
-            margin-top: 5px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h2>Temperature Conversion</h2>
+<div class="container">
 
-        <div class="form-group">
-            <label for="inputTemp">Enter Temperature</label>
-            <input type="number" id="inputTemp" placeholder="Enter temperature value" />
-        </div>
+    <h2>Engineering Unit Converter</h2>
 
-        <div class="form-group">
-            <label for="fromUnit">From Unit</label>
-            <select id="fromUnit">
-                <option value="C">Celsius (°C)</option>
-                <option value="F">Fahrenheit (°F)</option>
-                <option value="K">Kelvin (K)</option>
-                <option value="R">Rankine (°R)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="toUnit">Convert To</label>
-            <select id="toUnit">
-                <option value="F">Fahrenheit (°F)</option>
-                <option value="C">Celsius (°C)</option>
-                <option value="K">Kelvin (K)</option>
-                <option value="R">Rankine (°R)</option>
-            </select>
-        </div>
-
-        <button onclick="convertTemperature()">Convert Temperature</button>
-
-        <div class="result" id="result">
-            Converted temperature will appear here.
-        </div>
+    <!-- Unit Type -->
+    <div class="form-group">
+        <label for="unitType">Select Unit Type</label>
+        <select id="unitType" onchange="updateUnits()">
+            <option value="temperature">Temperature</option>
+            <option value="pressure">Pressure</option>
+            <option value="mass">Mass</option>
+        </select>
     </div>
 
-    <script>
-        function convertTemperature() {
+    <!-- Input Value -->
+    <div class="form-group">
+        <label for="inputValue">Enter Value</label>
+        <input type="number" id="inputValue" placeholder="Enter value">
+    </div>
 
-            const inputTemp = parseFloat(document.getElementById("inputTemp").value);
-            const fromUnit = document.getElementById("fromUnit").value;
-            const toUnit = document.getElementById("toUnit").value;
-            const resultDiv = document.getElementById("result");
+    <!-- From Unit -->
+    <div class="form-group">
+        <label for="fromUnit">From Unit</label>
+        <select id="fromUnit"></select>
+    </div>
 
-            if (isNaN(inputTemp)) {
-                resultDiv.innerHTML = "Please enter a valid temperature.";
-                return;
-            }
+    <!-- To Unit -->
+    <div class="form-group">
+        <label for="toUnit">Convert To</label>
+        <select id="toUnit"></select>
+    </div>
+
+    <!-- Convert Button -->
+    <button onclick="convertUnits()">Convert</button>
+
+    <!-- Result -->
+    <div class="result" id="result">
+        Converted value will appear here.
+    </div>
+
+    <div class="footer-note">
+        Supports Temperature, Pressure, and Mass conversions.
+    </div>
+
+</div>
+
+<script>
+
+    // Unit Definitions
+    const units = {
+
+        temperature: [
+            { value: "C", text: "Celsius (°C)" },
+            { value: "F", text: "Fahrenheit (°F)" },
+            { value: "K", text: "Kelvin (K)" },
+            { value: "R", text: "Rankine (°R)" }
+        ],
+
+        pressure: [
+            { value: "psi", text: "psi" },
+            { value: "atm", text: "atm" },
+            { value: "bar", text: "bar" },
+            { value: "kPa", text: "kPa" }
+        ],
+
+        mass: [
+            { value: "kg", text: "Kilogram (kg)" },
+            { value: "lb", text: "Pound (lb)" },
+            { value: "ton", text: "Metric Ton" }
+        ]
+    };
+
+    // Populate Unit Dropdowns
+    function updateUnits() {
+
+        const unitType = document.getElementById("unitType").value;
+        const fromUnit = document.getElementById("fromUnit");
+        const toUnit = document.getElementById("toUnit");
+
+        fromUnit.innerHTML = "";
+        toUnit.innerHTML = "";
+
+        units[unitType].forEach(unit => {
+
+            let option1 = document.createElement("option");
+            option1.value = unit.value;
+            option1.text = unit.text;
+
+            let option2 = document.createElement("option");
+            option2.value = unit.value;
+            option2.text = unit.text;
+
+            fromUnit.appendChild(option1);
+            toUnit.appendChild(option2);
+        });
+    }
+
+    // Conversion Function
+    function convertUnits() {
+
+        const unitType = document.getElementById("unitType").value;
+        const inputValue = parseFloat(document.getElementById("inputValue").value);
+        const fromUnit = document.getElementById("fromUnit").value;
+        const toUnit = document.getElementById("toUnit").value;
+        const resultDiv = document.getElementById("result");
+
+        if (isNaN(inputValue)) {
+            resultDiv.innerHTML = "Please enter a valid numeric value.";
+            return;
+        }
+
+        let convertedValue;
+
+        // =========================
+        // TEMPERATURE CONVERSION
+        // =========================
+
+        if (unitType === "temperature") {
 
             let kelvin;
 
-            // Convert input to Kelvin first
             switch (fromUnit) {
+
                 case "C":
-                    kelvin = inputTemp + 273.15;
+                    kelvin = inputValue + 273.15;
                     break;
 
                 case "F":
-                    kelvin = (inputTemp - 32) * 5/9 + 273.15;
+                    kelvin = (inputValue - 32) * 5/9 + 273.15;
                     break;
 
                 case "K":
-                    kelvin = inputTemp;
+                    kelvin = inputValue;
                     break;
 
                 case "R":
-                    kelvin = inputTemp * 5/9;
+                    kelvin = inputValue * 5/9;
                     break;
-
-                default:
-                    resultDiv.innerHTML = "Invalid source unit.";
-                    return;
             }
 
-            let convertedTemp;
-
-            // Convert Kelvin to target unit
             switch (toUnit) {
+
                 case "C":
-                    convertedTemp = kelvin - 273.15;
+                    convertedValue = kelvin - 273.15;
                     break;
 
                 case "F":
-                    convertedTemp = (kelvin - 273.15) * 9/5 + 32;
+                    convertedValue = (kelvin - 273.15) * 9/5 + 32;
                     break;
 
                 case "K":
-                    convertedTemp = kelvin;
+                    convertedValue = kelvin;
                     break;
 
                 case "R":
-                    convertedTemp = kelvin * 9/5;
+                    convertedValue = kelvin * 9/5;
+                    break;
+            }
+        }
+
+        // =========================
+        // PRESSURE CONVERSION
+        // =========================
+
+        else if (unitType === "pressure") {
+
+            // Convert all pressure to kPa first
+
+            let kPa;
+
+            switch (fromUnit) {
+
+                case "psi":
+                    kPa = inputValue * 6.89476;
                     break;
 
-                default:
-                    resultDiv.innerHTML = "Invalid target unit.";
-                    return;
+                case "atm":
+                    kPa = inputValue * 101.325;
+                    break;
+
+                case "bar":
+                    kPa = inputValue * 100;
+                    break;
+
+                case "kPa":
+                    kPa = inputValue;
+                    break;
             }
 
-            resultDiv.innerHTML =
-                `<strong>Converted Temperature:</strong><br><br>
-                ${inputTemp.toFixed(2)} °${fromUnit}
-                =
-                ${convertedTemp.toFixed(2)} °${toUnit}`;
+            switch (toUnit) {
+
+                case "psi":
+                    convertedValue = kPa / 6.89476;
+                    break;
+
+                case "atm":
+                    convertedValue = kPa / 101.325;
+                    break;
+
+                case "bar":
+                    convertedValue = kPa / 100;
+                    break;
+
+                case "kPa":
+                    convertedValue = kPa;
+                    break;
+            }
         }
-    </script>
+
+        // =========================
+        // MASS CONVERSION
+        // =========================
+
+        else if (unitType === "mass") {
+
+            // Convert all mass to kg first
+
+            let kg;
+
+            switch (fromUnit) {
+
+                case "kg":
+                    kg = inputValue;
+                    break;
+
+                case "lb":
+                    kg = inputValue * 0.453592;
+                    break;
+
+                case "ton":
+                    kg = inputValue * 1000;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "kg":
+                    convertedValue = kg;
+                    break;
+
+                case "lb":
+                    convertedValue = kg / 0.453592;
+                    break;
+
+                case "ton":
+                    convertedValue = kg / 1000;
+                    break;
+            }
+        }
+
+        resultDiv.innerHTML = `
+            <strong>Converted Result:</strong><br><br>
+            ${inputValue.toFixed(4)} ${fromUnit}
+            =
+            <strong>${convertedValue.toFixed(4)} ${toUnit}</strong>
+        `;
+    }
+
+    // Initialize dropdowns on page load
+    updateUnits();
+
+</script>
 
 </body>
 </html>
