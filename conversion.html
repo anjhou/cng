@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Conversion Tool</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #0078d7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #005fa3;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #eef4ff;
+            border-left: 5px solid #0078d7;
+            font-size: 18px;
+            color: #222;
+            border-radius: 5px;
+        }
+
+        .unit-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Temperature Conversion</h2>
+
+        <div class="form-group">
+            <label for="inputTemp">Enter Temperature</label>
+            <input type="number" id="inputTemp" placeholder="Enter temperature value" />
+        </div>
+
+        <div class="form-group">
+            <label for="fromUnit">From Unit</label>
+            <select id="fromUnit">
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="K">Kelvin (K)</option>
+                <option value="R">Rankine (°R)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="toUnit">Convert To</label>
+            <select id="toUnit">
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="C">Celsius (°C)</option>
+                <option value="K">Kelvin (K)</option>
+                <option value="R">Rankine (°R)</option>
+            </select>
+        </div>
+
+        <button onclick="convertTemperature()">Convert Temperature</button>
+
+        <div class="result" id="result">
+            Converted temperature will appear here.
+        </div>
+    </div>
+
+    <script>
+        function convertTemperature() {
+
+            const inputTemp = parseFloat(document.getElementById("inputTemp").value);
+            const fromUnit = document.getElementById("fromUnit").value;
+            const toUnit = document.getElementById("toUnit").value;
+            const resultDiv = document.getElementById("result");
+
+            if (isNaN(inputTemp)) {
+                resultDiv.innerHTML = "Please enter a valid temperature.";
+                return;
+            }
+
+            let kelvin;
+
+            // Convert input to Kelvin first
+            switch (fromUnit) {
+                case "C":
+                    kelvin = inputTemp + 273.15;
+                    break;
+
+                case "F":
+                    kelvin = (inputTemp - 32) * 5/9 + 273.15;
+                    break;
+
+                case "K":
+                    kelvin = inputTemp;
+                    break;
+
+                case "R":
+                    kelvin = inputTemp * 5/9;
+                    break;
+
+                default:
+                    resultDiv.innerHTML = "Invalid source unit.";
+                    return;
+            }
+
+            let convertedTemp;
+
+            // Convert Kelvin to target unit
+            switch (toUnit) {
+                case "C":
+                    convertedTemp = kelvin - 273.15;
+                    break;
+
+                case "F":
+                    convertedTemp = (kelvin - 273.15) * 9/5 + 32;
+                    break;
+
+                case "K":
+                    convertedTemp = kelvin;
+                    break;
+
+                case "R":
+                    convertedTemp = kelvin * 9/5;
+                    break;
+
+                default:
+                    resultDiv.innerHTML = "Invalid target unit.";
+                    return;
+            }
+
+            resultDiv.innerHTML =
+                `<strong>Converted Temperature:</strong><br><br>
+                ${inputTemp.toFixed(2)} °${fromUnit}
+                =
+                ${convertedTemp.toFixed(2)} °${toUnit}`;
+        }
+    </script>
+
+</body>
+</html>
