@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Engineering Unit Converter</title>
 
     <style>
@@ -15,7 +19,7 @@
         }
 
         .container {
-            max-width: 720px;
+            max-width: 760px;
             margin: auto;
             background: #ffffff;
             padding: 30px;
@@ -84,6 +88,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -97,140 +102,244 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
     <h2>Engineering Unit Converter</h2>
 
-    <!-- Unit Type -->
+    <!-- UNIT TYPE -->
+
     <div class="form-group">
+
         <label for="unitType">Select Unit Type</label>
+
         <select id="unitType" onchange="updateUnits()">
 
             <option value="temperature">Temperature</option>
+
             <option value="pressure">Pressure</option>
+
             <option value="mass">Mass</option>
+
             <option value="volume">Volume</option>
+
             <option value="energy">Energy</option>
+
             <option value="force">Force</option>
 
+            <option value="flowrate">Volume Flow Rate</option>
+
         </select>
+
     </div>
 
-    <!-- Input Value -->
+    <!-- INPUT VALUE -->
+
     <div class="form-group">
+
         <label for="inputValue">Enter Value</label>
+
         <input type="number" id="inputValue" placeholder="Enter value">
+
     </div>
 
-    <!-- From Unit -->
+    <!-- FROM UNIT -->
+
     <div class="form-group">
+
         <label for="fromUnit">From Unit</label>
+
         <select id="fromUnit"></select>
+
     </div>
 
-    <!-- To Unit -->
+    <!-- TO UNIT -->
+
     <div class="form-group">
+
         <label for="toUnit">Convert To</label>
+
         <select id="toUnit"></select>
+
     </div>
 
-    <!-- Button -->
+    <!-- BUTTON -->
+
     <button onclick="convertUnits()">Convert</button>
 
-    <!-- Result -->
+    <!-- RESULT -->
+
     <div class="result" id="result">
+
         Converted value will appear here.
+
     </div>
 
     <div class="footer-note">
-        Supports Temperature, Pressure, Mass, Volume, Energy, and Force conversions.
+
+        Supports Temperature, Pressure, Mass, Volume,
+        Energy, Force, and Volume Flow Rate conversions.
+
     </div>
 
 </div>
 
 <script>
 
-    // =========================
+    // =========================================
     // UNIT DEFINITIONS
-    // =========================
+    // =========================================
 
     const units = {
 
         temperature: [
+
             { value: "C", text: "Celsius (°C)" },
+
             { value: "F", text: "Fahrenheit (°F)" },
+
             { value: "K", text: "Kelvin (K)" },
+
             { value: "R", text: "Rankine (°R)" }
+
         ],
 
         pressure: [
+
             { value: "psi", text: "psi" },
+
             { value: "atm", text: "atm" },
+
             { value: "bar", text: "bar" },
+
             { value: "kPa", text: "kPa" }
+
         ],
 
         mass: [
+
             { value: "kg", text: "Kilogram (kg)" },
+
             { value: "lb", text: "Pound (lb)" },
+
             { value: "ton", text: "Metric Ton" }
+
         ],
 
         volume: [
+
             { value: "liter", text: "Liter (L)" },
+
             { value: "ft3", text: "Cubic Foot (ft³)" },
+
             { value: "m3", text: "Cubic Meter (m³)" },
+
             { value: "gal", text: "Gallon (US gal)" }
+
         ],
 
         energy: [
+
             { value: "Btu", text: "BTU" },
+
             { value: "MMBtu", text: "MMBtu" },
+
             { value: "cal", text: "Calorie" },
+
             { value: "kWh", text: "Kilowatt-hour (kWh)" },
+
             { value: "hp", text: "Horsepower-hour (hp·h)" },
+
             { value: "ftlb", text: "Foot-pound (ft-lb)" },
+
             { value: "J", text: "Joule (J)" },
+
             { value: "Nm", text: "Newton-meter (N·m)" }
+
         ],
 
         force: [
+
             { value: "N", text: "Newton (N)" },
+
             { value: "lbf", text: "Pound-force (lbf)" }
+
+        ],
+
+        flowrate: [
+
+            { value: "bbl_day", text: "Barrel per Day (bbl/day)" },
+
+            { value: "gpm", text: "Gallon per Minute (gal/min)" },
+
+            { value: "m3_day", text: "Cubic Meter per Day (m³/day)" },
+
+            { value: "ft3_day", text: "Cubic Foot per Day (ft³/day)" },
+
+            { value: "m3_hr", text: "Cubic Meter per Hour (m³/hr)" },
+
+            { value: "m3_min", text: "Cubic Meter per Minute (m³/min)" },
+
+            { value: "ft3_hr", text: "Cubic Foot per Hour (ft³/hr)" },
+
+            { value: "ft3_min", text: "Cubic Foot per Minute (ft³/min)" },
+
+            { value: "ft3_sec", text: "Cubic Foot per Second (ft³/sec)" },
+
+            { value: "L_day", text: "Liter per Day (L/day)" },
+
+            { value: "L_hr", text: "Liter per Hour (L/hr)" },
+
+            { value: "L_min", text: "Liter per Minute (L/min)" },
+
+            { value: "L_sec", text: "Liter per Second (L/sec)" }
+
         ]
     };
 
-    // =========================
+    // =========================================
     // UPDATE DROPDOWNS
-    // =========================
+    // =========================================
 
     function updateUnits() {
 
-        const unitType = document.getElementById("unitType").value;
-        const fromUnit = document.getElementById("fromUnit");
-        const toUnit = document.getElementById("toUnit");
+        const unitType =
+            document.getElementById("unitType").value;
+
+        const fromUnit =
+            document.getElementById("fromUnit");
+
+        const toUnit =
+            document.getElementById("toUnit");
 
         fromUnit.innerHTML = "";
+
         toUnit.innerHTML = "";
 
         units[unitType].forEach(unit => {
 
             let option1 = document.createElement("option");
+
             option1.value = unit.value;
+
             option1.text = unit.text;
 
             let option2 = document.createElement("option");
+
             option2.value = unit.value;
+
             option2.text = unit.text;
 
             fromUnit.appendChild(option1);
+
             toUnit.appendChild(option2);
+
         });
     }
 
-    // =========================
+    // =========================================
     // MAIN CONVERSION FUNCTION
-    // =========================
+    // =========================================
 
     function convertUnits() {
 
-        const unitType = document.getElementById("unitType").value;
+        const unitType =
+            document.getElementById("unitType").value;
 
         const inputValue =
             parseFloat(document.getElementById("inputValue").value);
@@ -441,8 +550,6 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
         else if (unitType === "energy") {
 
-            // Convert everything to Joules first
-
             let joule;
 
             switch (fromUnit) {
@@ -548,21 +655,157 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         }
 
         // =========================================
+        // VOLUME FLOW RATE
+        // =========================================
+
+        else if (unitType === "flowrate") {
+
+            let m3sec;
+
+            switch (fromUnit) {
+
+                case "bbl_day":
+                    m3sec = inputValue * 0.158987 / 86400;
+                    break;
+
+                case "gpm":
+                    m3sec = inputValue * 0.00378541 / 60;
+                    break;
+
+                case "m3_day":
+                    m3sec = inputValue / 86400;
+                    break;
+
+                case "ft3_day":
+                    m3sec = inputValue * 0.0283168 / 86400;
+                    break;
+
+                case "m3_hr":
+                    m3sec = inputValue / 3600;
+                    break;
+
+                case "m3_min":
+                    m3sec = inputValue / 60;
+                    break;
+
+                case "ft3_hr":
+                    m3sec = inputValue * 0.0283168 / 3600;
+                    break;
+
+                case "ft3_min":
+                    m3sec = inputValue * 0.0283168 / 60;
+                    break;
+
+                case "ft3_sec":
+                    m3sec = inputValue * 0.0283168;
+                    break;
+
+                case "L_day":
+                    m3sec = inputValue * 0.001 / 86400;
+                    break;
+
+                case "L_hr":
+                    m3sec = inputValue * 0.001 / 3600;
+                    break;
+
+                case "L_min":
+                    m3sec = inputValue * 0.001 / 60;
+                    break;
+
+                case "L_sec":
+                    m3sec = inputValue * 0.001;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "bbl_day":
+                    convertedValue =
+                        (m3sec * 86400) / 0.158987;
+                    break;
+
+                case "gpm":
+                    convertedValue =
+                        (m3sec * 60) / 0.00378541;
+                    break;
+
+                case "m3_day":
+                    convertedValue = m3sec * 86400;
+                    break;
+
+                case "ft3_day":
+                    convertedValue =
+                        (m3sec * 86400) / 0.0283168;
+                    break;
+
+                case "m3_hr":
+                    convertedValue = m3sec * 3600;
+                    break;
+
+                case "m3_min":
+                    convertedValue = m3sec * 60;
+                    break;
+
+                case "ft3_hr":
+                    convertedValue =
+                        (m3sec * 3600) / 0.0283168;
+                    break;
+
+                case "ft3_min":
+                    convertedValue =
+                        (m3sec * 60) / 0.0283168;
+                    break;
+
+                case "ft3_sec":
+                    convertedValue =
+                        m3sec / 0.0283168;
+                    break;
+
+                case "L_day":
+                    convertedValue =
+                        (m3sec * 86400) * 1000;
+                    break;
+
+                case "L_hr":
+                    convertedValue =
+                        (m3sec * 3600) * 1000;
+                    break;
+
+                case "L_min":
+                    convertedValue =
+                        (m3sec * 60) * 1000;
+                    break;
+
+                case "L_sec":
+                    convertedValue =
+                        m3sec * 1000;
+                    break;
+            }
+        }
+
+        // =========================================
         // DISPLAY RESULT
         // =========================================
 
         resultDiv.innerHTML = `
+
             <strong>Converted Result:</strong><br><br>
 
             ${inputValue.toFixed(6)} ${fromUnit}
 
             =
 
-            <strong>${convertedValue.toFixed(6)} ${toUnit}</strong>
+            <strong>
+                ${convertedValue.toFixed(6)} ${toUnit}
+            </strong>
+
         `;
     }
 
-    // Initialize dropdowns
+    // =========================================
+    // INITIALIZE PAGE
+    // =========================================
+
     updateUnits();
 
 </script>
@@ -573,4 +816,5 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
 </script>
 
 </body>
+
 </html>
