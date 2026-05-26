@@ -6,6 +6,7 @@
     <title>Engineering Unit Converter</title>
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f9;
@@ -14,7 +15,7 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: 720px;
             margin: auto;
             background: #ffffff;
             padding: 30px;
@@ -45,7 +46,7 @@
             padding: 12px;
             font-size: 16px;
             border-radius: 6px;
-            border: 1px solid #cfcfcf;
+            border: 1px solid #ccc;
             box-sizing: border-box;
         }
 
@@ -77,20 +78,15 @@
 
         .footer-note {
             margin-top: 20px;
-            font-size: 13px;
-            color: #666;
             text-align: center;
+            color: #666;
+            font-size: 13px;
         }
+
     </style>
 </head>
 
 <body>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
 
 <div class="container">
 
@@ -100,9 +96,14 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     <div class="form-group">
         <label for="unitType">Select Unit Type</label>
         <select id="unitType" onchange="updateUnits()">
+
             <option value="temperature">Temperature</option>
             <option value="pressure">Pressure</option>
             <option value="mass">Mass</option>
+            <option value="volume">Volume</option>
+            <option value="energy">Energy</option>
+            <option value="force">Force</option>
+
         </select>
     </div>
 
@@ -124,7 +125,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         <select id="toUnit"></select>
     </div>
 
-    <!-- Convert Button -->
+    <!-- Button -->
     <button onclick="convertUnits()">Convert</button>
 
     <!-- Result -->
@@ -133,19 +134,17 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     </div>
 
     <div class="footer-note">
-        Supports Temperature, Pressure, and Mass conversions.
+        Supports Temperature, Pressure, Mass, Volume, Energy, and Force conversions.
     </div>
 
 </div>
 
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
-
 <script>
 
-    // Unit Definitions
+    // =========================
+    // UNIT DEFINITIONS
+    // =========================
+
     const units = {
 
         temperature: [
@@ -166,10 +165,36 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
             { value: "kg", text: "Kilogram (kg)" },
             { value: "lb", text: "Pound (lb)" },
             { value: "ton", text: "Metric Ton" }
+        ],
+
+        volume: [
+            { value: "liter", text: "Liter (L)" },
+            { value: "ft3", text: "Cubic Foot (ft³)" },
+            { value: "m3", text: "Cubic Meter (m³)" },
+            { value: "gal", text: "Gallon (US gal)" }
+        ],
+
+        energy: [
+            { value: "Btu", text: "BTU" },
+            { value: "MMBtu", text: "MMBtu" },
+            { value: "cal", text: "Calorie" },
+            { value: "kWh", text: "Kilowatt-hour (kWh)" },
+            { value: "hp", text: "Horsepower-hour (hp·h)" },
+            { value: "ftlb", text: "Foot-pound (ft-lb)" },
+            { value: "J", text: "Joule (J)" },
+            { value: "Nm", text: "Newton-meter (N·m)" }
+        ],
+
+        force: [
+            { value: "N", text: "Newton (N)" },
+            { value: "lbf", text: "Pound-force (lbf)" }
         ]
     };
 
-    // Populate Unit Dropdowns
+    // =========================
+    // UPDATE DROPDOWNS
+    // =========================
+
     function updateUnits() {
 
         const unitType = document.getElementById("unitType").value;
@@ -194,25 +219,39 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
         });
     }
 
-    // Conversion Function
+    // =========================
+    // MAIN CONVERSION FUNCTION
+    // =========================
+
     function convertUnits() {
 
         const unitType = document.getElementById("unitType").value;
-        const inputValue = parseFloat(document.getElementById("inputValue").value);
-        const fromUnit = document.getElementById("fromUnit").value;
-        const toUnit = document.getElementById("toUnit").value;
-        const resultDiv = document.getElementById("result");
+
+        const inputValue =
+            parseFloat(document.getElementById("inputValue").value);
+
+        const fromUnit =
+            document.getElementById("fromUnit").value;
+
+        const toUnit =
+            document.getElementById("toUnit").value;
+
+        const resultDiv =
+            document.getElementById("result");
 
         if (isNaN(inputValue)) {
-            resultDiv.innerHTML = "Please enter a valid numeric value.";
+
+            resultDiv.innerHTML =
+                "Please enter a valid numeric value.";
+
             return;
         }
 
         let convertedValue;
 
-        // =========================
-        // TEMPERATURE CONVERSION
-        // =========================
+        // =========================================
+        // TEMPERATURE
+        // =========================================
 
         if (unitType === "temperature") {
 
@@ -244,7 +283,8 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
                     break;
 
                 case "F":
-                    convertedValue = (kelvin - 273.15) * 9/5 + 32;
+                    convertedValue =
+                        (kelvin - 273.15) * 9/5 + 32;
                     break;
 
                 case "K":
@@ -257,13 +297,11 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
             }
         }
 
-        // =========================
-        // PRESSURE CONVERSION
-        // =========================
+        // =========================================
+        // PRESSURE
+        // =========================================
 
         else if (unitType === "pressure") {
-
-            // Convert all pressure to kPa first
 
             let kPa;
 
@@ -306,13 +344,11 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
             }
         }
 
-        // =========================
-        // MASS CONVERSION
-        // =========================
+        // =========================================
+        // MASS
+        // =========================================
 
         else if (unitType === "mass") {
-
-            // Convert all mass to kg first
 
             let kg;
 
@@ -347,15 +383,181 @@ fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer")
             }
         }
 
+        // =========================================
+        // VOLUME
+        // =========================================
+
+        else if (unitType === "volume") {
+
+            let liter;
+
+            switch (fromUnit) {
+
+                case "liter":
+                    liter = inputValue;
+                    break;
+
+                case "ft3":
+                    liter = inputValue * 28.3168;
+                    break;
+
+                case "m3":
+                    liter = inputValue * 1000;
+                    break;
+
+                case "gal":
+                    liter = inputValue * 3.78541;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "liter":
+                    convertedValue = liter;
+                    break;
+
+                case "ft3":
+                    convertedValue = liter / 28.3168;
+                    break;
+
+                case "m3":
+                    convertedValue = liter / 1000;
+                    break;
+
+                case "gal":
+                    convertedValue = liter / 3.78541;
+                    break;
+            }
+        }
+
+        // =========================================
+        // ENERGY
+        // =========================================
+
+        else if (unitType === "energy") {
+
+            // Convert everything to Joules first
+
+            let joule;
+
+            switch (fromUnit) {
+
+                case "Btu":
+                    joule = inputValue * 1055.06;
+                    break;
+
+                case "MMBtu":
+                    joule = inputValue * 1055060000;
+                    break;
+
+                case "cal":
+                    joule = inputValue * 4.184;
+                    break;
+
+                case "kWh":
+                    joule = inputValue * 3600000;
+                    break;
+
+                case "hp":
+                    joule = inputValue * 2684519.54;
+                    break;
+
+                case "ftlb":
+                    joule = inputValue * 1.35582;
+                    break;
+
+                case "J":
+                    joule = inputValue;
+                    break;
+
+                case "Nm":
+                    joule = inputValue;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "Btu":
+                    convertedValue = joule / 1055.06;
+                    break;
+
+                case "MMBtu":
+                    convertedValue = joule / 1055060000;
+                    break;
+
+                case "cal":
+                    convertedValue = joule / 4.184;
+                    break;
+
+                case "kWh":
+                    convertedValue = joule / 3600000;
+                    break;
+
+                case "hp":
+                    convertedValue = joule / 2684519.54;
+                    break;
+
+                case "ftlb":
+                    convertedValue = joule / 1.35582;
+                    break;
+
+                case "J":
+                    convertedValue = joule;
+                    break;
+
+                case "Nm":
+                    convertedValue = joule;
+                    break;
+            }
+        }
+
+        // =========================================
+        // FORCE
+        // =========================================
+
+        else if (unitType === "force") {
+
+            let newton;
+
+            switch (fromUnit) {
+
+                case "N":
+                    newton = inputValue;
+                    break;
+
+                case "lbf":
+                    newton = inputValue * 4.44822;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "N":
+                    convertedValue = newton;
+                    break;
+
+                case "lbf":
+                    convertedValue = newton / 4.44822;
+                    break;
+            }
+        }
+
+        // =========================================
+        // DISPLAY RESULT
+        // =========================================
+
         resultDiv.innerHTML = `
             <strong>Converted Result:</strong><br><br>
-            ${inputValue.toFixed(4)} ${fromUnit}
+
+            ${inputValue.toFixed(6)} ${fromUnit}
+
             =
-            <strong>${convertedValue.toFixed(4)} ${toUnit}</strong>
+
+            <strong>${convertedValue.toFixed(6)} ${toUnit}</strong>
         `;
     }
 
-    // Initialize dropdowns on page load
+    // Initialize dropdowns
     updateUnits();
 
 </script>
