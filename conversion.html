@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 760px;
+            max-width: 820px;
             margin: auto;
             background: #ffffff;
             padding: 30px;
@@ -87,6 +87,10 @@
             font-size: 13px;
         }
 
+        #mwGroup {
+            display: none;
+        }
+
     </style>
 
 </head>
@@ -124,6 +128,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
             <option value="flowrate">Volume Flow Rate</option>
 
+            <option value="density">Density</option>
+
+            <option value="moles">Mass to Moles</option>
+
         </select>
 
     </div>
@@ -135,6 +143,18 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         <label for="inputValue">Enter Value</label>
 
         <input type="number" id="inputValue" placeholder="Enter value">
+
+    </div>
+
+    <!-- MOLECULAR WEIGHT -->
+
+    <div class="form-group" id="mwGroup">
+
+        <label for="mwInput">Enter Molecular Weight (MW)</label>
+
+        <input type="number"
+               id="mwInput"
+               placeholder="Enter MW (kg/kmol or g/mol)">
 
     </div>
 
@@ -172,8 +192,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
     <div class="footer-note">
 
-        Supports Temperature, Pressure, Mass, Volume,
-        Energy, Force, and Volume Flow Rate conversions.
+        Supports Engineering Unit Conversions including
+        Density and Mass-to-Moles calculations.
 
     </div>
 
@@ -263,37 +283,57 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
         flowrate: [
 
-            { value: "bbl_day", text: "Barrel per Day (bbl/day)" },
+            { value: "bbl_day", text: "Barrel/day (bbl/day)" },
 
-            { value: "gpm", text: "Gallon per Minute (gal/min)" },
+            { value: "gpm", text: "gal/min" },
 
-            { value: "m3_day", text: "Cubic Meter per Day (m³/day)" },
+            { value: "m3_day", text: "m³/day" },
 
-            { value: "ft3_day", text: "Cubic Foot per Day (ft³/day)" },
+            { value: "ft3_day", text: "ft³/day" },
 
-            { value: "m3_hr", text: "Cubic Meter per Hour (m³/hr)" },
+            { value: "m3_hr", text: "m³/hr" },
 
-            { value: "m3_min", text: "Cubic Meter per Minute (m³/min)" },
+            { value: "m3_min", text: "m³/min" },
 
-            { value: "ft3_hr", text: "Cubic Foot per Hour (ft³/hr)" },
+            { value: "ft3_hr", text: "ft³/hr" },
 
-            { value: "ft3_min", text: "Cubic Foot per Minute (ft³/min)" },
+            { value: "ft3_min", text: "ft³/min" },
 
-            { value: "ft3_sec", text: "Cubic Foot per Second (ft³/sec)" },
+            { value: "ft3_sec", text: "ft³/sec" },
 
-            { value: "L_day", text: "Liter per Day (L/day)" },
+            { value: "L_day", text: "L/day" },
 
-            { value: "L_hr", text: "Liter per Hour (L/hr)" },
+            { value: "L_hr", text: "L/hr" },
 
-            { value: "L_min", text: "Liter per Minute (L/min)" },
+            { value: "L_min", text: "L/min" },
 
-            { value: "L_sec", text: "Liter per Second (L/sec)" }
+            { value: "L_sec", text: "L/sec" }
+
+        ],
+
+        density: [
+
+            { value: "lbft3", text: "lb/ft³" },
+
+            { value: "kgm3", text: "kg/m³" },
+
+            { value: "lbgal", text: "lb/gal" },
+
+            { value: "kgl", text: "kg/L" }
+
+        ],
+
+        moles: [
+
+            { value: "kg", text: "Mass (kg)" },
+
+            { value: "lb", text: "Mass (lb)" }
 
         ]
     };
 
     // =========================================
-    // UPDATE DROPDOWNS
+    // UPDATE UNIT DROPDOWNS
     // =========================================
 
     function updateUnits() {
@@ -307,9 +347,26 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         const toUnit =
             document.getElementById("toUnit");
 
+        const mwGroup =
+            document.getElementById("mwGroup");
+
         fromUnit.innerHTML = "";
 
         toUnit.innerHTML = "";
+
+        // Show MW input only for mole calculation
+
+        if (unitType === "moles") {
+
+            mwGroup.style.display = "block";
+
+        }
+
+        else {
+
+            mwGroup.style.display = "none";
+
+        }
 
         units[unitType].forEach(unit => {
 
@@ -350,6 +407,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         const toUnit =
             document.getElementById("toUnit").value;
 
+        const mw =
+            parseFloat(document.getElementById("mwInput").value);
+
         const resultDiv =
             document.getElementById("result");
 
@@ -364,10 +424,116 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         let convertedValue;
 
         // =========================================
+        // DENSITY
+        // =========================================
+
+        if (unitType === "density") {
+
+            let kgm3;
+
+            switch (fromUnit) {
+
+                case "lbft3":
+                    kgm3 = inputValue * 16.0185;
+                    break;
+
+                case "kgm3":
+                    kgm3 = inputValue;
+                    break;
+
+                case "lbgal":
+                    kgm3 = inputValue * 119.826;
+                    break;
+
+                case "kgl":
+                    kgm3 = inputValue * 1000;
+                    break;
+            }
+
+            switch (toUnit) {
+
+                case "lbft3":
+                    convertedValue = kgm3 / 16.0185;
+                    break;
+
+                case "kgm3":
+                    convertedValue = kgm3;
+                    break;
+
+                case "lbgal":
+                    convertedValue = kgm3 / 119.826;
+                    break;
+
+                case "kgl":
+                    convertedValue = kgm3 / 1000;
+                    break;
+            }
+        }
+
+        // =========================================
+        // MASS TO MOLES
+        // =========================================
+
+        else if (unitType === "moles") {
+
+            if (isNaN(mw) || mw <= 0) {
+
+                resultDiv.innerHTML =
+                    "Please enter a valid Molecular Weight.";
+
+                return;
+            }
+
+            let massKg;
+
+            switch (fromUnit) {
+
+                case "kg":
+                    massKg = inputValue;
+                    break;
+
+                case "lb":
+                    massKg = inputValue * 0.453592;
+                    break;
+            }
+
+            // MW in kg/kmol
+
+            const kmol = massKg / mw;
+
+            switch (toUnit) {
+
+                case "kg":
+                    convertedValue = kmol;
+                    break;
+
+                case "lb":
+                    convertedValue = kmol * 2.20462;
+                    break;
+            }
+
+            resultDiv.innerHTML = `
+
+                <strong>Mole Calculation:</strong><br><br>
+
+                Mass Input = ${inputValue.toFixed(6)} ${fromUnit}<br>
+
+                Molecular Weight = ${mw.toFixed(6)} kg/kmol<br><br>
+
+                <strong>
+                    Moles = ${kmol.toFixed(6)} kmol
+                </strong>
+
+            `;
+
+            return;
+        }
+
+        // =========================================
         // TEMPERATURE
         // =========================================
 
-        if (unitType === "temperature") {
+        else if (unitType === "temperature") {
 
             let kelvin;
 
@@ -378,7 +544,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "F":
-                    kelvin = (inputValue - 32) * 5/9 + 273.15;
+                    kelvin =
+                        (inputValue - 32) * 5/9 + 273.15;
                     break;
 
                 case "K":
@@ -594,7 +761,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "MMBtu":
-                    convertedValue = joule / 1055060000;
+                    convertedValue =
+                        joule / 1055060000;
                     break;
 
                 case "cal":
@@ -606,7 +774,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "hp":
-                    convertedValue = joule / 2684519.54;
+                    convertedValue =
+                        joule / 2684519.54;
                     break;
 
                 case "ftlb":
@@ -649,13 +818,14 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "lbf":
-                    convertedValue = newton / 4.44822;
+                    convertedValue =
+                        newton / 4.44822;
                     break;
             }
         }
 
         // =========================================
-        // VOLUME FLOW RATE
+        // FLOW RATE
         // =========================================
 
         else if (unitType === "flowrate") {
@@ -665,11 +835,13 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             switch (fromUnit) {
 
                 case "bbl_day":
-                    m3sec = inputValue * 0.158987 / 86400;
+                    m3sec =
+                        inputValue * 0.158987 / 86400;
                     break;
 
                 case "gpm":
-                    m3sec = inputValue * 0.00378541 / 60;
+                    m3sec =
+                        inputValue * 0.00378541 / 60;
                     break;
 
                 case "m3_day":
@@ -677,7 +849,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "ft3_day":
-                    m3sec = inputValue * 0.0283168 / 86400;
+                    m3sec =
+                        inputValue * 0.0283168 / 86400;
                     break;
 
                 case "m3_hr":
@@ -689,31 +862,38 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "ft3_hr":
-                    m3sec = inputValue * 0.0283168 / 3600;
+                    m3sec =
+                        inputValue * 0.0283168 / 3600;
                     break;
 
                 case "ft3_min":
-                    m3sec = inputValue * 0.0283168 / 60;
+                    m3sec =
+                        inputValue * 0.0283168 / 60;
                     break;
 
                 case "ft3_sec":
-                    m3sec = inputValue * 0.0283168;
+                    m3sec =
+                        inputValue * 0.0283168;
                     break;
 
                 case "L_day":
-                    m3sec = inputValue * 0.001 / 86400;
+                    m3sec =
+                        inputValue * 0.001 / 86400;
                     break;
 
                 case "L_hr":
-                    m3sec = inputValue * 0.001 / 3600;
+                    m3sec =
+                        inputValue * 0.001 / 3600;
                     break;
 
                 case "L_min":
-                    m3sec = inputValue * 0.001 / 60;
+                    m3sec =
+                        inputValue * 0.001 / 60;
                     break;
 
                 case "L_sec":
-                    m3sec = inputValue * 0.001;
+                    m3sec =
+                        inputValue * 0.001;
                     break;
             }
 
@@ -730,7 +910,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "m3_day":
-                    convertedValue = m3sec * 86400;
+                    convertedValue =
+                        m3sec * 86400;
                     break;
 
                 case "ft3_day":
@@ -739,11 +920,13 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                     break;
 
                 case "m3_hr":
-                    convertedValue = m3sec * 3600;
+                    convertedValue =
+                        m3sec * 3600;
                     break;
 
                 case "m3_min":
-                    convertedValue = m3sec * 60;
+                    convertedValue =
+                        m3sec * 60;
                     break;
 
                 case "ft3_hr":
@@ -809,12 +992,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     updateUnits();
 
 </script>
-
 <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
-
 </body>
 
 </html>
