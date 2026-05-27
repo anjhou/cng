@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Midstream Weekly</title>
+
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #0b2e59;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #0b2e59;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #d9e2ef;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #0b2e59;
+        }
+
+        .tab.active {
+            background: #0b2e59;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        table th {
+            background: #0b2e59;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+
+<div class="container">
+
+    <h1>Midstream Weekly</h1>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+        <div class="tab active" data-tab="Prices">Prices</div>
+		<div class="tab" data-tab="Spreads">Spreads</div>        
+        <div class="tab" data-tab="Demand">Demand</div>
+		<div class="tab" data-tab="Supply">Supply</div>
+		<div class="tab" data-tab="Supply-Demand">Supply-Demand</div>
+		<div class="tab" data-tab="Trade-Flow">Trade-Flow</div>
+		<div class="tab" data-tab="Pipe">Pipelines</div>
+		<div class="tab" data-tab="Ports">Ports</div>
+		<div class="tab" data-tab="Property">Property</div>
+        <div class="tab" data-tab="Specs">Specs</div>		
+		<div class="tab" data-tab="Latest-News">News</div>        
+    </div>
+
+			
+		<!-- Ports Infrastucture  TAB -->
+    <div id="Ports" class="tab-content">
+        <div class="section">
+            <h2>Seaports</h2>
+            <p>Seaports with Global Refined Demand centers</p>
+			<h2>Refined Products Seaports </h2>
+			
+				
+		</div>
+	</div>	
+	
+	
+		<!-- Pipelines Infrastucture  TAB -->
+    <div id="Pipe" class="tab-content">
+        <div class="section">
+            <h2>Refined Pipelines</h2>
+            <p>Refined Pipelines with Demand centers</p>
+			
+			<h2>Global Refined Pipelines </h2>
+				
+	
+			
+		</div>
+	</div>	
+
+	<!-- Trade Flow TAB -->
+    <div id="Trade-Flow" class="tab-content">
+        <div class="section">
+            <h2>Global Refined Trade-Flow</h2>
+            <p>Trade-Flow with Industry Insights</p>
+			
+			<h2>Global H2, LNG, NGLs, condensate Trade Flow Forecast by Region (2027–2032)</h2>
+
+			
+		</div>
+	</div>	
+	
+	<!-- News Update TAB -->
+    <div id="Latest-News" class="tab-content">
+        <div class="section">
+            <h2>News</h2>
+					<h2>Global Refined Market News Updates and Industry Insights (2026)</h2>
+
+		</div>
+	</div>	
+			
+    <!-- Prices TAB -->
+    <div id="Prices" class="tab-content active">
+        <div class="section">
+            <h2>Refined Product Prices (U.S.)</h2>
+            
+			<h2>Current Market Prices for Global Refined (2026)</h2>
+			
+
+        </div>
+    </div>
+
+    <!-- Price Spread TAB -->
+    <div id="Spreads" class="tab-content">
+        <div class="section">
+            <h2>Price Spread</h2>
+            <p>Spread between Refined and Feedstock Prices.</p>
+
+			<h2>Price Spread Between Refined Product Versus Feedstock</h2>
+
+
+        </div>
+    </div>
+
+    <!-- Supply-Demand TAB -->
+    <div id="Supply-Demand" class="tab-content">
+        <div class="section">
+            <h2>Refined Product Supply-Demand </h2>
+            <p> 2026 and 2032 demand</p>
+				<h2>Global Refined Product Supply and Demand Forecast (2027–2032)</h2>
+				
+
+
+								
+		</div>
+    </div>
+
+    <!-- Demand TAB -->
+    <div id="Demand" class="tab-content">
+        <div class="section">
+            
+			<h2>Global Refined Product Demand by Region and Major Consuming Countries (2026)</h2>
+			
+        </div>
+    </div>
+
+    <!-- Specs -->
+    <div id="Specs" class="tab-content">
+        <div class="section">
+            
+			<h2>Hydrocarbon Specs Data for Refined Product</h2>
+
+
+        </div>
+    </div>
+
+    <!-- Product Specification -->
+    <div id="Property" class="tab-content">
+        <div class="section">
+            <h2>Transport Property and Energy Content</h2>
+            <p></p>			
+			<h2>Physical and Thermodynamic Properties of H2, LNG, NGLs, Condensate, and Crude Oil</h2>
+			
+
+
+						<li><b>Notes 1:</b> Density values are approximate industry-average values referenced near standard conditions of 60°F and 14.7 psia unless otherwise noted.</li>
+
+						<li><b>Notes 2:</b> Specific gravity for liquids is generally referenced relative to water at 60°F, while gas specific gravity is referenced relative to air.</li>
+
+						<li><b>Notes 3:</b> API gravity is calculated using the equation: API = (141.5 / Specific Gravity at 60°F) − 131.5.</li>
+
+						<li><b>Notes 4:</b> Dynamic viscosity values are highly temperature dependent and generally decrease significantly as temperature increases.</li>
+
+						<li><b>Notes 5:</b> Kinematic viscosity is calculated from dynamic viscosity divided by fluid density and is strongly influenced by heavy hydrocarbon content.</li>
+
+						<li><b>Notes 6:</b> HHV (Higher Heating Value) includes latent heat recovery from water vapor condensation, while LHV (Lower Heating Value) excludes latent heat.</li>
+
+						<li><b>Notes 7:</b> Natural gas and LNG energy content values vary depending on methane concentration, nitrogen dilution, and heavier hydrocarbon fractions.</li>
+
+						<li><b>Notes 8:</b> LNG storage conditions are near atmospheric pressure but require cryogenic temperatures around -260°F to maintain liquid phase stability.</li>
+
+						<li><b>Notes 9:</b> NGL streams such as propane and butane are commonly stored under moderate pressure to maintain saturation conditions at ambient temperature.</li>
+
+						<li><b>Notes 10:</b> Condensate and crude oil properties vary substantially by reservoir origin, stabilization process, dissolved gas content, sulfur concentration, and blending practices.</li>
+
+						</ul>									
+        </div>
+    </div>
+
+    <!-- Supply -->
+    <div id="Supply" class="tab-content">
+        <div class="section">
+            <h2>Production Upstream</h2>
+            <p>Production Pathway.</p>
+			
+				
+		</div>
+    </div>
+	
+</div>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
+<script>
+    // Modular include loader
+    document.querySelectorAll("[data-include-html]").forEach(el => {
+        fetch(el.getAttribute("data-include-html"))
+            .then(resp => resp.text())
+            .then(data => el.innerHTML = data);
+    });
+
+    // Tab switching logic
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            tab.classList.add("active");
+            document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+
+
+</body>
+</html>
