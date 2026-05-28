@@ -164,6 +164,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 			
 			<h2>Current U.S. Refined Products & Crude Prices</h2>
 
+					<h2>Updated Current U.S. Refined Products, NGLs & Crude Prices</h2>
+
 					<table border="1" cellspacing="0" cellpadding="6">
 					<thead>
 					<tr>
@@ -182,7 +184,23 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>Mont Belvieu Propane</td>
 					<td>$0.73 – $0.82</td>
 					<td>$/gal</td>
-					<td>Prices remain pressured by elevated U.S. natural gas liquids (NGL) production and strong inventory levels, though export demand to Asia and Latin America continues to support Gulf Coast pricing.</td>
+					<td>Strong export demand to Asia and Latin America supports Gulf Coast pricing despite high U.S. inventories and robust NGL production growth.</td>
+					</tr>
+
+					<tr>
+					<td>n-Butane</td>
+					<td>Mont Belvieu Normal Butane</td>
+					<td>$0.88 – $1.02</td>
+					<td>$/gal</td>
+					<td>Seasonal gasoline blending demand and alkylation unit utilization are supporting prices, while winter heating demand remains limited.</td>
+					</tr>
+
+					<tr>
+					<td>Iso-Butane</td>
+					<td>Mont Belvieu Iso-Butane</td>
+					<td>$0.96 – $1.10</td>
+					<td>$/gal</td>
+					<td>Supported by refinery alkylation demand for premium gasoline blending components and tighter refinery-grade supply balances.</td>
 					</tr>
 
 					<tr>
@@ -190,7 +208,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>USGC Light Naphtha</td>
 					<td>$74 – $82</td>
 					<td>$/bbl</td>
-					<td>Petrochemical steam cracker demand and gasoline blending economics are supporting prices. Asian petrochemical weakness continues limiting upside.</td>
+					<td>Gasoline blending economics and petrochemical steam cracker demand continue supporting prices despite weak Asian petrochemical margins.</td>
 					</tr>
 
 					<tr>
@@ -198,7 +216,23 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>USGC Heavy Naphtha</td>
 					<td>$79 – $88</td>
 					<td>$/bbl</td>
-					<td>Supported by reformer feed demand and octane blending requirements. Refinery maintenance has tightened spot availability.</td>
+					<td>Higher octane requirements and catalytic reformer feed demand continue supporting heavy naphtha values.</td>
+					</tr>
+
+					<tr>
+					<td>Alkylate</td>
+					<td>USGC Alkylate</td>
+					<td>$98 – $112</td>
+					<td>$/bbl</td>
+					<td>Premium low-RVP gasoline blending component remains well supported by summer gasoline specifications and octane demand.</td>
+					</tr>
+
+					<tr>
+					<td>Reformate</td>
+					<td>USGC Reformate</td>
+					<td>$96 – $108</td>
+					<td>$/bbl</td>
+					<td>High octane value and aromatics content continue supporting reformate pricing amid tightening gasoline blendstock markets.</td>
 					</tr>
 
 					<tr>
@@ -206,7 +240,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>NYMEX RBOB</td>
 					<td>$2.30 – $2.55</td>
 					<td>$/gal</td>
-					<td>Summer driving demand and lower gasoline inventories are supporting crack spreads. Seasonal refinery outages continue creating volatility.</td>
+					<td>Summer driving demand and refinery outages continue supporting gasoline crack spreads and volatility.</td>
 					</tr>
 
 					<tr>
@@ -214,7 +248,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>Conventional Blendstock</td>
 					<td>$2.15 – $2.40</td>
 					<td>$/gal</td>
-					<td>Midcontinent and Gulf Coast blending economics remain sensitive to ethanol prices, refinery utilization, and regional pipeline constraints.</td>
+					<td>Ethanol blending economics, refinery utilization rates, and regional distribution constraints continue influencing prices.</td>
 					</tr>
 
 					<tr>
@@ -222,7 +256,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>USGC Jet Fuel</td>
 					<td>$2.20 – $2.50</td>
 					<td>$/gal</td>
-					<td>Global air travel recovery and strong international aviation demand continue supporting jet cracks despite slower freight markets.</td>
+					<td>International aviation recovery and resilient passenger traffic continue supporting jet fuel margins globally.</td>
 					</tr>
 
 					<tr>
@@ -230,7 +264,15 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>NYMEX ULSD</td>
 					<td>$2.25 – $2.55</td>
 					<td>$/gal</td>
-					<td>Diesel markets remain structurally tight due to reduced global refining capacity additions, agricultural demand, and export pull from Latin America.</td>
+					<td>Diesel inventories remain relatively tight due to export demand, agriculture consumption, and constrained refining additions.</td>
+					</tr>
+
+					<tr>
+					<td>Gasoil</td>
+					<td>ICE Low Sulfur Gasoil</td>
+					<td>$92 – $104</td>
+					<td>$/bbl</td>
+					<td>European middle distillate demand, sanctions on Russian products, and shipping disruptions continue supporting gasoil cracks.</td>
 					</tr>
 
 					<tr>
@@ -238,7 +280,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>High Sulfur Fuel Oil</td>
 					<td>$63 – $72</td>
 					<td>$/bbl</td>
-					<td>Discount to crude persists because of IMO marine sulfur regulations. However, power generation demand in the Middle East and Asia provides support.</td>
+					<td>Discounts persist due to IMO sulfur restrictions, though power generation demand in Asia and the Middle East provides support.</td>
 					</tr>
 
 					<tr>
@@ -246,7 +288,15 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>Very Low Sulfur Fuel Oil</td>
 					<td>$78 – $90</td>
 					<td>$/bbl</td>
-					<td>Marine bunker demand and IMO sulfur-compliance requirements continue supporting margins over HSFO.</td>
+					<td>Marine bunker demand and sulfur-compliance requirements continue supporting LSFO premiums over HSFO.</td>
+					</tr>
+
+					<tr>
+					<td>Lube Oil Base Stocks</td>
+					<td>Group II/III Base Oils</td>
+					<td>$105 – $135</td>
+					<td>$/bbl</td>
+					<td>Automotive lubricant demand, tight premium base oil supply, and refinery integration economics continue supporting margins.</td>
 					</tr>
 
 					<tr>
@@ -254,7 +304,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>ICE Brent</td>
 					<td>$81 – $86</td>
 					<td>$/bbl</td>
-					<td>Geopolitical risks in the Middle East and OPEC+ supply discipline continue supporting Brent despite concerns around slowing global economic growth.</td>
+					<td>Middle East geopolitical risks and OPEC+ production discipline continue supporting Brent pricing.</td>
 					</tr>
 
 					<tr>
@@ -262,40 +312,17 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>NYMEX WTI</td>
 					<td>$76 – $82</td>
 					<td>$/bbl</td>
-					<td>Strong U.S. shale output and pipeline takeaway capacity expansions continue capping WTI premiums relative to Brent.</td>
+					<td>Strong U.S. shale output growth and export infrastructure expansions continue moderating WTI price upside.</td>
 					</tr>
 
 					</tbody>
 					</table>
 
-					<p><i>*Prices represent indicative current U.S. spot/futures trading ranges and may fluctuate intraday based on regional market conditions.</i></p>
-
-					<h2>Key Market Drivers and Industry Insights</h2>
-
-					<ul>
-
-					<li><b>OPEC+ production policy:</b> Saudi Arabia and allied producers continue using voluntary production cuts to stabilize crude markets and defend price floors.</li>
-
-					<li><b>U.S. shale productivity:</b> Permian Basin efficiency gains and associated gas/NGL production growth continue pressuring propane and domestic crude differentials.</li>
-
-					<li><b>Refinery maintenance cycles:</b> Seasonal turnarounds across the U.S. Gulf Coast and Europe periodically tighten gasoline, diesel, and jet fuel supply balances.</li>
-
-					<li><b>Geopolitical disruptions:</b> Risks involving the Strait of Hormuz, Red Sea shipping attacks, Russia sanctions, and Middle East instability continue adding risk premiums to crude and refined products.</li>
-
-					<li><b>IMO marine fuel regulations:</b> Low-sulfur bunker fuel demand remains elevated because of international maritime sulfur compliance standards, supporting LSFO premiums over HSFO.</li>
-
-					<li><b>Petrochemical demand weakness:</b> Slower manufacturing activity in China and Europe has reduced naphtha demand growth and compressed petrochemical margins.</li>
-
-					<li><b>Pipeline and logistics bottlenecks:</b> Regional constraints in pipeline, storage, and export terminal infrastructure periodically widen regional price spreads between Gulf Coast, Midwest, and East Coast markets.</li>
-
-					<li><b>Capital investment trends:</b> Investment continues flowing into LNG export terminals, NGL fractionation, refinery upgrades, and renewable diesel projects, reshaping long-term refined product balances.</li>
-
-					<li><b>Government regulations and energy transition:</b> Carbon reduction mandates, renewable fuel standards (RFS), EV adoption policies, and low-carbon fuel standards are influencing gasoline and diesel demand expectations.</li>
-
-					<li><b>Trade imbalances and export dependence:</b> The U.S. remains a major exporter of propane, diesel, and gasoline, making domestic pricing increasingly dependent on Latin American, European, and Asian demand conditions.</li>
-
-					</ul>
-			
+					<p>
+					<i>
+					*Prices represent indicative current U.S. spot/futures trading ranges and may fluctuate intraday depending on regional supply-demand balances, refinery operations, export activity, and geopolitical developments.
+					</i>
+					</p>			
 
         </div>
     </div>
