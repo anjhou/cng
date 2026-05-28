@@ -351,10 +351,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     <!-- Price Spread TAB -->
     <div id="Spreads" class="tab-content">
         <div class="section">
-            <h2>Price Spread</h2>
-            <h2>Price Spread Between Refined Product Versus Feedstock</h2>
-			
-			<h2>Current U.S. Energy & Refined Product Price Spreads</h2>
+        <h2>Current U.S. Energy & Refined Product Price Spreads</h2>
 
 					<table border="1" cellspacing="0" cellpadding="6">
 					<thead>
@@ -546,7 +543,245 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         </div>
     </div>
 
-    <!-- Supply-Demand TAB -->
+
+
+    <!-- Demand TAB -->
+    <div id="Demand" class="tab-content">
+        <div class="section">
+         <h2>Global Refined Product Demand by Region and Major Consuming Countries</h2>
+		 
+		 <h2>Global and U.S. Demand for Hydrocarbons & Refined Products</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6">
+					<thead>
+					<tr>
+					<th>Commodity / Product</th>
+					<th>Estimated Global Demand</th>
+					<th>Estimated U.S. Demand</th>
+					<th>Typical Unit</th>
+					<th>Demand Drivers / Market Insight</th>
+					</tr>
+					</thead>
+
+					<tbody>
+
+					<tr>
+					<td>Ethane</td>
+					<td>8.5 – 9.5</td>
+					<td>2.6 – 2.9</td>
+					<td>million bpd equivalent</td>
+					<td>Primarily driven by petrochemical steam cracker demand for ethylene production, especially in the U.S., China, and the Middle East.</td>
+					</tr>
+
+					<tr>
+					<td>Propane</td>
+					<td>10 – 11</td>
+					<td>1.2 – 1.5</td>
+					<td>million bpd equivalent</td>
+					<td>Demand supported by residential heating, petrochemical feedstocks (PDH units), agriculture drying, and export demand to Asia.</td>
+					</tr>
+
+					<tr>
+					<td>n-Butane</td>
+					<td>4.0 – 4.8</td>
+					<td>0.45 – 0.60</td>
+					<td>million bpd equivalent</td>
+					<td>Gasoline blending, alkylation feed, and seasonal heating demand continue driving consumption patterns.</td>
+					</tr>
+
+					<tr>
+					<td>Iso-Butane</td>
+					<td>2.5 – 3.2</td>
+					<td>0.30 – 0.45</td>
+					<td>million bpd equivalent</td>
+					<td>Demand closely linked to refinery alkylation units producing premium gasoline blendstocks.</td>
+					</tr>
+
+					<tr>
+					<td>Light Naphtha</td>
+					<td>7 – 8</td>
+					<td>0.8 – 1.0</td>
+					<td>million bpd</td>
+					<td>Petrochemical steam crackers and gasoline blending remain the primary global demand centers.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Naphtha</td>
+					<td>6 – 7</td>
+					<td>0.7 – 0.9</td>
+					<td>million bpd</td>
+					<td>Demand supported by catalytic reformers, aromatics production, and octane gasoline blending.</td>
+					</tr>
+
+					<tr>
+					<td>RBOB Gasoline</td>
+					<td>Primarily U.S. specification</td>
+					<td>8.5 – 9.2</td>
+					<td>million bpd</td>
+					<td>Strong transportation fuel demand and seasonal driving activity remain key U.S. demand drivers.</td>
+					</tr>
+
+					<tr>
+					<td>CBOB Gasoline</td>
+					<td>Primarily North America</td>
+					<td>3.5 – 4.5</td>
+					<td>million bpd</td>
+					<td>Conventional gasoline blending demand remains supported by inland transportation and regional fuel consumption.</td>
+					</tr>
+
+					<tr>
+					<td>Jet A / Aviation Fuel</td>
+					<td>7.5 – 8.5</td>
+					<td>1.5 – 1.8</td>
+					<td>million bpd</td>
+					<td>Commercial aviation growth, tourism recovery, and international passenger traffic continue driving jet fuel demand.</td>
+					</tr>
+
+					<tr>
+					<td>ULSD</td>
+					<td>28 – 31</td>
+					<td>3.8 – 4.2</td>
+					<td>million bpd</td>
+					<td>Freight transportation, agriculture, mining, and industrial activities remain major diesel demand sectors.</td>
+					</tr>
+
+					<tr>
+					<td>HSFO</td>
+					<td>3.5 – 4.5</td>
+					<td>0.2 – 0.4</td>
+					<td>million bpd</td>
+					<td>Power generation and some marine bunker markets continue supporting HSFO demand despite IMO sulfur restrictions.</td>
+					</tr>
+
+					<tr>
+					<td>Gasoil</td>
+					<td>25 – 29</td>
+					<td>Limited as separate spec</td>
+					<td>million bpd</td>
+					<td>Industrial activity, heating demand, and transportation sectors continue driving European and Asian gasoil demand.</td>
+					</tr>
+
+					<tr>
+					<td>Lube Oil / Base Oils</td>
+					<td>1.8 – 2.2</td>
+					<td>0.35 – 0.50</td>
+					<td>million bpd equivalent</td>
+					<td>Automotive lubricants, industrial machinery, heavy equipment, and synthetic lubricant growth support demand.</td>
+					</tr>
+
+					<tr>
+					<td>LSFO / VLSFO</td>
+					<td>6 – 7</td>
+					<td>0.5 – 0.8</td>
+					<td>million bpd</td>
+					<td>IMO sulfur-compliant marine bunker fuel demand continues increasing with global shipping activity.</td>
+					</tr>
+
+					<tr>
+					<td>Light Sweet Crude</td>
+					<td>22 – 26</td>
+					<td>8 – 10</td>
+					<td>million bpd</td>
+					<td>Preferred by simple refiners due to high gasoline/distillate yields and lower sulfur processing costs.</td>
+					</tr>
+
+					<tr>
+					<td>Medium Crude</td>
+					<td>35 – 40</td>
+					<td>5 – 7</td>
+					<td>million bpd</td>
+					<td>Balanced refinery economics and broad refinery compatibility support strong global demand.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+					<td>18 – 22</td>
+					<td>2 – 3</td>
+					<td>million bpd</td>
+					<td>Complex refineries demand heavy crude for upgrading economics and discounted feedstock advantages.</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+					<td>45 – 50</td>
+					<td>10 – 12</td>
+					<td>million bpd</td>
+					<td>Low sulfur content reduces refining costs and supports higher clean product yields.</td>
+					</tr>
+
+					<tr>
+					<td>Sour Crude</td>
+					<td>50 – 55</td>
+					<td>6 – 8</td>
+					<td>million bpd</td>
+					<td>Demand remains strong among sophisticated refiners capable of processing discounted high-sulfur crudes.</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<p>
+					<i>
+					Demand figures shown are indicative 2025–2026 market estimates based on refinery throughput, petrochemical utilization, marine fuel consumption, transportation demand, and global trade flows.
+					</i>
+					</p>
+
+					<h2>Key Demand Drivers & Industry Dynamics</h2>
+
+					<ul>
+
+					<li><b>Global economic growth:</b> GDP expansion, industrial activity, freight transportation, and manufacturing output remain the largest macro demand drivers for crude and refined products.</li>
+
+					<li><b>Petrochemical expansion:</b> Ethane, propane, and naphtha demand continue increasing because of new steam crackers and PDH units in China, the U.S., and the Middle East.</li>
+
+					<li><b>Aviation recovery:</b> Rising global passenger traffic and international tourism continue strengthening jet fuel consumption.</li>
+
+					<li><b>Marine transportation growth:</b> Expansion in global trade volumes and shipping activity supports LSFO and marine gasoil demand growth.</li>
+
+					<li><b>Refinery complexity investments:</b> Heavy and sour crude demand remains supported by refinery coker and hydrocracker investments globally.</li>
+
+					<li><b>Government environmental regulations:</b> Low-carbon fuel standards, sulfur reduction mandates, renewable fuel blending requirements, and emissions targets continue reshaping fuel demand patterns.</li>
+
+					<li><b>Energy transition policies:</b> EV adoption, renewable energy investments, and decarbonization targets are moderating long-term gasoline and diesel demand growth expectations.</li>
+
+					<li><b>Geopolitical disruptions:</b> Sanctions, wars, Red Sea disruptions, Strait of Hormuz risks, and trade restrictions continue impacting regional demand and supply flows.</li>
+
+					<li><b>Infrastructure and logistics constraints:</b> Pipeline bottlenecks, export terminal limitations, refinery outages, and storage shortages periodically constrain product availability and regional demand fulfillment.</li>
+
+					<li><b>Trade imbalances:</b> Europe’s dependence on imported diesel, Asia’s petrochemical feedstock demand, and U.S. LPG export growth continue reshaping global hydrocarbon trade patterns.</li>
+
+					</ul>
+
+					<h2>Additional Demand Insights & Market Factors</h2>
+
+					<ul>
+
+					<li><b>China demand trends:</b> Chinese petrochemical capacity additions remain one of the largest global drivers for LPG and naphtha imports.</li>
+
+					<li><b>Seasonal demand cycles:</b> Gasoline demand peaks during summer driving seasons, while propane and distillate demand rise during winter heating periods.</li>
+
+					<li><b>Industrial fuel switching:</b> Relative pricing between natural gas, LPG, fuel oil, and coal influences industrial consumption behavior globally.</li>
+
+					<li><b>Emerging market growth:</b> Southeast Asia, India, Africa, and Latin America continue driving incremental transportation fuel demand growth.</li>
+
+					<li><b>Renewable diesel impacts:</b> Renewable fuel expansion is influencing traditional ULSD and feedstock demand balances.</li>
+
+					<li><b>Refinery utilization rates:</b> Higher refinery operating rates increase demand for medium and heavy crude feedstocks.</li>
+
+					<li><b>Shipping lane disruptions:</b> Canal restrictions and maritime security issues continue increasing freight costs and regional product demand volatility.</li>
+
+					<li><b>Capital investments in LNG:</b> LNG infrastructure growth indirectly increases associated NGL production and export availability.</li>
+
+					<li><b>Crude quality economics:</b> Refiners optimize feedstock selection between light-sweet and heavy-sour crude depending on crack spreads and upgrading margins.</li>
+
+					<li><b>Lubricant quality upgrades:</b> Automotive efficiency standards and industrial performance requirements continue increasing premium Group II and III lube oil demand.</li>
+
+					</ul>
+			
+        </div>
+    </div>
+	
+	    <!-- Supply-Demand TAB -->
     <div id="Supply-Demand" class="tab-content">
         <div class="section">
             <h2>Refined Products Supply-Demand </h2>
@@ -556,14 +791,6 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 								
 		</div>
-    </div>
-
-    <!-- Demand TAB -->
-    <div id="Demand" class="tab-content">
-        <div class="section">
-         <h2>Global Refined Product Demand by Region and Major Consuming Countries</h2>
-			
-        </div>
     </div>
 
     <!-- Specs -->
