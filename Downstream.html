@@ -138,10 +138,254 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 	<!-- Trade Flow TAB -->
     <div id="Trade-Flow" class="tab-content">
         <div class="section">
-            <h2>Global Refined Products Trade-Flow</h2>
-            <p>Trade-Flow with Industry Insights</p>
-			
-			<h2>Global Refined Products Trade Flow Forecast by Region (2027–2032)</h2>
+            <h2>Global and U.S. Hydrocarbon Trade Flow Overview (2026)</h2>
+
+					<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-family:Arial; font-size:13px;">
+
+					<thead style="background-color:#dbeaf7;">
+					<tr>
+					<th>Product</th>
+					<th>Global Trade Flow</th>
+					<th>U.S. Trade Flow</th>
+					<th>Major Export Regions</th>
+					<th>Major Import Regions</th>
+					<th>Primary Trade Direction</th>
+					<th>Notes / Trade Flow Insight</th>
+					</tr>
+					</thead>
+
+					<tbody>
+
+					<tr>
+					<td>Ethane</td>
+					<td>Export-Oriented</td>
+					<td>Major Net Exporter</td>
+					<td>U.S., Middle East</td>
+					<td>China, India, Europe</td>
+					<td>Atlantic Basin → Asia</td>
+					<td>U.S. shale production dominates global ethane exports. Dedicated ethane carriers and petrochemical cracker expansions in Asia continue driving long-haul export growth.</td>
+					</tr>
+
+					<tr>
+					<td>Propane</td>
+					<td>High Global Trade Volume</td>
+					<td>Major Net Exporter</td>
+					<td>U.S., Qatar, UAE</td>
+					<td>China, Japan, South Korea, India</td>
+					<td>U.S. Gulf Coast → Asia</td>
+					<td>Asian PDH capacity expansion remains the largest propane demand driver. Seasonal heating demand also impacts trade direction and inventory movements.</td>
+					</tr>
+
+					<tr>
+					<td>n-Butane</td>
+					<td>Regionalized Trade</td>
+					<td>Moderate Net Exporter</td>
+					<td>U.S., Middle East</td>
+					<td>Asia-Pacific, Latin America</td>
+					<td>North America → Asia</td>
+					<td>Trade flows are closely linked to gasoline blending economics, seasonal vapor pressure regulations, and refinery alkylation demand.</td>
+					</tr>
+
+					<tr>
+					<td>Iso-Butane</td>
+					<td>Moderate Trade Activity</td>
+					<td>Balanced to Exporter</td>
+					<td>U.S., Europe</td>
+					<td>Asia, Latin America</td>
+					<td>Refinery-linked regional trade</td>
+					<td>Iso-butane trade volumes are constrained by regional alkylation capacity and refinery integration economics.</td>
+					</tr>
+
+					<tr>
+					<td>Light Naphtha</td>
+					<td>High Inter-Regional Trade</td>
+					<td>Balanced</td>
+					<td>Middle East, Asia, Europe</td>
+					<td>Asia-Pacific petrochemical hubs</td>
+					<td>Middle East → Asia</td>
+					<td>Steam cracker demand in Northeast Asia remains the largest driver of light naphtha trade flows.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Naphtha</td>
+					<td>Moderate Trade Volume</td>
+					<td>Net Exporter</td>
+					<td>U.S., Europe, Middle East</td>
+					<td>Asia, Latin America</td>
+					<td>Atlantic Basin → Asia</td>
+					<td>Heavy naphtha movements are heavily linked to gasoline reforming economics and aromatics production margins.</td>
+					</tr>
+
+					<tr>
+					<td>RBOB</td>
+					<td>Primarily Domestic/Regional</td>
+					<td>Balanced</td>
+					<td>U.S. Gulf Coast</td>
+					<td>U.S. East Coast</td>
+					<td>Domestic pipeline and marine trade</td>
+					<td>RBOB is primarily traded within the U.S. market due to specification requirements and seasonal gasoline regulations.</td>
+					</tr>
+
+					<tr>
+					<td>CBOB</td>
+					<td>Limited International Trade</td>
+					<td>Balanced</td>
+					<td>U.S. Midwest, Gulf Coast</td>
+					<td>Domestic ethanol blending regions</td>
+					<td>Domestic trade focused</td>
+					<td>Ethanol blending mandates and regional gasoline specifications largely limit CBOB international trade activity.</td>
+					</tr>
+
+					<tr>
+					<td>Gasoline</td>
+					<td>Large Global Trade Market</td>
+					<td>Net Exporter</td>
+					<td>U.S., Europe, India, Middle East</td>
+					<td>Latin America, Africa, Mexico</td>
+					<td>Atlantic Basin exports</td>
+					<td>U.S. Gulf Coast refining remains a dominant gasoline export hub due to refinery scale and cost competitiveness.</td>
+					</tr>
+
+					<tr>
+					<td>JetA</td>
+					<td>Growing Global Trade</td>
+					<td>Balanced to Exporter</td>
+					<td>Middle East, U.S., Asia</td>
+					<td>Europe, Asia-Pacific aviation hubs</td>
+					<td>Middle East → Global aviation hubs</td>
+					<td>International aviation recovery and constrained refinery middle-distillate yields continue supporting strong jet fuel trade flows.</td>
+					</tr>
+
+					<tr>
+					<td>ULSD</td>
+					<td>High Strategic Trade Volume</td>
+					<td>Balanced to Exporter</td>
+					<td>U.S., Middle East, India</td>
+					<td>Europe, Latin America</td>
+					<td>Middle East/U.S. → Europe</td>
+					<td>European diesel deficits continue supporting transatlantic and Middle Eastern ULSD exports.</td>
+					</tr>
+
+					<tr>
+					<td>HSFO</td>
+					<td>Declining Global Trade</td>
+					<td>Net Exporter</td>
+					<td>Russia, Middle East, U.S.</td>
+					<td>Asia, Middle East power generation</td>
+					<td>Residual fuel trade</td>
+					<td>IMO sulfur regulations reduced HSFO demand significantly, though scrubber-equipped vessels still support niche trade flows.</td>
+					</tr>
+
+					<tr>
+					<td>Gas Oil</td>
+					<td>Large Global Market</td>
+					<td>Balanced</td>
+					<td>Middle East, India, U.S.</td>
+					<td>Europe, Africa</td>
+					<td>Middle East → Europe</td>
+					<td>European refinery closures continue increasing import dependence on gas oil and diesel blending components.</td>
+					</tr>
+
+					<tr>
+					<td>Lube Oil</td>
+					<td>Specialty Trade-Oriented</td>
+					<td>Net Exporter</td>
+					<td>U.S., South Korea, Singapore</td>
+					<td>Latin America, Europe, Africa</td>
+					<td>Asia/U.S. → Global</td>
+					<td>Higher-quality Group II and III base oils dominate international trade due to tightening engine lubricant standards.</td>
+					</tr>
+
+					<tr>
+					<td>LSFO</td>
+					<td>Strong Marine Fuel Trade</td>
+					<td>Balanced</td>
+					<td>Singapore, Middle East, U.S.</td>
+					<td>Global shipping hubs</td>
+					<td>Marine bunker corridors</td>
+					<td>LSFO trade is concentrated around major bunkering hubs such as Singapore, Fujairah, Rotterdam, and Houston.</td>
+					</tr>
+
+					<tr>
+					<td>Light Crude</td>
+					<td>Large Export Market</td>
+					<td>Major Net Exporter</td>
+					<td>U.S., West Africa</td>
+					<td>Europe, Asia</td>
+					<td>U.S. Gulf Coast → Europe/Asia</td>
+					<td>U.S. shale output growth continues driving expanding exports of light sweet crude into Europe and Asia.</td>
+					</tr>
+
+					<tr>
+					<td>Medium Crude</td>
+					<td>Strategic Refinery Feedstock</td>
+					<td>Balanced</td>
+					<td>Saudi Arabia, Iraq, Kuwait</td>
+					<td>Asia, Europe, U.S.</td>
+					<td>Middle East → Global</td>
+					<td>Most global refining systems are optimized for medium crude grades, supporting strong and stable trade flows.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+					<td>Tight Trade Market</td>
+					<td>Net Importer</td>
+					<td>Canada, Mexico, Venezuela</td>
+					<td>U.S. Gulf Coast, Asia</td>
+					<td>Canada/Mexico → U.S.</td>
+					<td>Heavy crude availability remains constrained by sanctions, declining production, and underinvestment in upstream projects.</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+					<td>Premium Export Market</td>
+					<td>Major Exporter</td>
+					<td>U.S., West Africa</td>
+					<td>Europe, Asia</td>
+					<td>Atlantic Basin exports</td>
+					<td>Sweet crude maintains strong export demand due to lower sulfur refining advantages and lower emissions compliance costs.</td>
+					</tr>
+
+					<tr>
+					<td>Sour Crude</td>
+					<td>Core Global Crude Trade</td>
+					<td>Balanced</td>
+					<td>Middle East, Canada</td>
+					<td>Asia, U.S., Europe</td>
+					<td>Middle East → Asia</td>
+					<td>Sour crude trade flows remain heavily influenced by OPEC+ production policy and refinery upgrading capacity.</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<br>
+
+					<h2>Key Hydrocarbon Trade Flow Drivers and Risks</h2>
+
+					<ul>
+
+					<li><b>Asian petrochemical and refining demand growth</b> continues driving the largest global trade flows for LPG, naphtha, crude oil, and middle distillates.</li>
+
+					<li><b>U.S. shale production growth</b> has structurally transformed the U.S. into a major exporter of ethane, propane, gasoline, diesel, and light sweet crude.</li>
+
+					<li><b>Middle Eastern export dominance</b> remains critical for medium and sour crude supply to Asia and Europe, sustaining global refinery feedstock balances.</li>
+
+					<li><b>Russia sanctions and trade rerouting</b> continue reshaping crude and refined product flows toward Asia, increasing tanker ton-mile demand and freight volatility.</li>
+
+					<li><b>Geopolitical risks in the Strait of Hormuz, Red Sea, and Black Sea</b> remain major threats to crude, marine fuel, and distillate supply chains.</li>
+
+					<li><b>Capital investments in export terminals, VLGC fleets, pipelines, refinery upgrades, and marine bunkering infrastructure</b> continue expanding global hydrocarbon trade capability.</li>
+
+					<li><b>Environmental regulations</b>, including IMO sulfur rules, carbon intensity targets, and renewable fuel mandates, continue reshaping fuel trade economics and refinery operations.</li>
+
+					<li><b>Trade imbalances between North American supply growth and Asian consumption growth</b> continue driving expansion in long-haul hydrocarbon shipping routes.</li>
+
+					<li><b>Logistical bottlenecks</b>, including Panama Canal draft restrictions, port congestion, limited pipeline takeaway capacity, and tanker shortages, periodically disrupt trade flows.</li>
+
+					<li><b>Refinery closures in Europe and slower refining investment globally</b> continue increasing dependency on imported gasoline, diesel, jet fuel, and blending components.</li>
+
+					</ul>
 
 			
 		</div>
