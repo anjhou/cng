@@ -117,7 +117,7 @@ function collapseAll(){
  document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
 }
 
-fetch('./data/market_data.csv')
+fetch("data/market_data.csv")
 .then(r=>r.text())
 .then(csv=>{
  const rows=csv.trim().split('\\n');
