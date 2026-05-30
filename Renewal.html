@@ -118,13 +118,13 @@ tr:nth-child(even){background:#f8f9fb}
 <h2 class="section-title">Executive Summary</h2>
 <div id="overviewText" class="text-area">Loading data...</div>
 </div>
-<!--
+<!---->
 <div id="chart-section" class="section-card">
 <h2 class="section-title">Supply vs Demand Trend</h2>
 <div class="chart-container"><canvas id="marketChart"></canvas></div>
 <div id="chartDescription" class="text-area">Loading data...</div>
 </div>
--->
+
 <!--multi-chart dashboard section-->
 
 					<div id="chart-section" class="section-card">
@@ -253,6 +253,7 @@ fetch(CSV_URL, {
     let totalSupply = 0;
     let totalDemand = 0;
     let totalBalance = 0;
+	let totalPrice = 0;
 
     const tbody =
         document.querySelector(
@@ -298,6 +299,7 @@ fetch(CSV_URL, {
         totalSupply += supplyValue;
         totalDemand += demandValue;
         totalBalance += balanceValue;
+		totalPrice += priceValue;
 
         tbody.insertAdjacentHTML(
             "beforeend",
@@ -307,6 +309,7 @@ fetch(CSV_URL, {
                 <td>${supplyValue}</td>
                 <td>${demandValue}</td>
                 <td>${balanceValue}</td>
+				<td>${priceValue}</td>
                 <td>${insight}</td>
             </tr>
             `
@@ -332,6 +335,11 @@ fetch(CSV_URL, {
         <p>
             <strong>Average Balance:</strong>
             ${(totalBalance / balance.length).toFixed(2)}
+        </p>
+		
+		<p>
+            <strong>Average Price:</strong>
+            ${(totalPrice / price.length).toFixed(2)}
         </p>
     `;
 
