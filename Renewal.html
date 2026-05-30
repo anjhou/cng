@@ -26,11 +26,11 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
 .reader-toolbar button{border:none;background:#0b2e59;color:#fff;padding:8px 12px;border-radius:4px;cursor:pointer}
 .section-card{background:#fff;padding:20px;margin-bottom:25px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
 .section-title{color:#0b2e59;margin-bottom:15px}
-.chart-container{position:relative;height:500px;width:100%;margin-bottom:20px}
+.chart-container{position:relative;height:350px;width:100%;margin-bottom:20px}
 .charts-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(450px,1fr)); gap:20px; margin-bottom:20px;}
 .chart-card{background:#fafafa; border:1px solid #ddd; border-radius:6px; padding:15px;}
 .chart-card h3{margin-bottom:15px;color:#0b2e59;}
-.chart-container canvas{width:100% !important;height:100% !important;}
+/*.chart-container canvas{width:100% !important;height:100% !important;}*/
 .text-area{background:#fafafa;border:1px solid #ddd;padding:15px;border-radius:6px;line-height:1.6}
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #ccc;padding:10px}
@@ -184,7 +184,7 @@ tr:nth-child(even){background:#f8f9fb}
 <h2 class="section-title">Market Data</h2>
 <table id="marketTable">
 <thead>
-<tr><th>Month</th><th>Supply</th><th>Demand</th><th>Balance</th><th>Insight</th></tr>
+<tr><th>Month</th><th>Supply</th><th>Demand</th><th>Balance</th><th>Price</th><th>Insight</th></tr>
 </thead>
 <tbody></tbody>
 </table>
@@ -270,7 +270,7 @@ fetch(CSV_URL, {
                 item => item.trim()
             );
 
-        if(cols.length < 4){
+        if(cols.length < 5){
             return;
         }
 
@@ -368,18 +368,15 @@ fetch(CSV_URL, {
 	*/
 	
 	/*Start-Auto-Generate Narrative Text from CSV*/
-	const latestSupply =
-    supply[supply.length - 1];
+	const latestSupply = supply[supply.length - 1];
 
-const latestDemand =
-    demand[demand.length - 1];
+	const latestDemand = demand[demand.length - 1];
 
-const latestBalance =
-    latestSupply - latestDemand;
+	const latestBalance = latestSupply - latestDemand;
 
-document.getElementById(
-    "insightText"
-).innerHTML = `
+			document.getElementById(
+				"insightText"
+			).innerHTML = `
 
 				<h3>Market Insights</h3>
 
@@ -408,7 +405,7 @@ document.getElementById(
 				</li>
 
 				</ul>
-`;
+			`;
 	
 	/*End-Auto-Generate Narrative Text from CSV*/
 	
@@ -720,6 +717,52 @@ document.getElementById(
 					}
 
 					);
+/**/
+					new Chart(
+
+										document.getElementById(
+											"priceChart"
+										),
+
+										{
+
+										type:"line",
+
+										data:{
+
+										labels:months,
+
+										datasets:[
+
+										{
+
+										label:"Price",
+
+										data:price,
+
+										borderColor:"#ff7f0e",
+
+										borderWidth:3,
+
+										tension:.3
+
+										}
+
+										]
+
+										},
+
+										options:{
+
+										responsive:true,
+
+										maintainAspectRatio:false
+
+										}
+
+										}
+
+										);
 /**/
     console.log("Chart Created");
 
