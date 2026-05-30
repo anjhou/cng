@@ -27,6 +27,10 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
 .section-card{background:#fff;padding:20px;margin-bottom:25px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
 .section-title{color:#0b2e59;margin-bottom:15px}
 .chart-container{position:relative;height:500px;width:100%;margin-bottom:20px}
+.charts-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(450px,1fr)); gap:20px; margin-bottom:20px;}
+.chart-card{background:#fafafa; border:1px solid #ddd; border-radius:6px; padding:15px;}
+.chart-card h3{margin-bottom:15px;color:#0b2e59;}
+.chart-container canvas{width:100% !important;height:100% !important;}
 .text-area{background:#fafafa;border:1px solid #ddd;padding:15px;border-radius:6px;line-height:1.6}
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #ccc;padding:10px}
@@ -114,13 +118,67 @@ tr:nth-child(even){background:#f8f9fb}
 <h2 class="section-title">Executive Summary</h2>
 <div id="overviewText" class="text-area">Loading data...</div>
 </div>
-
+<!--
 <div id="chart-section" class="section-card">
 <h2 class="section-title">Supply vs Demand Trend</h2>
 <div class="chart-container"><canvas id="marketChart"></canvas></div>
 <div id="chartDescription" class="text-area">Loading data...</div>
 </div>
+-->
+<!--multi-chart dashboard section-->
 
+					<div id="chart-section" class="section-card">
+
+						<h2 class="section-title">
+							Market Trend Dashboard
+						</h2>
+
+						<div class="charts-grid">
+
+							<div class="chart-card">
+								<h3>Supply vs Demand</h3>
+								<div class="chart-container">
+									<canvas id="supplyDemandChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Market Balance</h3>
+								<div class="chart-container">
+									<canvas id="balanceChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Supply Trend</h3>
+								<div class="chart-container">
+									<canvas id="supplyChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Demand Trend</h3>
+								<div class="chart-container">
+									<canvas id="demandChart"></canvas>
+								</div>
+							</div>
+							
+							<div class="chart-card">
+								<h3>Price Trend</h3>
+								<div class="chart-container">
+									<canvas id="priceChart"></canvas>
+								</div>
+							</div>
+
+						</div>
+
+						<div id="chartDescription" class="text-area">
+							Loading...
+						</div>
+
+					</div>
+
+<!-- -->
 <div id="table-section" class="section-card">
 <h2 class="section-title">Market Data</h2>
 <table id="marketTable">
@@ -190,6 +248,7 @@ fetch(CSV_URL, {
     const supply = [];
     const demand = [];
     const balance = [];
+	const price = [];
 
     let totalSupply = 0;
     let totalDemand = 0;
@@ -223,14 +282,18 @@ fetch(CSV_URL, {
 
         const balanceValue =
             Number(cols[3]);
+			
+		const priceValue =
+            Number(cols[4]);	
 
         const insight =
-            cols[4] || "";
+            cols[5] || "";
 
         months.push(month);
         supply.push(supplyValue);
         demand.push(demandValue);
         balance.push(balanceValue);
+		price.push(priceValue);
 
         totalSupply += supplyValue;
         totalDemand += demandValue;
@@ -401,115 +464,254 @@ document.getElementById(
     }
 
     console.log("Creating Chart");
+/**/
+						new Chart(canvas, {
 
-    new Chart(canvas, {
+							type: "line",
 
-        type: "line",
+							data: {
 
-        data: {
+								labels: months,
 
-            labels: months,
+								datasets: [
 
-            datasets: [
+									{
+										label: "Supply",
 
-                {
-                    label: "Supply",
+										data: supply,
 
-                    data: supply,
+										borderColor: "#0b2e59",
 
-                    borderColor: "#0b2e59",
+										backgroundColor:
+											"rgba(11,46,89,0.10)",
 
-                    backgroundColor:
-                        "rgba(11,46,89,0.10)",
+										borderWidth: 3,
 
-                    borderWidth: 3,
+										tension: 0.3,
 
-                    tension: 0.3,
+										fill: false
+									},
 
-                    fill: false
-                },
+									{
+										label: "Demand",
 
-                {
-                    label: "Demand",
+										data: demand,
 
-                    data: demand,
+										borderColor: "#d35400",
 
-                    borderColor: "#d35400",
+										backgroundColor:
+											"rgba(211,84,0,0.10)",
 
-                    backgroundColor:
-                        "rgba(211,84,0,0.10)",
+										borderWidth: 3,
 
-                    borderWidth: 3,
+										tension: 0.3,
 
-                    tension: 0.3,
+										fill: false
+									},
+									
+									{
+										label:"Balance",
 
-                    fill: false
-                },
-				
-				{
+										data:balance,
+
+										borderColor:"#2e8b57",
+
+										backgroundColor:
+											"rgba(46,139,87,.15)",
+
+										borderWidth:3,
+
+										tension:.3
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									legend: {
+										display: true
+									},
+
+									title: {
+
+										display: true,
+
+										text:
+										"Supply vs Demand Trend"
+
+									}
+
+								},
+
+								interaction: {
+
+									mode: "index",
+
+									intersect: false
+
+								},
+
+								scales: {
+
+									y: {
+
+										beginAtZero: true
+
+									}
+
+								}
+
+							}
+
+						});
+/**/
+					new Chart(
+
+					document.getElementById(
+						"balanceChart"
+					),
+
+					{
+
+					type:"bar",
+
+					data:{
+
+					labels:months,
+
+					datasets:[
+
+					{
+
 					label:"Balance",
 
 					data:balance,
 
+					backgroundColor:
+					"rgba(46,139,87,.6)",
+
 					borderColor:"#2e8b57",
 
-					backgroundColor:
-						"rgba(46,139,87,.15)",
+					borderWidth:1
+
+					}
+
+					]
+
+					},
+
+					options:{
+
+					responsive:true,
+
+					maintainAspectRatio:false
+
+					}
+
+					}
+
+					);
+/**/
+					new Chart(
+
+					document.getElementById(
+						"supplyChart"
+					),
+
+					{
+
+					type:"line",
+
+					data:{
+
+					labels:months,
+
+					datasets:[
+
+					{
+
+					label:"Supply",
+
+					data:supply,
+
+					borderColor:"#1f77b4",
 
 					borderWidth:3,
 
 					tension:.3
-				}
 
-            ]
+					}
 
-        },
+					]
 
-        options: {
+					},
 
-            responsive: true,
+					options:{
 
-            maintainAspectRatio: false,
+					responsive:true,
 
-            plugins: {
+					maintainAspectRatio:false
 
-                legend: {
-                    display: true
-                },
+					}
 
-                title: {
+					}
 
-                    display: true,
+					);
+/**/
+					new Chart(
 
-                    text:
-                    "Supply vs Demand Trend"
+					document.getElementById(
+						"demandChart"
+					),
 
-                }
+					{
 
-            },
+					type:"line",
 
-            interaction: {
+					data:{
 
-                mode: "index",
+					labels:months,
 
-                intersect: false
+					datasets:[
 
-            },
+					{
 
-            scales: {
+					label:"Demand",
 
-                y: {
+					data:demand,
 
-                    beginAtZero: true
+					borderColor:"#ff7f0e",
 
-                }
+					borderWidth:3,
 
-            }
+					tension:.3
 
-        }
+					}
 
-    });
+					]
 
+					},
+
+					options:{
+
+					responsive:true,
+
+					maintainAspectRatio:false
+
+					}
+
+					}
+
+					);
+/**/
     console.log("Chart Created");
 
 })
