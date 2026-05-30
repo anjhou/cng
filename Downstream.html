@@ -1991,7 +1991,251 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     <!-- Specs -->
     <div id="Specs" class="tab-content">
         <div class="section">
-        <h2>Refined Products Specs Data </h2>
+        
+		<h2>Global Fuel Specification Standards and Environmental Compliance Reference Table</h2>
+
+					<table border="1" cellpadding="6" cellspacing="0">
+					<thead>
+					<tr>
+					<th>Product</th>
+					<th>Primary ASTM / International Standard</th>
+					<th>USA Reference</th>
+					<th>Europe Reference</th>
+					<th>Asia / Middle East Reference</th>
+					<th>Key Environmental Specifications</th>
+					<th>Notes / Major Quality Indicators</th>
+					</tr>
+					</thead>
+					<tbody>
+
+					<tr>
+					<td>Ethane</td>
+					<td>ASTM D1267 (Vapor Pressure)</td>
+					<td>GPA 2140 / Pipeline Specs</td>
+					<td>National Gas Grid Specs</td>
+					<td>Saudi Aramco, JPEC, KOGAS Specs</td>
+					<td>Sulfur &lt;10-50 ppm typical, H₂S non-detect</td>
+					<td>Purity typically &gt;95%; sulfur and moisture are primary contaminants affecting petrochemical crackers.</td>
+					</tr>
+
+					<tr>
+					<td>Propane (HD-5)</td>
+					<td>ASTM D1835</td>
+					<td>HD-5 LPG Standard</td>
+					<td>EN 589 LPG</td>
+					<td>ISO 9162</td>
+					<td>Propylene ≤5 vol%; sulfur ≤123 ppm</td>
+					<td>Focus on sulfur, water content, and vapor pressure for combustion emissions and equipment protection.</td>
+					</tr>
+
+					<tr>
+					<td>n-Butane</td>
+					<td>ASTM D1835</td>
+					<td>GPA Specifications</td>
+					<td>EN LPG Standards</td>
+					<td>National LPG Standards</td>
+					<td>Low sulfur, low moisture</td>
+					<td>Used in LPG blending and petrochemicals; sulfur and hydrocarbon purity are key quality metrics.</td>
+					</tr>
+
+					<tr>
+					<td>Iso-Butane</td>
+					<td>ASTM D1835</td>
+					<td>Refinery Alkylation Grade</td>
+					<td>EN LPG Standards</td>
+					<td>Refinery Specifications</td>
+					<td>Low sulfur, high purity</td>
+					<td>Critical feedstock for alkylation units; sulfur and olefin contamination tightly controlled.</td>
+					</tr>
+
+					<tr>
+					<td>Light Naphtha</td>
+					<td>ASTM D86, D323</td>
+					<td>Refinery Feedstock Specs</td>
+					<td>EN Feedstock Standards</td>
+					<td>JIS/KPC Standards</td>
+					<td>Sulfur typically &lt;50 ppm</td>
+					<td>Density 0.62-0.70 kg/L; sulfur, aromatics, and endpoint distillation affect petrochemical applications.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Naphtha</td>
+					<td>ASTM D86</td>
+					<td>Reformer Feed Specs</td>
+					<td>EN Feedstock Standards</td>
+					<td>Regional Refinery Specs</td>
+					<td>Sulfur typically &lt;100 ppm after hydrotreating</td>
+					<td>Density 0.70-0.78 kg/L; aromatics precursors influence reformer performance and emissions.</td>
+					</tr>
+
+					<tr>
+					<td>RBOB</td>
+					<td>ASTM D4814</td>
+					<td>EPA Reformulated Gasoline</td>
+					<td>Not Common</td>
+					<td>Limited Use</td>
+					<td>Sulfur ≤10 ppm; Benzene ≤0.62 vol%</td>
+					<td>AKI typically 87-93; designed for ethanol blending to meet federal emissions requirements.</td>
+					</tr>
+
+					<tr>
+					<td>CBOB</td>
+					<td>ASTM D4814</td>
+					<td>EPA Conventional Gasoline</td>
+					<td>Not Common</td>
+					<td>Limited Use</td>
+					<td>Sulfur ≤10 ppm</td>
+					<td>AKI generally 87-93; optimized for ethanol blending while maintaining emissions compliance.</td>
+					</tr>
+
+					<tr>
+					<td>Finished Gasoline</td>
+					<td>ASTM D4814</td>
+					<td>EPA Tier 3</td>
+					<td>EN 228</td>
+					<td>JIS K2202 / GB17930</td>
+					<td>Sulfur ≤10 ppm; Benzene ≤1 vol%</td>
+					<td>RON 91-98; AKI 87-93; aromatics generally ≤35 vol%; density 0.72-0.78 kg/L.</td>
+					</tr>
+
+					<tr>
+					<td>Jet A / Jet A-1</td>
+					<td>ASTM D1655</td>
+					<td>FAA / ASTM D1655</td>
+					<td>DEF STAN 91-091</td>
+					<td>AFQRJOS Standard</td>
+					<td>Sulfur ≤0.30 wt%</td>
+					<td>Freeze point, smoke point, aromatics ≤25 vol%; density 0.775-0.840 kg/L critical for aviation safety.</td>
+					</tr>
+
+					<tr>
+					<td>ULSD</td>
+					<td>ASTM D975</td>
+					<td>EPA Ultra-Low Sulfur Diesel</td>
+					<td>EN 590</td>
+					<td>JIS K2204 / GB19147</td>
+					<td>Sulfur ≤15 ppm (US), ≤10 ppm (EU)</td>
+					<td>Cetane ≥40-51; density 0.82-0.85 kg/L; lubricity and sulfur control emissions performance.</td>
+					</tr>
+
+					<tr>
+					<td>Gas Oil</td>
+					<td>ASTM D975 / ISO 8217</td>
+					<td>Heating Oil Specs</td>
+					<td>EN 590 / EN 15940</td>
+					<td>Regional Specifications</td>
+					<td>Sulfur varies 10-1000 ppm</td>
+					<td>Cetane and sulfur are primary environmental parameters; density typically 0.82-0.90 kg/L.</td>
+					</tr>
+
+					<tr>
+					<td>HSFO</td>
+					<td>ISO 8217</td>
+					<td>Marine Fuel</td>
+					<td>IMO Standards</td>
+					<td>Marine Bunker Standards</td>
+					<td>Sulfur up to 3.5 wt%</td>
+					<td>Viscosity 180-380 cSt; primarily consumed by scrubber-equipped vessels.</td>
+					</tr>
+
+					<tr>
+					<td>LSFO / VLSFO</td>
+					<td>ISO 8217</td>
+					<td>IMO 2020 Compliant</td>
+					<td>IMO 2020 Compliant</td>
+					<td>IMO 2020 Compliant</td>
+					<td>Sulfur ≤0.50 wt%</td>
+					<td>Viscosity generally 30-380 cSt; sulfur reduction significantly lowers SOx emissions.</td>
+					</tr>
+
+					<tr>
+					<td>Lube Oil Base Stocks</td>
+					<td>ASTM D445</td>
+					<td>API Base Oil Groups</td>
+					<td>ACEA Requirements</td>
+					<td>JASO Specifications</td>
+					<td>Very low sulfur for Group II/III</td>
+					<td>Viscosity index, sulfur, saturates, and oxidation stability are key quality parameters.</td>
+					</tr>
+
+					<tr>
+					<td>Light Sweet Crude</td>
+					<td>API Gravity Standard</td>
+					<td>WTI Quality Specs</td>
+					<td>Brent Quality Specs</td>
+					<td>Murban Specs</td>
+					<td>Sulfur &lt;0.5 wt%</td>
+					<td>API gravity &gt;35°; lower sulfur reduces refining emissions and processing costs.</td>
+					</tr>
+
+					<tr>
+					<td>Medium Crude</td>
+					<td>API Gravity Standard</td>
+					<td>Mars Blend</td>
+					<td>Regional Crude Specs</td>
+					<td>Upper Zakum</td>
+					<td>Sulfur 0.5-2.0 wt%</td>
+					<td>API gravity 22-35°; moderate sulfur requires additional hydrotreating.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+					<td>API Gravity Standard</td>
+					<td>California Heavy</td>
+					<td>Regional Heavy Crudes</td>
+					<td>Maya, Basrah Heavy</td>
+					<td>Sulfur 1-5 wt%</td>
+					<td>API gravity &lt;22°; high sulfur and metals increase refinery complexity.</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+					<td>API Gravity Standard</td>
+					<td>WTI</td>
+					<td>Brent</td>
+					<td>Murban</td>
+					<td>Sulfur &lt;0.5 wt%</td>
+					<td>Preferred due to lower emissions compliance costs and higher yields of clean fuels.</td>
+					</tr>
+
+					<tr>
+					<td>Sour Crude</td>
+					<td>API Gravity Standard</td>
+					<td>Mars Blend</td>
+					<td>Urals</td>
+					<td>Arab Heavy</td>
+					<td>Sulfur &gt;0.5 wt%</td>
+					<td>Requires extensive desulfurization to meet modern transportation fuel standards.</td>
+					</tr>
+
+					</tbody>
+					</table>
+
+					<h2>Key ASTM and Global Fuel Standard Insights</h2>
+
+					<ul>
+					<li><strong>ASTM D4814</strong> governs U.S. gasoline quality, including volatility, octane (AKI), sulfur content, distillation profile, and oxygenate blending requirements.</li>
+
+					<li><strong>ASTM D975</strong> establishes diesel fuel specifications including cetane number, sulfur content, lubricity, cloud point, density, and stability requirements.</li>
+
+					<li><strong>ASTM D1655</strong> defines aviation turbine fuel requirements covering freezing point, flash point, density, sulfur, aromatics, thermal stability, and conductivity.</li>
+
+					<li><strong>EN 228 (Europe)</strong> specifies gasoline standards with sulfur limits of 10 ppm, benzene limits of 1 vol%, and aromatics limits generally below 35 vol%.</li>
+
+					<li><strong>EN 590 (Europe)</strong> requires ultra-low sulfur diesel at 10 ppm sulfur and generally higher cetane values (≥51) than U.S. diesel specifications.</li>
+
+					<li><strong>IMO 2020 Marine Fuel Regulations</strong> reduced global sulfur limits from 3.5 wt% to 0.5 wt% for marine fuels, significantly lowering sulfur oxide emissions from shipping.</li>
+
+					<li><strong>China National Standards (GB17930 and GB19147)</strong> largely mirror Euro VI fuel quality requirements with sulfur limits at 10 ppm for gasoline and diesel.</li>
+
+					<li><strong>Japan Industrial Standards (JIS)</strong> maintain stringent controls on sulfur, aromatics, cetane, and fuel stability to support advanced engine technologies and emissions reduction.</li>
+
+					<li><strong>Middle East National Oil Company Standards</strong> (Saudi Aramco, ADNOC, QatarEnergy, Kuwait Petroleum) increasingly align export grades with Euro V and Euro VI environmental requirements.</li>
+
+					<li><strong>Global Refinery Trend</strong> continues toward ultra-low sulfur fuels, reduced benzene and aromatics content, higher cetane diesel, and lower-carbon fuel formulations driven by environmental regulations and vehicle emissions standards.</li>
+					</ul>
+		
+		
 
 
         </div>
