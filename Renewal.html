@@ -180,6 +180,17 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Balance Tornado Chart</h3>
+
+								<div class="chart-container">
+									<canvas id="tornadoChart"></canvas>
+								</div>
+
+							</div>
+
 
 						</div>
 
@@ -886,6 +897,114 @@ fetch(CSV_URL, {
 						}
 
 					);
+/**/
+					new Chart(
+
+						document.getElementById(
+							"tornadoChart"
+						),
+
+						{
+
+							type: "bar",
+
+							data: {
+
+								labels: months,
+
+								datasets: [
+
+									{
+
+										label: "Monthly Balance",
+
+										data: balance,
+
+										backgroundColor:
+											balance.map(value =>
+												value >= 0
+													? "#2e8b57"
+													: "#d35400"
+											),
+
+										borderColor:
+											balance.map(value =>
+												value >= 0
+													? "#2e8b57"
+													: "#d35400"
+											),
+
+										borderWidth: 1
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								indexAxis: "y",
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Monthly Market Balance Tornado Chart"
+
+									},
+
+									legend: {
+
+										display: false
+
+									}
+
+								},
+
+								scales: {
+
+									x: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Balance"
+
+										}
+
+									},
+
+									y: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Month"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+
 /**/
     console.log("Chart Created");
 
