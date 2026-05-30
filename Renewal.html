@@ -898,6 +898,28 @@ fetch(CSV_URL, {
 
 					);
 /**/
+					const tornadoData = months.map((month, index) => ({
+
+						month: month,
+
+						balance: balance[index]
+
+					}));
+
+					tornadoData.sort(
+						(a, b) =>
+							Math.abs(b.balance) -
+							Math.abs(a.balance)
+					);
+
+					const tornadoMonths =
+						tornadoData.map(item => item.month);
+
+					const tornadoBalances =
+						tornadoData.map(item => item.balance);
+						
+					
+/**/
 					new Chart(
 
 						document.getElementById(
@@ -910,7 +932,9 @@ fetch(CSV_URL, {
 
 							data: {
 
-								labels: months,
+								/*labels: months,*/
+								
+								labels: tornadoMonths,
 
 								datasets: [
 
@@ -918,7 +942,9 @@ fetch(CSV_URL, {
 
 										label: "Monthly Balance",
 
-										data: balance,
+										/*data: balance,*/
+																			
+										data: tornadoBalances,
 
 										backgroundColor:
 											balance.map(value =>
