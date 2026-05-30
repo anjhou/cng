@@ -26,12 +26,15 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
 .reader-toolbar button{border:none;background:#0b2e59;color:#fff;padding:8px 12px;border-radius:4px;cursor:pointer}
 .section-card{background:#fff;padding:20px;margin-bottom:25px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
 .section-title{color:#0b2e59;margin-bottom:15px}
-.chart-container{position:relative;height:500px;margin-bottom:20px}
+.chart-container{position:relative;height:500px;width:100%;margin-bottom:20px}
 .text-area{background:#fafafa;border:1px solid #ddd;padding:15px;border-radius:6px;line-height:1.6}
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #ccc;padding:10px}
 th{background:#0b2e59;color:#fff}
 tr:nth-child(even){background:#f8f9fb}
+
+#marketChart{width:100% !important;height:100% !important;}
+
 @media(max-width:900px){
 .content-wrapper{flex-direction:column}
 .left-sidebar{width:100%;height:auto;position:relative;top:0}
@@ -116,8 +119,8 @@ function expandAll(){
 function collapseAll(){
  document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
 }
-
-fetch("data/market_data.csv")
+/*
+fetch('./data/market_data.csv')  
 .then(r=>r.text())
 .then(csv=>{
  const rows=csv.trim().split('\\n');
@@ -175,7 +178,286 @@ window.addEventListener('scroll',()=>{
   link.classList.remove('active');
   if(link.getAttribute('href')==='#'+current) link.classList.add('active');
  });
+});*/
+</script>
+
+<script>
+
+const CSV_URL =
+"https://houstoncng.com/data/market_data.csv?v=" + Date.now();
+
+console.log("Loading CSV:", CSV_URL);
+
+fetch(CSV_URL, {
+    cache: "no-store"
+})
+.then(response => {
+
+    console.log("HTTP Status:", response.status);
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load CSV: ${response.status}`
+        );
+    }
+
+    return response.text();
+
+})
+.then(csv => {
+
+    console.log("CSV Loaded Successfully");
+
+    const rows =
+        csv.trim().split(/\r?\n/);
+
+    console.log("Rows Found:", rows.length);
+
+    const months = [];
+    const supply = [];
+    const demand = [];
+    const balance = [];
+
+    let totalSupply = 0;
+    let totalDemand = 0;
+    let totalBalance = 0;
+
+    const tbody =
+        document.querySelector(
+            "#marketTable tbody"
+        );
+
+    tbody.innerHTML = "";
+
+    rows.slice(1).forEach(row => {
+
+        const cols =
+            row.split(",").map(
+                item => item.trim()
+            );
+
+        if(cols.length < 4){
+            return;
+        }
+
+        const month = cols[0];
+
+        const supplyValue =
+            Number(cols[1]);
+
+        const demandValue =
+            Number(cols[2]);
+
+        const balanceValue =
+            Number(cols[3]);
+
+        const insight =
+            cols[4] || "";
+
+        months.push(month);
+        supply.push(supplyValue);
+        demand.push(demandValue);
+        balance.push(balanceValue);
+
+        totalSupply += supplyValue;
+        totalDemand += demandValue;
+        totalBalance += balanceValue;
+
+        tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr>
+                <td>${month}</td>
+                <td>${supplyValue}</td>
+                <td>${demandValue}</td>
+                <td>${balanceValue}</td>
+                <td>${insight}</td>
+            </tr>
+            `
+        );
+
+    });
+
+    document.getElementById(
+        "overviewText"
+    ).innerHTML = `
+        <h3>Market Overview</h3>
+
+        <p>
+            <strong>Total Supply:</strong>
+            ${totalSupply.toLocaleString()}
+        </p>
+
+        <p>
+            <strong>Total Demand:</strong>
+            ${totalDemand.toLocaleString()}
+        </p>
+
+        <p>
+            <strong>Average Balance:</strong>
+            ${(totalBalance / balance.length).toFixed(2)}
+        </p>
+    `;
+
+    document.getElementById(
+        "chartDescription"
+    ).innerHTML = `
+        Chart generated directly from
+        market_data.csv
+    `;
+
+    document.getElementById(
+        "tableDescription"
+    ).innerHTML = `
+        Monthly market data loaded
+        successfully from CSV.
+    `;
+
+    document.getElementById(
+        "insightText"
+    ).innerHTML = `
+        Supply and demand trends can be
+        monitored automatically from the
+        CSV data source.
+    `;
+
+    document.getElementById(
+        "conclusionText"
+    ).innerHTML = `
+        Market balances indicate whether
+        the market is moving toward
+        surplus or deficit conditions.
+    `;
+
+    const canvas =
+        document.getElementById(
+            "marketChart"
+        );
+
+    if (!canvas) {
+
+        console.error(
+            "Canvas marketChart not found"
+        );
+
+        return;
+    }
+
+    console.log("Creating Chart");
+
+    new Chart(canvas, {
+
+        type: "line",
+
+        data: {
+
+            labels: months,
+
+            datasets: [
+
+                {
+                    label: "Supply",
+
+                    data: supply,
+
+                    borderColor: "#0b2e59",
+
+                    backgroundColor:
+                        "rgba(11,46,89,0.10)",
+
+                    borderWidth: 3,
+
+                    tension: 0.3,
+
+                    fill: false
+                },
+
+                {
+                    label: "Demand",
+
+                    data: demand,
+
+                    borderColor: "#d35400",
+
+                    backgroundColor:
+                        "rgba(211,84,0,0.10)",
+
+                    borderWidth: 3,
+
+                    tension: 0.3,
+
+                    fill: false
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: true
+                },
+
+                title: {
+
+                    display: true,
+
+                    text:
+                    "Supply vs Demand Trend"
+
+                }
+
+            },
+
+            interaction: {
+
+                mode: "index",
+
+                intersect: false
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+    console.log("Chart Created");
+
+})
+.catch(error => {
+
+    console.error(
+        "CSV Loading Error:",
+        error
+    );
+
+    document.getElementById(
+        "overviewText"
+    ).innerHTML = `
+        <b>ERROR LOADING CSV</b>
+        <br><br>
+        ${error.message}
+    `;
+
 });
+
 </script>
 
 </body>
