@@ -278,6 +278,9 @@
         }
     }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -287,151 +290,299 @@
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script>
 
-<div class="reader-container">
+					<div class="reader-content">
 
-    <!-- Top Navigation -->
-    <div class="top-nav">
-        <div class="logo">Market Intelligence Reader</div>
+						<!-- Overview -->
+						<div id="overview" class="section-card">
 
-        <div class="page-nav">
-            <a href="#">Home</a>
-            <a href="#">Dashboard</a>
-            <a href="#">Reports</a>
-            <a href="#">Analytics</a>
-            <a href="#">Settings</a>
-        </div>
-    </div>
+							<h2 class="section-title">Executive Summary</h2>
 
-    <!-- Main Content -->
-    <div class="content-wrapper">
+							<div id="overviewText" class="text-area">
 
-        <!-- Left Navigation -->
-        <div class="left-sidebar">
-            <h3>Sections</h3>
+								<h3>Market Overview</h3>
 
-            <ul>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#chart-section">Chart Analysis</a></li>
-                <li><a href="#table-section">Table Analysis</a></li>
-                <li><a href="#market-insights">Market Insights</a></li>
-                <li><a href="#conclusion">Conclusion</a></li>
-            </ul>
-        </div>
+								<p>
+									This dashboard is populated directly from a CSV file.
+								</p>
 
-        <!-- Reader Body -->
-        <div class="reader-content">
+								<br>
 
-            <!-- Overview -->
-            <div id="overview" class="section-card">
-                <h2 class="section-title">Overview</h2>
+								<table>
+									<tr>
+										<th>Total Supply</th>
+										<th>Total Demand</th>
+										<th>Average Balance</th>
+									</tr>
+									<tr>
+										<td id="totalSupply">0</td>
+										<td id="totalDemand">0</td>
+										<td id="avgBalance">0</td>
+									</tr>
+								</table>
 
-                <div class="text-area">
-                    Enter report summary, executive overview,
-                    market highlights, assumptions, and key findings here.
-                </div>
-            </div>
+							</div>
 
-            <!-- Chart Section -->
-            <div id="chart-section" class="section-card">
-                <h2 class="section-title">Chart Display</h2>
+						</div>
 
-                <div class="chart-container">
-                    Chart Area (Chart.js / Highcharts / Plotly)
-                </div>
+						<!-- Chart Section -->
+						<div id="chart-section" class="section-card">
 
-                <h3>Chart Description</h3>
+							<h2 class="section-title">
+								Supply vs Demand Trend
+							</h2>
 
-                <div class="text-area">
-                    Add chart interpretation, trends, growth rates,
-                    regional comparisons, demand forecasts, etc.
-                </div>
-            </div>
+							<div class="chart-container">
+								<canvas id="marketChart"></canvas>
+							</div>
 
-            <!-- Table Section -->
-            <div id="table-section" class="section-card">
-                <h2 class="section-title">Data Table</h2>
+							<h3>Chart Analysis</h3>
 
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Region</th>
-                                <th>Supply</th>
-                                <th>Demand</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>North America</td>
-                                <td>100</td>
-                                <td>95</td>
-                                <td>+5</td>
-                            </tr>
-                            <tr>
-                                <td>Europe</td>
-                                <td>80</td>
-                                <td>90</td>
-                                <td>-10</td>
-                            </tr>
-                            <tr>
-                                <td>Asia</td>
-                                <td>150</td>
-                                <td>175</td>
-                                <td>-25</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+							<div id="chartDescription" class="text-area">
 
-                <br>
+								Waiting for CSV data...
 
-                <h3>Table Description</h3>
+							</div>
 
-                <div class="text-area">
-                    Add commentary explaining the table,
-                    supply-demand balances, deficits, surpluses,
-                    pricing implications, and trade flows.
-                </div>
-            </div>
+						</div>
 
-            <!-- Insights -->
-            <div id="market-insights" class="section-card">
-                <h2 class="section-title">Market Insights</h2>
+						<!-- Table Section -->
+						<div id="table-section" class="section-card">
 
-                <div class="text-area">
-                    Add insights regarding:
-                    <ul>
-                        <li>Supply drivers</li>
-                        <li>Demand drivers</li>
-                        <li>Capital investments</li>
-                        <li>Infrastructure bottlenecks</li>
-                        <li>Trade imbalances</li>
-                        <li>Geopolitical impacts</li>
-                    </ul>
-                </div>
-            </div>
+							<h2 class="section-title">
+								Monthly Market Data
+							</h2>
 
-            <!-- Conclusion -->
-            <div id="conclusion" class="section-card">
-                <h2 class="section-title">Conclusion</h2>
+							<div class="table-container">
 
-                <div class="text-area">
-                    Add final observations, recommendations,
-                    risk assessment, and outlook.
-                </div>
-            </div>
+								<table id="marketTable">
 
-        </div>
+									<thead>
+										<tr>
+											<th>Month</th>
+											<th>Supply</th>
+											<th>Demand</th>
+											<th>Balance</th>
+											<th>Insight</th>
+										</tr>
+									</thead>
 
-    </div>
+									<tbody>
+									</tbody>
 
-</div>
+								</table>
+
+							</div>
+
+							<h3>Table Analysis</h3>
+
+							<div id="tableDescription" class="text-area">
+
+								Waiting for CSV data...
+
+							</div>
+
+						</div>
+
+						<!-- Market Insights -->
+						<div id="market-insights" class="section-card">
+
+							<h2 class="section-title">
+								Market Insights
+							</h2>
+
+							<div id="insightText" class="text-area">
+
+								Waiting for CSV data...
+
+							</div>
+
+						</div>
+
+						<!-- Conclusion -->
+						<div id="conclusion" class="section-card">
+
+							<h2 class="section-title">
+								Conclusion
+							</h2>
+
+							<div id="conclusionText" class="text-area">
+
+								Waiting for CSV data...
+
+							</div>
+
+						</div>
+
+					</div>
+
 
 <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
+
+					<script>
+
+					fetch("data/market_data.csv")
+
+					.then(response => response.text())
+
+					.then(csv => {
+
+						const rows = csv.trim().split("\n");
+
+						const headers = rows[0].split(",");
+
+						const months = [];
+						const supply = [];
+						const demand = [];
+						const balance = [];
+
+						let totalSupply = 0;
+						let totalDemand = 0;
+						let totalBalance = 0;
+
+						const tableBody =
+							document.querySelector("#marketTable tbody");
+
+						rows.slice(1).forEach(row => {
+
+							const cols = row.split(",");
+
+							months.push(cols[0]);
+
+							supply.push(Number(cols[1]));
+							demand.push(Number(cols[2]));
+							balance.push(Number(cols[3]));
+
+							totalSupply += Number(cols[1]);
+							totalDemand += Number(cols[2]);
+							totalBalance += Number(cols[3]);
+
+							tableBody.innerHTML += `
+							<tr>
+								<td>${cols[0]}</td>
+								<td>${cols[1]}</td>
+								<td>${cols[2]}</td>
+								<td>${cols[3]}</td>
+								<td>${cols[4]}</td>
+							</tr>
+							`;
+						});
+
+						document.getElementById("totalSupply").innerHTML =
+							totalSupply.toLocaleString();
+
+						document.getElementById("totalDemand").innerHTML =
+							totalDemand.toLocaleString();
+
+						document.getElementById("avgBalance").innerHTML =
+							(totalBalance / balance.length).toFixed(2);
+
+						document.getElementById("chartDescription").innerHTML = `
+						<h4>Trend Analysis</h4>
+
+						<ul>
+							<li>Total Supply: ${totalSupply.toLocaleString()}</li>
+							<li>Total Demand: ${totalDemand.toLocaleString()}</li>
+							<li>Average Balance:
+								${(totalBalance / balance.length).toFixed(2)}
+							</li>
+							<li>Chart displays monthly supply and demand trends.</li>
+							<li>Positive balances indicate surplus conditions.</li>
+							<li>Negative balances indicate deficit conditions.</li>
+						</ul>
+						`;
+
+						document.getElementById("tableDescription").innerHTML = `
+						<h4>Table Interpretation</h4>
+
+						<ul>
+							<li>Monthly values are loaded directly from CSV.</li>
+							<li>Balance = Supply - Demand.</li>
+							<li>Insights column provides commentary.</li>
+							<li>Supports future automation from Excel exports.</li>
+						</ul>
+						`;
+
+						document.getElementById("insightText").innerHTML = `
+						<h4>Market Intelligence Summary</h4>
+
+						<ul>
+							<li>Supply growth driven by production expansions.</li>
+							<li>Demand growth supported by industrial activity.</li>
+							<li>Trade balances impact regional pricing.</li>
+							<li>Infrastructure constraints can affect deliveries.</li>
+							<li>Export opportunities influence market fundamentals.</li>
+						</ul>
+						`;
+
+						document.getElementById("conclusionText").innerHTML = `
+						<h4>Key Takeaways</h4>
+
+						<ol>
+							<li>Monitor supply-demand balance trends.</li>
+							<li>Evaluate infrastructure bottlenecks.</li>
+							<li>Track seasonal demand impacts.</li>
+							<li>Assess trade and logistics risks.</li>
+							<li>Review investment opportunities.</li>
+						</ol>
+						`;
+
+						new Chart(
+							document.getElementById("marketChart"),
+							{
+								type: "line",
+								data: {
+									labels: months,
+									datasets: [
+										{
+											label: "Supply",
+											data: supply,
+											borderColor: "#0b2e59",
+											backgroundColor: "rgba(11,46,89,0.10)",
+											fill: false,
+											tension: 0.30
+										},
+										{
+											label: "Demand",
+											data: demand,
+											borderColor: "#d35400",
+											backgroundColor: "rgba(211,84,0,0.10)",
+											fill: false,
+											tension: 0.30
+										}
+									]
+								},
+								options: {
+
+									responsive: true,
+
+									maintainAspectRatio: false,
+
+									plugins: {
+										title: {
+											display: true,
+											text: "Monthly Supply vs Demand"
+										}
+									},
+
+									scales: {
+
+										y: {
+											beginAtZero: true
+										}
+
+									}
+								}
+							}
+						);
+
+					});
+
+					</script>
+
+
 
 </body>
 </html>
