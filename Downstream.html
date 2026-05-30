@@ -1994,6 +1994,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         
 		<h2>Global Fuel Specification Standards and Environmental Compliance Reference Table</h2>
 
+					<h2>Global Fuel Specification Standards and Environmental Compliance Reference Table</h2>
+
 					<table border="1" cellpadding="6" cellspacing="0">
 					<thead>
 					<tr>
@@ -2006,26 +2008,57 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<th>Notes / Major Quality Indicators</th>
 					</tr>
 					</thead>
+
 					<tbody>
 
 					<tr>
+					<td>Natural Gas</td>
+					<td>ASTM D1945, GPA 2261</td>
+					<td>FERC Pipeline Quality Specs</td>
+					<td>ENTSOG Standards</td>
+					<td>JGA, KOGAS, QatarEnergy Specs</td>
+					<td>H₂S &lt;4 ppm, Total Sulfur &lt;20 ppm</td>
+					<td>Heating value 950-1150 BTU/scf; CO₂, N₂, water, mercury and sulfur are critical environmental and pipeline quality parameters.</td>
+					</tr>
+
+					<tr>
+					<td>LNG</td>
+					<td>ISO 16903, ASTM D1945</td>
+					<td>FERC LNG Standards</td>
+					<td>GIIGNL Standards</td>
+					<td>JKM LNG Specifications</td>
+					<td>Low sulfur and mercury content</td>
+					<td>Methane typically 85-99%; Wobbe Index, calorific value, mercury, and CO₂ are primary quality specifications.</td>
+					</tr>
+
+					<tr>
+					<td>Hydrogen (H₂)</td>
+					<td>ISO 14687</td>
+					<td>SAE J2719</td>
+					<td>ISO 14687</td>
+					<td>Japan Hydrogen Standards</td>
+					<td>Ultra-high purity ≥99.97%</td>
+					<td>Strict limits on sulfur, ammonia, moisture, CO, CO₂, and particulates to protect fuel cells.</td>
+					</tr>
+
+					<tr>
 					<td>Ethane</td>
-					<td>ASTM D1267 (Vapor Pressure)</td>
-					<td>GPA 2140 / Pipeline Specs</td>
-					<td>National Gas Grid Specs</td>
-					<td>Saudi Aramco, JPEC, KOGAS Specs</td>
-					<td>Sulfur &lt;10-50 ppm typical, H₂S non-detect</td>
-					<td>Purity typically &gt;95%; sulfur and moisture are primary contaminants affecting petrochemical crackers.</td>
+					<td>ASTM D1267</td>
+					<td>GPA 2140</td>
+					<td>Pipeline Specifications</td>
+					<td>National Gas Standards</td>
+					<td>Sulfur &lt;10-50 ppm</td>
+					<td>Purity typically &gt;95%; sulfur and moisture impact steam cracker performance.</td>
 					</tr>
 
 					<tr>
 					<td>Propane (HD-5)</td>
 					<td>ASTM D1835</td>
 					<td>HD-5 LPG Standard</td>
-					<td>EN 589 LPG</td>
+					<td>EN 589</td>
 					<td>ISO 9162</td>
-					<td>Propylene ≤5 vol%; sulfur ≤123 ppm</td>
-					<td>Focus on sulfur, water content, and vapor pressure for combustion emissions and equipment protection.</td>
+					<td>Sulfur ≤123 ppm</td>
+					<td>Propylene ≤5 vol%; water, sulfur and vapor pressure are key specifications.</td>
 					</tr>
 
 					<tr>
@@ -2033,9 +2066,9 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>ASTM D1835</td>
 					<td>GPA Specifications</td>
 					<td>EN LPG Standards</td>
-					<td>National LPG Standards</td>
-					<td>Low sulfur, low moisture</td>
-					<td>Used in LPG blending and petrochemicals; sulfur and hydrocarbon purity are key quality metrics.</td>
+					<td>Regional LPG Standards</td>
+					<td>Low sulfur</td>
+					<td>Used in LPG blending and petrochemical feedstocks.</td>
 					</tr>
 
 					<tr>
@@ -2043,19 +2076,29 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>ASTM D1835</td>
 					<td>Refinery Alkylation Grade</td>
 					<td>EN LPG Standards</td>
-					<td>Refinery Specifications</td>
-					<td>Low sulfur, high purity</td>
-					<td>Critical feedstock for alkylation units; sulfur and olefin contamination tightly controlled.</td>
+					<td>Regional Standards</td>
+					<td>Low sulfur</td>
+					<td>Critical alkylation feedstock for gasoline octane enhancement.</td>
+					</tr>
+
+					<tr>
+					<td>Condensate</td>
+					<td>ASTM D4052, D86</td>
+					<td>EIA Condensate Specifications</td>
+					<td>Regional Refinery Specs</td>
+					<td>Qatar, UAE, Australia Export Specs</td>
+					<td>Sulfur typically &lt;0.5 wt%</td>
+					<td>API gravity 45-70°; low sulfur and high naphtha yield make condensate attractive for petrochemical feedstock.</td>
 					</tr>
 
 					<tr>
 					<td>Light Naphtha</td>
-					<td>ASTM D86, D323</td>
-					<td>Refinery Feedstock Specs</td>
+					<td>ASTM D86</td>
+					<td>Refinery Feed Specs</td>
 					<td>EN Feedstock Standards</td>
-					<td>JIS/KPC Standards</td>
+					<td>JIS Standards</td>
 					<td>Sulfur typically &lt;50 ppm</td>
-					<td>Density 0.62-0.70 kg/L; sulfur, aromatics, and endpoint distillation affect petrochemical applications.</td>
+					<td>Density 0.62-0.70 kg/L; aromatics and sulfur influence cracker performance.</td>
 					</tr>
 
 					<tr>
@@ -2063,29 +2106,29 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>ASTM D86</td>
 					<td>Reformer Feed Specs</td>
 					<td>EN Feedstock Standards</td>
-					<td>Regional Refinery Specs</td>
-					<td>Sulfur typically &lt;100 ppm after hydrotreating</td>
-					<td>Density 0.70-0.78 kg/L; aromatics precursors influence reformer performance and emissions.</td>
+					<td>Regional Standards</td>
+					<td>Sulfur typically &lt;100 ppm</td>
+					<td>Density 0.70-0.78 kg/L; reformer feedstock for gasoline and aromatics production.</td>
 					</tr>
 
 					<tr>
 					<td>RBOB</td>
 					<td>ASTM D4814</td>
 					<td>EPA Reformulated Gasoline</td>
-					<td>Not Common</td>
+					<td>N/A</td>
 					<td>Limited Use</td>
-					<td>Sulfur ≤10 ppm; Benzene ≤0.62 vol%</td>
-					<td>AKI typically 87-93; designed for ethanol blending to meet federal emissions requirements.</td>
+					<td>Sulfur ≤10 ppm</td>
+					<td>AKI 87-93; benzene ≤0.62 vol%; designed for ethanol blending.</td>
 					</tr>
 
 					<tr>
 					<td>CBOB</td>
 					<td>ASTM D4814</td>
 					<td>EPA Conventional Gasoline</td>
-					<td>Not Common</td>
+					<td>N/A</td>
 					<td>Limited Use</td>
 					<td>Sulfur ≤10 ppm</td>
-					<td>AKI generally 87-93; optimized for ethanol blending while maintaining emissions compliance.</td>
+					<td>AKI 87-93; optimized for ethanol blending.</td>
 					</tr>
 
 					<tr>
@@ -2093,124 +2136,199 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 					<td>ASTM D4814</td>
 					<td>EPA Tier 3</td>
 					<td>EN 228</td>
-					<td>JIS K2202 / GB17930</td>
-					<td>Sulfur ≤10 ppm; Benzene ≤1 vol%</td>
-					<td>RON 91-98; AKI 87-93; aromatics generally ≤35 vol%; density 0.72-0.78 kg/L.</td>
+					<td>JIS K2202, GB17930</td>
+					<td>Sulfur ≤10 ppm</td>
+					<td>AKI 87-93; benzene ≤1 vol%; aromatics ≤35 vol%; density 0.72-0.78 kg/L.</td>
 					</tr>
 
 					<tr>
 					<td>Jet A / Jet A-1</td>
 					<td>ASTM D1655</td>
-					<td>FAA / ASTM D1655</td>
+					<td>FAA Specifications</td>
 					<td>DEF STAN 91-091</td>
-					<td>AFQRJOS Standard</td>
+					<td>AFQRJOS</td>
 					<td>Sulfur ≤0.30 wt%</td>
-					<td>Freeze point, smoke point, aromatics ≤25 vol%; density 0.775-0.840 kg/L critical for aviation safety.</td>
+					<td>Freeze point, smoke point, density and aromatics are critical aviation specifications.</td>
+					</tr>
+
+					<tr>
+					<td>Sustainable Aviation Fuel (SAF)</td>
+					<td>ASTM D7566</td>
+					<td>FAA SAF Program</td>
+					<td>ReFuelEU Aviation</td>
+					<td>CORSIA Programs</td>
+					<td>Lifecycle carbon reduction requirements</td>
+					<td>Blended with Jet A/A-1; sulfur and aromatics generally lower than conventional jet fuel.</td>
 					</tr>
 
 					<tr>
 					<td>ULSD</td>
 					<td>ASTM D975</td>
-					<td>EPA Ultra-Low Sulfur Diesel</td>
+					<td>EPA ULSD</td>
 					<td>EN 590</td>
-					<td>JIS K2204 / GB19147</td>
+					<td>JIS K2204</td>
 					<td>Sulfur ≤15 ppm (US), ≤10 ppm (EU)</td>
-					<td>Cetane ≥40-51; density 0.82-0.85 kg/L; lubricity and sulfur control emissions performance.</td>
+					<td>Cetane 40-55; density 0.82-0.85 kg/L; lubricity and sulfur are key parameters.</td>
+					</tr>
+
+					<tr>
+					<td>Renewable Diesel</td>
+					<td>ASTM D975</td>
+					<td>EPA Renewable Fuel Standard</td>
+					<td>EN 15940</td>
+					<td>National Renewable Programs</td>
+					<td>Near-zero sulfur</td>
+					<td>Cetane often >70; lower lifecycle carbon intensity than petroleum diesel.</td>
 					</tr>
 
 					<tr>
 					<td>Gas Oil</td>
 					<td>ASTM D975 / ISO 8217</td>
 					<td>Heating Oil Specs</td>
-					<td>EN 590 / EN 15940</td>
-					<td>Regional Specifications</td>
-					<td>Sulfur varies 10-1000 ppm</td>
-					<td>Cetane and sulfur are primary environmental parameters; density typically 0.82-0.90 kg/L.</td>
+					<td>EN 590</td>
+					<td>Regional Standards</td>
+					<td>Sulfur 10-1000 ppm</td>
+					<td>Cetane and sulfur remain primary compliance indicators.</td>
+					</tr>
+
+					<tr>
+					<td>LSFO / VLSFO</td>
+					<td>ISO 8217</td>
+					<td>IMO 2020</td>
+					<td>IMO 2020</td>
+					<td>IMO 2020</td>
+					<td>Sulfur ≤0.50 wt%</td>
+					<td>Viscosity 30-380 cSt; marine bunker fuel meeting global sulfur cap.</td>
 					</tr>
 
 					<tr>
 					<td>HSFO</td>
 					<td>ISO 8217</td>
 					<td>Marine Fuel</td>
-					<td>IMO Standards</td>
-					<td>Marine Bunker Standards</td>
+					<td>Marine Fuel</td>
+					<td>Marine Fuel</td>
 					<td>Sulfur up to 3.5 wt%</td>
-					<td>Viscosity 180-380 cSt; primarily consumed by scrubber-equipped vessels.</td>
+					<td>Viscosity 180-380 cSt; typically consumed by vessels equipped with scrubbers.</td>
 					</tr>
 
 					<tr>
-					<td>LSFO / VLSFO</td>
-					<td>ISO 8217</td>
-					<td>IMO 2020 Compliant</td>
-					<td>IMO 2020 Compliant</td>
-					<td>IMO 2020 Compliant</td>
-					<td>Sulfur ≤0.50 wt%</td>
-					<td>Viscosity generally 30-380 cSt; sulfur reduction significantly lowers SOx emissions.</td>
+					<td>Fuel Grade Petroleum Coke</td>
+					<td>ASTM D6376</td>
+					<td>EPA Emissions Compliance</td>
+					<td>Industrial Fuel Standards</td>
+					<td>Cement & Power Fuel Standards</td>
+					<td>Sulfur 1-7 wt%</td>
+					<td>Heating value 13,500-15,000 Btu/lb; sulfur and metals (Ni, V) are major environmental concerns.</td>
+					</tr>
+
+					<tr>
+					<td>Anode Grade Petroleum Coke</td>
+					<td>ASTM D2638</td>
+					<td>Aluminum Industry Specs</td>
+					<td>European Aluminum Standards</td>
+					<td>Middle East Smelter Standards</td>
+					<td>Sulfur typically 1-3 wt%</td>
+					<td>Used for aluminum anodes; low metals and controlled sulfur required.</td>
 					</tr>
 
 					<tr>
 					<td>Lube Oil Base Stocks</td>
 					<td>ASTM D445</td>
 					<td>API Base Oil Groups</td>
-					<td>ACEA Requirements</td>
-					<td>JASO Specifications</td>
-					<td>Very low sulfur for Group II/III</td>
-					<td>Viscosity index, sulfur, saturates, and oxidation stability are key quality parameters.</td>
+					<td>ACEA</td>
+					<td>JASO</td>
+					<td>Low sulfur for Group II/III</td>
+					<td>Viscosity index, sulfur, saturates and oxidation stability are critical quality parameters.</td>
+					</tr>
+
+					<tr>
+					<td>Methanol</td>
+					<td>IMPCA Methanol Reference Specs</td>
+					<td>ASTM D1152</td>
+					<td>European Chemical Standards</td>
+					<td>China Methanol Standards</td>
+					<td>Sulfur and water tightly controlled</td>
+					<td>Purity ≥99.85%; increasingly used as marine fuel and hydrogen carrier.</td>
 					</tr>
 
 					<tr>
 					<td>Light Sweet Crude</td>
-					<td>API Gravity Standard</td>
-					<td>WTI Quality Specs</td>
-					<td>Brent Quality Specs</td>
-					<td>Murban Specs</td>
-					<td>Sulfur &lt;0.5 wt%</td>
-					<td>API gravity &gt;35°; lower sulfur reduces refining emissions and processing costs.</td>
-					</tr>
-
-					<tr>
-					<td>Medium Crude</td>
-					<td>API Gravity Standard</td>
-					<td>Mars Blend</td>
-					<td>Regional Crude Specs</td>
-					<td>Upper Zakum</td>
-					<td>Sulfur 0.5-2.0 wt%</td>
-					<td>API gravity 22-35°; moderate sulfur requires additional hydrotreating.</td>
-					</tr>
-
-					<tr>
-					<td>Heavy Crude</td>
-					<td>API Gravity Standard</td>
-					<td>California Heavy</td>
-					<td>Regional Heavy Crudes</td>
-					<td>Maya, Basrah Heavy</td>
-					<td>Sulfur 1-5 wt%</td>
-					<td>API gravity &lt;22°; high sulfur and metals increase refinery complexity.</td>
-					</tr>
-
-					<tr>
-					<td>Sweet Crude</td>
-					<td>API Gravity Standard</td>
+					<td>API Gravity Standards</td>
 					<td>WTI</td>
 					<td>Brent</td>
 					<td>Murban</td>
 					<td>Sulfur &lt;0.5 wt%</td>
-					<td>Preferred due to lower emissions compliance costs and higher yields of clean fuels.</td>
+					<td>API gravity &gt;35°; preferred due to lower refining emissions.</td>
+					</tr>
+
+					<tr>
+					<td>Medium Crude</td>
+					<td>API Gravity Standards</td>
+					<td>Mars Blend</td>
+					<td>Regional Grades</td>
+					<td>Upper Zakum</td>
+					<td>Sulfur 0.5-2 wt%</td>
+					<td>API gravity 22-35°; moderate hydrotreating requirements.</td>
+					</tr>
+
+					<tr>
+					<td>Heavy Crude</td>
+					<td>API Gravity Standards</td>
+					<td>California Heavy</td>
+					<td>Regional Heavy Grades</td>
+					<td>Maya, Basrah Heavy</td>
+					<td>Sulfur 1-5 wt%</td>
+					<td>API gravity &lt;22°; higher metals and sulfur increase refinery complexity.</td>
+					</tr>
+
+					<tr>
+					<td>Sweet Crude</td>
+					<td>API Gravity Standards</td>
+					<td>WTI</td>
+					<td>Brent</td>
+					<td>Murban</td>
+					<td>Sulfur &lt;0.5 wt%</td>
+					<td>Lower desulfurization requirements and higher clean-fuel yields.</td>
 					</tr>
 
 					<tr>
 					<td>Sour Crude</td>
-					<td>API Gravity Standard</td>
-					<td>Mars Blend</td>
+					<td>API Gravity Standards</td>
+					<td>Mars</td>
 					<td>Urals</td>
 					<td>Arab Heavy</td>
 					<td>Sulfur &gt;0.5 wt%</td>
-					<td>Requires extensive desulfurization to meet modern transportation fuel standards.</td>
+					<td>Requires extensive hydrotreating and sulfur recovery processing.</td>
 					</tr>
 
 					</tbody>
 					</table>
 
+					<h2>Major Fuel Quality Parameters</h2>
+
+					<table border="1" cellpadding="6" cellspacing="0">
+					<thead>
+					<tr>
+					<th>Parameter</th>
+					<th>Typical Products</th>
+					<th>Environmental Significance</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr><td>Sulfur</td><td>Gasoline, Diesel, Marine Fuels, Crude, Petcoke</td><td>Controls SOx emissions and refinery compliance.</td></tr>
+					<tr><td>AKI / Octane</td><td>Gasoline, RBOB, CBOB</td><td>Impacts combustion efficiency and emissions.</td></tr>
+					<tr><td>Cetane Number</td><td>ULSD, Gas Oil, Renewable Diesel</td><td>Higher cetane improves combustion and lowers particulate emissions.</td></tr>
+					<tr><td>Viscosity (cSt)</td><td>LSFO, HSFO, Lube Oils</td><td>Critical for fuel handling, pumping and engine performance.</td></tr>
+					<tr><td>Aromatics</td><td>Gasoline, Jet Fuel, Naphtha</td><td>Influences emissions, smoke formation and fuel stability.</td></tr>
+					<tr><td>Benzene</td><td>Gasoline</td><td>Carcinogenic component regulated globally.</td></tr>
+					<tr><td>Density</td><td>All Liquid Fuels</td><td>Important for custody transfer, energy content and emissions calculations.</td></tr>
+					<tr><td>API Gravity</td><td>Crude Oil, Condensate</td><td>Determines refinery yield and processing intensity.</td></tr>
+					<tr><td>Hydrogen Purity</td><td>H₂</td><td>Critical for fuel cell performance.</td></tr>
+					<tr><td>Heating Value</td><td>Natural Gas, LNG, Petcoke</td><td>Determines energy content and fuel economics.</td></tr>
+					</tbody>
+					</table>
+					
+					
 					<h2>Key ASTM and Global Fuel Standard Insights</h2>
 
 					<ul>
