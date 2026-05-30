@@ -119,66 +119,6 @@ function expandAll(){
 function collapseAll(){
  document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
 }
-/*
-fetch('./data/market_data.csv')  
-.then(r=>r.text())
-.then(csv=>{
- const rows=csv.trim().split('\\n');
- const months=[],supply=[],demand=[];
- let totalSupply=0,totalDemand=0;
-
- const tbody=document.querySelector('#marketTable tbody');
-
- rows.slice(1).forEach(row=>{
-   const c=row.split(',');
-   months.push(c[0]);
-   supply.push(+c[1]);
-   demand.push(+c[2]);
-   totalSupply+=+c[1];
-   totalDemand+=+c[2];
-
-   tbody.innerHTML += `<tr><td>${c[0]}</td><td>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td></tr>`;
- });
-
- document.getElementById('overviewText').innerHTML =
- `<p><strong>Total Supply:</strong> ${totalSupply.toLocaleString()}</p>
-  <p><strong>Total Demand:</strong> ${totalDemand.toLocaleString()}</p>`;
-
- document.getElementById('chartDescription').innerHTML='Supply and demand trends loaded from CSV data.';
- document.getElementById('tableDescription').innerHTML='Detailed market data loaded from CSV.';
- document.getElementById('insightText').innerHTML='Market insights can be generated from supply-demand balances and commentary fields.';
- document.getElementById('conclusionText').innerHTML='Review trends, balances, infrastructure impacts, and investment opportunities.';
-
- new Chart(document.getElementById('marketChart'),{
-  type:'line',
-  data:{
-   labels:months,
-   datasets:[
-    {label:'Supply',data:supply,borderColor:'#0b2e59'},
-    {label:'Demand',data:demand,borderColor:'#d35400'}
-   ]
-  },
-  options:{responsive:true,maintainAspectRatio:false}
- });
-})
-.catch(err=>{
- document.getElementById('overviewText').innerHTML='Unable to load ./data/market_data.csv';
- console.error(err);
-});
-
-const sections=document.querySelectorAll('.section-card');
-const links=document.querySelectorAll('.left-sidebar a');
-window.addEventListener('scroll',()=>{
- let current='';
- sections.forEach(section=>{
-  const top=section.offsetTop-120;
-  if(pageYOffset>=top) current=section.id;
- });
- links.forEach(link=>{
-  link.classList.remove('active');
-  if(link.getAttribute('href')==='#'+current) link.classList.add('active');
- });
-});*/
 </script>
 
 <script>
@@ -312,7 +252,7 @@ fetch(CSV_URL, {
         Monthly market data loaded
         successfully from CSV.
     `;
-
+	/*
     document.getElementById(
         "insightText"
     ).innerHTML = `
@@ -320,7 +260,53 @@ fetch(CSV_URL, {
         monitored automatically from the
         CSV data source.
     `;
+	*/
+	
+	/*Start-Auto-Generate Narrative Text from CSV*/
+	const latestSupply =
+    supply[supply.length - 1];
 
+const latestDemand =
+    demand[demand.length - 1];
+
+const latestBalance =
+    latestSupply - latestDemand;
+
+document.getElementById(
+    "insightText"
+).innerHTML = `
+
+				<h3>Market Insights</h3>
+
+				<ul>
+
+				<li>
+				Latest Supply:
+				${latestSupply.toLocaleString()}
+				</li>
+
+				<li>
+				Latest Demand:
+				${latestDemand.toLocaleString()}
+				</li>
+
+				<li>
+				Market Balance:
+				${latestBalance.toLocaleString()}
+				</li>
+
+				<li>
+				${latestBalance > 0
+				 ? "Market remains in surplus."
+				 : "Market remains in deficit."
+				}
+				</li>
+
+				</ul>
+`;
+	
+	/*End-Auto-Generate Narrative Text from CSV*/
+	
     document.getElementById(
         "conclusionText"
     ).innerHTML = `
@@ -328,7 +314,7 @@ fetch(CSV_URL, {
         the market is moving toward
         surplus or deficit conditions.
     `;
-
+	
     const canvas =
         document.getElementById(
             "marketChart"
