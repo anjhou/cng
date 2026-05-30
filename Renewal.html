@@ -77,6 +77,39 @@ tr:nth-child(even){background:#f8f9fb}
 <button onclick="collapseAll()">Collapse All</button>
 </div>
 
+<!--Start - Add CSV File Selector -->
+
+					<select id="commoditySelect">
+
+					<option value="lng.csv">LNG</option>
+
+					<option value="propane.csv">
+					Propane
+					</option>
+
+					<option value="ethane.csv">
+					Ethane
+					</option>
+
+					<option value="crude.csv">
+					Crude
+					</option>
+
+					</select>
+
+<!--End - Add CSV File Selector -->
+
+<!--Start - Add CSV File Selector - Add Export to Excel -->
+					<button onclick="location.reload()">
+					Refresh Data
+					</button>
+					
+					<button id="exportBtn">
+					Export Table
+					</button>
+<!--End - Add CSV File Selector - Add Export to Excel -->
+
+
 <div id="overview" class="section-card">
 <h2 class="section-title">Executive Summary</h2>
 <div id="overviewText" class="text-area">Loading data...</div>
@@ -306,6 +339,44 @@ document.getElementById(
 `;
 	
 	/*End-Auto-Generate Narrative Text from CSV*/
+	
+	/*Start-Add Export to Excel*/
+				document
+					.getElementById("exportBtn")
+					.addEventListener("click",()=>{
+
+					let table =
+					document.getElementById(
+						"marketTable"
+					);
+
+					let html =
+					table.outerHTML;
+
+					let url =
+					'data:application/vnd.ms-excel,' +
+					encodeURIComponent(html);
+
+					window.open(url);
+
+					});
+	/*End-Add Export to Excel*/
+	
+	/*Start-Add Last Updated Timestamp*/
+				document.getElementById(
+						"overviewText"
+					).insertAdjacentHTML(
+						"beforeend",
+						`
+						<p>
+						Last Updated:
+						${new Date()
+							.toLocaleString()}
+						</p>
+						`
+					);
+	
+	/*End-Add Last Updated Timestamp*/
 	
     document.getElementById(
         "conclusionText"
