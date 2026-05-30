@@ -170,6 +170,16 @@ tr:nth-child(even){background:#f8f9fb}
 									<canvas id="priceChart"></canvas>
 								</div>
 							</div>
+							
+							<div class="chart-card">
+
+								<h3>Average Market Distribution</h3>
+
+								<div class="chart-container">
+									<canvas id="averagePieChart"></canvas>
+								</div>
+
+							</div>
 
 						</div>
 
@@ -468,9 +478,18 @@ fetch(CSV_URL, {
 
         return;
     }
+/**/	
+					const avgSupply =
+					totalSupply / supply.length;
 
-    console.log("Creating Chart");
+					const avgDemand =
+					totalDemand / demand.length;
+
+					const avgBalance =
+					totalBalance / balance.length;
 /**/
+    console.log("Creating Chart");
+
 						new Chart(canvas, {
 
 							type: "line",
@@ -763,6 +782,100 @@ fetch(CSV_URL, {
 										}
 
 										);
+/**/
+					new Chart(
+
+						document.getElementById(
+							"averagePieChart"
+						),
+
+						{
+
+							type: "pie",
+
+							data: {
+
+								labels: [
+
+									"Average Supply",
+
+									"Average Demand",
+
+									"Average Balance"
+
+								],
+
+								datasets: [
+
+									{
+
+										data: [
+
+											avgSupply,
+
+											avgDemand,
+
+											Math.abs(avgBalance)
+
+										],
+
+										backgroundColor: [
+
+											"#0b2e59",
+
+											"#d35400",
+
+											"#2e8b57"
+
+										],
+
+										borderColor: [
+
+											"#0b2e59",
+
+											"#d35400",
+
+											"#2e8b57"
+
+										],
+
+										borderWidth: 2
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text: "Average Supply / Demand / Balance"
+
+									},
+
+									legend: {
+
+										position: "bottom"
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
 /**/
     console.log("Chart Created");
 
