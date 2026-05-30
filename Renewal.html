@@ -3,777 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Reader Layout</title>
-
-<style>
-    /* ==========================
-       Global Styles
-    ========================== */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        color: #333;
-    }
-
-    .container {
-        max-width: 1100px;
-        margin: auto;
-        padding: 20px;
-    }
-
-    h1, h2 {
-        color: #0b2e59;
-        margin-bottom: 15px;
-    }
-
-    h3 {
-        color: #0b2e59;
-        margin-bottom: 10px;
-    }
-
-    /* ==========================
-       Reader Layout
-    ========================== */
-
-    .reader-container {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
-
-    /* Top Navigation */
-    .top-nav {
-        background: #0b2e59;
-        color: white;
-        height: 60px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    .logo {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .page-nav {
-        display: flex;
-        gap: 10px;
-    }
-
-    .page-nav a {
-        color: white;
-        text-decoration: none;
-        padding: 8px 14px;
-        border-radius: 4px;
-        transition: 0.3s;
-    }
-
-    .page-nav a:hover {
-        background: rgba(255,255,255,0.15);
-    }
-
-    /* Main Content Layout */
-    .content-wrapper {
-        display: flex;
-        flex: 1;
-    }
-
-    /* Left Sidebar */
-    .left-sidebar {
-		width: 250px;
-		background: white;
-		border-right: 1px solid #ccc;
-		padding: 20px;
-		overflow-y: auto;
-
-		position: sticky;
-		top: 60px;
-		height: calc(100vh - 60px);
-	}
-
-    .left-sidebar h3 {
-        margin-bottom: 15px;
-        color: #0b2e59;
-    }
-
-    .left-sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .left-sidebar li {
-        margin-bottom: 8px;
-    }
-
-    .left-sidebar a {
-        display: block;
-        text-decoration: none;
-        color: #0b2e59;
-        padding: 8px 10px;
-        border-radius: 4px;
-        transition: 0.3s;
-    }
-
-    .left-sidebar a:hover {
-        background: #d9e2ef;
-    }
-
-    /* Reader Content */
-		.reader-content {
-		flex: 1;
-		padding: 25px;
-		overflow-y: auto;
-		height: calc(100vh - 60px);
-		scroll-behavior: smooth;
-	}
-
-    /* ==========================
-       Tabs
-    ========================== */
-
-    .tabs {
-        display: flex;
-        border-bottom: 3px solid #0b2e59;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-
-    .tab {
-        padding: 12px 20px;
-        cursor: pointer;
-        background: #d9e2ef;
-        margin-right: 5px;
-        border-radius: 6px 6px 0 0;
-        font-weight: bold;
-        color: #0b2e59;
-        transition: 0.3s;
-    }
-
-    .tab:hover {
-        background: #c6d5e8;
-    }
-
-    .tab.active {
-        background: #0b2e59;
-        color: white;
-    }
-
-    .tab-content {
-        display: none;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
-
-    /* ==========================
-       Section Cards
-    ========================== */
-
-    .section,
-    .section-card {
-        background: white;
-        padding: 20px;
-        margin-bottom: 25px;
-        border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .section-title {
-        color: #0b2e59;
-        margin-bottom: 15px;
-    }
-
-    /* ==========================
-       Chart Area
-    ========================== */
-
-    .chart-container {
-        width: 100%;
-        height: 450px;
-        border: 2px dashed #b0b0b0;
-        border-radius: 6px;
-        background: #fafafa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        color: #666;
-        font-size: 18px;
-    }
-
-    /* ==========================
-       Text Information Areas
-    ========================== */
-
-    .text-area {
-        border: 1px solid #d0d0d0;
-        background: #fafafa;
-        padding: 15px;
-        border-radius: 6px;
-        min-height: 120px;
-        line-height: 1.6;
-        margin-top: 10px;
-    }
-
-    /* ==========================
-       Tables
-    ========================== */
-
-    .table-container {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        background: white;
-    }
-
-    table th,
-    table td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    table th {
-        background: #0b2e59;
-        color: white;
-        position: sticky;
-        top: 0;
-        z-index: 2;
-    }
-
-    table tr:nth-child(even) {
-        background: #f8f9fb;
-    }
-
-    table tr:hover {
-        background: #eef3fa;
-    }
-
-    /* ==========================
-       Responsive Design
-    ========================== */
-	
-			.reader-toolbar {
-			background: white;
-			padding: 10px;
-			margin-bottom: 20px;
-			border-radius: 6px;
-			box-shadow: 0 2px 4px rgba(0,0,0,.1);
-			display: flex;
-			gap: 10px;
-			flex-wrap: wrap;
-		}
-
-		.reader-toolbar button {
-			padding: 8px 14px;
-			border: none;
-			border-radius: 4px;
-			background: #0b2e59;
-			color: white;
-			cursor: pointer;
-		}
-
-		.reader-toolbar button:hover {
-			opacity: .9;
-		}
-
-		.left-sidebar a.active {
-			background: #0b2e59;
-			color: white;
-		}
-
-		html {
-			scroll-behavior: smooth;
-		}
-
-    @media (max-width: 900px) {
-
-        .content-wrapper {
-            flex-direction: column;
-        }
-
-        .left-sidebar {
-            width: 100%;
-            border-right: none;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .page-nav {
-            flex-wrap: wrap;
-        }
-    }
-</style>
-
+<title>Renewal - Market Intelligence Reader</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
+.top-nav{position:sticky;top:0;z-index:1000;height:60px;background:#0b2e59;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+.logo{font-size:20px;font-weight:bold}
+.page-nav{display:flex;gap:10px;flex-wrap:wrap}
+.page-nav a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:4px}
+.page-nav a:hover{background:rgba(255,255,255,.15)}
+.content-wrapper{display:flex;min-height:calc(100vh - 60px)}
+.left-sidebar{width:260px;background:#fff;border-right:1px solid #ddd;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;padding:20px}
+.left-sidebar h3{color:#0b2e59;margin-bottom:15px}
+.left-sidebar ul{list-style:none}
+.left-sidebar li{margin-bottom:8px}
+.left-sidebar a{display:block;text-decoration:none;color:#0b2e59;padding:8px 10px;border-radius:4px}
+.left-sidebar a:hover,.left-sidebar a.active{background:#0b2e59;color:#fff}
+.reader-content{flex:1;padding:25px;height:calc(100vh - 60px);overflow-y:auto}
+.reader-toolbar{display:flex;gap:10px;flex-wrap:wrap;background:#fff;padding:15px;margin-bottom:20px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.reader-toolbar button{border:none;background:#0b2e59;color:#fff;padding:8px 12px;border-radius:4px;cursor:pointer}
+.section-card{background:#fff;padding:20px;margin-bottom:25px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.section-title{color:#0b2e59;margin-bottom:15px}
+.chart-container{position:relative;height:500px;margin-bottom:20px}
+.text-area{background:#fafafa;border:1px solid #ddd;padding:15px;border-radius:6px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ccc;padding:10px}
+th{background:#0b2e59;color:#fff}
+tr:nth-child(even){background:#f8f9fb}
+@media(max-width:900px){
+.content-wrapper{flex-direction:column}
+.left-sidebar{width:100%;height:auto;position:relative;top:0}
+.reader-content{height:auto}
+}
+</style>
 </head>
-
 <body>
 
-<div id="header"></div>
+<div class="top-nav">
+<div class="logo">Market Intelligence Reader</div>
+<div class="page-nav">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="reports.html">Reports</a>
+<a href="analytics.html">Analytics</a>
+<a href="renewal.html">Renewal</a>
+<a href="settings.html">Settings</a>
+</div>
+</div>
+
+<div class="content-wrapper">
+
+<div class="left-sidebar">
+<h3>Report Sections</h3>
+<ul>
+<li><a href="#overview">Executive Summary</a></li>
+<li><a href="#chart-section">Market Trends</a></li>
+<li><a href="#table-section">Market Data</a></li>
+<li><a href="#market-insights">Market Insights</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<div class="reader-content">
+
+<div class="reader-toolbar">
+<button onclick="window.print()">Print Report</button>
+<button onclick="expandAll()">Expand All</button>
+<button onclick="collapseAll()">Collapse All</button>
+</div>
+
+<div id="overview" class="section-card">
+<h2 class="section-title">Executive Summary</h2>
+<div id="overviewText" class="text-area">Loading data...</div>
+</div>
+
+<div id="chart-section" class="section-card">
+<h2 class="section-title">Supply vs Demand Trend</h2>
+<div class="chart-container"><canvas id="marketChart"></canvas></div>
+<div id="chartDescription" class="text-area">Loading data...</div>
+</div>
+
+<div id="table-section" class="section-card">
+<h2 class="section-title">Market Data</h2>
+<table id="marketTable">
+<thead>
+<tr><th>Month</th><th>Supply</th><th>Demand</th><th>Balance</th><th>Insight</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+<div id="tableDescription" class="text-area">Loading data...</div>
+</div>
+
+<div id="market-insights" class="section-card">
+<h2 class="section-title">Market Insights</h2>
+<div id="insightText" class="text-area">Loading data...</div>
+</div>
+
+<div id="conclusion" class="section-card">
+<h2 class="section-title">Conclusion</h2>
+<div id="conclusionText" class="text-area">Loading data...</div>
+</div>
+
+</div>
+</div>
+
 <script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+function expandAll(){
+ document.querySelectorAll('.section-card').forEach(s=>s.style.display='block');
+}
+function collapseAll(){
+ document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
+}
+
+fetch('./data/market_data.csv')
+.then(r=>r.text())
+.then(csv=>{
+ const rows=csv.trim().split('\\n');
+ const months=[],supply=[],demand=[];
+ let totalSupply=0,totalDemand=0;
+
+ const tbody=document.querySelector('#marketTable tbody');
+
+ rows.slice(1).forEach(row=>{
+   const c=row.split(',');
+   months.push(c[0]);
+   supply.push(+c[1]);
+   demand.push(+c[2]);
+   totalSupply+=+c[1];
+   totalDemand+=+c[2];
+
+   tbody.innerHTML += `<tr><td>${c[0]}</td><td>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td></tr>`;
+ });
+
+ document.getElementById('overviewText').innerHTML =
+ `<p><strong>Total Supply:</strong> ${totalSupply.toLocaleString()}</p>
+  <p><strong>Total Demand:</strong> ${totalDemand.toLocaleString()}</p>`;
+
+ document.getElementById('chartDescription').innerHTML='Supply and demand trends loaded from CSV data.';
+ document.getElementById('tableDescription').innerHTML='Detailed market data loaded from CSV.';
+ document.getElementById('insightText').innerHTML='Market insights can be generated from supply-demand balances and commentary fields.';
+ document.getElementById('conclusionText').innerHTML='Review trends, balances, infrastructure impacts, and investment opportunities.';
+
+ new Chart(document.getElementById('marketChart'),{
+  type:'line',
+  data:{
+   labels:months,
+   datasets:[
+    {label:'Supply',data:supply,borderColor:'#0b2e59'},
+    {label:'Demand',data:demand,borderColor:'#d35400'}
+   ]
+  },
+  options:{responsive:true,maintainAspectRatio:false}
+ });
+})
+.catch(err=>{
+ document.getElementById('overviewText').innerHTML='Unable to load ./data/market_data.csv';
+ console.error(err);
+});
+
+const sections=document.querySelectorAll('.section-card');
+const links=document.querySelectorAll('.left-sidebar a');
+window.addEventListener('scroll',()=>{
+ let current='';
+ sections.forEach(section=>{
+  const top=section.offsetTop-120;
+  if(pageYOffset>=top) current=section.id;
+ });
+ links.forEach(link=>{
+  link.classList.remove('active');
+  if(link.getAttribute('href')==='#'+current) link.classList.add('active');
+ });
+});
 </script>
-
-					<div class="top-nav">
-
-						<div class="logo">
-							Market Intelligence Reader
-						</div>
-
-						<div class="page-nav">
-
-							<a href="index.html">Home</a>
-
-							<a href="dashboard.html">Dashboard</a>
-
-							<a href="reports.html">Reports</a>
-
-							<a href="analytics.html">Analytics</a>
-
-							<a href="renewal.html">Renewal</a>
-
-							<a href="settings.html">Settings</a>
-
-						</div>
-
-					</div>
-					
-					<div class="left-sidebar">
-
-						<h3>Report Sections</h3>
-
-						<ul>
-
-							<li>
-								<a href="#overview">
-									Executive Summary
-								</a>
-							</li>
-
-							<li>
-								<a href="#chart-section">
-									Market Trends
-								</a>
-							</li>
-
-							<li>
-								<a href="#table-section">
-									Market Data
-								</a>
-							</li>
-
-							<li>
-								<a href="#market-insights">
-									Market Insights
-								</a>
-							</li>
-
-							<li>
-								<a href="#conclusion">
-									Conclusions
-								</a>
-							</li>
-
-						</ul>
-
-					</div>		
-
-					
-					
-					<div class="reader-content">
-
-						<div class="reader-toolbar">
-
-							<button onclick="window.print()">
-								Print Report
-							</button>
-
-							<button onclick="expandAll()">
-								Expand All
-							</button>
-
-							<button onclick="collapseAll()">
-								Collapse All
-							</button>
-
-						</div>
-	
-
-					
-
-						<!-- Overview -->
-						<div id="overview" class="section-card">
-
-							<h2 class="section-title">Executive Summary</h2>
-
-							<div id="overviewText" class="text-area">
-
-								<h3>Market Overview</h3>
-
-								<p>
-									This dashboard is populated directly from a CSV file.
-								</p>
-
-								<br>
-
-								<table>
-									<tr>
-										<th>Total Supply</th>
-										<th>Total Demand</th>
-										<th>Average Balance</th>
-									</tr>
-									<tr>
-										<td id="totalSupply">0</td>
-										<td id="totalDemand">0</td>
-										<td id="avgBalance">0</td>
-									</tr>
-								</table>
-
-							</div>
-
-						</div>
-
-						<!-- Chart Section -->
-						<div id="chart-section" class="section-card">
-
-							<h2 class="section-title">
-								Supply vs Demand Trend
-							</h2>
-
-							<div class="chart-container">
-								<canvas id="marketChart"></canvas>
-							</div>
-
-							<h3>Chart Analysis</h3>
-
-							<div id="chartDescription" class="text-area">
-
-								Waiting for CSV data...
-
-							</div>
-
-						</div>
-
-						<!-- Table Section -->
-						<div id="table-section" class="section-card">
-
-							<h2 class="section-title">
-								Monthly Market Data
-							</h2>
-
-							<div class="table-container">
-
-								<table id="marketTable">
-
-									<thead>
-										<tr>
-											<th>Month</th>
-											<th>Supply</th>
-											<th>Demand</th>
-											<th>Balance</th>
-											<th>Insight</th>
-										</tr>
-									</thead>
-
-									<tbody>
-									</tbody>
-
-								</table>
-
-							</div>
-
-							<h3>Table Analysis</h3>
-
-							<div id="tableDescription" class="text-area">
-
-								Waiting for CSV data...
-
-							</div>
-
-						</div>
-
-						<!-- Market Insights -->
-						<div id="market-insights" class="section-card">
-
-							<h2 class="section-title">
-								Market Insights
-							</h2>
-
-							<div id="insightText" class="text-area">
-
-								Waiting for CSV data...
-
-							</div>
-
-						</div>
-
-						<!-- Conclusion -->
-						<div id="conclusion" class="section-card">
-
-							<h2 class="section-title">
-								Conclusion
-							</h2>
-
-							<div id="conclusionText" class="text-area">
-
-								Waiting for CSV data...
-
-							</div>
-
-						</div>
-
-					</div>
-	
-
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
-
-					<script>
-
-					fetch("data/market_data.csv")
-
-					.then(response => response.text())
-
-					.then(csv => {
-
-						const rows = csv.trim().split("\n");
-
-						const headers = rows[0].split(",");
-
-						const months = [];
-						const supply = [];
-						const demand = [];
-						const balance = [];
-
-						let totalSupply = 0;
-						let totalDemand = 0;
-						let totalBalance = 0;
-
-						const tableBody =
-							document.querySelector("#marketTable tbody");
-
-						rows.slice(1).forEach(row => {
-
-							const cols = row.split(",");
-
-							months.push(cols[0]);
-
-							supply.push(Number(cols[1]));
-							demand.push(Number(cols[2]));
-							balance.push(Number(cols[3]));
-
-							totalSupply += Number(cols[1]);
-							totalDemand += Number(cols[2]);
-							totalBalance += Number(cols[3]);
-
-							tableBody.innerHTML += `
-							<tr>
-								<td>${cols[0]}</td>
-								<td>${cols[1]}</td>
-								<td>${cols[2]}</td>
-								<td>${cols[3]}</td>
-								<td>${cols[4]}</td>
-							</tr>
-							`;
-						});
-
-						document.getElementById("totalSupply").innerHTML =
-							totalSupply.toLocaleString();
-
-						document.getElementById("totalDemand").innerHTML =
-							totalDemand.toLocaleString();
-
-						document.getElementById("avgBalance").innerHTML =
-							(totalBalance / balance.length).toFixed(2);
-
-						document.getElementById("chartDescription").innerHTML = `
-						<h4>Trend Analysis</h4>
-
-						<ul>
-							<li>Total Supply: ${totalSupply.toLocaleString()}</li>
-							<li>Total Demand: ${totalDemand.toLocaleString()}</li>
-							<li>Average Balance:
-								${(totalBalance / balance.length).toFixed(2)}
-							</li>
-							<li>Chart displays monthly supply and demand trends.</li>
-							<li>Positive balances indicate surplus conditions.</li>
-							<li>Negative balances indicate deficit conditions.</li>
-						</ul>
-						`;
-
-						document.getElementById("tableDescription").innerHTML = `
-						<h4>Table Interpretation</h4>
-
-						<ul>
-							<li>Monthly values are loaded directly from CSV.</li>
-							<li>Balance = Supply - Demand.</li>
-							<li>Insights column provides commentary.</li>
-							<li>Supports future automation from Excel exports.</li>
-						</ul>
-						`;
-
-						document.getElementById("insightText").innerHTML = `
-						<h4>Market Intelligence Summary</h4>
-
-						<ul>
-							<li>Supply growth driven by production expansions.</li>
-							<li>Demand growth supported by industrial activity.</li>
-							<li>Trade balances impact regional pricing.</li>
-							<li>Infrastructure constraints can affect deliveries.</li>
-							<li>Export opportunities influence market fundamentals.</li>
-						</ul>
-						`;
-
-						document.getElementById("conclusionText").innerHTML = `
-						<h4>Key Takeaways</h4>
-
-						<ol>
-							<li>Monitor supply-demand balance trends.</li>
-							<li>Evaluate infrastructure bottlenecks.</li>
-							<li>Track seasonal demand impacts.</li>
-							<li>Assess trade and logistics risks.</li>
-							<li>Review investment opportunities.</li>
-						</ol>
-						`;
-
-						new Chart(
-							document.getElementById("marketChart"),
-							{
-								type: "line",
-								data: {
-									labels: months,
-									datasets: [
-										{
-											label: "Supply",
-											data: supply,
-											borderColor: "#0b2e59",
-											backgroundColor: "rgba(11,46,89,0.10)",
-											fill: false,
-											tension: 0.30
-										},
-										{
-											label: "Demand",
-											data: demand,
-											borderColor: "#d35400",
-											backgroundColor: "rgba(211,84,0,0.10)",
-											fill: false,
-											tension: 0.30
-										}
-									]
-								},
-								options: {
-
-									responsive: true,
-
-									maintainAspectRatio: false,
-
-									plugins: {
-										title: {
-											display: true,
-											text: "Monthly Supply vs Demand"
-										}
-									},
-
-									scales: {
-
-										y: {
-											beginAtZero: true
-										}
-
-									}
-								}
-							}
-						);
-
-					});
-
-					</script>
-
-
-					<script>
-
-						function expandAll() {
-
-							document.querySelectorAll('.section-card')
-								.forEach(section => {
-									section.style.display = 'block';
-								});
-
-						}
-
-						function collapseAll() {
-
-							document.querySelectorAll('.section-card')
-								.forEach((section,index) => {
-
-									if(index > 0) {
-
-										section.style.display = 'none';
-
-									}
-
-								});
-
-						}
-
-						const sections =
-							document.querySelectorAll('.section-card');
-
-						const navLinks =
-							document.querySelectorAll('.left-sidebar a');
-
-						window.addEventListener('scroll', () => {
-
-							let current = '';
-
-							sections.forEach(section => {
-
-								const sectionTop =
-									section.offsetTop - 120;
-
-								if(window.pageYOffset >= sectionTop){
-
-									current = section.getAttribute('id');
-
-								}
-
-							});
-
-							navLinks.forEach(link => {
-
-								link.classList.remove('active');
-
-								if(
-									link.getAttribute('href')
-									=== '#' + current
-								){
-
-									link.classList.add('active');
-
-								}
-
-							});
-
-						});
-
-						</script>
 
 </body>
 </html>
