@@ -139,35 +139,35 @@ tr:nth-child(even){background:#f8f9fb}
 						<div class="charts-grid">
 
 							<div class="chart-card">
-								<h3>Supply vs Demand</h3>
+								<h3>Supply vs Demand - line chart</h3>
 								<div class="chart-container">
 									<canvas id="supplyDemandChart"></canvas>
 								</div>
 							</div>
 
 							<div class="chart-card">
-								<h3>Market Balance</h3>
+								<h3>Market Balance - bar chart</h3>
 								<div class="chart-container">
 									<canvas id="balanceChart"></canvas>
 								</div>
 							</div>
 
 							<div class="chart-card">
-								<h3>Supply Trend</h3>
+								<h3>Supply Trend - line chart</h3>
 								<div class="chart-container">
 									<canvas id="supplyChart"></canvas>
 								</div>
 							</div>
 
 							<div class="chart-card">
-								<h3>Demand Trend</h3>
+								<h3>Demand Trend - line chart </h3>
 								<div class="chart-container">
 									<canvas id="demandChart"></canvas>
 								</div>
 							</div>
 							
 							<div class="chart-card">
-								<h3>Price Trend</h3>
+								<h3>Price Trend - line chart</h3>
 								<div class="chart-container">
 									<canvas id="priceChart"></canvas>
 								</div>
@@ -175,7 +175,7 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							<div class="chart-card">
 
-								<h3>Average Market Distribution</h3>
+								<h3>Average Market Distribution - Pie Chart </h3>
 
 								<div class="chart-container">
 									<canvas id="averagePieChart"></canvas>
@@ -185,7 +185,7 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							<div class="chart-card">
 
-								<h3>Monthly Balance Tornado Chart</h3>
+								<h3>Monthly Balance - Tornado Chart</h3>
 
 								<div class="chart-container">
 									<canvas id="tornadoChart"></canvas>
@@ -195,7 +195,7 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							<div class="chart-card">
 
-								<h3>Monthly Price Bubble Chart</h3>
+								<h3>Monthly Price - Bubble Chart</h3>
 
 								<div class="chart-container">
 									<canvas id="priceBubbleChart"></canvas>
@@ -205,7 +205,7 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							<div class="chart-card">
 
-									<h3>Monthly Market Spider Chart</h3>
+									<h3>Monthly Market Radar (Spider) Chart </h3>
 
 									<div style="margin-bottom:10px;">
 
@@ -251,7 +251,7 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							<div class="chart-card">
 
-								<h3>Supply, Demand & Price Distribution</h3>
+								<h3>Supply, Demand & Price Distribution - violin chart</h3>
 
 								<div
 									id="violinChart"
@@ -1626,7 +1626,8 @@ fetch(CSV_URL, {
 							) * 100
 
 						);
-/**/
+/*Start -Treemap*/
+/*Build Treemap Dataset*/
 					const treemapData = [];
 
 					for(let i = 0; i < months.length; i++){
@@ -1635,34 +1636,25 @@ fetch(CSV_URL, {
 
 							month: months[i],
 
-							category: "Supply",
+							supply: supply[i],
 
-							value: supply[i]
+							demand: demand[i],
 
-						});
+							price: price[i],
 
-						treemapData.push({
+							value:
+								supply[i]
+								+
+								demand[i]
+								+
+								(price[i] * 10)
 
-							month: months[i],
-
-							category: "Demand",
-
-							value: demand[i]
-
-						});
-
-						treemapData.push({
-
-							month: months[i],
-
-							category: "Price",
-
-							value: price[i]
-
-						});
+						}); 
+						
+						groups:["month"]
 
 					}				
-/**/
+/*Create Treemap Chart*/
 					new Chart(
 
 						document.getElementById(
