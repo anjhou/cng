@@ -262,6 +262,20 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Supply-Demand Sankey Diagram</h3>
+
+								<div
+									id="sankeyChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+							</div>
 
 
 						</div>
@@ -1819,7 +1833,7 @@ fetch(CSV_URL, {
 							title: {
 
 								text:
-								"Supply, Demand & Price Distribution"
+								"Violin Plot"
 
 							},
 
@@ -1939,7 +1953,40 @@ fetch(CSV_URL, {
 /**/
 					createViolinChart();
 /**/
+					const sankeyNodes = [];
+					const sankeyLinks = [];
+/**/
+				months.forEach((month,index)=>{
 
+					sankeyNodes.push({
+						name: `${month} Supply`
+					});
+
+					sankeyNodes.push({
+						name: `${month} Demand`
+					});
+
+				});
+/**/
+					months.forEach((month,index)=>{
+
+						sankeyLinks.push({
+
+							source:
+								`${month} Supply`,
+
+							target:
+								`${month} Demand`,
+
+							value:
+								Math.min(
+									supply[index],
+									demand[index]
+								)
+
+						});
+
+					});
 /**/
 
 /**/
