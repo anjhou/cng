@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Renewal - Market Intelligence Reader</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@3"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -234,6 +235,16 @@ tr:nth-child(even){background:#f8f9fb}
 										width:100%;
 										height:500px;
 									">
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Market Treemap</h3>
+
+								<div class="chart-container">
+									<canvas id="marketTreemap"></canvas>
 								</div>
 
 							</div>
@@ -1588,9 +1599,186 @@ fetch(CSV_URL, {
 
 						);
 /**/
-				
-/**/
+					const treemapData = [];
 
+					for(let i = 0; i < months.length; i++){
+
+						treemapData.push({
+
+							month: months[i],
+
+							category: "Supply",
+
+							value: supply[i]
+
+						});
+
+						treemapData.push({
+
+							month: months[i],
+
+							category: "Demand",
+
+							value: demand[i]
+
+						});
+
+						treemapData.push({
+
+							month: months[i],
+
+							category: "Price",
+
+							value: price[i]
+
+						});
+
+					}				
+/**/
+					new Chart(
+
+						document.getElementById(
+							"marketTreemap"
+						),
+
+						{
+
+							type: "treemap",
+
+							data: {
+
+								datasets: [
+
+									{
+
+										tree: treemapData,
+
+										key: "value",
+
+										groups: [
+
+											"category"
+
+										],
+
+										spacing: 2,
+
+										borderWidth: 1,
+
+										borderColor: "#ffffff",
+
+										backgroundColor(ctx){
+
+											const item =
+												ctx.raw;
+
+											if(!item)
+												return "#cccccc";
+
+											switch(item._data.category){
+
+												case "Supply":
+													return "#0b2e59";
+
+												case "Demand":
+													return "#d35400";
+
+												case "Price":
+													return "#2e8b57";
+
+												default:
+													return "#999999";
+											}
+
+										},
+
+										labels: {
+
+											display: true,
+
+											formatter(ctx){
+
+												const data =
+													ctx.raw._data;
+
+												return [
+
+													data.month,
+
+													data.category,
+
+													data.value
+
+												];
+
+											},
+
+											color: "white",
+
+											font: {
+
+												size: 12
+
+											}
+
+										}
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Supply, Demand & Price Treemap"
+
+									},
+
+									tooltip: {
+
+										callbacks: {
+
+											title(items){
+
+												return items[0]
+													.raw
+													._data
+													.month;
+
+											},
+
+											label(context){
+
+												const d =
+													context.raw._data;
+
+												return `${d.category}: ${d.value}`;
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
 /**/
 
     console.log("Chart Created");
