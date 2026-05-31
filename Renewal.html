@@ -1955,6 +1955,19 @@ fetch(CSV_URL, {
 /**/
 					const sankeyNodes = [];
 					const sankeyLinks = [];
+/**/					
+					months.forEach((month,index)=>{
+
+						sankeyNodes.push({
+							name: `${month} Supply`
+						});
+
+						sankeyNodes.push({
+							name: `${month} Demand`
+						});
+
+					});
+
 /**/
 					months.forEach((month,index)=>{
 
