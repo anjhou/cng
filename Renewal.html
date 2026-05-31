@@ -1237,6 +1237,20 @@ fetch(CSV_URL, {
 
 					});
 /**/
+					const maxSupply =
+						Math.max(...supply);
+
+					const maxDemand =
+						Math.max(...demand);
+
+					const maxBalance =
+						Math.max(
+							...balance.map(v => Math.abs(v))
+						);
+
+					const maxPrice =
+						Math.max(...price);					
+/**/
 					let radarChart;
 
 					function updateRadarChart(index){
@@ -1372,20 +1386,7 @@ fetch(CSV_URL, {
 						}
 
 					);
-/**/
-					const maxSupply =
-						Math.max(supply);
 
-					const maxDemand =
-						Math.max(demand);
-
-					const maxBalance =
-						Math.max(
-							balance.map(Math.abs)
-						);
-
-					const maxPrice =
-						Math.max(price);
 /**/
 
 /**/
