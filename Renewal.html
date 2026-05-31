@@ -1956,19 +1956,16 @@ fetch(CSV_URL, {
 					const sankeyNodes = [];
 					const sankeyLinks = [];
 /**/
-				months.forEach((month,index)=>{
-
-					sankeyNodes.push({
-						name: `${month} Supply`
-					});
-
-					sankeyNodes.push({
-						name: `${month} Demand`
-					});
-
-				});
-/**/
 					months.forEach((month,index)=>{
+
+						const supplied =
+							supply[index];
+
+						const demanded =
+							demand[index];
+
+						const balanceValue =
+							supplied - demanded;
 
 						sankeyLinks.push({
 
@@ -1980,15 +1977,98 @@ fetch(CSV_URL, {
 
 							value:
 								Math.min(
-									supply[index],
-									demand[index]
+									supplied,
+									demanded
+								)
+
+						});
+
+						sankeyLinks.push({
+
+							source:
+								`${month} Supply`,
+
+							target:
+								`${month} Balance`,
+
+							value:
+								Math.abs(
+									balanceValue
 								)
 
 						});
 
 					});
 /**/
+					const sankey =
+						echarts.init(
+							document.getElementById(
+								"sankeyChart"
+							)
+						);
 
+					sankey.setOption({
+
+						title:{
+
+							text:
+							"Monthly Supply-Demand Flow"
+
+						},
+
+						tooltip:{
+
+							trigger:"item",
+
+							triggerOn:"mousemove"
+
+						},
+
+						series:[
+
+							{
+
+								type:"sankey",
+
+								layout:"none",
+
+								emphasis:{
+
+									focus:"adjacency"
+
+								},
+
+								data:
+									sankeyNodes,
+
+								links:
+									sankeyLinks,
+
+								lineStyle:{
+
+									color:"source",
+
+									curveness:0.5
+
+								}
+
+							}
+
+						]
+
+					});					
+/**/
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							sankey.resize();
+
+						}
+
+					);
 /**/
 
     console.log("Chart Created");
