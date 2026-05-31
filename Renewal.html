@@ -190,6 +190,16 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Price Bubble Chart</h3>
+
+								<div class="chart-container">
+									<canvas id="priceBubbleChart"></canvas>
+								</div>
+
+							</div>
 
 
 						</div>
@@ -1031,6 +1041,155 @@ fetch(CSV_URL, {
 
 					);
 
+/**/
+						const bubbleData = [];
+
+						for(let i = 0; i < months.length; i++){
+
+							bubbleData.push({
+
+								x: i + 1,
+
+								y: price[i],
+
+								r: Math.max(
+									8,
+									Math.abs(balance[i]) * 2
+								)
+
+							});
+
+						}
+/**/
+					new Chart(
+
+						document.getElementById(
+							"priceBubbleChart"
+						),
+
+						{
+
+							type: "bubble",
+
+							data: {
+
+								datasets: [
+
+									{
+
+										label: "Monthly Prices",
+
+										data: bubbleData,
+
+										backgroundColor:
+											"rgba(11,46,89,0.5)",
+
+										borderColor:
+											"#0b2e59",
+
+										borderWidth: 2
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Monthly Price Bubble Chart"
+
+									},
+
+									tooltip: {
+
+										callbacks: {
+
+											label: function(context){
+
+												const index =
+													context.dataIndex;
+
+												return [
+
+													"Month: " +
+													months[index],
+
+													"Price: " +
+													price[index],
+
+													"Balance: " +
+													balance[index]
+
+												];
+
+											}
+
+										}
+
+									}
+
+								},
+
+								scales: {
+
+									x: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Month"
+
+										},
+
+										ticks: {
+
+											callback:
+											function(value){
+
+												return months[
+													value - 1
+												] || "";
+
+											}
+
+										}
+
+									},
+
+									y: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Price"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
 /**/
     console.log("Chart Created");
 
