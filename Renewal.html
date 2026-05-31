@@ -276,6 +276,21 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+							
+							<div class="chart-card">
+
+								<h3>Supply vs Demand Waterfall Chart</h3>
+
+								<div
+									id="waterfallChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+							</div>
+							
 
 
 						</div>
@@ -2083,8 +2098,206 @@ fetch(CSV_URL, {
 						}
 
 					);
-/**/
+/*Build Waterfall Data*/
 
+					const waterfallData = [];
+					const waterfallLabels = [];
+
+					let cumulative = 0;
+
+/*Waterfall-Create Monthly Supply and Demand Steps*/
+
+					months.forEach((month,index)=>{
+
+						waterfallLabels.push(
+							`${month} Supply`
+						);
+
+						waterfallData.push({
+
+							value:
+								supply[index],
+
+							itemStyle:{
+								color:"#0b2e59"
+							}
+
+						});
+
+						waterfallLabels.push(
+							`${month} Demand`
+						);
+
+						waterfallData.push({
+
+							value:
+								-demand[index],
+
+							itemStyle:{
+								color:"#d35400"
+							}
+
+						});
+
+					});
+
+/*Waterfall-Create Waterfall Helper Series*/
+
+					const helpData = [];
+
+					let runningTotal = 0;
+
+					waterfallData.forEach(item=>{
+
+						helpData.push(
+							runningTotal
+						);
+
+						runningTotal += item.value;
+
+					});
+
+/*Waterfall-Create Waterfall Chart*/
+					const waterfall =
+						echarts.init(
+							document.getElementById(
+								"waterfallChart"
+							)
+						);
+
+					waterfall.setOption({
+
+						title:{
+
+							text:
+							"Monthly Supply vs Demand Waterfall"
+
+						},
+
+						tooltip:{
+
+							trigger:"axis",
+
+							axisPointer:{
+								type:"shadow"
+							}
+
+						},
+
+						legend:{
+
+							data:[
+								"Offset",
+								"Net Change"
+							]
+
+						},
+
+						xAxis:{
+
+							type:"category",
+
+							data:
+								waterfallLabels
+
+						},
+
+						yAxis:{
+
+							type:"value",
+
+							name:
+								"Volume"
+
+						},
+
+						series:[
+
+							{
+
+								name:"Offset",
+
+								type:"bar",
+
+								stack:"total",
+
+								itemStyle:{
+
+									color:"rgba(0,0,0,0)"
+
+								},
+
+								emphasis:{
+
+									itemStyle:{
+
+										color:"rgba(0,0,0,0)"
+
+									}
+
+								},
+
+								data:
+									helpData
+
+							},
+
+							{
+
+								name:"Net Change",
+
+								type:"bar",
+
+								stack:"total",
+
+								label:{
+
+									show:true,
+
+									position:"top"
+
+								},
+
+								data:
+									waterfallData
+
+							}
+
+						]
+
+					});
+
+/*Waterfall-Add Final Market Balance Column*/
+						waterfallLabels.push(
+							"Final Balance"
+						);
+
+						waterfallData.push({
+
+							value:
+								runningTotal,
+
+							itemStyle:{
+								color:"#2e8b57"
+							}
+
+						});
+
+helpData.push(0);
+
+/*Add Auto-Resize*/
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							waterfall.resize();
+
+						}
+
+					);
+/**/
     console.log("Chart Created");
 
 })
