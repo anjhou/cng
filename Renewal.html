@@ -291,7 +291,19 @@ tr:nth-child(even){background:#f8f9fb}
 
 							</div>
 							
+							<div class="chart-card">
 
+								<h3>Supply & Demand Heatmap</h3>
+
+								<div
+									id="heatmapChart"
+									style="
+										width:100%;
+										height:500px;
+									">
+								</div>
+
+							</div>
 
 						</div>
 
@@ -2297,6 +2309,199 @@ helpData.push(0);
 						}
 
 					);
+/*Heatmap Chart - Build Heatmap Data*/
+
+					const heatmapData = [];
+
+					months.forEach((month,index)=>{
+
+						heatmapData.push([
+							index,
+							0,
+							supply[index]
+						]);
+
+						heatmapData.push([
+							index,
+							1,
+							demand[index]
+						]);
+
+					});
+
+/*Determine Maximum Value*/
+
+					const heatmapMax = Math.max(
+
+						...supply,
+
+						...demand
+
+					);
+
+/*Create Heatmap Chart*/
+
+					const heatmap =
+						echarts.init(
+							document.getElementById(
+								"heatmapChart"
+							)
+						);
+
+					heatmap.setOption({
+
+						title: {
+
+							text:
+							"Monthly Supply & Demand Heatmap"
+
+						},
+
+						tooltip: {
+
+							position: "top",
+
+							formatter: function(params){
+
+								const metric =
+
+									params.data[1] === 0
+									? "Supply"
+									: "Demand";
+
+								return `
+
+									<b>${months[
+										params.data[0]
+									]}</b>
+
+									<br>
+
+									${metric}:
+									${params.data[2]
+										.toLocaleString()}
+
+								`;
+
+							}
+
+						},
+
+						grid: {
+
+							height: "70%",
+
+							top: "10%"
+
+						},
+
+						xAxis: {
+
+							type: "category",
+
+							data: months,
+
+							splitArea: {
+
+								show: true
+
+							}
+
+						},
+
+						yAxis: {
+
+							type: "category",
+
+							data: [
+
+								"Supply",
+
+								"Demand"
+
+							],
+
+							splitArea: {
+
+								show: true
+
+							}
+
+						},
+
+						visualMap: {
+
+							min: 0,
+
+							max: heatmapMax,
+
+							calculable: true,
+
+							orient: "horizontal",
+
+							left: "center",
+
+							bottom: "5%"
+
+						},
+
+						series: [
+
+							{
+
+								name: "Market Data",
+
+								type: "heatmap",
+
+								data: heatmapData,
+
+								label: {
+
+									show: true,
+
+									formatter: function(params){
+
+										return params.data[2];
+
+									}
+
+								},
+
+								emphasis: {
+
+									itemStyle: {
+
+										shadowBlur: 10,
+
+										shadowColor:
+											"rgba(0,0,0,0.5)"
+
+									}
+
+								}
+
+							}
+
+						]
+
+					});
+
+/*Auto Resize Support*/
+
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							heatmap.resize();
+
+						}
+
+					);
+
+/**/
+
 /**/
     console.log("Chart Created");
 
