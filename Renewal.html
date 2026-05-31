@@ -1630,30 +1630,39 @@ fetch(CSV_URL, {
 /*Build Treemap Dataset*/
 					const treemapData = [];
 
-					for(let i = 0; i < months.length; i++){
+						for(let i = 0; i < months.length; i++){
 
-						treemapData.push({
+							treemapData.push({
 
-							month: months[i],
+								month: months[i],
 
-							supply: supply[i],
+								category: "Supply",
 
-							demand: demand[i],
+								value: supply[i]
 
-							price: price[i],
+							});
 
-							value:
-								supply[i]
-								+
-								demand[i]
-								+
-								(price[i] * 10)
+							treemapData.push({
 
-						}); 
-						
-						
+								month: months[i],
 
-					}				
+								category: "Demand",
+
+								value: demand[i]
+
+							});
+
+							treemapData.push({
+
+								month: months[i],
+
+								category: "Price",
+
+								value: price[i]
+
+							});
+
+						}				
 /*Create Treemap Chart*/
 					new Chart(
 
