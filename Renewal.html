@@ -200,6 +200,27 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+							
+							<div class="chart-card">
+
+									<h3>Monthly Market Spider Chart</h3>
+
+									<div style="margin-bottom:10px;">
+
+										<label for="radarMonthSelect">
+											Select Month:
+										</label>
+
+										<select id="radarMonthSelect">
+										</select>
+
+									</div>
+
+									<div class="chart-container">
+										<canvas id="marketRadarChart"></canvas>
+									</div>
+
+								</div>
 
 
 						</div>
@@ -1196,6 +1217,177 @@ fetch(CSV_URL, {
 						}
 
 					);
+/**/
+					const radarSelect =
+						document.getElementById(
+							"radarMonthSelect"
+						);
+
+					months.forEach((month,index)=>{
+
+						radarSelect.insertAdjacentHTML(
+
+							"beforeend",
+
+							`<option value="${index}">
+								${month}
+							</option>`
+
+						);
+
+					});
+/**/
+					let radarChart;
+
+					function updateRadarChart(index){
+
+						const radarData = [
+
+						(supply[index] / maxSupply) * 100,
+
+						(demand[index] / maxDemand) * 100,
+
+						(Math.abs(balance[index])
+							/ maxBalance) * 100,
+
+						(price[index] / maxPrice) * 100
+
+					];
+
+						if(radarChart){
+
+							radarChart.destroy();
+
+						}
+
+						radarChart = new Chart(
+
+							document.getElementById(
+								"marketRadarChart"
+							),
+
+							{
+
+								type:"radar",
+
+								data:{
+
+									labels:[
+
+										"Supply",
+
+										"Demand",
+
+										"Balance",
+
+										"Price"
+
+									],
+
+									datasets:[
+
+										{
+
+											label:
+												months[index],
+
+											data:
+												radarData,
+
+											backgroundColor:
+												"rgba(11,46,89,0.20)",
+
+											borderColor:
+												"#0b2e59",
+
+											borderWidth:3,
+
+											pointRadius:5
+
+										}
+
+									]
+
+								},
+
+								options:{
+
+									responsive:true,
+
+									maintainAspectRatio:false,
+
+									scales:{
+
+										r:{
+
+											beginAtZero:true
+
+										}
+
+									},
+
+									plugins:{
+
+										title:{
+
+											display:true,
+
+											text:
+											"Monthly Market Spider Chart"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						);
+
+					}
+/**/
+					const latestMonthIndex =
+						months.length - 1;
+
+					radarSelect.value =
+						latestMonthIndex;
+
+					updateRadarChart(
+						latestMonthIndex
+					);
+/**/
+					radarSelect.addEventListener(
+
+						"change",
+
+						function(){
+
+							updateRadarChart(
+
+								Number(this.value)
+
+							);
+
+						}
+
+					);
+/**/
+					const maxSupply =
+						Math.max(...supply);
+
+					const maxDemand =
+						Math.max(...demand);
+
+					const maxBalance =
+						Math.max(
+							...balance.map(Math.abs)
+						);
+
+					const maxPrice =
+						Math.max(...price);
+/**/
+
 /**/
     console.log("Chart Created");
 
