@@ -1048,16 +1048,13 @@ fetch(CSV_URL, {
 
 							bubbleData.push({
 
-								x: i + 1,
+							x: supply[i],
 
-								y: price[i],
+							y: price[i],
 
-								r: Math.max(
-									8,
-									Math.abs(balance[i]) * 2
-								)
+							r: Math.abs(balance[i]) * 2
 
-							});
+						});
 
 						}
 /**/
@@ -1081,8 +1078,17 @@ fetch(CSV_URL, {
 
 										data: bubbleData,
 
-										backgroundColor:
-											"rgba(11,46,89,0.5)",
+										/*backgroundColor:
+											"rgba(11,46,89,0.5)",*/
+											
+											
+											backgroundColor:
+												bubbleData.map((d,index)=>
+
+													balance[index] >= 0
+													? "rgba(46,139,87,0.5)"
+													: "rgba(211,84,0,0.5)"
+												),
 
 										borderColor:
 											"#0b2e59",
