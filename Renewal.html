@@ -2847,16 +2847,46 @@ helpData.push(0);
 									d => d.date
 								);
 
+								/**/
+								console.log(selectedProduct);
+								console.log(filteredData[0]);
+								/**/
+								/*
 							const inventories =
 								filteredData.map(
 									d => d[selectedProduct]
 								);
-
+								*/
+								
+								/**/
+								const inventories =
+									filteredData
+										.map(
+											d => Number(
+												d[selectedProduct]
+											)
+										)
+										.filter(
+											v => !isNaN(v)
+										);
+								/**/
+								
 							const peak =
 								Math.max(
 									...inventories
 								);
+							/**/
+							if(inventories.length === 0){
 
+									console.error(
+										"No inventory data found for",
+										selectedProduct
+									);
+
+									return;
+
+								}
+							/**/
 							const average =
 								inventories.reduce(
 
@@ -3064,22 +3094,22 @@ helpData.push(0);
 
 						<tr>
 						<td>Peak ${selectedProduct} Inventory</td>
-						<td>${peak.toFixed(1)} MMbbl</td>
+						<td>${Number(peak || 0).toFixed(1)} MMbbl</td>
 						</tr>
 
 						<tr>
 						<td>Average ${selectedProduct} Inventory</td>
-						<td>${average.toFixed(1)} MMbbl</td>
+						<td>${Number(average || 0).toFixed(1)} MMbbl</td>
 						</tr>
 
 						<tr>
 						<td>Latest ${selectedProduct} Inventory</td>
-						<td>${latest.toFixed(1)} MMbbl</td>
+						<td>${Number(latest || 0).toFixed(1)} MMbbl</td>
 						</tr>
 
 						<tr>
 						<td>Deviation From Peak</td>
-						<td>${latestDeviation.toFixed(1)}%</td>
+						<td>${Number(latestDeviation || 0).toFixed(1)}%</td>
 						</tr>
 
 						`;
