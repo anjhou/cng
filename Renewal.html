@@ -353,6 +353,24 @@ tr:nth-child(even){background:#f8f9fb}
 <div class="chart-card">
 
     <h2>US Crude Inventory Normalization</h2>
+	
+						<label>
+						Product:
+					</label>
+
+					<select id="inventoryProduct">
+
+						<option value="Crude">Crude Oil</option>
+
+						<option value="Gasoline">Gasoline</option>
+
+						<option value="Diesel">Diesel</option>
+
+						<option value="Jet">Jet Fuel</option>
+
+						<option value="FuelOil">Fuel Oil</option>
+
+					</select>
 
     <label>
         Time Period:
@@ -2719,17 +2737,13 @@ helpData.push(0);
 
 <script>
 /**/
-					let inventoryChart;
-					let deviationChart;
-
-					loadInventoryData();
+					let inventoryData = [];
 
 					async function loadInventoryData(){
 
 						const response =
 							await fetch(
-								/*"/data/us_crude_inventory.csv"*/
-								"https://houstoncng.com/data/us_crude_inventory.csv"
+								"https://houstoncng.com/data/us_inventory.csv"
 							);
 
 						const csv =
@@ -2738,7 +2752,7 @@ helpData.push(0);
 						const rows =
 							csv.trim().split("\n");
 
-						const inventoryData = [];
+						inventoryData = [];
 
 						rows.slice(1).forEach(row=>{
 
@@ -2749,19 +2763,39 @@ helpData.push(0);
 
 								date: cols[0],
 
-								inventory:
-									Number(cols[1])
+								Crude: Number(cols[1]),
+
+								Gasoline: Number(cols[2]),
+
+								Diesel: Number(cols[3]),
+
+								Jet: Number(cols[4]),
+
+								FuelOil: Number(cols[5])
 
 							});
 
 						});
 
-						window.inventoryData =
-							inventoryData;
-
 						updateInventoryCharts();
 
 					}
+
+/*Add Product Change Event*/
+						document
+						.getElementById(
+							"inventoryProduct"
+						)
+						.addEventListener(
+
+							"change",
+
+							updateInventoryCharts
+
+						);
+
+					
+/**/
 /*Dropdown Event*/
 						document
 						.getElementById(
@@ -2778,6 +2812,13 @@ helpData.push(0);
 
 /*Update Function*/
 						function updateInventoryCharts(){
+						
+							const selectedProduct =
+									document
+									.getElementById(
+										"inventoryProduct"
+									)
+									.value;
 
 							const years =
 								Number(
@@ -2805,7 +2846,7 @@ helpData.push(0);
 
 							const inventories =
 								filteredData.map(
-									d => d.inventory
+									d => d[selectedProduct]
 								);
 
 							const peak =
@@ -2909,7 +2950,8 @@ helpData.push(0);
 											display:true,
 
 											text:
-											"US Crude Inventory"
+												selectedProduct +
+												" Inventory"
 
 										}
 
@@ -2982,7 +3024,8 @@ helpData.push(0);
 										display:true,
 
 										text:
-										"Inventory Deviation from Peak"
+											selectedProduct +
+											" Inventory Deviation From Peak"
 
 									}
 
@@ -3017,17 +3060,17 @@ helpData.push(0);
 						.innerHTML = `
 
 						<tr>
-						<td>Peak Inventory</td>
+						<td>Peak ${selectedProduct} Inventory</td>
 						<td>${peak.toFixed(1)} MMbbl</td>
 						</tr>
 
 						<tr>
-						<td>Average Inventory</td>
+						<td>Average ${selectedProduct} Inventory</td>
 						<td>${average.toFixed(1)} MMbbl</td>
 						</tr>
 
 						<tr>
-						<td>Latest Inventory</td>
+						<td>Latest ${selectedProduct} Inventory</td>
 						<td>${latest.toFixed(1)} MMbbl</td>
 						</tr>
 
