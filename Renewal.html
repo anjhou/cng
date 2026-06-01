@@ -2540,8 +2540,8 @@ helpData.push(0);
 						let waffleChart =
 							echarts.init( document.getElementById("waffleChart"));
 
-						function updateWaffleChart(index){const supplyValue =supply[index];
-
+						function updateWaffleChart(index){
+							const supplyValue =supply[index];
 							const demandValue =demand[index];
 							const total = supplyValue + demandValue;
 							const supplyPct = Math.round((supplyValue / total) * 100);
@@ -2560,8 +2560,10 @@ helpData.push(0);
 							waffleChart.setOption({
 
 								title:{
-									text: `${months[Number(index)]} Supply vs Demand`,
-									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`
+									/*text: `${months[Number(index)]} Supply vs Demand`,
+									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`*/
+									text: months[index] + " Supply vs Demand",
+									subtext: "Supply: " + supplyPct + "% | Demand: " + demandPct + "%"
 								},
 
 								tooltip:{
