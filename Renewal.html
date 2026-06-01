@@ -2546,6 +2546,8 @@ helpData.push(0);
 							const total = supplyValue + demandValue;
 							const supplyPct = Math.round((supplyValue / total) * 100);
 							const demandPct = 100 - supplyPct; const waffleData = [];
+							
+							console.log("Month:", months[index]);
 
 							for(let i=0;i<100;i++){
 							waffleData.push({
@@ -2626,7 +2628,18 @@ helpData.push(0);
 							}
 
 						);
+						
+/**/						
+						waffleSelect.addEventListener(
+							"change",
+							function(){
 
+								updateWaffleChart(
+									parseInt(this.value, 10)
+								);
+
+							}
+						);
 /**/
     console.log("Chart Created");
 
