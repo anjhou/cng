@@ -2531,154 +2531,67 @@ helpData.push(0);
 							);
 
 						months.forEach((month,index)=>{
-
-							waffleSelect.insertAdjacentHTML(
-
-								"beforeend",
-
-								`<option value="${index}">
-									${month}
-								</option>`
-
-							);
-
-						});
+								waffleSelect.insertAdjacentHTML(
+									"beforeend",
+									`<option value="${index}"> ${month}</option>`);
+							});
 
 /*Waffle Chart-Create Waffle Chart Function*/
 						let waffleChart =
-							echarts.init(
-								document.getElementById(
-									"waffleChart"
-								)
-							);
+							echarts.init( document.getElementById("waffleChart"));
 
-						function updateWaffleChart(index){
+						function updateWaffleChart(index){const supplyValue =supply[index];
 
-							const supplyValue =
-								supply[index];
-
-							const demandValue =
-								demand[index];
-
-							const total =
-								supplyValue +
-								demandValue;
-
-							const supplyPct =
-								Math.round(
-									(supplyValue / total) * 100
-								);
-
-							const demandPct =
-								100 - supplyPct;
-
-							const waffleData = [];
+							const demandValue =demand[index];
+							const total = supplyValue + demandValue;
+							const supplyPct = Math.round((supplyValue / total) * 100);
+							const demandPct = 100 - supplyPct; const waffleData = [];
 
 							for(let i=0;i<100;i++){
-
-								waffleData.push({
-
-									value:1,
-
-									category:
-										i < supplyPct
-										? "Supply"
-										: "Demand",
-
-									x:i % 10,
-
-									y:Math.floor(i / 10)
-
-								});
-
-							}
-
+							waffleData.push({
+											value:1,
+												category:
+												i < supplyPct
+												? "Supply"
+												: "Demand",
+											x:i % 10,y:Math.floor(i / 10)
+											}); }
+							/**/
 							waffleChart.setOption({
 
 								title:{
-								
 									text: `${months[Number(index)]} Supply vs Demand`,
 									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`
-
-									/*text:
-									`${months[index]}
-									Supply vs Demand`*/
-									/*
-									text: `${months[index]} Supply vs Demand`,
-									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`*/
-
 								},
 
 								tooltip:{
-
-									formatter:function(params){
-
+										formatter:function(params){
 										return params.data.category;
-
-									}
-
-								},
+											}
+										},
 
 								xAxis:{
-
-									show:false,
-
-									min:0,
-
-									max:10
-
-								},
+										show:false,
+										min:0,
+										max:10
+										},
 
 								yAxis:{
-
-									show:false,
-
-									min:0,
-
-									max:10
-
-								},
+										show:false,
+										min:0,
+										max:10
+										},
 
 								series:[
-
-									{
-
-										type:"scatter",
-
-										symbol:"rect",
-
-										symbolSize:40,
-
-										data:waffleData.map(item=>([
-
-											item.x,
-
-											item.y,
-
-											item.category
-
-										])),
-
-										itemStyle:{
-
-											color:function(params){
-
-												return params.data[2]
+								{type:"scatter",
+									symbol:"rect",
+									symbolSize:40,
+									data:waffleData.map(item=>([item.x, item.y,item.category])),
+									itemStyle:{color:function(params){
+													return params.data[2]
 													=== "Supply"
-
-													? "#0b2e59"
-
-													: "#d35400";
-
-											}
-
-										}
-
-									}
-
-								]
-
-							});
+													? "#0b2e59": "#d35400";}}}]
+							}, true);/**/
 
 						}
 
