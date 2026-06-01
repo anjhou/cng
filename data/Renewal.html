@@ -1,0 +1,3065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renewal - Market Intelligence Reader</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
+.top-nav{position:sticky;top:0;z-index:1000;height:60px;background:#0b2e59;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+.logo{font-size:20px;font-weight:bold}
+.page-nav{display:flex;gap:10px;flex-wrap:wrap}
+.page-nav a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:4px}
+.page-nav a:hover{background:rgba(255,255,255,.15)}
+.content-wrapper{display:flex;min-height:calc(100vh - 60px)}
+.left-sidebar{width:260px;background:#fff;border-right:1px solid #ddd;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;padding:20px}
+.left-sidebar h3{color:#0b2e59;margin-bottom:15px}
+.left-sidebar ul{list-style:none}
+.left-sidebar li{margin-bottom:8px}
+.left-sidebar a{display:block;text-decoration:none;color:#0b2e59;padding:8px 10px;border-radius:4px}
+.left-sidebar a:hover,.left-sidebar a.active{background:#0b2e59;color:#fff}
+.reader-content{flex:1;padding:25px;height:calc(100vh - 60px);overflow-y:auto}
+.reader-toolbar{display:flex;gap:10px;flex-wrap:wrap;background:#fff;padding:15px;margin-bottom:20px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.reader-toolbar button{border:none;background:#0b2e59;color:#fff;padding:8px 12px;border-radius:4px;cursor:pointer}
+.section-card{background:#fff;padding:20px;margin-bottom:25px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.section-title{color:#0b2e59;margin-bottom:15px}
+.chart-container{position:relative;height:350px;width:100%;margin-bottom:20px}
+.charts-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(450px,1fr)); gap:20px; margin-bottom:20px;}
+.chart-card{background:#fafafa; border:1px solid #ddd; border-radius:6px; padding:15px;}
+.chart-card h3{margin-bottom:15px;color:#0b2e59;}
+/*.chart-container canvas{width:100% !important;height:100% !important;}*/
+.text-area{background:#fafafa;border:1px solid #ddd;padding:15px;border-radius:6px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ccc;padding:10px}
+th{background:#0b2e59;color:#fff}
+tr:nth-child(even){background:#f8f9fb}
+
+#marketChart{width:100% !important;height:100% !important;}
+
+@media(max-width:900px){
+.content-wrapper{flex-direction:column}
+.left-sidebar{width:100%;height:auto;position:relative;top:0}
+.reader-content{height:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+<div class="logo">Market Intelligence Reader</div>
+<div class="page-nav">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="reports.html">Reports</a>
+<a href="analytics.html">Analytics</a>
+<a href="renewal.html">Renewal</a>
+<a href="settings.html">Settings</a>
+</div>
+</div>
+
+<div class="content-wrapper">
+
+<div class="left-sidebar">
+<h3>Report Sections</h3>
+<ul>
+<li><a href="#overview">Executive Summary</a></li>
+<li><a href="#chart-section">Market Trends</a></li>
+<li><a href="#table-section">Market Data</a></li>
+<li><a href="#market-insights">Market Insights</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<div class="reader-content">
+
+<div class="reader-toolbar">
+<button onclick="window.print()">Print Report</button>
+<button onclick="expandAll()">Expand All</button>
+<button onclick="collapseAll()">Collapse All</button>
+</div>
+
+<!--Start - Add CSV File Selector -->
+
+					<select id="commoditySelect">
+
+					<option value="lng.csv">LNG</option>
+
+					<option value="propane.csv">
+					Propane
+					</option>
+
+					<option value="ethane.csv">
+					Ethane
+					</option>
+
+					<option value="crude.csv">
+					Crude
+					</option>
+
+					</select>
+
+<!--End - Add CSV File Selector -->
+
+<!--Start - Add CSV File Selector - Add Export to Excel -->
+					<button onclick="location.reload()">
+					Refresh Data
+					</button>
+					
+					<button id="exportBtn">
+					Export Table
+					</button>
+<!--End - Add CSV File Selector - Add Export to Excel -->
+
+
+<div id="overview" class="section-card">
+<h2 class="section-title">Executive Summary</h2>
+<div id="overviewText" class="text-area">Loading data...</div>
+</div>
+<!--
+<div id="chart-section" class="section-card">
+<h2 class="section-title">Supply vs Demand Trend</h2>
+<div class="chart-container"><canvas id="marketChart"></canvas></div>
+<div id="chartDescription" class="text-area">Loading data...</div>
+
+</div>
+-->
+<!--multi-chart dashboard section-->
+
+					<div id="chart-section" class="section-card">
+
+						<h2 class="section-title">
+							Market Trend Dashboard
+						</h2>
+
+						<div class="charts-grid">
+
+							<div class="chart-card">
+								<h3>Supply vs Demand - line chart</h3>
+								<div class="chart-container">
+									<canvas id="supplyDemandChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Market Balance - bar chart</h3>
+								<div class="chart-container">
+									<canvas id="balanceChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Supply Trend - line chart</h3>
+								<div class="chart-container">
+									<canvas id="supplyChart"></canvas>
+								</div>
+							</div>
+
+							<div class="chart-card">
+								<h3>Demand Trend - line chart </h3>
+								<div class="chart-container">
+									<canvas id="demandChart"></canvas>
+								</div>
+							</div>
+							
+							<div class="chart-card">
+								<h3>Price Trend - line chart</h3>
+								<div class="chart-container">
+									<canvas id="priceChart"></canvas>
+								</div>
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Average Market Distribution - Pie Chart </h3>
+
+								<div class="chart-container">
+									<canvas id="averagePieChart"></canvas>
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Balance - Tornado Chart</h3>
+
+								<div class="chart-container">
+									<canvas id="tornadoChart"></canvas>
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Price - Bubble Chart</h3>
+
+								<div class="chart-container">
+									<canvas id="priceBubbleChart"></canvas>
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+									<h3>Monthly Market Radar (Spider) Chart </h3>
+
+									<div style="margin-bottom:10px;">
+
+										<label for="radarMonthSelect">
+											Select Month:
+										</label>
+
+										<select id="radarMonthSelect">
+										</select>
+
+									</div>
+
+									<div class="chart-container">
+										<canvas id="marketRadarChart"></canvas>
+									</div>
+
+							</div>
+							
+							
+							<div class="chart-card">
+
+								<h3>Supply-Demand-Price Marimekko Chart</h3>
+
+								<div
+									id="marimekkoChart"
+									style="
+										width:100%;
+										height:500px;
+									">
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Market Treemap</h3>
+
+								<div class="chart-container">
+									<canvas id="marketTreemap"></canvas>
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Supply, Demand & Price Distribution - violin chart</h3>
+
+								<div
+									id="violinChart"
+									style="
+										width:100%;
+										height:500px;
+									">
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Monthly Supply-Demand Sankey Diagram</h3>
+
+								<div
+									id="sankeyChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Supply vs Demand Waterfall Chart</h3>
+
+								<div
+									id="waterfallChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+							</div>
+							
+							<div class="chart-card">
+
+								<h3>Supply & Demand Heatmap</h3>
+
+								<div
+									id="heatmapChart"
+									style="
+										width:100%;
+										height:500px;
+									">
+								</div>
+
+							</div>
+							<!-- -->
+							<div class="chart-card">
+
+								<h3>Supply vs Demand Waffle Chart</h3>
+
+								<div style="margin-bottom:10px;">
+
+									<label for="waffleMonthSelect">
+										Select Month:
+									</label>
+
+									<select id="waffleMonthSelect"></select>
+
+								</div>
+
+								<div
+									id="waffleChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+							</div>
+							<!-- -->
+						</div>
+
+						<div id="chartDescription" class="text-area">
+							Loading...
+						</div>
+
+					</div>
+
+<!-- -->
+<div id="table-section" class="section-card">
+<h2 class="section-title">Market Data</h2>
+<table id="marketTable">
+<thead>
+<tr><th>Month</th><th>Supply</th><th>Demand</th><th>Balance</th><th>Price</th><th>Insight</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+<div id="tableDescription" class="text-area">Loading data...</div>
+</div>
+
+<!-- -->
+<div class="chart-card">
+
+    <h2>US Crude Inventory Normalization</h2>
+	
+						<label>
+						Product:
+					</label>
+
+					<select id="inventoryProduct">
+
+						<option value="Crude">Crude Oil</option>
+
+						<option value="Gasoline">Gasoline</option>
+
+						<option value="Diesel">Diesel</option>
+
+						<option value="Jet">Jet Fuel</option>
+
+						<option value="FuelOil">Fuel Oil</option>
+
+					</select>
+
+    <label>
+        Time Period:
+    </label>
+
+    <select id="inventoryYears">
+
+        <option value="1">Last 1 Year</option>
+        <option value="2">Last 2 Years</option>
+        <option value="3">Last 3 Years</option>
+        <option value="4">Last 4 Years</option>
+        <option value="5">Last 5 Years</option>
+        <option value="6" selected>Last 6 Years</option>
+
+    </select>
+
+    <div class="chart-container">
+
+        <canvas id="inventoryChart"></canvas>
+
+    </div>
+
+    <div class="chart-container">
+
+        <canvas id="deviationChart"></canvas>
+
+    </div>
+
+    <table id="inventoryStats">
+
+        <thead>
+
+            <tr>
+
+                <th>Metric</th>
+                <th>Value</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+/**/
+
+<div id="market-insights" class="section-card">
+<h2 class="section-title">Market Insights</h2>
+<div id="insightText" class="text-area">Loading data...</div>
+</div>
+
+<div id="conclusion" class="section-card">
+<h2 class="section-title">Conclusion</h2>
+<div id="conclusionText" class="text-area">Loading data...</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function expandAll(){
+ document.querySelectorAll('.section-card').forEach(s=>s.style.display='block');
+}
+function collapseAll(){
+ document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
+}
+</script>
+
+<script>
+
+const CSV_URL =
+"https://houstoncng.com/data/market_data.csv?v=" + Date.now();
+
+console.log("Loading CSV:", CSV_URL);
+
+fetch(CSV_URL, {
+    cache: "no-store"
+})
+.then(response => {
+
+    console.log("HTTP Status:", response.status);
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load CSV: ${response.status}`
+        );
+    }
+
+    return response.text();
+
+})
+.then(csv => {
+
+    console.log("CSV Loaded Successfully");
+
+    const rows =
+        csv.trim().split(/\r?\n/);
+
+    console.log("Rows Found:", rows.length);
+
+    const months = [];
+    const supply = [];
+    const demand = [];
+    const balance = [];
+	const price = [];
+
+    let totalSupply = 0;
+    let totalDemand = 0;
+    let totalBalance = 0;
+	let totalPrice = 0;
+
+    const tbody =
+        document.querySelector(
+            "#marketTable tbody"
+        );
+
+    tbody.innerHTML = "";
+
+    rows.slice(1).forEach(row => {
+
+        const cols =
+            row.split(",").map(
+                item => item.trim()
+            );
+
+        if(cols.length < 5){
+            return;
+        }
+
+        const month = cols[0];
+
+        const supplyValue =
+            Number(cols[1]);
+
+        const demandValue =
+            Number(cols[2]);
+
+        const balanceValue =
+            Number(cols[3]);
+			
+		const priceValue =
+            Number(cols[4]);	
+
+        const insight =
+            cols[5] || "";
+
+        months.push(month);
+        supply.push(supplyValue);
+        demand.push(demandValue);
+        balance.push(balanceValue);
+		price.push(priceValue);
+
+        totalSupply += supplyValue;
+        totalDemand += demandValue;
+        totalBalance += balanceValue;
+		totalPrice += priceValue;
+
+        tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr>
+                <td>${month}</td>
+                <td>${supplyValue}</td>
+                <td>${demandValue}</td>
+                <td>${balanceValue}</td>
+				<td>${priceValue}</td>
+                <td>${insight}</td>
+            </tr>
+            `
+        );
+
+    });
+
+    document.getElementById(
+        "overviewText"
+    ).innerHTML = `
+        <h3>Market Overview</h3>
+
+        <p>
+            <strong>Total Supply:</strong>
+            ${totalSupply.toLocaleString()}
+        </p>
+
+        <p>
+            <strong>Total Demand:</strong>
+            ${totalDemand.toLocaleString()}
+        </p>
+		
+		<p>
+			<strong>Average Supply:</strong>
+			${(totalSupply / supply.length).toFixed(2)}
+			</p>
+
+			<p>
+			<strong>Average Demand:</strong>
+			${(totalDemand / demand.length).toFixed(2)}
+			</p>
+
+        <p>
+            <strong>Average Balance:</strong>
+            ${(totalBalance / balance.length).toFixed(2)}
+        </p>
+		
+		<p>
+            <strong>Average Price:</strong>
+            ${(totalPrice / price.length).toFixed(2)}
+        </p>
+    `;
+
+    document.getElementById(
+        "chartDescription"
+    ).innerHTML = `
+        Chart generated directly from
+        market_data.csv
+    `;
+
+    document.getElementById(
+        "tableDescription"
+    ).innerHTML = `
+        Monthly market data loaded
+        successfully from CSV.
+    `;
+	/*
+    document.getElementById(
+        "insightText"
+    ).innerHTML = `
+        Supply and demand trends can be
+        monitored automatically from the
+        CSV data source.
+    `;
+	*/
+	
+	/*Start-Auto-Generate Narrative Text from CSV*/
+	const latestSupply = supply[supply.length - 1];
+
+	const latestDemand = demand[demand.length - 1];
+
+	const latestBalance = latestSupply - latestDemand;
+
+			document.getElementById(
+				"insightText"
+			).innerHTML = `
+
+				<h3>Market Insights</h3>
+
+				<ul>
+
+				<li>
+				Latest Supply:
+				${latestSupply.toLocaleString()}
+				</li>
+
+				<li>
+				Latest Demand:
+				${latestDemand.toLocaleString()}
+				</li>
+
+				<li>
+				Market Balance:
+				${latestBalance.toLocaleString()}
+				</li>
+
+				<li>
+				${latestBalance > 0
+				 ? "Market remains in surplus."
+				 : "Market remains in deficit."
+				}
+				</li>
+
+				</ul>
+			`;
+	
+	/*End-Auto-Generate Narrative Text from CSV*/
+	
+	/*Start-Add Export to Excel*/
+				document
+					.getElementById("exportBtn")
+					.addEventListener("click",()=>{
+
+					let table =
+					document.getElementById(
+						"marketTable"
+					);
+
+					let html =
+					table.outerHTML;
+
+					let url =
+					'data:application/vnd.ms-excel,' +
+					encodeURIComponent(html);
+
+					window.open(url);
+
+					});
+	/*End-Add Export to Excel*/
+	
+	/*Start-Add Last Updated Timestamp*/
+				document.getElementById(
+						"overviewText"
+					).insertAdjacentHTML(
+						"beforeend",
+						`
+						<p>
+						Last Updated:
+						${new Date()
+							.toLocaleString()}
+						</p>
+						`
+					);
+	
+	/*End-Add Last Updated Timestamp*/
+	
+    document.getElementById(
+        "conclusionText"
+    ).innerHTML = `
+        Market balances indicate whether
+        the market is moving toward
+        surplus or deficit conditions.
+    `;
+	
+    const canvas =
+        document.getElementById(
+            "supplyDemandChart"
+        );
+
+    if (!canvas) {
+
+        console.error(
+            "Canvas marketChart not found"
+        );
+
+        return;
+    }
+/**/	
+					const avgSupply =
+					totalSupply / supply.length;
+
+					const avgDemand =
+					totalDemand / demand.length;
+
+					const avgBalance =
+					totalBalance / balance.length;
+/**/
+    console.log("Creating Chart");
+
+						new Chart(canvas, {
+
+							type: "line",
+
+							data: {
+
+								labels: months,
+
+								datasets: [
+
+									{
+										label: "Supply",
+
+										data: supply,
+
+										borderColor: "#0b2e59",
+
+										backgroundColor:
+											"rgba(11,46,89,0.10)",
+
+										borderWidth: 3,
+
+										tension: 0.3,
+
+										fill: false
+									},
+
+									{
+										label: "Demand",
+
+										data: demand,
+
+										borderColor: "#d35400",
+
+										backgroundColor:
+											"rgba(211,84,0,0.10)",
+
+										borderWidth: 3,
+
+										tension: 0.3,
+
+										fill: false
+									},
+									
+									{
+										label:"Balance",
+
+										data:balance,
+
+										borderColor:"#2e8b57",
+
+										backgroundColor:
+											"rgba(46,139,87,.15)",
+
+										borderWidth:3,
+
+										tension:.3
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									legend: {
+										display: true
+									},
+
+									title: {
+
+										display: true,
+
+										text:
+										"Supply vs Demand Trend"
+
+									}
+
+								},
+
+								interaction: {
+
+									mode: "index",
+
+									intersect: false
+
+								},
+
+								scales: {
+
+									y: {
+
+										beginAtZero: true
+
+									}
+
+								}
+
+							}
+
+						});
+/**/
+					new Chart(
+
+					document.getElementById(
+						"balanceChart"
+					),
+
+					{
+
+					type:"bar",
+
+					data:{
+
+					labels:months,
+
+					datasets:[
+
+					{
+
+					label:"Balance",
+
+					data:balance,
+
+					backgroundColor:
+					"rgba(46,139,87,.6)",
+
+					borderColor:"#2e8b57",
+
+					borderWidth:1
+
+					}
+
+					]
+
+					},
+
+					options:{
+
+					responsive:true,
+
+					maintainAspectRatio:false
+
+					}
+
+					}
+
+					);
+/**/
+					new Chart(
+
+					document.getElementById(
+						"supplyChart"
+					),
+
+					{
+
+					type:"line",
+
+					data:{
+
+					labels:months,
+
+					datasets:[
+
+					{
+
+					label:"Supply",
+
+					data:supply,
+
+					borderColor:"#1f77b4",
+
+					borderWidth:3,
+
+					tension:.3
+
+					}
+
+					]
+
+					},
+
+					options:{
+
+					responsive:true,
+
+					maintainAspectRatio:false
+
+					}
+
+					}
+
+					);
+/**/
+					new Chart(
+
+					document.getElementById(
+						"demandChart"
+					),
+
+					{
+
+					type:"line",
+
+					data:{
+
+					labels:months,
+
+					datasets:[
+
+					{
+
+					label:"Demand",
+
+					data:demand,
+
+					borderColor:"#ff7f0e",
+
+					borderWidth:3,
+
+					tension:.3
+
+					}
+
+					]
+
+					},
+
+					options:{
+
+					responsive:true,
+
+					maintainAspectRatio:false
+
+					}
+
+					}
+
+					);
+/**/
+					new Chart(
+
+										document.getElementById(
+											"priceChart"
+										),
+
+										{
+
+										type:"line",
+
+										data:{
+
+										labels:months,
+
+										datasets:[
+
+										{
+
+										label:"Price",
+
+										data:price,
+
+										borderColor:"#ff7f0e",
+
+										borderWidth:3,
+
+										tension:.3
+
+										}
+
+										]
+
+										},
+
+										options:{
+
+										responsive:true,
+
+										maintainAspectRatio:false
+
+										}
+
+										}
+
+										);
+/**/
+					new Chart(
+
+						document.getElementById(
+							"averagePieChart"
+						),
+
+						{
+
+							type: "pie",
+
+							data: {
+
+								labels: [
+
+									"Average Supply",
+
+									"Average Demand",
+
+									"Average Balance"
+
+								],
+
+								datasets: [
+
+									{
+
+										data: [
+
+											avgSupply,
+
+											avgDemand,
+
+											Math.abs(avgBalance)
+
+										],
+
+										backgroundColor: [
+
+											"#0b2e59",
+
+											"#d35400",
+
+											"#2e8b57"
+
+										],
+
+										borderColor: [
+
+											"#0b2e59",
+
+											"#d35400",
+
+											"#2e8b57"
+
+										],
+
+										borderWidth: 2
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text: "Average Supply / Demand / Balance"
+
+									},
+
+									legend: {
+
+										position: "bottom"
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+/**/
+					const tornadoData = months.map((month, index) => ({
+
+						month: month,
+
+						balance: balance[index]
+
+					}));
+
+					tornadoData.sort(
+						(a, b) =>
+							Math.abs(b.balance) -
+							Math.abs(a.balance)
+					);
+
+					const tornadoMonths =
+						tornadoData.map(item => item.month);
+
+					const tornadoBalances =
+						tornadoData.map(item => item.balance);
+						
+					
+/**/
+					new Chart(
+
+						document.getElementById(
+							"tornadoChart"
+						),
+
+						{
+
+							type: "bar",
+
+							data: {
+
+								/*labels: months,*/
+								
+								labels: tornadoMonths,
+
+								datasets: [
+
+									{
+
+										label: "Monthly Balance",
+
+										/*data: balance,*/
+																			
+										data: tornadoBalances,
+
+										backgroundColor:
+											balance.map(value =>
+												value >= 0
+													? "#2e8b57"
+													: "#d35400"
+											),
+
+										borderColor:
+											balance.map(value =>
+												value >= 0
+													? "#2e8b57"
+													: "#d35400"
+											),
+
+										borderWidth: 1
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								indexAxis: "y",
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Monthly Market Balance Tornado Chart"
+
+									},
+
+									legend: {
+
+										display: false
+
+									}
+
+								},
+
+								scales: {
+
+									x: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Balance"
+
+										}
+
+									},
+
+									y: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Month"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+
+/**/
+						const bubbleData = [];
+
+						for(let i = 0; i < months.length; i++){
+
+							bubbleData.push({
+
+							x: supply[i],
+
+							y: price[i],
+
+							r: Math.abs(balance[i]) * 2
+
+						});
+
+						}
+/**/
+					new Chart(
+
+						document.getElementById(
+							"priceBubbleChart"
+						),
+
+						{
+
+							type: "bubble",
+
+							data: {
+
+								datasets: [
+
+									{
+
+										label: "Monthly Prices",
+
+										data: bubbleData,
+
+										/*backgroundColor:
+											"rgba(11,46,89,0.5)",*/
+											
+											
+											backgroundColor:
+												bubbleData.map((d,index)=>
+
+													balance[index] >= 0
+													? "rgba(46,139,87,0.5)"
+													: "rgba(211,84,0,0.5)"
+												),
+
+										borderColor:
+											"#0b2e59",
+
+										borderWidth: 2
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Monthly Price Bubble Chart"
+
+									},
+
+									tooltip: {
+
+										callbacks: {
+
+											label: function(context){
+
+												const index =
+													context.dataIndex;
+
+												return [
+
+													"Month: " +
+													months[index],
+
+													"Price: " +
+													price[index],
+
+													"Balance: " +
+													balance[index]
+
+												];
+
+											}
+
+										}
+
+									}
+
+								},
+
+								scales: {
+
+									x: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Month"
+
+										},
+
+										ticks: {
+
+											callback:
+											function(value){
+
+												return months[
+													value - 1
+												] || "";
+
+											}
+
+										}
+
+									},
+
+									y: {
+
+										title: {
+
+											display: true,
+
+											text:
+											"Price"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+/**/
+					const radarSelect =
+						document.getElementById(
+							"radarMonthSelect"
+						);
+
+					months.forEach((month,index)=>{
+
+						radarSelect.insertAdjacentHTML(
+
+							"beforeend",
+
+							`<option value="${index}">
+								${month}
+							</option>`
+
+						);
+
+					});
+/**/
+					const maxSupply =
+						Math.max(...supply);
+
+					const maxDemand =
+						Math.max(...demand);
+
+					const maxBalance =
+						Math.max(
+							...balance.map(v => Math.abs(v))
+						);
+
+					const maxPrice =
+						Math.max(...price);					
+/**/
+					let radarChart;
+
+					function updateRadarChart(index){
+
+						const radarData = [
+
+						(supply[index] / maxSupply) * 100,
+
+						(demand[index] / maxDemand) * 100,
+
+						(Math.abs(balance[index])
+							/ maxBalance) * 100,
+
+						(price[index] / maxPrice) * 100
+
+					];
+
+						if(radarChart){
+
+							radarChart.destroy();
+
+						}
+
+						radarChart = new Chart(
+
+							document.getElementById(
+								"marketRadarChart"
+							),
+
+							{
+
+								type:"radar",
+
+								data:{
+
+									labels:[
+
+										"Supply",
+
+										"Demand",
+
+										"Balance",
+
+										"Price"
+
+									],
+
+									datasets:[
+
+										{
+
+											label:
+												months[index],
+
+											data:
+												radarData,
+
+											backgroundColor:
+												"rgba(11,46,89,0.20)",
+
+											borderColor:
+												"#0b2e59",
+
+											borderWidth:3,
+
+											pointRadius:5
+
+										}
+
+									]
+
+								},
+
+								options:{
+
+									responsive:true,
+
+									maintainAspectRatio:false,
+
+									scales:{
+
+										r:{
+
+											beginAtZero:true
+
+										}
+
+									},
+
+									plugins:{
+
+										title:{
+
+											display:true,
+
+											text:
+											"Monthly Market Spider Chart"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						);
+
+					}
+/**/
+					const latestMonthIndex =
+						months.length - 1;
+
+					radarSelect.value =
+						latestMonthIndex;
+
+					updateRadarChart(
+						latestMonthIndex
+					);
+/**/
+					radarSelect.addEventListener(
+
+						"change",
+
+						function(){
+
+							updateRadarChart(
+
+								Number(this.value)
+
+							);
+
+						}
+
+					);
+
+/**/
+					const totalSupplyAllMonths =
+						supply.reduce(
+							(sum,value)=>sum+value,
+							0
+						);
+/**/
+					const marimekkoData = [];
+
+					for(let i=0;i<months.length;i++){
+
+						marimekkoData.push({
+
+							month:
+								months[i],
+
+							supply:
+								supply[i],
+
+							demand:
+								demand[i],
+
+							price:
+								price[i],
+
+							width:
+								(
+									supply[i]
+									/
+									totalSupplyAllMonths
+								) * 100
+
+						});
+
+					}
+/**/
+					const marimekkoContainer =
+						document.getElementById(
+							"marimekkoChart"
+						);
+
+					const marimekko =
+						echarts.init(
+							marimekkoContainer
+						);
+
+					const option = {
+
+						title: {
+
+							text:
+							"Supply-Demand-Price Marimekko"
+
+						},
+
+						tooltip: {
+
+							trigger:"axis",
+
+							formatter:function(params){
+
+								const idx =
+									params[0].dataIndex;
+
+								return `
+
+									<b>${months[idx]}</b>
+
+									<br>
+
+									Supply:
+									${supply[idx]}
+
+									<br>
+
+									Demand:
+									${demand[idx]}
+
+									<br>
+
+									Price:
+									${price[idx]}
+
+								`;
+
+							}
+
+						},
+
+						legend: {
+
+							data:[
+								"Supply",
+								"Demand"
+							]
+
+						},
+
+						xAxis: {
+
+							type:"category",
+
+							data:months
+
+						},
+
+						yAxis: [
+
+							{
+
+								type:"value",
+
+								name:"Volume"
+
+							},
+
+							{
+
+								type:"value",
+
+								name:"Price"
+
+							}
+
+						],
+
+						series:[
+
+							{
+
+								name:"Supply",
+
+								type:"bar",
+
+								stack:"market",
+
+								data:supply
+
+							},
+
+							{
+
+								name:"Demand",
+
+								type:"bar",
+
+								stack:"market",
+
+								data:demand
+
+							},
+
+							{
+
+								name:"Price",
+
+								type:"line",
+
+								yAxisIndex:1,
+
+								data:price,
+
+								smooth:true
+
+							}
+
+						]
+
+					};
+
+					marimekko.setOption(
+						option
+					);
+/**/
+					const widthPercentages =
+						supply.map(value =>
+
+							(
+								value
+								/
+								totalSupplyAllMonths
+							) * 100
+
+						);
+/*Start -Treemap*/
+/*Build Treemap Dataset*/
+					const treemapData = [];
+
+						for(let i = 0; i < months.length; i++){
+
+							treemapData.push({
+
+								month: months[i],
+
+								category: "Supply",
+
+								value: supply[i]
+
+							});
+
+							treemapData.push({
+
+								month: months[i],
+
+								category: "Demand",
+
+								value: demand[i]
+
+							});
+
+							treemapData.push({
+
+								month: months[i],
+
+								category: "Price",
+
+								value: price[i]
+
+							});
+
+						}				
+/*Create Treemap Chart*/
+					new Chart(
+
+						document.getElementById(
+							"marketTreemap"
+						),
+
+						{
+
+							type: "treemap",
+
+							data: {
+
+								datasets: [
+
+									{
+
+										tree: treemapData,
+
+										key: "value",
+
+										groups: [
+
+											"category"
+
+										],
+
+										spacing: 2,
+
+										borderWidth: 1,
+
+										borderColor: "#ffffff",
+
+										backgroundColor(ctx){
+
+											const item =
+												ctx.raw;
+
+											if(!item)
+												return "#cccccc";
+
+											switch(item._data.category){
+
+												case "Supply":
+													return "#0b2e59";
+
+												case "Demand":
+													return "#d35400";
+
+												case "Price":
+													return "#2e8b57";
+
+												default:
+													return "#999999";
+											}
+
+										},
+
+										labels: {
+
+											display: true,
+
+											formatter(ctx){
+
+												const data =
+													ctx.raw._data;
+
+												return [
+
+													data.month,
+
+													data.category,
+
+													data.value
+
+												];
+
+											},
+
+											color: "white",
+
+											font: {
+
+												size: 12
+
+											}
+
+										}
+
+									}
+
+								]
+
+							},
+
+							options: {
+
+								responsive: true,
+
+								maintainAspectRatio: false,
+
+								plugins: {
+
+									title: {
+
+										display: true,
+
+										text:
+										"Supply, Demand & Price Treemap"
+
+									},
+
+									tooltip: {
+
+										callbacks: {
+
+											title(items){
+
+												return items[0]
+													.raw
+													._data
+													.month;
+
+											},
+
+											label(context){
+
+												const d =
+													context.raw._data;
+
+												return `${d.category}: ${d.value}`;
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+/**/
+					const violinData = {
+
+						Supply: supply,
+
+						Demand: demand,
+
+						Price: price
+
+					};
+/**/
+
+					function createViolinChart(){
+
+						const chart =
+							echarts.init(
+								document.getElementById(
+									"violinChart"
+								)
+							);
+
+						const option = {
+
+							title: {
+
+								text:
+								"Violin Plot"
+
+							},
+
+							tooltip: {
+
+								trigger: "item"
+
+							},
+
+							xAxis: {
+
+								type: "category",
+
+								data: [
+
+									"Supply",
+
+									"Demand",
+
+									"Price"
+
+								]
+
+							},
+
+							yAxis: {
+
+								type: "value"
+
+							},
+
+							series: [
+
+								{
+
+									type: "boxplot",
+
+									data: [
+
+										calculateBox(
+											supply
+										),
+
+										calculateBox(
+											demand
+										),
+
+										calculateBox(
+											price
+										)
+
+									]
+
+								}
+
+							]
+
+						};
+
+						chart.setOption(
+							option
+						);
+
+					}
+
+/**/
+					function calculateBox(values){
+
+						const sorted =
+							[...values]
+							.sort((a,b)=>a-b);
+
+						const min =
+							sorted[0];
+
+						const max =
+							sorted[
+								sorted.length - 1
+							];
+
+						const q1 =
+							sorted[
+								Math.floor(
+									sorted.length * 0.25
+								)
+							];
+
+						const median =
+							sorted[
+								Math.floor(
+									sorted.length * 0.50
+								)
+							];
+
+						const q3 =
+							sorted[
+								Math.floor(
+									sorted.length * 0.75
+								)
+							];
+
+						return [
+
+							min,
+
+							q1,
+
+							median,
+
+							q3,
+
+							max
+
+						];
+
+					}
+/**/
+					createViolinChart();
+/**/
+					const sankeyNodes = [];
+					const sankeyLinks = [];
+/**/					
+					months.forEach((month,index)=>{
+
+						sankeyNodes.push({
+							name: `${month} Supply`
+						});
+
+						sankeyNodes.push({
+							name: `${month} Demand`
+						});
+
+					});
+
+/**/
+					months.forEach((month,index)=>{
+
+						const supplied =
+							supply[index];
+
+						const demanded =
+							demand[index];
+
+						const balanceValue =
+							supplied - demanded;
+
+						sankeyLinks.push({
+
+							source:
+								`${month} Supply`,
+
+							target:
+								`${month} Demand`,
+
+							value:
+								Math.min(
+									supplied,
+									demanded
+								)
+
+						});
+
+						sankeyLinks.push({
+
+							source:
+								`${month} Supply`,
+
+							target:
+								`${month} Balance`,
+
+							value:
+								Math.abs(
+									balanceValue
+								)
+
+						});
+
+					});
+/**/
+					const sankey =
+						echarts.init(
+							document.getElementById(
+								"sankeyChart"
+							)
+						);
+
+					sankey.setOption({
+
+						title:{
+
+							text:
+							"Monthly Supply-Demand Flow"
+
+						},
+
+						tooltip:{
+
+							trigger:"item",
+
+							triggerOn:"mousemove"
+
+						},
+
+						series:[
+
+							{
+
+								type:"sankey",
+
+								layout:"none",
+
+								emphasis:{
+
+									focus:"adjacency"
+
+								},
+
+								data:
+									sankeyNodes,
+
+								links:
+									sankeyLinks,
+
+								lineStyle:{
+
+									color:"source",
+
+									curveness:0.5
+
+								}
+
+							}
+
+						]
+
+					});					
+/**/
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							sankey.resize();
+
+						}
+
+					);
+/*Build Waterfall Data*/
+
+					const waterfallData = [];
+					const waterfallLabels = [];
+
+					let cumulative = 0;
+
+/*Waterfall-Create Monthly Supply and Demand Steps*/
+
+					months.forEach((month,index)=>{
+
+						waterfallLabels.push(
+							`${month} Supply`
+						);
+
+						waterfallData.push({
+
+							value:
+								supply[index],
+
+							itemStyle:{
+								color:"#0b2e59"
+							}
+
+						});
+
+						waterfallLabels.push(
+							`${month} Demand`
+						);
+
+						waterfallData.push({
+
+							value:
+								-demand[index],
+
+							itemStyle:{
+								color:"#d35400"
+							}
+
+						});
+
+					});
+
+/*Waterfall-Create Waterfall Helper Series*/
+
+					const helpData = [];
+
+					let runningTotal = 0;
+
+					waterfallData.forEach(item=>{
+
+						helpData.push(
+							runningTotal
+						);
+
+						runningTotal += item.value;
+
+					});
+
+/*Waterfall-Create Waterfall Chart*/
+					const waterfall =
+						echarts.init(
+							document.getElementById(
+								"waterfallChart"
+							)
+						);
+
+					waterfall.setOption({
+
+						title:{
+
+							text:
+							"Monthly Supply vs Demand Waterfall"
+
+						},
+
+						tooltip:{
+
+							trigger:"axis",
+
+							axisPointer:{
+								type:"shadow"
+							}
+
+						},
+
+						legend:{
+
+							data:[
+								"Offset",
+								"Net Change"
+							]
+
+						},
+
+						xAxis:{
+
+							type:"category",
+
+							data:
+								waterfallLabels
+
+						},
+
+						yAxis:{
+
+							type:"value",
+
+							name:
+								"Volume"
+
+						},
+
+						series:[
+
+							{
+
+								name:"Offset",
+
+								type:"bar",
+
+								stack:"total",
+
+								itemStyle:{
+
+									color:"rgba(0,0,0,0)"
+
+								},
+
+								emphasis:{
+
+									itemStyle:{
+
+										color:"rgba(0,0,0,0)"
+
+									}
+
+								},
+
+								data:
+									helpData
+
+							},
+
+							{
+
+								name:"Net Change",
+
+								type:"bar",
+
+								stack:"total",
+
+								label:{
+
+									show:true,
+
+									position:"top"
+
+								},
+
+								data:
+									waterfallData
+
+							}
+
+						]
+
+					});
+
+/*Waterfall-Add Final Market Balance Column*/
+						waterfallLabels.push(
+							"Final Balance"
+						);
+
+						waterfallData.push({
+
+							value:
+								runningTotal,
+
+							itemStyle:{
+								color:"#2e8b57"
+							}
+
+						});
+
+helpData.push(0);
+
+/*Add Auto-Resize*/
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							waterfall.resize();
+
+						}
+
+					);
+/*Heatmap Chart - Build Heatmap Data*/
+
+					const heatmapData = [];
+
+					months.forEach((month,index)=>{
+
+						heatmapData.push([
+							index,
+							0,
+							supply[index]
+						]);
+
+						heatmapData.push([
+							index,
+							1,
+							demand[index]
+						]);
+
+					});
+
+/*Determine Maximum Value*/
+
+					const heatmapMax = Math.max(
+
+						...supply,
+
+						...demand
+
+					);
+
+/*Create Heatmap Chart*/
+
+					const heatmap =
+						echarts.init(
+							document.getElementById(
+								"heatmapChart"
+							)
+						);
+
+					heatmap.setOption({
+
+						title: {
+
+							text:
+							"Monthly Supply & Demand Heatmap"
+
+						},
+
+						tooltip: {
+
+							position: "top",
+
+							formatter: function(params){
+
+								const metric =
+
+									params.data[1] === 0
+									? "Supply"
+									: "Demand";
+
+								return `
+
+									<b>${months[
+										params.data[0]
+									]}</b>
+
+									<br>
+
+									${metric}:
+									${params.data[2]
+										.toLocaleString()}
+
+								`;
+
+							}
+
+						},
+
+						grid: {
+
+							height: "70%",
+
+							top: "10%"
+
+						},
+
+						xAxis: {
+
+							type: "category",
+
+							data: months,
+
+							splitArea: {
+
+								show: true
+
+							}
+
+						},
+
+						yAxis: {
+
+							type: "category",
+
+							data: [
+
+								"Supply",
+
+								"Demand"
+
+							],
+
+							splitArea: {
+
+								show: true
+
+							}
+
+						},
+
+						visualMap: {
+
+							min: 0,
+
+							max: heatmapMax,
+
+							calculable: true,
+
+							orient: "horizontal",
+
+							left: "center",
+
+							bottom: "5%"
+
+						},
+
+						series: [
+
+							{
+
+								name: "Market Data",
+
+								type: "heatmap",
+
+								data: heatmapData,
+
+								label: {
+
+									show: true,
+
+									formatter: function(params){
+
+										return params.data[2];
+
+									}
+
+								},
+
+								emphasis: {
+
+									itemStyle: {
+
+										shadowBlur: 10,
+
+										shadowColor:
+											"rgba(0,0,0,0.5)"
+
+									}
+
+								}
+
+							}
+
+						]
+
+					});
+
+/*Auto Resize Support*/
+
+					window.addEventListener(
+
+						"resize",
+
+						()=>{
+
+							heatmap.resize();
+
+						}
+
+					);
+/*Waffle Chart-Populate Dropdown*/
+
+						const waffleSelect =
+							document.getElementById(
+								"waffleMonthSelect"
+							);
+
+						months.forEach((month,index)=>{
+								waffleSelect.insertAdjacentHTML(
+									"beforeend",
+									`<option value="${index}"> ${month}</option>`);
+							});
+
+/*Waffle Chart-Create Waffle Chart Function*/
+						let waffleChart =
+							echarts.init( document.getElementById("waffleChart"));
+
+						function updateWaffleChart(index){
+							const supplyValue =supply[index];
+							const demandValue =demand[index];
+							const total = supplyValue + demandValue;
+							const supplyPct = Math.round((supplyValue / total) * 100);
+							const demandPct = 100 - supplyPct; const waffleData = [];
+							
+							console.log("Month:", months[index]);
+
+							for(let i=0;i<100;i++){
+							waffleData.push({
+											value:1,
+												category:
+												i < supplyPct
+												? "Supply"
+												: "Demand",
+											x:i % 10,y:Math.floor(i / 10)
+											}); }
+							/**/
+							waffleChart.setOption({
+
+								title:{
+									/*text: `${months[Number(index)]} Supply vs Demand`,
+									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`*/
+									text: months[index] + " Supply vs Demand",
+									subtext: "Supply: " + supplyPct + "% | Demand: " + demandPct + "%"
+								},
+
+								tooltip:{
+										formatter:function(params){
+										return params.data.category;
+											}
+										},
+
+								xAxis:{
+										show:false,
+										min:0,
+										max:10
+										},
+
+								yAxis:{
+										show:false,
+										min:0,
+										max:10
+										},
+
+								series:[
+								{type:"scatter",
+									symbol:"rect",
+									symbolSize:40,
+									data:waffleData.map(item=>([item.x, item.y,item.category])),
+									itemStyle:{color:function(params){
+													return params.data[2]
+													=== "Supply"
+													? "#0b2e59": "#d35400";}}}]
+							}, true);/**/
+
+						}
+
+/*Waffle Chart-Initialize Chart*/
+						const latestMonth =
+							months.length - 1;
+
+						waffleSelect.value =
+							latestMonth;
+
+						updateWaffleChart(
+							latestMonth
+						);
+
+/*Waffle Chart-Add Legend and Statistics*/
+						/*title: {
+							text: `${months[index]} Supply vs Demand`,
+							subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`
+						},*/
+
+/*Waffle Chart-Auto Resize*/
+						window.addEventListener(
+
+							"resize",
+
+							()=>{
+
+								waffleChart.resize();
+
+							}
+
+						);
+						
+/**/						
+						waffleSelect.addEventListener(
+							"change",
+							function(){
+
+								updateWaffleChart(
+									parseInt(this.value, 10)
+								);
+
+							}
+						);
+/**/
+    console.log("Chart Created");
+
+})
+.catch(error => {
+
+    console.error(
+        "CSV Loading Error:",
+        error
+    );
+
+    document.getElementById(
+        "overviewText"
+    ).innerHTML = `
+        <b>ERROR LOADING CSV</b>
+        <br><br>
+        ${error.message}
+    `;
+
+});
+
+</script>
+
+<script>
+/**/
+					let inventoryChart;
+					let deviationChart;
+
+					loadInventoryData();
+
+					async function loadInventoryData(){
+
+						const response =
+							await fetch(
+								/*"/data/us_crude_inventory.csv"*/
+								"https://houstoncng.com/data/us_crude_inventory.csv"
+							);
+
+						const csv =
+							await response.text();
+
+						const rows =
+							csv.trim().split("\n");
+
+						const inventoryData = [];
+
+						rows.slice(1).forEach(row=>{
+
+							const cols =
+								row.split(",");
+
+							inventoryData.push({
+
+								date: cols[0],
+
+								inventory:
+									Number(cols[1])
+
+							});
+
+						});
+
+						window.inventoryData =
+							inventoryData;
+
+						updateInventoryCharts();
+
+					}
+/*Dropdown Event*/
+						document
+						.getElementById(
+							"inventoryYears"
+						)
+						.addEventListener(
+
+							"change",
+
+							updateInventoryCharts
+
+						);
+/**/
+
+/*Update Function*/
+						function updateInventoryCharts(){
+
+							const years =
+								Number(
+
+									document
+									.getElementById(
+										"inventoryYears"
+									)
+									.value
+
+								);
+
+							const monthsToUse =
+								years * 12;
+
+							const filteredData =
+								inventoryData.slice(
+									-monthsToUse
+								);
+
+							const labels =
+								filteredData.map(
+									d => d.date
+								);
+
+							const inventories =
+								filteredData.map(
+									d => d.inventory
+								);
+
+							const peak =
+								Math.max(
+									...inventories
+								);
+
+							const average =
+								inventories.reduce(
+
+									(a,b)=>a+b,
+
+									0
+
+								) / inventories.length;
+
+							const deviations =
+								inventories.map(
+
+									value =>
+
+									(
+										(
+											value - peak
+										) / peak
+									) * 100
+
+								);
+/**/
+/*Inventory Chart*/
+						if(inventoryChart){
+
+							inventoryChart.destroy();
+
+						}
+
+						inventoryChart = new Chart(
+
+							document.getElementById(
+								"inventoryChart"
+							),
+
+							{
+
+								type:"line",
+
+								data:{
+
+									labels:labels,
+
+									datasets:[
+
+										{
+
+											label:
+											"Inventory",
+
+											data:
+											inventories,
+
+											borderColor:
+											"#0b2e59",
+
+											fill:false
+
+										},
+
+										{
+
+											label:
+											"Average",
+
+											data:
+											Array(
+												labels.length
+											).fill(
+												average
+											),
+
+											borderDash:[5,5],
+
+											borderColor:
+											"#2e8b57",
+
+											fill:false
+
+										}
+
+									]
+
+								},
+
+								options:{
+
+									responsive:true,
+
+									plugins:{
+
+										title:{
+
+											display:true,
+
+											text:
+											"US Crude Inventory"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						);
+
+/*Deviation Chart*/
+					if(deviationChart){
+
+						deviationChart.destroy();
+
+					}
+
+					deviationChart = new Chart(
+
+						document.getElementById(
+							"deviationChart"
+						),
+
+						{
+
+							type:"bar",
+
+							data:{
+
+								labels:labels,
+
+								datasets:[
+
+									{
+
+										label:
+										"Deviation from Peak (%)",
+
+										data:
+										deviations,
+
+										backgroundColor:
+										deviations.map(
+
+											v =>
+
+											v < -10
+
+											? "#d35400"
+
+											: "#0b2e59"
+
+										)
+
+									}
+
+								]
+
+							},
+
+							options:{
+
+								responsive:true,
+
+								plugins:{
+
+									title:{
+
+										display:true,
+
+										text:
+										"Inventory Deviation from Peak"
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+
+/**/
+/*Statistics Table*/
+						const latest =
+							inventories[
+								inventories.length - 1
+							];
+
+						const latestDeviation =
+
+							(
+								(
+									latest - peak
+								) / peak
+							) * 100;
+
+						document
+						.getElementById(
+							"inventoryStats"
+						)
+						.querySelector("tbody")
+						.innerHTML = `
+
+						<tr>
+						<td>Peak Inventory</td>
+						<td>${peak.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Average Inventory</td>
+						<td>${average.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Latest Inventory</td>
+						<td>${latest.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Deviation From Peak</td>
+						<td>${latestDeviation.toFixed(1)}%</td>
+						</tr>
+
+						`;
+
+						}
+/**/
+/**/
+</script>
+
+</body>
+</html>
