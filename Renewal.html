@@ -2597,9 +2597,12 @@ helpData.push(0);
 
 								title:{
 
-									text:
+									/*text:
 									`${months[index]}
-									Supply vs Demand`
+									Supply vs Demand`*/
+									
+									text: `${months[index]} Supply vs Demand`,
+									subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`
 
 								},
 
@@ -2688,10 +2691,10 @@ helpData.push(0);
 						);
 
 /*Waffle Chart-Add Legend and Statistics*/
-						title: {
+						/*title: {
 							text: `${months[index]} Supply vs Demand`,
 							subtext: `Supply: ${supplyPct}% | Demand: ${demandPct}%`
-						},
+						},*/
 
 /*Waffle Chart-Auto Resize*/
 						window.addEventListener(
