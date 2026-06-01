@@ -349,6 +349,60 @@ tr:nth-child(even){background:#f8f9fb}
 <div id="tableDescription" class="text-area">Loading data...</div>
 </div>
 
+/**/
+<div class="chart-card">
+
+    <h2>US Crude Inventory Normalization</h2>
+
+    <label>
+        Time Period:
+    </label>
+
+    <select id="inventoryYears">
+
+        <option value="1">Last 1 Year</option>
+        <option value="2">Last 2 Years</option>
+        <option value="3">Last 3 Years</option>
+        <option value="4">Last 4 Years</option>
+        <option value="5">Last 5 Years</option>
+        <option value="6" selected>Last 6 Years</option>
+
+    </select>
+
+    <div class="chart-container">
+
+        <canvas id="inventoryChart"></canvas>
+
+    </div>
+
+    <div class="chart-container">
+
+        <canvas id="deviationChart"></canvas>
+
+    </div>
+
+    <table id="inventoryStats">
+
+        <thead>
+
+            <tr>
+
+                <th>Metric</th>
+                <th>Value</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+/**/
+
 <div id="market-insights" class="section-card">
 <h2 class="section-title">Market Insights</h2>
 <div id="insightText" class="text-area">Loading data...</div>
@@ -2661,6 +2715,332 @@ helpData.push(0);
 
 });
 
+</script>
+
+<script>
+/**/
+					let inventoryChart;
+					let deviationChart;
+
+					loadInventoryData();
+
+					async function loadInventoryData(){
+
+						const response =
+							await fetch(
+								/*"/data/us_crude_inventory.csv"*/
+								"https://houstoncng.com/data/us_crude_inventory.csv"
+							);
+
+						const csv =
+							await response.text();
+
+						const rows =
+							csv.trim().split("\n");
+
+						const inventoryData = [];
+
+						rows.slice(1).forEach(row=>{
+
+							const cols =
+								row.split(",");
+
+							inventoryData.push({
+
+								date: cols[0],
+
+								inventory:
+									Number(cols[1])
+
+							});
+
+						});
+
+						window.inventoryData =
+							inventoryData;
+
+						updateInventoryCharts();
+
+					}
+/*Dropdown Event*/
+						document
+						.getElementById(
+							"inventoryYears"
+						)
+						.addEventListener(
+
+							"change",
+
+							updateInventoryCharts
+
+						);
+/**/
+
+/*Update Function*/
+						function updateInventoryCharts(){
+
+							const years =
+								Number(
+
+									document
+									.getElementById(
+										"inventoryYears"
+									)
+									.value
+
+								);
+
+							const monthsToUse =
+								years * 12;
+
+							const filteredData =
+								inventoryData.slice(
+									-monthsToUse
+								);
+
+							const labels =
+								filteredData.map(
+									d => d.date
+								);
+
+							const inventories =
+								filteredData.map(
+									d => d.inventory
+								);
+
+							const peak =
+								Math.max(
+									...inventories
+								);
+
+							const average =
+								inventories.reduce(
+
+									(a,b)=>a+b,
+
+									0
+
+								) / inventories.length;
+
+							const deviations =
+								inventories.map(
+
+									value =>
+
+									(
+										(
+											value - peak
+										) / peak
+									) * 100
+
+								);
+/**/
+/*Inventory Chart*/
+						if(inventoryChart){
+
+							inventoryChart.destroy();
+
+						}
+
+						inventoryChart = new Chart(
+
+							document.getElementById(
+								"inventoryChart"
+							),
+
+							{
+
+								type:"line",
+
+								data:{
+
+									labels:labels,
+
+									datasets:[
+
+										{
+
+											label:
+											"Inventory",
+
+											data:
+											inventories,
+
+											borderColor:
+											"#0b2e59",
+
+											fill:false
+
+										},
+
+										{
+
+											label:
+											"Average",
+
+											data:
+											Array(
+												labels.length
+											).fill(
+												average
+											),
+
+											borderDash:[5,5],
+
+											borderColor:
+											"#2e8b57",
+
+											fill:false
+
+										}
+
+									]
+
+								},
+
+								options:{
+
+									responsive:true,
+
+									plugins:{
+
+										title:{
+
+											display:true,
+
+											text:
+											"US Crude Inventory"
+
+										}
+
+									}
+
+								}
+
+							}
+
+						);
+
+/*Deviation Chart*/
+					if(deviationChart){
+
+						deviationChart.destroy();
+
+					}
+
+					deviationChart = new Chart(
+
+						document.getElementById(
+							"deviationChart"
+						),
+
+						{
+
+							type:"bar",
+
+							data:{
+
+								labels:labels,
+
+								datasets:[
+
+									{
+
+										label:
+										"Deviation from Peak (%)",
+
+										data:
+										deviations,
+
+										backgroundColor:
+										deviations.map(
+
+											v =>
+
+											v < -10
+
+											? "#d35400"
+
+											: "#0b2e59"
+
+										)
+
+									}
+
+								]
+
+							},
+
+							options:{
+
+								responsive:true,
+
+								plugins:{
+
+									title:{
+
+										display:true,
+
+										text:
+										"Inventory Deviation from Peak"
+
+									}
+
+								}
+
+							}
+
+						}
+
+					);
+
+/**/
+/*Statistics Table*/
+						const latest =
+							inventories[
+								inventories.length - 1
+							];
+
+						const latestDeviation =
+
+							(
+								(
+									latest - peak
+								) / peak
+							) * 100;
+
+						document
+						.getElementById(
+							"inventoryStats"
+						)
+						.querySelector("tbody")
+						.innerHTML = `
+
+						<tr>
+						<td>Peak Inventory</td>
+						<td>${peak.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Average Inventory</td>
+						<td>${average.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Latest Inventory</td>
+						<td>${latest.toFixed(1)} MMbbl</td>
+						</tr>
+
+						<tr>
+						<td>Deviation From Peak</td>
+						<td>${latestDeviation.toFixed(1)}%</td>
+						</tr>
+
+						`;
+
+						}
+/**/
+/**/
 </script>
 
 </body>
