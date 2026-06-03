@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>Rotating Equipment Calculator</title></head>
 <body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <h2>API 610 / 617 / 611-612 Rotating Equipment Calculator</h2>
 <select id="unitSystem"><option>USCS</option><option>SI</option></select>
 <select id="equipment"><option value="pump">Pump</option><option value="compressor">Compressor</option><option value="turbine">Turbine</option></select>
 <div id="app">Load fields dynamically via rotating.js</div>
+
+<script>
+        // Load shared header and footer
+        ["header", "footer"].forEach(function (id) {
+            fetch(id + ".html")
+                .then(function (res) { return res.text(); })
+                .then(function (data) { document.getElementById(id).innerHTML = data; });
+        });
+</script>
+	
 <script src="js/units.js"></script>
 <script src="js/api610.js"></script>
 <script src="js/api617.js"></script>
