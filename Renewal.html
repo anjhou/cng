@@ -53,7 +53,14 @@ tr:nth-child(even){background:#f8f9fb}
 #inventoryDataTable tbody tr:nth-child(even){background:#f7f7f7;}
 /**/
 #marketChart{width:100% !important;height:100% !important;}
-
+/**/
+.normalization-controls{margin-bottom:20px;}
+.normalization-controls label{margin-left:15px;margin-right:5px;font-weight:bold;}
+.normalization-controls select{padding:5px;}
+#normalizationStats{width:100%;margin-top:20px;border-collapse:collapse;}
+#normalizationStats th,#normalizationStats td{border:1px solid #ccc;padding:8px;}
+#normalizationStats th{background:#0b2e59;color:white;}
+/**/
 @media(max-width:900px){
 .content-wrapper{flex-direction:column}
 .left-sidebar{width:100%;height:auto;position:relative;top:0}
@@ -342,6 +349,9 @@ tr:nth-child(even){background:#f8f9fb}
 
 							</div>
 							<!--bbb -->
+							
+													
+							
 							<div class="section" id="inventory-dashboard">
 
 								<h2>US Petroleum Inventory Dashboard</h2>
@@ -425,6 +435,76 @@ tr:nth-child(even){background:#f8f9fb}
 							
 							
 							<!--bbb -->
+							
+							<!--ccc -->
+							<div class="section" id="inventoryNormalizationSection">
+
+								<h2>Inventory Normalization Curve</h2>
+
+								<div class="normalization-toolbar">
+
+									<label>
+										Stream:
+									</label>
+
+									<select id="normStream">
+
+										<option value="Crude">Crude Oil</option>
+										<option value="Gasoline">Gasoline</option>
+										<option value="Diesel">Diesel</option>
+										<option value="Jet">Jet Fuel</option>
+										<option value="FuelOil">Fuel Oil</option>
+
+									</select>
+
+									<label>
+										History:
+									</label>
+
+									<select id="normYears">
+
+										<option value="1">1 Year</option>
+										<option value="2">2 Years</option>
+										<option value="3">3 Years</option>
+										<option value="5">5 Years</option>
+										<option value="6" selected>6 Years</option>
+										<option value="10">10 Years</option>
+										<option value="20">20 Years</option>
+
+									</select>
+
+								</div>
+
+								<div
+									id="inventoryNormalizationChart"
+									style="
+										width:100%;
+										height:600px;
+									">
+								</div>
+
+								<table id="inventoryNormalizationStats">
+
+									<thead>
+
+										<tr>
+
+											<th>Metric</th>
+											<th>Value</th>
+
+										</tr>
+
+									</thead>
+
+									<tbody>
+
+									</tbody>
+
+								</table>
+
+							</div>
+							<!--ccc -->
+							
 						</div>
 
 						<div id="chartDescription" class="text-area">
@@ -3420,6 +3500,8 @@ helpData.push(0);
 
 					}
 /**/
+
+/**/
 						document
 						.getElementById(
 							"inventoryProduct"
@@ -3440,6 +3522,7 @@ helpData.push(0);
 
 </script>
 
+<script src="scripts/inventory-normalization.js"></script>
 
 </body>
 </html>
