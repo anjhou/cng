@@ -21,12 +21,5 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <script src="js/rotating.js"></script>
 
 
-<script>
-        // Load shared header and footer
-        ["header", "footer"].forEach(function (id) {
-            fetch(id + ".html")
-                .then(function (res) { return res.text(); })
-                .then(function (data) { document.getElementById(id).innerHTML = data; });
-        });
-</script>
+
 </body></html>
