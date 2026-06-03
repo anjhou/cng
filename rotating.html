@@ -1,24 +1,16 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Rotating Equipment Calculator</title></head>
+<html>
+<head><meta charset="utf-8"><title>Rotating Equipment Calculator V3</title></head>
 <body>
-<div id="header"></div>
-
-
-<h2>API 610 / 617 / 611-612 Rotating Equipment Calculator</h2>
+<h2>Rotating Equipment Calculator V3</h2>
+<p>Includes unit-system framework, API 610 NPSH framework, viscosity correction framework, compressor outlet temperature framework.</p>
 <select id="unitSystem"><option>USCS</option><option>SI</option></select>
-<select id="equipment"><option value="pump">Pump</option><option value="compressor">Compressor</option><option value="turbine">Turbine</option></select>
-<div id="app">Load fields dynamically via rotating.js</div>
-
-
-	
+<select id="equipment"><option>Pump</option><option>Compressor</option><option>Turbine</option></select>
 <script src="js/units.js"></script>
 <script src="js/api610.js"></script>
 <script src="js/api617.js"></script>
 <script src="js/steam-iapws.js"></script>
 <script src="js/api611.js"></script>
 <script src="js/rotating.js"></script>
-
-
-
 </body>
 </html>
