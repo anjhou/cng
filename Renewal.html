@@ -38,13 +38,20 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
 .inventory-controls{margin-bottom:15px;}
 .inventory-controls label{font-weight:bold;margin-right:10px;}
 .inventory-controls select{padding:6px;}
-.chart-container{position:relative;width:100%;height:500px;}
+/*.chart-container{position:relative;width:100%;height:500px;}*/
 /**/
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #ccc;padding:10px}
 th{background:#0b2e59;color:#fff}
 tr:nth-child(even){background:#f8f9fb}
-
+/**/
+.table-container{margin-top:25px;background:#ffffff;padding:15px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+.table-wrapper{max-height:500px;overflow-y:auto;}
+#inventoryDataTable{width:100%;border-collapse:collapse
+#inventoryDataTable th,#inventoryDataTable td{border:1px solid #d0d0d0;padding:8px;text-align:center;}
+#inventoryDataTable th{background:#0b2e59;color:white;position:sticky;top:0;}
+#inventoryDataTable tbody tr:nth-child(even){background:#f7f7f7;}
+/**/
 #marketChart{width:100% !important;height:100% !important;}
 
 @media(max-width:900px){
@@ -334,7 +341,7 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
-							<!-- -->
+							<!--bbb -->
 							<div class="section" id="inventory-dashboard">
 
 								<h2>US Petroleum Inventory Dashboard</h2>
@@ -380,8 +387,44 @@ tr:nth-child(even){background:#f8f9fb}
 								</div>
 
 							</div>
+												<!--aaa -->
+												<div class="table-container">
+
+											<h3 id="inventoryTableTitle">
+												Inventory Data Table
+											</h3>
+
+											<div class="table-wrapper">
+
+												<table id="inventoryDataTable">
+
+													<thead>
+
+														<tr>
+
+															<th>Date</th>
+
+															<th id="inventoryProductHeader">
+																Inventory
+															</th>
+
+														</tr>
+
+													</thead>
+
+													<tbody>
+
+													</tbody>
+
+												</table>
+
+											</div>
+
+										</div>
+							<!--aaa -->
 							
-							<!-- -->
+							
+							<!--bbb -->
 						</div>
 
 						<div id="chartDescription" class="text-area">
@@ -3316,11 +3359,67 @@ helpData.push(0);
 										}
 
 									}
+									
+									
 
 								});
+								
+									/**/
+									updateInventoryTable(product);
+									/**/
 
 						}
+/**/
+					function updateInventoryTable(product){
 
+						document.getElementById(
+							"inventoryTableTitle"
+						).innerHTML =
+							product +
+							" Inventory Data";
+
+						document.getElementById(
+							"inventoryProductHeader"
+						).innerHTML =
+							product +
+							" Inventory (MMbbl)";
+
+						const tbody =
+							document
+							.querySelector(
+								"#inventoryDataTable tbody"
+							);
+
+						tbody.innerHTML = "";
+
+						inventoryDataset.forEach(row => {
+
+							tbody.insertAdjacentHTML(
+
+								"beforeend",
+
+								`
+								<tr>
+
+									<td>
+										${row.date}
+									</td>
+
+									<td>
+										${Number(
+											row[product]
+										).toFixed(1)}
+									</td>
+
+								</tr>
+								`
+
+							);
+
+						});
+
+					}
+/**/
 						document
 						.getElementById(
 							"inventoryProduct"
