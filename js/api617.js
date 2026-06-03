@@ -1,7 +1,12 @@
 
-// API 617 compressor methods
+// API 617 framework
+function outletTemperature(i){
+ const ratio=i.p2/i.p1;
+ return i.t1*Math.pow(ratio,(i.k-1)/(i.k*i.eff));
+}
 function api617Compressor(i){
- const hp=(i.k/(i.k-1))*(i.z*1545/i.mw)*i.t1*
- (Math.pow(i.p2/i.p1,((i.k-1)/(i.k*i.eff)))-1);
- return {hp};
+ return {
+   ratio:i.p2/i.p1,
+   tout:outletTemperature(i)
+ };
 }

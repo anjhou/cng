@@ -1,3 +1,3 @@
 
-// Main controller
-function calculate(){ console.log('calculator loaded'); }
+// Main controller V3
+console.log('V3 framework loaded');
