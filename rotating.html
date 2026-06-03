@@ -11,6 +11,16 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <select id="equipment"><option value="pump">Pump</option><option value="compressor">Compressor</option><option value="turbine">Turbine</option></select>
 <div id="app">Load fields dynamically via rotating.js</div>
 
+
+	
+<script src="js/units.js"></script>
+<script src="js/api610.js"></script>
+<script src="js/api617.js"></script>
+<script src="js/steam-iapws.js"></script>
+<script src="js/api611.js"></script>
+<script src="js/rotating.js"></script>
+
+
 <script>
         // Load shared header and footer
         ["header", "footer"].forEach(function (id) {
@@ -19,11 +29,4 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                 .then(function (data) { document.getElementById(id).innerHTML = data; });
         });
 </script>
-	
-<script src="js/units.js"></script>
-<script src="js/api610.js"></script>
-<script src="js/api617.js"></script>
-<script src="js/steam-iapws.js"></script>
-<script src="js/api611.js"></script>
-<script src="js/rotating.js"></script>
 </body></html>
