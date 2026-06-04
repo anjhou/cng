@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heater Exchanger Duty Calculator</title>
+
+<style>
+.input-table,
+.result-table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+.input-table td,
+.result-table td {
+    border:1px solid #ccc;
+    padding:6px;
+}
+
+.input-table input,
+.input-table select {
+    width:100%;
+    box-sizing:border-box;
+}
+
+.results-box {
+    margin-top:15px;
+    padding:10px;
+    border:1px solid #ccc;
+    background:#f8f8f8;
+}
+
+.card {
+    border:1px solid #ddd;
+    padding:15px;
+    margin:15px 0;
+    border-radius:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+					<div class="card">
+						<h2>Heat Exchanger Duty Calculator</h2>
+
+						<table class="input-table">
+							<tr>
+								<td>Service Type</td>
+								<td>
+									<select id="serviceType" onchange="toggleHEXMode()">
+										<option value="single">Single Phase</option>
+										<option value="phase">Changing Phase</option>
+									</select>
+								</td>
+							</tr>
+
+							<tr>
+								<td>Flow (GPM)</td>
+								<td><input type="number" id="hexFlow" value="1000" step="any"></td>
+							</tr>
+
+							<tr>
+								<td>Specific Gravity</td>
+								<td><input type="number" id="hexSG" value="0.80" step="any"></td>
+							</tr>
+						</table>
+
+						<!-- SINGLE PHASE -->
+						<div id="singlePhaseSection">
+
+							<h3>Single Phase Inputs</h3>
+
+							<table class="input-table">
+
+								<tr>
+									<td>Specific Heat (Btu/lb-°F)</td>
+									<td>
+										<input type="number"
+											   id="hexCp"
+											   value="0.60"
+											   step="any">
+									</td>
+								</tr>
+
+								<tr>
+									<td>Temperature Difference ΔT (°F)</td>
+									<td>
+										<input type="number"
+											   id="hexDT"
+											   value="50"
+											   step="any">
+									</td>
+								</tr>
+
+								<tr>
+									<td>UA (Btu/hr-°F)</td>
+									<td>
+										<input type="number"
+											   id="hexUA"
+											   value="500000"
+											   step="any">
+									</td>
+								</tr>
+
+							</table>
+
+						</div>
+
+						<!-- PHASE CHANGE -->
+						<div id="phaseChangeSection" style="display:none;">
+
+							<h3>Phase Change Inputs</h3>
+
+							<table class="input-table">
+
+								<tr>
+									<td>Starting Vapor Fraction</td>
+									<td>
+										<input type="number"
+											   id="vfStart"
+											   value="0"
+											   min="0"
+											   max="1"
+											   step="0.01">
+									</td>
+								</tr>
+
+								<tr>
+									<td>Ending Vapor Fraction</td>
+									<td>
+										<input type="number"
+											   id="vfEnd"
+											   value="1"
+											   min="0"
+											   max="1"
+											   step="0.01">
+									</td>
+								</tr>
+
+								<tr>
+									<td>Heat of Vaporization (Btu/lb)</td>
+									<td>
+										<input type="number"
+											   id="hvap"
+											   value="150"
+											   step="any">
+									</td>
+								</tr>
+
+							</table>
+
+						</div>
+
+						<button onclick="calculateHEXDuty()">
+							Calculate Duty
+						</button>
+
+						<div id="hexResults" class="results-box"></div>
+					</div>
+
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
+
+<script src="js/hex.js"></script>
+</body>
+</html>
