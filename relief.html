@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relief Valve Sizing Calculator</title>
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+h2{
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+}
+
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+
+label{
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    box-sizing:border-box;
+}
+
+.radio-group{
+    margin-top:10px;
+}
+
+.radio-group label{
+    display:inline-block;
+    margin-right:15px;
+    font-weight:normal;
+}
+
+button{
+    margin-top:20px;
+    width:100%;
+    padding:12px;
+    background:#1976d2;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#125aa0;
+}
+
+.result{
+    font-size:18px;
+    margin-top:10px;
+}
+
+.result span{
+    font-weight:bold;
+    color:#1565c0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>API 520 Gas/Vapor Relief Valve Sizing</h2>
+
+<div class="grid">
+
+<div class="panel">
+
+<label>Relief Load (lb/hr)</label>
+<input type="number" id="W" value="10000">
+
+<label>Set Pressure (psig)</label>
+<input type="number" id="Pset" value="100">
+
+<label>Relieving Temperature (°F)</label>
+<input type="number" id="T" value="100">
+
+<label>Molecular Weight (MW)</label>
+<input type="number" id="MW" value="20">
+
+<label>Specific Heat Ratio (k = Cp/Cv)</label>
+<input type="number" step="0.01" id="k" value="1.30">
+
+<label>Compressibility Factor (Z)</label>
+<input type="number" step="0.01" id="Z" value="1.00">
+
+<label>Discharge Coefficient (Kd)</label>
+<input type="number" step="0.01" id="Kd" value="0.975">
+
+<label>Backpressure Correction Factor (Kb)</label>
+<input type="number" step="0.01" id="Kb" value="1.0">
+
+<div class="radio-group">
+
+<label><b>Valve Type</b></label>
+
+<label>
+<input type="radio"
+       name="valveType"
+       value="conventional"
+       checked>
+Conventional
+</label>
+
+<label>
+<input type="radio"
+       name="valveType"
+       value="balanced">
+Balanced Bellows
+</label>
+
+<label>
+<input type="radio"
+       name="valveType"
+       value="pilot">
+Pilot Operated
+</label>
+
+</div>
+
+<label>Backpressure (% of Set Pressure)</label>
+<input type="number" id="backpressurePct" value="10">
+
+<button onclick="calculateRelief()">
+Calculate Relief Valve Size
+</button>
+
+</div>
+
+<div class="panel">
+
+<h3>Results</h3>
+
+<div class="result">
+Required Area:
+<span id="area">-</span> in²
+</div>
+
+<div class="result">
+Equivalent Diameter:
+<span id="diameter">-</span> in
+</div>
+
+<div class="result">
+API 526 Orifice:
+<span id="orifice">-</span>
+</div>
+
+<div class="result">
+Relieving Pressure:
+<span id="relievingPressure">-</span> psia
+</div>
+
+<div class="result">
+Actual Backpressure:
+<span id="backpressure">-</span> psig
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/relief.js"></script>
+
+</body>
+</html>
