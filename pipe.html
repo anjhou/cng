@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Engineering Pipe Sizing (Velocity + Darcy + Colebrook)</title>
+
+<style>
+body { font-family: Arial; margin: 20px; }
+.container { display: flex; gap: 20px; }
+.box { width: 50%; border: 1px solid #ccc; padding: 15px; }
+input { width: 100%; margin: 5px 0; padding: 6px; }
+.hidden { display: none; }
+.result { background: #f5f5f5; padding: 10px; }
+</style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<h2>Engineering Pipe Sizing Tool (API/ASME Style Method)</h2>
+
+<div class="container">
+
+<!-- INPUT -->
+<div class="box">
+<h3>Inputs</h3>
+
+<label>Fluid Type</label>
+<input type="radio" name="fluid" value="liquid" checked onclick="toggle()"> Liquid
+<input type="radio" name="fluid" value="vapor" onclick="toggle()"> Vapor
+
+<div id="liq">
+<h4>Liquid Inputs</h4>
+SG <input id="sg">
+Flow (GPM) <input id="gpm">
+Max Velocity (ft/s) <input id="vmax_liq">
+Viscosity (cP) <input id="mu_liq" value="1">
+</div>
+
+<div id="vap" class="hidden">
+<h4>Vapor Inputs</h4>
+MW <input id="mw">
+Z <input id="z" value="1">
+Flow (SCFD) <input id="scfd">
+Temp (°F) <input id="temp">
+Pressure (psig) <input id="psig">
+Max Velocity (ft/s) <input id="vmax_vap">
+Viscosity (cP) <input id="mu_vap" value="0.02">
+</div>
+
+<button onclick="calc()">Calculate</button>
+</div>
+
+<!-- OUTPUT -->
+<div class="box">
+<h3>Results</h3>
+<div class="result" id="out"></div>
+</div>
+
+</div>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
+<script src="js/pipe.js"></script>
+
+</body>
+</html>
