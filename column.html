@@ -10,6 +10,11 @@
 
 <body>
 
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <div class="card">
     <h2>Column Hydraulic Screening Calculator</h2>
 
@@ -66,6 +71,10 @@
     <div id="columnResults" class="results"></div>
 </div>
 
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 
 <script src="column.js"></script>
 
