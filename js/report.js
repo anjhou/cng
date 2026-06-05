@@ -1,7 +1,22 @@
 class Report {
   static build(data){
+	  
+	const timestamp =
+    SystemInfo.getTimestamp();
+	
     const p=data.assayProps;
-    let txt=`CDU / VDU CRUDE ASSAY REPORT
+	
+	let txt =
+
+`====================================================
+ENGINEERING SIMULATION REPORT
+====================================================
+
+Timestamp:
+${timestamp}
+
+====================================================
+
 
 Selected Assay: ${data.assayName}
 Feed Rate: ${Units.fmt(data.feedRate,0)} BPD
