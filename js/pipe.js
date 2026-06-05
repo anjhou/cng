@@ -24,14 +24,14 @@ function toggle(){
             'input[name="fluid"]:checked'
         ).value;
 
-    document.getElementById("liq")
+    document.getElementById("liquidRadio")
         .classList.toggle("hidden", fluid !== "liquid");
 
-    document.getElementById("vap")
+    document.getElementById("vaporRadio")
         .classList.toggle("hidden", fluid !== "vapor");
 
     const mixedDiv =
-        document.getElementById("mixed");
+        document.getElementById("mixedRadio");
 
     if(mixedDiv){
         mixedDiv.classList.toggle(
