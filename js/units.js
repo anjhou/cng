@@ -1,1 +1,4 @@
-const Units={apiToSG:api=>141.5/(api+131.5),sgToDensity:sg=>sg*62.4,bpdToLbHr:(bpd,sg)=>bpd*42*sg*62.4/24,btuHrToMMBtuHr:q=>q/1e6};
+class Units {
+  static apiToSG(api){ return 141.5 / (api + 131.5); }
+  static fmt(x, n=2){ return Number.isFinite(x) ? x.toLocaleString(undefined,{maximumFractionDigits:n}) : ""; }
+}

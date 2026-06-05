@@ -1,1 +1,61 @@
-class Report{static fmt(n,d=2){return Number(n).toLocaleString(undefined,{maximumFractionDigits:d})}static text(r){let s=`INTEGRATED CDU / VDU SIMULATION REPORT\n=====================================\n\nFEED\nRate: ${this.fmt(r.feedBPD,0)} BPD\nAPI: ${r.api}\nSG: ${r.sg.toFixed(4)}\nMass Flow: ${this.fmt(r.feedMass,0)} lb/hr\n\nPRODUCTS\n`;Object.entries(r.products).forEach(([n,p])=>{s+=`${n}: ${this.fmt(p.bpd,0)} BPD | ${p.volPct.toFixed(1)} vol% | ${this.fmt(p.lbhr,0)} lb/hr\n`});s+=`\nCDU ENERGY\nFurnace Duty: ${this.fmt(r.energy.furnace/1e6)} MMBtu/hr\nFired Duty: ${this.fmt(r.energy.fired/1e6)} MMBtu/hr\nCondenser Duty: ${this.fmt(r.energy.condenser/1e6)} MMBtu/hr\nProduct Heat: ${this.fmt(r.energy.productHeat/1e6)} MMBtu/hr\nEnergy Closure Index: ${this.fmt(r.energy.closure)} %\n\nHYDRAULICS\nFlood: ${this.fmt(r.hyd.floodPct)} %\nTray DP: ${this.fmt(r.hyd.trayDP,3)} psi/tray\nTotal DP: ${this.fmt(r.hyd.totalDP)} psi\nStatus: ${r.hyd.status}\n\nPSEUDO-COMPONENT / PR-EOS FLASH\nPseudo Components: ${r.pseudoCount}\nFlash Vapor Fraction: ${this.fmt(r.flash.vaporFraction*100)} %\nTower Stage Count: ${r.towerProfile.length}\n\nVACUUM TOWER\nLVGO: ${this.fmt(r.vacuum.LVGO,0)} BPD\nHVGO: ${this.fmt(r.vacuum.HVGO,0)} BPD\nVacuum Resid: ${this.fmt(r.vacuum.VacuumResid,0)} BPD\nVDU Duty: ${this.fmt(r.vacuum.duty/1e6)} MMBtu/hr\n`;return s}static csv(r){let rows=['Section,Parameter,Value'];rows.push(`Feed,Rate BPD,${r.feedBPD}`);Object.entries(r.products).forEach(([n,p])=>rows.push(`Product,${n} BPD,${p.bpd}`));rows.push(`Energy,Furnace MMBtu/hr,${r.energy.furnace/1e6}`);rows.push(`Hydraulics,Flood %,${r.hyd.floodPct}`);rows.push(`Vacuum,LVGO BPD,${r.vacuum.LVGO}`);return rows.join('\n')}}
+class Report {
+  static build(data){
+    const p=data.assayProps;
+    let txt=`CDU / VDU CRUDE ASSAY REPORT
+
+Selected Assay: ${data.assayName}
+Feed Rate: ${Units.fmt(data.feedRate,0)} BPD
+API Gravity: ${p.api}
+Specific Gravity: ${data.sg.toFixed(4)}
+
+PETROLEUM PROPERTIES
+Sulfur: ${p.sulfur} wt%
+TAN: ${p.tan} mg KOH/g
+CCR: ${p.ccr} wt%
+Chloride: ${p.chloride} ppm
+Nitrogen: ${p.nitrogen} ppm
+
+PONA
+Paraffins: ${p.pona.paraffins} vol%
+Olefins: ${p.pona.olefins} vol%
+Naphthenes: ${p.pona.naphthenes} vol%
+Aromatics: ${p.pona.aromatics} vol%
+
+TBP CURVE, °F
+IBP: ${p.tbp[0]}
+10%: ${p.tbp[10]}
+30%: ${p.tbp[30]}
+50%: ${p.tbp[50]}
+70%: ${p.tbp[70]}
+90%: ${p.tbp[90]}
+FBP: ${p.tbp[100]}
+
+PRODUCT ESTIMATE
+`;
+    data.products.forEach(x=>{
+      txt += `${x.name.padEnd(28)} ${String(x.min+"-"+x.max).padEnd(12)} ${x.volPct.toFixed(2).padStart(8)} vol% ${Units.fmt(x.bpd,0).padStart(12)} BPD\n`;
+    });
+    return txt;
+  }
+
+  static exportCSV(data){
+    let csv="Section,Parameter,Value,Units\n";
+    const p=data.assayProps;
+    csv += `Assay,Selected,${data.assayName},\n`;
+    csv += `Feed,Rate,${data.feedRate},BPD\n`;
+    csv += `Property,API,${p.api},deg API\n`;
+    csv += `Property,Sulfur,${p.sulfur},wt%\n`;
+    csv += `Property,TAN,${p.tan},mg KOH/g\n`;
+    csv += `Property,CCR,${p.ccr},wt%\n`;
+    csv += `Property,Chloride,${p.chloride},ppm\n`;
+    csv += `Property,Nitrogen,${p.nitrogen},ppm\n`;
+    Object.entries(p.pona).forEach(([k,v])=>csv += `PONA,${k},${v},vol%\n`);
+    Object.entries(p.tbp).forEach(([k,v])=>csv += `TBP,${k},${v},deg F\n`);
+    data.products.forEach(x=>csv += `Product,${x.name},${x.volPct.toFixed(3)} vol%,${x.bpd.toFixed(0)} BPD\n`);
+    const blob=new Blob([csv],{type:"text/csv"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="crude_assay_simulation.csv";
+    a.click();
+  }
+}
