@@ -1,0 +1,2 @@
+class PseudoComponent{constructor(o){Object.assign(this,o)}}
+class PseudoGenerator{static generate(tbpCurve,count=50){const arr=[];for(let i=0;i<count;i++){const v=(i+.5)*100/count;const tbp=tbpCurve.interpolate(v);const sg=Thermo.sgFromTBP(tbp);arr.push(new PseudoComponent({name:`PC${i+1}`,z:1/count,tbp,sg,mw:Thermo.wilsonMW(tbp),tc:tbp+810,pc:Math.max(80,550-.18*tbp),omega:.1+.0005*tbp}))}return arr}}

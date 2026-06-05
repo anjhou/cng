@@ -1,0 +1,3 @@
+const ProductCuts={RefineryGas:[0,100],LightNaphtha:[100,180],HeavyNaphtha:[180,350],MiddleDistillate:[350,650],GasOil:[650,850],HeavyOil:[850,1050],Residue:[1050,5000]};
+const ProductSG={RefineryGas:.20,LightNaphtha:.67,HeavyNaphtha:.74,MiddleDistillate:.83,GasOil:.89,HeavyOil:.93,Residue:1.01};
+class SideCuts{static calculate(curve,feedBPD){const res={};Object.entries(ProductCuts).forEach(([name,[lo,hi]])=>{let n=0;curve.forEach(p=>{if(p.temperature>=lo&&p.temperature<hi)n++});const volPct=n;const bpd=feedBPD*volPct/100;const sg=ProductSG[name];res[name]={volPct,bpd,sg,lbhr:Units.bpdToLbHr(bpd,sg)}});return res}}

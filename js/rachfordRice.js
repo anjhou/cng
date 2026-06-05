@@ -1,0 +1,1 @@
+class RachfordRice{static solve(z,k){let b=.5;for(let iter=0;iter<80;iter++){let f=0,df=0;for(let i=0;i<z.length;i++){const km1=k[i]-1;const d=1+b*km1;if(d<=0)continue;f+=z[i]*km1/d;df-=z[i]*km1*km1/(d*d)}if(Math.abs(df)<1e-12)break;b-=f/df;b=Math.max(0,Math.min(1,b));if(Math.abs(f)<1e-8)break}return b}}

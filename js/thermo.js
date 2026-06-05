@@ -1,0 +1,1 @@
+class Thermo{static sensible(m,cp,t1,t2){return m*cp*(t2-t1)}static latent(m,h){return m*h}static wilsonMW(tbp){return Math.max(16,80+0.55*(tbp-100))}static sgFromTBP(tbp){return Math.min(1.15,Math.max(.55,.65+0.0002*tbp))}}
