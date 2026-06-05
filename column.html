@@ -1,0 +1,55 @@
+<div class="card">
+    <h2>Column Hydraulic Screening Calculator</h2>
+
+    <div class="row">
+        <label>
+            Column Type
+            <select id="columnType">
+                <option value="tray">Tray Column</option>
+                <option value="packed">Packed Column</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="row">
+        <label>
+            Vapor Flow (ACFM)
+            <input type="number" id="vaporFlow" value="10000">
+        </label>
+
+        <label>
+            Liquid Flow (GPM)
+            <input type="number" id="liquidFlow" value="100">
+        </label>
+    </div>
+
+    <div class="row">
+        <label>
+            Vapor Density (lb/ft³)
+            <input type="number" id="rhoV" value="0.15">
+        </label>
+
+        <label>
+            Liquid Density (lb/ft³)
+            <input type="number" id="rhoL" value="50">
+        </label>
+    </div>
+
+    <div class="row">
+        <label>
+            Column Diameter (ft)
+            <input type="number" id="diameter" value="6">
+        </label>
+
+        <label>
+            Tray Spacing (in)
+            <input type="number" id="traySpacing" value="24">
+        </label>
+    </div>
+
+    <button onclick="calculateColumnHydraulics()">
+        Calculate
+    </button>
+
+    <div id="columnResults" class="results"></div>
+</div>
