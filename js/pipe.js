@@ -17,29 +17,47 @@ document.getElementById("liq").classList.toggle("hidden",f!=="liquid");
 document.getElementById("vap").classList.toggle("hidden",f!=="vapor");
 }
 */
-function toggle(){
+function toggle() {
 
     const fluid =
         document.querySelector(
             'input[name="fluid"]:checked'
         ).value;
 
-    document.getElementById("liquidRadio")
-        .classList.toggle("hidden", fluid !== "liquid");
+    const liquidDiv =
+        document.getElementById("liq");
 
-    document.getElementById("vaporRadio")
-        .classList.toggle("hidden", fluid !== "vapor");
+    const vaporDiv =
+        document.getElementById("vap");
 
     const mixedDiv =
-        document.getElementById("mixedRadio");
+        document.getElementById("mixed");
+
+    if(liquidDiv){
+        liquidDiv.style.display =
+            fluid === "liquid"
+            ? "block"
+            : "none";
+    }
+
+    if(vaporDiv){
+        vaporDiv.style.display =
+            fluid === "vapor"
+            ? "block"
+            : "none";
+    }
 
     if(mixedDiv){
-        mixedDiv.classList.toggle(
-            "hidden",
-            fluid !== "mixed"
-        );
+        mixedDiv.style.display =
+            fluid === "mixed"
+            ? "block"
+            : "none";
     }
 }
+
+window.onload = function() {
+    toggle();
+};
 
 // ------------------ Pipe Selection ------------------
 function pick(idReq){
