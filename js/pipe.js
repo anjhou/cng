@@ -67,7 +67,7 @@ let e=0.00015; // ft steel roughness
 let f=frictionFactor(Re,e/dft);
 
 v=q/(Math.PI*dft*dft/4);
-Re=(rho*v*dft)/(mu*0.000672);
+Re=(rho*v*dft)/(muVal*0.000672);
 f=frictionFactor(Re,e/dft);
 
 let dp = f*(100/dft)*(rho*v*v/2)/144;
