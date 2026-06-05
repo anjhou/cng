@@ -1,1 +1,122 @@
-{"WTI":{"api":39.6,"sulfur":0.24},"Brent":{"api":38.3,"sulfur":0.4},"ArabLight":{"api":33,"sulfur":1.8},"Maya":{"api":22,"sulfur":3.4}}
+{
+  "WTI": {
+    "displayName": "WTI - Light Sweet",
+    "api": 39.6,
+    "sulfur": 0.24,
+    "tan": 0.08,
+    "ccr": 2.1,
+    "chloride": 4,
+    "nitrogen": 800,
+    "pona": {
+      "paraffins": 46,
+      "olefins": 1,
+      "naphthenes": 34,
+      "aromatics": 19
+    },
+    "tbp": {
+      "0": 90,
+      "10": 180,
+      "30": 320,
+      "50": 470,
+      "70": 650,
+      "90": 920,
+      "100": 1150
+    }
+  },
+  "Brent": {
+    "displayName": "Brent - Light Sweet",
+    "api": 38.3,
+    "sulfur": 0.4,
+    "tan": 0.1,
+    "ccr": 2.5,
+    "chloride": 5,
+    "nitrogen": 900,
+    "pona": {
+      "paraffins": 43,
+      "olefins": 1,
+      "naphthenes": 35,
+      "aromatics": 21
+    },
+    "tbp": {
+      "0": 95,
+      "10": 190,
+      "30": 335,
+      "50": 490,
+      "70": 675,
+      "90": 950,
+      "100": 1180
+    }
+  },
+  "ArabLight": {
+    "displayName": "Arab Light - Medium Sour",
+    "api": 33.0,
+    "sulfur": 1.8,
+    "tan": 0.15,
+    "ccr": 5.0,
+    "chloride": 8,
+    "nitrogen": 1500,
+    "pona": {
+      "paraffins": 37,
+      "olefins": 1,
+      "naphthenes": 38,
+      "aromatics": 24
+    },
+    "tbp": {
+      "0": 110,
+      "10": 220,
+      "30": 390,
+      "50": 560,
+      "70": 760,
+      "90": 1030,
+      "100": 1250
+    }
+  },
+  "Mars": {
+    "displayName": "Mars - Medium Sour",
+    "api": 28.0,
+    "sulfur": 2.0,
+    "tan": 0.45,
+    "ccr": 7.5,
+    "chloride": 12,
+    "nitrogen": 2200,
+    "pona": {
+      "paraffins": 31,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 29
+    },
+    "tbp": {
+      "0": 120,
+      "10": 245,
+      "30": 440,
+      "50": 640,
+      "70": 860,
+      "90": 1120,
+      "100": 1370
+    }
+  },
+  "Maya": {
+    "displayName": "Maya - Heavy Sour",
+    "api": 22.0,
+    "sulfur": 3.4,
+    "tan": 0.65,
+    "ccr": 12.5,
+    "chloride": 20,
+    "nitrogen": 3500,
+    "pona": {
+      "paraffins": 25,
+      "olefins": 1,
+      "naphthenes": 40,
+      "aromatics": 34
+    },
+    "tbp": {
+      "0": 130,
+      "10": 260,
+      "30": 480,
+      "50": 690,
+      "70": 920,
+      "90": 1180,
+      "100": 1450
+    }
+  }
+}
