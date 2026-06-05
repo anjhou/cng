@@ -208,6 +208,53 @@ function checkNumber(value,name){
 *   Froude Number
 *   Flow Regime
 *****************************************************************/
+/******************************************************************
+ * Liquid Flow Conversion
+ * Returns flow in ft³/s
+ ******************************************************************/
+function getLiquidFlowFt3Sec(rate, unit) {
+
+    switch(unit) {
+
+        case "gpm":
+            return rate * 0.002228009;
+
+        case "bpd":
+            return rate * 5.614583 / 86400;
+
+        case "ft3s":
+            return rate;
+
+        default:
+            return 0;
+    }
+}
+
+/******************************************************************
+ * Gas Flow Conversion
+ * Returns flow in ft³/s
+ ******************************************************************/
+function getGasFlowFt3Sec(rate, unit) {
+
+    switch(unit) {
+
+        case "scfd":
+            return rate / 86400;
+
+        case "mscfd":
+            return rate * 1000 / 86400;
+
+        case "mmscfd":
+            return rate * 1000000 / 86400;
+
+        case "ft3s":
+            return rate;
+
+        default:
+            return 0;
+    }
+}
+/****************************************
 
 function determineBeggsBrillRegime(
     pipeID_in,
