@@ -148,20 +148,20 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <div id="liq">
 <h4>Liquid Inputs</h4>
-SG <input id="sg">
-Flow (GPM) <input id="gpm">
-Max Velocity (ft/s) <input id="vmax_liq">
+SG <input id="sg" value="1">
+Flow (GPM) <input id="gpm" value="100">
+Max Velocity (ft/s) <input id="vmax_liq" value="10">
 Viscosity (cP) <input id="mu_liq" value="1">
 </div>
 
 <div id="vap" class="hidden">
 <h4>Vapor Inputs</h4>
-MW <input id="mw">
+MW <input id="mw" value="28">
 Z <input id="z" value="1">
-Flow (SCFD) <input id="scfd">
-Temp (°F) <input id="temp">
-Pressure (psig) <input id="psig">
-Max Velocity (ft/s) <input id="vmax_vap">
+Flow (SCFD) <input id="scfd" value="1000000">
+Temp (°F) <input id="temp" value="60">
+Pressure (psig) <input id="psig" value="100">
+Max Velocity (ft/s) <input id="vmax_vap" value="100">
 Viscosity (cP) <input id="mu_vap" value="0.02">
 </div>
 
