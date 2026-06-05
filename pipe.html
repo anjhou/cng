@@ -107,8 +107,44 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <h3>Inputs</h3>
 
 <label>Fluid Type</label>
+<!---->
+<div class="fluid-selector">
+
+    <div class="fluid-option liquid-option">
+        <input type="radio"
+               id="liquidRadio"
+               name="fluid"
+               value="liquid"
+               checked
+               onclick="toggle()">
+        <label for="liquidRadio">Liquid</label>
+    </div>
+
+    <div class="fluid-option vapor-option">
+        <input type="radio"
+               id="vaporRadio"
+               name="fluid"
+               value="vapor"
+               onclick="toggle()">
+        <label for="vaporRadio">Vapor</label>
+    </div>
+
+    <div class="fluid-option mixed-option">
+        <input type="radio"
+               id="mixedRadio"
+               name="fluid"
+               value="mixed"
+               onclick="toggle()">
+        <label for="mixedRadio">Mixed Phase</label>
+    </div>
+
+</div>
+<!---->
+<!--
 <input type="radio" name="fluid" value="liquid" checked onclick="toggle()"> Liquid
 <input type="radio" name="fluid" value="vapor" onclick="toggle()"> Vapor
+-->
+
 
 <div id="liq">
 <h4>Liquid Inputs</h4>
