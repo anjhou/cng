@@ -165,6 +165,79 @@ Max Velocity (ft/s) <input id="vmax_vap" value="100">
 Viscosity (cP) <input id="mu_vap" value="0.02">
 </div>
 
+<!---->
+<div id="mixed" class="hidden">
+
+<!-- ===================================================== -->
+<!-- BEGGS-BRILL FLOW REGIME INPUTS -->
+<!-- ===================================================== -->
+
+    <h3>Beggs–Brill Flow Regime Determination</h3>
+
+    <table class="inputTable">
+
+        <tr>
+            <td>Pipe Inside Diameter</td>
+            <td>
+                <input
+                    type="number"
+                    id="pipeID"
+                    step="0.001"
+                    value="6.065">
+            </td>
+            <td>in</td>
+        </tr>
+
+        <tr>
+            <td>Liquid Flow Rate</td>
+            <td>
+                <input
+                    type="number"
+                    id="liquidRate"
+                    step="0.01">
+            </td>
+            <td>
+                <select id="liquidUnit">
+                    <option value="gpm">GPM</option>
+                    <option value="bpd">BPD</option>
+                    <option value="ft3s">ft³/s</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Gas Flow Rate</td>
+            <td>
+                <input
+                    type="number"
+                    id="gasRate"
+                    step="0.01">
+            </td>
+            <td>
+                <select id="gasUnit">
+                    <option value="scfd">SCFD</option>
+                    <option value="mscfd">MSCFD</option>
+                    <option value="mmscfd">MMSCFD</option>
+                    <option value="ft3s">ft³/s</option>
+                </select>
+            </td>
+        </tr>
+
+    </table>
+
+    <br>
+
+    <button onclick="calculateBeggsBrillRegime()">
+        Determine Flow Regime
+    </button>
+
+
+
+
+
+</div>
+<!---->
+
 <button onclick="calc()">Calculate</button>
 </div>
 
