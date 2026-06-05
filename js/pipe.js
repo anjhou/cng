@@ -195,3 +195,142 @@ function checkNumber(value,name){
     return value;
 }
 
+/*****************************************************************
+* Beggs-Brill Flow Regime Determination
+*
+* Inputs:
+*   pipeID_in      = Pipe inside diameter (in)
+*   qLiquid_ft3s   = Liquid flow rate (ft³/s)
+*   qGas_ft3s      = Gas flow rate (ft³/s)
+*
+* Returns:
+*   lambdaL
+*   Froude Number
+*   Flow Regime
+*****************************************************************/
+
+function determineBeggsBrillRegime(
+    pipeID_in,
+    qLiquid_ft3s,
+    qGas_ft3s
+) {
+
+    // Pipe diameter (ft)
+    const D = pipeID_in / 12;
+
+    // Pipe area (ft²)
+    const area =
+        Math.PI * Math.pow(D, 2) / 4;
+
+    // Superficial velocities
+    const Vsl =
+        qLiquid_ft3s / area;
+
+    const Vsg =
+        qGas_ft3s / area;
+
+    const Vm =
+        Vsl + Vsg;
+
+    // No-slip liquid fraction
+    const lambdaL =
+        Vsl / Vm;
+
+    // Froude number
+    const Fr =
+        Math.pow(Vm, 2) /
+        (32.174 * D);
+
+    // Beggs-Brill boundaries
+    const L1 =
+        316 *
+        Math.pow(lambdaL, 0.302);
+
+    const L2 =
+        0.0009252 *
+        Math.pow(lambdaL, -2.4684);
+
+    const L3 =
+        0.1 *
+        Math.pow(lambdaL, -1.4516);
+
+    const L4 =
+        0.5 *
+        Math.pow(lambdaL, -6.738);
+
+    let regime;
+
+    if (
+        (lambdaL < 0.01 && Fr < L1) ||
+        (lambdaL >= 0.01 && Fr < L2)
+    ) {
+
+        regime = "Segregated";
+
+    } else if (
+        Fr >= L2 &&
+        Fr <= L3
+    ) {
+
+        regime = "Transition";
+
+    } else if (
+        (lambdaL < 0.4 && Fr >= L3 && Fr <= L1) ||
+        (lambdaL >= 0.4 && Fr >= L3 && Fr <= L4)
+    ) {
+
+        regime = "Intermittent";
+
+    } else {
+
+        regime = "Distributed";
+
+    }
+
+    return {
+        liquidFraction: lambdaL,
+        superficialLiquidVelocity: Vsl,
+        superficialGasVelocity: Vsg,
+        mixtureVelocity: Vm,
+        froudeNumber: Fr,
+        flowRegime: regime
+    };
+	
+document.getElementById("out").innerHTML = `
+<table class="resultTable">
+
+<tr>
+    <td><b>Flow Regime</b></td>
+    <td>${result.flowRegime}</td>
+</tr>
+
+<tr>
+    <td>Liquid Fraction (λL)</td>
+    <td>${result.liquidFraction.toFixed(4)}</td>
+</tr>
+
+<tr>
+    <td>Superficial Liquid Velocity</td>
+    <td>${result.superficialLiquidVelocity.toFixed(2)} ft/s</td>
+</tr>
+
+<tr>
+    <td>Superficial Gas Velocity</td>
+    <td>${result.superficialGasVelocity.toFixed(2)} ft/s</td>
+</tr>
+
+<tr>
+    <td>Mixture Velocity</td>
+    <td>${result.mixtureVelocity.toFixed(2)} ft/s</td>
+</tr>
+
+<tr>
+    <td>Froude Number</td>
+    <td>${result.froudeNumber.toFixed(3)}</td>
+</tr>
+
+</table>
+`;
+
+}
+
