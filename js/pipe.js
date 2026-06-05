@@ -296,41 +296,71 @@ function determineBeggsBrillRegime(
         flowRegime: regime
     };
 	
-document.getElementById("out").innerHTML = `
-<table class="resultTable">
+}
 
-<tr>
-    <td><b>Flow Regime</b></td>
-    <td>${result.flowRegime}</td>
-</tr>
+function calculateBeggsBrillRegime(){
 
-<tr>
-    <td>Liquid Fraction (λL)</td>
-    <td>${result.liquidFraction.toFixed(4)}</td>
-</tr>
+    const pipeID =
+        parseFloat(
+            document.getElementById("pipeID").value
+        );
 
-<tr>
-    <td>Superficial Liquid Velocity</td>
-    <td>${result.superficialLiquidVelocity.toFixed(2)} ft/s</td>
-</tr>
+    const liquidRate =
+        parseFloat(
+            document.getElementById("liquidRate").value
+        );
 
-<tr>
-    <td>Superficial Gas Velocity</td>
-    <td>${result.superficialGasVelocity.toFixed(2)} ft/s</td>
-</tr>
+    const gasRate =
+        parseFloat(
+            document.getElementById("gasRate").value
+        );
 
-<tr>
-    <td>Mixture Velocity</td>
-    <td>${result.mixtureVelocity.toFixed(2)} ft/s</td>
-</tr>
+    const liquidUnit =
+        document.getElementById("liquidUnit").value;
 
-<tr>
-    <td>Froude Number</td>
-    <td>${result.froudeNumber.toFixed(3)}</td>
-</tr>
+    const gasUnit =
+        document.getElementById("gasUnit").value;
 
-</table>
-`;
+    const qLiquid_ft3s =
+        getLiquidFlowFt3Sec(
+            liquidRate,
+            liquidUnit
+        );
 
+    const qGas_ft3s =
+        getGasFlowFt3Sec(
+            gasRate,
+            gasUnit
+        );
+
+    const result =
+        determineBeggsBrillRegime(
+            pipeID,
+            qLiquid_ft3s,
+            qGas_ft3s
+        );
+
+    // DISPLAY RESULTS HERE
+    document.getElementById("out").innerHTML = `
+        <h3>Beggs–Brill Results</h3>
+
+        <p><b>Flow Regime:</b>
+        ${result.flowRegime}</p>
+
+        <p><b>Liquid Fraction:</b>
+        ${result.liquidFraction.toFixed(4)}</p>
+
+        <p><b>Superficial Liquid Velocity:</b>
+        ${result.superficialLiquidVelocity.toFixed(2)} ft/s</p>
+
+        <p><b>Superficial Gas Velocity:</b>
+        ${result.superficialGasVelocity.toFixed(2)} ft/s</p>
+
+        <p><b>Mixture Velocity:</b>
+        ${result.mixtureVelocity.toFixed(2)} ft/s</p>
+
+        <p><b>Froude Number:</b>
+        ${result.froudeNumber.toFixed(3)}</p>
+    `;
 }
 
