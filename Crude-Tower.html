@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="css/tower.css" />
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
   <main class="container">
     <h1>Integrated CDU / VDU Simulator</h1>
     <p class="note">Screening-grade engineering simulator with crude assay, TBP/ASTM characterization, product cuts, heat balance, hydraulics, pseudo-components, PR-EOS flash framework, and vacuum tower integration.</p>
@@ -58,6 +65,12 @@
       <pre id="results"></pre>
     </section>
   </main>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
 
   <script src="js/units.js"></script>
   <script src="js/tbp.js"></script>
