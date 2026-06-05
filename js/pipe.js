@@ -15,6 +15,11 @@ document.getElementById("liq").classList.toggle("hidden",f!=="liquid");
 document.getElementById("vap").classList.toggle("hidden",f!=="vapor");
 }
 
+//----//
+
+
+//----//
+
 // ------------------ Pipe Selection ------------------
 function pick(idReq){
 for(let p of pipeDB) if(p.id>=idReq) return p;
@@ -29,24 +34,34 @@ return 0.25 / Math.pow(Math.log10(eD/3.7 + 5.74/Math.pow(Re,0.9)),2);
 
 // ------------------ LIQUID ------------------
 function liquid(){
-let sg=parseFloat(sg.value);
-let gpm=parseFloat(gpm.value);
-let vmax=parseFloat(vmax_liq.value);
-let mu=parseFloat(mu_liq.value)*0.001; // cP -> Pa.s approx (relative use)
+	
+const sgVal =
+    parseFloat(document.getElementById("sg").value);
 
-let q = gpm*0.002228; // ft3/s
+const gpmVal =
+    parseFloat(document.getElementById("gpm").value);
 
-let dreq = Math.sqrt((4*q)/(Math.PI*vmax));
+const vmaxVal =
+    parseFloat(document.getElementById("vmax_liq").value);
+
+const muVal =
+    parseFloat(document.getElementById("mu_liq").value);	
+	
+
+let q = gpmVal*0.002228; // ft3/s
+
+let dreq = Math.sqrt((4*q)/(Math.PI*vmaxVal));
 let din = dreq*12;
 
 let pipe=pick(din);
-let dft=pipe.id/12;
+let dft=pipe.id/12; // ft
 
-let rho=sg*62.4;
+let rho=sgVal*62.4; // lb/ft3
+
 
 // iteration for friction factor consistency
 let v=q/(Math.PI*dft*dft/4);
-let Re = (rho*v*dft)/(mu*0.000672); // pseudo conversion factor USCS
+let Re = (rho*v*dft)/(muVal*0.000672); // pseudo conversion factor USCS
 
 let e=0.00015; // ft steel roughness
 let f=frictionFactor(Re,e/dft);
@@ -62,21 +77,45 @@ return {din,pipe,v,dp,rho,Re,f};
 
 // ------------------ VAPOR ------------------
 function vapor(){
+	
+	/*
 let mw=parseFloat(mw.value);
 let z=parseFloat(z.value);
 let scfd=parseFloat(scfd.value);
 let T=parseFloat(temp.value)+459.67;
 let P=(parseFloat(psig.value)+14.7)*144;
-let vmax=parseFloat(vmax_vap.value);
-let mu=parseFloat(mu_vap.value)*0.001;
+*/
 
+const mwVal =
+    parseFloat(document.getElementById("mw").value);
+
+const zVal =
+    parseFloat(document.getElementById("z").value);
+
+const scfdVal =
+    parseFloat(document.getElementById("scfd").value);
+
+const tempVal =
+    parseFloat(document.getElementById("temp").value);
+
+const psigVal =
+    parseFloat(document.getElementById("psig").value);
+
+const vmaxVal =
+    parseFloat(document.getElementById("vmax_vap").value);
+
+const muVal =
+    parseFloat(document.getElementById("mu_vap").value);
+	
 let R=10.7316;
 
-let rho = (P*mw)/(z*R*T);
+const P = psigVal + 14.7;
 
-let q = scfd/86400;
+let rho = (P*mwVal)/(zVal*R*tempVal);
 
-let dreq=Math.sqrt((4*q)/(Math.PI*vmax));
+let q = scfdVal/86400;
+
+let dreq=Math.sqrt((4*q)/(Math.PI*vmaxVal));
 let din=dreq*12;
 
 let pipe=pick(din);
@@ -86,7 +125,7 @@ let dft=pipe.id/12;
 let v=q/(Math.PI*dft*dft/4);
 
 // Reynolds
-let Re=(rho*v*dft)/(mu*0.000672);
+let Re=(rho*v*dft)/(muVal*0.000672);
 
 // roughness
 let e=0.00015;
@@ -105,10 +144,16 @@ return {din,pipe,v,dp,rho,Re,f};
 
 // ------------------ MAIN ------------------
 function calc(){
+	
+const sgVal = checkNumber(
+    parseFloat(document.getElementById("sg").value),
+    "Specific Gravity"
+);
+	
 let type=document.querySelector('input[name="fluid"]:checked').value;
 let r = (type==="liquid") ? liquid() : vapor();
 
-out.innerHTML=`
+document.getElementById("out").innerHTML =`
 <b>Required Diameter:</b> ${r.din.toFixed(2)} in<br>
 <b>Selected Pipe:</b> NPS ${r.pipe.nps} (ID ${r.pipe.id} in)<br>
 <b>Velocity:</b> ${r.v.toFixed(2)} ft/s<br>
@@ -118,3 +163,14 @@ out.innerHTML=`
 ${r.rho?`<b>Density:</b> ${r.rho.toFixed(3)} lb/ft³<br>`:""}
 `;
 }
+
+// ------------------ input validation before calculations ------------------
+function checkNumber(value,name){
+
+    if(isNaN(value)){
+        throw new Error(name + " is required");
+    }
+
+    return value;
+}
+
