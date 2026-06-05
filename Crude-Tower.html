@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrated CDU / VDU Simulator</title>
+  <link rel="stylesheet" href="css/tower.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Integrated CDU / VDU Simulator</h1>
+    <p class="note">Screening-grade engineering simulator with crude assay, TBP/ASTM characterization, product cuts, heat balance, hydraulics, pseudo-components, PR-EOS flash framework, and vacuum tower integration.</p>
+
+    <section class="card">
+      <h2>Feed & Assay</h2>
+      <div class="grid">
+        <label>Crude Rate, BPD <input id="feedRate" type="number" value="100000"></label>
+        <label>API Gravity <input id="api" type="number" value="32"></label>
+        <label>Feed Temp, °F <input id="feedTemp" type="number" value="650"></label>
+        <label>Flash Zone Temp, °F <input id="flashTemp" type="number" value="730"></label>
+        <label>Overhead Temp, °F <input id="overheadTemp" type="number" value="250"></label>
+        <label>Furnace Efficiency, % <input id="furnaceEff" type="number" value="88"></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>TBP Curve</h2>
+      <div class="grid">
+        <label>IBP <input id="ibp" type="number" value="90"></label>
+        <label>10% <input id="tbp10" type="number" value="180"></label>
+        <label>30% <input id="tbp30" type="number" value="320"></label>
+        <label>50% <input id="tbp50" type="number" value="470"></label>
+        <label>70% <input id="tbp70" type="number" value="650"></label>
+        <label>90% <input id="tbp90" type="number" value="920"></label>
+        <label>FBP <input id="fbp" type="number" value="1150"></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Hydraulics / Rigorous Section / VDU</h2>
+      <div class="grid">
+        <label>Column Diameter, ft <input id="diameter" type="number" value="18"></label>
+        <label>Total Trays <input id="trays" type="number" value="45"></label>
+        <label>Reflux Ratio <input id="refluxRatio" type="number" value="1.2"></label>
+        <label>Overflash, % <input id="overflash" type="number" value="3"></label>
+        <label>Vacuum Pressure, mmHg <input id="vacPressure" type="number" value="40"></label>
+        <label>Vacuum Flash Temp, °F <input id="vacTemp" type="number" value="780"></label>
+      </div>
+    </section>
+
+    <section class="card controls">
+      <button id="runBtn">Run Integrated Simulation</button>
+      <button id="csvBtn">Export CSV</button>
+    </section>
+
+    <section class="card">
+      <h2>Results</h2>
+      <pre id="results"></pre>
+    </section>
+  </main>
+
+  <script src="js/units.js"></script>
+  <script src="js/tbp.js"></script>
+  <script src="js/sidecuts.js"></script>
+  <script src="js/thermo.js"></script>
+  <script src="js/energyBalance.js"></script>
+  <script src="js/hydraulics.js"></script>
+  <script src="js/pseudoComponent.js"></script>
+  <script src="js/pengRobinson.js"></script>
+  <script src="js/rachfordRice.js"></script>
+  <script src="js/rigorousFlash.js"></script>
+  <script src="js/vacuumTower.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
