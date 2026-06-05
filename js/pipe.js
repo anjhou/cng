@@ -9,16 +9,37 @@ const pipeDB = [
 ];
 
 // ------------------ Toggle ------------------
+
+/*
 function toggle(){
 let f=document.querySelector('input[name="fluid"]:checked').value;
 document.getElementById("liq").classList.toggle("hidden",f!=="liquid");
 document.getElementById("vap").classList.toggle("hidden",f!=="vapor");
 }
+*/
+function toggle(){
 
-//----//
+    const fluid =
+        document.querySelector(
+            'input[name="fluid"]:checked'
+        ).value;
 
+    document.getElementById("liq")
+        .classList.toggle("hidden", fluid !== "liquid");
 
-//----//
+    document.getElementById("vap")
+        .classList.toggle("hidden", fluid !== "vapor");
+
+    const mixedDiv =
+        document.getElementById("mixed");
+
+    if(mixedDiv){
+        mixedDiv.classList.toggle(
+            "hidden",
+            fluid !== "mixed"
+        );
+    }
+}
 
 // ------------------ Pipe Selection ------------------
 function pick(idReq){
