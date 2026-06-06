@@ -46,6 +46,29 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
   <section class="card">
     <h2>TBP Curve Input, °F</h2>
+	<!-- -->
+	
+
+  <div class="grid">
+
+    <label>
+      Additional TBP Curve 1
+      <select id="tbpCompare1">
+        <option value="">None</option>
+      </select>
+    </label>
+
+    <label>
+      Additional TBP Curve 2
+      <select id="tbpCompare2">
+        <option value="">None</option>
+      </select>
+    </label>
+
+  </div>
+
+	<!-- -->
+	
     <div class="grid">
       <label>IBP<input id="tbp0" type="number"></label>
       <label>10%<input id="tbp10" type="number"></label>
