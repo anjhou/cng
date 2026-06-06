@@ -7,12 +7,6 @@
   <link rel="stylesheet" href="css/property.css" />
 </head>
 <body>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
   <main class="app-shell">
     <header class="header">
       <div>
@@ -121,11 +115,6 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       </div>
     </section>
   </main>
-  <script src="js/property.js"></script>
-  
-  <div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
+  <script src="js/property.js" defer></script>
 </body>
 </html>
