@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EIA Feedstock & Product Prices</title>
+
+    <link rel="stylesheet" href="css/eia-prices.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="panel">
+    <h1>EIA Feedstock and Product Price Plotter</h1>
+
+    <div class="button-bar">
+        <button id="btnLoad">Load / Refresh Prices</button>
+        <button id="btnAdd">Add Series</button>
+        <button id="btnReset">Reset Defaults</button>
+    </div>
+
+    <div id="status" class="status">
+        Ready.
+    </div>
+</div>
+
+<div class="panel">
+    <h3>Price Series Configuration</h3>
+
+    <table id="seriesTable">
+        <thead>
+            <tr>
+                <th>Plot</th>
+                <th>Type</th>
+                <th>Label</th>
+                <th>EIA Series ID</th>
+                <th>Unit Display</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="panel">
+    <canvas id="priceChart"></canvas>
+</div>
+
+<script src="js/eia-prices.js"></script>
+
+</body>
+</html>
