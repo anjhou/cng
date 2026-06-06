@@ -35,13 +35,34 @@ function init(){
 }
 
 function bindEvents(){
-  document.getElementById("btnAddSeries").addEventListener("click", addSelectedLibrarySeries);
-  document.getElementById("btnLoad").addEventListener("click", loadPrices);
-  document.getElementById("btnExport").addEventListener("click", exportCsv);
-  document.getElementById("btnReset").addEventListener("click", resetDefaults);
-  document.getElementById("btnAddSpread").addEventListener("click", addSpread);
-  document.getElementById("normalSeriesSelect").addEventListener("change", renderNormalChart);
-  document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click", () => activateTab(btn.dataset.tab)));
+  onClick("btnAddSeries", addSelectedLibrarySeries);
+  onClick("btnLoad", loadPrices);
+  onClick("btnExport", exportCsv);
+  onClick("btnReset", resetDefaults);
+  onClick("btnAddSpread", addSpread);
+  onChange("normalSeriesSelect", renderNormalChart);
+
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+  });
+}
+
+function onClick(id, handler){
+  const el = document.getElementById(id);
+  if(!el){
+    console.warn(`Missing element #${id}; event binding skipped.`);
+    return;
+  }
+  el.addEventListener("click", handler);
+}
+
+function onChange(id, handler){
+  const el = document.getElementById(id);
+  if(!el){
+    console.warn(`Missing element #${id}; event binding skipped.`);
+    return;
+  }
+  el.addEventListener("change", handler);
 }
 
 function activateTab(id){
@@ -51,6 +72,10 @@ function activateTab(id){
 
 function loadLibraryDropdown(){
   const sel = document.getElementById("seriesLibrarySelect");
+  if(!sel){
+    console.warn("Missing element #seriesLibrarySelect; library dropdown not loaded.");
+    return;
+  }
   sel.innerHTML = "";
   seriesLibrary.forEach(s => {
     const opt = document.createElement("option");
@@ -70,7 +95,12 @@ function resetDefaults(){
 }
 
 function addSelectedLibrarySeries(){
-  const id = document.getElementById("seriesLibrarySelect").value;
+  const select = document.getElementById("seriesLibrarySelect");
+  if(!select){
+    setStatus("Series library selector is missing from the HTML.");
+    return;
+  }
+  const id = select.value;
   const item = seriesLibrary.find(s => s.seriesId === id);
   if(!item) return;
   if(selectedSeries.some(s => s.seriesId === id)){
@@ -84,6 +114,10 @@ function addSelectedLibrarySeries(){
 
 function renderSeriesTable(){
   const tbody = document.querySelector("#seriesTable tbody");
+  if(!tbody){
+    console.warn("Missing #seriesTable tbody; selected series table not rendered.");
+    return;
+  }
   tbody.innerHTML = "";
   selectedSeries.forEach((s, idx) => {
     const tr = document.createElement("tr");
@@ -121,15 +155,12 @@ function refreshSelectors(){
   const spreadProduct = document.getElementById("spreadProductSelect");
   const spreadFeed = document.getElementById("spreadFeedSelect");
   const normalSel = document.getElementById("normalSeriesSelect");
-  [spreadProduct, spreadFeed, normalSel].forEach(sel => sel.innerHTML = "");
+  [spreadProduct, spreadFeed, normalSel].forEach(sel => { if(sel) sel.innerHTML = ""; });
 
   selectedSeries.forEach(s => {
-    const opt1 = new Option(s.label, s.seriesId);
-    const opt2 = new Option(s.label, s.seriesId);
-    const opt3 = new Option(`${s.label} (${s.unit})`, s.seriesId);
-    spreadProduct.add(opt1);
-    spreadFeed.add(opt2);
-    normalSel.add(opt3);
+    if(spreadProduct) spreadProduct.add(new Option(s.label, s.seriesId));
+    if(spreadFeed) spreadFeed.add(new Option(s.label, s.seriesId));
+    if(normalSel) normalSel.add(new Option(`${s.label} (${s.unit})`, s.seriesId));
   });
 }
 
@@ -137,8 +168,8 @@ async function loadPrices(){
   setStatus("Loading EIA API v2 data...");
   rawData = {};
   alignedLabels = [];
-  const frequency = document.getElementById("frequencySelect").value;
-  const lookbackYears = Number(document.getElementById("lookbackSelect").value);
+  const frequency = document.getElementById("frequencySelect")?.value || "weekly";
+  const lookbackYears = Number(document.getElementById("lookbackSelect")?.value || 3);
   const active = selectedSeries.filter(s => s.plot && s.seriesId);
   const failures = [];
 
@@ -187,7 +218,9 @@ function buildAlignedLabels(dataObj){
 }
 
 function renderPriceChart(){
-  const ctx = document.getElementById("priceChart").getContext("2d");
+  const canvas = document.getElementById("priceChart");
+  if(!canvas || typeof Chart === "undefined") return;
+  const ctx = canvas.getContext("2d");
   if(priceChart) priceChart.destroy();
 
   const datasets = selectedSeries
@@ -221,8 +254,9 @@ function renderPriceChart(){
 }
 
 function addSpread(){
-  const productId = document.getElementById("spreadProductSelect").value;
-  const feedId = document.getElementById("spreadFeedSelect").value;
+  const productId = document.getElementById("spreadProductSelect")?.value;
+  const feedId = document.getElementById("spreadFeedSelect")?.value;
+  if(!productId || !feedId){ setStatus("Spread selectors are missing or empty."); return; }
   if(productId === feedId){ setStatus("Select two different series for spread calculation."); return; }
   const p = selectedSeries.find(s => s.seriesId === productId);
   const f = selectedSeries.find(s => s.seriesId === feedId);
@@ -233,6 +267,7 @@ function addSpread(){
 
 function renderSpreadTable(){
   const tbody = document.querySelector("#spreadTable tbody");
+  if(!tbody) return;
   tbody.innerHTML = "";
   selectedSpreads.forEach((s, idx) => {
     const tr = document.createElement("tr");
@@ -249,7 +284,9 @@ function renderSpreadTable(){
 }
 
 function renderSpreadChart(){
-  const ctx = document.getElementById("spreadChart").getContext("2d");
+  const canvas = document.getElementById("spreadChart");
+  if(!canvas || typeof Chart === "undefined") return;
+  const ctx = canvas.getContext("2d");
   if(spreadChart) spreadChart.destroy();
   const datasets = selectedSpreads.filter(s => s.plot && rawData[s.productId] && rawData[s.feedId]).map(s => {
     const pMap = new Map(rawData[s.productId].map(r => [r.date,r.value]));
@@ -260,9 +297,12 @@ function renderSpreadChart(){
 }
 
 function renderNormalChart(){
-  const id = document.getElementById("normalSeriesSelect").value;
+  const id = document.getElementById("normalSeriesSelect")?.value;
+  if(!id) return;
   const source = rawData[id] || [];
-  const ctx = document.getElementById("normalChart").getContext("2d");
+  const canvas = document.getElementById("normalChart");
+  if(!canvas || typeof Chart === "undefined") return;
+  const ctx = canvas.getContext("2d");
   if(normalChart) normalChart.destroy();
   if(!source.length) return;
   const item = selectedSeries.find(s => s.seriesId === id);
@@ -275,6 +315,7 @@ function renderNormalChart(){
 
 function renderDataTable(){
   const table = document.getElementById("dataTable");
+  if(!table) return;
   const active = selectedSeries.filter(s => rawData[s.seriesId]);
   let html = "<thead><tr><th>Date</th>" + active.map(s => `<th>${escapeHtml(s.label)}<br>${escapeHtml(s.unit)}</th>`).join("") + "</tr></thead><tbody>";
   const maps = active.map(s => new Map(rawData[s.seriesId].map(r => [r.date,r.value])));
@@ -316,5 +357,9 @@ function normalizeDate(period){
   return p;
 }
 
-function setStatus(msg){ document.getElementById("status").textContent = msg; }
+function setStatus(msg){
+  const status = document.getElementById("status");
+  if(status) status.textContent = msg;
+  else console.log(msg);
+}
 function escapeHtml(text){ return String(text ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]); }
