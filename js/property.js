@@ -59,6 +59,25 @@ const defaultNames = ['Methane','Ethane','Propane','i-Butane','n-Butane','i-Pent
 const defaultZByName = {'Methane':0.72,'Ethane':0.08,'Propane':0.06,'i-Butane':0.02,'n-Butane':0.04,'i-Pentane':0.01,'n-Pentane':0.02,'n-Hexane':0.02,'Benzene':0.01,'Toluene':0.01,'Water':0.00,'Ethanol':0.01};
 
 function $(id){ return document.getElementById(id); }
+
+function bindClick(id, handler){
+  const el = $(id);
+  if(!el){
+    console.warn(`Optional control #${id} not found; event binding skipped.`);
+    return false;
+  }
+  el.addEventListener('click', handler);
+  return true;
+}
+function bindChange(id, handler){
+  const el = $(id);
+  if(!el){
+    console.warn(`Optional control #${id} not found; event binding skipped.`);
+    return false;
+  }
+  el.addEventListener('change', handler);
+  return true;
+}
 function fmt(v,n=5){ return Number.isFinite(v) ? Number(v).toFixed(n) : '—'; }
 function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
 function clamp(v,lo,hi){ return Math.min(Math.max(v,lo),hi); }
@@ -83,12 +102,13 @@ function init(){
   activeComponents = defaultNames.map(n=>cloneComp(byName(n), defaultZByName[n] || 0));
   initLibraryControls();
   renderCompositionTable();
-  $('normalizeBtn').addEventListener('click', normalizeComposition);
-  $('calculateBtn').addEventListener('click', calculate);
-  $('resetBtn').addEventListener('click', resetExample);
-  $('clearBtn').addEventListener('click', clearStream);
-  $('addComponentBtn').addEventListener('click', addSelectedComponent);
-  $('addCustomBtn').addEventListener('click', addCustomComponent);
+  bindClick('normalizeBtn', normalizeComposition);
+  bindClick('calculateBtn', calculate);
+  bindClick('runBtn', calculate); // backward/alternate toolbar ID support
+  bindClick('resetBtn', resetExample);
+  bindClick('clearBtn', clearStream);
+  bindClick('addComponentBtn', addSelectedComponent);
+  bindClick('addCustomBtn', addCustomComponent);
   calculate();
 }
 
