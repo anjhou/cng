@@ -65,7 +65,21 @@ function clamp(v,lo,hi){ return Math.min(Math.max(v,lo),hi); }
 function byName(name){ return componentLibrary.find(c=>c.name===name); }
 function cloneComp(c,z=0){ return {...c, z}; }
 
+function initTabs(){
+  document.querySelectorAll('.tab-button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const tabId = btn.dataset.tab;
+      document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = document.getElementById(tabId);
+      if(panel) panel.classList.add('active');
+    });
+  });
+}
+
 function init(){
+  initTabs();
   activeComponents = defaultNames.map(n=>cloneComp(byName(n), defaultZByName[n] || 0));
   initLibraryControls();
   renderCompositionTable();
