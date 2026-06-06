@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EIA Supply Dashboard</title>
+
+<link rel="stylesheet" href="css/eia-supply.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="panel">
+    <h2>EIA Supply Data Dashboard</h2>
+    <p>
+        Feedstock, Product Supplied, Refinery Production,
+        and Blender Volumes
+    </p>
+</div>
+
+<div class="panel">
+
+    <div class="row">
+
+        <div>
+            <label>EIA API Key</label>
+            <input id="apiKey"
+                   placeholder="Enter EIA API Key">
+        </div>
+
+        <div>
+            <label>Period Limit</label>
+            <input id="limit"
+                   type="number"
+                   value="60">
+        </div>
+
+        <div>
+            <button id="loadBtn">
+                Load Data
+            </button>
+        </div>
+
+        <div>
+            <button id="exportBtn">
+                Export CSV
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <label>Select Supply Series</label>
+
+    <select id="seriesSelect"
+            multiple
+            size="12">
+
+        <option value="PET.WCRRIUS2.W">
+            Weekly Crude Refinery Inputs
+        </option>
+
+        <option value="PET.MCRRIUS2.M">
+            Monthly Crude Refinery Inputs
+        </option>
+
+        <option value="PET.WGFUPUS2.W">
+            Weekly Gasoline Product Supplied
+        </option>
+
+        <option value="PET.MGFUPUS2.M">
+            Monthly Gasoline Product Supplied
+        </option>
+
+        <option value="PET.WGFRPUS2.W">
+            Weekly Gasoline Production
+        </option>
+
+        <option value="PET.MGFRPUS2.M">
+            Monthly Gasoline Production
+        </option>
+
+        <option value="PET.WGBCPUS2.W">
+            Weekly Blend Components Supplied
+        </option>
+
+        <option value="PET.MGBCPUS2.M">
+            Monthly Blend Components Supplied
+        </option>
+
+        <option value="PET.WDFUPUS2.W">
+            Weekly Distillate Product Supplied
+        </option>
+
+        <option value="PET.MDFUPUS2.M">
+            Monthly Distillate Product Supplied
+        </option>
+
+        <option value="PET.WJFUPUS2.W">
+            Weekly Jet Fuel Product Supplied
+        </option>
+
+        <option value="PET.MJFUPUS2.M">
+            Monthly Jet Fuel Product Supplied
+        </option>
+
+    </select>
+
+</div>
+
+<div class="panel">
+    <canvas id="supplyChart"></canvas>
+</div>
+
+<div class="panel">
+
+    <h3>Data Table</h3>
+
+    <div id="status"></div>
+
+    <div class="table-container">
+        <table id="dataTable"></table>
+    </div>
+
+</div>
+
+<script src="js/eia-supply.js"></script>
+
+</body>
+</html>
