@@ -115,16 +115,52 @@ function populateComponentPicker(){
 
 function renderCompositionTable(){
   const body = $('compositionBody');
-  body.innerHTML = activeComponents.map((c,i)=>`
+  if(!body) return;
+
+  body.innerHTML = activeComponents.map((c,i)=>{
+    const zValue = Number.isFinite(Number(c.z)) ? Number(c.z) : 0;
+    return `
     <tr>
-      <td>${c.name}</td><td>${fmt(c.MW,3)}</td><td>${fmt(c.Tc,1)}</td><td>${fmt(c.Pc,1)}</td><td>${fmt(c.omega,4)}</td>
-      <td><input class="composition-input" id="z${i}" type="number" min="0" step="0.0001" value="${Number(c.z||0).toFixed(6)}"></td>
-      <td><button class="remove-btn" data-index="${i}">Remove</button></td>
-    </tr>`).join('');
-  [...document.querySelectorAll('.remove-btn')].forEach(btn=>btn.addEventListener('click', e=>removeComponent(Number(e.target.dataset.index))));
+      <td>${c.name}</td>
+      <td>${fmt(c.MW,3)}</td>
+      <td>${fmt(c.Tc,1)}</td>
+      <td>${fmt(c.Pc,1)}</td>
+      <td>${fmt(c.omega,4)}</td>
+      <td>
+        <input
+          class="composition-input"
+          id="z${i}"
+          name="compositionMoleFraction"
+          data-index="${i}"
+          type="number"
+          min="0"
+          max="1"
+          step="0.000001"
+          inputmode="decimal"
+          value="${zValue.toFixed(6)}"
+          aria-label="Mole fraction for ${c.name}"
+        />
+      </td>
+      <td><button type="button" class="remove-btn" data-index="${i}">Remove</button></td>
+    </tr>`;
+  }).join('');
+
+  [...document.querySelectorAll('.composition-input')].forEach(input=>{
+    input.addEventListener('input', e=>{
+      const idx = Number(e.target.dataset.index);
+      if(activeComponents[idx]) activeComponents[idx].z = Math.max(0, Number(e.target.value)||0);
+    });
+  });
+
+  [...document.querySelectorAll('.remove-btn')].forEach(btn=>{
+    btn.addEventListener('click', e=>removeComponent(Number(e.target.dataset.index)));
+  });
 }
 function syncZFromInputs(){
-  activeComponents.forEach((c,i)=>{ c.z = Math.max(0, Number($('z'+i)?.value)||0); });
+  activeComponents.forEach((c,i)=>{
+    const input = $('z'+i);
+    if(input) c.z = Math.max(0, Number(input.value)||0);
+  });
 }
 function getZ(){
   syncZFromInputs();
@@ -145,9 +181,9 @@ function addSelectedComponent(){
   const c = byName(name);
   if(!c){ setStatus(`Component data not found for ${name}.`, 'warn'); return; }
   if(activeComponents.some(item => item.name === name)){ setStatus(`${name} is already in the stream.`, 'warn'); return; }
-  activeComponents.push(cloneComp(c,0));
+  activeComponents.push(cloneComp(c,0.01));
   renderCompositionTable();
-  setStatus(`${name} added. Enter mole fraction and run calculation.`, 'ok');
+  setStatus(`${name} added. Enter/edit its mole fraction in the zᵢ column, then normalize or run calculation.`, 'ok');
 }
 function addCustomComponent(){
   syncZFromInputs();
@@ -157,10 +193,10 @@ function addCustomComponent(){
   if(!(MW>0 && Tc>0 && Pc>0 && liqSG>0)){ setStatus('Custom component requires MW, Tc, Pc, and liquid SG greater than zero.', 'warn'); return; }
   const c = {group:'Custom', name, MW, Tc, Pc, omega:Number.isFinite(omega)?omega:0.5, Zra:0.25, Tb:Number.isFinite(Tb)&&Tb>0?Tb:0.65*Tc, liqSG, cpA:Number.isFinite(cpA)&&cpA>0?cpA:0.45, muV:0.006, muL:1.0, kV:0.008};
   componentLibrary.push(c);
-  activeComponents.push(cloneComp(c,0));
+  activeComponents.push(cloneComp(c,0.01));
   initLibraryControls();
   renderCompositionTable();
-  setStatus(`${name} added as a custom pseudo-component.`, 'ok');
+  setStatus(`${name} added as a custom pseudo-component. Enter/edit its mole fraction in the zᵢ column.`, 'ok');
 }
 function removeComponent(i){
   syncZFromInputs();
