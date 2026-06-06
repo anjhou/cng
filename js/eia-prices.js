@@ -242,43 +242,40 @@ async function loadPrices(){
     status.innerHTML =
         `${chartData.length} series loaded`;
 }
+/**/
+						async function fetchSeries(seriesId){
 
-async function fetchSeries(seriesId){
+							const url =
+								`https://api.eia.gov/v2/seriesid/${encodeURIComponent(seriesId)}?api_key=${EIA_API_KEY}`;
 
-    const url =
-        `https://api.eia.gov/series/?api_key=${EIA_API_KEY}&series_id=${encodeURIComponent(seriesId)}`;
+							const response = await fetch(url);
 
-    const response =
-        await fetch(url);
+							if(!response.ok){
+								throw new Error(
+									`EIA API error ${response.status} for ${seriesId}`
+								);
+							}
 
-    const json =
-        await response.json();
+							const json = await response.json();
 
-    if(
-        !json.series ||
-        !json.series.length
-    ){
-        throw new Error(
-            "Series not found: " + seriesId
-        );
-    }
+							if(
+								!json.response ||
+								!Array.isArray(json.response.data)
+							){
+								throw new Error(
+									"Series not found or invalid EIA v2 response: " + seriesId
+								);
+							}
 
-    return json.series[0].data
-        .map(r => ({
-
-            date:normalizeDate(r[0]),
-
-            value:Number(r[1])
-        }))
-        .filter(r =>
-            Number.isFinite(r.value)
-        )
-        .sort(
-            (a,b)=>
-            a.date.localeCompare(b.date)
-        );
-}
-
+							return json.response.data
+								.map(r => ({
+									date: normalizeDate(r.period),
+									value: Number(r.value)
+								}))
+								.filter(r => Number.isFinite(r.value))
+								.sort((a,b) => a.date.localeCompare(b.date));
+						}
+1/**/
 function normalizeDate(date){
 
     date = String(date);
