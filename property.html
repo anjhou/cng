@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Engineering-Grade Stream Property Calculator</title>
   <link rel="stylesheet" href="css/property.css" />
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
   <main class="app-shell">
     <header class="header">
       <div>
@@ -41,6 +42,12 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
           </label>
           <label>Pressure
             <div class="unit-row"><input id="pressure" type="number" value="250" step="0.1" /><span>psia</span></div>
+          </label>
+          <label>Mass Flow
+            <div class="unit-row"><input id="massFlow" type="number" value="10000" step="1" min="0" /><span>lb/hr</span></div>
+          </label>
+          <label>Molar Flow
+            <div class="unit-row"><input id="molarFlow" type="number" value="" step="0.001" min="0" /><span>lbmol/hr</span></div>
           </label>
           <label>Liquid Density Method
             <select id="densityMethod">
@@ -103,6 +110,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
         <h2>Flash Summary</h2>
         <div id="status" class="status">Ready.</div>
         <table class="result-table"><tbody id="flashResults"></tbody></table>
+        <h2>Flow Conversions</h2>
+        <table class="result-table"><tbody id="flowResults"></tbody></table>
         <h2>Phase Properties</h2>
         <div class="phase-grid">
           <div><h3>Vapor</h3><table class="result-table"><tbody id="vaporResults"></tbody></table></div>
@@ -122,5 +131,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     </section>
   </main>
   <script src="js/property.js" defer></script>
+  
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
 </body>
 </html>
