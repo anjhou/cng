@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EIA Demand Data - Feedstock and Product Volume</title>
+
+  <link rel="stylesheet" href="eia-demand.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <main class="app">
+    <header>
+      <h1>EIA Demand Data</h1>
+      <p>Feedstock and product volume demand trends from EIA petroleum data.</p>
+    </header>
+
+    <section class="panel controls">
+      <label>
+        Date Range
+        <select id="dateRange">
+          <option value="52">Last 52 Weeks</option>
+          <option value="104">Last 2 Years</option>
+          <option value="260" selected>Last 5 Years</option>
+          <option value="520">Last 10 Years</option>
+        </select>
+      </label>
+
+      <button id="loadDemandBtn">Load Demand Data</button>
+      <button id="resetZoomBtn">Reset View</button>
+    </section>
+
+    <section class="panel">
+      <div id="statusText" class="status">Ready to load EIA demand data.</div>
+      <canvas id="demandChart"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>Selected Series</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Series</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
+        <tbody id="seriesTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="eia-demand.js"></script>
+</body>
+</html>
