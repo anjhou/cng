@@ -1,4 +1,1 @@
-class Units {
-  static apiToSG(api){ return 141.5 / (api + 131.5); }
-  static fmt(x, n=2){ return Number.isFinite(x) ? x.toLocaleString(undefined,{maximumFractionDigits:n}) : ""; }
-}
+class Units{static apiToSG(api){return 141.5/(api+131.5)}static fmt(x,n=2){return Number.isFinite(x)?x.toLocaleString(undefined,{maximumFractionDigits:n}):""}}
