@@ -1,125 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Integrated CDU / VDU Simulator</title>
-  <link rel="stylesheet" href="css/tower.css">
-</head>
-<body>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
-
-<main class="app">
-  <header class="hero">
-    <h1>Integrated CDU / VDU Simulator</h1>
-    <p>Crude assay selection updates TBP curve and petroleum properties.</p>
-  </header>
-
-  <section class="card">
-    <h2>Crude Feed and Assay Selection</h2>
-    <div class="grid">
-      <label>Crude Assay<select id="assaySelect"></select></label>
-      <label>Feed Rate, BPD<input id="feedRate" type="number" value="100000"></label>
-      <label>API Gravity<input id="apiGravity" type="number" step="0.1"></label>
-      <label>Sulfur, wt%<input id="sulfur" type="number" step="0.01"></label>
-      <label>TAN, mg KOH/g<input id="tan" type="number" step="0.01"></label>
-      <label>CCR, wt%<input id="ccr" type="number" step="0.1"></label>
-      <label>Chloride, ppm<input id="chloride" type="number" step="0.1"></label>
-      <label>Nitrogen, ppm<input id="nitrogen" type="number" step="10"></label>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>PONA Analysis</h2>
-    <div class="grid">
-      <label>Paraffins, vol%<input id="ponaParaffins" type="number" step="0.1"></label>
-      <label>Olefins, vol%<input id="ponaOlefins" type="number" step="0.1"></label>
-      <label>Naphthenes, vol%<input id="ponaNaphthenes" type="number" step="0.1"></label>
-      <label>Aromatics, vol%<input id="ponaAromatics" type="number" step="0.1"></label>
-    </div>
-    <p id="ponaCheck" class="note"></p>
-  </section>
-
-  <section class="card">
-    <h2>TBP Curve Input, °F</h2>
-	<!-- -->
-	
-
-  <div class="grid">
-
-    <label>
-      Additional TBP Curve 1
-      <select id="tbpCompare1">
-        <option value="">None</option>
-      </select>
-    </label>
-
-    <label>
-      Additional TBP Curve 2
-      <select id="tbpCompare2">
-        <option value="">None</option>
-      </select>
-    </label>
-
-  </div>
-
-	<!-- -->
-	
-    <div class="grid">
-      <label>IBP<input id="tbp0" type="number"></label>
-      <label>10%<input id="tbp10" type="number"></label>
-      <label>30%<input id="tbp30" type="number"></label>
-      <label>50%<input id="tbp50" type="number"></label>
-      <label>70%<input id="tbp70" type="number"></label>
-      <label>90%<input id="tbp90" type="number"></label>
-      <label>FBP<input id="tbp100" type="number"></label>
-    </div>
-  </section>
-
-  <section class="card actions">
-    <button id="runBtn">Run Simulation</button>
-    <button id="resetAssayBtn">Reload Selected Assay</button>
-    <button id="csvBtn">Export CSV</button>
-  </section>
-
-  <section class="card">
-    <h2>TBP Curve</h2>
-    <canvas id="tbpChart"></canvas>
-  </section>
-
-  <section class="card">
-    <h2>Product Yield Estimate</h2>
-    <table id="productTable">
-      <thead><tr><th>Product</th><th>TBP Range, °F</th><th>Vol %</th><th>BPD</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </section>
-
-  <section class="card">
-    <h2>Engineering Report</h2>
-    <pre id="report"></pre>
-  </section>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrated CDU / VDU Simulator</title><link rel="stylesheet" href="css/tower.css"></head>
+<body><main class="app">
+<header class="hero"><h1>Integrated CDU / VDU Simulator</h1><p>Clean package with crude assay selection, report header, button feedback, and TBP curve comparison.</p></header>
+<section class="card"><h2>Report Header</h2><div class="grid">
+<label>Computer Name<input id="computerName" type="text" placeholder="Enter computer/workstation name"></label>
+<label>Engineer Name<input id="engineerName" type="text" placeholder="Optional"></label>
+<label>Project Name<input id="projectName" type="text" value="CDU / VDU Study"></label>
+</div></section>
+<section class="card"><h2>Crude Feed and Assay Selection</h2><div class="grid">
+<label>Crude Assay<select id="assaySelect"></select></label>
+<label>Feed Rate, BPD<input id="feedRate" type="number" value="100000" min="1" step="100"></label>
+<label>API Gravity<input id="apiGravity" type="number" step="0.1"></label>
+<label>Sulfur, wt%<input id="sulfur" type="number" step="0.01"></label>
+<label>TAN, mg KOH/g<input id="tan" type="number" step="0.01"></label>
+<label>CCR, wt%<input id="ccr" type="number" step="0.1"></label>
+<label>Chloride, ppm<input id="chloride" type="number" step="0.1"></label>
+<label>Nitrogen, ppm<input id="nitrogen" type="number" step="10"></label>
+</div></section>
+<section class="card"><h2>PONA Analysis</h2><div class="grid">
+<label>Paraffins, vol%<input id="ponaParaffins" type="number" step="0.1"></label>
+<label>Olefins, vol%<input id="ponaOlefins" type="number" step="0.1"></label>
+<label>Naphthenes, vol%<input id="ponaNaphthenes" type="number" step="0.1"></label>
+<label>Aromatics, vol%<input id="ponaAromatics" type="number" step="0.1"></label>
+</div><p id="ponaCheck" class="note"></p></section>
+<section class="card"><h2>TBP Curve Input, °F</h2><div class="grid">
+<label>IBP<input id="tbp0" type="number"></label><label>10%<input id="tbp10" type="number"></label>
+<label>30%<input id="tbp30" type="number"></label><label>50%<input id="tbp50" type="number"></label>
+<label>70%<input id="tbp70" type="number"></label><label>90%<input id="tbp90" type="number"></label>
+<label>FBP<input id="tbp100" type="number"></label>
+</div></section>
+<section class="card"><h2>TBP Curve Comparison</h2><div class="grid">
+<label>Additional TBP Curve 1<select id="tbpCompare1"><option value="">None</option></select></label>
+<label>Additional TBP Curve 2<select id="tbpCompare2"><option value="">None</option></select></label>
+</div></section>
+<section class="card actions"><button id="runBtn">Run Simulation</button><button id="resetAssayBtn">Reload Selected Assay</button><button id="csvBtn">Export CSV</button></section>
+<section class="card"><h2>TBP Curve</h2><canvas id="tbpChart"></canvas></section>
+<section class="card"><h2>Product Yield Estimate</h2><table id="productTable"><thead><tr><th>Product</th><th>TBP Range, °F</th><th>Vol %</th><th>BPD</th></tr></thead><tbody></tbody></table></section>
+<section class="card"><h2>Engineering Report</h2><pre id="report"></pre></section>
 </main>
-
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/units.js"></script>
-<script src="js/tbp.js"></script>
-<script src="js/assayManager.js"></script>
-<script src="js/productCuts.js"></script>
-<script src="js/chartManager.js"></script>
-<script src="js/timestamp.js"></script>
-<script src="js/report.js"></script>
-<script src="js/utility.js"></script>
-<script src="js/crudeTower.js"></script>
-
-</body>
-</html>
+<script src="js/units.js"></script><script src="js/systemInfo.js"></script><script src="js/tbp.js"></script>
+<script src="js/assayManager.js"></script><script src="js/productCuts.js"></script><script src="js/chartManager.js"></script>
+<script src="js/report.js"></script><script src="js/utility.js"></script><script src="js/crudeTower.js"></script>
+</body></html>
