@@ -18,6 +18,19 @@ class CrudeTowerApp {
 
     AssayManager.applyToForm(document.getElementById("assaySelect").value);
     this.run();
+	/**/
+				Utility.bindFlashButton(
+				"runBtn"
+					);
+
+					Utility.bindFlashButton(
+						"csvBtn"
+					);
+
+					Utility.bindFlashButton(
+						"resetAssayBtn"
+					); 
+	/**/
   }
 
   static getCurrentAssayProps(){
@@ -96,5 +109,28 @@ class CrudeTowerApp {
       tbody.appendChild(tr);
     });
   }
+  
+
+}
+
+  function flashButtonGreen(buttonId) {
+
+    const btn =
+    document.getElementById(buttonId);
+
+    btn.classList.add(
+        "button-success"
+    );
+
+    setTimeout(() => {
+
+        btn.classList.remove(
+            "button-success"
+        );
+
+    }, 1000);
+	
+	
+
 }
 document.addEventListener("DOMContentLoaded",()=>CrudeTowerApp.init());
