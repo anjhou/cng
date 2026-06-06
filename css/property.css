@@ -80,3 +80,42 @@
         grid-template-columns:1fr;
     }
 }
+
+/* v8 clean top run panel: buttons only, horizontal alignment */
+.top-run-panel.panel{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    padding:10px 15px;
+    margin-bottom:14px;
+    background:#f5f7fa;
+    border:1px solid #d8dde6;
+    border-radius:10px;
+}
+.top-run-panel .toolbar-btn{
+    min-width:175px;
+    height:40px;
+    border:none;
+    border-radius:7px;
+    color:white;
+    font-weight:800;
+    cursor:pointer;
+    transition:transform .15s ease, filter .15s ease;
+    white-space:nowrap;
+}
+.top-run-panel .toolbar-btn:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.04);
+}
+.run-btn{background:#1976D2;}
+.reset-btn{background:#EF6C00;}
+.normalize-btn{background:#2E7D32;}
+.clear-btn{background:#C62828;}
+@media(max-width:760px){
+    .top-run-panel .toolbar-btn{
+        flex:1 1 180px;
+        min-width:160px;
+    }
+}
