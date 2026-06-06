@@ -4,6 +4,7 @@ class CrudeTowerApp {
   static async init(){
     await AssayManager.load();
     AssayManager.populateDropdown("assaySelect");
+	AssayManager.populateComparisonDropdowns();
 
     document.getElementById("assaySelect").addEventListener("change", e=>AssayManager.applyToForm(e.target.value));
     document.getElementById("resetAssayBtn").addEventListener("click", ()=>AssayManager.applyToForm(document.getElementById("assaySelect").value));
@@ -17,7 +18,7 @@ class CrudeTowerApp {
     ["tbp0","tbp10","tbp30","tbp50","tbp70","tbp90","tbp100"].forEach(id=>document.getElementById(id).addEventListener("input",()=>this.previewTBP()));
 
     AssayManager.applyToForm(document.getElementById("assaySelect").value);
-    this.run();
+    
 	/**/
 				Utility.bindFlashButton(
 				"runBtn"
@@ -31,7 +32,69 @@ class CrudeTowerApp {
 						"resetAssayBtn"
 					); 
 	/**/
+						[
+						"tbpCompare1",
+						"tbpCompare2"
+					].forEach(id => {
+
+						document
+						.getElementById(id)
+						.addEventListener(
+							"change",
+							() => this.previewTBP()
+						);
+
+					});
+	/**/
+	
+	
+	this.run();
   }
+  
+  /**/
+					  static getComparisonCurves(){
+
+						const curves = [];
+
+						const ids = [
+							"tbpCompare1",
+							"tbpCompare2"
+						];
+
+						ids.forEach(id => {
+
+							const key =
+							document
+							.getElementById(id)
+							.value;
+
+							if(!key) return;
+
+							const assay =
+							AssayManager.get(key);
+
+							if(!assay) return;
+
+							const curve =
+							new TBPCurve(
+								assay.tbp
+							);
+
+							curves.push({
+
+								label:
+								assay.displayName || key,
+
+								curve:
+								curve.sampled(1)
+
+							});
+
+						});
+
+						return curves;
+					}
+  /**/
 
   static getCurrentAssayProps(){
     return {
@@ -70,12 +133,48 @@ class CrudeTowerApp {
     for(let i=1;i<arr.length;i++) if(arr[i]<=arr[i-1]) return false;
     return true;
   }
-
+/*
   static previewTBP(){
     const props=this.getCurrentAssayProps();
     if(this.validateTBP(props.tbp)) ChartManager.drawTBP(new TBPCurve(props.tbp).sampled(1));
   }
+*/
 
+/**/
+					static previewTBP(){
+
+						const props =
+						this.getCurrentAssayProps();
+
+						if(
+							this.validateTBP(
+								props.tbp
+							)
+						){
+
+							const mainCurve =
+							new TBPCurve(
+								props.tbp
+							);
+
+							const comparisonCurves =
+							this.getComparisonCurves();
+
+							ChartManager.drawTBPComparison(
+								{
+									label:
+									"Selected / Current TBP",
+
+									curve:
+									mainCurve.sampled(1)
+								},
+								comparisonCurves
+							);
+
+						}
+
+					}
+/**/
   static run(){
     const assayKey=document.getElementById("assaySelect").value;
     const assayName=AssayManager.get(assayKey)?.displayName || assayKey;
@@ -92,13 +191,18 @@ class CrudeTowerApp {
     const products=ProductCuts.estimate(tbpCurve, feedRate);
 
     this.updatePONACheck();
-    ChartManager.drawTBP(tbpCurve.sampled(1));
+    /*ChartManager.drawTBP(tbpCurve.sampled(1));*/
+	ChartManager.drawTBPComparison({ label:
+        assayName,
+        curve:
+        tbpCurve.sampled(1)},
+    this.getComparisonCurves());
+	/**/
     this.renderProductTable(products);
 
     const result={assayName,feedRate,assayProps,sg,products};
     this.lastResult=result;
-    document.getElementById("report").textContent=Report.build(result);
-  }
+    document.getElementById("report").textContent=Report.build(result); }
 
   static renderProductTable(products){
     const tbody=document.querySelector("#productTable tbody");

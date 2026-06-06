@@ -14,6 +14,45 @@ class AssayManager {
       select.appendChild(opt);
     });
   }
+  /**/
+  static populateComparisonDropdowns(){
+
+    const ids = [
+        "tbpCompare1",
+        "tbpCompare2"
+    ];
+
+    ids.forEach(id => {
+
+        const select =
+        document.getElementById(id);
+
+        if(!select) return;
+
+        select.innerHTML =
+        `<option value="">None</option>`;
+
+        Object.entries(this.assays)
+        .forEach(([key, assay]) => {
+
+            const opt =
+            document.createElement("option");
+
+            opt.value =
+            key;
+
+            opt.textContent =
+            assay.displayName || key;
+
+            select.appendChild(opt);
+
+        });
+
+    });
+
+}
+  /**/
+  
   static get(key){ return this.assays[key]; }
   static applyToForm(key){
     const a = this.get(key);
