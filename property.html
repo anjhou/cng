@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering-Grade Stream Property Calculator</title>
+  <link rel="stylesheet" href="property.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="header">
+      <div>
+        <h1>Engineering-Grade Stream Property Calculator</h1>
+        <p>EOS flash and stream-property screening tool for hydrocarbon and polar systems.</p>
+      </div>
+      <div class="badge">PR EOS / Lee-Kesler / NRTL</div>
+    </header>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Stream Inputs</h2>
+        <div class="form-grid">
+          <label>Property Package
+            <select id="propertyPackage">
+              <option value="PR">Peng-Robinson EOS</option>
+              <option value="LK">Lee-Kesler Corresponding States</option>
+              <option value="NRTL">NRTL Activity Coefficient</option>
+            </select>
+          </label>
+          <label>Flash Mode
+            <select id="flashMode">
+              <option value="TP">T-P Flash</option>
+            </select>
+          </label>
+          <label>Temperature
+            <div class="unit-row"><input id="temperature" type="number" value="100" step="0.1" /><span>°F</span></div>
+          </label>
+          <label>Pressure
+            <div class="unit-row"><input id="pressure" type="number" value="250" step="0.1" /><span>psia</span></div>
+          </label>
+          <label>Liquid Density Method
+            <select id="densityMethod">
+              <option value="rackett">Rackett-like estimate</option>
+              <option value="ideal">Ideal volume mixing</option>
+            </select>
+          </label>
+          <label>Viscosity Method
+            <select id="viscosityMethod">
+              <option value="simple">LBC / log-mixing screening</option>
+            </select>
+          </label>
+        </div>
+
+        <h3>Overall Composition</h3>
+        <div class="table-wrap">
+          <table id="compositionTable">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>MW</th>
+                <th>Tc, °R</th>
+                <th>Pc, psia</th>
+                <th>ω</th>
+                <th>zᵢ</th>
+              </tr>
+            </thead>
+            <tbody id="compositionBody"></tbody>
+          </table>
+        </div>
+        <div class="button-row">
+          <button id="normalizeBtn">Normalize</button>
+          <button id="calculateBtn" class="primary">Run Flash & Properties</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+        <p class="small-note">This implementation is rigorous enough for engineering screening. Final design should be checked against validated physical-property databanks and plant/assay data.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Flash Summary</h2>
+        <div id="status" class="status">Ready.</div>
+        <table class="result-table"><tbody id="flashResults"></tbody></table>
+
+        <h2>Phase Properties</h2>
+        <div class="phase-grid">
+          <div>
+            <h3>Vapor</h3>
+            <table class="result-table"><tbody id="vaporResults"></tbody></table>
+          </div>
+          <div>
+            <h3>Liquid</h3>
+            <table class="result-table"><tbody id="liquidResults"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Phase Composition</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Component</th><th>zᵢ</th><th>xᵢ Liquid</th><th>yᵢ Vapor</th><th>Kᵢ</th></tr>
+          </thead>
+          <tbody id="phaseComposition"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="property.js"></script>
+</body>
+</html>
