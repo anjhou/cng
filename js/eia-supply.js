@@ -1,3 +1,5 @@
+const EIA_API_KEY = "KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT";
+
 let supplyChart = null;
 let mergedRows = [];
 
@@ -6,9 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("exportBtn").addEventListener("click", exportCsv);
 });
 
-async function fetchSeries(seriesId, apiKey, limit) {
+async function fetchSeries(seriesId, limit) {
     const url =
-        `https://api.eia.gov/v2/seriesid/${encodeURIComponent(seriesId)}?api_key=${apiKey}`;
+        `https://api.eia.gov/v2/seriesid/${encodeURIComponent(seriesId)}?api_key=${EIA_API_KEY}`;
 
     const response = await fetch(url);
 
@@ -34,16 +36,9 @@ async function fetchSeries(seriesId, apiKey, limit) {
 }
 
 async function loadEiaSupply() {
-    const apiKey = document.getElementById("apiKey").value.trim();
     const limit = Number(document.getElementById("limit").value || 60);
     const status = document.getElementById("status");
-
     const selected = getSelectedSeries();
-
-    if (!apiKey) {
-        alert("Enter EIA API Key");
-        return;
-    }
 
     if (selected.length === 0) {
         alert("Select one or more series");
@@ -54,9 +49,7 @@ async function loadEiaSupply() {
         status.innerHTML = "Loading...";
 
         const allData = await Promise.all(
-            selected.map(series =>
-                fetchSeries(series.id, apiKey, limit)
-            )
+            selected.map(series => fetchSeries(series.id, limit))
         );
 
         buildMergedData(allData);
@@ -90,14 +83,11 @@ function buildMergedData(allData) {
     });
 
     mergedRows = [...periodMap.values()]
-        .sort((a, b) =>
-            String(a.period).localeCompare(String(b.period))
-        );
+        .sort((a, b) => String(a.period).localeCompare(String(b.period)));
 }
 
 function drawChart(selected) {
-    const canvas = document.getElementById("supplyChart");
-    const ctx = canvas.getContext("2d");
+    const ctx = document.getElementById("supplyChart").getContext("2d");
 
     if (supplyChart) {
         supplyChart.destroy();
@@ -105,10 +95,8 @@ function drawChart(selected) {
 
     supplyChart = new Chart(ctx, {
         type: "line",
-
         data: {
             labels: mergedRows.map(row => row.period),
-
             datasets: selected.map(series => ({
                 label: series.label,
                 data: mergedRows.map(row => row[series.id] ?? null),
@@ -118,49 +106,22 @@ function drawChart(selected) {
                 spanGaps: true
             }))
         },
-
         options: {
             responsive: true,
             maintainAspectRatio: false,
-
             interaction: {
                 mode: "index",
                 intersect: false
             },
-
             plugins: {
                 legend: {
                     display: true,
-                    position: "bottom",
-                    onClick: (event, legendItem, legend) => {
-                        const chart = legend.chart;
-                        const index = legendItem.datasetIndex;
-
-                        chart.setDatasetVisibility(
-                            index,
-                            !chart.isDatasetVisible(index)
-                        );
-
-                        chart.update();
-                    }
+                    position: "bottom"
                 },
-
                 tooltip: {
-                    enabled: true,
-                    callbacks: {
-                        label: context => {
-                            const value = context.parsed.y;
-
-                            if (value === null || value === undefined) {
-                                return `${context.dataset.label}: N/A`;
-                            }
-
-                            return `${context.dataset.label}: ${value.toLocaleString()}`;
-                        }
-                    }
+                    enabled: true
                 }
             },
-
             scales: {
                 x: {
                     title: {
@@ -168,15 +129,10 @@ function drawChart(selected) {
                         text: "Period"
                     }
                 },
-
                 y: {
                     title: {
                         display: true,
                         text: "Volume, thousand barrels/day"
-                    },
-
-                    ticks: {
-                        callback: value => Number(value).toLocaleString()
                     }
                 }
             }
@@ -200,19 +156,13 @@ function drawTable(selected) {
 
         selected.forEach(series => {
             const value = row[series.id];
-
-            html += `<td>${
-                value === undefined || value === null
-                    ? ""
-                    : value.toLocaleString()
-            }</td>`;
+            html += `<td>${value == null ? "" : value.toLocaleString()}</td>`;
         });
 
         html += "</tr>";
     });
 
     html += "</tbody>";
-
     table.innerHTML = html;
 }
 
@@ -234,22 +184,17 @@ function exportCsv() {
     mergedRows.forEach(row => {
         const values = [
             row.period,
-            ...selected.map(series => {
-                const value = row[series.id];
-                return value === undefined || value === null ? "" : value;
-            })
+            ...selected.map(series => row[series.id] ?? "")
         ];
 
         csvRows.push(values.join(","));
     });
 
-    const blob = new Blob(
-        [csvRows.join("\n")],
-        { type: "text/csv;charset=utf-8;" }
-    );
+    const blob = new Blob([csvRows.join("\n")], {
+        type: "text/csv;charset=utf-8;"
+    });
 
     const link = document.createElement("a");
-
     link.href = URL.createObjectURL(blob);
     link.download = "eia_supply_data.csv";
     link.click();
