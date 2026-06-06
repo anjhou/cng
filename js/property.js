@@ -205,7 +205,7 @@ function removeComponent(i){
   setStatus(`${removed.name} removed from stream.`, 'ok');
 }
 function resetExample(){ activeComponents = defaultNames.map(n=>cloneComp(byName(n), defaultZByName[n] || 0)); renderCompositionTable(); calculate(); }
-function clearStream(){ activeComponents = []; renderCompositionTable(); ['flashResults','vaporResults','liquidResults','phaseComposition'].forEach(id=>$(id).innerHTML=''); setStatus('Stream cleared. Add components from the library.', 'warn'); }
+function clearStream(){ activeComponents = []; renderCompositionTable(); ['flashResults','flowResults','vaporResults','liquidResults','phaseComposition'].forEach(id=>$(id).innerHTML=''); setStatus('Stream cleared. Add components from the library.', 'warn'); }
 function setStatus(msg, cls='ok'){ $('status').className = `status ${cls}`; $('status').textContent = msg; }
 
 function wilsonK(T,P, comps=activeComponents){ return comps.map(c => clamp((c.Pc/P) * Math.exp(5.373*(1+c.omega)*(1 - c.Tc/T)), 1e-8, 1e8)); }
@@ -269,10 +269,73 @@ function vaporViscosity(x, comps=activeComponents){ return sum(x.map((xi,i)=>xi*
 function liquidViscosity(x, comps=activeComponents){ return Math.exp(sum(x.map((xi,i)=>xi*Math.log(Math.max(comps[i].muL,1e-6))))); }
 function thermalConductivityVapor(x, comps=activeComponents){ return sum(x.map((xi,i)=>xi*comps[i].kV)); }
 function apiGravity(rho){ const sg=rho/62.4; return 141.5/sg-131.5; }
+
+function componentHeatingValue(c){
+  const table = {
+    'Hydrogen':[61000,51600], 'Carbon Monoxide':[4340,4340], 'Methane':[23880,21520], 'Ethane':[22320,20440],
+    'Propane':[21660,19940], 'i-Butane':[21240,19660], 'n-Butane':[21240,19660], 'i-Pentane':[20900,19400],
+    'n-Pentane':[20900,19400], 'n-Hexane':[20550,19100], 'n-Heptane':[20300,18900], 'n-Octane':[20150,18750],
+    'n-Nonane':[20040,18670], 'n-Decane':[19950,18600], 'Ethylene':[21630,20400], 'Propylene':[20900,19590],
+    '1-Butene':[20680,19380], 'Benzene':[18100,17300], 'Toluene':[18350,17480], 'Ethylbenzene':[18480,17600],
+    'p-Xylene':[18480,17600], 'm-Xylene':[18480,17600], 'o-Xylene':[18480,17600], 'Methanol':[9750,8600],
+    'Ethanol':[12800,11600], 'Acetone':[13200,12200], 'Water':[0,0], 'Nitrogen':[0,0], 'Oxygen':[0,0],
+    'Carbon Dioxide':[0,0], 'Hydrogen Sulfide':[6500,6000], 'Helium':[0,0], 'Argon':[0,0]
+  };
+  if(table[c.name]) return {HHV:table[c.name][0], LHV:table[c.name][1]};
+  if(c.group === 'Paraffins') return {HHV:20000, LHV:18650};
+  if(c.group === 'Aromatics') return {HHV:18400, LHV:17600};
+  if(c.group === 'Olefins') return {HHV:20700, LHV:19400};
+  if(c.group === 'Polar') return {HHV:12000, LHV:10800};
+  return {HHV:19000, LHV:17600};
+}
+function heatingValue(x, comps=activeComponents){
+  const mw = mixtureMW(x,comps);
+  if(mw <= EPS) return {HHV:0,LHV:0};
+  const hhvMolar = sum(x.map((xi,i)=>xi*componentHeatingValue(comps[i]).HHV*comps[i].MW));
+  const lhvMolar = sum(x.map((xi,i)=>xi*componentHeatingValue(comps[i]).LHV*comps[i].MW));
+  return {HHV:hhvMolar/mw, LHV:lhvMolar/mw};
+}
+function cpCvRatio(Cp, MW){
+  const Rmass = 1.9858775 / Math.max(MW, EPS);
+  const Cv = Cp - Rmass;
+  return Cv > 0 ? Cp / Cv : null;
+}
+function standardVaporDensity(x, comps=activeComponents, pkg='PR'){
+  const Ts = 60 + 459.67, Ps = 14.696;
+  const Zs = pkg === 'LK' ? pseudoLKZ(Ts, Ps, x, comps) : prZ(Ts, Ps, x, 'V', comps);
+  return Ps * mixtureMW(x, comps) / (Math.max(Zs, EPS) * R * Ts);
+}
+function standardLiquidDensity(x, comps=activeComponents){
+  return liquidDensityIdeal(x, comps);
+}
+function buildFlowResults(beta, z, x, y, liq, vap, pkg){
+  const overallMW = mixtureMW(z);
+  const massIn = Math.max(0, Number($('massFlow') ? $('massFlow').value : 0) || 0);
+  const molarIn = Math.max(0, Number($('molarFlow') ? $('molarFlow').value : 0) || 0);
+  const totalMolar = massIn > 0 ? massIn / Math.max(overallMW, EPS) : molarIn;
+  const totalMass = massIn > 0 ? massIn : totalMolar * overallMW;
+  const vaporMolar = totalMolar * beta;
+  const liquidMolar = totalMolar * (1 - beta);
+  const vaporMass = vaporMolar * vap.MW;
+  const liquidMass = liquidMolar * liq.MW;
+  const rhoLstd = standardLiquidDensity(x);
+  const scfPerLbmol = R * (60 + 459.67) / 14.696;
+  const vaporSCFH = vaporMolar * scfPerLbmol;
+  const vaporMMSCFD = vaporSCFH * 24 / 1e6;
+  const liquidFt3Hr = liquidMass / Math.max(rhoLstd, EPS);
+  const liquidGPM = liquidFt3Hr * 7.48052 / 60;
+  const liquidBPD = liquidFt3Hr * 24 / 5.614583;
+  const rhoVstd = standardVaporDensity(y, activeComponents, pkg);
+  return {totalMass,totalMolar,vaporMolar,liquidMolar,vaporMass,liquidMass,rhoLstd,rhoVstd,liquidGPM,liquidBPD,vaporSCFH,vaporMMSCFD,basis: massIn > 0 ? 'Mass flow input used; molar flow calculated from overall MW.' : 'Molar flow input used; mass flow calculated from overall MW.'};
+}
 function phaseProps(T,P,comp,phase,Z, comps=activeComponents){
-  const MW=mixtureMW(comp,comps), Cp=idealCp(comp,comps);
-  if(phase==='V'){ const rho=vaporDensity(T,P,comp,Z,comps); return {MW,Cp,Z,rho,mu:vaporViscosity(comp,comps),k:thermalConductivityVapor(comp,comps),sg:MW/28.967,api:null,h:Cp*((T-459.67)-60)}; }
-  const rho=$('densityMethod').value==='ideal'?liquidDensityIdeal(comp,comps):liquidDensityRackett(T,comp,comps); return {MW,Cp,Z,rho,mu:liquidViscosity(comp,comps),k:null,sg:rho/62.4,api:apiGravity(rho),h:Cp*((T-459.67)-60)};
+  const MW=mixtureMW(comp,comps), Cp=idealCp(comp,comps), hv=heatingValue(comp,comps), kRatio=cpCvRatio(Cp,MW);
+  if(phase==='V'){
+    const rho=vaporDensity(T,P,comp,Z,comps);
+    return {MW,Cp,Cv:Cp-(1.9858775/Math.max(MW,EPS)),kRatio,Z,rho,mu:vaporViscosity(comp,comps),k:thermalConductivityVapor(comp,comps),sg:MW/28.967,api:null,h:Cp*((T-459.67)-60),HHV:hv.HHV,LHV:hv.LHV,rhoStd:standardVaporDensity(comp,comps,$('propertyPackage').value)};
+  }
+  const rho=$('densityMethod').value==='ideal'?liquidDensityIdeal(comp,comps):liquidDensityRackett(T,comp,comps);
+  return {MW,Cp,Cv:Cp-(1.9858775/Math.max(MW,EPS)),kRatio,Z,rho,mu:liquidViscosity(comp,comps),k:null,sg:rho/62.4,api:apiGravity(rho),h:Cp*((T-459.67)-60),HHV:hv.HHV,LHV:hv.LHV,rhoStd:standardLiquidDensity(comp,comps)};
 }
 function rowTable(rows){ return rows.map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join(''); }
 
@@ -287,10 +350,12 @@ function calculate(){
     else if(pkg==='LK'){ const K=wilsonK(T,P); const beta=solveBeta(z,K); let x=z.map((zi,i)=>zi/(1+beta*(K[i]-1))); let y=x.map((xi,i)=>K[i]*xi); const sx=sum(x), sy=sum(y); flash={beta,x:x.map(v=>v/sx),y:y.map(v=>v/sy),K}; status='Lee-Kesler mode uses corresponding-states Z with Wilson flash estimate.'; }
     else { const gamma=nrtlGamma(z,T); const K=wilsonK(T,P).map((v,i)=>clamp(v*gamma[i],1e-8,1e8)); const beta=solveBeta(z,K); let x=z.map((zi,i)=>zi/(1+beta*(K[i]-1))); let y=x.map((xi,i)=>K[i]*xi); const sx=sum(x), sy=sum(y); flash={beta,x:x.map(v=>v/sx),y:y.map(v=>v/sy),K,gamma}; status='NRTL mode applies simplified activity coefficients. Replace with real binary parameters for design.'; }
     const Zv=pkg==='LK'?pseudoLKZ(T,P,flash.y):prZ(T,P,flash.y,'V'); const Zl=pkg==='LK'?0.05:prZ(T,P,flash.x,'L'); const vap=phaseProps(T,P,flash.y,'V',Zv); const liq=phaseProps(T,P,flash.x,'L',Zl);
+    const flow = buildFlowResults(flash.beta, z, flash.x, flash.y, liq, vap, pkg);
     setStatus(status,'ok');
-    $('flashResults').innerHTML=rowTable([['Temperature',fmt(T-459.67,2)+' °F'],['Pressure',fmt(P,2)+' psia'],['Vapor Fraction β',fmt(flash.beta,6)],['Liquid Fraction',fmt(1-flash.beta,6)],['Components in Stream',String(activeComponents.length)],['Overall MW',fmt(mixtureMW(z),3)+' lb/lbmol'],['Package',pkg]]);
-    $('vaporResults').innerHTML=rowTable([['MW',fmt(vap.MW,3)],['Z',fmt(vap.Z,5)],['Density',fmt(vap.rho,5)+' lb/ft³'],['Gas SG, air=1',fmt(vap.sg,4)],['Cp',fmt(vap.Cp,4)+' Btu/lb-°F'],['Viscosity',fmt(vap.mu,5)+' cP'],['Thermal Conductivity',fmt(vap.k,5)+' Btu/hr-ft-°F'],['Relative Enthalpy',fmt(vap.h,2)+' Btu/lb']]);
-    $('liquidResults').innerHTML=rowTable([['MW',fmt(liq.MW,3)],['EOS Z root',fmt(liq.Z,5)],['Density',fmt(liq.rho,5)+' lb/ft³'],['Liquid SG',fmt(liq.sg,4)],['API Gravity',fmt(liq.api,2)],['Cp',fmt(liq.Cp,4)+' Btu/lb-°F'],['Viscosity',fmt(liq.mu,5)+' cP'],['Relative Enthalpy',fmt(liq.h,2)+' Btu/lb']]);
+    $('flashResults').innerHTML=rowTable([['Temperature',fmt(T-459.67,2)+' °F'],['Pressure',fmt(P,2)+' psia'],['Vapor Fraction β',fmt(flash.beta,6)],['Liquid Fraction',fmt(1-flash.beta,6)],['Components in Stream',String(activeComponents.length)],['Overall MW',fmt(mixtureMW(z),3)+' lb/lbmol'],['Overall HHV',fmt(heatingValue(z).HHV,1)+' Btu/lb'],['Overall LHV',fmt(heatingValue(z).LHV,1)+' Btu/lb'],['Package',pkg]]);
+    $('flowResults').innerHTML=rowTable([['Flow Basis',flow.basis],['Total Mass Flow',fmt(flow.totalMass,2)+' lb/hr'],['Total Molar Flow',fmt(flow.totalMolar,4)+' lbmol/hr'],['Liquid Mass Flow',fmt(flow.liquidMass,2)+' lb/hr'],['Liquid Molar Flow',fmt(flow.liquidMolar,4)+' lbmol/hr'],['Liquid Standard Density @ 60°F',fmt(flow.rhoLstd,4)+' lb/ft³'],['Liquid Rate',fmt(flow.liquidGPM,3)+' gpm'],['Liquid Rate',fmt(flow.liquidBPD,3)+' bpd'],['Vapor Mass Flow',fmt(flow.vaporMass,2)+' lb/hr'],['Vapor Molar Flow',fmt(flow.vaporMolar,4)+' lbmol/hr'],['Vapor Standard Density @ 60°F, 14.7 psia',fmt(flow.rhoVstd,6)+' lb/ft³'],['Vapor Rate',fmt(flow.vaporSCFH,3)+' SCFH'],['Vapor Rate',fmt(flow.vaporMMSCFD,6)+' MMSCFD']]);
+    $('vaporResults').innerHTML=rowTable([['MW',fmt(vap.MW,3)],['Z',fmt(vap.Z,5)],['Density at T/P',fmt(vap.rho,5)+' lb/ft³'],['Standard Density @ 60°F, 14.7 psia',fmt(vap.rhoStd,6)+' lb/ft³'],['Gas SG, air=1',fmt(vap.sg,4)],['Cp',fmt(vap.Cp,4)+' Btu/lb-°F'],['Cv',fmt(vap.Cv,4)+' Btu/lb-°F'],['Cp/Cv',vap.kRatio?fmt(vap.kRatio,4):'N/A'],['HHV',fmt(vap.HHV,1)+' Btu/lb'],['LHV',fmt(vap.LHV,1)+' Btu/lb'],['Viscosity',fmt(vap.mu,5)+' cP'],['Thermal Conductivity',fmt(vap.k,5)+' Btu/hr-ft-°F'],['Relative Enthalpy',fmt(vap.h,2)+' Btu/lb']]);
+    $('liquidResults').innerHTML=rowTable([['MW',fmt(liq.MW,3)],['EOS Z root',fmt(liq.Z,5)],['Density at T/P',fmt(liq.rho,5)+' lb/ft³'],['Standard Density @ 60°F',fmt(liq.rhoStd,5)+' lb/ft³'],['Liquid SG',fmt(liq.sg,4)],['API Gravity',fmt(liq.api,2)],['Cp',fmt(liq.Cp,4)+' Btu/lb-°F'],['Cv',fmt(liq.Cv,4)+' Btu/lb-°F'],['Cp/Cv',liq.kRatio?fmt(liq.kRatio,4):'N/A'],['HHV',fmt(liq.HHV,1)+' Btu/lb'],['LHV',fmt(liq.LHV,1)+' Btu/lb'],['Viscosity',fmt(liq.mu,5)+' cP'],['Relative Enthalpy',fmt(liq.h,2)+' Btu/lb']]);
     $('phaseComposition').innerHTML=activeComponents.map((c,i)=>`<tr><td>${c.name}</td><td>${fmt(z[i],6)}</td><td>${fmt(flash.x[i],6)}</td><td>${fmt(flash.y[i],6)}</td><td>${fmt(flash.K[i],5)}</td></tr>`).join('');
   } catch(err){ setStatus(err.message,'warn'); }
 }
