@@ -13,7 +13,6 @@
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script>
 
-
   <main class="app-shell">
     <header class="header">
       <div>
@@ -36,15 +35,17 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       </div>
     </section>
 
-    <nav class="tabs" aria-label="Property calculator tabs">
-      <button class="tab-button active" type="button" data-tab="streamTab">Stream Input</button>
-      <button class="tab-button" type="button" data-tab="flashTab">Flash Summary</button>
-      <button class="tab-button" type="button" data-tab="flowTab">Flow Conversions</button>
-      <button class="tab-button" type="button" data-tab="phaseTab">Phase Properties</button>
-      <button class="tab-button" type="button" data-tab="compositionTab">Phase Composition</button>
-    </nav>
+    <div class="workspace">
+      <nav class="sidebar-tabs" aria-label="Property calculator tabs">
+        <button class="tab-button tab-stream active" type="button" data-tab="streamTab">Stream Input</button>
+        <button class="tab-button tab-flash" type="button" data-tab="flashTab">Flash Summary</button>
+        <button class="tab-button tab-flow" type="button" data-tab="flowTab">Flow Conversions</button>
+        <button class="tab-button tab-phase" type="button" data-tab="phaseTab">Phase Properties</button>
+        <button class="tab-button tab-composition" type="button" data-tab="compositionTab">Phase Composition</button>
+      </nav>
 
-    <section id="streamTab" class="tab-panel active">
+      <section class="main-panel">
+        <section id="streamTab" class="tab-panel active">
       <div class="panel">
         <h2>Stream Inputs</h2>
         <div class="form-grid">
@@ -147,20 +148,21 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       </div>
     </section>
 
-    <section id="compositionTab" class="tab-panel">
-      <div class="panel">
-        <h2>Phase Composition</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Component</th><th>zᵢ</th><th>xᵢ Liquid</th><th>yᵢ Vapor</th><th>Kᵢ</th></tr></thead>
-            <tbody id="phaseComposition"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+        <section id="compositionTab" class="tab-panel">
+          <div class="panel">
+            <h2>Phase Composition</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Component</th><th>zᵢ</th><th>xᵢ Liquid</th><th>yᵢ Vapor</th><th>Kᵢ</th></tr></thead>
+                <tbody id="phaseComposition"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
   </main>
   <script src="js/property.js" defer></script>
-  
   <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
