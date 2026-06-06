@@ -1,11 +1,5 @@
 "use strict";
 
-/*
-  EIA demand chart
-  Data source: U.S. Energy Information Administration petroleum API.
-  API key is intentionally kept outside the HTML file.
-*/
-
 const EIA_API_KEY = "KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT";
 
 const SERIES = [
@@ -13,12 +7,6 @@ const SERIES = [
     category: "Feedstock",
     label: "Crude Oil Refinery Inputs",
     seriesId: "WCRRIUS2",
-    unit: "Thousand barrels per day"
-  },
-  {
-    category: "Feedstock",
-    label: "Other Oils Refinery Inputs",
-    seriesId: "WORRIUS2",
     unit: "Thousand barrels per day"
   },
   {
@@ -35,7 +23,7 @@ const SERIES = [
   },
   {
     category: "Product",
-    label: "Kerosene-Type Jet Fuel Product Supplied",
+    label: "Jet Fuel Product Supplied",
     seriesId: "WKJUPUS2",
     unit: "Thousand barrels per day"
   },
@@ -50,15 +38,10 @@ const SERIES = [
 let demandChart = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const loadBtn = document.getElementById("loadDemandBtn");
-  const resetBtn = document.getElementById("resetZoomBtn");
+  document.getElementById("loadDemandBtn").addEventListener("click", loadDemandData);
 
-  loadBtn.addEventListener("click", loadDemandData);
-  resetBtn.addEventListener("click", () => {
-    if (demandChart) {
-      demandChart.resetZoom?.();
-      demandChart.update();
-    }
+  document.getElementById("resetZoomBtn").addEventListener("click", () => {
+    if (demandChart) demandChart.update();
   });
 
   populateSeriesTable();
@@ -70,15 +53,13 @@ function populateSeriesTable() {
   tbody.innerHTML = "";
 
   SERIES.forEach(item => {
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td>${item.category}</td>
-      <td>${item.label} <br><small>${item.seriesId}</small></td>
-      <td>${item.unit}</td>
+    tbody.innerHTML += `
+      <tr>
+        <td>${item.category}</td>
+        <td>${item.label}<br><small>${item.seriesId}</small></td>
+        <td>${item.unit}</td>
+      </tr>
     `;
-
-    tbody.appendChild(row);
   });
 }
 
@@ -89,16 +70,25 @@ async function loadDemandData() {
   try {
     status.textContent = "Loading EIA demand data...";
 
-    const seriesResults = await Promise.all(
-      SERIES.map(series => fetchEiaSeries(series.seriesId, weeks))
+    const settled = await Promise.allSettled(
+      SERIES.map(series => fetchEiaSeries(series, weeks))
     );
 
-    const labels = buildUnifiedDateLabels(seriesResults);
-    const datasets = seriesResults.map((result, index) => {
+    const validResults = settled
+      .filter(result => result.status === "fulfilled")
+      .map(result => result.value);
+
+    if (!validResults.length) {
+      throw new Error("No valid EIA demand series returned.");
+    }
+
+    const labels = buildUnifiedDateLabels(validResults);
+
+    const datasets = validResults.map(result => {
       const lookup = new Map(result.data.map(point => [point.period, point.value]));
 
       return {
-        label: SERIES[index].label,
+        label: result.label,
         data: labels.map(period => lookup.get(period) ?? null),
         borderWidth: 2,
         pointRadius: 0,
@@ -109,38 +99,37 @@ async function loadDemandData() {
     });
 
     renderChart(labels, datasets);
-    status.textContent = `Loaded ${SERIES.length} EIA demand series. Click legend items to show or hide lines. Hover over the chart to view values.`;
+
+    const failedCount = settled.filter(result => result.status === "rejected").length;
+
+    status.textContent =
+      failedCount > 0
+        ? `Loaded ${validResults.length} series. ${failedCount} unavailable series skipped.`
+        : `Loaded ${validResults.length} EIA demand series.`;
   } catch (error) {
     console.error(error);
     status.textContent = `Error loading EIA data: ${error.message}`;
   }
 }
 
-async function fetchEiaSeries(seriesId, limit) {
-  const url = new URL("https://api.eia.gov/v2/petroleum/sum/sndw/data/");
+async function fetchEiaSeries(series, limit) {
+  const url = new URL(`https://api.eia.gov/v2/seriesid/${series.seriesId}`);
 
   url.searchParams.set("api_key", EIA_API_KEY);
-  url.searchParams.set("frequency", "weekly");
-  url.searchParams.append("data[0]", "value");
-  url.searchParams.append("facets[series][]", seriesId);
+  url.searchParams.set("length", String(limit));
   url.searchParams.append("sort[0][column]", "period");
   url.searchParams.append("sort[0][direction]", "desc");
-  url.searchParams.set("offset", "0");
-  url.searchParams.set("length", String(limit));
 
   const response = await fetch(url.toString());
 
   if (!response.ok) {
-    throw new Error(`EIA API request failed for ${seriesId}: HTTP ${response.status}`);
+    throw new Error(`${series.seriesId} failed with HTTP ${response.status}`);
   }
 
   const json = await response.json();
+  const rows = json.response?.data || [];
 
-  if (!json.response || !Array.isArray(json.response.data)) {
-    throw new Error(`Invalid EIA response format for ${seriesId}`);
-  }
-
-  const data = json.response.data
+  const data = rows
     .map(row => ({
       period: row.period,
       value: Number(row.value)
@@ -149,10 +138,13 @@ async function fetchEiaSeries(seriesId, limit) {
     .sort((a, b) => a.period.localeCompare(b.period));
 
   if (!data.length) {
-    throw new Error(`No EIA data returned for ${seriesId}`);
+    throw new Error(`No EIA data returned for ${series.seriesId}`);
   }
 
-  return { seriesId, data };
+  return {
+    ...series,
+    data
+  };
 }
 
 function buildUnifiedDateLabels(seriesResults) {
@@ -191,12 +183,6 @@ function renderChart(labels, datasets) {
           position: "bottom",
           labels: {
             usePointStyle: true
-          },
-          onClick: (event, legendItem, legend) => {
-            const chart = legend.chart;
-            const index = legendItem.datasetIndex;
-            chart.setDatasetVisibility(index, !chart.isDatasetVisible(index));
-            chart.update();
           }
         },
         tooltip: {
@@ -205,10 +191,7 @@ function renderChart(labels, datasets) {
             title: items => `Week: ${items[0].label}`,
             label: item => {
               const value = item.parsed.y;
-              if (value === null || value === undefined) {
-                return `${item.dataset.label}: no data`;
-              }
-              return `${item.dataset.label}: ${value.toLocaleString()} Mbbl/d`;
+              return `${item.dataset.label}: ${value?.toLocaleString() ?? "No data"} Mbbl/d`;
             }
           }
         }
@@ -228,7 +211,6 @@ function renderChart(labels, datasets) {
             display: true,
             text: "Thousand barrels per day"
           },
-          beginAtZero: false,
           ticks: {
             callback: value => Number(value).toLocaleString()
           }
