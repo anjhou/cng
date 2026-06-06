@@ -71,6 +71,30 @@
       "100": 1250
     }
   },
+  "ArabHeavy": {
+    "displayName": "Arab Heavy - Heavy Sour",
+    "api": 27.0,
+    "sulfur": 2.8,
+    "tan": 0.28,
+    "ccr": 9.0,
+    "chloride": 11,
+    "nitrogen": 2500,
+    "pona": {
+      "paraffins": 30,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 30
+    },
+    "tbp": {
+      "0": 125,
+      "10": 255,
+      "30": 455,
+      "50": 660,
+      "70": 890,
+      "90": 1160,
+      "100": 1400
+    }
+  },
   "Mars": {
     "displayName": "Mars - Medium Sour",
     "api": 28.0,
