@@ -1,51 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>EIA Feedstock & Product Prices</title>
-
-    <link rel="stylesheet" href="css/eia-prices.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EIA Feedstock & Product Price Dashboard</title>
+  <link rel="stylesheet" href="css/eia-prices.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <header class="app-header">
+    <div>
+      <h1>EIA Feedstock & Product Price Dashboard</h1>
+      <p>Feedstock/product prices, dual-axis trend plots, spreads, normalization, and CSV export using EIA API v2.</p>
+    </div>
+  </header>
 
-<div class="panel">
-    <h1>EIA Feedstock and Product Price Plotter</h1>
+  <main class="layout">
+    <section class="panel control-panel">
+      <h2>Controls</h2>
+      <div class="grid controls-grid">
+        <label>
+          Frequency
+          <select id="frequencySelect">
+            <option value="D">Daily</option>
+            <option value="W">Weekly</option>
+            <option value="M">Monthly</option>
+          </select>
+        </label>
+        <label>
+          Lookback Period
+          <select id="lookbackSelect">
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3" selected>3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="10">10 Years</option>
+          </select>
+        </label>
+        <label>
+          Normalize Window
+          <select id="normalizeWindowSelect">
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3" selected>3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="10">10 Years</option>
+          </select>
+        </label>
+        <label>
+          Add Price Series
+          <select id="seriesLibrarySelect"></select>
+        </label>
+      </div>
 
-    <div class="button-bar">
-        <button id="btnLoad">Load / Refresh Prices</button>
-        <button id="btnAdd">Add Series</button>
+      <div class="button-bar">
+        <button id="btnAddSeries">Add Selected Series</button>
+        <button id="btnLoad">Load / Refresh EIA Data</button>
+        <button id="btnExport">Export Combined CSV</button>
         <button id="btnReset">Reset Defaults</button>
-    </div>
+      </div>
+      <div id="status" class="status">Ready.</div>
+    </section>
 
-    <div id="status" class="status">
-        Ready.
-    </div>
-</div>
-
-<div class="panel">
-    <h3>Price Series Configuration</h3>
-
-    <table id="seriesTable">
-        <thead>
+    <section class="panel">
+      <h2>Selected Price Series</h2>
+      <div class="table-wrap">
+        <table id="seriesTable">
+          <thead>
             <tr>
-                <th>Plot</th>
-                <th>Type</th>
-                <th>Label</th>
-                <th>EIA Series ID</th>
-                <th>Unit Display</th>
+              <th>Plot</th>
+              <th>Axis</th>
+              <th>Type</th>
+              <th>Label</th>
+              <th>Series ID</th>
+              <th>Unit</th>
+              <th>Remove</th>
             </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
 
-<div class="panel">
-    <canvas id="priceChart"></canvas>
-</div>
+    <section class="panel tabs-panel">
+      <div class="tabs">
+        <button class="tab active" data-tab="priceTab">Price Chart</button>
+        <button class="tab" data-tab="spreadTab">Spread Chart</button>
+        <button class="tab" data-tab="normalTab">Normalization</button>
+        <button class="tab" data-tab="dataTab">Data Table</button>
+      </div>
 
-<script src="js/eia-prices.js"></script>
+      <div id="priceTab" class="tab-content active">
+        <canvas id="priceChart"></canvas>
+      </div>
 
+      <div id="spreadTab" class="tab-content">
+        <div class="spread-builder">
+          <label>Product Series <select id="spreadProductSelect"></select></label>
+          <label>Feedstock Series <select id="spreadFeedSelect"></select></label>
+          <button id="btnAddSpread">Add Spread</button>
+        </div>
+        <div class="table-wrap small-wrap">
+          <table id="spreadTable">
+            <thead>
+              <tr><th>Plot</th><th>Spread</th><th>Formula</th><th>Remove</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <canvas id="spreadChart"></canvas>
+      </div>
+
+      <div id="normalTab" class="tab-content">
+        <label class="normal-select">Normalize Series <select id="normalSeriesSelect"></select></label>
+        <canvas id="normalChart"></canvas>
+      </div>
+
+      <div id="dataTab" class="tab-content">
+        <div class="table-wrap data-table-wrap">
+          <table id="dataTable"></table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/eia-prices.js"></script>
 </body>
 </html>
