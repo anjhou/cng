@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Engineering-Grade Stream Property Calculator</title>
@@ -78,7 +84,7 @@
           <table id="compositionTable">
             <thead>
               <tr>
-                <th>Component</th><th>MW</th><th>Tc, °R</th><th>Pc, psia</th><th>ω</th><th>zᵢ</th><th>Action</th>
+                <th>Component</th><th>MW</th><th>Tc, °R</th><th>Pc, psia</th><th>ω</th><th>zᵢ Mole Fraction<br><span class="th-note">editable</span></th><th>Action</th>
               </tr>
             </thead>
             <tbody id="compositionBody"></tbody>
