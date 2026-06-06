@@ -23,7 +23,28 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       <div class="badge">PR EOS / Lee-Kesler / NRTL</div>
     </header>
 
-    <section class="grid">
+    <section class="top-run-panel panel">
+      <div class="top-run-text">
+        <h2>Stream Calculation</h2>
+        <p>Set the stream in the tabs below, then run the flash and property calculations.</p>
+      </div>
+      <div class="top-button-row">
+        <button id="calculateBtn" class="primary">Run Flash &amp; Properties</button>
+        <button id="resetBtn">Reset Example</button>
+        <button id="normalizeBtn">Normalize Composition</button>
+        <button id="clearBtn">Clear Stream</button>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Property calculator tabs">
+      <button class="tab-button active" type="button" data-tab="streamTab">Stream Input</button>
+      <button class="tab-button" type="button" data-tab="flashTab">Flash Summary</button>
+      <button class="tab-button" type="button" data-tab="flowTab">Flow Conversions</button>
+      <button class="tab-button" type="button" data-tab="phaseTab">Phase Properties</button>
+      <button class="tab-button" type="button" data-tab="compositionTab">Phase Composition</button>
+    </nav>
+
+    <section id="streamTab" class="tab-panel active">
       <div class="panel">
         <h2>Stream Inputs</h2>
         <div class="form-grid">
@@ -97,21 +118,27 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
             <tbody id="compositionBody"></tbody>
           </table>
         </div>
-        <div class="button-row">
-          <button id="normalizeBtn">Normalize</button>
-          <button id="calculateBtn" class="primary">Run Flash & Properties</button>
-          <button id="resetBtn">Reset Example</button>
-          <button id="clearBtn">Clear Stream</button>
-        </div>
         <p class="small-note">Component data are representative engineering values for screening. Replace with your company databank/API assay values for final design.</p>
       </div>
+    </section>
 
+    <section id="flashTab" class="tab-panel">
       <div class="panel">
         <h2>Flash Summary</h2>
         <div id="status" class="status">Ready.</div>
         <table class="result-table"><tbody id="flashResults"></tbody></table>
+      </div>
+    </section>
+
+    <section id="flowTab" class="tab-panel">
+      <div class="panel">
         <h2>Flow Conversions</h2>
         <table class="result-table"><tbody id="flowResults"></tbody></table>
+      </div>
+    </section>
+
+    <section id="phaseTab" class="tab-panel">
+      <div class="panel">
         <h2>Phase Properties</h2>
         <div class="phase-grid">
           <div><h3>Vapor</h3><table class="result-table"><tbody id="vaporResults"></tbody></table></div>
@@ -120,13 +147,15 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Phase Composition</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Component</th><th>zᵢ</th><th>xᵢ Liquid</th><th>yᵢ Vapor</th><th>Kᵢ</th></tr></thead>
-          <tbody id="phaseComposition"></tbody>
-        </table>
+    <section id="compositionTab" class="tab-panel">
+      <div class="panel">
+        <h2>Phase Composition</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Component</th><th>zᵢ</th><th>xᵢ Liquid</th><th>yᵢ Vapor</th><th>Kᵢ</th></tr></thead>
+            <tbody id="phaseComposition"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
