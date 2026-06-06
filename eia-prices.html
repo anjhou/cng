@@ -8,6 +8,13 @@
   <link rel="stylesheet" href="css/eia-prices.css" />
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
   <header class="app-header">
     <div>
       <h1>EIA Feedstock & Product Price Dashboard</h1>
@@ -126,5 +133,9 @@
 
   <script src="js/simple-chart.js"></script>
   <script src="js/eia-prices.js"></script>
+  
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </body>
 </html>
