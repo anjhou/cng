@@ -79,14 +79,38 @@ function init(){
 }
 
 function initLibraryControls(){
-  const groups = [...new Set(componentLibrary.map(c=>c.group))];
-  $('componentGroup').innerHTML = groups.map(g=>`<option value="${g}">${g}</option>`).join('');
-  $('componentGroup').addEventListener('change', populateComponentPicker);
+  const groupSelect = $('componentGroup');
+  const picker = $('componentPicker');
+  if(!groupSelect || !picker){
+    console.error('Component controls not found in HTML.');
+    return;
+  }
+
+  const groups = ['All components', ...new Set(componentLibrary.map(c=>c.group).filter(Boolean))];
+  groupSelect.innerHTML = groups.map(g => `<option value="${g}">${g}</option>`).join('');
+
+  groupSelect.removeEventListener('change', populateComponentPicker);
+  groupSelect.addEventListener('change', populateComponentPicker);
+  groupSelect.value = 'All components';
   populateComponentPicker();
 }
+
 function populateComponentPicker(){
-  const g = $('componentGroup').value;
-  $('componentPicker').innerHTML = componentLibrary.filter(c=>c.group===g).map(c=>`<option value="${c.name}">${c.name} | MW ${fmt(c.MW,2)} | Tc ${fmt(c.Tc,1)} °R</option>`).join('');
+  const groupSelect = $('componentGroup');
+  const picker = $('componentPicker');
+  if(!groupSelect || !picker) return;
+
+  const g = groupSelect.value || 'All components';
+  const list = g === 'All components'
+    ? componentLibrary
+    : componentLibrary.filter(c => c.group === g);
+
+  picker.innerHTML = list
+    .map(c => `<option value="${c.name}">${c.name} | ${c.group} | MW ${fmt(c.MW,2)} | Tc ${fmt(c.Tc,1)} °R</option>`)
+    .join('');
+
+  picker.disabled = list.length === 0;
+  $('addComponentBtn').disabled = list.length === 0;
 }
 
 function renderCompositionTable(){
@@ -115,9 +139,13 @@ function normalizeComposition(){
 }
 function addSelectedComponent(){
   syncZFromInputs();
-  const name = $('componentPicker').value;
-  if(activeComponents.some(c=>c.name===name)){ setStatus(`${name} is already in the stream.`, 'warn'); return; }
-  activeComponents.push(cloneComp(byName(name),0));
+  const picker = $('componentPicker');
+  const name = picker ? picker.value : '';
+  if(!name){ setStatus('No component is selected. Choose a component from the library first.', 'warn'); return; }
+  const c = byName(name);
+  if(!c){ setStatus(`Component data not found for ${name}.`, 'warn'); return; }
+  if(activeComponents.some(item => item.name === name)){ setStatus(`${name} is already in the stream.`, 'warn'); return; }
+  activeComponents.push(cloneComp(c,0));
   renderCompositionTable();
   setStatus(`${name} added. Enter mole fraction and run calculation.`, 'ok');
 }
@@ -231,4 +259,36 @@ function calculate(){
   } catch(err){ setStatus(err.message,'warn'); }
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function startPropertyApp(){
+  try{
+    init();
+    const picker = $('componentPicker');
+    if(picker && picker.options.length === 0){
+      initLibraryControls();
+    }
+  } catch(err){
+    console.error(err);
+    const status = $('status');
+    if(status){
+      status.className = 'status warn';
+      status.textContent = 'Initialization error: ' + err.message;
+    }
+  }
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', startPropertyApp);
+} else {
+  startPropertyApp();
+}
+
+window.PropertyCalculator = {
+  componentLibrary,
+  populateComponentPicker,
+  addSelectedComponent,
+  addCustomComponent,
+  calculate,
+  normalizeComposition,
+  resetExample,
+  clearStream
+};
