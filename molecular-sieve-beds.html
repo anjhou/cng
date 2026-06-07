@@ -10,7 +10,13 @@
 
 <div id="header"></div>
 <script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+fetch("header.html")
+    .then(response => response.ok ? response.text() : "")
+    .then(markup => {
+        const headerTarget = document.getElementById("header");
+        if (headerTarget && markup) headerTarget.innerHTML = markup;
+    })
+    .catch(() => {});
 </script>
 
 <div class="page">
@@ -94,15 +100,51 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
                 </marker>
             </defs>
 
-            <g id="rangeTableOverlay" class="range-table-overlay">
-                <rect x="805" y="265" width="380" height="140" rx="10" class="range-table-bg"></rect>
-                <text x="820" y="287" class="range-title">Calculated Stream Range Summary</text>
-                <line x1="805" y1="297" x2="1185" y2="297" class="range-table-line"></line><line x1="805" y1="323" x2="1185" y2="323" class="range-table-line"></line><line x1="805" y1="349" x2="1185" y2="349" class="range-table-line"></line><line x1="805" y1="375" x2="1185" y2="375" class="range-table-line"></line><line x1="805" y1="401" x2="1185" y2="401" class="range-table-line"></line>
-                <line x1="925" y1="297" x2="925" y2="405" class="range-table-line"></line><line x1="1055" y1="297" x2="1055" y2="405" class="range-table-line"></line>
-                <text x="820" y="315" class="range-header">Parameter</text><text x="940" y="315" class="range-header">Minimum</text><text x="1070" y="315" class="range-header">Maximum</text>
-                <text x="820" y="341" class="range-text">Pressure</text><text x="940" y="341" class="range-text" id="minPressure">-</text><text x="1070" y="341" class="range-text" id="maxPressure">-</text>
-                <text x="820" y="367" class="range-text">Temperature</text><text x="940" y="367" class="range-text" id="minTemperature">-</text><text x="1070" y="367" class="range-text" id="maxTemperature">-</text>
-                <text x="820" y="393" class="range-text">Gas Flow</text><text x="940" y="393" class="range-text" id="minGasFlow">-</text><text x="1070" y="393" class="range-text" id="maxGasFlow">-</text>
+            <g id="cycleOperatingConditionTable" class="cycle-condition-overlay">
+                <rect x="665" y="245" width="520" height="186" rx="10" class="cycle-table-bg"></rect>
+                <text x="682" y="268" class="cycle-title">Cycle Operating Condition Table</text>
+
+                <line x1="665" y1="280" x2="1185" y2="280" class="cycle-table-line"></line>
+                <line x1="665" y1="305" x2="1185" y2="305" class="cycle-table-line"></line>
+                <line x1="665" y1="336" x2="1185" y2="336" class="cycle-table-line"></line>
+                <line x1="665" y1="367" x2="1185" y2="367" class="cycle-table-line"></line>
+                <line x1="665" y1="398" x2="1185" y2="398" class="cycle-table-line"></line>
+                <line x1="665" y1="431" x2="1185" y2="431" class="cycle-table-line"></line>
+
+                <line x1="790" y1="280" x2="790" y2="431" class="cycle-table-line"></line>
+                <line x1="852" y1="280" x2="852" y2="431" class="cycle-table-line"></line>
+                <line x1="942" y1="280" x2="942" y2="431" class="cycle-table-line"></line>
+                <line x1="1042" y1="280" x2="1042" y2="431" class="cycle-table-line"></line>
+
+                <text x="680" y="298" class="cycle-header">Cycle Step</text>
+                <text x="803" y="298" class="cycle-header">Bed</text>
+                <text x="865" y="298" class="cycle-header">Pressure</text>
+                <text x="955" y="298" class="cycle-header">Temp.</text>
+                <text x="1055" y="298" class="cycle-header">Moisture</text>
+
+                <text x="680" y="326" class="cycle-text" id="cycleStepName0">-</text>
+                <text x="803" y="326" class="cycle-text" id="cycleStepBed0">-</text>
+                <text x="865" y="326" class="cycle-text" id="cycleStepPressure0">-</text>
+                <text x="955" y="326" class="cycle-text" id="cycleStepTemperature0">-</text>
+                <text x="1055" y="326" class="cycle-text" id="cycleStepMoisture0">-</text>
+
+                <text x="680" y="357" class="cycle-text" id="cycleStepName1">-</text>
+                <text x="803" y="357" class="cycle-text" id="cycleStepBed1">-</text>
+                <text x="865" y="357" class="cycle-text" id="cycleStepPressure1">-</text>
+                <text x="955" y="357" class="cycle-text" id="cycleStepTemperature1">-</text>
+                <text x="1055" y="357" class="cycle-text" id="cycleStepMoisture1">-</text>
+
+                <text x="680" y="388" class="cycle-text" id="cycleStepName2">-</text>
+                <text x="803" y="388" class="cycle-text" id="cycleStepBed2">-</text>
+                <text x="865" y="388" class="cycle-text" id="cycleStepPressure2">-</text>
+                <text x="955" y="388" class="cycle-text" id="cycleStepTemperature2">-</text>
+                <text x="1055" y="388" class="cycle-text" id="cycleStepMoisture2">-</text>
+
+                <text x="680" y="419" class="cycle-text" id="cycleStepName3">-</text>
+                <text x="803" y="419" class="cycle-text" id="cycleStepBed3">-</text>
+                <text x="865" y="419" class="cycle-text" id="cycleStepPressure3">-</text>
+                <text x="955" y="419" class="cycle-text" id="cycleStepTemperature3">-</text>
+                <text x="1055" y="419" class="cycle-text" id="cycleStepMoisture3">-</text>
             </g>
 
             <text x="50" y="45" class="label">4-Bed Molecular Sieve Dehydrator</text>
@@ -179,8 +221,15 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <div id="pfdTooltip" class="pfd-tooltip"></div>
 <script src="js/molecular-sieve-beds.js"></script>
+<div id="footer"></div>
 <script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+fetch("footer.html")
+    .then(response => response.ok ? response.text() : "")
+    .then(markup => {
+        const footerTarget = document.getElementById("footer");
+        if (footerTarget && markup) footerTarget.innerHTML = markup;
+    })
+    .catch(() => {});
 </script>
 
 </body>
