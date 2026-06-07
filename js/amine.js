@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeTooltips();
     initializeLegendToggle();
     initializeFooterDate();
+	updateRangeTable();
 });
 
 function initializeTooltips() {
@@ -162,4 +163,99 @@ function initializeFooterDate() {
     document.querySelectorAll(".footer-date").forEach(element => {
         element.textContent = new Date().toLocaleDateString();
     });
+}
+
+function updateRangeTable() {
+    const streams = Object.values(streamData);
+
+    const temperatureValues = streams
+        .map(stream => parseNumber(stream.temperature))
+        .filter(value => Number.isFinite(value));
+
+    const pressureValues = streams
+        .map(stream => parseNumber(stream.pressure))
+        .filter(value => Number.isFinite(value));
+
+    const flowValues = streams
+        .map(stream => parseFlow(stream.flow))
+        .filter(item => item && Number.isFinite(item.value));
+
+    const minTemp = Math.min(...temperatureValues);
+    const maxTemp = Math.max(...temperatureValues);
+
+    const minPressure = Math.min(...pressureValues);
+    const maxPressure = Math.max(...pressureValues);
+
+    /*
+      Flow values are grouped by unit before comparing.
+      This avoids incorrectly comparing MMSCFD, GPM, and klb/hr directly.
+    */
+    const flowGroups = groupFlowsByUnit(flowValues);
+
+    const minFlowText = Object.entries(flowGroups)
+        .map(([unit, values]) => `${Math.min(...values)} ${unit}`)
+        .join(" / ");
+
+    const maxFlowText = Object.entries(flowGroups)
+        .map(([unit, values]) => `${Math.max(...values)} ${unit}`)
+        .join(" / ");
+
+    setSvgText("minTemperature", `${minTemp} °F`);
+    setSvgText("maxTemperature", `${maxTemp} °F`);
+
+    setSvgText("minPressure", `${minPressure} psig`);
+    setSvgText("maxPressure", `${maxPressure} psig`);
+
+    setSvgText("minFlow", minFlowText);
+    setSvgText("maxFlow", maxFlowText);
+}
+
+function parseNumber(value) {
+    if (!value) return NaN;
+
+    const match = String(value).match(/-?\d+(\.\d+)?/);
+    return match ? Number(match[0]) : NaN;
+}
+
+function parseFlow(flowText) {
+    if (!flowText) return null;
+
+    const match = String(flowText).trim().match(/^(-?\d+(\.\d+)?)\s*(.+)$/);
+
+    if (!match) return null;
+
+    return {
+        value: Number(match[1]),
+        unit: match[3].trim()
+    };
+}
+
+function groupFlowsByUnit(flowItems) {
+    return flowItems.reduce((groups, item) => {
+        if (!groups[item.unit]) {
+            groups[item.unit] = [];
+        }
+
+        groups[item.unit].push(item.value);
+        return groups;
+    }, {});
+}
+/*
+function setSvgText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
+}
+*/
+function setSvgText(id, value) {
+    const element = document.querySelector(`#${id}`);
+
+    if (!element) {
+        console.warn(`SVG range-table element not found: ${id}`);
+        return;
+    }
+
+    element.textContent = value;
 }
