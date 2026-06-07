@@ -201,3 +201,19 @@ svg {
         grid-template-columns: 1fr;
     }
 }
+
+.legend-item {
+    cursor: pointer;
+}
+
+.legend-item:hover {
+    opacity: 0.75;
+}
+
+.legend-disabled {
+    opacity: 0.25;
+}
+
+.hidden-stream {
+    display: none;
+}
