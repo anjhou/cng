@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
 <div id="header"></div>
 <script>
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
@@ -50,7 +51,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
     <section class="panel">
       <div id="statusText" class="status">Ready to load EIA demand data.</div>
-      <canvas id="demandChart"></canvas>
+
+      <div class="chart-container">
+        <canvas id="demandChart"></canvas>
+      </div>
     </section>
 
     <section class="panel">
