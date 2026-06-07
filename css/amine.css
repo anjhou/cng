@@ -216,6 +216,38 @@ svg {
     color: #111827;
 }
 
+.range-table-overlay {
+    pointer-events: none;
+}
+
+.range-table-bg {
+    fill: rgba(248, 250, 252, 0.94);
+    stroke: #64748b;
+    stroke-width: 1.5;
+}
+
+.range-table-line {
+    stroke: #cbd5e1;
+    stroke-width: 1;
+}
+
+.range-title {
+    font-size: 15px;
+    font-weight: bold;
+    fill: #1e3a8a;
+}
+
+.range-header {
+    font-size: 12px;
+    font-weight: bold;
+    fill: #111827;
+}
+
+.range-text {
+    font-size: 12px;
+    fill: #374151;
+}
+
 @media (max-width: 900px) {
     .pfd-footer {
         grid-template-columns: 1fr;
