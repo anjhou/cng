@@ -30,14 +30,101 @@ const DEFAULT_SERIES = [
   }
 ];
 
+const MONTHLY_SERIES = [
+  {
+    label: "Distillate Fuel Oil Product Supplied",
+    seriesId: "PET.MDIUPUS2.M",
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Sulfur Product Demand / Consumption",
+    seriesId: "PET.EPC0_SULF_NUS_DPC",
+    unit: "EIA reported unit"
+  },
+  {
+    label: "Crude Oil Stock Change / Supply Series",
+    seriesId: "PET.MCRSPUS1.M",
+    unit: "EIA reported unit"
+  },
+  {
+    label: "Crude Oil Refinery Inputs - Hydrocracking",
+    seriesId: "PET.MCRHCPUS1.M",
+    unit: "EIA reported unit"
+  },
+  {
+    label: "Crude Oil Refinery Inputs - Hydrotreating / Processing",
+    seriesId: "PET.MCRHPPUS1.M",
+    unit: "EIA reported unit"
+  },
+  {
+    label: "Natural Gas Industrial Consumption",
+    seriesId: "NG.N9130US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Electric Power Consumption",
+    seriesId: "NG.N9130US3.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Residential Consumption",
+    seriesId: "NG.N9130US1.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Total Consumption",
+    seriesId: "NG.NGTOTALUS.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Lease Fuel",
+    seriesId: "NG.N3010US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Pipeline Fuel",
+    seriesId: "NG.N3020US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Plant Fuel",
+    seriesId: "NG.N3030US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Vehicle Fuel",
+    seriesId: "NG.N3045US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Natural Gas Delivered to Consumers",
+    seriesId: "NG.N3050US2.M",
+    unit: "Million cubic feet"
+  },
+  {
+    label: "Kerosene-Type Jet Fuel Product Supplied",
+    seriesId: "PET.MCKCPUS1.M",
+    unit: "EIA reported unit"
+  },
+  {
+    label: "Kerosene Product Supplied",
+    seriesId: "PET.MCKPPUS1.M",
+    unit: "EIA reported unit"
+  }
+];
+
 let SERIES = [];
 let demandChart = null;
+let monthlyDemandChart = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  initializeTabs();
   initializeSeries();
+  populateMonthlyDropdown();
 
   document.getElementById("loadDemandBtn").addEventListener("click", loadDemandData);
   document.getElementById("addSeriesBtn").addEventListener("click", addSeries);
+  document.getElementById("loadMonthlyBtn").addEventListener("click", loadMonthlyData);
 
   document.getElementById("resetZoomBtn").addEventListener("click", () => {
     if (demandChart) {
@@ -49,7 +136,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   populateSeriesTable();
   loadDemandData();
+  loadMonthlyData();
 });
+
+function initializeTabs() {
+  document.querySelectorAll(".tab-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      const targetTab = button.dataset.tab;
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      document.querySelectorAll(".tab-content").forEach(tab => {
+        tab.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      document.getElementById(targetTab).classList.add("active");
+
+      setTimeout(() => {
+        if (demandChart) demandChart.resize();
+        if (monthlyDemandChart) monthlyDemandChart.resize();
+      }, 100);
+    });
+  });
+}
 
 function initializeSeries() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -77,6 +189,18 @@ function saveSeries() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(SERIES));
 }
 
+function populateMonthlyDropdown() {
+  const select = document.getElementById("monthlySeriesSelect");
+  select.innerHTML = "";
+
+  MONTHLY_SERIES.forEach(series => {
+    const option = document.createElement("option");
+    option.value = series.seriesId;
+    option.textContent = `${series.seriesId} - ${series.label}`;
+    select.appendChild(option);
+  });
+}
+
 async function addSeries() {
   const status = document.getElementById("statusText");
   const idInput = document.getElementById("newSeriesId");
@@ -92,7 +216,7 @@ async function addSeries() {
     return;
   }
 
-  const seriesId = normalizeSeriesId(rawId);
+  const seriesId = normalizeWeeklySeriesId(rawId);
 
   const exists = SERIES.some(
     item => item.seriesId.toUpperCase() === seriesId.toUpperCase()
@@ -131,7 +255,7 @@ async function addSeries() {
   }
 }
 
-function normalizeSeriesId(value) {
+function normalizeWeeklySeriesId(value) {
   const clean = value.trim().toUpperCase();
 
   if (clean.startsWith("PET.") && clean.endsWith(".W")) {
@@ -190,7 +314,7 @@ async function loadDemandData() {
   const weeks = Number(document.getElementById("dateRange").value);
 
   try {
-    status.textContent = "Loading EIA demand data...";
+    status.textContent = "Loading weekly EIA demand data...";
 
     const settled = await Promise.allSettled(
       SERIES.map(series => fetchEiaSeries(series, weeks))
@@ -203,11 +327,11 @@ async function loadDemandData() {
     const failedSeries = settled.filter(result => result.status === "rejected");
 
     failedSeries.forEach(result => {
-      console.warn("Skipped series:", result.reason.message);
+      console.warn("Skipped weekly series:", result.reason.message);
     });
 
     if (successfulSeries.length === 0) {
-      throw new Error("No valid EIA demand series returned.");
+      throw new Error("No valid weekly EIA demand series returned.");
     }
 
     const labels = buildUnifiedDateLabels(successfulSeries);
@@ -226,14 +350,54 @@ async function loadDemandData() {
       };
     });
 
-    renderChart(labels, datasets);
+    renderWeeklyChart(labels, datasets);
 
     status.textContent =
-      `Loaded ${successfulSeries.length} series` +
+      `Loaded ${successfulSeries.length} weekly series` +
       (failedSeries.length ? ` (${failedSeries.length} skipped)` : "");
   } catch (error) {
     console.error(error);
-    status.textContent = `Error loading EIA demand data: ${error.message}`;
+    status.textContent = `Error loading weekly EIA data: ${error.message}`;
+  }
+}
+
+async function loadMonthlyData() {
+  const status = document.getElementById("monthlyStatusText");
+  const select = document.getElementById("monthlySeriesSelect");
+  const months = Number(document.getElementById("monthlyDateRange").value);
+
+  const selectedId = select.value;
+  const selectedSeries = MONTHLY_SERIES.find(item => item.seriesId === selectedId);
+
+  if (!selectedSeries) {
+    status.textContent = "Select a valid monthly EIA series.";
+    return;
+  }
+
+  try {
+    status.textContent = `Loading monthly data for ${selectedSeries.seriesId}...`;
+
+    const result = await fetchEiaSeries(selectedSeries, months);
+
+    const labels = result.data.map(item => item.period);
+    const values = result.data.map(item => item.value);
+
+    renderMonthlyChart(labels, [
+      {
+        label: `${result.seriesId} - ${result.label}`,
+        data: values,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        tension: 0.25,
+        spanGaps: true
+      }
+    ]);
+
+    status.textContent = `Loaded monthly series: ${result.seriesId}`;
+  } catch (error) {
+    console.error(error);
+    status.textContent = `Error loading monthly EIA data: ${error.message}`;
   }
 }
 
@@ -280,7 +444,7 @@ function buildUnifiedDateLabels(seriesResults) {
   return Array.from(labels).sort((a, b) => a.localeCompare(b));
 }
 
-function renderChart(labels, datasets) {
+function renderWeeklyChart(labels, datasets) {
   const canvas = document.getElementById("demandChart");
   const ctx = canvas.getContext("2d");
 
@@ -295,68 +459,91 @@ function renderChart(labels, datasets) {
       labels,
       datasets
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      resizeDelay: 150,
-      interaction: {
-        mode: "index",
-        intersect: false
-      },
-      plugins: {
-        legend: {
-          position: "bottom",
-          labels: {
-            usePointStyle: true
-          },
-          onClick: (e, legendItem, legend) => {
-            const chart = legend.chart;
-            const index = legendItem.datasetIndex;
+    options: buildChartOptions("Week", "Thousand Barrels per Day")
+  });
+}
 
-            chart.setDatasetVisibility(
-              index,
-              !chart.isDatasetVisible(index)
-            );
+function renderMonthlyChart(labels, datasets) {
+  const canvas = document.getElementById("monthlyDemandChart");
+  const ctx = canvas.getContext("2d");
 
-            chart.update();
-          }
+  if (monthlyDemandChart) {
+    monthlyDemandChart.destroy();
+    monthlyDemandChart = null;
+  }
+
+  monthlyDemandChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets
+    },
+    options: buildChartOptions("Month", "EIA Reported Value")
+  });
+}
+
+function buildChartOptions(xAxisTitle, yAxisTitle) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    resizeDelay: 150,
+    interaction: {
+      mode: "index",
+      intersect: false
+    },
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          usePointStyle: true
         },
-        tooltip: {
-          enabled: true,
-          callbacks: {
-            title: items => `Week: ${items[0].label}`,
-            label: item => {
-              const value = item.parsed.y;
+        onClick: (e, legendItem, legend) => {
+          const chart = legend.chart;
+          const index = legendItem.datasetIndex;
 
-              if (value === null || value === undefined) {
-                return `${item.dataset.label}: no data`;
-              }
+          chart.setDatasetVisibility(
+            index,
+            !chart.isDatasetVisible(index)
+          );
 
-              return `${item.dataset.label}: ${Number(value).toLocaleString()} Mbbl/d`;
-            }
-          }
+          chart.update();
         }
       },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Week"
-          },
-          ticks: {
-            maxTicksLimit: 12
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: "Thousand Barrels per Day"
-          },
-          ticks: {
-            callback: value => Number(value).toLocaleString()
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          title: items => `${xAxisTitle}: ${items[0].label}`,
+          label: item => {
+            const value = item.parsed.y;
+
+            if (value === null || value === undefined) {
+              return `${item.dataset.label}: no data`;
+            }
+
+            return `${item.dataset.label}: ${Number(value).toLocaleString()}`;
           }
         }
       }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: xAxisTitle
+        },
+        ticks: {
+          maxTicksLimit: 12
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: yAxisTitle
+        },
+        ticks: {
+          callback: value => Number(value).toLocaleString()
+        }
+      }
     }
-  });
+  };
 }
