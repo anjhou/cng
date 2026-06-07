@@ -314,7 +314,7 @@ function setSvgText(id, value) {
     }
 }
 */
-/*
+/**/
 function setSvgText(id, value) {
     const element = document.querySelector(`#${id}`);
 
@@ -325,4 +325,3 @@ function setSvgText(id, value) {
 
     element.textContent = value;
 }
-*/
