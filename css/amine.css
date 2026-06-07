@@ -220,32 +220,32 @@ svg {
     pointer-events: none;
 }
 
-.range-table-bg {
-    fill: rgba(248, 250, 252, 0.95);
-    stroke: #64748b;
-    stroke-width: 1.5;
-}
-
-.range-table-line {
-    stroke: #cbd5e1;
-    stroke-width: 1;
-}
-
 .range-title {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     fill: #1e3a8a;
 }
 
 .range-header {
-    font-size: 12px;
+    font-size: 10.5px;
     font-weight: bold;
     fill: #111827;
 }
 
 .range-text {
-    font-size: 12px;
+    font-size: 10px;
     fill: #374151;
+}
+
+.range-table-bg {
+    fill: rgba(248, 250, 252, 0.96);
+    stroke: #64748b;
+    stroke-width: 1.4;
+}
+
+.range-table-line {
+    stroke: #cbd5e1;
+    stroke-width: 0.9;
 }
 
 @media (max-width: 900px) {
