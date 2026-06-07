@@ -3,15 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <title>Amine Treating Unit PFD</title>
-<link rel="stylesheet" href="css/amine.css" />
+<link rel="stylesheet" href="amine.css" />
 </head>
 
 <body>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
 
 <div class="page">
 
@@ -72,8 +67,16 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     </table>
 </div>
 
+<footer class="pfd-footer">
+    <div><strong>Document:</strong> Amine Treating Unit PFD</div>
+    <div><strong>Prepared By:</strong> Process Engineering</div>
+    <div><strong>Revision:</strong> 0</div>
+    <div><strong>Date:</strong> <span class="footer-date"></span></div>
+    <div><strong>Note:</strong> Preliminary engineering screening data.</div>
+</footer>
+
 <div class="flowsheet-card">
-<svg viewBox="0 0 1200 700" role="img" aria-label="Amine treating unit SVG flowsheet">
+<svg viewBox="0 0 1200 720" role="img" aria-label="Amine treating unit SVG flowsheet">
 
 <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -122,124 +125,90 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <line x1="410" y1="295" x2="510" y2="295" class="rich exchanger-line"></line>
 <line x1="410" y1="325" x2="510" y2="325" class="lean exchanger-line"></line>
 
-<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1"></path>
-<text x="45" y="405" class="stream-label">1 Sour Gas In</text>
+<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1" data-layer="gas"></path>
+<text x="45" y="405" class="stream-label" data-layer="gas">1 Sour Gas In</text>
 
-<path d="M185 170 L185 80 L300 80" class="stream gas" data-type="stream" data-id="2"></path>
-<text x="210" y="72" class="stream-label">2 Sweet Gas Out</text>
+<path d="M185 170 L185 80 L300 80" class="stream gas" data-type="stream" data-id="2" data-layer="gas"></path>
+<text x="210" y="72" class="stream-label" data-layer="gas">2 Sweet Gas Out</text>
 
-<path d="M240 460 L320 460 L320 310 L395 310" class="stream rich" data-type="stream" data-id="4"></path>
-<text x="260" y="450" class="stream-label">4 Rich Amine</text>
+<path d="M240 460 L320 460 L320 310 L395 310" class="stream rich" data-type="stream" data-id="4" data-layer="rich"></path>
+<text x="260" y="450" class="stream-label" data-layer="rich">4 Rich Amine</text>
 
-<path d="M525 310 L640 310" class="stream rich" data-type="stream" data-id="4"></path>
-<text x="545" y="300" class="stream-label">Hot Rich Amine</text>
+<path d="M525 310 L640 310" class="stream rich" data-type="stream" data-id="4" data-layer="rich"></path>
+<text x="545" y="300" class="stream-label" data-layer="rich">Hot Rich Amine</text>
 
-<path d="M700 490 L700 560 L455 560 L455 350" class="stream lean" data-type="stream" data-id="3"></path>
-<text x="500" y="550" class="stream-label">Hot Lean Amine</text>
+<path d="M700 490 L700 560 L455 560 L455 350" class="stream lean" data-type="stream" data-id="3" data-layer="lean"></path>
+<text x="500" y="550" class="stream-label" data-layer="lean">Hot Lean Amine</text>
 
-<path d="M455 270 L455 440" class="stream lean" data-type="stream" data-id="3"></path>
-<text x="465" y="385" class="stream-label">3 Lean Amine</text>
+<path d="M455 270 L455 440" class="stream lean" data-type="stream" data-id="3" data-layer="lean"></path>
+<text x="465" y="385" class="stream-label" data-layer="lean">3 Lean Amine</text>
 
-<path d="M370 475 L260 475 L260 210 L240 210" class="stream lean" data-type="stream" data-id="3"></path>
-<text x="265" y="465" class="stream-label">Cooled Lean Amine</text>
+<path d="M370 475 L260 475 L260 210 L240 210" class="stream lean" data-type="stream" data-id="3" data-layer="lean"></path>
+<text x="265" y="465" class="stream-label" data-layer="lean">Cooled Lean Amine</text>
 
-<path d="M455 140 L455 210 L300 210 L300 475" class="stream water" data-type="stream" data-id="6"></path>
-<text x="310" y="198" class="stream-label">6 Makeup Water</text>
+<path d="M455 140 L455 210 L300 210 L300 475" class="stream water" data-type="stream" data-id="6" data-layer="water"></path>
+<text x="310" y="198" class="stream-label" data-layer="water">6 Makeup Water</text>
 
-<path d="M700 150 L700 108 L830 108" class="stream" data-type="stream" data-id="10"></path>
-<text x="710" y="98" class="stream-label">10 Overhead Vapor</text>
+<path d="M700 150 L700 108 L830 108" class="stream gas" data-type="stream" data-id="10" data-layer="gas"></path>
+<text x="710" y="98" class="stream-label" data-layer="gas">10 Overhead Vapor</text>
 
-<path d="M1010 108 L1040 108" class="stream" data-type="stream" data-id="10"></path>
+<path d="M1010 108 L1040 108" class="stream gas" data-type="stream" data-id="10" data-layer="gas"></path>
 
-<path d="M1150 108 L1190 108" class="stream gas" data-type="stream" data-id="5"></path>
-<text x="1080" y="165" class="stream-label">5 Acid Gas Out</text>
+<path d="M1150 108 L1190 108" class="stream gas" data-type="stream" data-id="5" data-layer="gas"></path>
+<text x="1080" y="165" class="stream-label" data-layer="gas">5 Acid Gas Out</text>
 
-<path d="M1095 140 L1095 185 L760 185" class="stream water" data-type="stream" data-id="9"></path>
-<text x="880" y="180" class="stream-label">9 Reflux Water</text>
+<path d="M1095 140 L1095 185 L760 185" class="stream water" data-type="stream" data-id="9" data-layer="water"></path>
+<text x="880" y="180" class="stream-label" data-layer="water">9 Reflux Water</text>
 
-<path d="M760 455 L850 455 L850 500" class="stream" data-type="stream" data-id="3"></path>
-<path d="M985 540 L1030 540 L1030 430 L760 430" class="stream" data-type="stream" data-id="10"></path>
-<text x="845" y="445" class="stream-label">Bottoms</text>
-<text x="965" y="420" class="stream-label">Vapor Return</text>
+<path d="M760 455 L850 455 L850 500" class="stream lean" data-type="stream" data-id="3" data-layer="lean"></path>
+<path d="M985 540 L1030 540 L1030 430 L760 430" class="stream gas" data-type="stream" data-id="10" data-layer="gas"></path>
+<text x="845" y="445" class="stream-label" data-layer="lean">Bottoms</text>
+<text x="965" y="420" class="stream-label" data-layer="gas">Vapor Return</text>
 
-<path d="M805 540 L740 540" class="stream" data-type="stream" data-id="7"></path>
-<text x="720" y="530" class="stream-label">7 Steam In</text>
+<path d="M805 540 L740 540" class="stream steam" data-type="stream" data-id="7" data-layer="steam"></path>
+<text x="720" y="530" class="stream-label" data-layer="steam">7 Steam In</text>
 
-<path d="M985 570 L1080 570" class="stream" data-type="stream" data-id="8"></path>
-<text x="1010" y="595" class="stream-label">8 Condensate Out</text>
+<path d="M985 570 L1080 570" class="stream water" data-type="stream" data-id="8" data-layer="water"></path>
+<text x="1010" y="595" class="stream-label" data-layer="water">8 Condensate Out</text>
 
-<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1"></path>
-<text x="45" y="405" class="stream-label gas"> 1 Sour Gas In </text>
+<rect x="40" y="560" width="280" height="145" class="legend-box" rx="10"></rect>
+<text x="60" y="585" class="label">Legend - Click to Hide/Show</text>
 
-<!--
-<rect x="40" y="560" width="270" height="110" class="legend-box" rx="10"></rect>
-<text x="60" y="585" class="label">Legend</text>
-
-<line x1="60" y1="610" x2="115" y2="610" class="gas legend-line"></line>
-<text x="130" y="615" class="small-label">Gas Stream</text>
-
-<line x1="60" y1="635" x2="115" y2="635" class="rich legend-line"></line>
-<text x="130" y="640" class="small-label">Rich Amine</text>
-
-<line x1="60" y1="660" x2="115" y2="660" class="lean legend-line"></line>
-<text x="130" y="665" class="small-label">Lean Amine / Recycle</text>
--->
-<!-- LEGEND -->
-
-<g class="legend-item" data-target="gas">
-    <line x1="60" y1="610" x2="115" y2="610"
-          class="gas legend-line"></line>
-    <text x="130" y="615" class="small-label">
-        Gas Streams
-    </text>
+<g class="legend-item" data-target-layer="gas">
+    <line x1="60" y1="610" x2="115" y2="610" class="gas legend-line"></line>
+    <text x="130" y="615" class="small-label">Gas Streams</text>
 </g>
 
-<g class="legend-item" data-target="rich">
-    <line x1="60" y1="635" x2="115" y2="635"
-          class="rich legend-line"></line>
-    <text x="130" y="640" class="small-label">
-        Rich Amine
-    </text>
+<g class="legend-item" data-target-layer="rich">
+    <line x1="60" y1="635" x2="115" y2="635" class="rich legend-line"></line>
+    <text x="130" y="640" class="small-label">Rich Amine</text>
 </g>
 
-<g class="legend-item" data-target="lean">
-    <line x1="60" y1="660" x2="115" y2="660"
-          class="lean legend-line"></line>
-    <text x="130" y="665" class="small-label">
-        Lean Amine
-    </text>
+<g class="legend-item" data-target-layer="lean">
+    <line x1="60" y1="660" x2="115" y2="660" class="lean legend-line"></line>
+    <text x="130" y="665" class="small-label">Lean Amine</text>
 </g>
 
-<g class="legend-item" data-target="water">
-    <line x1="60" y1="685" x2="115" y2="685"
-          class="water legend-line"></line>
-    <text x="130" y="690" class="small-label">
-        Water Streams
-    </text>
+<g class="legend-item" data-target-layer="water">
+    <line x1="60" y1="685" x2="115" y2="685" class="water legend-line"></line>
+    <text x="130" y="690" class="small-label">Water / Condensate</text>
 </g>
 
 </svg>
 </div>
 
-<!-- -->
 <footer class="pfd-footer">
-	<div><strong>Revision:</strong> 0</div>
-	<div><strong>Date:</strong> <span class="footer-date"></span></div>
-    <div><strong>Contact:</strong> tc@houstoncng.com</div>
+    <div><strong>Document:</strong> Amine Treating Unit PFD</div>
     <div><strong>Prepared By:</strong> Process Engineering</div>
-    <div><strong>Source:</strong> © 2026 Houston Chemical and Energy AI Consultant</div>
-    <div><strong>Note:</strong> Information shown is preliminary and for engineering screening use only.</div>
-	</footer>
-<!-- --> 
+    <div><strong>Revision:</strong> 0</div>
+    <div><strong>Date:</strong> <span class="footer-date"></span></div>
+    <div><strong>Note:</strong> Preliminary engineering screening data.</div>
+</footer>
+
 </div>
 
 <div id="pfdTooltip" class="pfd-tooltip"></div>
 
-<script src="js/amine.js"></script>
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
-
+<script src="amine.js"></script>
 </body>
 </html>
