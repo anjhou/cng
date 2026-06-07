@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EIA Demand Data - Feedstock and Product Volume</title>
+  <title>EIA Demand Data</title>
 
   <link rel="stylesheet" href="css/eia-demand.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
   <main class="app">
     <header>
       <h1>EIA Demand Data</h1>
@@ -29,6 +33,19 @@
 
       <button id="loadDemandBtn">Load Demand Data</button>
       <button id="resetZoomBtn">Reset View</button>
+
+      <div class="add-series-box">
+        <input id="newSeriesId" type="text" placeholder="Example: PET.WTTSTUS1.W" />
+        <input id="newSeriesLabel" type="text" placeholder="Custom series label" />
+
+        <select id="newSeriesCategory">
+          <option value="Product">Product</option>
+          <option value="Feedstock">Feedstock</option>
+          <option value="Custom">Custom</option>
+        </select>
+
+        <button id="addSeriesBtn">Add Series</button>
+      </div>
     </section>
 
     <section class="panel">
@@ -38,12 +55,14 @@
 
     <section class="panel">
       <h2>Selected Series</h2>
+
       <table>
         <thead>
           <tr>
             <th>Category</th>
             <th>Series</th>
             <th>Unit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody id="seriesTable"></tbody>
@@ -52,5 +71,9 @@
   </main>
 
   <script src="js/eia-demand.js"></script>
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>
