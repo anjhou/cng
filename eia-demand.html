@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
 <div id="header"></div>
 <script>
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
@@ -18,66 +17,104 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
   <main class="app">
     <header>
       <h1>EIA Demand Data</h1>
-      <p>Feedstock and product volume demand trends from EIA petroleum data.</p>
+      <p>Weekly and monthly EIA petroleum / natural gas demand data.</p>
     </header>
 
-    <section class="panel controls">
-      <label>
-        Date Range
-        <select id="dateRange">
-          <option value="52">Last 52 Weeks</option>
-          <option value="104">Last 2 Years</option>
-          <option value="260" selected>Last 5 Years</option>
-          <option value="520">Last 10 Years</option>
-        </select>
-      </label>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="weeklyTab">Weekly Chart</button>
+      <button class="tab-btn" data-tab="monthlyTab">Monthly Chart</button>
+    </div>
 
-      <button id="loadDemandBtn">Load Demand Data</button>
-      <button id="resetZoomBtn">Reset View</button>
+    <section id="weeklyTab" class="tab-content active">
+      <section class="panel controls">
+        <label>
+          Date Range
+          <select id="dateRange">
+            <option value="52">Last 52 Weeks</option>
+            <option value="104">Last 2 Years</option>
+            <option value="260" selected>Last 5 Years</option>
+            <option value="520">Last 10 Years</option>
+          </select>
+        </label>
 
-      <div class="add-series-box">
-        <input id="newSeriesId" type="text" placeholder="Example: PET.WTTSTUS1.W" />
-        <input id="newSeriesLabel" type="text" placeholder="Custom series label" />
+        <button id="loadDemandBtn">Load Weekly Data</button>
+        <button id="resetZoomBtn">Reset View</button>
 
-        <select id="newSeriesCategory">
-          <option value="Product">Product</option>
-          <option value="Feedstock">Feedstock</option>
-          <option value="Custom">Custom</option>
-        </select>
+        <div class="add-series-box">
+          <input id="newSeriesId" type="text" placeholder="Example: PET.WTTSTUS1.W" />
+          <input id="newSeriesLabel" type="text" placeholder="Custom series label" />
 
-        <button id="addSeriesBtn">Add Series</button>
-      </div>
+          <select id="newSeriesCategory">
+            <option value="Product">Product</option>
+            <option value="Feedstock">Feedstock</option>
+            <option value="Custom">Custom</option>
+          </select>
+
+          <button id="addSeriesBtn">Add Series</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div id="statusText" class="status">Ready to load weekly EIA data.</div>
+
+        <div class="chart-container">
+          <canvas id="demandChart"></canvas>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Selected Weekly Series</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Series</th>
+              <th>Unit</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="seriesTable"></tbody>
+        </table>
+      </section>
     </section>
 
-    <section class="panel">
-      <div id="statusText" class="status">Ready to load EIA demand data.</div>
+    <section id="monthlyTab" class="tab-content">
+      <section class="panel controls">
+        <label>
+          Monthly Series
+          <select id="monthlySeriesSelect"></select>
+        </label>
 
-      <div class="chart-container">
-        <canvas id="demandChart"></canvas>
-      </div>
-    </section>
+        <label>
+          Date Range
+          <select id="monthlyDateRange">
+            <option value="60">Last 5 Years</option>
+            <option value="120" selected>Last 10 Years</option>
+            <option value="240">Last 20 Years</option>
+            <option value="360">Last 30 Years</option>
+          </select>
+        </label>
 
-    <section class="panel">
-      <h2>Selected Series</h2>
+        <button id="loadMonthlyBtn">Refresh Monthly Data</button>
+      </section>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Series</th>
-            <th>Unit</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="seriesTable"></tbody>
-      </table>
+      <section class="panel">
+        <div id="monthlyStatusText" class="status">Ready to load monthly EIA data.</div>
+
+        <div class="chart-container">
+          <canvas id="monthlyDemandChart"></canvas>
+        </div>
+      </section>
     </section>
   </main>
 
   <script src="js/eia-demand.js"></script>
+  
   <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
+
 </body>
 </html>
