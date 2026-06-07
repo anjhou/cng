@@ -281,10 +281,12 @@ function buildUnifiedDateLabels(seriesResults) {
 }
 
 function renderChart(labels, datasets) {
-  const ctx = document.getElementById("demandChart").getContext("2d");
+  const canvas = document.getElementById("demandChart");
+  const ctx = canvas.getContext("2d");
 
   if (demandChart) {
     demandChart.destroy();
+    demandChart = null;
   }
 
   demandChart = new Chart(ctx, {
@@ -296,6 +298,7 @@ function renderChart(labels, datasets) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 150,
       interaction: {
         mode: "index",
         intersect: false
