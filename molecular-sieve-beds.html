@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Molecular Sieve Dehydrator PFD</title>
+<link rel="stylesheet" href="css/molecular-sieve-beds.css" />
+</head>
+<body>
+<div class="page">
+    <h1>Molecular Sieve Dehydrator Process Flow Diagram</h1>
+
+    <div class="section-card">
+        <h2>4-Bed Operating Configuration</h2>
+        <table>
+            <thead>
+                <tr><th>Bed</th><th>Current Step</th><th>Step Duration</th><th>Cycle Basis</th><th>Service / Notes</th></tr>
+            </thead>
+            <tbody id="currentCycleTableBody">
+                <tr><td>Bed A</td><td>Adsorption</td><td>6 hr</td><td>24 hr full cycle</td><td>Wet gas dehydration; dry product gas outlet</td></tr>
+                <tr><td>Bed B</td><td>Regeneration</td><td>6 hr</td><td>24 hr full cycle</td><td>Hot dry gas removes adsorbed water from sieve</td></tr>
+                <tr><td>Bed C</td><td>Cooling</td><td>6 hr</td><td>24 hr full cycle</td><td>Cool dry gas returns bed temperature near adsorption service</td></tr>
+                <tr><td>Bed D</td><td>Standby</td><td>6 hr</td><td>24 hr full cycle</td><td>Ready to switch into adsorption after Bed A completes</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <h2>36-Hour Bed Step Schedule</h2>
+        <table>
+            <thead>
+                <tr><th>Time, hr</th><th>Bed A</th><th>Bed B</th><th>Bed C</th><th>Bed D</th></tr>
+            </thead>
+            <tbody id="timeStepTableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <h2>PFD Stream Summary</h2>
+        <table>
+            <thead>
+                <tr><th>Stream No.</th><th>Stream Name</th><th>Phase</th><th>Flow</th><th>Unit</th><th>Temperature, °F</th><th>Pressure, psig</th><th>Boundary Stream</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Wet Gas Feed</td><td>Gas</td><td>120</td><td>MMSCFD</td><td>95</td><td>950</td><td>Yes - Inlet Feed</td></tr>
+                <tr><td>2</td><td>Dehydrated Gas Product</td><td>Gas</td><td>119.8</td><td>MMSCFD</td><td>100</td><td>940</td><td>Yes - Product</td></tr>
+                <tr><td>3</td><td>Hot Dry Regeneration Gas</td><td>Gas</td><td>8</td><td>MMSCFD</td><td>520</td><td>920</td><td>No - Internal</td></tr>
+                <tr><td>4</td><td>Wet Regeneration Gas</td><td>Gas</td><td>8.2</td><td>MMSCFD</td><td>430</td><td>900</td><td>No - Internal</td></tr>
+                <tr><td>5</td><td>Cooled Regeneration Gas</td><td>Gas</td><td>8.1</td><td>MMSCFD</td><td>120</td><td>890</td><td>No - Internal</td></tr>
+                <tr><td>6</td><td>Knockout Water</td><td>Liquid</td><td>2.5</td><td>GPM</td><td>100</td><td>880</td><td>Yes - Water Draw</td></tr>
+                <tr><td>7</td><td>Fuel Gas to Heater</td><td>Gas</td><td>0.25</td><td>MMSCFD</td><td>80</td><td>60</td><td>Yes - Utility Boundary</td></tr>
+                <tr><td>8</td><td>Cooling Gas</td><td>Gas</td><td>8</td><td>MMSCFD</td><td>100</td><td>925</td><td>No - Internal</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <h2>Dehydrated Gas Dew-Point / Moisture Calculator</h2>
+        <div class="calculator-grid">
+            <label class="input-group">Outlet Pressure, psig<input id="outletPressurePsig" type="number" value="940" step="1"></label>
+            <label class="input-group">Water Dew Point, °F<input id="waterDewPointF" type="number" value="-40" step="1"></label>
+            <label class="input-group">Dry Gas Flow, MMSCFD<input id="dryGasFlowMmscfd" type="number" value="119.8" step="0.1"></label>
+            <button id="calculateDewPoint" class="action-button" type="button">Calculate Moisture</button>
+        </div>
+        <div class="result-panel">
+            <div class="result-card"><strong>Outlet Pressure</strong><span id="dewPointPressureResult">-</span></div>
+            <div class="result-card"><strong>Water Vapor Pressure</strong><span id="waterVpResult">-</span></div>
+            <div class="result-card"><strong>Moisture Content</strong><span id="moisturePpmvResult">-</span></div>
+            <div class="result-card"><strong>Moisture Loading</strong><span id="moistureLbResult">-</span></div>
+            <div class="result-card"><strong>Water Rate</strong><span id="waterRateResult">-</span></div>
+        </div>
+        <p id="dewPointNote" class="small-label"></p>
+    </div>
+
+    <footer class="pfd-footer">
+        <div><strong>Document:</strong> Molecular Sieve Dehydrator PFD</div>
+        <div><strong>Prepared By:</strong> Process Engineering</div>
+        <div><strong>Revision:</strong> 0</div>
+        <div><strong>Date:</strong> <span class="footer-date"></span></div>
+        <div><strong>Note:</strong> Preliminary engineering screening data.</div>
+    </footer>
+
+    <div class="flowsheet-card">
+        <svg viewBox="0 0 1200 760" role="img" aria-label="Four-bed molecular sieve dehydrator SVG flowsheet">
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#374151"></path>
+                </marker>
+            </defs>
+
+            <g id="rangeTableOverlay" class="range-table-overlay">
+                <rect x="805" y="265" width="380" height="140" rx="10" class="range-table-bg"></rect>
+                <text x="820" y="287" class="range-title">Calculated Stream Range Summary</text>
+                <line x1="805" y1="297" x2="1185" y2="297" class="range-table-line"></line><line x1="805" y1="323" x2="1185" y2="323" class="range-table-line"></line><line x1="805" y1="349" x2="1185" y2="349" class="range-table-line"></line><line x1="805" y1="375" x2="1185" y2="375" class="range-table-line"></line><line x1="805" y1="401" x2="1185" y2="401" class="range-table-line"></line>
+                <line x1="925" y1="297" x2="925" y2="405" class="range-table-line"></line><line x1="1055" y1="297" x2="1055" y2="405" class="range-table-line"></line>
+                <text x="820" y="315" class="range-header">Parameter</text><text x="940" y="315" class="range-header">Minimum</text><text x="1070" y="315" class="range-header">Maximum</text>
+                <text x="820" y="341" class="range-text">Pressure</text><text x="940" y="341" class="range-text" id="minPressure">-</text><text x="1070" y="341" class="range-text" id="maxPressure">-</text>
+                <text x="820" y="367" class="range-text">Temperature</text><text x="940" y="367" class="range-text" id="minTemperature">-</text><text x="1070" y="367" class="range-text" id="maxTemperature">-</text>
+                <text x="820" y="393" class="range-text">Gas Flow</text><text x="940" y="393" class="range-text" id="minGasFlow">-</text><text x="1070" y="393" class="range-text" id="maxGasFlow">-</text>
+            </g>
+
+            <text x="50" y="45" class="label">4-Bed Molecular Sieve Dehydrator</text>
+            <path d="M40 360 L130 360" class="stream wet-gas" data-type="stream" data-id="1" data-layer="wet-gas"></path>
+            <text x="45" y="345" class="stream-label" data-layer="wet-gas">1 Wet Gas Feed</text>
+            <rect x="130" y="315" width="80" height="90" rx="14" class="valve-box" data-type="unit" data-id="inletManifold"></rect>
+            <text x="138" y="367" class="small-label">Inlet</text>
+            <text x="130" y="420" class="small-label">Manifold</text>
+
+            <rect x="285" y="115" width="115" height="250" rx="45" class="bed bed-adsorption" data-type="unit" data-id="bedA"></rect>
+            <text x="315" y="100" class="label">Bed A</text>
+            <text x="303" y="240" class="bed-step">Adsorption</text>
+            <text x="302" y="265" class="small-label">0 - 6 hr</text>
+
+            <rect x="465" y="115" width="115" height="250" rx="45" class="bed bed-regeneration" data-type="unit" data-id="bedB"></rect>
+            <text x="495" y="100" class="label">Bed B</text>
+            <text x="474" y="240" class="bed-step">Regeneration</text>
+            <text x="482" y="265" class="small-label">Hot dry gas</text>
+
+            <rect x="285" y="430" width="115" height="250" rx="45" class="bed bed-cooling" data-type="unit" data-id="bedC"></rect>
+            <text x="315" y="415" class="label">Bed C</text>
+            <text x="318" y="555" class="bed-step">Cooling</text>
+            <text x="308" y="580" class="small-label">Cool gas</text>
+
+            <rect x="465" y="430" width="115" height="250" rx="45" class="bed bed-standby" data-type="unit" data-id="bedD"></rect>
+            <text x="495" y="415" class="label">Bed D</text>
+            <text x="500" y="555" class="bed-step">Standby</text>
+            <text x="482" y="580" class="small-label">Ready bed</text>
+
+            <path d="M210 360 L260 360 L260 160 L285 160" class="stream wet-gas" data-type="stream" data-id="1" data-layer="wet-gas"></path>
+            <path d="M400 160 L625 160 L625 300 L760 300" class="stream dry-gas" data-type="stream" data-id="2" data-layer="dry-gas"></path>
+            <text x="640" y="288" class="stream-label" data-layer="dry-gas">2 Dehydrated Gas Product</text>
+            <path d="M760 300 L1140 300" class="stream dry-gas" data-type="stream" data-id="2" data-layer="dry-gas"></path>
+
+            <rect x="760" y="80" width="160" height="70" rx="16" class="heater" data-type="unit" data-id="regenHeater"></rect>
+            <text x="775" y="68" class="label">Regeneration Heater</text>
+            <path d="M740 115 L760 115" class="stream fuel" data-type="stream" data-id="7" data-layer="fuel"></path>
+            <text x="655" y="108" class="stream-label" data-layer="fuel">7 Fuel Gas</text>
+            <path d="M920 115 L970 115 L970 220 L580 220" class="stream regen-gas" data-type="stream" data-id="3" data-layer="regen-gas"></path>
+            <text x="650" y="210" class="stream-label" data-layer="regen-gas">3 Hot Dry Regeneration Gas</text>
+            <path d="M465 220 L425 220 L425 530 L400 530" class="stream regen-gas" data-type="stream" data-id="4" data-layer="regen-gas"></path>
+            <text x="595" y="245" class="stream-label" data-layer="regen-gas">4 Wet Regeneration Gas</text>
+
+            <rect x="720" y="470" width="170" height="75" rx="16" class="cooler" data-type="unit" data-id="regenCooler"></rect>
+            <text x="745" y="458" class="label">Regen Gas Cooler</text>
+            <rect x="945" y="468" width="150" height="80" rx="28" class="tank" data-type="unit" data-id="separator"></rect>
+            <text x="965" y="456" class="label">KO Separator</text>
+            <path d="M400 530 L720 530" class="stream regen-gas" data-type="stream" data-id="4" data-layer="regen-gas"></path>
+            <path d="M890 508 L945 508" class="stream regen-gas" data-type="stream" data-id="5" data-layer="regen-gas"></path>
+            <path d="M1020 548 L1020 615" class="stream water" data-type="stream" data-id="6" data-layer="water"></path>
+            <text x="1030" y="595" class="stream-label" data-layer="water">6 Knockout Water</text>
+
+            <path d="M1095 508 L1145 508 L1145 670 L580 670" class="stream cooling-gas" data-type="stream" data-id="8" data-layer="cooling-gas"></path>
+            <path d="M465 625 L400 625" class="stream cooling-gas" data-type="stream" data-id="8" data-layer="cooling-gas"></path>
+            <text x="645" y="690" class="stream-label" data-layer="cooling-gas">8 Cooling Gas / Recycle</text>
+
+            <rect x="40" y="600" width="230" height="140" class="legend-box" rx="10"></rect>
+            <text x="58" y="623" class="label">Legend - Click</text>
+            <g class="legend-item" data-target-layer="wet-gas"><line x1="60" y1="645" x2="110" y2="645" class="wet-gas legend-line"></line><text x="125" y="650" class="small-label">Wet Gas</text></g>
+            <g class="legend-item" data-target-layer="dry-gas"><line x1="60" y1="670" x2="110" y2="670" class="dry-gas legend-line"></line><text x="125" y="675" class="small-label">Dry Product Gas</text></g>
+            <g class="legend-item" data-target-layer="regen-gas"><line x1="60" y1="695" x2="110" y2="695" class="regen-gas legend-line"></line><text x="125" y="700" class="small-label">Regeneration Gas</text></g>
+            <g class="legend-item" data-target-layer="cooling-gas"><line x1="60" y1="720" x2="110" y2="720" class="cooling-gas legend-line"></line><text x="125" y="725" class="small-label">Cooling Gas</text></g>
+        </svg>
+    </div>
+
+    <footer class="pfd-footer">
+        <div><strong>Document:</strong> Molecular Sieve Dehydrator PFD</div>
+        <div><strong>Prepared By:</strong> Process Engineering</div>
+        <div><strong>Revision:</strong> 0</div>
+        <div><strong>Date:</strong> <span class="footer-date"></span></div>
+        <div><strong>Note:</strong> 4-bed, 6-hour step, 24-hour bed cycle.</div>
+    </footer>
+</div>
+
+<div id="pfdTooltip" class="pfd-tooltip"></div>
+<script src="js/molecular-sieve-beds.js"></script>
+</body>
+</html>
