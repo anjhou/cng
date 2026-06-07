@@ -31,44 +31,59 @@ const DEFAULT_SERIES = [
 ];
 
 const MONTHLY_SERIES = [
-  {
+  {/*Working*/
     label: "Distillate Fuel Oil Product Supplied",
     seriesId: "PET.MDIUPUS2.M",
     unit: "Thousand barrels per day"
   },
+  {/**/
+    label: "Monthly sulfur stocks at refineries",
+    seriesId: "PET.MCRSSUS1.M",
+    unit: "Thousand barrels per day"
+  },
   {
-    label: "Sulfur Product Demand / Consumption",
-    seriesId: "PET.EPC0_SULF_NUS_DPC",
+    label: "Crude Oil Stock Change",
+    seriesId: "PET.MCESTUS1.M", /*PET.WCESTUS1.W — Weekly*/
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Crude Oil Ending Stocks",
+    seriesId: "PET.MCESTUS1.M", /*PET.WCESTUS1.W — Weekly*/
     unit: "EIA reported unit"
   },
   {
-    label: "Crude Oil Stock Change / Supply Series",
-    seriesId: "PET.MCRSPUS1.M",
+    label: "Crude Oil Inputs to Refineries (Total)",
+    seriesId: "PET.MCRRIUS2.M", /*PET.WCRRIUS2.W — Weekly*/
     unit: "EIA reported unit"
   },
   {
-    label: "Crude Oil Refinery Inputs - Hydrocracking",
-    seriesId: "PET.MCRHCPUS1.M",
-    unit: "EIA reported unit"
+    label: "Hydrocracker Feed (VGO)",
+    seriesId: "PET.MCRRIVGO.M", 
+    unit: "Thousand barrels per day"
   },
   {
-    label: "Crude Oil Refinery Inputs - Hydrotreating / Processing",
-    seriesId: "PET.MCRHPPUS1.M",
-    unit: "EIA reported unit"
+    label: "Naphtha Product Supplied (Demand)",
+    seriesId: "PET.MNAPUPUS1.M",  /*PET.MNAPUPUS1.A*/
+    unit: "Thousand barrels per day"
   },
   {
+    label: "Monthly Refinery Hydrogen Consumption",
+    seriesId: "PET.MCRHCPUS1.M", 
+    unit: "EIA reported unit"
+  },
+  {/*Working*/
     label: "Natural Gas Industrial Consumption",
     seriesId: "NG.N9130US2.M",
     unit: "Million cubic feet"
   },
-  {
+  {/*Working*/
     label: "Natural Gas Electric Power Consumption",
     seriesId: "NG.N9130US3.M",
     unit: "Million cubic feet"
   },
   {
-    label: "Natural Gas Residential Consumption",
-    seriesId: "NG.N9130US1.M",
+    label: "Monthly U.S. Residential Natural Gas Consumption",
+    seriesId: "NG.N3010US2.M", /*NG.N3010US2.A*/
     unit: "Million cubic feet"
   },
   {
@@ -76,24 +91,49 @@ const MONTHLY_SERIES = [
     seriesId: "NG.NGTOTALUS.M",
     unit: "Million cubic feet"
   },
-  {
+  {/*Working*/
     label: "Natural Gas Lease Fuel",
     seriesId: "NG.N3010US2.M",
     unit: "Million cubic feet"
   },
-  {
+  {/*Working*/
     label: "Natural Gas Pipeline Fuel",
     seriesId: "NG.N3020US2.M",
     unit: "Million cubic feet"
   },
   {
-    label: "Natural Gas Plant Fuel",
-    seriesId: "NG.N3030US2.M",
-    unit: "Million cubic feet"
+    label: "Distillate Fuel Oil (Diesel + Heating Oil)",
+    seriesId: "PET.MDIUPUS2.M",
+    unit: "Thousand barrels per day"
   },
   {
+    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Product Supplied (Demand)",
+    seriesId: "PET.MREUPUS2.M",
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Ending Stocks",
+    seriesId: "PET.MREOUS1.M", /*PET.WREOUS1.W*/
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Production",
+    seriesId: "PET.MCRRIRFO.M", /**/
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Imports",
+    seriesId: "PET.MREIMUS2.M", /**/
+    unit: "Thousand barrels per day"
+  },
+  {
+    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Exports",
+    seriesId: "PET.MREEXUS2.M", /**/
+    unit: "Thousand barrels per day"
+  },
+  {/*Working*/
     label: "Natural Gas Vehicle Fuel",
-    seriesId: "NG.N3045US2.M",
+    seriesId: "NG.N3045US2.M", /*PET.WDIUPUS2.W*/
     unit: "Million cubic feet"
   },
   {
