@@ -1,10 +1,10 @@
-const cycleSteps = ["Adsorption", "Regeneration", "Cooling", "Standby"];
+const cycleSteps = ["Adsorption", "Regeneration (Heating)", "Cooling", "Standby"];
 const bedOffsets = { "Bed A": 0, "Bed B": 1, "Bed C": 2, "Bed D": 3 };
 
 const unitData = {
     inletManifold: { name: "Inlet Manifold", temperature: "95 °F", pressure: "950 psig", duty: "-", notes: "Routes wet gas to the bed currently in adsorption." },
     bedA: { name: "Bed A", temperature: "95 - 105 °F", pressure: "940 - 950 psig", duty: "-", notes: "Current step: Adsorption. Removes moisture using molecular sieve." },
-    bedB: { name: "Bed B", temperature: "430 - 520 °F", pressure: "900 - 920 psig", duty: "Regeneration heat", notes: "Current step: Regeneration with hot dry gas." },
+    bedB: { name: "Bed B", temperature: "430 - 520 °F", pressure: "900 - 920 psig", duty: "Regeneration heat", notes: "Current step: Regeneration (Heating) with hot dry gas." },
     bedC: { name: "Bed C", temperature: "100 - 180 °F", pressure: "910 - 925 psig", duty: "Cooling service", notes: "Current step: Cooling after regeneration." },
     bedD: { name: "Bed D", temperature: "95 - 105 °F", pressure: "940 psig", duty: "-", notes: "Current step: Standby, ready for adsorption." },
     regenHeater: { name: "Regeneration Heater", temperature: "520 °F", pressure: "920 psig", duty: "Hot gas service", notes: "Heats dry regeneration gas before entering the regenerating bed." },
@@ -28,11 +28,33 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeLegendToggle();
     initializeFooterDate();
     populateTimeStepTable();
-    updateRangeTable();
     initializeDewPointCalculator();
+    updateCycleOperatingConditionTable();
 });
 
+function populateCurrentCycleTable(currentHour = 0) {
+    const body = document.getElementById("currentCycleTableBody");
+    if (!body) return;
+
+    const currentStepIndex = (currentHour / 6) % 4;
+    const notes = {
+        "Adsorption": "Wet gas dehydration; dry product gas outlet.",
+        "Regeneration (Heating)": "Hot dry gas removes adsorbed water from the molecular sieve bed.",
+        "Cooling": "Cool dry gas lowers bed temperature before standby/adsorption.",
+        "Standby": "Waiting bed; ready to switch into adsorption."
+    };
+
+    body.innerHTML = "";
+    Object.entries(bedOffsets).forEach(([bedName, offset]) => {
+        const step = cycleSteps[(currentStepIndex + offset) % cycleSteps.length];
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${bedName}</td><td>${step}</td><td>6 hr</td><td>24 hr full cycle</td><td>${notes[step] || "-"}</td>`;
+        body.appendChild(row);
+    });
+}
+
 function populateTimeStepTable() {
+    populateCurrentCycleTable(0);
     const body = document.getElementById("timeStepTableBody");
     if (!body) return;
 
@@ -100,23 +122,100 @@ function initializeFooterDate() {
     document.querySelectorAll(".footer-date").forEach(element => { element.textContent = new Date().toLocaleDateString(); });
 }
 
-function updateRangeTable() {
-    const streams = Object.values(streamData || {});
-    const temperatureValues = streams.map(s => parseNumber(s.temperature)).filter(Number.isFinite);
-    const pressureValues = streams.map(s => parseNumber(s.pressure)).filter(Number.isFinite);
-    const gasFlows = streams.map(s => ({ phase: normalizePhase(s.phase), flow: parseFlow(s.flow) })).filter(x => x.phase === "gas" && x.flow);
+function updateCycleOperatingConditionTable() {
+    const currentHour = 0;
+    const currentStepIndex = (currentHour / 6) % 4;
+    const conditionRows = buildCycleOperatingConditions(currentStepIndex);
 
-    setSvgText("minTemperature", temperatureValues.length ? `${Math.min(...temperatureValues)} °F` : "-");
-    setSvgText("maxTemperature", temperatureValues.length ? `${Math.max(...temperatureValues)} °F` : "-");
-    setSvgText("minPressure", pressureValues.length ? `${Math.min(...pressureValues)} psig` : "-");
-    setSvgText("maxPressure", pressureValues.length ? `${Math.max(...pressureValues)} psig` : "-");
-    setFlowRange("minGasFlow", "maxGasFlow", gasFlows.map(x => x.flow));
+    conditionRows.forEach((row, index) => {
+        setSvgText(`cycleStepName${index}`, row.step);
+        setSvgText(`cycleStepBed${index}`, row.bed);
+        setSvgText(`cycleStepPressure${index}`, row.pressureText);
+        setSvgText(`cycleStepTemperature${index}`, row.temperatureText);
+        setSvgText(`cycleStepMoisture${index}`, row.moistureText);
+    });
+}
+
+function buildCycleOperatingConditions(stepIndex = 0) {
+    const userOutletPressure = readNumber("outletPressurePsig");
+    const userDewPoint = readNumber("waterDewPointF");
+    const adsorptionPressurePsig = Number.isFinite(userOutletPressure) ? userOutletPressure : 940;
+    const adsorptionDewPointF = Number.isFinite(userDewPoint) ? userDewPoint : -40;
+
+    const stepConditions = [
+        {
+            step: "Adsorption",
+            pressureText: `${formatNumber(adsorptionPressurePsig, 0)} psig`,
+            pressurePsig: adsorptionPressurePsig,
+            temperatureText: "95-105 °F",
+            dewPointF: adsorptionDewPointF
+        },
+        {
+            step: "Regen Heating",
+            pressureText: "900-920 psig",
+            pressurePsig: 920,
+            temperatureText: "430-520 °F",
+            dewPointF: 80
+        },
+        {
+            step: "Cooling",
+            pressureText: "910-925 psig",
+            pressurePsig: 925,
+            temperatureText: "100-180 °F",
+            dewPointF: -10
+        },
+        {
+            step: "Standby",
+            pressureText: "940 psig",
+            pressurePsig: 940,
+            temperatureText: "95-105 °F",
+            dewPointF: adsorptionDewPointF
+        }
+    ];
+
+    return stepConditions.map((condition, conditionIndex) => ({
+        ...condition,
+        bed: findBedInStep(conditionIndex, stepIndex),
+        moistureText: `${formatNumber(calculateMoisturePpmv(condition.pressurePsig, condition.dewPointF), 2)} ppmv`
+    }));
+}
+
+function findBedInStep(targetStepIndex, currentStepIndex = 0) {
+    const match = Object.entries(bedOffsets).find(([, offset]) => {
+        return ((currentStepIndex + offset) % cycleSteps.length) === targetStepIndex;
+    });
+
+    return match ? match[0].replace("Bed ", "") : "-";
 }
 
 function initializeDewPointCalculator() {
     const button = document.getElementById("calculateDewPoint");
-    if (button) button.addEventListener("click", calculateMoistureFromDewPoint);
+    if (button) button.addEventListener("click", () => {
+        calculateMoistureFromDewPoint();
+        updateCycleOperatingConditionTable();
+    });
+
+    ["outletPressurePsig", "waterDewPointF", "dryGasFlowMmscfd"].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener("input", () => {
+                calculateMoistureFromDewPoint();
+                updateCycleOperatingConditionTable();
+            });
+        }
+    });
+
     calculateMoistureFromDewPoint();
+}
+
+function calculateMoisturePpmv(pressurePsig, dewPointF) {
+    if (!Number.isFinite(pressurePsig) || !Number.isFinite(dewPointF) || pressurePsig <= -14.7) return NaN;
+
+    const pressurePsia = pressurePsig + 14.6959;
+    const dewPointC = (dewPointF - 32) * 5 / 9;
+    const waterVpPsia = waterVaporPressurePsia(dewPointC);
+
+    return Math.max(0, (waterVpPsia / pressurePsia) * 1_000_000);
 }
 
 function calculateMoistureFromDewPoint() {
@@ -132,7 +231,7 @@ function calculateMoistureFromDewPoint() {
     const pressurePsia = pressurePsig + 14.6959;
     const dewPointC = (dewPointF - 32) * 5 / 9;
     const waterVpPsia = waterVaporPressurePsia(dewPointC);
-    const ppmv = Math.max(0, (waterVpPsia / pressurePsia) * 1_000_000);
+    const ppmv = calculateMoisturePpmv(pressurePsig, dewPointF);
     const lbPerMmscf = ppmvToLbPerMmscf(ppmv);
     const waterLbPerDay = lbPerMmscf * dryGasFlow;
 
