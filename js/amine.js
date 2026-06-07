@@ -198,3 +198,9 @@ function buildTooltip(type, id) {
 
     return "";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".footer-date").forEach(el => {
+        el.textContent = new Date().toLocaleDateString();
+    });
+});
