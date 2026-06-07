@@ -175,10 +175,14 @@ fetch("header.html")
             <text x="482" y="580" class="small-label">Ready bed</text>
 
             <path d="M210 360 L260 360 L260 160 L285 160" class="stream wet-gas" data-type="stream" data-id="1" data-layer="wet-gas"></path>
-            <path d="M400 160 L625 160 L625 300 L760 300" class="stream dry-gas" data-type="stream" data-id="2" data-layer="dry-gas"></path>
-            <text x="640" y="288" class="stream-label" data-layer="dry-gas">2 Dehydrated Gas Product</text>
-            <path d="M760 300 L1140 300" class="stream dry-gas" data-type="stream" data-id="2" data-layer="dry-gas"></path>
+			
+            <!-- Product Gas Routed Across Top -->
 
+			<path d="M400 160 L400 90 L1080 90 L1080 300 L1140 300" class="stream dry-gas"
+			data-type="stream" data-id="2" data-layer="dry-gas"></path>
+						
+			<text x="690" y="78" class="stream-label" data-layer="dry-gas"> 2 Dehydrated Gas Product </text>
+            
             <rect x="760" y="80" width="160" height="70" rx="16" class="heater" data-type="unit" data-id="regenHeater"></rect>
             <text x="775" y="68" class="label">Regeneration Heater</text>
             <path d="M740 115 L760 115" class="stream fuel" data-type="stream" data-id="7" data-layer="fuel"></path>
