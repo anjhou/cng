@@ -168,6 +168,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <path d="M985 570 L1080 570" class="stream" data-type="stream" data-id="8"></path>
 <text x="1010" y="595" class="stream-label">8 Condensate Out</text>
 
+<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1"></path>
+<text x="45" y="405" class="stream-label gas"> 1 Sour Gas In </text>
+
+<!--
 <rect x="40" y="560" width="270" height="110" class="legend-box" rx="10"></rect>
 <text x="60" y="585" class="label">Legend</text>
 
@@ -179,6 +183,40 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <line x1="60" y1="660" x2="115" y2="660" class="lean legend-line"></line>
 <text x="130" y="665" class="small-label">Lean Amine / Recycle</text>
+-->
+<!-- LEGEND -->
+
+<g class="legend-item" data-target="gas">
+    <line x1="60" y1="610" x2="115" y2="610"
+          class="gas legend-line"></line>
+    <text x="130" y="615" class="small-label">
+        Gas Streams
+    </text>
+</g>
+
+<g class="legend-item" data-target="rich">
+    <line x1="60" y1="635" x2="115" y2="635"
+          class="rich legend-line"></line>
+    <text x="130" y="640" class="small-label">
+        Rich Amine
+    </text>
+</g>
+
+<g class="legend-item" data-target="lean">
+    <line x1="60" y1="660" x2="115" y2="660"
+          class="lean legend-line"></line>
+    <text x="130" y="665" class="small-label">
+        Lean Amine
+    </text>
+</g>
+
+<g class="legend-item" data-target="water">
+    <line x1="60" y1="685" x2="115" y2="685"
+          class="water legend-line"></line>
+    <text x="130" y="690" class="small-label">
+        Water Streams
+    </text>
+</g>
 
 </svg>
 </div>
