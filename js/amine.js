@@ -199,7 +199,55 @@ function buildTooltip(type, id) {
     return "";
 }
 
+function initializeLegendToggle() {
+
+    document.querySelectorAll(".legend-item")
+        .forEach(legend => {
+
+            legend.addEventListener("click", () => {
+
+                const targetClass =
+                    legend.dataset.target;
+
+                const elements =
+                    document.querySelectorAll(
+                        "." + targetClass
+                    );
+
+                let hidden =
+                    legend.classList.contains(
+                        "legend-disabled"
+                    );
+
+                elements.forEach(el => {
+
+                    if (hidden) {
+                        el.classList.remove(
+                            "hidden-stream"
+                        );
+                    }
+                    else {
+                        el.classList.add(
+                            "hidden-stream"
+                        );
+                    }
+
+                });
+
+                legend.classList.toggle(
+                    "legend-disabled"
+                );
+
+            });
+
+        });
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+		initializeTooltips();
+		initializeLegendToggle();
+
     document.querySelectorAll(".footer-date").forEach(el => {
         el.textContent = new Date().toLocaleDateString();
     });
