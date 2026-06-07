@@ -58,89 +58,25 @@ const unitData = {
 };
 
 const streamData = {
-    1: {
-        name: "Sour Gas Feed",
-        phase: "Gas",
-        flow: "85 MMSCFD",
-        temperature: "100 °F",
-        pressure: "850 psig",
-        boundary: "Yes - Inlet Feed"
-    },
-    2: {
-        name: "Sweet Gas Product",
-        phase: "Gas",
-        flow: "83 MMSCFD",
-        temperature: "105 °F",
-        pressure: "830 psig",
-        boundary: "Yes - Product"
-    },
-    3: {
-        name: "Lean Amine",
-        phase: "Liquid",
-        flow: "650 GPM",
-        temperature: "115 °F",
-        pressure: "875 psig",
-        boundary: "No - Internal"
-    },
-    4: {
-        name: "Rich Amine",
-        phase: "Liquid",
-        flow: "655 GPM",
-        temperature: "130 °F",
-        pressure: "860 psig",
-        boundary: "No - Internal"
-    },
-    5: {
-        name: "Acid Gas",
-        phase: "Gas",
-        flow: "2.5 MMSCFD",
-        temperature: "110 °F",
-        pressure: "12 psig",
-        boundary: "Yes - Offgas"
-    },
-    6: {
-        name: "Makeup Water",
-        phase: "Liquid",
-        flow: "15 GPM",
-        temperature: "80 °F",
-        pressure: "0 psig",
-        boundary: "Yes - Utility Boundary"
-    },
-    7: {
-        name: "Steam to Reboiler",
-        phase: "Vapor",
-        flow: "12 klb/hr",
-        temperature: "350 °F",
-        pressure: "150 psig",
-        boundary: "Yes - Utility Boundary"
-    },
-    8: {
-        name: "Condensate from Reboiler",
-        phase: "Liquid",
-        flow: "25 GPM",
-        temperature: "250 °F",
-        pressure: "50 psig",
-        boundary: "Yes - Utility Boundary"
-    },
-    9: {
-        name: "Reflux Water",
-        phase: "Liquid",
-        flow: "40 GPM",
-        temperature: "110 °F",
-        pressure: "10 psig",
-        boundary: "No - Internal"
-    },
-    10: {
-        name: "Regenerator Overhead Vapor",
-        phase: "Gas",
-        flow: "3.0 MMSCFD",
-        temperature: "220 °F",
-        pressure: "12 psig",
-        boundary: "No - Internal"
-    }
+    1: { name: "Sour Gas Feed", phase: "Gas", flow: "85 MMSCFD", temperature: "100 °F", pressure: "850 psig", boundary: "Yes - Inlet Feed" },
+    2: { name: "Sweet Gas Product", phase: "Gas", flow: "83 MMSCFD", temperature: "105 °F", pressure: "830 psig", boundary: "Yes - Product" },
+    3: { name: "Lean Amine", phase: "Liquid", flow: "650 GPM", temperature: "115 °F", pressure: "875 psig", boundary: "No - Internal" },
+    4: { name: "Rich Amine", phase: "Liquid", flow: "655 GPM", temperature: "130 °F", pressure: "860 psig", boundary: "No - Internal" },
+    5: { name: "Acid Gas", phase: "Gas", flow: "2.5 MMSCFD", temperature: "110 °F", pressure: "12 psig", boundary: "Yes - Offgas" },
+    6: { name: "Makeup Water", phase: "Liquid", flow: "15 GPM", temperature: "80 °F", pressure: "0 psig", boundary: "Yes - Utility Boundary" },
+    7: { name: "Steam to Reboiler", phase: "Vapor", flow: "12 klb/hr", temperature: "350 °F", pressure: "150 psig", boundary: "Yes - Utility Boundary" },
+    8: { name: "Condensate from Reboiler", phase: "Liquid", flow: "25 GPM", temperature: "250 °F", pressure: "50 psig", boundary: "Yes - Utility Boundary" },
+    9: { name: "Reflux Water", phase: "Liquid", flow: "40 GPM", temperature: "110 °F", pressure: "10 psig", boundary: "No - Internal" },
+    10: { name: "Regenerator Overhead Vapor", phase: "Gas", flow: "3.0 MMSCFD", temperature: "220 °F", pressure: "12 psig", boundary: "No - Internal" }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    initializeTooltips();
+    initializeLegendToggle();
+    initializeFooterDate();
+});
+
+function initializeTooltips() {
     const tooltip = document.getElementById("pfdTooltip");
 
     if (!tooltip) return;
@@ -164,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tooltip.style.display = "none";
         });
     });
-});
+}
 
 function buildTooltip(type, id) {
     if (type === "unit") {
@@ -200,55 +136,30 @@ function buildTooltip(type, id) {
 }
 
 function initializeLegendToggle() {
+    document.querySelectorAll(".legend-item").forEach(legendItem => {
+        legendItem.addEventListener("click", () => {
+            const layer = legendItem.dataset.targetLayer;
 
-    document.querySelectorAll(".legend-item")
-        .forEach(legend => {
+            if (!layer) return;
 
-            legend.addEventListener("click", () => {
+            const matchingElements = document.querySelectorAll(`[data-layer="${layer}"]`);
+            const isHidden = legendItem.classList.contains("legend-disabled");
 
-                const targetClass =
-                    legend.dataset.target;
-
-                const elements =
-                    document.querySelectorAll(
-                        "." + targetClass
-                    );
-
-                let hidden =
-                    legend.classList.contains(
-                        "legend-disabled"
-                    );
-
-                elements.forEach(el => {
-
-                    if (hidden) {
-                        el.classList.remove(
-                            "hidden-stream"
-                        );
-                    }
-                    else {
-                        el.classList.add(
-                            "hidden-stream"
-                        );
-                    }
-
-                });
-
-                legend.classList.toggle(
-                    "legend-disabled"
-                );
-
+            matchingElements.forEach(element => {
+                if (isHidden) {
+                    element.classList.remove("svg-hidden");
+                } else {
+                    element.classList.add("svg-hidden");
+                }
             });
 
+            legendItem.classList.toggle("legend-disabled");
         });
-
+    });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-		initializeTooltips();
-		initializeLegendToggle();
-
-    document.querySelectorAll(".footer-date").forEach(el => {
-        el.textContent = new Date().toLocaleDateString();
+function initializeFooterDate() {
+    document.querySelectorAll(".footer-date").forEach(element => {
+        element.textContent = new Date().toLocaleDateString();
     });
-});
+}
