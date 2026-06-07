@@ -1,0 +1,59 @@
+.pfd-container{
+    width:95%;
+    margin:auto;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.unit-conditions,
+.stream-section{
+    margin-bottom:20px;
+    background:#fff;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    padding:15px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+.unit-conditions h2,
+.stream-section h2{
+    margin-top:0;
+    color:#1e3a8a;
+}
+
+.unit-table,
+.stream-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.unit-table th,
+.unit-table td,
+.stream-table th,
+.stream-table td{
+    border:1px solid #cbd5e1;
+    padding:6px 8px;
+    text-align:center;
+}
+
+.unit-table th,
+.stream-table th{
+    background:#dbeafe;
+    font-weight:bold;
+}
+
+.stream-table tr:nth-child(even),
+.unit-table tr:nth-child(even){
+    background:#f8fafc;
+}
+
+.flowsheet-card{
+    background:white;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    padding:10px;
+}
+
+#amineFlowsheet{
+    border:1px solid #cbd5e1;
+    background:white;
+}
