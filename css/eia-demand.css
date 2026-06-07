@@ -53,6 +53,7 @@ label {
 }
 
 select,
+input,
 button {
   height: 38px;
   padding: 0 12px;
@@ -77,6 +78,27 @@ button:active {
   transform: scale(0.98);
 }
 
+.add-series-box {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.add-series-box input,
+.add-series-box select {
+  min-width: 220px;
+}
+
+.delete-series-btn {
+  background: #b91c1c;
+}
+
+.delete-series-btn:hover {
+  background: #8f1414;
+}
+
 .status {
   margin-bottom: 12px;
   font-size: 14px;
@@ -99,10 +121,15 @@ td {
   border: 1px solid #d8dee6;
   padding: 10px;
   text-align: left;
+  vertical-align: top;
 }
 
 th {
   background: #eef3f8;
+}
+
+small {
+  color: #607080;
 }
 
 @media (max-width: 700px) {
@@ -110,9 +137,15 @@ th {
     padding: 14px;
   }
 
-  .controls {
+  .controls,
+  .add-series-box {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .add-series-box input,
+  .add-series-box select {
+    min-width: 100%;
   }
 
   canvas {
