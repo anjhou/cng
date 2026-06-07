@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Glycol Dehydrator PFD</title>
+<link rel="stylesheet" href="css/glycol-dehydrator.css" />
+</head>
+<body>
+<div class="page">
+<h1>Glycol Dehydrator Process Flow Diagram</h1>
+
+<div class="section-card">
+    <h2>Unit Operating Conditions</h2>
+    <table>
+        <thead><tr><th>Equipment</th><th>Temperature, °F</th><th>Pressure, psig</th><th>Duty</th><th>Service / Notes</th></tr></thead>
+        <tbody>
+            <tr><td>Glycol Absorber</td><td>95 - 115</td><td>830 - 875</td><td>-</td><td>Wet gas contacting with lean TEG</td></tr>
+            <tr><td>TEG Regenerator</td><td>360 - 400</td><td>0 - 5</td><td>-</td><td>Water stripping from rich glycol</td></tr>
+            <tr><td>Glycol Reboiler</td><td>380 - 400</td><td>0 - 5</td><td>1.8 MMBtu/hr</td><td>TEG reconcentration heat input</td></tr>
+            <tr><td>Still Overhead Condenser</td><td>110 - 130</td><td>0 - 5</td><td>0.4 MMBtu/hr</td><td>Condenses regenerator overhead water vapor</td></tr>
+            <tr><td>Glycol Surge Drum</td><td>130 - 160</td><td>0 - 15</td><td>-</td><td>Lean TEG inventory and pump suction</td></tr>
+            <tr><td>TEG Circulation Pump</td><td>120 - 150</td><td>10 - 875</td><td>25 hp</td><td>Raises lean glycol to absorber pressure</td></tr>
+            <tr><td>Lean Glycol Cooler</td><td>100 - 115</td><td>850 - 875</td><td>Cooling Service</td><td>Cools lean TEG before absorber feed</td></tr>
+            <tr><td>Lean/Rich Glycol Exchanger</td><td>120 - 300</td><td>40 - 875</td><td>Heat Recovery</td><td>Preheats rich glycol and cools lean glycol</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section-card">
+    <h2>PFD Stream Summary</h2>
+    <table>
+        <thead><tr><th>Stream No.</th><th>Stream Name</th><th>Phase</th><th>Flow</th><th>Unit</th><th>Temperature, °F</th><th>Pressure, psig</th><th>Boundary Stream</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td>Wet Gas Feed</td><td>Gas</td><td>85</td><td>MMSCFD</td><td>100</td><td>850</td><td>Yes - Inlet Feed</td></tr>
+            <tr><td>2</td><td>Dry Gas Product</td><td>Gas</td><td>84.8</td><td>MMSCFD</td><td>105</td><td>835</td><td>Yes - Product</td></tr>
+            <tr><td>3</td><td>Lean TEG to Absorber</td><td>Liquid</td><td>9.0</td><td>GPM</td><td>105</td><td>875</td><td>No - Internal</td></tr>
+            <tr><td>4</td><td>Rich TEG from Absorber</td><td>Liquid</td><td>9.4</td><td>GPM</td><td>115</td><td>850</td><td>No - Internal</td></tr>
+            <tr><td>5</td><td>Still Overhead Water Vapor</td><td>Vapor</td><td>0.20</td><td>MMSCFD</td><td>212</td><td>2</td><td>Yes - Vent / Condenser Feed</td></tr>
+            <tr><td>6</td><td>Condensed Water</td><td>Liquid</td><td>1.2</td><td>GPM</td><td>120</td><td>2</td><td>Yes - Water Draw</td></tr>
+            <tr><td>7</td><td>Fuel Gas to Reboiler</td><td>Gas</td><td>0.04</td><td>MMSCFD</td><td>80</td><td>50</td><td>Yes - Utility Boundary</td></tr>
+            <tr><td>8</td><td>Lean TEG from Surge Drum</td><td>Liquid</td><td>9.0</td><td>GPM</td><td>140</td><td>10</td><td>No - Pump Suction</td></tr>
+            <tr><td>9</td><td>Pump Discharge Lean TEG</td><td>Liquid</td><td>9.0</td><td>GPM</td><td>145</td><td>875</td><td>No - Internal</td></tr>
+            <tr><td>10</td><td>Regenerated Lean TEG</td><td>Liquid</td><td>9.0</td><td>GPM</td><td>390</td><td>3</td><td>No - Internal</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section-card">
+    <h2>Dry Gas Water Dew-Point / Moisture Calculator</h2>
+    <div class="calculator-grid">
+        <label class="input-group">Outlet Pressure, psig<input id="outletPressurePsig" type="number" value="835" step="1"></label>
+        <label class="input-group">Water Dew Point, °F<input id="waterDewPointF" type="number" value="-10" step="1"></label>
+        <label class="input-group">Dry Gas Flow, MMSCFD<input id="dryGasFlowMmscfd" type="number" value="84.8" step="0.1"></label>
+        <button id="calculateDewPoint" class="action-button" type="button">Calculate Moisture</button>
+    </div>
+    <div class="result-panel">
+        <div class="result-card"><strong>Outlet Pressure</strong><span id="dewPointPressureResult">-</span></div>
+        <div class="result-card"><strong>Water Vapor Pressure</strong><span id="waterVpResult">-</span></div>
+        <div class="result-card"><strong>Moisture</strong><span id="moisturePpmvResult">-</span></div>
+        <div class="result-card"><strong>Moisture</strong><span id="moistureLbResult">-</span></div>
+        <div class="result-card"><strong>Water in Dry Gas</strong><span id="waterRateResult">-</span></div>
+    </div>
+    <p id="dewPointNote" class="small-label"></p>
+</div>
+
+<footer class="pfd-footer">
+    <div><strong>Document:</strong> Glycol Dehydrator PFD</div><div><strong>Prepared By:</strong> Process Engineering</div><div><strong>Revision:</strong> 0</div><div><strong>Date:</strong> <span class="footer-date"></span></div><div><strong>Note:</strong> Preliminary engineering screening data.</div>
+</footer>
+
+<div class="flowsheet-card">
+<svg viewBox="0 0 1200 720" role="img" aria-label="Glycol dehydrator SVG flowsheet">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#374151"></path></marker></defs>
+
+<g id="rangeTableOverlay" class="range-table-overlay">
+    <rect x="805" y="220" width="380" height="140" rx="10" class="range-table-bg"></rect>
+    <text x="820" y="242" class="range-title">Calculated Stream Range Summary</text>
+    <line x1="805" y1="252" x2="1185" y2="252" class="range-table-line"></line><line x1="805" y1="278" x2="1185" y2="278" class="range-table-line"></line><line x1="805" y1="304" x2="1185" y2="304" class="range-table-line"></line><line x1="805" y1="330" x2="1185" y2="330" class="range-table-line"></line><line x1="805" y1="356" x2="1185" y2="356" class="range-table-line"></line><line x1="805" y1="382" x2="1185" y2="382" class="range-table-line"></line>
+    <line x1="925" y1="252" x2="925" y2="382" class="range-table-line"></line><line x1="1055" y1="252" x2="1055" y2="382" class="range-table-line"></line>
+    <text x="820" y="270" class="range-header">Parameter</text><text x="940" y="270" class="range-header">Minimum</text><text x="1070" y="270" class="range-header">Maximum</text>
+    <text x="820" y="296" class="range-text">Pressure</text><text x="940" y="296" class="range-text" id="minPressure">-</text><text x="1070" y="296" class="range-text" id="maxPressure">-</text>
+    <text x="820" y="322" class="range-text">Temperature</text><text x="940" y="322" class="range-text" id="minTemperature">-</text><text x="1070" y="322" class="range-text" id="maxTemperature">-</text>
+    <text x="820" y="348" class="range-text">Gas/Vapor Flow</text><text x="940" y="348" class="range-text" id="minGasFlow">-</text><text x="1070" y="348" class="range-text" id="maxGasFlow">-</text>
+    <text x="820" y="374" class="range-text">Liquid Flow</text><text x="940" y="374" class="range-text" id="minLiquidFlow">-</text><text x="1070" y="374" class="range-text" id="maxLiquidFlow">-</text>
+</g>
+
+<rect x="130" y="170" width="110" height="320" rx="50" class="equipment" data-type="unit" data-id="absorber"></rect>
+<line x1="130" y1="230" x2="240" y2="230" class="tray-line"></line><line x1="130" y1="290" x2="240" y2="290" class="tray-line"></line><line x1="130" y1="350" x2="240" y2="350" class="tray-line"></line><line x1="130" y1="410" x2="240" y2="410" class="tray-line"></line>
+<text x="143" y="150" class="label">Glycol Absorber</text><text x="145" y="515" class="small-label">TEG Contactor</text>
+
+<rect x="640" y="150" width="120" height="340" rx="55" class="equipment" data-type="unit" data-id="regenerator"></rect>
+<line x1="640" y1="215" x2="760" y2="215" class="tray-line"></line><line x1="640" y1="280" x2="760" y2="280" class="tray-line"></line><line x1="640" y1="345" x2="760" y2="345" class="tray-line"></line><line x1="640" y1="410" x2="760" y2="410" class="tray-line"></line>
+<text x="655" y="130" class="label">TEG Regenerator</text><text x="655" y="515" class="small-label">Still Column</text>
+
+<rect x="815" y="500" width="170" height="80" rx="18" class="heater" data-type="unit" data-id="reboiler"></rect><circle cx="850" cy="540" r="18" class="coil"></circle><circle cx="900" cy="540" r="18" class="coil"></circle><text x="845" y="625" class="label">Glycol Reboiler</text>
+<rect x="830" y="70" width="180" height="75" rx="16" class="cooler" data-type="unit" data-id="condenser"></rect><line x1="850" y1="110" x2="990" y2="110" class="cooler-line"></line><polyline points="865,95 885,125 905,95 925,125 945,95 965,125" class="cooler-line"></polyline><text x="835" y="55" class="label">Overhead Condenser</text>
+<rect x="1040" y="85" width="110" height="55" rx="25" class="tank" data-type="unit" data-id="surgeDrum"></rect><text x="1050" y="75" class="label">Water Drum</text>
+<rect x="380" y="70" width="150" height="70" rx="16" class="tank" data-type="unit" data-id="surgeDrum"></rect><text x="392" y="55" class="label">Glycol Surge</text><text x="410" y="112" class="small-label">Lean TEG</text>
+<circle cx="455" cy="205" r="35" class="equipment" data-type="unit" data-id="circulationPump"></circle><text x="422" y="208" class="small-label">Pump</text><text x="390" y="252" class="label">Circulation Pump</text>
+<rect x="370" y="440" width="160" height="70" rx="16" class="cooler" data-type="unit" data-id="leanCooler"></rect><text x="380" y="430" class="label">Lean Glycol Cooler</text>
+<rect x="395" y="300" width="130" height="80" rx="12" class="heater" data-type="unit" data-id="glycolExchanger"></rect><text x="390" y="290" class="label">Glycol Exchanger</text><line x1="410" y1="325" x2="510" y2="325" class="rich exchanger-line"></line><line x1="410" y1="355" x2="510" y2="355" class="lean exchanger-line"></line>
+
+<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1" data-layer="gas"></path><text x="45" y="405" class="stream-label" data-layer="gas">1 Wet Gas In</text>
+<path d="M185 170 L185 80 L300 80" class="stream gas" data-type="stream" data-id="2" data-layer="gas"></path><text x="205" y="72" class="stream-label" data-layer="gas">2 Dry Gas Out</text>
+<path d="M240 460 L320 460 L320 340 L395 340" class="stream rich" data-type="stream" data-id="4" data-layer="rich"></path><text x="260" y="450" class="stream-label" data-layer="rich">4 Rich TEG</text>
+<path d="M525 340 L640 340" class="stream rich" data-type="stream" data-id="4" data-layer="rich"></path><text x="545" y="330" class="stream-label" data-layer="rich">Hot Rich TEG</text>
+<path d="M700 490 L700 560 L455 560 L455 380" class="stream lean" data-type="stream" data-id="10" data-layer="lean"></path><text x="500" y="550" class="stream-label" data-layer="lean">10 Hot Lean TEG</text>
+<path d="M455 300 L455 240" class="stream lean" data-type="stream" data-id="9" data-layer="lean"></path><text x="465" y="275" class="stream-label" data-layer="lean">9 Pump Discharge</text>
+<path d="M455 170 L455 140" class="stream lean" data-type="stream" data-id="8" data-layer="lean"></path>
+<path d="M420 105 L360 105 L360 205 L420 205" class="stream lean" data-type="stream" data-id="8" data-layer="lean"></path><text x="295" y="195" class="stream-label" data-layer="lean">8 Pump Suction</text>
+<path d="M370 475 L260 475 L260 210 L240 210" class="stream lean" data-type="stream" data-id="3" data-layer="lean"></path><text x="265" y="465" class="stream-label" data-layer="lean">3 Cooled Lean TEG</text>
+<path d="M700 150 L700 108 L830 108" class="stream gas" data-type="stream" data-id="5" data-layer="gas"></path><text x="710" y="98" class="stream-label" data-layer="gas">5 Still Overhead</text>
+<path d="M1010 108 L1040 108" class="stream water" data-type="stream" data-id="6" data-layer="water"></path><path d="M1150 108 L1190 108" class="stream water" data-type="stream" data-id="6" data-layer="water"></path><text x="1065" y="165" class="stream-label" data-layer="water">6 Water Out</text>
+<path d="M760 455 L850 455 L850 500" class="stream lean" data-type="stream" data-id="10" data-layer="lean"></path><path d="M985 540 L1030 540 L1030 430 L760 430" class="stream gas" data-type="stream" data-id="5" data-layer="gas"></path><text x="845" y="445" class="stream-label" data-layer="lean">Bottoms</text><text x="965" y="420" class="stream-label" data-layer="gas">Vapor Return</text>
+<path d="M805 540 L740 540" class="stream steam" data-type="stream" data-id="7" data-layer="fuel"></path><text x="700" y="530" class="stream-label" data-layer="fuel">7 Fuel Gas In</text>
+
+<rect x="40" y="560" width="295" height="145" class="legend-box" rx="10"></rect><text x="60" y="585" class="label">Legend - Click to Hide/Show</text>
+<g class="legend-item" data-target-layer="gas"><line x1="60" y1="610" x2="115" y2="610" class="gas legend-line"></line><text x="130" y="615" class="small-label">Gas / Vapor Streams</text></g>
+<g class="legend-item" data-target-layer="rich"><line x1="60" y1="635" x2="115" y2="635" class="rich legend-line"></line><text x="130" y="640" class="small-label">Rich TEG</text></g>
+<g class="legend-item" data-target-layer="lean"><line x1="60" y1="660" x2="115" y2="660" class="lean legend-line"></line><text x="130" y="665" class="small-label">Lean TEG</text></g>
+<g class="legend-item" data-target-layer="water"><line x1="60" y1="685" x2="115" y2="685" class="water legend-line"></line><text x="130" y="690" class="small-label">Water / Condensate</text></g>
+</svg>
+</div>
+
+<footer class="pfd-footer"><div><strong>Document:</strong> Glycol Dehydrator PFD</div><div><strong>Prepared By:</strong> Process Engineering</div><div><strong>Revision:</strong> 0</div><div><strong>Date:</strong> <span class="footer-date"></span></div><div><strong>Note:</strong> Preliminary engineering screening data.</div></footer>
+</div>
+<div id="pfdTooltip" class="pfd-tooltip"></div>
+<script src="js/glycol-dehydrator.js"></script>
+</body>
+</html>
