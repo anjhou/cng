@@ -87,112 +87,29 @@
 <!-- --->
 <!-- DYNAMIC FLOWSHEET RANGE TABLE OVERLAY -->
 <g id="rangeTableOverlay" class="range-table-overlay">
+    <rect x="820" y="230" width="360" height="145" rx="10" class="range-table-bg"></rect>
 
-    <rect x="820"
-          y="230"
-          width="360"
-          height="145"
-          rx="10"
-          class="range-table-bg"></rect>
+    <text x="840" y="255" class="range-title">Calculated Stream Range Summary</text>
+    <line x1="820" y1="268" x2="1180" y2="268" class="range-table-line"></line>
 
-    <text x="840"
-          y="255"
-          class="range-title">
-          Calculated Stream Range Summary
-    </text>
+    <text x="840" y="292" class="range-header">Parameter</text>
+    <text x="975" y="292" class="range-header">Minimum</text>
+    <text x="1080" y="292" class="range-header">Maximum</text>
 
-    <line x1="820"
-          y1="268"
-          x2="1180"
-          y2="268"
-          class="range-table-line"></line>
+    <line x1="820" y1="305" x2="1180" y2="305" class="range-table-line"></line>
 
-    <text x="840"
-          y="292"
-          class="range-header">
-          Parameter
-    </text>
+    <text x="840" y="330" class="range-text">Pressure, psig</text>
+    <text x="975" y="330" class="range-text" id="minPressure">-</text>
+    <text x="1080" y="330" class="range-text" id="maxPressure">-</text>
 
-    <text x="975"
-          y="292"
-          class="range-header">
-          Minimum
-    </text>
+    <text x="840" y="355" class="range-text">Temperature, °F</text>
+    <text x="975" y="355" class="range-text" id="minTemperature">-</text>
+    <text x="1080" y="355" class="range-text" id="maxTemperature">-</text>
 
-    <text x="1080"
-          y="292"
-          class="range-header">
-          Maximum
-    </text>
-
-    <line x1="820"
-          y1="305"
-          x2="1180"
-          y2="305"
-          class="range-table-line"></line>
-
-    <text x="840"
-          y="330"
-          class="range-text">
-          Pressure, psig
-    </text>
-
-    <text x="975"
-          y="330"
-          class="range-text"
-          id="minPressure">
-          -
-    </text>
-
-    <text x="1080"
-          y="330"
-          class="range-text"
-          id="maxPressure">
-          -
-    </text>
-
-    <text x="840"
-          y="355"
-          class="range-text">
-          Temperature, °F
-    </text>
-
-    <text x="975"
-          y="355"
-          class="range-text"
-          id="minTemperature">
-          -
-    </text>
-
-    <text x="1080"
-          y="355"
-          class="range-text"
-          id="maxTemperature">
-          -
-    </text>
-
-    <text x="840"
-          y="380"
-          class="range-text">
-          Flow
-    </text>
-
-    <text x="975"
-          y="380"
-          class="range-text"
-          id="minFlow">
-          -
-    </text>
-
-    <text x="1080"
-          y="380"
-          class="range-text"
-          id="maxFlow">
-          -
-    </text>
-
+    <text x="840" y="380" class="range-text">Flow</text>
+    <text x="975" y="380" class="range-text" id="minFlow">-</text>
+    <text x="1080" y="380" class="range-text" id="maxFlow">-</text>
 </g>
-
 <!-- --->
 <rect x="130" y="170" width="110" height="320" rx="50" class="equipment" data-type="unit" data-id="absorber"></rect>
 <line x1="130" y1="230" x2="240" y2="230" class="tray-line"></line>
