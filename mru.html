@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Mercury Removal Unit MRU PFD</title>
+<link rel="stylesheet" href="css/mru.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r => r.text()).then(d => document.getElementById("header").innerHTML = d).catch(() => {});
+</script>
+
+<div class="page">
+<h1>Mercury Removal Unit (MRU) Process Flow Diagram</h1>
+
+<div class="section-card">
+    <h2>Unit Operating Conditions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Equipment</th><th>Temperature, °F</th><th>Pressure, psig</th><th>Duty / Service</th><th>Service / Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Inlet Coalescing Filter</td><td>70 - 110</td><td>760 - 820</td><td>Solids / liquid mist removal</td><td>Protects fixed-bed adsorbent from aerosols, corrosion products, and entrained liquids</td></tr>
+            <tr><td>MRU Lead Fixed-Bed Adsorber</td><td>70 - 110</td><td>750 - 815</td><td>Mercury capture</td><td>Sulfur-impregnated activated carbon or equivalent adsorbent for bulk mercury removal</td></tr>
+            <tr><td>MRU Lag / Guard Fixed-Bed Adsorber</td><td>70 - 110</td><td>745 - 810</td><td>Polishing / guard bed</td><td>Lead-lag configuration supports breakthrough protection and online switching</td></tr>
+            <tr><td>MRU Bypass Valve</td><td>70 - 110</td><td>760 - 820</td><td>Maintenance bypass</td><td>Normally closed; used only for controlled commissioning or maintenance alignment</td></tr>
+            <tr><td>Outlet Dust Filter</td><td>70 - 110</td><td>740 - 805</td><td>Carbon fines removal</td><td>Protects downstream NGL / heavy hydrocarbon removal equipment from adsorbent fines</td></tr>
+            <tr><td>Mercury Analyzer / Sample Panel</td><td>Ambient</td><td>Sample conditioned</td><td>Online monitoring</td><td>Measures treated gas mercury concentration for breakthrough surveillance</td></tr>
+            <tr><td>Closed Drain / Spent Carbon Handling</td><td>Ambient</td><td>0 - 5</td><td>Maintenance containment</td><td>Provides contained liquids handling and spent adsorbent removal interface</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section-card">
+    <h2>PFD Stream Summary</h2>
+    <table>
+        <thead>
+            <tr><th>Stream No.</th><th>Stream Name</th><th>Phase</th><th>Flow</th><th>Unit</th><th>Temperature, °F</th><th>Pressure, psig</th><th>Boundary Stream</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Dry Gas Feed</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>90</td><td>800</td><td>Yes - Inlet from dehydration</td></tr>
+            <tr><td>2</td><td>Filtered Dry Gas</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>90</td><td>795</td><td>No - Internal</td></tr>
+            <tr><td>3</td><td>Lead Bed Effluent</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>92</td><td>785</td><td>No - Internal</td></tr>
+            <tr><td>4</td><td>Lag Bed Effluent</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>92</td><td>775</td><td>No - Internal</td></tr>
+            <tr><td>5</td><td>Treated Gas to NGL / Heavy HC Removal</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>92</td><td>770</td><td>Yes - Product to NGL removal</td></tr>
+            <tr><td>6</td><td>Maintenance Bypass Gas</td><td>Gas</td><td>100</td><td>MMSCFD</td><td>90</td><td>790</td><td>Normally closed / maintenance</td></tr>
+            <tr><td>7</td><td>Analyzer Sample Gas</td><td>Gas</td><td>0.02</td><td>MMSCFD</td><td>90</td><td>50</td><td>Yes - Sample vent / return</td></tr>
+            <tr><td>8</td><td>Filter Liquid Drain</td><td>Liquid</td><td>2</td><td>GPM</td><td>90</td><td>5</td><td>Yes - Closed drain</td></tr>
+            <tr><td>9</td><td>Spent Carbon Removal</td><td>Solid</td><td>Batch</td><td>-</td><td>Ambient</td><td>0</td><td>Maintenance boundary</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="pfd-footer">
+    <div><strong>Document:</strong> Mercury Removal Unit PFD</div><div><strong>Prepared By:</strong> Process Engineering</div><div><strong>Revision:</strong> 0</div><div><strong>Date:</strong> <span class="footer-date"></span></div><div><strong>Note:</strong> Screening-level data; verify with vendor design.</div>
+</footer>
+
+<div class="flowsheet-card">
+<svg viewBox="0 0 1200 720" role="img" aria-label="Mercury removal unit fixed bed adsorber SVG flowsheet">
+<defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#374151"></path></marker>
+</defs>
+
+<g id="rangeTableOverlay" class="range-table-overlay">
+    <rect x="790" y="205" width="395" height="166" rx="10" class="range-table-bg"></rect>
+    <text x="805" y="228" class="range-title">Calculated Stream Range Summary</text>
+    <line x1="790" y1="238" x2="1185" y2="238" class="range-table-line"></line><line x1="790" y1="264" x2="1185" y2="264" class="range-table-line"></line><line x1="790" y1="290" x2="1185" y2="290" class="range-table-line"></line><line x1="790" y1="316" x2="1185" y2="316" class="range-table-line"></line><line x1="790" y1="342" x2="1185" y2="342" class="range-table-line"></line><line x1="790" y1="368" x2="1185" y2="368" class="range-table-line"></line>
+    <line x1="920" y1="238" x2="920" y2="368" class="range-table-line"></line><line x1="1055" y1="238" x2="1055" y2="368" class="range-table-line"></line>
+    <text x="805" y="256" class="range-header">Parameter</text><text x="935" y="256" class="range-header">Minimum</text><text x="1070" y="256" class="range-header">Maximum</text>
+    <text x="805" y="282" class="range-text">Pressure</text><text x="935" y="282" class="range-text" id="minPressure">-</text><text x="1070" y="282" class="range-text" id="maxPressure">-</text>
+    <text x="805" y="308" class="range-text">Temperature</text><text x="935" y="308" class="range-text" id="minTemperature">-</text><text x="1070" y="308" class="range-text" id="maxTemperature">-</text>
+    <text x="805" y="334" class="range-text">Gas Flow</text><text x="935" y="334" class="range-text" id="minGasFlow">-</text><text x="1070" y="334" class="range-text" id="maxGasFlow">-</text>
+    <text x="805" y="360" class="range-text">Liquid Flow</text><text x="935" y="360" class="range-text" id="minLiquidFlow">-</text><text x="1070" y="360" class="range-text" id="maxLiquidFlow">-</text>
+</g>
+
+<!-- Equipment -->
+<rect x="95" y="300" width="120" height="75" rx="16" class="filter" data-type="unit" data-id="inletFilter"></rect>
+<text x="92" y="288" class="label">Inlet Filter</text>
+<line x1="115" y1="322" x2="195" y2="322" class="bed-line"></line><line x1="115" y1="338" x2="195" y2="338" class="bed-line"></line><line x1="115" y1="354" x2="195" y2="354" class="bed-line"></line>
+
+<rect x="310" y="145" width="125" height="360" rx="60" class="adsorber" data-type="unit" data-id="leadAdsorber"></rect>
+<rect x="330" y="205" width="85" height="240" rx="20" class="bed-media"></rect>
+<line x1="310" y1="225" x2="435" y2="225" class="bed-line"></line><line x1="310" y1="285" x2="435" y2="285" class="bed-line"></line><line x1="310" y1="345" x2="435" y2="345" class="bed-line"></line><line x1="310" y1="405" x2="435" y2="405" class="bed-line"></line>
+<text x="324" y="125" class="label">MRU Lead Bed</text><text x="305" y="530" class="small-label">Sulfur-impregnated carbon</text>
+
+<rect x="540" y="145" width="125" height="360" rx="60" class="adsorber" data-type="unit" data-id="lagAdsorber"></rect>
+<rect x="560" y="205" width="85" height="240" rx="20" class="bed-media"></rect>
+<line x1="540" y1="225" x2="665" y2="225" class="bed-line"></line><line x1="540" y1="285" x2="665" y2="285" class="bed-line"></line><line x1="540" y1="345" x2="665" y2="345" class="bed-line"></line><line x1="540" y1="405" x2="665" y2="405" class="bed-line"></line>
+<text x="554" y="125" class="label">MRU Lag Bed</text><text x="542" y="530" class="small-label">Guard / polishing bed</text>
+
+<polygon points="410,86 435,70 435,102" class="valve" data-type="unit" data-id="bypassValve"></polygon>
+<text x="362" y="62" class="label">Bypass Valve</text>
+
+<rect x="755" y="300" width="120" height="75" rx="16" class="filter" data-type="unit" data-id="outletFilter"></rect>
+<text x="762" y="288" class="label">Outlet Dust Filter</text>
+<line x1="775" y1="322" x2="855" y2="322" class="bed-line"></line><line x1="775" y1="338" x2="855" y2="338" class="bed-line"></line><line x1="775" y1="354" x2="855" y2="354" class="bed-line"></line>
+
+<rect x="930" y="455" width="150" height="70" rx="18" class="analyzer" data-type="unit" data-id="hgAnalyzer"></rect>
+<text x="938" y="445" class="label">Hg Analyzer</text><text x="946" y="496" class="small-label">Sample panel</text>
+
+<rect x="275" y="600" width="180" height="58" rx="25" class="tank" data-type="unit" data-id="drainDrum"></rect>
+<text x="285" y="590" class="label">Closed Drain / Spent Carbon</text>
+
+<!-- Main streams -->
+<path d="M35 338 L95 338" class="stream dry-gas" data-type="stream" data-id="1" data-layer="dry-gas"></path>
+<text x="38" y="324" class="stream-label" data-layer="dry-gas">1 Dry Gas Feed</text>
+
+<path d="M215 338 L310 338" class="stream dry-gas" data-type="stream" data-id="2" data-layer="dry-gas"></path>
+<text x="225" y="324" class="stream-label" data-layer="dry-gas">2 Filtered Dry Gas</text>
+
+<path d="M435 338 L540 338" class="stream treated-gas" data-type="stream" data-id="3" data-layer="treated-gas"></path>
+<text x="452" y="324" class="stream-label" data-layer="treated-gas">3 Lead Bed Effluent</text>
+
+<path d="M665 338 L755 338" class="stream treated-gas" data-type="stream" data-id="4" data-layer="treated-gas"></path>
+<text x="675" y="324" class="stream-label" data-layer="treated-gas">4 Lag Bed Effluent</text>
+
+<path d="M875 338 L1165 338" class="stream treated-gas" data-type="stream" data-id="5" data-layer="treated-gas"></path>
+<text x="900" y="324" class="stream-label" data-layer="treated-gas">5 Treated Gas to NGL / Heavy HC Removal</text>
+
+<!-- Bypass path -->
+<path d="M155 300 L155 85 L410 85" class="stream bypass" data-type="stream" data-id="6" data-layer="bypass"></path>
+<path d="M435 85 L815 85 L815 300" class="stream bypass" data-type="stream" data-id="6" data-layer="bypass"></path>
+<text x="485" y="75" class="stream-label" data-layer="bypass">6 Normally Closed Maintenance Bypass</text>
+
+<!-- Sample and drain lines -->
+<path d="M935 338 L1005 338 L1005 455" class="stream sample" data-type="stream" data-id="7" data-layer="sample"></path>
+<text x="1012" y="405" class="stream-label" data-layer="sample">7 Analyzer Sample</text>
+
+<path d="M155 375 L155 630 L275 630" class="stream drain" data-type="stream" data-id="8" data-layer="drain"></path>
+<text x="58" y="612" class="stream-label" data-layer="drain">8 Filter Drain</text>
+
+<path d="M372 505 L372 600" class="stream drain" data-type="stream" data-id="9" data-layer="drain"></path>
+<text x="382" y="565" class="stream-label" data-layer="drain">9 Spent Carbon</text>
+
+<!-- Lead-lag switching note -->
+<rect x="275" y="35" width="420" height="62" rx="10" class="legend-box"></rect>
+<text x="292" y="60" class="label">Lead-Lag MRU Configuration</text>
+<text x="292" y="82" class="small-label">Beds can be switched: fresh bed in lag service, spent lead bed isolated for carbon change-out.</text>
+
+<!-- Legend -->
+<rect x="40" y="470" width="220" height="185" class="legend-box" rx="10"></rect>
+<text x="60" y="495" class="label">Legend - Click to Hide/Show</text>
+<g class="legend-item" data-target-layer="dry-gas"><line x1="60" y1="520" x2="115" y2="520" class="dry-gas legend-line"></line><text x="130" y="525" class="small-label">Dry Gas Feed</text></g>
+<g class="legend-item" data-target-layer="treated-gas"><line x1="60" y1="545" x2="115" y2="545" class="treated-gas legend-line"></line><text x="130" y="550" class="small-label">Treated Gas</text></g>
+<g class="legend-item" data-target-layer="bypass"><line x1="60" y1="570" x2="115" y2="570" class="bypass legend-line"></line><text x="130" y="575" class="small-label">Bypass</text></g>
+<g class="legend-item" data-target-layer="sample"><line x1="60" y1="595" x2="115" y2="595" class="sample legend-line"></line><text x="130" y="600" class="small-label">Sample</text></g>
+<g class="legend-item" data-target-layer="drain"><line x1="60" y1="620" x2="115" y2="620" class="drain legend-line"></line><text x="130" y="625" class="small-label">Drain / Solid Handling</text></g>
+</svg>
+</div>
+
+<footer class="pfd-footer">
+    <div><strong>Document:</strong> Mercury Removal Unit PFD</div><div><strong>Prepared By:</strong> Process Engineering</div><div><strong>Revision:</strong> 0</div><div><strong>Date:</strong> <span class="footer-date"></span></div><div><strong>Note:</strong> Dry gas → MRU → treated gas to NGL removal.</div>
+</footer>
+</div>
+
+<div id="pfdTooltip" class="pfd-tooltip"></div>
+<script src="js/mru.js"></script>
+<script>
+fetch("footer.html").then(r => r.text()).then(d => { const footer = document.getElementById("footer"); if (footer) footer.innerHTML = d; }).catch(() => {});
+</script>
+</body>
+</html>
