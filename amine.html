@@ -3,130 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <title>Amine Treating Unit PFD</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f7fb;
-    color: #1f2937;
-}
-
-.page {
-    max-width: 1250px;
-    margin: 20px auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #1e3a8a;
-}
-
-.section-card,
-.flowsheet-card {
-    background: #ffffff;
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.section-card h2 {
-    margin-top: 0;
-    color: #1e3a8a;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-th, td {
-    border: 1px solid #cbd5e1;
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    background: #dbeafe;
-}
-
-tr:nth-child(even) {
-    background: #f8fafc;
-}
-
-svg {
-    width: 100%;
-    height: auto;
-    border: 1px solid #cbd5e1;
-    background: #ffffff;
-    border-radius: 10px;
-}
-
-.equipment {
-    fill: #e8f1ff;
-    stroke: #1d4ed8;
-    stroke-width: 2;
-}
-
-.heater {
-    fill: #fff3e0;
-    stroke: #ea580c;
-    stroke-width: 2;
-}
-
-.cooler {
-    fill: #e0f7fa;
-    stroke: #0891b2;
-    stroke-width: 2;
-}
-
-.tank {
-    fill: #ecfdf5;
-    stroke: #059669;
-    stroke-width: 2;
-}
-
-.stream {
-    fill: none;
-    stroke: #374151;
-    stroke-width: 3;
-    marker-end: url(#arrow);
-}
-
-.rich { stroke: #b91c1c; }
-.lean { stroke: #047857; }
-.gas { stroke: #2563eb; }
-.water { stroke: #0284c7; }
-
-.label {
-    font-size: 15px;
-    font-weight: bold;
-    fill: #111827;
-}
-
-.small-label {
-    font-size: 12px;
-    fill: #374151;
-}
-
-.stream-label {
-    font-size: 12px;
-    font-weight: bold;
-    fill: #111827;
-}
-
-.legend-box {
-    fill: #f9fafb;
-    stroke: #d1d5db;
-}
-</style>
+<link rel="stylesheet" href="css/amine.css" />
 </head>
 
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 
 <div class="page">
 
@@ -145,41 +30,14 @@ svg {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Absorber</td>
-                <td>100 - 130</td>
-                <td>830 - 875</td>
-                <td>-</td>
-                <td>Sour gas contacting with lean amine</td>
-            </tr>
-            <tr>
-                <td>Regenerator</td>
-                <td>220 - 260</td>
-                <td>10 - 15</td>
-                <td>-</td>
-                <td>Acid gas stripping from rich amine</td>
-            </tr>
-            <tr>
-                <td>Reboiler</td>
-                <td>250 - 270</td>
-                <td>12 - 18</td>
-                <td>25 MMBtu/hr</td>
-                <td>Provides stripping vapor to regenerator</td>
-            </tr>
-            <tr>
-                <td>Condenser</td>
-                <td>100 - 120</td>
-                <td>8 - 12</td>
-                <td>3 MMBtu/hr</td>
-                <td>Condenses overhead water vapor</td>
-            </tr>
-            <tr>
-                <td>Makeup Water Tank</td>
-                <td>80</td>
-                <td>0</td>
-                <td>-</td>
-                <td>Water makeup to amine circulation loop</td>
-            </tr>
+            <tr><td>Absorber</td><td>100 - 130</td><td>830 - 875</td><td>-</td><td>Sour gas contacting with lean amine</td></tr>
+            <tr><td>Regenerator</td><td>220 - 260</td><td>10 - 15</td><td>-</td><td>Acid gas stripping from rich amine</td></tr>
+            <tr><td>Reboiler</td><td>250 - 270</td><td>12 - 18</td><td>25 MMBtu/hr</td><td>Provides stripping vapor to regenerator</td></tr>
+            <tr><td>Condenser</td><td>100 - 120</td><td>8 - 12</td><td>3 MMBtu/hr</td><td>Condenses overhead water vapor</td></tr>
+            <tr><td>Makeup Water Tank</td><td>80</td><td>0</td><td>-</td><td>Water makeup to amine circulation loop</td></tr>
+            <tr><td>Lean Amine Cooler</td><td>115</td><td>875</td><td>Cooling Service</td><td>Cools regenerated lean amine before absorber</td></tr>
+            <tr><td>Lean/Rich Amine Exchanger</td><td>130 - 220</td><td>850 - 875</td><td>Heat Recovery</td><td>Preheats rich amine and cools lean amine</td></tr>
+            <tr><td>Reflux Drum</td><td>105 - 115</td><td>8 - 12</td><td>-</td><td>Separates reflux water and acid gas</td></tr>
         </tbody>
     </table>
 </div>
@@ -200,86 +58,16 @@ svg {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Sour Gas Feed</td>
-                <td>Gas</td>
-                <td>85</td>
-                <td>MMSCFD</td>
-                <td>100</td>
-                <td>850</td>
-                <td>Yes - Inlet Feed</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Sweet Gas Product</td>
-                <td>Gas</td>
-                <td>83</td>
-                <td>MMSCFD</td>
-                <td>105</td>
-                <td>830</td>
-                <td>Yes - Product</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Lean Amine</td>
-                <td>Liquid</td>
-                <td>650</td>
-                <td>GPM</td>
-                <td>115</td>
-                <td>875</td>
-                <td>No - Internal</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Rich Amine</td>
-                <td>Liquid</td>
-                <td>655</td>
-                <td>GPM</td>
-                <td>130</td>
-                <td>860</td>
-                <td>No - Internal</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Acid Gas</td>
-                <td>Gas</td>
-                <td>2.5</td>
-                <td>MMSCFD</td>
-                <td>110</td>
-                <td>12</td>
-                <td>Yes - Offgas</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Makeup Water</td>
-                <td>Liquid</td>
-                <td>15</td>
-                <td>GPM</td>
-                <td>80</td>
-                <td>0</td>
-                <td>Yes - Utility Boundary</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>Steam to Reboiler</td>
-                <td>Vapor</td>
-                <td>12</td>
-                <td>klb/hr</td>
-                <td>350</td>
-                <td>150</td>
-                <td>Yes - Utility Boundary</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>Condensate from Reboiler</td>
-                <td>Liquid</td>
-                <td>25</td>
-                <td>GPM</td>
-                <td>250</td>
-                <td>50</td>
-                <td>Yes - Utility Boundary</td>
-            </tr>
+            <tr><td>1</td><td>Sour Gas Feed</td><td>Gas</td><td>85</td><td>MMSCFD</td><td>100</td><td>850</td><td>Yes - Inlet Feed</td></tr>
+            <tr><td>2</td><td>Sweet Gas Product</td><td>Gas</td><td>83</td><td>MMSCFD</td><td>105</td><td>830</td><td>Yes - Product</td></tr>
+            <tr><td>3</td><td>Lean Amine</td><td>Liquid</td><td>650</td><td>GPM</td><td>115</td><td>875</td><td>No - Internal</td></tr>
+            <tr><td>4</td><td>Rich Amine</td><td>Liquid</td><td>655</td><td>GPM</td><td>130</td><td>860</td><td>No - Internal</td></tr>
+            <tr><td>5</td><td>Acid Gas</td><td>Gas</td><td>2.5</td><td>MMSCFD</td><td>110</td><td>12</td><td>Yes - Offgas</td></tr>
+            <tr><td>6</td><td>Makeup Water</td><td>Liquid</td><td>15</td><td>GPM</td><td>80</td><td>0</td><td>Yes - Utility Boundary</td></tr>
+            <tr><td>7</td><td>Steam to Reboiler</td><td>Vapor</td><td>12</td><td>klb/hr</td><td>350</td><td>150</td><td>Yes - Utility Boundary</td></tr>
+            <tr><td>8</td><td>Condensate from Reboiler</td><td>Liquid</td><td>25</td><td>GPM</td><td>250</td><td>50</td><td>Yes - Utility Boundary</td></tr>
+            <tr><td>9</td><td>Reflux Water</td><td>Liquid</td><td>40</td><td>GPM</td><td>110</td><td>10</td><td>No - Internal</td></tr>
+            <tr><td>10</td><td>Regenerator Overhead Vapor</td><td>Gas</td><td>3.0</td><td>MMSCFD</td><td>220</td><td>12</td><td>No - Internal</td></tr>
         </tbody>
     </table>
 </div>
@@ -288,126 +76,122 @@ svg {
 <svg viewBox="0 0 1200 700" role="img" aria-label="Amine treating unit SVG flowsheet">
 
 <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3"
-            orient="auto" markerUnits="strokeWidth">
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
         <path d="M0,0 L0,6 L9,3 z" fill="#374151"></path>
     </marker>
 </defs>
 
-<!-- ABSORBER -->
-<rect x="130" y="170" width="110" height="320" rx="50" class="equipment"></rect>
-<line x1="130" y1="230" x2="240" y2="230" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="130" y1="290" x2="240" y2="290" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="130" y1="350" x2="240" y2="350" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="130" y1="410" x2="240" y2="410" stroke="#93c5fd" stroke-width="2"></line>
+<rect x="130" y="170" width="110" height="320" rx="50" class="equipment" data-type="unit" data-id="absorber"></rect>
+<line x1="130" y1="230" x2="240" y2="230" class="tray-line"></line>
+<line x1="130" y1="290" x2="240" y2="290" class="tray-line"></line>
+<line x1="130" y1="350" x2="240" y2="350" class="tray-line"></line>
+<line x1="130" y1="410" x2="240" y2="410" class="tray-line"></line>
 <text x="150" y="150" class="label">Absorber</text>
 <text x="145" y="515" class="small-label">Contactor Column</text>
 
-<!-- REGENERATOR -->
-<rect x="640" y="150" width="120" height="340" rx="55" class="equipment"></rect>
-<line x1="640" y1="215" x2="760" y2="215" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="640" y1="280" x2="760" y2="280" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="640" y1="345" x2="760" y2="345" stroke="#93c5fd" stroke-width="2"></line>
-<line x1="640" y1="410" x2="760" y2="410" stroke="#93c5fd" stroke-width="2"></line>
+<rect x="640" y="150" width="120" height="340" rx="55" class="equipment" data-type="unit" data-id="regenerator"></rect>
+<line x1="640" y1="215" x2="760" y2="215" class="tray-line"></line>
+<line x1="640" y1="280" x2="760" y2="280" class="tray-line"></line>
+<line x1="640" y1="345" x2="760" y2="345" class="tray-line"></line>
+<line x1="640" y1="410" x2="760" y2="410" class="tray-line"></line>
 <text x="660" y="130" class="label">Regenerator</text>
 <text x="655" y="515" class="small-label">Stripper Column</text>
 
-<!-- REBOILER -->
-<rect x="815" y="500" width="170" height="80" rx="18" class="heater"></rect>
-<circle cx="850" cy="540" r="18" fill="none" stroke="#ea580c" stroke-width="2"></circle>
-<circle cx="900" cy="540" r="18" fill="none" stroke="#ea580c" stroke-width="2"></circle>
+<rect x="815" y="500" width="170" height="80" rx="18" class="heater" data-type="unit" data-id="reboiler"></rect>
+<circle cx="850" cy="540" r="18" class="coil"></circle>
+<circle cx="900" cy="540" r="18" class="coil"></circle>
 <text x="865" y="625" class="label">Reboiler</text>
 
-<!-- CONDENSER -->
-<rect x="830" y="70" width="180" height="75" rx="16" class="cooler"></rect>
-<line x1="850" y1="110" x2="990" y2="110" stroke="#0891b2" stroke-width="2"></line>
-<polyline points="865,95 885,125 905,95 925,125 945,95 965,125"
-          fill="none" stroke="#0891b2" stroke-width="2"></polyline>
+<rect x="830" y="70" width="180" height="75" rx="16" class="cooler" data-type="unit" data-id="condenser"></rect>
+<line x1="850" y1="110" x2="990" y2="110" class="cooler-line"></line>
+<polyline points="865,95 885,125 905,95 925,125 945,95 965,125" class="cooler-line"></polyline>
 <text x="875" y="55" class="label">Condenser</text>
 
-<!-- REFLUX DRUM -->
-<rect x="1040" y="85" width="110" height="55" rx="25" class="tank"></rect>
+<rect x="1040" y="85" width="110" height="55" rx="25" class="tank" data-type="unit" data-id="refluxDrum"></rect>
 <text x="1049" y="75" class="label">Reflux Drum</text>
 
-<!-- MAKEUP WATER -->
-<rect x="380" y="70" width="150" height="70" rx="16" class="tank"></rect>
+<rect x="380" y="70" width="150" height="70" rx="16" class="tank" data-type="unit" data-id="makeupWater"></rect>
 <text x="398" y="55" class="label">Makeup Water</text>
 <text x="407" y="112" class="small-label">Water / Solvent</text>
 
-<!-- LEAN COOLER -->
-<rect x="370" y="440" width="160" height="70" rx="16" class="cooler"></rect>
+<rect x="370" y="440" width="160" height="70" rx="16" class="cooler" data-type="unit" data-id="leanCooler"></rect>
 <text x="385" y="430" class="label">Lean Cooler</text>
 
-<!-- AMINE EXCHANGER -->
-<rect x="395" y="270" width="130" height="80" rx="12" class="heater"></rect>
+<rect x="395" y="270" width="130" height="80" rx="12" class="heater" data-type="unit" data-id="amineExchanger"></rect>
 <text x="395" y="260" class="label">Amine Exchanger</text>
-<line x1="410" y1="295" x2="510" y2="295" stroke="#b91c1c" stroke-width="3"></line>
-<line x1="410" y1="325" x2="510" y2="325" stroke="#047857" stroke-width="3"></line>
+<line x1="410" y1="295" x2="510" y2="295" class="rich exchanger-line"></line>
+<line x1="410" y1="325" x2="510" y2="325" class="lean exchanger-line"></line>
 
-<!-- STREAMS -->
-<path d="M40 420 L130 420" class="stream gas"></path>
+<path d="M40 420 L130 420" class="stream gas" data-type="stream" data-id="1"></path>
 <text x="45" y="405" class="stream-label">1 Sour Gas In</text>
 
-<path d="M185 170 L185 80 L300 80" class="stream gas"></path>
+<path d="M185 170 L185 80 L300 80" class="stream gas" data-type="stream" data-id="2"></path>
 <text x="210" y="72" class="stream-label">2 Sweet Gas Out</text>
 
-<path d="M240 460 L320 460 L320 310 L395 310" class="stream rich"></path>
+<path d="M240 460 L320 460 L320 310 L395 310" class="stream rich" data-type="stream" data-id="4"></path>
 <text x="260" y="450" class="stream-label">4 Rich Amine</text>
 
-<path d="M525 310 L640 310" class="stream rich"></path>
+<path d="M525 310 L640 310" class="stream rich" data-type="stream" data-id="4"></path>
 <text x="545" y="300" class="stream-label">Hot Rich Amine</text>
 
-<path d="M700 490 L700 560 L455 560 L455 350" class="stream lean"></path>
+<path d="M700 490 L700 560 L455 560 L455 350" class="stream lean" data-type="stream" data-id="3"></path>
 <text x="500" y="550" class="stream-label">Hot Lean Amine</text>
 
-<path d="M455 270 L455 440" class="stream lean"></path>
+<path d="M455 270 L455 440" class="stream lean" data-type="stream" data-id="3"></path>
 <text x="465" y="385" class="stream-label">3 Lean Amine</text>
 
-<path d="M370 475 L260 475 L260 210 L240 210" class="stream lean"></path>
+<path d="M370 475 L260 475 L260 210 L240 210" class="stream lean" data-type="stream" data-id="3"></path>
 <text x="265" y="465" class="stream-label">Cooled Lean Amine</text>
 
-<path d="M455 140 L455 210 L300 210 L300 475" class="stream water"></path>
+<path d="M455 140 L455 210 L300 210 L300 475" class="stream water" data-type="stream" data-id="6"></path>
 <text x="310" y="198" class="stream-label">6 Makeup Water</text>
 
-<path d="M700 150 L700 108 L830 108" class="stream"></path>
-<text x="710" y="98" class="stream-label">Overhead Vapor</text>
+<path d="M700 150 L700 108 L830 108" class="stream" data-type="stream" data-id="10"></path>
+<text x="710" y="98" class="stream-label">10 Overhead Vapor</text>
 
-<path d="M1010 108 L1040 108" class="stream"></path>
+<path d="M1010 108 L1040 108" class="stream" data-type="stream" data-id="10"></path>
 
-<path d="M1150 108 L1190 108" class="stream gas"></path>
+<path d="M1150 108 L1190 108" class="stream gas" data-type="stream" data-id="5"></path>
 <text x="1080" y="165" class="stream-label">5 Acid Gas Out</text>
 
-<path d="M1095 140 L1095 185 L760 185" class="stream water"></path>
-<text x="880" y="180" class="stream-label">Reflux Water</text>
+<path d="M1095 140 L1095 185 L760 185" class="stream water" data-type="stream" data-id="9"></path>
+<text x="880" y="180" class="stream-label">9 Reflux Water</text>
 
-<path d="M760 455 L850 455 L850 500" class="stream"></path>
-<path d="M985 540 L1030 540 L1030 430 L760 430" class="stream"></path>
+<path d="M760 455 L850 455 L850 500" class="stream" data-type="stream" data-id="3"></path>
+<path d="M985 540 L1030 540 L1030 430 L760 430" class="stream" data-type="stream" data-id="10"></path>
 <text x="845" y="445" class="stream-label">Bottoms</text>
 <text x="965" y="420" class="stream-label">Vapor Return</text>
 
-<path d="M805 540 L740 540" class="stream"></path>
+<path d="M805 540 L740 540" class="stream" data-type="stream" data-id="7"></path>
 <text x="720" y="530" class="stream-label">7 Steam In</text>
 
-<path d="M985 570 L1080 570" class="stream"></path>
+<path d="M985 570 L1080 570" class="stream" data-type="stream" data-id="8"></path>
 <text x="1010" y="595" class="stream-label">8 Condensate Out</text>
 
-<!-- LEGEND -->
 <rect x="40" y="560" width="270" height="110" class="legend-box" rx="10"></rect>
 <text x="60" y="585" class="label">Legend</text>
 
-<line x1="60" y1="610" x2="115" y2="610" class="gas" stroke-width="4"></line>
+<line x1="60" y1="610" x2="115" y2="610" class="gas legend-line"></line>
 <text x="130" y="615" class="small-label">Gas Stream</text>
 
-<line x1="60" y1="635" x2="115" y2="635" class="rich" stroke-width="4"></line>
+<line x1="60" y1="635" x2="115" y2="635" class="rich legend-line"></line>
 <text x="130" y="640" class="small-label">Rich Amine</text>
 
-<line x1="60" y1="660" x2="115" y2="660" class="lean" stroke-width="4"></line>
+<line x1="60" y1="660" x2="115" y2="660" class="lean legend-line"></line>
 <text x="130" y="665" class="small-label">Lean Amine / Recycle</text>
 
 </svg>
 </div>
 
 </div>
+
+<div id="pfdTooltip" class="pfd-tooltip"></div>
+
+<script src="js/amine.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 
 </body>
 </html>
