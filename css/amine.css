@@ -221,7 +221,7 @@ svg {
 }
 
 .range-table-bg {
-    fill: rgba(248, 250, 252, 0.94);
+    fill: rgba(248, 250, 252, 0.95);
     stroke: #64748b;
     stroke-width: 1.5;
 }
