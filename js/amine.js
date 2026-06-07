@@ -164,52 +164,117 @@ function initializeFooterDate() {
         element.textContent = new Date().toLocaleDateString();
     });
 }
-
+/**/
 function updateRangeTable() {
     const streams = Object.values(streamData);
 
     const temperatureValues = streams
         .map(stream => parseNumber(stream.temperature))
-        .filter(value => Number.isFinite(value));
+        .filter(Number.isFinite);
 
     const pressureValues = streams
         .map(stream => parseNumber(stream.pressure))
-        .filter(value => Number.isFinite(value));
+        .filter(Number.isFinite);
 
-    const flowValues = streams
-        .map(stream => parseFlow(stream.flow))
-        .filter(item => item && Number.isFinite(item.value));
+    const allFlows = streams
+        .map(stream => ({
+            phase: normalizePhase(stream.phase),
+            flow: parseFlow(stream.flow)
+        }))
+        .filter(item => item.flow && Number.isFinite(item.flow.value));
 
-    const minTemp = Math.min(...temperatureValues);
-    const maxTemp = Math.max(...temperatureValues);
+    const gasFlows = allFlows.filter(item => item.phase === "gas");
+    const liquidFlows = allFlows.filter(item => item.phase === "liquid");
+    const mixedFlows = allFlows.filter(item => item.phase === "mixed" || item.phase === "vapor" || item.phase === "other");
 
-    const minPressure = Math.min(...pressureValues);
-    const maxPressure = Math.max(...pressureValues);
+    setSvgText("minTemperature", `${Math.min(...temperatureValues)} °F`);
+    setSvgText("maxTemperature", `${Math.max(...temperatureValues)} °F`);
 
-    /*
-      Flow values are grouped by unit before comparing.
-      This avoids incorrectly comparing MMSCFD, GPM, and klb/hr directly.
-    */
-    const flowGroups = groupFlowsByUnit(flowValues);
+    setSvgText("minPressure", `${Math.min(...pressureValues)} psig`);
+    setSvgText("maxPressure", `${Math.max(...pressureValues)} psig`);
 
-    const minFlowText = Object.entries(flowGroups)
-        .map(([unit, values]) => `${Math.min(...values)} ${unit}`)
-        .join(" / ");
-
-    const maxFlowText = Object.entries(flowGroups)
-        .map(([unit, values]) => `${Math.max(...values)} ${unit}`)
-        .join(" / ");
-
-    setSvgText("minTemperature", `${minTemp} °F`);
-    setSvgText("maxTemperature", `${maxTemp} °F`);
-
-    setSvgText("minPressure", `${minPressure} psig`);
-    setSvgText("maxPressure", `${maxPressure} psig`);
-
-    setSvgText("minFlow", minFlowText);
-    setSvgText("maxFlow", maxFlowText);
+    setFlowRange("minTotalFlow", "maxTotalFlow", allFlows);
+    setFlowRange("minGasFlow", "maxGasFlow", gasFlows);
+    setFlowRange("minLiquidFlow", "maxLiquidFlow", liquidFlows);
+    setFlowRange("minMixedFlow", "maxMixedFlow", mixedFlows);
 }
 
+function normalizePhase(phase) {
+    const value = String(phase || "").trim().toLowerCase();
+
+    if (value.includes("gas")) return "gas";
+    if (value.includes("liquid")) return "liquid";
+    if (value.includes("vapor")) return "vapor";
+    if (value.includes("mixed")) return "mixed";
+
+    return "other";
+}
+
+function setFlowRange(minElementId, maxElementId, flowItems) {
+    if (!flowItems.length) {
+        setSvgText(minElementId, "-");
+        setSvgText(maxElementId, "-");
+        return;
+    }
+
+    const grouped = groupFlowsByUnit(flowItems.map(item => item.flow));
+
+    const minText = Object.entries(grouped)
+        .map(([unit, values]) => `${formatNumber(Math.min(...values))} ${unit}`)
+        .join(" / ");
+
+    const maxText = Object.entries(grouped)
+        .map(([unit, values]) => `${formatNumber(Math.max(...values))} ${unit}`)
+        .join(" / ");
+
+    setSvgText(minElementId, minText);
+    setSvgText(maxElementId, maxText);
+}
+
+function parseNumber(value) {
+    if (!value) return NaN;
+
+    const match = String(value).match(/-?\d+(\.\d+)?/);
+    return match ? Number(match[0]) : NaN;
+}
+
+function parseFlow(flowText) {
+    if (!flowText) return null;
+
+    const match = String(flowText).trim().match(/^(-?\d+(\.\d+)?)\s*(.+)$/);
+
+    if (!match) return null;
+
+    return {
+        value: Number(match[1]),
+        unit: match[3].trim()
+    };
+}
+
+function groupFlowsByUnit(flowItems) {
+    return flowItems.reduce((groups, item) => {
+        if (!groups[item.unit]) {
+            groups[item.unit] = [];
+        }
+
+        groups[item.unit].push(item.value);
+        return groups;
+    }, {});
+}
+
+function formatNumber(value) {
+    return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function setSvgText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
+}
+}
+/**/
 function parseNumber(value) {
     if (!value) return NaN;
 
@@ -249,6 +314,7 @@ function setSvgText(id, value) {
     }
 }
 */
+/*
 function setSvgText(id, value) {
     const element = document.querySelector(`#${id}`);
 
@@ -259,3 +325,4 @@ function setSvgText(id, value) {
 
     element.textContent = value;
 }
+*/
