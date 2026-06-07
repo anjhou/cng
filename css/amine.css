@@ -91,6 +91,10 @@ svg {
     marker-end: url(#arrow);
 }
 
+.gas {
+    stroke: #2563eb;
+}
+
 .rich {
     stroke: #b91c1c;
 }
@@ -99,12 +103,12 @@ svg {
     stroke: #047857;
 }
 
-.gas {
-    stroke: #2563eb;
-}
-
 .water {
     stroke: #0284c7;
+}
+
+.steam {
+    stroke: #7c3aed;
 }
 
 .tray-line {
@@ -164,6 +168,22 @@ svg {
     opacity: 0.75;
 }
 
+.legend-item {
+    cursor: pointer;
+}
+
+.legend-item:hover {
+    opacity: 0.75;
+}
+
+.legend-item.legend-disabled {
+    opacity: 0.35;
+}
+
+.svg-hidden {
+    display: none !important;
+}
+
 .pfd-tooltip {
     position: fixed;
     display: none;
@@ -188,7 +208,7 @@ svg {
     font-size: 13px;
     color: #374151;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
 }
 
@@ -200,20 +220,4 @@ svg {
     .pfd-footer {
         grid-template-columns: 1fr;
     }
-}
-
-.legend-item {
-    cursor: pointer;
-}
-
-.legend-item:hover {
-    opacity: 0.75;
-}
-
-.legend-disabled {
-    opacity: 0.25;
-}
-
-.hidden-stream {
-    display: none;
 }
