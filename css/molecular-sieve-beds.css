@@ -52,3 +52,12 @@ svg { width: 100%; height: auto; border: 1px solid #cbd5e1; background: #fff; bo
 .result-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; background: #f8fafc; display: grid; gap: 6px; }
 .result-card span { color: #1e3a8a; font-weight: bold; }
 @media (max-width: 900px) { .pfd-footer, .calculator-grid, .result-panel { grid-template-columns: 1fr; } }
+
+
+/* Cycle Operating Condition Table Overlay */
+.cycle-condition-overlay { pointer-events: none; }
+.cycle-title { font-size: 13px; font-weight: bold; fill: #1e3a8a; }
+.cycle-header { font-size: 10.5px; font-weight: bold; fill: #111827; }
+.cycle-text { font-size: 9.8px; fill: #374151; }
+.cycle-table-bg { fill: rgba(248, 250, 252, 0.97); stroke: #64748b; stroke-width: 1.4; }
+.cycle-table-line { stroke: #cbd5e1; stroke-width: 0.9; }
