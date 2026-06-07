@@ -6,31 +6,31 @@ const SERIES = [
   {
     category: "Feedstock",
     label: "Crude Oil Refinery Inputs",
-    seriesId: "WCRRIUS2",
+    seriesId: "PET.WCRRIUS2.W",
     unit: "Thousand barrels per day"
   },
   {
     category: "Product",
     label: "Finished Motor Gasoline Product Supplied",
-    seriesId: "WGFUPUS2",
+    seriesId: "PET.WGFUPUS2.W",
     unit: "Thousand barrels per day"
   },
   {
     category: "Product",
     label: "Distillate Fuel Oil Product Supplied",
-    seriesId: "WDIUPUS2",
+    seriesId: "PET.WDIUPUS2.W",
     unit: "Thousand barrels per day"
   },
   {
     category: "Product",
-    label: "Jet Fuel Product Supplied",
-    seriesId: "WKJUPUS2",
+    label: "Kerosene-Type Jet Fuel Product Supplied",
+    seriesId: "PET.WKJUPUS2.W",
     unit: "Thousand barrels per day"
   },
   {
     category: "Product",
     label: "Propane / Propylene Product Supplied",
-    seriesId: "WPRUPUS2",
+    seriesId: "PET.WPRUPUS2.W",
     unit: "Thousand barrels per day"
   }
 ];
@@ -39,7 +39,6 @@ let demandChart = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("loadDemandBtn").addEventListener("click", loadDemandData);
-
   document.getElementById("resetZoomBtn").addEventListener("click", () => {
     if (demandChart) demandChart.update();
   });
@@ -53,13 +52,13 @@ function populateSeriesTable() {
   tbody.innerHTML = "";
 
   SERIES.forEach(item => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${item.category}</td>
-        <td>${item.label}<br><small>${item.seriesId}</small></td>
-        <td>${item.unit}</td>
-      </tr>
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.category}</td>
+      <td>${item.label}<br><small>${item.seriesId}</small></td>
+      <td>${item.unit}</td>
     `;
+    tbody.appendChild(row);
   });
 }
 
@@ -70,22 +69,14 @@ async function loadDemandData() {
   try {
     status.textContent = "Loading EIA demand data...";
 
-    const settled = await Promise.allSettled(
+    const results = await Promise.all(
       SERIES.map(series => fetchEiaSeries(series, weeks))
     );
 
-    const validResults = settled
-      .filter(result => result.status === "fulfilled")
-      .map(result => result.value);
+    const labels = buildUnifiedDateLabels(results);
 
-    if (!validResults.length) {
-      throw new Error("No valid EIA demand series returned.");
-    }
-
-    const labels = buildUnifiedDateLabels(validResults);
-
-    const datasets = validResults.map(result => {
-      const lookup = new Map(result.data.map(point => [point.period, point.value]));
+    const datasets = results.map(result => {
+      const lookup = new Map(result.data.map(p => [p.period, p.value]));
 
       return {
         label: result.label,
@@ -99,16 +90,10 @@ async function loadDemandData() {
     });
 
     renderChart(labels, datasets);
-
-    const failedCount = settled.filter(result => result.status === "rejected").length;
-
-    status.textContent =
-      failedCount > 0
-        ? `Loaded ${validResults.length} series. ${failedCount} unavailable series skipped.`
-        : `Loaded ${validResults.length} EIA demand series.`;
+    status.textContent = `Loaded ${results.length} EIA demand series.`;
   } catch (error) {
     console.error(error);
-    status.textContent = `Error loading EIA data: ${error.message}`;
+    status.textContent = `Error: ${error.message}`;
   }
 }
 
@@ -117,13 +102,11 @@ async function fetchEiaSeries(series, limit) {
 
   url.searchParams.set("api_key", EIA_API_KEY);
   url.searchParams.set("length", String(limit));
-  url.searchParams.append("sort[0][column]", "period");
-  url.searchParams.append("sort[0][direction]", "desc");
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`${series.seriesId} failed with HTTP ${response.status}`);
+    throw new Error(`${series.seriesId} failed. HTTP ${response.status}`);
   }
 
   const json = await response.json();
@@ -147,14 +130,14 @@ async function fetchEiaSeries(series, limit) {
   };
 }
 
-function buildUnifiedDateLabels(seriesResults) {
-  const dateSet = new Set();
+function buildUnifiedDateLabels(results) {
+  const periods = new Set();
 
-  seriesResults.forEach(result => {
-    result.data.forEach(point => dateSet.add(point.period));
+  results.forEach(result => {
+    result.data.forEach(point => periods.add(point.period));
   });
 
-  return Array.from(dateSet).sort((a, b) => a.localeCompare(b));
+  return Array.from(periods).sort();
 }
 
 function renderChart(labels, datasets) {
@@ -180,18 +163,14 @@ function renderChart(labels, datasets) {
       plugins: {
         legend: {
           display: true,
-          position: "bottom",
-          labels: {
-            usePointStyle: true
-          }
+          position: "bottom"
         },
         tooltip: {
           enabled: true,
           callbacks: {
-            title: items => `Week: ${items[0].label}`,
             label: item => {
               const value = item.parsed.y;
-              return `${item.dataset.label}: ${value?.toLocaleString() ?? "No data"} Mbbl/d`;
+              return `${item.dataset.label}: ${value.toLocaleString()} Mbbl/d`;
             }
           }
         }
