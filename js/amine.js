@@ -129,11 +129,7 @@ function updateRangeTable() {
 
     const gasFlows = allFlows.filter(item => item.phase === "gas");
     const liquidFlows = allFlows.filter(item => item.phase === "liquid");
-    const mixedFlows = allFlows.filter(item =>
-        item.phase === "mixed" ||
-        item.phase === "vapor" ||
-        item.phase === "other"
-    );
+    
 
     setSvgText("minTemperature", temperatureValues.length ? `${Math.min(...temperatureValues)} °F` : "-");
     setSvgText("maxTemperature", temperatureValues.length ? `${Math.max(...temperatureValues)} °F` : "-");
@@ -141,10 +137,8 @@ function updateRangeTable() {
     setSvgText("minPressure", pressureValues.length ? `${Math.min(...pressureValues)} psig` : "-");
     setSvgText("maxPressure", pressureValues.length ? `${Math.max(...pressureValues)} psig` : "-");
 
-    setFlowRange("minTotalFlow", "maxTotalFlow", allFlows);
-    setFlowRange("minGasFlow", "maxGasFlow", gasFlows);
-    setFlowRange("minLiquidFlow", "maxLiquidFlow", liquidFlows);
-    setFlowRange("minMixedFlow", "maxMixedFlow", mixedFlows);
+	setFlowRange("minGasFlow", "maxGasFlow", gasFlows);
+	setFlowRange("minLiquidFlow", "maxLiquidFlow", liquidFlows);
 }
 
 function normalizePhase(phase) {
