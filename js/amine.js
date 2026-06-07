@@ -1,60 +1,12 @@
 const unitData = {
-    absorber: {
-        name: "Absorber",
-        temperature: "100 - 130 °F",
-        pressure: "830 - 875 psig",
-        duty: "-",
-        notes: "Sour gas contacting with lean amine"
-    },
-    regenerator: {
-        name: "Regenerator",
-        temperature: "220 - 260 °F",
-        pressure: "10 - 15 psig",
-        duty: "-",
-        notes: "Acid gas stripping from rich amine"
-    },
-    reboiler: {
-        name: "Reboiler",
-        temperature: "250 - 270 °F",
-        pressure: "12 - 18 psig",
-        duty: "25 MMBtu/hr",
-        notes: "Provides stripping vapor to regenerator"
-    },
-    condenser: {
-        name: "Condenser",
-        temperature: "100 - 120 °F",
-        pressure: "8 - 12 psig",
-        duty: "3 MMBtu/hr",
-        notes: "Condenses overhead water vapor"
-    },
-    makeupWater: {
-        name: "Makeup Water Tank",
-        temperature: "80 °F",
-        pressure: "0 psig",
-        duty: "-",
-        notes: "Water makeup to amine circulation loop"
-    },
-    leanCooler: {
-        name: "Lean Amine Cooler",
-        temperature: "115 °F",
-        pressure: "875 psig",
-        duty: "Cooling Service",
-        notes: "Cools regenerated lean amine before absorber"
-    },
-    amineExchanger: {
-        name: "Lean/Rich Amine Exchanger",
-        temperature: "130 - 220 °F",
-        pressure: "850 - 875 psig",
-        duty: "Heat Recovery",
-        notes: "Preheats rich amine and cools lean amine"
-    },
-    refluxDrum: {
-        name: "Reflux Drum",
-        temperature: "105 - 115 °F",
-        pressure: "8 - 12 psig",
-        duty: "-",
-        notes: "Separates reflux water and acid gas"
-    }
+    absorber: { name: "Absorber", temperature: "100 - 130 °F", pressure: "830 - 875 psig", duty: "-", notes: "Sour gas contacting with lean amine" },
+    regenerator: { name: "Regenerator", temperature: "220 - 260 °F", pressure: "10 - 15 psig", duty: "-", notes: "Acid gas stripping from rich amine" },
+    reboiler: { name: "Reboiler", temperature: "250 - 270 °F", pressure: "12 - 18 psig", duty: "25 MMBtu/hr", notes: "Provides stripping vapor to regenerator" },
+    condenser: { name: "Condenser", temperature: "100 - 120 °F", pressure: "8 - 12 psig", duty: "3 MMBtu/hr", notes: "Condenses overhead water vapor" },
+    makeupWater: { name: "Makeup Water Tank", temperature: "80 °F", pressure: "0 psig", duty: "-", notes: "Water makeup to amine circulation loop" },
+    leanCooler: { name: "Lean Amine Cooler", temperature: "115 °F", pressure: "875 psig", duty: "Cooling Service", notes: "Cools regenerated lean amine before absorber" },
+    amineExchanger: { name: "Lean/Rich Amine Exchanger", temperature: "130 - 220 °F", pressure: "850 - 875 psig", duty: "Heat Recovery", notes: "Preheats rich amine and cools lean amine" },
+    refluxDrum: { name: "Reflux Drum", temperature: "105 - 115 °F", pressure: "8 - 12 psig", duty: "-", notes: "Separates reflux water and acid gas" }
 };
 
 const streamData = {
@@ -74,18 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeTooltips();
     initializeLegendToggle();
     initializeFooterDate();
-	updateRangeTable();
+    updateRangeTable();
 });
 
 function initializeTooltips() {
     const tooltip = document.getElementById("pfdTooltip");
-
     if (!tooltip) return;
 
     document.querySelectorAll("[data-type][data-id]").forEach(element => {
         element.addEventListener("mouseover", () => {
             const html = buildTooltip(element.dataset.type, element.dataset.id);
-
             if (!html) return;
 
             tooltip.innerHTML = html;
@@ -106,7 +56,6 @@ function initializeTooltips() {
 function buildTooltip(type, id) {
     if (type === "unit") {
         const unit = unitData[id];
-
         if (!unit) return "";
 
         return `
@@ -120,7 +69,6 @@ function buildTooltip(type, id) {
 
     if (type === "stream") {
         const stream = streamData[id];
-
         if (!stream) return "";
 
         return `
@@ -140,18 +88,13 @@ function initializeLegendToggle() {
     document.querySelectorAll(".legend-item").forEach(legendItem => {
         legendItem.addEventListener("click", () => {
             const layer = legendItem.dataset.targetLayer;
-
             if (!layer) return;
 
             const matchingElements = document.querySelectorAll(`[data-layer="${layer}"]`);
             const isHidden = legendItem.classList.contains("legend-disabled");
 
             matchingElements.forEach(element => {
-                if (isHidden) {
-                    element.classList.remove("svg-hidden");
-                } else {
-                    element.classList.add("svg-hidden");
-                }
+                element.classList.toggle("svg-hidden", !isHidden);
             });
 
             legendItem.classList.toggle("legend-disabled");
@@ -164,17 +107,18 @@ function initializeFooterDate() {
         element.textContent = new Date().toLocaleDateString();
     });
 }
-/**/
+
 function updateRangeTable() {
-    const streams = Object.values(streamData);
+    const streams = Object.values(streamData || {});
+    if (!streams.length) return;
 
     const temperatureValues = streams
         .map(stream => parseNumber(stream.temperature))
-        .filter(Number.isFinite);
+        .filter(value => Number.isFinite(value));
 
     const pressureValues = streams
         .map(stream => parseNumber(stream.pressure))
-        .filter(Number.isFinite);
+        .filter(value => Number.isFinite(value));
 
     const allFlows = streams
         .map(stream => ({
@@ -185,13 +129,17 @@ function updateRangeTable() {
 
     const gasFlows = allFlows.filter(item => item.phase === "gas");
     const liquidFlows = allFlows.filter(item => item.phase === "liquid");
-    const mixedFlows = allFlows.filter(item => item.phase === "mixed" || item.phase === "vapor" || item.phase === "other");
+    const mixedFlows = allFlows.filter(item =>
+        item.phase === "mixed" ||
+        item.phase === "vapor" ||
+        item.phase === "other"
+    );
 
-    setSvgText("minTemperature", `${Math.min(...temperatureValues)} °F`);
-    setSvgText("maxTemperature", `${Math.max(...temperatureValues)} °F`);
+    setSvgText("minTemperature", temperatureValues.length ? `${Math.min(...temperatureValues)} °F` : "-");
+    setSvgText("maxTemperature", temperatureValues.length ? `${Math.max(...temperatureValues)} °F` : "-");
 
-    setSvgText("minPressure", `${Math.min(...pressureValues)} psig`);
-    setSvgText("maxPressure", `${Math.max(...pressureValues)} psig`);
+    setSvgText("minPressure", pressureValues.length ? `${Math.min(...pressureValues)} psig` : "-");
+    setSvgText("maxPressure", pressureValues.length ? `${Math.max(...pressureValues)} psig` : "-");
 
     setFlowRange("minTotalFlow", "maxTotalFlow", allFlows);
     setFlowRange("minGasFlow", "maxGasFlow", gasFlows);
@@ -242,7 +190,6 @@ function parseFlow(flowText) {
     if (!flowText) return null;
 
     const match = String(flowText).trim().match(/^(-?\d+(\.\d+)?)\s*(.+)$/);
-
     if (!match) return null;
 
     return {
@@ -269,57 +216,8 @@ function formatNumber(value) {
 function setSvgText(id, value) {
     const element = document.getElementById(id);
 
-    if (element) {
-        element.textContent = value;
-    }
-}
-}
-/**/
-function parseNumber(value) {
-    if (!value) return NaN;
-
-    const match = String(value).match(/-?\d+(\.\d+)?/);
-    return match ? Number(match[0]) : NaN;
-}
-
-function parseFlow(flowText) {
-    if (!flowText) return null;
-
-    const match = String(flowText).trim().match(/^(-?\d+(\.\d+)?)\s*(.+)$/);
-
-    if (!match) return null;
-
-    return {
-        value: Number(match[1]),
-        unit: match[3].trim()
-    };
-}
-
-function groupFlowsByUnit(flowItems) {
-    return flowItems.reduce((groups, item) => {
-        if (!groups[item.unit]) {
-            groups[item.unit] = [];
-        }
-
-        groups[item.unit].push(item.value);
-        return groups;
-    }, {});
-}
-/*
-function setSvgText(id, value) {
-    const element = document.getElementById(id);
-
-    if (element) {
-        element.textContent = value;
-    }
-}
-*/
-/**/
-function setSvgText(id, value) {
-    const element = document.querySelector(`#${id}`);
-
     if (!element) {
-        console.warn(`SVG range-table element not found: ${id}`);
+        console.warn(`Range table SVG element not found: ${id}`);
         return;
     }
 
