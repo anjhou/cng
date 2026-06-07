@@ -7,6 +7,10 @@
 </head>
 
 <body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 
 <div class="page">
 
@@ -256,5 +260,8 @@
 <div id="pfdTooltip" class="pfd-tooltip"></div>
 
 <script src="js/amine.js"></script>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>

@@ -6,6 +6,12 @@
 <link rel="stylesheet" href="css/glycol-dehydrator.css" />
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <div class="page">
 <h1>Glycol Dehydrator Process Flow Diagram</h1>
 
@@ -125,5 +131,8 @@
 </div>
 <div id="pfdTooltip" class="pfd-tooltip"></div>
 <script src="js/glycol-dehydrator.js"></script>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
 </body>
 </html>
