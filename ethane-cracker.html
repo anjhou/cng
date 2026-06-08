@@ -10,7 +10,14 @@
     body { margin:0; background:#eef4f8; color:#17324d; font-family:Arial, Helvetica, sans-serif; }
     svg { background:#f8fbfd; }
     .canvas-bg { fill:#f8fbfd; stroke:#d7e2ea; stroke-width:2; }
-    .unit-block rect { fill:#fff; stroke:#1f6f9e; stroke-width:3; }
+    .unit-block rect { fill:#ffffff !important; stroke:#1f6f9e; stroke-width:3; }
+    .unit-block.feed rect { stroke:#008b8b !important; }
+    .unit-block.cracking rect { stroke:#c96f20 !important; }
+    .unit-block.quench rect { stroke:#a45a1a !important; }
+    .unit-block.compression rect { stroke:#1f6f9e !important; }
+    .unit-block.cold rect { stroke:#6b5fb5 !important; }
+    .unit-block.products rect { stroke:#2f8f46 !important; }
+    .unit-block.offsites rect { fill:#f3f7fa !important; stroke:#69788a !important; }
     .unit-block text, .stream-label, .small-note, .section-label, .overlay-text { fill:#17324d; }
     .svg-title { fill:#123b63; font-weight:800; }
     .svg-subtitle { fill:#60758a; }
@@ -19,6 +26,12 @@
     .cold-flow { stroke:#6b5fb5; } .product-flow { stroke:#2f8f46; } .fuel-flow { stroke:#69788a; }
     .heavy-flow { stroke:#7b4f2b; } .util-flow { stroke:#69788a; stroke-dasharray:10 8; }
     .arrow-head { fill:#1f6f9e; }
+    .product-tag rect { fill:#fff7ed !important; stroke:#c96f20 !important; stroke-width:2; }
+    .product-tag.green rect { fill:#eaf7ef !important; stroke:#2f8f46 !important; }
+    .product-tag.purple rect { fill:#f0eefb !important; stroke:#6b5fb5 !important; }
+    .product-tag text { fill:#7a3e10 !important; }
+    .product-tag.green text { fill:#1f6c35 !important; }
+    .product-tag.purple text { fill:#4b418d !important; }
     .info-overlay rect { fill:rgba(255,255,255,0.96); stroke:#cbd8e2; }
   </style>
 </head>
