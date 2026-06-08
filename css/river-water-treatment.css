@@ -15,7 +15,7 @@
 }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--ink); }
-.app-shell { max-width: 1760px; margin: 0 auto; padding: 22px; }
+.app-shell { max-width: 1840px; margin: 0 auto; padding: 22px; }
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 18px; padding: 18px 22px; border-radius: 18px; background: var(--panel); box-shadow: var(--shadow); }
 h1, h2, p { margin-top: 0; }
 h1 { margin-bottom: 7px; font-size: 28px; letter-spacing: 0.2px; }
@@ -25,7 +25,7 @@ button { border: 0; border-radius: 12px; padding: 10px 16px; cursor: pointer; fo
 button:hover { background: var(--blue); }
 .diagram-panel, .panel { background: var(--panel); border-radius: 20px; box-shadow: var(--shadow); }
 .diagram-panel { overflow: auto; padding: 14px; }
-svg { width: 100%; min-width: 1500px; height: auto; display: block; }
+svg { width: 100%; min-width: 1650px; height: auto; display: block; }
 .canvas-bg { fill: #f8fbfd; stroke: #d7e2ea; stroke-width: 2; }
 .svg-title { font-size: 28px; font-weight: 800; fill: var(--deep-blue); }
 .svg-subtitle { font-size: 16px; fill: var(--muted); }
@@ -41,14 +41,14 @@ svg { width: 100%; min-width: 1500px; height: auto; display: block; }
 .unit-block:hover rect, .unit-block.active rect { stroke-width: 5; fill: #fffdf2; }
 .tank { fill: #eaf7ef; stroke: var(--green); stroke-width: 3; }
 .small-note { font-size: 14px; fill: var(--muted); }
-.stream { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; vector-effect: non-scaling-stroke; }
+.stream { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; vector-effect: non-scaling-stroke; }
 .river-flow { stroke: var(--blue); }
 .clarified-flow { stroke: var(--teal); }
 .cooling-flow { stroke: var(--purple); }
 .potable-flow { stroke: var(--green); }
 .demin-flow { stroke: var(--orange); }
 .waste-flow { stroke: var(--gray); stroke-dasharray: 14 10; }
-.stream.active { stroke-width: 7; }
+.stream.active { stroke-width: 8; }
 body.flow-paused .stream { animation: none; }
 .stream:not(.waste-flow) { stroke-dasharray: 18 12; animation: flow 1.35s linear infinite; }
 .waste-flow { animation: flow 1.85s linear infinite; }
