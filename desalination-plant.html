@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Water Desalination Plant Block Diagram</title>
+  <title>Water Desalination Plant SVG Flowsheet</title>
   <link rel="stylesheet" href="css/desalination-plant.css" />
 </head>
 <body>
@@ -12,182 +12,201 @@
 fetch("header.html").then(r => r.text()).then(d => { document.getElementById("header").innerHTML = d; }).catch(() => {});
 </script>
 
-  <main class="app-shell">
-    <header class="topbar">
-      <div>
-        <h1>Water Desalination Plant SVG Flowsheet</h1>
-        <p>Seawater intake, pretreatment, high-pressure RO, energy recovery, post-treatment, potable water storage, and brine discharge.</p>
-      </div>
-      <div class="controls">
-        <button id="btnAnimate" type="button">Pause Flow</button>
-        <button id="btnReset" type="button">Reset View</button>
-      </div>
-    </header>
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Water Desalination Plant SVG Flowsheet</h1>
+      <p>Seawater intake, pretreatment, high-pressure reverse osmosis, energy recovery, post-treatment, potable water storage, and brine discharge.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
 
-    <section class="diagram-panel">
-      <svg id="desalSvg" viewBox="0 0 1500 860" role="img" aria-label="Water desalination plant block diagram">
-        <defs>
-          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-            <path d="M0,0 L0,6 L9,3 z" class="arrow-head"></path>
-          </marker>
-          <marker id="arrowPermeate" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-            <path d="M0,0 L0,6 L9,3 z" class="arrow-head-permeate"></path>
-          </marker>
-          <marker id="arrowBrine" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-            <path d="M0,0 L0,6 L9,3 z" class="arrow-head-brine"></path>
-          </marker>
-        </defs>
+  <section class="diagram-panel">
+    <svg id="desalSvg" viewBox="0 0 1800 980" role="img" aria-label="Water desalination plant block flow diagram">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head"></path>
+        </marker>
+        <marker id="arrowPermeate" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-permeate"></path>
+        </marker>
+        <marker id="arrowBrine" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-brine"></path>
+        </marker>
+        <marker id="arrowUtility" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-utility"></path>
+        </marker>
+      </defs>
 
-        <rect x="20" y="20" width="1460" height="820" rx="24" class="canvas-bg" style="fill:#f8fbfd;stroke:#d7e2ea;stroke-width:2;"></rect>
-        <text x="750" y="65" text-anchor="middle" class="svg-title">Seawater Reverse Osmosis Desalination Plant</text>
-        <text x="750" y="92" text-anchor="middle" class="svg-subtitle">Screening → Pretreatment → High-pressure RO → Energy recovery → Post-treatment → Potable water</text>
+      <rect x="24" y="24" width="1752" height="932" rx="26" class="canvas-bg"></rect>
+      <text x="900" y="68" text-anchor="middle" class="svg-title">Seawater Reverse Osmosis Desalination Plant</text>
+      <text x="900" y="98" text-anchor="middle" class="svg-subtitle">Screening → Pretreatment → High-pressure RO → Energy recovery → Post-treatment → Potable water</text>
 
-        <g class="unit-block intake" data-unit="intake">
-          <rect x="60" y="215" width="190" height="130" rx="16" style="fill:#fff;stroke:#1f6f9e;stroke-width:3;"></rect>
-          <text x="155" y="250" text-anchor="middle" class="block-title">Seawater Intake</text>
-          <text x="155" y="278" text-anchor="middle">Open intake or wells</text>
-          <text x="155" y="302" text-anchor="middle">Coarse screens</text>
-          <text x="155" y="326" text-anchor="middle">Debris removal</text>
-        </g>
+      <!-- Upper train: seawater to product water -->
+      <g class="unit-block intake" data-unit="intake">
+        <rect x="70" y="245" width="220" height="140" rx="18"></rect>
+        <text x="180" y="283" text-anchor="middle" class="block-title">Seawater Intake</text>
+        <text x="180" y="314" text-anchor="middle">Open intake / beach wells</text>
+        <text x="180" y="340" text-anchor="middle">Coarse + fine screens</text>
+        <text x="180" y="366" text-anchor="middle">Debris removal</text>
+      </g>
 
-        <g class="unit-block pretreat" data-unit="pretreat">
-          <rect x="315" y="185" width="245" height="165" rx="16" style="fill:#fff;stroke:#008b8b;stroke-width:3;"></rect>
-          <text x="437" y="222" text-anchor="middle" class="block-title">Pretreatment</text>
-          <text x="437" y="252" text-anchor="middle">Coagulation / flocculation</text>
-          <text x="437" y="276" text-anchor="middle">Media filtration or UF</text>
-          <text x="437" y="300" text-anchor="middle">Cartridge filters</text>
-          <text x="437" y="324" text-anchor="middle">SDI / turbidity control</text>
-        </g>
+      <g class="unit-block pretreat" data-unit="pretreat">
+        <rect x="385" y="220" width="270" height="180" rx="18"></rect>
+        <text x="520" y="260" text-anchor="middle" class="block-title">Pretreatment</text>
+        <text x="520" y="292" text-anchor="middle">Coagulation / flocculation</text>
+        <text x="520" y="318" text-anchor="middle">Media filtration or UF</text>
+        <text x="520" y="344" text-anchor="middle">Cartridge filters</text>
+        <text x="520" y="370" text-anchor="middle">SDI / turbidity control</text>
+      </g>
 
-        <g class="unit-block pump" data-unit="hpPump">
-          <rect x="625" y="215" width="210" height="130" rx="16" style="fill:#fff;stroke:#c96f20;stroke-width:3;"></rect>
-          <text x="730" y="250" text-anchor="middle" class="block-title">High-Pressure Pump</text>
-          <text x="730" y="278" text-anchor="middle">RO feed pressurization</text>
-          <text x="730" y="302" text-anchor="middle">Typical: 800–1,200 psig</text>
-          <text x="730" y="326" text-anchor="middle">VFD / booster service</text>
-        </g>
+      <g class="unit-block pump" data-unit="hpPump">
+        <rect x="760" y="245" width="235" height="140" rx="18"></rect>
+        <text x="878" y="283" text-anchor="middle" class="block-title">High-Pressure Pump</text>
+        <text x="878" y="314" text-anchor="middle">RO feed pressurization</text>
+        <text x="878" y="340" text-anchor="middle">800–1,200 psig typical</text>
+        <text x="878" y="366" text-anchor="middle">VFD / booster service</text>
+      </g>
 
-        <g class="unit-block ro" data-unit="ro">
-          <rect x="910" y="170" width="270" height="190" rx="18" style="fill:#fff;stroke:#6b5fb5;stroke-width:3;"></rect>
-          <text x="1045" y="208" text-anchor="middle" class="block-title">RO Membrane Trains</text>
-          <rect x="950" y="232" width="190" height="26" rx="10" class="membrane"></rect>
-          <rect x="950" y="270" width="190" height="26" rx="10" class="membrane"></rect>
-          <rect x="950" y="308" width="190" height="26" rx="10" class="membrane"></rect>
-          <text x="1045" y="382" text-anchor="middle" class="small-note">Permeate + concentrated brine</text>
-        </g>
+      <g class="unit-block ro" data-unit="ro">
+        <rect x="1110" y="200" width="310" height="220" rx="20"></rect>
+        <text x="1265" y="242" text-anchor="middle" class="block-title">RO Membrane Trains</text>
+        <rect x="1155" y="270" width="220" height="28" rx="11" class="membrane"></rect>
+        <rect x="1155" y="312" width="220" height="28" rx="11" class="membrane"></rect>
+        <rect x="1155" y="354" width="220" height="28" rx="11" class="membrane"></rect>
+        <text x="1265" y="410" text-anchor="middle" class="small-note">Permeate + concentrated brine</text>
+      </g>
 
-        <g class="unit-block post" data-unit="post">
-          <rect x="1240" y="145" width="205" height="145" rx="18" style="fill:#fff;stroke:#2f8f46;stroke-width:3;"></rect>
-          <text x="1342" y="181" text-anchor="middle" class="block-title">Post-Treatment</text>
-          <text x="1342" y="210" text-anchor="middle">Remineralization</text>
-          <text x="1342" y="234" text-anchor="middle">pH adjustment</text>
-          <text x="1342" y="258" text-anchor="middle">Disinfection</text>
-        </g>
+      <g class="unit-block post" data-unit="post">
+        <rect x="1520" y="155" width="225" height="155" rx="20"></rect>
+        <text x="1632" y="194" text-anchor="middle" class="block-title">Post-Treatment</text>
+        <text x="1632" y="226" text-anchor="middle">Remineralization</text>
+        <text x="1632" y="252" text-anchor="middle">pH adjustment</text>
+        <text x="1632" y="278" text-anchor="middle">Disinfection</text>
+      </g>
 
-        <g class="unit-block post" data-unit="storage">
-          <rect x="1240" y="385" width="205" height="135" rx="18" style="fill:#fff;stroke:#2f8f46;stroke-width:3;"></rect>
-          <text x="1342" y="420" text-anchor="middle" class="block-title">Potable Water</text>
-          <text x="1342" y="445" text-anchor="middle" class="block-title">Storage / Export</text>
-          <path d="M1292 466 C1292 442 1392 442 1392 466 L1392 492 C1392 516 1292 516 1292 492 Z" class="tank"></path>
-        </g>
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1520" y="425" width="225" height="155" rx="20"></rect>
+        <text x="1632" y="464" text-anchor="middle" class="block-title">Potable Water</text>
+        <text x="1632" y="490" text-anchor="middle" class="block-title">Storage / Export</text>
+        <path d="M1583 516 C1583 490 1681 490 1681 516 L1681 548 C1681 574 1583 574 1583 548 Z" class="tank"></path>
+      </g>
 
-        <g class="unit-block brine" data-unit="erd">
-          <rect x="910" y="500" width="270" height="130" rx="18" style="fill:#fff;stroke:#7c8b99;stroke-width:3;"></rect>
-          <text x="1045" y="536" text-anchor="middle" class="block-title">Energy Recovery Device</text>
-          <text x="1045" y="565" text-anchor="middle">Pressure exchanger / turbine</text>
-          <text x="1045" y="589" text-anchor="middle">Transfers brine pressure</text>
-          <text x="1045" y="613" text-anchor="middle">Reduces power consumption</text>
-        </g>
+      <!-- Lower train: brine, energy recovery, chemicals -->
+      <g class="unit-block erd" data-unit="erd">
+        <rect x="1110" y="620" width="310" height="145" rx="20"></rect>
+        <text x="1265" y="658" text-anchor="middle" class="block-title">Energy Recovery Device</text>
+        <text x="1265" y="690" text-anchor="middle">Pressure exchanger / turbine</text>
+        <text x="1265" y="716" text-anchor="middle">Transfers brine pressure</text>
+        <text x="1265" y="742" text-anchor="middle">Reduces power consumption</text>
+      </g>
 
-        <g class="unit-block brine" data-unit="brine">
-          <rect x="625" y="540" width="210" height="120" rx="16" style="fill:#fff;stroke:#7c8b99;stroke-width:3;"></rect>
-          <text x="730" y="575" text-anchor="middle" class="block-title">Brine Discharge</text>
-          <text x="730" y="603" text-anchor="middle">Outfall header</text>
-          <text x="730" y="627" text-anchor="middle">Marine diffusers</text>
-          <text x="730" y="651" text-anchor="middle">Safe dilution</text>
-        </g>
+      <g class="unit-block brine" data-unit="brine">
+        <rect x="760" y="640" width="235" height="135" rx="18"></rect>
+        <text x="878" y="678" text-anchor="middle" class="block-title">Brine Discharge</text>
+        <text x="878" y="708" text-anchor="middle">Outfall header</text>
+        <text x="878" y="734" text-anchor="middle">Marine diffusers</text>
+        <text x="878" y="760" text-anchor="middle">Safe dilution</text>
+      </g>
 
-        <g class="unit-block utility" data-unit="chemicals">
-          <rect x="315" y="540" width="245" height="120" rx="16" style="fill:#f3f7fa;stroke:#69788a;stroke-width:3;"></rect>
-          <text x="437" y="576" text-anchor="middle" class="block-title">Chemical Systems</text>
-          <text x="437" y="605" text-anchor="middle">Coagulant • antiscalant</text>
-          <text x="437" y="629" text-anchor="middle">Acid/caustic • chlorine</text>
-          <text x="437" y="653" text-anchor="middle">CIP chemicals</text>
-        </g>
+      <g class="unit-block chemicals" data-unit="chemicals">
+        <rect x="385" y="630" width="270" height="150" rx="18"></rect>
+        <text x="520" y="670" text-anchor="middle" class="block-title">Chemical Systems</text>
+        <text x="520" y="702" text-anchor="middle">Coagulant • antiscalant</text>
+        <text x="520" y="728" text-anchor="middle">Acid/caustic • chlorine</text>
+        <text x="520" y="754" text-anchor="middle">SMBS • CIP chemicals</text>
+      </g>
 
-        <g class="product-tag">
-          <rect x="1260" y="555" width="165" height="36" rx="12"></rect>
-          <text x="1342" y="578" text-anchor="middle">Potable water</text>
-        </g>
-        <g class="product-tag brine-tag">
-          <rect x="610" y="705" width="240" height="36" rx="12"></rect>
-          <text x="730" y="728" text-anchor="middle">Concentrated brine to sea</text>
-        </g>
+      <g class="product-tag water-product">
+        <rect x="1536" y="625" width="192" height="38" rx="13"></rect>
+        <text x="1632" y="649" text-anchor="middle">Potable water export</text>
+      </g>
+      <g class="product-tag brine-tag">
+        <rect x="748" y="830" width="260" height="38" rx="13"></rect>
+        <text x="878" y="854" text-anchor="middle">Concentrated brine to sea</text>
+      </g>
 
-        <path id="s1" class="stream seawater-flow" d="M35 280 H60" marker-end="url(#arrow)"></path>
-        <text x="42" y="262" class="stream-label">Seawater</text>
-        <path id="s2" class="stream seawater-flow" d="M250 280 H315" marker-end="url(#arrow)"></path>
-        <text x="265" y="262" class="stream-label">Screened seawater</text>
-        <path id="s3" class="stream pretreated-flow" d="M560 280 H625" marker-end="url(#arrow)"></path>
-        <text x="570" y="262" class="stream-label">Conditioned feed</text>
-        <path id="s4" class="stream hp-flow" d="M835 280 H910" marker-end="url(#arrow)"></path>
-        <text x="850" y="262" class="stream-label">HP RO feed</text>
+      <!-- Process streams -->
+      <path id="s1" class="stream seawater-flow" d="M36 315 H70" marker-end="url(#arrow)"></path>
+      <text x="43" y="296" class="stream-label">Seawater</text>
 
-        <path id="s5" class="stream permeate-flow" d="M1180 235 H1240" marker-end="url(#arrowPermeate)"></path>
-        <text x="1192" y="216" class="stream-label">Permeate</text>
-        <path id="s6" class="stream permeate-flow" d="M1342 290 V385" marker-end="url(#arrowPermeate)"></path>
-        <text x="1355" y="344" class="stream-label">Finished water</text>
-        <path id="s7" class="stream permeate-flow" d="M1342 520 V555" marker-end="url(#arrowPermeate)"></path>
+      <path id="s2" class="stream seawater-flow" d="M290 315 H385" marker-end="url(#arrow)"></path>
+      <text x="304" y="296" class="stream-label">Screened seawater</text>
 
-        <path id="s8" class="stream brine-flow" d="M1045 360 V500" marker-end="url(#arrowBrine)"></path>
-        <text x="1060" y="436" class="stream-label">High-pressure brine</text>
-        <path id="s9" class="stream brine-flow" d="M910 565 H835" marker-end="url(#arrowBrine)"></path>
-        <text x="845" y="548" class="stream-label">Depressurized brine</text>
-        <path id="s10" class="stream brine-flow" d="M730 660 V705" marker-end="url(#arrowBrine)"></path>
+      <path id="s3" class="stream pretreated-flow" d="M655 315 H760" marker-end="url(#arrow)"></path>
+      <text x="676" y="296" class="stream-label">Conditioned feed</text>
 
-        <path id="s11" class="stream energy-flow" d="M1045 500 C1045 455 730 455 730 345" marker-end="url(#arrow)"></path>
-        <text x="795" y="438" class="stream-label">Recovered pressure energy</text>
-        <path id="s12" class="stream chemical-flow" d="M437 540 V350" marker-end="url(#arrow)"></path>
-        <text x="448" y="470" class="stream-label">Chemicals / CIP</text>
+      <path id="s4" class="stream hp-flow" d="M995 315 H1110" marker-end="url(#arrow)"></path>
+      <text x="1020" y="296" class="stream-label">HP RO feed</text>
 
-        <path d="M292 160 H585 V375 H292" class="bracket"></path>
-        <text x="437" y="168" text-anchor="middle" class="section-label">Pretreatment Barrier</text>
-        <path d="M888 145 H1202 V655 H888" class="bracket"></path>
-        <text x="1045" y="153" text-anchor="middle" class="section-label">RO Separation + Energy Recovery</text>
+      <path id="s5" class="stream permeate-flow" d="M1420 260 H1520" marker-end="url(#arrowPermeate)"></path>
+      <text x="1442" y="239" class="stream-label">Permeate</text>
 
-        <g id="streamInfoOverlay" class="info-overlay">
-          <rect x="60" y="640" width="430" height="150" rx="14"></rect>
-          <text x="82" y="672" class="overlay-title">Selected Stream / Unit</text>
-          <text id="selectedTitle" x="82" y="704" class="overlay-main">Click any block or stream</text>
-          <text id="selectedDesc1" x="82" y="732" class="overlay-text">The diagram highlights the selected desalination section.</text>
-          <text id="selectedDesc2" x="82" y="758" class="overlay-text">Use this as a high-level SWRO plant block diagram.</text>
-        </g>
-      </svg>
-    </section>
+      <path id="s6" class="stream permeate-flow" d="M1632 310 V425" marker-end="url(#arrowPermeate)"></path>
+      <text x="1648" y="373" class="stream-label">Finished water</text>
 
-    <section class="summary-grid">
-      <article class="panel">
-        <h2>Unit Summary</h2>
-        <table id="unitSummaryTable">
-          <thead>
-            <tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Conditions</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </article>
-      <article class="panel">
-        <h2>Major Streams</h2>
-        <table id="streamSummaryTable">
-          <thead>
-            <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </article>
-    </section>
-  </main>
-  <script src="js/desalination-plant.js"></script>
-  <div id="footer"></div>
+      <path id="s7" class="stream permeate-flow" d="M1632 580 V625" marker-end="url(#arrowPermeate)"></path>
+
+      <path id="s8" class="stream brine-flow" d="M1265 420 V620" marker-end="url(#arrowBrine)"></path>
+      <text x="1284" y="528" class="stream-label">High-pressure brine</text>
+
+      <path id="s9" class="stream brine-flow" d="M1110 692 H995" marker-end="url(#arrowBrine)"></path>
+      <text x="1016" y="672" class="stream-label">Depressurized brine</text>
+
+      <path id="s10" class="stream brine-flow" d="M878 775 V830" marker-end="url(#arrowBrine)"></path>
+
+      <path id="s11" class="stream energy-flow" d="M1110 650 C1030 590 925 510 878 385" marker-end="url(#arrowUtility)"></path>
+      <text x="895" y="536" class="stream-label">Recovered pressure energy</text>
+
+      <path id="s12" class="stream chemical-flow" d="M520 630 V400" marker-end="url(#arrowUtility)"></path>
+      <text x="538" y="527" class="stream-label">Chemicals / CIP</text>
+
+      <path id="s13" class="stream chemical-flow" d="M655 705 C780 705 820 500 820 385" marker-end="url(#arrowUtility)"></path>
+      <text x="675" y="594" class="stream-label">Antiscalant to RO feed</text>
+
+      <!-- Section brackets -->
+      <path d="M350 185 H685 V430 H350 Z" class="bracket"></path>
+      <text x="520" y="194" text-anchor="middle" class="section-label">Pretreatment Barrier</text>
+      <path d="M1080 165 H1450 V795 H1080 Z" class="bracket"></path>
+      <text x="1265" y="174" text-anchor="middle" class="section-label">RO Separation + Energy Recovery</text>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="70" y="695" width="300" height="150" rx="15"></rect>
+        <text x="94" y="728" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="94" y="760" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="94" y="790" class="overlay-text">The diagram highlights the selected desalination section.</text>
+        <text id="selectedDesc2" x="94" y="818" class="overlay-text">Use this as a high-level SWRO plant block diagram.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel">
+      <h2>Unit Summary</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Conditions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<script src="js/desalination-plant.js"></script>
+<div id="footer"></div>
 <script>
 fetch("footer.html").then(r => r.text()).then(d => { document.getElementById("footer").innerHTML = d; }).catch(() => {});
 </script>
