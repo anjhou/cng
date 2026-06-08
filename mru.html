@@ -63,19 +63,51 @@ fetch("header.html").then(r => r.text()).then(d => document.getElementById("head
 <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#374151"></path></marker>
 </defs>
+<!--  -->
 
 <g id="rangeTableOverlay" class="range-table-overlay">
-    <rect x="790" y="205" width="395" height="166" rx="10" class="range-table-bg"></rect>
-    <text x="805" y="228" class="range-title">Calculated Stream Range Summary</text>
-    <line x1="790" y1="238" x2="1185" y2="238" class="range-table-line"></line><line x1="790" y1="264" x2="1185" y2="264" class="range-table-line"></line><line x1="790" y1="290" x2="1185" y2="290" class="range-table-line"></line><line x1="790" y1="316" x2="1185" y2="316" class="range-table-line"></line><line x1="790" y1="342" x2="1185" y2="342" class="range-table-line"></line><line x1="790" y1="368" x2="1185" y2="368" class="range-table-line"></line>
-    <line x1="920" y1="238" x2="920" y2="368" class="range-table-line"></line><line x1="1055" y1="238" x2="1055" y2="368" class="range-table-line"></line>
-    <text x="805" y="256" class="range-header">Parameter</text><text x="935" y="256" class="range-header">Minimum</text><text x="1070" y="256" class="range-header">Maximum</text>
-    <text x="805" y="282" class="range-text">Pressure</text><text x="935" y="282" class="range-text" id="minPressure">-</text><text x="1070" y="282" class="range-text" id="maxPressure">-</text>
-    <text x="805" y="308" class="range-text">Temperature</text><text x="935" y="308" class="range-text" id="minTemperature">-</text><text x="1070" y="308" class="range-text" id="maxTemperature">-</text>
-    <text x="805" y="334" class="range-text">Gas Flow</text><text x="935" y="334" class="range-text" id="minGasFlow">-</text><text x="1070" y="334" class="range-text" id="maxGasFlow">-</text>
-    <text x="805" y="360" class="range-text">Liquid Flow</text><text x="935" y="360" class="range-text" id="minLiquidFlow">-</text><text x="1070" y="360" class="range-text" id="maxLiquidFlow">-</text>
+
+    <rect x="805" y="545" width="380" height="140" rx="10"
+          class="range-table-bg"></rect>
+
+    <text x="820" y="567" class="range-title">
+        Calculated Stream Range Summary
+    </text>
+
+    <!-- Horizontal Borders -->
+    <line x1="805" y1="577" x2="1185" y2="577" class="range-table-line"></line>
+    <line x1="805" y1="603" x2="1185" y2="603" class="range-table-line"></line>
+    <line x1="805" y1="629" x2="1185" y2="629" class="range-table-line"></line>
+    <line x1="805" y1="655" x2="1185" y2="655" class="range-table-line"></line>
+    <line x1="805" y1="681" x2="1185" y2="681" class="range-table-line"></line>
+
+    <!-- Vertical Borders -->
+    <line x1="925" y1="577" x2="925" y2="685" class="range-table-line"></line>
+    <line x1="1055" y1="577" x2="1055" y2="685" class="range-table-line"></line>
+
+    <!-- Header -->
+    <text x="820" y="595" class="range-header">Parameter</text>
+    <text x="940" y="595" class="range-header">Minimum</text>
+    <text x="1070" y="595" class="range-header">Maximum</text>
+
+    <!-- Pressure -->
+    <text x="820" y="621" class="range-text">Pressure</text>
+    <text x="940" y="621" class="range-text" id="minPressure">-</text>
+    <text x="1070" y="621" class="range-text" id="maxPressure">-</text>
+
+    <!-- Temperature -->
+    <text x="820" y="647" class="range-text">Temperature</text>
+    <text x="940" y="647" class="range-text" id="minTemperature">-</text>
+    <text x="1070" y="647" class="range-text" id="maxTemperature">-</text>
+
+    <!-- Gas Flow -->
+    <text x="820" y="673" class="range-text">Gas Flow</text>
+    <text x="940" y="673" class="range-text" id="minGasFlow">-</text>
+    <text x="1070" y="673" class="range-text" id="maxGasFlow">-</text>
+
 </g>
 
+<!--  -->
 <!-- Equipment -->
 <rect x="95" y="300" width="120" height="75" rx="16" class="filter" data-type="unit" data-id="inletFilter"></rect>
 <text x="92" y="288" class="label">Inlet Filter</text>
