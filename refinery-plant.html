@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>300 kbpd Refinery Plant Block Diagram</title>
   <link rel="stylesheet" href="css/refinery-plant.css" />
+
+  <style>
+    :root { color-scheme: light; }
+    body { margin:0; background:#eef4f8; color:#17324d; font-family:Arial, Helvetica, sans-serif; }
+    svg { background:#f8fbfd; }
+    .canvas-bg { fill:#f8fbfd; stroke:#d7e2ea; stroke-width:2; }
+    .unit-block rect { fill:#ffffff; stroke:#1f6f9e; stroke-width:3; }
+    .unit-block text, .stream-label, .small-note, .section-label, .overlay-text { fill:#17324d; }
+    .svg-title { fill:#123b63; font-weight:800; }
+    .svg-subtitle { fill:#60758a; }
+    .stream { fill:none; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+    .crude-flow, .heavy-flow { stroke:#7b4f2b; }
+    .light-flow { stroke:#1f6f9e; }
+    .middle-flow { stroke:#008b8b; }
+    .product-flow { stroke:#2f8f46; }
+    .petro-flow { stroke:#6b5fb5; }
+    .sulfur-flow { stroke:#b44a3a; }
+    .fuel-flow, .h2-flow { stroke:#69788a; }
+    .arrow-head { fill:#1f6f9e; }
+    .info-overlay rect { fill:rgba(255,255,255,0.96); stroke:#cbd8e2; }
+  </style>
 </head>
 <body>
 <div id="header"></div>
@@ -28,7 +49,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       <svg id="refinerySvg" viewBox="0 0 1700 980" role="img" aria-label="300 kbpd complex refinery block flow diagram">
         <defs>
           <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-            <path d="M0,0 L0,6 L9,3 z" class="arrow-head"></path>
+            <path d="M0,0 L0,6 L9,3 z" class="arrow-head" fill="#1f6f9e"></path>
           </marker>
           <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#123b63" />
@@ -36,7 +57,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
           </linearGradient>
         </defs>
 
-        <rect x="20" y="20" width="1660" height="940" rx="24" class="canvas-bg"></rect>
+        <rect x="20" y="20" width="1660" height="940" rx="24" class="canvas-bg" fill="#f8fbfd" stroke="#d7e2ea" stroke-width="2"></rect>
         <text x="850" y="62" text-anchor="middle" class="svg-title">Integrated Refinery — Block Flow Diagram</text>
         <text x="850" y="90" text-anchor="middle" class="svg-subtitle">Crude separation → hydrotreating → octane/petrochemicals → product blending → sulfur recovery</text>
 
