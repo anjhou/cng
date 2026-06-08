@@ -25,248 +25,255 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
   </header>
 
   <section class="diagram-panel">
-    <svg id="waterSvg" viewBox="0 0 1900 1120" role="img" aria-label="River water treatment plant block flow diagram">
+    <svg id="waterSvg" viewBox="0 0 2200 1250" role="img" aria-label="River water treatment plant block flow diagram">
       <defs>
-        <marker id="arrowBlue" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#1f6f9e" stroke="none"></path>
+        <!-- Compact SVG markers. userSpaceOnUse avoids oversized heads when stroke width changes. -->
+        <marker id="arrowBlue" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#1f6f9e"></path>
         </marker>
-        <marker id="arrowClarified" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#008b8b" stroke="none"></path>
+        <marker id="arrowClarified" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#008b8b"></path>
         </marker>
-        <marker id="arrowCooling" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#6b5fb5" stroke="none"></path>
+        <marker id="arrowCooling" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#6b5fb5"></path>
         </marker>
-        <marker id="arrowPotable" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#2f8f46" stroke="none"></path>
+        <marker id="arrowPotable" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#2f8f46"></path>
         </marker>
-        <marker id="arrowDemin" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#c96f20" stroke="none"></path>
+        <marker id="arrowDemin" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#c96f20"></path>
         </marker>
-        <marker id="arrowWaste" viewBox="0 0 7 7" markerWidth="4" markerHeight="4" refX="6.2" refY="3.5" orient="auto" markerUnits="strokeWidth" overflow="visible">
-          <path d="M0,0 L7,3.5 L0,7 Z" fill="#69788a" stroke="none"></path>
+        <marker id="arrowWaste" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#69788a"></path>
         </marker>
       </defs>
 
-      <rect x="24" y="24" width="1852" height="1072" rx="26" class="canvas-bg"></rect>
-      <text x="950" y="66" text-anchor="middle" class="svg-title">River Water Treatment Plant — Multi-Product Water System</text>
-      <text x="950" y="96" text-anchor="middle" class="svg-subtitle">River water → clarification → cooling water, potable water, and demineralized water branches</text>
+      <rect x="24" y="24" width="2152" height="1202" rx="26" class="canvas-bg"></rect>
+      <text x="1100" y="68" text-anchor="middle" class="svg-title">River Water Treatment Plant — Multi-Product Water System</text>
+      <text x="1100" y="98" text-anchor="middle" class="svg-subtitle">River water → clarification → clarified water, cooling water, potable water, and demineralized water branches</text>
 
-      <!-- Front-end clarification train -->
+      <!-- Front-end clarification train: spread left-to-right across the top -->
       <g class="unit-block intake" data-unit="intake">
-        <rect x="70" y="250" width="220" height="140" rx="18"></rect>
-        <text x="180" y="288" text-anchor="middle" class="block-title">River Water Intake</text>
-        <text x="180" y="318" text-anchor="middle">Intake pumps</text>
-        <text x="180" y="344" text-anchor="middle">Coarse + fine screens</text>
-        <text x="180" y="370" text-anchor="middle">Debris removal</text>
+        <rect x="80" y="235" width="235" height="145" rx="18"></rect>
+        <text x="198" y="274" text-anchor="middle" class="block-title">River Water Intake</text>
+        <text x="198" y="305" text-anchor="middle">Intake pumps</text>
+        <text x="198" y="332" text-anchor="middle">Coarse + fine screens</text>
+        <text x="198" y="359" text-anchor="middle">Debris removal</text>
       </g>
 
       <g class="unit-block coag" data-unit="coag">
-        <rect x="365" y="220" width="230" height="145" rx="18"></rect>
-        <text x="480" y="258" text-anchor="middle" class="block-title">Coagulation</text>
-        <text x="480" y="288" text-anchor="middle">Rapid mixing</text>
-        <text x="480" y="314" text-anchor="middle">Alum / ferric salt</text>
-        <text x="480" y="340" text-anchor="middle">pH control</text>
+        <rect x="410" y="235" width="245" height="145" rx="18"></rect>
+        <text x="533" y="274" text-anchor="middle" class="block-title">Coagulation</text>
+        <text x="533" y="305" text-anchor="middle">Rapid mixing</text>
+        <text x="533" y="332" text-anchor="middle">Alum / ferric salt</text>
+        <text x="533" y="359" text-anchor="middle">pH control</text>
       </g>
 
       <g class="unit-block floc" data-unit="floc">
-        <rect x="670" y="220" width="230" height="145" rx="18"></rect>
-        <text x="785" y="258" text-anchor="middle" class="block-title">Flocculation</text>
-        <text x="785" y="288" text-anchor="middle">Slow mixing basins</text>
-        <text x="785" y="314" text-anchor="middle">Polymer assist</text>
-        <text x="785" y="340" text-anchor="middle">Floc growth</text>
+        <rect x="750" y="235" width="245" height="145" rx="18"></rect>
+        <text x="873" y="274" text-anchor="middle" class="block-title">Flocculation</text>
+        <text x="873" y="305" text-anchor="middle">Slow mixing basins</text>
+        <text x="873" y="332" text-anchor="middle">Polymer assist</text>
+        <text x="873" y="359" text-anchor="middle">Floc growth</text>
       </g>
 
       <g class="unit-block sediment" data-unit="sediment">
-        <rect x="975" y="220" width="245" height="145" rx="18"></rect>
-        <text x="1098" y="258" text-anchor="middle" class="block-title">Sedimentation</text>
-        <text x="1098" y="288" text-anchor="middle">Clarifier / lamella</text>
-        <text x="1098" y="314" text-anchor="middle">Suspended solids removal</text>
-        <text x="1098" y="340" text-anchor="middle">Sludge blowdown</text>
+        <rect x="1090" y="235" width="260" height="145" rx="18"></rect>
+        <text x="1220" y="274" text-anchor="middle" class="block-title">Sedimentation</text>
+        <text x="1220" y="305" text-anchor="middle">Clarifier / lamella</text>
+        <text x="1220" y="332" text-anchor="middle">Suspended solids removal</text>
+        <text x="1220" y="359" text-anchor="middle">Sludge blowdown</text>
       </g>
 
       <g class="unit-block clarified" data-unit="clarified">
-        <rect x="1310" y="210" width="250" height="165" rx="20"></rect>
-        <text x="1435" y="250" text-anchor="middle" class="block-title">Clarified Water</text>
-        <text x="1435" y="280" text-anchor="middle">Common header / tank</text>
-        <text x="1435" y="306" text-anchor="middle">Base feed for all users</text>
-        <path d="M1380 323 C1380 298 1490 298 1490 323 L1490 346 C1490 371 1380 371 1380 346 Z" class="tank"></path>
+        <rect x="1460" y="220" width="270" height="175" rx="20"></rect>
+        <text x="1595" y="260" text-anchor="middle" class="block-title">Clarified Water</text>
+        <text x="1595" y="292" text-anchor="middle">Common header / tank</text>
+        <text x="1595" y="319" text-anchor="middle">Base feed for all users</text>
+        <path d="M1530 338 C1530 313 1660 313 1660 338 L1660 362 C1660 387 1530 387 1530 362 Z" class="tank"></path>
       </g>
 
-      <!-- Cooling water branch -->
-      <g class="branch-label cooling-label"><text x="1260" y="475">Cooling Water Branch</text></g>
+      <!-- Product tag for direct clarified water use -->
+      <g class="product-tag clarified-tag">
+        <rect x="1875" y="250" width="230" height="42" rx="13"></rect>
+        <text x="1990" y="277" text-anchor="middle">Clarified water users</text>
+      </g>
+
+      <!-- Cooling water branch: top-middle/right lane -->
+      <g class="branch-label cooling-label"><text x="1165" y="500">Cooling Water Branch</text></g>
       <g class="unit-block cooling" data-unit="cwFilter">
-        <rect x="960" y="500" width="245" height="135" rx="18"></rect>
-        <text x="1083" y="538" text-anchor="middle" class="block-title">CW Filtration</text>
-        <text x="1083" y="568" text-anchor="middle">Strainers / MMF</text>
-        <text x="1083" y="594" text-anchor="middle">Low solids protection</text>
-        <text x="1083" y="620" text-anchor="middle">Cooling makeup quality</text>
+        <rect x="910" y="535" width="255" height="140" rx="18"></rect>
+        <text x="1038" y="574" text-anchor="middle" class="block-title">CW Filtration</text>
+        <text x="1038" y="605" text-anchor="middle">Strainers / MMF</text>
+        <text x="1038" y="632" text-anchor="middle">Low solids protection</text>
+        <text x="1038" y="659" text-anchor="middle">Cooling makeup quality</text>
       </g>
 
       <g class="unit-block cooling" data-unit="cwChem">
-        <rect x="1285" y="500" width="245" height="135" rx="18"></rect>
-        <text x="1408" y="538" text-anchor="middle" class="block-title">CW Chemical</text>
-        <text x="1408" y="568" text-anchor="middle">Scale inhibitor</text>
-        <text x="1408" y="594" text-anchor="middle">Corrosion inhibitor</text>
-        <text x="1408" y="620" text-anchor="middle">Biocide dosing</text>
+        <rect x="1285" y="535" width="255" height="140" rx="18"></rect>
+        <text x="1413" y="574" text-anchor="middle" class="block-title">CW Chemical</text>
+        <text x="1413" y="605" text-anchor="middle">Scale inhibitor</text>
+        <text x="1413" y="632" text-anchor="middle">Corrosion inhibitor</text>
+        <text x="1413" y="659" text-anchor="middle">Biocide dosing</text>
       </g>
 
       <g class="unit-block cooling" data-unit="coolingTower">
-        <rect x="1610" y="490" width="230" height="155" rx="18"></rect>
-        <text x="1725" y="528" text-anchor="middle" class="block-title">Cooling Tower</text>
-        <text x="1725" y="558" text-anchor="middle">Makeup water</text>
-        <text x="1725" y="584" text-anchor="middle">Circulation pumps</text>
-        <text x="1725" y="610" text-anchor="middle">Heat exchangers</text>
+        <rect x="1660" y="525" width="250" height="160" rx="18"></rect>
+        <text x="1785" y="565" text-anchor="middle" class="block-title">Cooling Tower</text>
+        <text x="1785" y="596" text-anchor="middle">Makeup water</text>
+        <text x="1785" y="623" text-anchor="middle">Circulation pumps</text>
+        <text x="1785" y="650" text-anchor="middle">Heat exchangers</text>
       </g>
 
-      <!-- Potable water branch -->
-      <g class="branch-label potable-label"><text x="1260" y="695">Potable Water Branch</text></g>
+      <g class="product-tag cooling-tag">
+        <rect x="1945" y="585" width="225" height="42" rx="13"></rect>
+        <text x="2058" y="612" text-anchor="middle">Cooling water makeup</text>
+      </g>
+
+      <!-- Potable water branch: lower-right lane -->
+      <g class="branch-label potable-label"><text x="1190" y="755">Potable Water Branch</text></g>
       <g class="unit-block potable" data-unit="potFilter">
-        <rect x="760" y="725" width="235" height="145" rx="18"></rect>
-        <text x="878" y="763" text-anchor="middle" class="block-title">Rapid Sand Filter</text>
-        <text x="878" y="793" text-anchor="middle">Turbidity polishing</text>
-        <text x="878" y="819" text-anchor="middle">Optional carbon</text>
-        <text x="878" y="845" text-anchor="middle">Taste / odor removal</text>
+        <rect x="820" y="790" width="255" height="150" rx="18"></rect>
+        <text x="948" y="830" text-anchor="middle" class="block-title">Rapid Sand Filter</text>
+        <text x="948" y="862" text-anchor="middle">Turbidity polishing</text>
+        <text x="948" y="889" text-anchor="middle">Optional carbon</text>
+        <text x="948" y="916" text-anchor="middle">Taste / odor removal</text>
       </g>
 
       <g class="unit-block potable" data-unit="disinfection">
-        <rect x="1090" y="725" width="235" height="145" rx="18"></rect>
-        <text x="1208" y="763" text-anchor="middle" class="block-title">Disinfection</text>
-        <text x="1208" y="793" text-anchor="middle">Chlorine or UV</text>
-        <text x="1208" y="819" text-anchor="middle">pH adjustment</text>
-        <text x="1208" y="845" text-anchor="middle">Residual control</text>
+        <rect x="1205" y="790" width="255" height="150" rx="18"></rect>
+        <text x="1333" y="830" text-anchor="middle" class="block-title">Disinfection</text>
+        <text x="1333" y="862" text-anchor="middle">Chlorine or UV</text>
+        <text x="1333" y="889" text-anchor="middle">pH adjustment</text>
+        <text x="1333" y="916" text-anchor="middle">Residual control</text>
       </g>
 
       <g class="unit-block potable" data-unit="potableStorage">
-        <rect x="1420" y="725" width="235" height="145" rx="18"></rect>
-        <text x="1538" y="763" text-anchor="middle" class="block-title">Potable Storage</text>
-        <text x="1538" y="793" text-anchor="middle">Clearwell / tank</text>
-        <text x="1538" y="819" text-anchor="middle">Distribution pumps</text>
-        <text x="1538" y="845" text-anchor="middle">Drinking-water service</text>
+        <rect x="1590" y="790" width="255" height="150" rx="18"></rect>
+        <text x="1718" y="830" text-anchor="middle" class="block-title">Potable Storage</text>
+        <text x="1718" y="862" text-anchor="middle">Clearwell / tank</text>
+        <text x="1718" y="889" text-anchor="middle">Distribution pumps</text>
+        <text x="1718" y="916" text-anchor="middle">Drinking-water service</text>
       </g>
 
-      <!-- Demineralized water branch -->
-      <g class="branch-label demin-label"><text x="550" y="475">Demin Water Branch</text></g>
+      <g class="product-tag potable-tag">
+        <rect x="1915" y="845" width="220" height="42" rx="13"></rect>
+        <text x="2025" y="872" text-anchor="middle">Potable water export</text>
+      </g>
+
+      <!-- Demineralized water branch: lower-left lane -->
+      <g class="branch-label demin-label"><text x="455" y="500">Demin Water Branch</text></g>
       <g class="unit-block demin" data-unit="uf">
-        <rect x="130" y="515" width="220" height="145" rx="18"></rect>
-        <text x="240" y="553" text-anchor="middle" class="block-title">Ultrafiltration</text>
-        <text x="240" y="583" text-anchor="middle">Fine particle removal</text>
-        <text x="240" y="609" text-anchor="middle">RO protection</text>
-        <text x="240" y="635" text-anchor="middle">Backwash system</text>
+        <rect x="115" y="535" width="240" height="150" rx="18"></rect>
+        <text x="235" y="575" text-anchor="middle" class="block-title">Ultrafiltration</text>
+        <text x="235" y="607" text-anchor="middle">Fine particle removal</text>
+        <text x="235" y="634" text-anchor="middle">RO protection</text>
+        <text x="235" y="661" text-anchor="middle">Backwash system</text>
       </g>
 
       <g class="unit-block demin" data-unit="ro">
-        <rect x="435" y="515" width="220" height="145" rx="18"></rect>
-        <text x="545" y="553" text-anchor="middle" class="block-title">RO System</text>
-        <text x="545" y="583" text-anchor="middle">Dissolved salt removal</text>
-        <text x="545" y="609" text-anchor="middle">Permeate / reject</text>
-        <text x="545" y="635" text-anchor="middle">High recovery train</text>
+        <rect x="470" y="535" width="240" height="150" rx="18"></rect>
+        <text x="590" y="575" text-anchor="middle" class="block-title">RO System</text>
+        <text x="590" y="607" text-anchor="middle">Dissolved salt removal</text>
+        <text x="590" y="634" text-anchor="middle">Permeate / reject</text>
+        <text x="590" y="661" text-anchor="middle">High recovery train</text>
       </g>
 
       <g class="unit-block demin" data-unit="edi">
-        <rect x="740" y="515" width="220" height="145" rx="18"></rect>
-        <text x="850" y="553" text-anchor="middle" class="block-title">IX / EDI Polisher</text>
-        <text x="850" y="583" text-anchor="middle">Conductivity polishing</text>
-        <text x="850" y="609" text-anchor="middle">Silica reduction</text>
-        <text x="850" y="635" text-anchor="middle">Boiler-quality water</text>
+        <rect x="825" y="535" width="250" height="150" rx="18"></rect>
+        <text x="950" y="575" text-anchor="middle" class="block-title">IX / EDI Polisher</text>
+        <text x="950" y="607" text-anchor="middle">Conductivity polishing</text>
+        <text x="950" y="634" text-anchor="middle">Silica reduction</text>
+        <text x="950" y="661" text-anchor="middle">Boiler-quality water</text>
       </g>
 
       <g class="unit-block demin" data-unit="deminStorage">
-        <rect x="1045" y="515" width="220" height="145" rx="18"></rect>
-        <text x="1155" y="553" text-anchor="middle" class="block-title">Demin Storage</text>
-        <text x="1155" y="583" text-anchor="middle">High-purity tank</text>
-        <text x="1155" y="609" text-anchor="middle">Transfer pumps</text>
-        <text x="1155" y="635" text-anchor="middle">Boilers / process users</text>
+        <rect x="1185" y="535" width="250" height="150" rx="18"></rect>
+        <text x="1310" y="575" text-anchor="middle" class="block-title">Demin Storage</text>
+        <text x="1310" y="607" text-anchor="middle">High-purity tank</text>
+        <text x="1310" y="634" text-anchor="middle">Transfer pumps</text>
+        <text x="1310" y="661" text-anchor="middle">Boilers / process users</text>
       </g>
 
-      <!-- Waste handling -->
-      <g class="unit-block waste" data-unit="waste">
-        <rect x="1310" y="930" width="250" height="115" rx="18"></rect>
-        <text x="1435" y="966" text-anchor="middle" class="block-title">Waste / Reject Handling</text>
-        <text x="1435" y="996" text-anchor="middle">Clarifier sludge</text>
-        <text x="1435" y="1022" text-anchor="middle">RO reject / filter backwash</text>
-      </g>
-
-      <!-- Product tags -->
-      <g class="product-tag clarified-tag">
-        <rect x="1625" y="215" width="210" height="40" rx="13"></rect>
-        <text x="1730" y="241" text-anchor="middle">Clarified water users</text>
-      </g>
-      <g class="product-tag cooling-tag">
-        <rect x="1610" y="675" width="230" height="40" rx="13"></rect>
-        <text x="1725" y="701" text-anchor="middle">Cooling water makeup</text>
-      </g>
-      <g class="product-tag potable-tag">
-        <rect x="1425" y="905" width="225" height="40" rx="13"></rect>
-        <text x="1538" y="931" text-anchor="middle">Potable water export</text>
-      </g>
       <g class="product-tag demin-tag">
-        <rect x="1055" y="690" width="200" height="40" rx="13"></rect>
-        <text x="1155" y="716" text-anchor="middle">Demin water export</text>
+        <rect x="1475" y="590" width="210" height="42" rx="13"></rect>
+        <text x="1580" y="617" text-anchor="middle">Demin water export</text>
+      </g>
+
+      <!-- Waste handling: dedicated bottom lane away from product paths -->
+      <g class="unit-block waste" data-unit="waste">
+        <rect x="1285" y="1040" width="285" height="120" rx="18"></rect>
+        <text x="1428" y="1078" text-anchor="middle" class="block-title">Waste / Reject Handling</text>
+        <text x="1428" y="1110" text-anchor="middle">Clarifier sludge</text>
+        <text x="1428" y="1137" text-anchor="middle">RO reject / filter backwash</text>
       </g>
 
       <!-- Main process streams -->
-      <path id="s1" class="stream river-flow" d="M38 320 H70" marker-end="url(#arrowBlue)"></path>
-      <text x="44" y="300" class="stream-label">River water</text>
-      <path id="s2" class="stream river-flow" d="M290 320 H365" marker-end="url(#arrowBlue)"></path>
-      <text x="300" y="300" class="stream-label">Screened water</text>
-      <path id="s3" class="stream river-flow" d="M595 292 H670" marker-end="url(#arrowBlue)"></path>
-      <text x="606" y="273" class="stream-label">Coagulated water</text>
-      <path id="s4" class="stream river-flow" d="M900 292 H975" marker-end="url(#arrowBlue)"></path>
-      <text x="912" y="273" class="stream-label">Flocculated water</text>
-      <path id="s5" class="stream clarified-flow" d="M1220 292 H1310" marker-end="url(#arrowClarified)"></path>
-      <text x="1232" y="273" class="stream-label">Clarified water</text>
-      <path id="s6" class="stream clarified-flow" d="M1560 292 H1625" marker-end="url(#arrowClarified)"></path>
+      <path id="s1" class="stream river-flow" d="M42 308 H80" marker-end="url(#arrowBlue)"></path>
+      <text x="48" y="286" class="stream-label">River water</text>
+      <path id="s2" class="stream river-flow" d="M315 308 H410" marker-end="url(#arrowBlue)"></path>
+      <text x="330" y="286" class="stream-label">Screened water</text>
+      <path id="s3" class="stream river-flow" d="M655 308 H750" marker-end="url(#arrowBlue)"></path>
+      <text x="665" y="286" class="stream-label">Coagulated water</text>
+      <path id="s4" class="stream river-flow" d="M995 308 H1090" marker-end="url(#arrowBlue)"></path>
+      <text x="1010" y="286" class="stream-label">Flocculated water</text>
+      <path id="s5" class="stream clarified-flow" d="M1350 308 H1460" marker-end="url(#arrowClarified)"></path>
+      <text x="1360" y="286" class="stream-label">Clarified water</text>
+      <path id="s6" class="stream clarified-flow" d="M1730 308 H1875" marker-end="url(#arrowClarified)"></path>
 
-      <!-- Distribution header from clarified water -->
-      <path id="s7" class="stream clarified-flow" d="M1435 375 V455 H1083 V500" marker-end="url(#arrowCooling)"></path>
-      <text x="1160" y="436" class="stream-label">Clarified water to CW</text>
-      <path id="s8" class="stream clarified-flow" d="M1435 375 V705 H878 V725" marker-end="url(#arrowPotable)"></path>
-      <text x="920" y="687" class="stream-label">Clarified water to potable</text>
-      <path id="s9" class="stream clarified-flow" d="M1310 318 C1040 430 570 438 240 515" marker-end="url(#arrowDemin)"></path>
-      <text x="510" y="455" class="stream-label">Clarified water to demin</text>
+      <!-- Branch header from clarified water tank; routed with open lanes and no block crossings -->
+      <path id="s7" class="stream clarified-flow" d="M1595 395 V455 H1038 V535" marker-end="url(#arrowCooling)"></path>
+      <text x="1115" y="437" class="stream-label">Clarified water to CW</text>
+      <path id="s8" class="stream clarified-flow" d="M1595 395 V735 H948 V790" marker-end="url(#arrowPotable)"></path>
+      <text x="1015" y="717" class="stream-label">Clarified water to potable</text>
+      <path id="s9" class="stream clarified-flow" d="M1460 350 C1180 438 590 438 235 535" marker-end="url(#arrowDemin)"></path>
+      <text x="575" y="454" class="stream-label">Clarified water to demin</text>
 
       <!-- Cooling branch -->
-      <path id="s10" class="stream cooling-flow" d="M1205 568 H1285" marker-end="url(#arrowCooling)"></path>
-      <text x="1217" y="548" class="stream-label">Filtered CW makeup</text>
-      <path id="s11" class="stream cooling-flow" d="M1530 568 H1610" marker-end="url(#arrowCooling)"></path>
-      <text x="1540" y="548" class="stream-label">Conditioned CW</text>
-      <path id="s12" class="stream cooling-flow" d="M1725 645 V675" marker-end="url(#arrowCooling)"></path>
+      <path id="s10" class="stream cooling-flow" d="M1165 605 H1285" marker-end="url(#arrowCooling)"></path>
+      <text x="1180" y="584" class="stream-label">Filtered CW makeup</text>
+      <path id="s11" class="stream cooling-flow" d="M1540 605 H1660" marker-end="url(#arrowCooling)"></path>
+      <text x="1555" y="584" class="stream-label">Conditioned CW</text>
+      <path id="s12" class="stream cooling-flow" d="M1910 605 H1945" marker-end="url(#arrowCooling)"></path>
 
       <!-- Potable branch -->
-      <path id="s13" class="stream potable-flow" d="M995 798 H1090" marker-end="url(#arrowPotable)"></path>
-      <text x="1012" y="778" class="stream-label">Filtered water</text>
-      <path id="s14" class="stream potable-flow" d="M1325 798 H1420" marker-end="url(#arrowPotable)"></path>
-      <text x="1342" y="778" class="stream-label">Disinfected water</text>
-      <path id="s15" class="stream potable-flow" d="M1538 870 V905" marker-end="url(#arrowPotable)"></path>
+      <path id="s13" class="stream potable-flow" d="M1075 865 H1205" marker-end="url(#arrowPotable)"></path>
+      <text x="1092" y="844" class="stream-label">Filtered water</text>
+      <path id="s14" class="stream potable-flow" d="M1460 865 H1590" marker-end="url(#arrowPotable)"></path>
+      <text x="1478" y="844" class="stream-label">Disinfected water</text>
+      <path id="s15" class="stream potable-flow" d="M1845 865 H1915" marker-end="url(#arrowPotable)"></path>
 
       <!-- Demin branch -->
-      <path id="s16" class="stream demin-flow" d="M350 588 H435" marker-end="url(#arrowDemin)"></path>
-      <text x="365" y="568" class="stream-label">UF filtrate</text>
-      <path id="s17" class="stream demin-flow" d="M655 588 H740" marker-end="url(#arrowDemin)"></path>
-      <text x="670" y="568" class="stream-label">RO permeate</text>
-      <path id="s18" class="stream demin-flow" d="M960 588 H1045" marker-end="url(#arrowDemin)"></path>
-      <text x="975" y="568" class="stream-label">Polished water</text>
-      <path id="s19" class="stream demin-flow" d="M1155 660 V690" marker-end="url(#arrowDemin)"></path>
+      <path id="s16" class="stream demin-flow" d="M355 610 H470" marker-end="url(#arrowDemin)"></path>
+      <text x="375" y="589" class="stream-label">UF filtrate</text>
+      <path id="s17" class="stream demin-flow" d="M710 610 H825" marker-end="url(#arrowDemin)"></path>
+      <text x="730" y="589" class="stream-label">RO permeate</text>
+      <path id="s18" class="stream demin-flow" d="M1075 610 H1185" marker-end="url(#arrowDemin)"></path>
+      <text x="1090" y="589" class="stream-label">Polished water</text>
+      <path id="s19" class="stream demin-flow" d="M1435 610 H1475" marker-end="url(#arrowDemin)"></path>
 
       <!-- Waste / reject streams -->
-      <path id="s20" class="stream waste-flow" d="M1098 365 C1135 585 1240 840 1310 970" marker-end="url(#arrowWaste)"></path>
-      <text x="1165" y="790" class="stream-label">Sludge</text>
-      <path id="s21" class="stream waste-flow" d="M545 660 C660 870 980 970 1310 997" marker-end="url(#arrowWaste)"></path>
-      <text x="760" y="912" class="stream-label">RO reject / backwash</text>
+      <path id="s20" class="stream waste-flow" d="M1220 380 C1235 620 1300 865 1365 1040" marker-end="url(#arrowWaste)"></path>
+      <text x="1262" y="804" class="stream-label">Sludge</text>
+      <path id="s21" class="stream waste-flow" d="M590 685 C690 920 1010 1075 1285 1100" marker-end="url(#arrowWaste)"></path>
+      <text x="790" y="990" class="stream-label">RO reject / backwash</text>
 
       <!-- Section brackets -->
-      <path d="M340 180 H1250 V400 H340 Z" class="bracket"></path>
-      <text x="795" y="188" text-anchor="middle" class="section-label">Clarification Train</text>
-      <path d="M930 470 H1850 V665 H930 Z" class="bracket"></path>
-      <path d="M725 700 H1675 V890 H725 Z" class="bracket"></path>
-      <path d="M100 485 H1285 V745 H100 Z" class="bracket"></path>
+      <path d="M375 195 H1765 V425 H375 Z" class="bracket"></path>
+      <text x="1070" y="204" text-anchor="middle" class="section-label">Clarification Train</text>
+      <path d="M885 500 H1930 V715 H885 Z" class="bracket"></path>
+      <text x="1408" y="509" text-anchor="middle" class="section-label">Cooling Water System</text>
+      <path d="M790 755 H1865 V970 H790 Z" class="bracket"></path>
+      <text x="1328" y="764" text-anchor="middle" class="section-label">Potable Water System</text>
+      <path d="M90 500 H1705 V715 H90 Z" class="bracket"></path>
+      <text x="897" y="509" text-anchor="middle" class="section-label">Demineralized Water System</text>
 
       <g id="streamInfoOverlay" class="info-overlay">
-        <rect x="70" y="890" width="405" height="150" rx="15"></rect>
-        <text x="94" y="923" class="overlay-title">Selected Stream / Unit</text>
-        <text id="selectedTitle" x="94" y="955" class="overlay-main">Click any block or stream</text>
-        <text id="selectedDesc1" x="94" y="985" class="overlay-text">The diagram highlights the selected water treatment section.</text>
-        <text id="selectedDesc2" x="94" y="1013" class="overlay-text">Use this as a high-level utility water block diagram.</text>
+        <rect x="70" y="1015" width="430" height="155" rx="15"></rect>
+        <text x="94" y="1049" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="94" y="1083" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="94" y="1114" class="overlay-text">The diagram highlights the selected water treatment section.</text>
+        <text id="selectedDesc2" x="94" y="1143" class="overlay-text">Use this as a high-level utility water block diagram.</text>
       </g>
     </svg>
   </section>
