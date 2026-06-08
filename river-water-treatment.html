@@ -25,32 +25,32 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
   </header>
 
   <section class="diagram-panel">
-    <svg id="waterSvg" viewBox="0 0 2200 1250" role="img" aria-label="River water treatment plant block flow diagram">
+    <svg id="waterSvg" viewBox="0 0 2300 1320" role="img" aria-label="River water treatment plant block flow diagram">
       <defs>
-        <!-- Compact SVG markers. userSpaceOnUse avoids oversized heads when stroke width changes. -->
-        <marker id="arrowBlue" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#1f6f9e"></path>
+        <!-- Visible compact arrowheads. markerUnits="strokeWidth" keeps heads tied to stream thickness instead of disappearing when the SVG is scaled. -->
+        <marker id="arrowBlue" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#1f6f9e" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
-        <marker id="arrowClarified" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#008b8b"></path>
+        <marker id="arrowClarified" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#008b8b" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
-        <marker id="arrowCooling" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#6b5fb5"></path>
+        <marker id="arrowCooling" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#6b5fb5" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
-        <marker id="arrowPotable" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#2f8f46"></path>
+        <marker id="arrowPotable" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#2f8f46" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
-        <marker id="arrowDemin" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#c96f20"></path>
+        <marker id="arrowDemin" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#c96f20" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
-        <marker id="arrowWaste" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L8,4 L0,8 Z" fill="#69788a"></path>
+        <marker id="arrowWaste" viewBox="0 0 6 6" markerWidth="3.4" markerHeight="3.4" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth" overflow="visible">
+          <path d="M0.5,0.5 L5.7,3 L0.5,5.5 Z" fill="#69788a" stroke="#ffffff" stroke-width="0.45"></path>
         </marker>
       </defs>
 
-      <rect x="24" y="24" width="2152" height="1202" rx="26" class="canvas-bg"></rect>
-      <text x="1100" y="68" text-anchor="middle" class="svg-title">River Water Treatment Plant — Multi-Product Water System</text>
-      <text x="1100" y="98" text-anchor="middle" class="svg-subtitle">River water → clarification → clarified water, cooling water, potable water, and demineralized water branches</text>
+      <rect x="24" y="24" width="2252" height="1272" rx="26" class="canvas-bg"></rect>
+      <text x="1150" y="68" text-anchor="middle" class="svg-title">River Water Treatment Plant — Multi-Product Water System</text>
+      <text x="1150" y="98" text-anchor="middle" class="svg-subtitle">River water → clarification → clarified water, cooling water, potable water, and demineralized water branches</text>
 
       <!-- Front-end clarification train: spread left-to-right across the top -->
       <g class="unit-block intake" data-unit="intake">
@@ -95,8 +95,8 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
 
       <!-- Product tag for direct clarified water use -->
       <g class="product-tag clarified-tag">
-        <rect x="1875" y="250" width="230" height="42" rx="13"></rect>
-        <text x="1990" y="277" text-anchor="middle">Clarified water users</text>
+        <rect x="1905" y="250" width="230" height="42" rx="13"></rect>
+        <text x="2020" y="277" text-anchor="middle">Clarified water users</text>
       </g>
 
       <!-- Cooling water branch: top-middle/right lane -->
@@ -126,8 +126,8 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       </g>
 
       <g class="product-tag cooling-tag">
-        <rect x="1945" y="585" width="225" height="42" rx="13"></rect>
-        <text x="2058" y="612" text-anchor="middle">Cooling water makeup</text>
+        <rect x="1985" y="585" width="225" height="42" rx="13"></rect>
+        <text x="2098" y="612" text-anchor="middle">Cooling water makeup</text>
       </g>
 
       <!-- Potable water branch: lower-right lane -->
@@ -157,8 +157,8 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       </g>
 
       <g class="product-tag potable-tag">
-        <rect x="1915" y="845" width="220" height="42" rx="13"></rect>
-        <text x="2025" y="872" text-anchor="middle">Potable water export</text>
+        <rect x="1960" y="845" width="220" height="42" rx="13"></rect>
+        <text x="2070" y="872" text-anchor="middle">Potable water export</text>
       </g>
 
       <!-- Demineralized water branch: lower-left lane -->
@@ -196,8 +196,8 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       </g>
 
       <g class="product-tag demin-tag">
-        <rect x="1475" y="590" width="210" height="42" rx="13"></rect>
-        <text x="1580" y="617" text-anchor="middle">Demin water export</text>
+        <rect x="1515" y="590" width="210" height="42" rx="13"></rect>
+        <text x="1620" y="617" text-anchor="middle">Demin water export</text>
       </g>
 
       <!-- Waste handling: dedicated bottom lane away from product paths -->
@@ -219,7 +219,7 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       <text x="1010" y="286" class="stream-label">Flocculated water</text>
       <path id="s5" class="stream clarified-flow" d="M1350 308 H1460" marker-end="url(#arrowClarified)"></path>
       <text x="1360" y="286" class="stream-label">Clarified water</text>
-      <path id="s6" class="stream clarified-flow" d="M1730 308 H1875" marker-end="url(#arrowClarified)"></path>
+      <path id="s6" class="stream clarified-flow" d="M1730 308 H1905" marker-end="url(#arrowClarified)"></path>
 
       <!-- Branch header from clarified water tank; routed with open lanes and no block crossings -->
       <path id="s7" class="stream clarified-flow" d="M1595 395 V455 H1038 V535" marker-end="url(#arrowCooling)"></path>
@@ -234,14 +234,14 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       <text x="1180" y="584" class="stream-label">Filtered CW makeup</text>
       <path id="s11" class="stream cooling-flow" d="M1540 605 H1660" marker-end="url(#arrowCooling)"></path>
       <text x="1555" y="584" class="stream-label">Conditioned CW</text>
-      <path id="s12" class="stream cooling-flow" d="M1910 605 H1945" marker-end="url(#arrowCooling)"></path>
+      <path id="s12" class="stream cooling-flow" d="M1910 605 H1985" marker-end="url(#arrowCooling)"></path>
 
       <!-- Potable branch -->
       <path id="s13" class="stream potable-flow" d="M1075 865 H1205" marker-end="url(#arrowPotable)"></path>
       <text x="1092" y="844" class="stream-label">Filtered water</text>
       <path id="s14" class="stream potable-flow" d="M1460 865 H1590" marker-end="url(#arrowPotable)"></path>
       <text x="1478" y="844" class="stream-label">Disinfected water</text>
-      <path id="s15" class="stream potable-flow" d="M1845 865 H1915" marker-end="url(#arrowPotable)"></path>
+      <path id="s15" class="stream potable-flow" d="M1845 865 H1960" marker-end="url(#arrowPotable)"></path>
 
       <!-- Demin branch -->
       <path id="s16" class="stream demin-flow" d="M355 610 H470" marker-end="url(#arrowDemin)"></path>
@@ -250,7 +250,7 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       <text x="730" y="589" class="stream-label">RO permeate</text>
       <path id="s18" class="stream demin-flow" d="M1075 610 H1185" marker-end="url(#arrowDemin)"></path>
       <text x="1090" y="589" class="stream-label">Polished water</text>
-      <path id="s19" class="stream demin-flow" d="M1435 610 H1475" marker-end="url(#arrowDemin)"></path>
+      <path id="s19" class="stream demin-flow" d="M1435 610 H1515" marker-end="url(#arrowDemin)"></path>
 
       <!-- Waste / reject streams -->
       <path id="s20" class="stream waste-flow" d="M1220 380 C1235 620 1300 865 1365 1040" marker-end="url(#arrowWaste)"></path>
