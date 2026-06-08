@@ -3,107 +3,152 @@
 const unitData = {
   crude: {
     title: 'Crude Feed, Desalter & Preheat',
-    desc1: 'Receives about 300 kbpd fresh crude, removes salts/water, and recovers heat before the CDU furnace.',
-    desc2: 'Main interfaces: crude tanks, desalter, preheat train, furnace, CDU feed inlet.',
-    function: 'Prepare fresh crude feed for atmospheric fractionation.',
-    equipment: 'Crude tanks, charge pumps, desalter, exchangers, fired heater'
+    capacity: '300 kbpd crude',
+    desc1: 'Receives 300 kbpd fresh crude, removes salts/water, and recovers heat before CDU furnace charging.',
+    desc2: 'Design basis: full crude charge to atmospheric tower after desalting and preheat.',
+    function: 'Prepare crude feed by salt/water removal, solids control, and heat recovery before atmospheric fractionation.',
+    conditions: 'Desalter: 250–320 °F, 150–300 psig; CDU feed after furnace: 650–725 °F.',
+    yield: '300 kbpd desalted crude to CDU; 0.5–2 vol% brine/water/sludge reject, assay dependent.',
+    equipment: 'Crude tanks, charge pumps, desalter, preheat exchangers, fired heater'
   },
   cdu: {
     title: 'Crude Distillation Unit (CDU)',
-    desc1: 'Separates desalted crude into LPG/naphtha overhead, naphtha, kerosene, gas oils, and atmospheric residue.',
-    desc2: 'CDU side draws feed the hydrotreating train; atmospheric residue feeds the VDU.',
-    function: 'Primary atmospheric separation of 300 kbpd crude into straight-run cuts.',
+    capacity: '300 kbpd fresh crude',
+    desc1: 'Separates crude into light ends, naphtha, kerosene, gas oils, and atmospheric residue.',
+    desc2: 'CDU side draws feed hydrotreating; atmospheric residue feeds the VDU.',
+    function: 'Primary atmospheric separation of full crude charge into straight-run refinery cuts.',
+    conditions: 'Tower top: 220–300 °F, 5–25 psig; flash zone: 650–725 °F; furnace outlet: 650–725 °F.',
+    yield: 'Indicative yields: LPG 3–5%, naphtha 18–25%, kero/jet 8–12%, diesel/LGO 18–25%, HGO 5–10%, AR 35–50%.',
     equipment: 'Atmospheric tower, side strippers, pumparounds, overhead system, furnace'
   },
   vdu: {
     title: 'Vacuum Distillation Unit (VDU)',
+    capacity: '135 kbpd AR feed (45% of crude)',
     desc1: 'Processes atmospheric residue to recover LVGO/HVGO while minimizing thermal cracking.',
     desc2: 'Vacuum residue is routed to asphalt/fuel oil or optional residue upgrading.',
-    function: 'Recover vacuum gas oils and separate vacuum residue from CDU bottoms.',
-    equipment: 'Vacuum tower, vacuum system, wash section, fired heater, residue pumps'
+    function: 'Recover vacuum gas oils from atmospheric residue and separate vacuum residue bottoms.',
+    conditions: 'Vacuum tower flash zone: 700–780 °F; pressure: 20–80 mmHg abs; heater outlet: 720–790 °F.',
+    yield: 'From AR feed: LVGO 20–30%, HVGO 25–35%, vacuum residue 35–50%; equals ~27–41 kbpd LVGO, ~34–47 kbpd HVGO, ~47–68 kbpd VR.',
+    equipment: 'Vacuum tower, ejectors/vacuum system, wash section, fired heater, residue pumps'
   },
   nht: {
     title: 'Naphtha Hydrotreater (NHT)',
+    capacity: '60 kbpd naphtha feed',
     desc1: 'Treats light/heavy naphtha to remove sulfur, nitrogen, metals, and olefins.',
-    desc2: 'Hydrotreated heavy naphtha is routed to the catalytic reformer; light naphtha can route to isomerization or gasoline blending if added later.',
+    desc2: 'Hydrotreated heavy naphtha is routed to the reformer; light naphtha may route to isomerization or gasoline blending.',
     function: 'Clean naphtha feed to protect reformer catalyst and improve gasoline blend stability.',
+    conditions: 'Reactor: 550–700 °F, 250–600 psig H₂ partial pressure; LHSV 2–6 hr⁻¹.',
+    yield: 'Liquid yield typically 98–100 vol% hydrotreated naphtha; 0.5–2% light ends/sour gas depending on feed sulfur.',
     equipment: 'Feed/effluent exchangers, reactor, separator, stripper, recycle gas compressor'
   },
   kero: {
     title: 'Kerosene / Jet Hydrotreater',
+    capacity: '30 kbpd kerosene/jet feed',
     desc1: 'Treats kerosene to meet jet/kerosene sulfur, mercaptan, smoke point, and freezing point constraints.',
     desc2: 'Product is routed to the jet/kerosene pool after fractionation and quality control.',
     function: 'Produce on-spec jet/kerosene blending component.',
+    conditions: 'Reactor: 550–700 °F, 400–900 psig; moderate H₂ circulation for sulfur/mercaptan removal.',
+    yield: 'Liquid yield typically 98–100 vol%; ~29–30 kbpd jet/kerosene blendstock plus sour gas/light ends.',
     equipment: 'Hydrotreating reactor, stripper, fractionator, H₂ recycle, sulfur handling tie-in'
   },
   diesel: {
     title: 'Diesel Hydrotreater',
+    capacity: '70 kbpd diesel/LGO feed',
     desc1: 'Deep-desulfurizes LGO and selected gas oils to ULSD-range sulfur specification.',
     desc2: 'Hydrogen consumption depends on crude sulfur, feed endpoint, and severity.',
     function: 'Produce low-sulfur diesel blendstock with improved cetane and stability.',
+    conditions: 'Reactor: 600–750 °F, 600–1,200 psig; higher severity for ULSD and aromatic saturation.',
+    yield: 'Liquid yield typically 96–99 vol%; ~67–69 kbpd diesel blendstock plus sour gas/naphtha-range byproduct.',
     equipment: 'Reactor system, recycle compressor, hot/cold separators, stripper, fractionator'
   },
   vgo: {
     title: 'VGO Hydrotreater / Conversion Tie',
+    capacity: '75 kbpd LVGO/HVGO feed',
     desc1: 'Treats LVGO/HVGO before FCC, hydrocracker, or other conversion service where installed.',
-    desc2: 'In a simplified block diagram, VGO may route to diesel blend, external conversion, or future FCC/HCU blocks.',
+    desc2: 'In this block diagram, VGO can route to conversion, diesel blending, or external upgrading.',
     function: 'Upgrade vacuum gas oil quality and protect downstream conversion catalysts.',
+    conditions: 'Reactor: 650–800 °F, 1,000–2,000 psig; severe HDS/HDN/metals control service.',
+    yield: 'Hydrotreated VGO 95–99 vol%; minor naphtha/diesel/light gas make depending on severity.',
     equipment: 'High-pressure reactor system, separators, stripper, H₂ recycle compressor'
   },
   reformer: {
     title: 'Catalytic Reformer',
+    capacity: '45 kbpd hydrotreated heavy naphtha',
     desc1: 'Converts hydrotreated naphtha into high-octane reformate and produces H₂-rich off-gas.',
     desc2: 'Severity balances gasoline octane, aromatics feed to BTX recovery, and hydrogen make.',
     function: 'Increase gasoline octane and generate hydrogen for refinery hydrotreaters.',
+    conditions: 'Reactors: 900–980 °F, 50–350 psig; continuous catalyst regeneration or semi-regenerative operation.',
+    yield: 'Reformate 80–88 vol%; LPG/light ends 8–15%; H₂ make ~1,200–2,500 scf/bbl feed.',
     equipment: 'Reactor train, fired heaters, stabilizer, compressor, H₂ recovery interface'
   },
   aromatics: {
     title: 'Aromatics Complex',
-    desc1: 'Processes reformate or a C7–C9 heart cut to recover petrochemical-grade benzene, toluene, and xylenes.',
-    desc2: 'Extraction, fractionation, isomerization, and transalkylation can be configured around the target product slate.',
+    capacity: '25 kbpd reformate heart-cut/feed',
+    desc1: 'Processes reformate or C7–C9 heart cut to recover petrochemical-grade benzene, toluene, and xylenes.',
+    desc2: 'Extraction, fractionation, isomerization, and transalkylation are configured around target BTX slate.',
     function: 'Shift reformate value into petrochemical aromatics and return raffinate as blendstock where allowed.',
+    conditions: 'Extraction/fractionation: 150–400 °F, near-atmospheric to 150 psig; xylene loop/isom: 650–850 °F, 150–400 psig.',
+    yield: 'From aromatics feed: BTX 45–65 vol%; raffinate/heavy aromatics 35–55 vol%, depending on cut and extraction severity.',
     equipment: 'Extraction unit, clay treater, splitters, xylene loop, isomerization, transalkylation'
   },
   alky: {
     title: 'Alkylation Unit',
+    capacity: '20 kbpd alkylate product',
     desc1: 'Converts isobutane and C3/C4 olefins into high-octane, low-RVP, low-sulfur alkylate.',
     desc2: 'Alkylate supports gasoline octane when aromatics content is constrained.',
     function: 'Produce premium gasoline blendstock from light olefins and isobutane.',
+    conditions: 'HF alky: 80–110 °F, 100–200 psig; sulfuric alky: 35–55 °F, 50–150 psig.',
+    yield: 'Alkylate volume typically 1.6–1.8 bbl per bbl olefin; ~20 kbpd alkylate plus propane/n-butane byproducts.',
     equipment: 'Reactor/contactor, acid regeneration, deisobutanizer, product fractionation'
   },
   gasoline: {
     title: 'Gasoline Pool',
-    desc1: 'Blends reformate, alkylate, raffinate, and other gasoline components to meet octane, RVP, sulfur, benzene, and aromatics limits.',
-    desc2: 'Receives aromatics-lean raffinate depending on product specs and petrochemical extraction severity.',
+    capacity: '95 kbpd finished gasoline',
+    desc1: 'Blends reformate, alkylate, raffinate, light naphtha, and other gasoline components.',
+    desc2: 'Blend constraints include octane, RVP, sulfur, benzene, aromatics, distillation, and oxygenate rules.',
     function: 'Finalize gasoline blending components into marketable gasoline.',
+    conditions: 'Ambient tankage/blending: 60–120 °F, atmospheric to low transfer pressure.',
+    yield: 'Finished gasoline target ~30–35 vol% of crude, or ~90–105 kbpd for 300 kbpd crude basis.',
     equipment: 'Blend headers, component tanks, analyzers, additives, product rundown'
   },
   middle: {
     title: 'Jet / Diesel Product Pools',
+    capacity: '95 kbpd total middle distillates',
     desc1: 'Receives hydrotreated kerosene and diesel blendstocks for final product blending.',
-    desc2: 'Jet pool controls freezing point, smoke point, sulfur, flash point, and distillation; diesel pool controls sulfur, cetane, density, and cold-flow properties.',
-    function: 'Blend on-spec middle distillate products.',
+    desc2: 'Jet controls freezing point/smoke point; diesel controls sulfur/cetane/density/cold-flow.',
+    function: 'Blend on-spec jet/kerosene and diesel products.',
+    conditions: 'Ambient tankage/blending: 60–120 °F, atmospheric to low transfer pressure.',
+    yield: 'Jet/kerosene ~25–35 kbpd; diesel/ULSD ~60–75 kbpd, depending on crude and cut-point strategy.',
     equipment: 'Blend tanks, product analyzers, additive systems, product pumps'
   },
   residue: {
     title: 'Residue / Asphalt / Fuel Oil',
+    capacity: '50 kbpd VR/residue disposition',
     desc1: 'Handles vacuum residue as asphalt, fuel oil, or feed to external residue upgrading.',
-    desc2: 'Optional future blocks can include coker, visbreaker, solvent deasphalting, or residue hydrocracker.',
+    desc2: 'Optional future blocks can include coker, visbreaker, SDA, or residue hydrocracker.',
     function: 'Manage heavy residue disposition and minimize low-value bottoms.',
+    conditions: 'Residue handling: 250–450 °F heated transfer/storage, near-atmospheric to pump discharge pressure.',
+    yield: 'Vacuum residue typically 15–25 vol% of crude, or ~45–75 kbpd before any residue conversion.',
     equipment: 'Residue tanks, asphalt handling, fuel oil blending, external upgrading tie-ins'
   },
   sgp: {
     title: 'Sour Gas Plant (SGP)',
+    capacity: '150 MMSCFD sour gas + 250 LTPD sulfur basis',
     desc1: 'Treats sour off-gases from CDU/VDU, hydrotreaters, reformer, and fuel gas systems.',
-    desc2: 'Amine treats gas; Claus SRU converts H₂S to sulfur; TGTU polishes tail gas for emissions compliance.',
+    desc2: 'Amine treats gas; Claus SRU converts H₂S to sulfur; TGTU polishes tail gas.',
     function: 'Remove acid gases, recover elemental sulfur, and return treated fuel gas.',
+    conditions: 'Amine absorber: 90–130 °F, 50–400 psig; SRU furnace: 1,800–2,400 °F; TGTU per emissions target.',
+    yield: 'Treated fuel gas recovery >95%; sulfur recovery typically 99.5%+ with TGTU; sulfur production depends on crude sulfur.',
     equipment: 'Amine absorbers/regenerators, SRU Claus trains, TGTU, sulfur pit/loading, fuel gas KO'
   },
   h2: {
     title: 'Hydrogen Network',
+    capacity: '120 MMSCFD H₂ circulation/make-up basis',
     desc1: 'Balances reformer hydrogen make with hydrotreating demand; optional SMR H₂ plant supplements the balance.',
-    desc2: 'Consumers include NHT, Kero HDS, Diesel HDS, VGO HDS, and any future hydrocracking service.',
+    desc2: 'Consumers include NHT, Kero HDS, Diesel HDS, VGO HDS, and future hydrocracking service.',
     function: 'Recover, distribute, and supplement refinery hydrogen.',
+    conditions: 'H₂ headers: 300–2,000 psig depending on service; ambient to compressor discharge temperatures.',
+    yield: 'Reformer H₂ supplies a major share; shortfall is covered by PSA/SMR/imported H₂ as required by sulfur severity.',
     equipment: 'H₂ recovery, PSA/membrane, compressors, headers, optional SMR H₂ plant'
   }
 };
@@ -158,9 +203,10 @@ function populateTables() {
 
   unitBody.innerHTML = Object.values(unitData).map(unit => `
     <tr>
-      <td>${unit.title}</td>
+      <td><strong>${unit.title}</strong><br><span class="table-note">${unit.capacity}</span></td>
       <td>${unit.function}</td>
-      <td>${unit.equipment}</td>
+      <td>${unit.conditions}</td>
+      <td>${unit.yield}</td>
     </tr>
   `).join('');
 
