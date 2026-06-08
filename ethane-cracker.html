@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethane Cracker Block Diagram</title>
+  <link rel="stylesheet" href="css/ethane-cracker.css" />
+  <style>
+    :root { color-scheme: light; }
+    body { margin:0; background:#eef4f8; color:#17324d; font-family:Arial, Helvetica, sans-serif; }
+    svg { background:#f8fbfd; }
+    .canvas-bg { fill:#f8fbfd; stroke:#d7e2ea; stroke-width:2; }
+    .unit-block rect { fill:#fff; stroke:#1f6f9e; stroke-width:3; }
+    .unit-block text, .stream-label, .small-note, .section-label, .overlay-text { fill:#17324d; }
+    .svg-title { fill:#123b63; font-weight:800; }
+    .svg-subtitle { fill:#60758a; }
+    .stream { fill:none; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+    .feed-flow { stroke:#008b8b; } .hot-flow { stroke:#c96f20; } .cool-flow { stroke:#1f6f9e; }
+    .cold-flow { stroke:#6b5fb5; } .product-flow { stroke:#2f8f46; } .fuel-flow { stroke:#69788a; }
+    .heavy-flow { stroke:#7b4f2b; } .util-flow { stroke:#69788a; stroke-dasharray:10 8; }
+    .arrow-head { fill:#1f6f9e; }
+    .info-overlay rect { fill:rgba(255,255,255,0.96); stroke:#cbd8e2; }
+  </style>
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Ethane Cracker Plant Block Diagram — 1,000,000 tpy Ethylene</h1>
+        <p>Ethane feed and dilution steam, steam cracking furnaces, TLE/quench, compression, caustic wash/drying, cryogenic separation, C₂ splitter, acetylene converter, C₃+ recovery, and product/offsite systems.</p>
+      </div>
+      <div class="controls">
+        <button id="btnAnimate" type="button">Pause Flow</button>
+        <button id="btnReset" type="button">Reset View</button>
+      </div>
+    </header>
+
+    <section class="diagram-panel">
+      <svg id="crackerSvg" viewBox="0 0 1700 990" role="img" aria-label="Ethane cracker block flow diagram">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" class="arrow-head" fill="#1f6f9e"></path>
+          </marker>
+        </defs>
+
+        <rect x="20" y="20" width="1660" height="950" rx="24" class="canvas-bg" fill="#f8fbfd" stroke="#d7e2ea" stroke-width="2"></rect>
+        <text x="850" y="62" text-anchor="middle" class="svg-title">Ethane Cracker — Block Flow Diagram</text>
+        <text x="850" y="90" text-anchor="middle" class="svg-subtitle">Ethane + dilution steam → cracking → quench/compression → caustic/drying → cryogenic separation → polymer-grade ethylene</text>
+
+        <g class="unit-block feed" data-unit="feed">
+          <rect x="60" y="290" width="220" height="135" rx="16"></rect>
+          <text x="170" y="328" text-anchor="middle" class="block-title">Ethane Feed System</text>
+          <text x="170" y="358" text-anchor="middle">~1,280,000 tpy ethane</text>
+          <text x="170" y="382" text-anchor="middle">Feed preheat</text>
+          <text x="170" y="406" text-anchor="middle">Dilution steam mix</text>
+        </g>
+
+        <g class="unit-block cracking" data-unit="furnace">
+          <rect x="350" y="260" width="240" height="165" rx="16"></rect>
+          <text x="470" y="298" text-anchor="middle" class="block-title">Steam Cracking Furnaces</text>
+          <text x="470" y="328" text-anchor="middle">COT 1500–1600°F</text>
+          <text x="470" y="352" text-anchor="middle">Residence 0.1–0.3 sec</text>
+          <text x="470" y="376" text-anchor="middle">Steam 0.3–0.5 lb/lb</text>
+          <text x="470" y="400" text-anchor="middle">Hot cracked gas</text>
+        </g>
+
+        <g class="unit-block quench" data-unit="tle">
+          <rect x="660" y="190" width="230" height="120" rx="16"></rect>
+          <text x="775" y="228" text-anchor="middle" class="block-title">TLEs</text>
+          <text x="775" y="258" text-anchor="middle">Rapid cooling</text>
+          <text x="775" y="282" text-anchor="middle">660–750°F outlet</text>
+          <text x="775" y="306" text-anchor="middle">600–900 psig HP steam</text>
+        </g>
+
+        <g class="unit-block quench" data-unit="quench">
+          <rect x="660" y="365" width="230" height="135" rx="16"></rect>
+          <text x="775" y="403" text-anchor="middle" class="block-title">Quench / Primary Cooling</text>
+          <text x="775" y="433" text-anchor="middle">Quench tower</text>
+          <text x="775" y="457" text-anchor="middle">100–150°F cracked gas</text>
+          <text x="775" y="481" text-anchor="middle">Tars, PGO, pygas, water</text>
+        </g>
+
+        <g class="unit-block compression" data-unit="compressor">
+          <rect x="965" y="270" width="245" height="145" rx="16"></rect>
+          <text x="1087" y="308" text-anchor="middle" class="block-title">Cracked Gas Compression</text>
+          <text x="1087" y="338" text-anchor="middle">4–5 stages</text>
+          <text x="1087" y="362" text-anchor="middle">Near atm → 450–500 psig</text>
+          <text x="1087" y="386" text-anchor="middle">Interstage KO drums</text>
+        </g>
+
+        <g class="unit-block compression" data-unit="caustic">
+          <rect x="965" y="470" width="245" height="125" rx="16"></rect>
+          <text x="1087" y="508" text-anchor="middle" class="block-title">Caustic Wash + Dryers</text>
+          <text x="1087" y="538" text-anchor="middle">NaOH acid gas removal</text>
+          <text x="1087" y="562" text-anchor="middle">CO₂ / H₂S removal</text>
+          <text x="1087" y="586" text-anchor="middle">Dry to &lt;1 ppmv H₂O</text>
+        </g>
+
+        <g class="unit-block cold" data-unit="chilling">
+          <rect x="1285" y="230" width="245" height="120" rx="16"></rect>
+          <text x="1407" y="268" text-anchor="middle" class="block-title">Chilling Train</text>
+          <text x="1407" y="298" text-anchor="middle">Cold box / refrigeration</text>
+          <text x="1407" y="322" text-anchor="middle">Down to −150 to −200°F</text>
+        </g>
+
+        <g class="unit-block cold" data-unit="demethanizer">
+          <rect x="1285" y="405" width="245" height="135" rx="16"></rect>
+          <text x="1407" y="443" text-anchor="middle" class="block-title">Demethanizer</text>
+          <text x="1407" y="473" text-anchor="middle">300–450 psig</text>
+          <text x="1407" y="497" text-anchor="middle">OH: H₂ + CH₄</text>
+          <text x="1407" y="521" text-anchor="middle">BTM: C₂+ to fractionation</text>
+        </g>
+
+        <g class="unit-block cold" data-unit="c2splitter">
+          <rect x="965" y="665" width="245" height="145" rx="16"></rect>
+          <text x="1087" y="703" text-anchor="middle" class="block-title">Ethylene Tower / C₂ Splitter</text>
+          <text x="1087" y="733" text-anchor="middle">100+ trays</text>
+          <text x="1087" y="757" text-anchor="middle">250–350 psig</text>
+          <text x="1087" y="781" text-anchor="middle">OH: polymer-grade ethylene</text>
+        </g>
+
+        <g class="unit-block cold" data-unit="acetylene">
+          <rect x="660" y="665" width="230" height="125" rx="16"></rect>
+          <text x="775" y="703" text-anchor="middle" class="block-title">Acetylene Converter</text>
+          <text x="775" y="733" text-anchor="middle">Selective hydrogenation</text>
+          <text x="775" y="757" text-anchor="middle">150–250°F</text>
+          <text x="775" y="781" text-anchor="middle">~250–350 psig</text>
+        </g>
+
+        <g class="unit-block products" data-unit="debutanizer">
+          <rect x="350" y="630" width="240" height="145" rx="16"></rect>
+          <text x="470" y="668" text-anchor="middle" class="block-title">Debutanizer / C₃+ Recovery</text>
+          <text x="470" y="698" text-anchor="middle">C₄ overhead</text>
+          <text x="470" y="722" text-anchor="middle">C₅–C₉ pygas bottoms</text>
+          <text x="470" y="746" text-anchor="middle">Heavy liquid handling</text>
+        </g>
+
+        <g class="unit-block products" data-unit="products">
+          <rect x="1285" y="655" width="245" height="165" rx="16"></rect>
+          <text x="1407" y="693" text-anchor="middle" class="block-title">Products & Offsites</text>
+          <text x="1407" y="723" text-anchor="middle">Ethylene storage/export</text>
+          <text x="1407" y="747" text-anchor="middle">Ethane recycle</text>
+          <text x="1407" y="771" text-anchor="middle">Fuel gas / H₂ recovery</text>
+          <text x="1407" y="795" text-anchor="middle">Pygas / PGO handling</text>
+        </g>
+
+        <g class="unit-block offsites" data-unit="utilities">
+          <rect x="60" y="815" width="530" height="90" rx="16"></rect>
+          <text x="325" y="850" text-anchor="middle" class="block-title">Utilities & Integration</text>
+          <text x="325" y="879" text-anchor="middle">Dilution steam • HP steam generation • refrigeration • flare • wastewater • fuel gas</text>
+        </g>
+
+        <!-- Product tags -->
+        <g class="product-tag green"><rect x="1555" y="670" width="105" height="34" rx="12"></rect><text x="1608" y="692" text-anchor="middle">Ethylene</text></g>
+        <g class="product-tag purple"><rect x="1555" y="715" width="105" height="34" rx="12"></rect><text x="1608" y="737" text-anchor="middle">H₂ / Fuel</text></g>
+        <g class="product-tag"><rect x="1555" y="760" width="105" height="34" rx="12"></rect><text x="1608" y="782" text-anchor="middle">Pygas</text></g>
+        <g class="product-tag"><rect x="1555" y="805" width="105" height="34" rx="12"></rect><text x="1608" y="827" text-anchor="middle">C₄ / LPG</text></g>
+        <g class="product-tag"><rect x="195" y="610" width="105" height="34" rx="12"></rect><text x="248" y="632" text-anchor="middle">PGO</text></g>
+
+        <!-- Streams -->
+        <path id="s1" class="stream feed-flow" d="M35 358 H60" marker-end="url(#arrow)"></path>
+        <text x="42" y="342" class="stream-label">Ethane</text>
+        <path id="s2" class="stream util-flow" d="M170 815 V425" marker-end="url(#arrow)"></path>
+        <text x="184" y="610" class="stream-label">Dilution steam</text>
+        <path id="s3" class="stream feed-flow" d="M280 358 H350" marker-end="url(#arrow)"></path>
+        <text x="292" y="342" class="stream-label">Ethane + steam</text>
+        <path id="s4" class="stream hot-flow" d="M590 342 C625 342 625 250 660 250" marker-end="url(#arrow)"></path>
+        <text x="604" y="308" class="stream-label">Hot cracked gas</text>
+        <path id="s5" class="stream cool-flow" d="M775 310 V365" marker-end="url(#arrow)"></path>
+        <text x="790" y="344" class="stream-label">TLE effluent</text>
+        <path id="s6" class="stream cool-flow" d="M890 433 C925 433 925 342 965 342" marker-end="url(#arrow)"></path>
+        <text x="902" y="392" class="stream-label">Quenched gas</text>
+        <path id="s7" class="stream cool-flow" d="M1087 415 V470" marker-end="url(#arrow)"></path>
+        <path id="s8" class="stream cold-flow" d="M1210 532 C1248 532 1248 290 1285 290" marker-end="url(#arrow)"></path>
+        <text x="1224" y="420" class="stream-label">Dry cracked gas</text>
+        <path id="s9" class="stream cold-flow" d="M1407 350 V405" marker-end="url(#arrow)"></path>
+        <path id="s10" class="stream fuel-flow" d="M1530 472 H1605 V655 H1530" marker-end="url(#arrow)"></path>
+        <text x="1540" y="455" class="stream-label">H₂ + CH₄</text>
+        <path id="s11" class="stream cold-flow" d="M1285 505 C1245 505 1245 728 1210 728" marker-end="url(#arrow)"></path>
+        <text x="1230" y="635" class="stream-label">C₂+ stream</text>
+        <path id="s12" class="stream cold-flow" d="M965 728 H890" marker-end="url(#arrow)"></path>
+        <text x="905" y="712" class="stream-label">C₂ cut</text>
+        <path id="s13" class="stream product-flow" d="M1210 728 H1285" marker-end="url(#arrow)"></path>
+        <text x="1220" y="712" class="stream-label">Ethylene / ethane</text>
+        <path id="s14" class="stream product-flow" d="M1530 687 H1555" marker-end="url(#arrow)"></path>
+        <path id="s15" class="stream fuel-flow" d="M1530 732 H1555" marker-end="url(#arrow)"></path>
+        <path id="s16" class="stream heavy-flow" d="M660 470 C600 470 600 680 590 680" marker-end="url(#arrow)"></path>
+        <text x="606" y="575" class="stream-label">C₃+ liquids</text>
+        <path id="s17" class="stream heavy-flow" d="M350 704 H300" marker-end="url(#arrow)"></path>
+        <text x="305" y="686" class="stream-label">PGO / heavy oil</text>
+        <path id="s18" class="stream product-flow" d="M590 722 C710 722 710 792 1285 792" marker-end="url(#arrow)"></path>
+        <text x="630" y="760" class="stream-label">Pygas / C₄ products</text>
+        <path id="s19" class="stream product-flow" d="M1530 777 H1555" marker-end="url(#arrow)"></path>
+        <path id="s20" class="stream product-flow" d="M1530 822 H1555" marker-end="url(#arrow)"></path>
+        <path id="s21" class="stream util-flow" d="M660 250 C585 170 410 170 325 815" marker-end="url(#arrow)"></path>
+        <text x="480" y="190" class="stream-label">HP steam from TLEs</text>
+        <path id="s22" class="stream cold-flow" d="M1087 665 V595" marker-end="url(#arrow)"></path>
+        <text x="1100" y="640" class="stream-label">Ethane recycle</text>
+
+        <path d="M635 165 H915 V525 H635" class="bracket"></path>
+        <text x="775" y="174" text-anchor="middle" class="section-label">Quench & Primary Cooling</text>
+        <path d="M940 230 H1555 V620 H940" class="bracket"></path>
+        <text x="1248" y="238" text-anchor="middle" class="section-label">Compression, Treating & Cryogenic Separation</text>
+
+        <g id="streamInfoOverlay" class="info-overlay">
+          <rect x="60" y="115" width="465" height="135" rx="14"></rect>
+          <text x="82" y="147" class="overlay-title">Selected Stream / Unit</text>
+          <text id="selectedTitle" x="82" y="179" class="overlay-main">Click any block or stream</text>
+          <text id="selectedDesc1" x="82" y="207" class="overlay-text">The diagram highlights the selected ethane cracker section.</text>
+          <text id="selectedDesc2" x="82" y="233" class="overlay-text">Use this as a high-level petchem block diagram.</text>
+        </g>
+      </svg>
+    </section>
+
+    <section class="summary-grid">
+      <article class="panel">
+        <h2>Unit Summary</h2>
+        <table id="unitSummaryTable">
+          <thead>
+            <tr><th>Section / Capacity</th><th>Main Function</th><th>Process Conditions</th><th>Primary Yield / Product</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+      <article class="panel">
+        <h2>Major Streams</h2>
+        <table id="streamSummaryTable">
+          <thead>
+            <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+
+  <script src="js/ethane-cracker.js"></script>
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
