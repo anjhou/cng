@@ -158,6 +158,65 @@ const streamData = {
   s22: { title: 'Ethane Recycle', from: 'C₂ splitter bottoms', to: 'Feed system / furnaces', purpose: 'Unconverted ethane is recycled to cracking furnaces.' }
 };
 
+
+function applySvgSafeStyles() {
+  const strokeByClass = [
+    ['feed', '#008b8b'],
+    ['cracking', '#c96f20'],
+    ['quench', '#a45a1a'],
+    ['compression', '#1f6f9e'],
+    ['cold', '#6b5fb5'],
+    ['products', '#2f8f46'],
+    ['offsites', '#69788a']
+  ];
+
+  document.querySelectorAll('.unit-block').forEach(block => {
+    const rect = block.querySelector('rect');
+    if (!rect) return;
+    let stroke = '#1f6f9e';
+    strokeByClass.forEach(([cls, color]) => {
+      if (block.classList.contains(cls)) stroke = color;
+    });
+    rect.setAttribute('fill', block.classList.contains('offsites') ? '#f3f7fa' : '#ffffff');
+    rect.setAttribute('stroke', stroke);
+    rect.setAttribute('stroke-width', '3');
+  });
+
+  document.querySelectorAll('.unit-block text').forEach(t => t.setAttribute('fill', '#17324d'));
+  document.querySelectorAll('.product-tag rect').forEach(r => {
+    r.setAttribute('fill', '#fff7ed');
+    r.setAttribute('stroke', '#c96f20');
+    r.setAttribute('stroke-width', '2');
+  });
+  document.querySelectorAll('.product-tag.green rect').forEach(r => {
+    r.setAttribute('fill', '#eaf7ef');
+    r.setAttribute('stroke', '#2f8f46');
+  });
+  document.querySelectorAll('.product-tag.purple rect').forEach(r => {
+    r.setAttribute('fill', '#f0eefb');
+    r.setAttribute('stroke', '#6b5fb5');
+  });
+  document.querySelectorAll('.product-tag text').forEach(t => t.setAttribute('fill', '#7a3e10'));
+  document.querySelectorAll('.product-tag.green text').forEach(t => t.setAttribute('fill', '#1f6c35'));
+  document.querySelectorAll('.product-tag.purple text').forEach(t => t.setAttribute('fill', '#4b418d'));
+
+  const streamColors = [
+    ['feed-flow', '#008b8b'], ['hot-flow', '#c96f20'], ['cool-flow', '#1f6f9e'],
+    ['cold-flow', '#6b5fb5'], ['product-flow', '#2f8f46'], ['fuel-flow', '#69788a'],
+    ['heavy-flow', '#7b4f2b'], ['util-flow', '#69788a']
+  ];
+  document.querySelectorAll('.stream').forEach(path => {
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-width', '5');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-linejoin', 'round');
+    path.style.pointerEvents = 'stroke';
+    streamColors.forEach(([cls, color]) => {
+      if (path.classList.contains(cls)) path.setAttribute('stroke', color);
+    });
+  });
+}
+
 function setOverlay(title, desc1, desc2) {
   document.getElementById('selectedTitle').textContent = title;
   document.getElementById('selectedDesc1').textContent = desc1;
@@ -166,11 +225,13 @@ function setOverlay(title, desc1, desc2) {
 
 function clearActive() {
   document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+  applySvgSafeStyles();
 }
 
 function populateTables() {
   const unitBody = document.querySelector('#unitSummaryTable tbody');
   const streamBody = document.querySelector('#streamSummaryTable tbody');
+  if (!unitBody || !streamBody) return;
 
   unitBody.innerHTML = Object.values(unitData).map(unit => `
     <tr>
@@ -199,6 +260,8 @@ function bindDiagramEvents() {
       if (!item) return;
       clearActive();
       block.classList.add('active');
+      const rect = block.querySelector('rect');
+      if (rect) { rect.setAttribute('fill', '#fffdf2'); rect.setAttribute('stroke-width', '5'); }
       setOverlay(item.title, item.desc1, item.desc2);
     });
   });
@@ -210,6 +273,7 @@ function bindDiagramEvents() {
       const item = streamData[id];
       clearActive();
       stream.classList.add('active');
+      stream.setAttribute('stroke-width', '8');
       setOverlay(item.title, `${item.from} → ${item.to}`, item.purpose);
     });
   });
@@ -239,6 +303,7 @@ function bindButtons() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  applySvgSafeStyles();
   populateTables();
   bindDiagramEvents();
   bindButtons();
