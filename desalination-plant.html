@@ -27,17 +27,17 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
   <section class="diagram-panel">
     <svg id="desalSvg" viewBox="0 0 1800 980" role="img" aria-label="Water desalination plant block flow diagram">
       <defs>
-        <marker id="arrow" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head"></path>
+        <marker overflow="visible" id="arrow" viewBox="0 0 6 6" markerWidth="4.5" markerHeight="4.5" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#1f6f9e" stroke="none"></path>
         </marker>
-        <marker id="arrowPermeate" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-permeate"></path>
+        <marker overflow="visible" id="arrowPermeate" viewBox="0 0 6 6" markerWidth="4.5" markerHeight="4.5" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#2f8f46" stroke="none"></path>
         </marker>
-        <marker id="arrowBrine" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-brine"></path>
+        <marker overflow="visible" id="arrowBrine" viewBox="0 0 6 6" markerWidth="4.5" markerHeight="4.5" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#8a4b2c" stroke="none"></path>
         </marker>
-        <marker id="arrowUtility" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-          <path d="M0,0 L0,7 L7,3.5 z" class="arrow-head-utility"></path>
+        <marker overflow="visible" id="arrowUtility" viewBox="0 0 6 6" markerWidth="4.5" markerHeight="4.5" refX="5.4" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#69788a" stroke="none"></path>
         </marker>
       </defs>
 
