@@ -275,3 +275,28 @@ tbody tr:nth-child(even) { background: #f5f9fc; }
   .controls { margin-top: 14px; }
   .panel { margin-top: 18px; }
 }
+
+.table-note {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#unitSummaryTable {
+  font-size: 13px;
+}
+
+#unitSummaryTable th:nth-child(1),
+#unitSummaryTable td:nth-child(1) { width: 22%; }
+#unitSummaryTable th:nth-child(2),
+#unitSummaryTable td:nth-child(2) { width: 25%; }
+#unitSummaryTable th:nth-child(3),
+#unitSummaryTable td:nth-child(3) { width: 25%; }
+#unitSummaryTable th:nth-child(4),
+#unitSummaryTable td:nth-child(4) { width: 28%; }
+
+.summary-grid {
+  grid-template-columns: 1fr;
+}
