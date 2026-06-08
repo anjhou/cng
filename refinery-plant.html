@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>300 kbpd Refinery Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/refinery-plant.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>300 kbpd Complex Fuels & Petrochemicals Refinery</h1>
+        <p>CDU/VDU front-end separation, hydrotreating, reformer/aromatics, alkylation, product pools, hydrogen, and sour gas/sulfur handling.</p>
+      </div>
+      <div class="controls">
+        <button id="btnAnimate" type="button">Pause Flow</button>
+        <button id="btnReset" type="button">Reset View</button>
+      </div>
+    </header>
+
+    <section class="diagram-panel">
+      <svg id="refinerySvg" viewBox="0 0 1700 980" role="img" aria-label="300 kbpd complex refinery block flow diagram">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" class="arrow-head"></path>
+          </marker>
+          <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#123b63" />
+            <stop offset="100%" stop-color="#1f6f9e" />
+          </linearGradient>
+        </defs>
+
+        <rect x="20" y="20" width="1660" height="940" rx="24" class="canvas-bg"></rect>
+        <text x="850" y="62" text-anchor="middle" class="svg-title">Integrated Refinery — Block Flow Diagram</text>
+        <text x="850" y="90" text-anchor="middle" class="svg-subtitle">Crude separation → hydrotreating → octane/petrochemicals → product blending → sulfur recovery</text>
+
+        <!-- Main process blocks -->
+        <g class="unit-block front" data-unit="crude">
+          <rect x="60" y="310" width="210" height="120" rx="16"></rect>
+          <text x="165" y="345" text-anchor="middle" class="block-title">Crude Feed</text>
+          <text x="165" y="373" text-anchor="middle">300 kbpd fresh crude</text>
+          <text x="165" y="397" text-anchor="middle">Desalter</text>
+          <text x="165" y="421" text-anchor="middle">Preheat train</text>
+        </g>
+
+        <g class="unit-block front" data-unit="cdu">
+          <rect x="340" y="260" width="230" height="170" rx="16"></rect>
+          <text x="455" y="298" text-anchor="middle" class="block-title">CDU</text>
+          <text x="455" y="326" text-anchor="middle">Atmospheric distillation</text>
+          <text x="455" y="350" text-anchor="middle">Overhead LPG/naphtha</text>
+          <text x="455" y="374" text-anchor="middle">LN/HN • kero • LGO/HGO</text>
+          <text x="455" y="398" text-anchor="middle">AR bottoms to VDU</text>
+        </g>
+
+        <g class="unit-block heavy" data-unit="vdu">
+          <rect x="340" y="575" width="230" height="145" rx="16"></rect>
+          <text x="455" y="612" text-anchor="middle" class="block-title">VDU</text>
+          <text x="455" y="640" text-anchor="middle">Vacuum distillation</text>
+          <text x="455" y="664" text-anchor="middle">LVGO / HVGO recovery</text>
+          <text x="455" y="688" text-anchor="middle">VR to asphalt / fuel oil</text>
+        </g>
+
+        <g class="unit-block hydro" data-unit="nht">
+          <rect x="665" y="135" width="230" height="125" rx="16"></rect>
+          <text x="780" y="172" text-anchor="middle" class="block-title">Naphtha HDS / NHT</text>
+          <text x="780" y="201" text-anchor="middle">LN + HN treating</text>
+          <text x="780" y="225" text-anchor="middle">S/N/metals removal</text>
+          <text x="780" y="249" text-anchor="middle">Protects reformer catalyst</text>
+        </g>
+
+        <g class="unit-block hydro" data-unit="kero">
+          <rect x="665" y="300" width="230" height="115" rx="16"></rect>
+          <text x="780" y="336" text-anchor="middle" class="block-title">Kero / Jet HDS</text>
+          <text x="780" y="365" text-anchor="middle">Sulfur / mercaptan control</text>
+          <text x="780" y="389" text-anchor="middle">Jet specs: smoke/freezing</text>
+        </g>
+
+        <g class="unit-block hydro" data-unit="diesel">
+          <rect x="665" y="455" width="230" height="120" rx="16"></rect>
+          <text x="780" y="492" text-anchor="middle" class="block-title">Diesel HDS</text>
+          <text x="780" y="521" text-anchor="middle">LGO / gas oil treating</text>
+          <text x="780" y="545" text-anchor="middle">ULSD sulfur reduction</text>
+        </g>
+
+        <g class="unit-block hydro" data-unit="vgo">
+          <rect x="665" y="615" width="230" height="120" rx="16"></rect>
+          <text x="780" y="652" text-anchor="middle" class="block-title">VGO HDS / Conversion Tie</text>
+          <text x="780" y="681" text-anchor="middle">LVGO / HVGO treating</text>
+          <text x="780" y="705" text-anchor="middle">FCC / HCU / diesel blend</text>
+        </g>
+
+        <g class="unit-block octane" data-unit="reformer">
+          <rect x="990" y="130" width="235" height="130" rx="16"></rect>
+          <text x="1108" y="168" text-anchor="middle" class="block-title">Catalytic Reformer</text>
+          <text x="1108" y="198" text-anchor="middle">Hydrotreated naphtha feed</text>
+          <text x="1108" y="222" text-anchor="middle">High-octane reformate</text>
+          <text x="1108" y="246" text-anchor="middle">H₂-rich off-gas source</text>
+        </g>
+
+        <g class="unit-block petro" data-unit="aromatics">
+          <rect x="1305" y="110" width="240" height="150" rx="16"></rect>
+          <text x="1425" y="148" text-anchor="middle" class="block-title">Aromatics Complex</text>
+          <text x="1425" y="178" text-anchor="middle">BTX extraction</text>
+          <text x="1425" y="202" text-anchor="middle">PX / xylenes recovery</text>
+          <text x="1425" y="226" text-anchor="middle">Isomerization / transalkylation</text>
+        </g>
+
+        <g class="unit-block octane" data-unit="alky">
+          <rect x="990" y="325" width="235" height="120" rx="16"></rect>
+          <text x="1108" y="363" text-anchor="middle" class="block-title">Alkylation Unit</text>
+          <text x="1108" y="392" text-anchor="middle">iC₄ + C₃/C₄ olefins</text>
+          <text x="1108" y="416" text-anchor="middle">Premium alkylate</text>
+        </g>
+
+        <g class="unit-block pools" data-unit="gasoline">
+          <rect x="1305" y="320" width="240" height="125" rx="16"></rect>
+          <text x="1425" y="358" text-anchor="middle" class="block-title">Gasoline Pool</text>
+          <text x="1425" y="388" text-anchor="middle">Reformate + alkylate</text>
+          <text x="1425" y="412" text-anchor="middle">Raffinate / naphtha blend</text>
+        </g>
+
+        <g class="unit-block pools" data-unit="middle">
+          <rect x="990" y="505" width="235" height="130" rx="16"></rect>
+          <text x="1108" y="543" text-anchor="middle" class="block-title">Jet / Diesel Pools</text>
+          <text x="1108" y="573" text-anchor="middle">On-spec jet / kerosene</text>
+          <text x="1108" y="597" text-anchor="middle">Low-sulfur diesel</text>
+          <text x="1108" y="621" text-anchor="middle">Product blending</text>
+        </g>
+
+        <g class="unit-block heavy" data-unit="residue">
+          <rect x="990" y="680" width="235" height="115" rx="16"></rect>
+          <text x="1108" y="717" text-anchor="middle" class="block-title">Residue / Asphalt</text>
+          <text x="1108" y="746" text-anchor="middle">Vacuum residue</text>
+          <text x="1108" y="770" text-anchor="middle">Fuel oil / external upgrading</text>
+        </g>
+
+        <g class="unit-block sulfur" data-unit="sgp">
+          <rect x="1305" y="555" width="240" height="155" rx="16"></rect>
+          <text x="1425" y="592" text-anchor="middle" class="block-title">Sour Gas Plant</text>
+          <text x="1425" y="622" text-anchor="middle">Amine treating</text>
+          <text x="1425" y="646" text-anchor="middle">SRU / Claus</text>
+          <text x="1425" y="670" text-anchor="middle">Tail gas treating</text>
+          <text x="1425" y="694" text-anchor="middle">Treated fuel gas + sulfur</text>
+        </g>
+
+        <g class="unit-block h2" data-unit="h2">
+          <rect x="665" y="800" width="560" height="95" rx="16"></rect>
+          <text x="945" y="836" text-anchor="middle" class="block-title">Hydrogen Network</text>
+          <text x="945" y="865" text-anchor="middle">Reformer H₂-rich off-gas + optional SMR H₂ plant → NHT, Kero HDS, Diesel HDS, VGO HDS</text>
+        </g>
+
+        <!-- Product tags -->
+        <g class="product-tag petro-tag">
+          <rect x="1570" y="120" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="142" text-anchor="middle">Benzene</text>
+        </g>
+        <g class="product-tag petro-tag">
+          <rect x="1570" y="165" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="187" text-anchor="middle">Toluene</text>
+        </g>
+        <g class="product-tag petro-tag">
+          <rect x="1570" y="210" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="232" text-anchor="middle">Xylenes</text>
+        </g>
+        <g class="product-tag fuel-tag">
+          <rect x="1570" y="340" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="362" text-anchor="middle">Gasoline</text>
+        </g>
+        <g class="product-tag fuel-tag">
+          <rect x="1255" y="530" width="92" height="34" rx="12"></rect>
+          <text x="1301" y="552" text-anchor="middle">Jet</text>
+        </g>
+        <g class="product-tag fuel-tag">
+          <rect x="1255" y="585" width="92" height="34" rx="12"></rect>
+          <text x="1301" y="607" text-anchor="middle">Diesel</text>
+        </g>
+        <g class="product-tag heavy-tag">
+          <rect x="1255" y="735" width="92" height="34" rx="12"></rect>
+          <text x="1301" y="757" text-anchor="middle">Asphalt</text>
+        </g>
+        <g class="product-tag sulfur-tag">
+          <rect x="1570" y="610" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="632" text-anchor="middle">Sulfur</text>
+        </g>
+        <g class="product-tag fuel-tag">
+          <rect x="1570" y="665" width="92" height="34" rx="12"></rect>
+          <text x="1616" y="687" text-anchor="middle">Fuel Gas</text>
+        </g>
+
+        <!-- Process streams -->
+        <path id="s1" class="stream crude-flow" d="M35 370 H60" marker-end="url(#arrow)"></path>
+        <text x="42" y="352" class="stream-label">Crude</text>
+        <path id="s2" class="stream crude-flow" d="M270 370 H340" marker-end="url(#arrow)"></path>
+        <text x="280" y="352" class="stream-label">Desalted crude</text>
+
+        <path id="s3" class="stream light-flow" d="M570 306 C615 306 615 198 665 198" marker-end="url(#arrow)"></path>
+        <text x="586" y="260" class="stream-label">LN/HN</text>
+        <path id="s4" class="stream middle-flow" d="M570 350 H665" marker-end="url(#arrow)"></path>
+        <text x="590" y="334" class="stream-label">Kerosene</text>
+        <path id="s5" class="stream middle-flow" d="M570 395 C615 395 615 515 665 515" marker-end="url(#arrow)"></path>
+        <text x="590" y="455" class="stream-label">LGO / HGO</text>
+        <path id="s6" class="stream heavy-flow" d="M455 430 V575" marker-end="url(#arrow)"></path>
+        <text x="472" y="508" class="stream-label">AR</text>
+
+        <path id="s7" class="stream heavy-flow" d="M570 650 H665" marker-end="url(#arrow)"></path>
+        <text x="590" y="632" class="stream-label">LVGO/HVGO</text>
+        <path id="s8" class="stream heavy-flow" d="M570 700 C715 700 840 737 990 737" marker-end="url(#arrow)"></path>
+        <text x="680" y="735" class="stream-label">Vacuum residue</text>
+
+        <path id="s9" class="stream light-flow" d="M895 198 H990" marker-end="url(#arrow)"></path>
+        <text x="912" y="181" class="stream-label">Treated naphtha</text>
+        <path id="s10" class="stream light-flow" d="M1225 195 H1305" marker-end="url(#arrow)"></path>
+        <text x="1235" y="178" class="stream-label">Reformate cut</text>
+        <path id="s11" class="stream product-flow" d="M1225 238 C1265 238 1265 382 1305 382" marker-end="url(#arrow)"></path>
+        <text x="1242" y="315" class="stream-label">Reformate</text>
+        <path id="s12" class="stream petro-flow" d="M1545 137 H1570" marker-end="url(#arrow)"></path>
+        <path id="s13" class="stream petro-flow" d="M1545 182 H1570" marker-end="url(#arrow)"></path>
+        <path id="s14" class="stream petro-flow" d="M1545 227 H1570" marker-end="url(#arrow)"></path>
+        <path id="s15" class="stream product-flow" d="M1545 382 C1560 382 1560 357 1570 357" marker-end="url(#arrow)"></path>
+        <path id="s16" class="stream product-flow" d="M1225 385 H1305" marker-end="url(#arrow)"></path>
+        <text x="1238" y="368" class="stream-label">Alkylate</text>
+        <path id="s17" class="stream light-flow" d="M570 300 C610 245 760 70 1060 70 C1190 70 1190 325 990 385" marker-end="url(#arrow)"></path>
+        <text x="650" y="84" class="stream-label">LPG / iC₄ / C₃-C₄ olefins from gas plant</text>
+
+        <path id="s18" class="stream middle-flow" d="M895 358 C945 358 945 548 990 548" marker-end="url(#arrow)"></path>
+        <text x="910" y="455" class="stream-label">Jet blendstock</text>
+        <path id="s19" class="stream middle-flow" d="M895 515 H990" marker-end="url(#arrow)"></path>
+        <text x="912" y="498" class="stream-label">ULSD blendstock</text>
+        <path id="s20" class="stream middle-flow" d="M1225 548 H1255" marker-end="url(#arrow)"></path>
+        <path id="s21" class="stream middle-flow" d="M1225 603 H1255" marker-end="url(#arrow)"></path>
+
+        <path id="s22" class="stream sulfur-flow" d="M780 135 C780 100 1425 95 1425 555" marker-end="url(#arrow)"></path>
+        <path id="s23" class="stream sulfur-flow" d="M895 515 C1110 515 1110 632 1305 632" marker-end="url(#arrow)"></path>
+        <path id="s24" class="stream sulfur-flow" d="M1225 195 C1260 195 1260 632 1305 632" marker-end="url(#arrow)"></path>
+        <text x="1268" y="520" class="stream-label">Sour off-gas / acid gas</text>
+        <path id="s25" class="stream sulfur-flow" d="M1545 628 H1570" marker-end="url(#arrow)"></path>
+        <path id="s26" class="stream fuel-flow" d="M1545 682 H1570" marker-end="url(#arrow)"></path>
+
+        <!-- Hydrogen network tie lines -->
+        <path id="s27" class="stream h2-flow" d="M1108 260 V800" marker-end="url(#arrow)"></path>
+        <text x="1123" y="335" class="stream-label">H₂-rich off-gas</text>
+        <path id="s28" class="stream h2-flow" d="M800 800 V735" marker-end="url(#arrow)"></path>
+        <path id="s29" class="stream h2-flow" d="M830 800 C830 735 780 735 780 575" marker-end="url(#arrow)"></path>
+        <path id="s30" class="stream h2-flow" d="M860 800 C860 690 780 690 780 415" marker-end="url(#arrow)"></path>
+        <path id="s31" class="stream h2-flow" d="M890 800 C890 650 780 650 780 260" marker-end="url(#arrow)"></path>
+        <text x="685" y="790" class="stream-label">Hydrogen to hydrotreaters</text>
+
+        <!-- Section brackets -->
+        <path d="M315 235 H595 V750 H315" class="bracket"></path>
+        <text x="455" y="243" text-anchor="middle" class="section-label">Front-End Separation</text>
+        <path d="M635 110 H925 V760 H635" class="bracket"></path>
+        <text x="780" y="118" text-anchor="middle" class="section-label">Hydrotreating Train</text>
+        <path d="M965 95 H1565 V470 H965" class="bracket"></path>
+        <text x="1265" y="103" text-anchor="middle" class="section-label">Octane & Petrochemicals</text>
+
+        <g id="streamInfoOverlay" class="info-overlay">
+          <rect x="60" y="785" width="520" height="135" rx="14"></rect>
+          <text x="82" y="817" class="overlay-title">Selected Stream / Unit</text>
+          <text id="selectedTitle" x="82" y="849" class="overlay-main">Click any block or stream</text>
+          <text id="selectedDesc1" x="82" y="877" class="overlay-text">The diagram highlights the selected refinery process section.</text>
+          <text id="selectedDesc2" x="82" y="903" class="overlay-text">Use this as a high-level 300 kbpd refinery block diagram.</text>
+        </g>
+      </svg>
+    </section>
+
+    <section class="summary-grid">
+      <article class="panel">
+        <h2>Unit Summary</h2>
+        <table id="unitSummaryTable">
+          <thead>
+            <tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Interfaces</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+      <article class="panel">
+        <h2>Major Streams</h2>
+        <table id="streamSummaryTable">
+          <thead>
+            <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+  <script src="js/refinery-plant.js"></script>
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
