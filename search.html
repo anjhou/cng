@@ -22,6 +22,10 @@ input,select{padding:12px;border:1px solid #b8c6d1;border-radius:10px;font-size:
 </style>
 </head>
 <body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 <div class="container">
   <h1>Industry Web Link Search</h1>
   <p>Search links or filter by industry sector.</p>
@@ -177,6 +181,11 @@ function applySearchAndFilter() {
 
 searchInput.addEventListener("input", applySearchAndFilter);
 sectorFilter.addEventListener("change", applySearchAndFilter);
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 </body>
 </html>
