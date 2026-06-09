@@ -102,6 +102,49 @@ const streamData = {
   s16: { title: 'Purge / Vent Gas', from: 'Flash / recycle system', to: 'Treatment / flare', condition: 'Controlled purge stream.', purpose: 'Controls inert and byproduct accumulation.' }
 };
 
+const applicationData = [
+  {
+    application: 'Vinyl Acetate Monomer (VAM)',
+    role: 'Largest acetic acid outlet; acetic acid reacts with ethylene and oxygen to make VAM.',
+    products: 'PVA, PVAc adhesives, paints, coatings, sealants, emulsions, and polymer dispersions.'
+  },
+  {
+    application: 'Purified Terephthalic Acid (PTA)',
+    role: 'Solvent for liquid-phase oxidation of p-xylene to terephthalic acid.',
+    products: 'PET bottles, polyester fibers, films, packaging resin, and textile intermediates.'
+  },
+  {
+    application: 'Acetic Anhydride',
+    role: 'Feedstock for acetylation chemistry and specialty derivative production.',
+    products: 'Cellulose acetate, pharmaceuticals, agrochemical intermediates, and specialty chemicals.'
+  },
+  {
+    application: 'Solvent Use',
+    role: 'Polar protic solvent and reaction medium for synthesis, extraction, and formulation service.',
+    products: 'Inks, resins, coatings, laboratory synthesis, and chemical manufacturing.'
+  },
+  {
+    application: 'Food Industry / Vinegar',
+    role: 'Diluted acetic acid used as acidulant, preservative, and flavoring agent.',
+    products: 'Vinegar, pickling solutions, condiments, sauces, and food preservation systems.'
+  },
+  {
+    application: 'Pharmaceuticals',
+    role: 'Chemical intermediate and pH-control reagent in active ingredient and excipient production.',
+    products: 'Aspirin, paracetamol intermediates, APIs, salts, and pharmaceutical process aids.'
+  },
+  {
+    application: 'Textiles & Leather',
+    role: 'pH adjustment agent for dye uptake, finishing, and process-neutralization steps.',
+    products: 'Dyed textiles, leather finishing, fiber treatment, and process conditioning.'
+  },
+  {
+    application: 'Water Treatment',
+    role: 'Supplemental carbon source for biological nutrient removal, especially denitrification.',
+    products: 'Wastewater treatment plants, biological nutrient removal systems, and effluent polishing.'
+  }
+];
+
 function setOverlay(title, desc1, desc2) {
   const titleEl = document.getElementById('selectedTitle');
   const desc1El = document.getElementById('selectedDesc1');
@@ -118,6 +161,7 @@ function clearActive() {
 function populateTables() {
   const unitBody = document.querySelector('#unitSummaryTable tbody');
   const streamBody = document.querySelector('#streamSummaryTable tbody');
+  const applicationBody = document.querySelector('#applicationSummaryTable tbody');
   if (unitBody) {
     unitBody.innerHTML = Object.values(unitData).map(unit => `
       <tr>
@@ -139,7 +183,18 @@ function populateTables() {
       </tr>
     `).join('');
   }
+
+  if (applicationBody) {
+    applicationBody.innerHTML = applicationData.map(item => `
+      <tr>
+        <td>${item.application}</td>
+        <td>${item.role}</td>
+        <td>${item.products}</td>
+      </tr>
+    `).join('');
+  }
 }
+
 
 function bindDiagramEvents() {
   document.querySelectorAll('.unit-block').forEach(block => {
