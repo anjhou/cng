@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acetic Acid Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/acetic-acid.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r => r.ok ? r.text() : "").then(d => { document.getElementById("header").innerHTML = d; }).catch(() => {});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Acetic Acid Plant Block Diagram</h1>
+      <p>Methanol carbonylation with CO using rhodium/iridium catalyst, recycle iodide loop, purification, cooling, and storage.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="processSvg" viewBox="0 0 1600 980" role="img" aria-label="Acetic acid production block diagram">
+      <rect x="20" y="20" width="1560" height="940" rx="24" class="canvas-bg"></rect>
+      <text x="800" y="62" text-anchor="middle" class="svg-title">Acetic Acid Production — Methanol Carbonylation Process</text>
+      <text x="800" y="91" text-anchor="middle" class="svg-subtitle">Methanol + CO → Carbonylation reactor → Flash → Light-ends recovery → Drying → Finishing → Glacial acetic acid storage</text>
+
+      <!-- Unit blocks -->
+      <g class="unit-block feed" data-unit="feedPrep">
+        <rect x="70" y="180" width="210" height="132" rx="16"></rect>
+        <text x="175" y="216" text-anchor="middle" class="block-title">Feed Vaporization</text>
+        <text x="175" y="244" text-anchor="middle">Methanol + recycled</text>
+        <text x="175" y="268" text-anchor="middle">methyl acetate</text>
+        <text x="175" y="292" text-anchor="middle" class="condition">300–400°F</text>
+      </g>
+
+      <g class="unit-block gas" data-unit="coFeed">
+        <rect x="70" y="385" width="210" height="120" rx="16"></rect>
+        <text x="175" y="424" text-anchor="middle" class="block-title">CO Feed System</text>
+        <text x="175" y="454" text-anchor="middle">CO compression /</text>
+        <text x="175" y="478" text-anchor="middle">metered injection</text>
+        <text x="175" y="502" text-anchor="middle" class="condition">400–600 psig</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="reactor">
+        <rect x="375" y="230" width="245" height="160" rx="18"></rect>
+        <text x="498" y="268" text-anchor="middle" class="block-title">Carbonylation Reactor</text>
+        <text x="498" y="300" text-anchor="middle">Rh / Ir catalyst</text>
+        <text x="498" y="324" text-anchor="middle">methyl iodide promoter</text>
+        <text x="498" y="348" text-anchor="middle" class="condition">350–420°F</text>
+        <text x="498" y="372" text-anchor="middle" class="condition">400–600 psig</text>
+      </g>
+
+      <g class="unit-block separator" data-unit="flash">
+        <rect x="715" y="230" width="230" height="160" rx="18"></rect>
+        <text x="830" y="268" text-anchor="middle" class="block-title">Flash Separator</text>
+        <text x="830" y="300" text-anchor="middle">Light gas removal</text>
+        <text x="830" y="324" text-anchor="middle">liquid acid phase</text>
+        <text x="830" y="348" text-anchor="middle" class="condition">150–250 psig</text>
+      </g>
+
+      <g class="unit-block recycle" data-unit="gasRecycle">
+        <rect x="730" y="80" width="220" height="112" rx="16"></rect>
+        <text x="840" y="118" text-anchor="middle" class="block-title">Light Gas Recycle</text>
+        <text x="840" y="148" text-anchor="middle">CO-rich vent gas</text>
+        <text x="840" y="172" text-anchor="middle">purge / recycle control</text>
+      </g>
+
+      <g class="unit-block column" data-unit="lights">
+        <rect x="1030" y="188" width="230" height="185" rx="18"></rect>
+        <text x="1145" y="228" text-anchor="middle" class="block-title">Light-Ends Column</text>
+        <text x="1145" y="260" text-anchor="middle">MI + methyl acetate</text>
+        <text x="1145" y="284" text-anchor="middle">overhead recovery</text>
+        <text x="1145" y="308" text-anchor="middle">crude acid bottoms</text>
+        <text x="1145" y="342" text-anchor="middle" class="condition">near column pressure</text>
+      </g>
+
+      <g class="unit-block column" data-unit="drying">
+        <rect x="1030" y="480" width="230" height="165" rx="18"></rect>
+        <text x="1145" y="518" text-anchor="middle" class="block-title">Drying Column</text>
+        <text x="1145" y="550" text-anchor="middle">Water removal</text>
+        <text x="1145" y="574" text-anchor="middle">acid concentration</text>
+        <text x="1145" y="608" text-anchor="middle" class="condition">220–260°F</text>
+      </g>
+
+      <g class="unit-block column" data-unit="finishing">
+        <rect x="1330" y="480" width="215" height="165" rx="18"></rect>
+        <text x="1438" y="518" text-anchor="middle" class="block-title">Finishing Column</text>
+        <text x="1438" y="550" text-anchor="middle">Heavy impurities /</text>
+        <text x="1438" y="574" text-anchor="middle">aldehydes removal</text>
+        <text x="1438" y="608" text-anchor="middle" class="condition">250–300°F, ~atm</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1330" y="720" width="215" height="145" rx="18"></rect>
+        <text x="1438" y="758" text-anchor="middle" class="block-title">Product Cooling &</text>
+        <text x="1438" y="782" text-anchor="middle" class="block-title">Storage</text>
+        <text x="1438" y="815" text-anchor="middle">Glacial acetic acid</text>
+        <text x="1438" y="839" text-anchor="middle" class="condition">80–120°F</text>
+      </g>
+
+      <g class="unit-block utilities" data-unit="utilities">
+        <rect x="70" y="720" width="560" height="125" rx="18"></rect>
+        <text x="350" y="758" text-anchor="middle" class="block-title">Utilities, Safety & Offsites</text>
+        <text x="350" y="790" text-anchor="middle">Cooling water • steam • inerting • relief / flare • corrosion-resistant materials</text>
+        <text x="350" y="816" text-anchor="middle">Iodide loop containment • product tank blanketing • wastewater treatment</text>
+      </g>
+
+      <!-- Product tags -->
+      <g class="product-tag acid-product">
+        <rect x="1345" y="895" width="185" height="38" rx="12"></rect>
+        <text x="1438" y="920" text-anchor="middle">&gt;99.8 wt% AcOH</text>
+      </g>
+      <g class="product-tag recycle-tag">
+        <rect x="1060" y="95" width="180" height="38" rx="12"></rect>
+        <text x="1150" y="120" text-anchor="middle">MI / MeOAc Recycle</text>
+      </g>
+      <g class="product-tag waste-tag">
+        <rect x="805" y="505" width="145" height="38" rx="12"></rect>
+        <text x="878" y="530" text-anchor="middle">Light gas purge</text>
+      </g>
+
+      <!-- Stream paths -->
+      <path id="s1" class="stream feed-flow" d="M35 246 H70"></path>
+      <text x="42" y="230" class="stream-label">Methanol</text>
+      <polygon class="arrow-tip feed-arrow" points="70,246 58,240 58,252"></polygon>
+
+      <path id="s2" class="stream gas-flow" d="M35 445 H70"></path>
+      <text x="42" y="429" class="stream-label">CO</text>
+      <polygon class="arrow-tip gas-arrow" points="70,445 58,439 58,451"></polygon>
+
+      <path id="s3" class="stream feed-flow" d="M280 246 C330 246 330 290 375 290"></path>
+      <text x="300" y="232" class="stream-label">Vapor feed</text>
+      <polygon class="arrow-tip feed-arrow" points="375,290 363,284 363,296"></polygon>
+
+      <path id="s4" class="stream gas-flow" d="M280 445 C330 445 330 335 375 335"></path>
+      <text x="300" y="462" class="stream-label">CO feed</text>
+      <polygon class="arrow-tip gas-arrow" points="375,335 363,329 363,341"></polygon>
+
+      <path id="s5" class="stream process-flow" d="M620 310 H715"></path>
+      <text x="640" y="292" class="stream-label">Reactor effluent</text>
+      <polygon class="arrow-tip process-arrow" points="715,310 703,304 703,316"></polygon>
+
+      <path id="s6" class="stream recycle-flow" d="M830 230 V192"></path>
+      <text x="848" y="214" class="stream-label">Light gases</text>
+      <polygon class="arrow-tip recycle-arrow rotate-up" points="830,192 824,204 836,204"></polygon>
+
+      <path id="s7" class="stream recycle-flow" d="M730 136 C625 136 585 155 545 230"></path>
+      <text x="590" y="124" class="stream-label">CO-rich recycle</text>
+      <polygon class="arrow-tip recycle-arrow" points="545,230 543,216 555,222"></polygon>
+
+      <path id="s8" class="stream process-flow" d="M945 310 H1030"></path>
+      <text x="958" y="292" class="stream-label">Liquid phase</text>
+      <polygon class="arrow-tip process-arrow" points="1030,310 1018,304 1018,316"></polygon>
+
+      <path id="s9" class="stream recycle-flow" d="M1145 188 V132 H1060"></path>
+      <text x="1062" y="159" class="stream-label">Overhead recycle</text>
+      <polygon class="arrow-tip recycle-arrow rotate-left" points="1060,132 1072,126 1072,138"></polygon>
+
+      <path id="s10" class="stream recycle-flow" d="M1060 114 C820 114 610 112 520 230"></path>
+      <text x="745" y="102" class="stream-label">MI / methyl acetate</text>
+      <polygon class="arrow-tip recycle-arrow" points="520,230 519,216 531,222"></polygon>
+
+      <path id="s11" class="stream process-flow" d="M1145 373 V480"></path>
+      <text x="1162" y="432" class="stream-label">Crude acid</text>
+      <polygon class="arrow-tip process-arrow rotate-down" points="1145,480 1139,468 1151,468"></polygon>
+
+      <path id="s12" class="stream byproduct-flow" d="M1030 565 H950"></path>
+      <text x="955" y="548" class="stream-label">Water</text>
+      <polygon class="arrow-tip byproduct-arrow rotate-left" points="950,565 962,559 962,571"></polygon>
+
+      <path id="s13" class="stream process-flow" d="M1260 565 H1330"></path>
+      <text x="1270" y="548" class="stream-label">Dry acid</text>
+      <polygon class="arrow-tip process-arrow" points="1330,565 1318,559 1318,571"></polygon>
+
+      <path id="s14" class="stream product-flow" d="M1438 645 V720"></path>
+      <text x="1455" y="689" class="stream-label">Purified acid</text>
+      <polygon class="arrow-tip product-arrow rotate-down" points="1438,720 1432,708 1444,708"></polygon>
+
+      <path id="s15" class="stream product-flow" d="M1438 865 V895"></path>
+      <polygon class="arrow-tip product-arrow rotate-down" points="1438,895 1432,883 1444,883"></polygon>
+
+      <path id="s16" class="stream byproduct-flow" d="M830 390 C830 455 850 475 878 505"></path>
+      <text x="846" y="453" class="stream-label">Purge / vent</text>
+      <polygon class="arrow-tip byproduct-arrow rotate-down" points="878,505 868,497 880,493"></polygon>
+
+      <!-- Overlay -->
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="665" y="720" width="610" height="145" rx="14"></rect>
+        <text x="690" y="752" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="690" y="786" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="690" y="816" class="overlay-text">The diagram highlights the selected acetic acid process section.</text>
+        <text id="selectedDesc2" x="690" y="842" class="overlay-text">Unit and stream tables include representative process conditions.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel wide-panel">
+      <h2>Unit Summary</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Process Conditions</th><th>Key Equipment / Notes</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel wide-panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Condition</th><th>Purpose</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<script src="js/acetic-acid.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r => r.ok ? r.text() : "").then(d => { document.getElementById("footer").innerHTML = d; }).catch(() => {});
+</script>
+</body>
+</html>
