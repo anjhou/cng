@@ -30,8 +30,8 @@ svg { width: 100%; min-width: 1180px; height: auto; display: block; }
 .svg-title { font-size: 28px; font-weight: 800; fill: var(--deep-blue); }
 .svg-subtitle { font-size: 16px; fill: var(--muted); }
 .unit-block rect { fill: #ffffff; stroke: var(--blue); stroke-width: 3; }
-.unit-block text { fill: var(--ink); font-size: 13px; pointer-events: none; }
-.unit-block .block-title { font-size: 14px; font-weight: 800; }
+.unit-block text { fill: var(--ink); font-size: 12.5px; pointer-events: none; }
+.unit-block .block-title { font-size: 13.5px; font-weight: 800; }
 .unit-block.frontend rect { stroke: var(--blue); }
 .unit-block.cleanup rect { stroke: var(--cyan); }
 .unit-block.cryo rect { stroke: var(--purple); }
@@ -56,7 +56,7 @@ body.flow-paused .stream { animation: none; }
 .stream:not(.waste-flow) { stroke-dasharray: 12 8; animation: flow 1.5s linear infinite; }
 .waste-flow { stroke-dasharray: 12 8; animation: flow 1.7s linear infinite; }
 @keyframes flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -40; } }
-.stream-label { font-size: 12px; font-weight: 700; fill: var(--muted); }
+.stream-label { font-size: 11.5px; font-weight: 700; fill: var(--muted); }
 .branch-label text { font-size: 17px; font-weight: 800; fill: var(--deep-blue); }
 .product-tag rect { fill: #fff7ed; stroke: var(--orange); stroke-width: 2; }
 .product-tag text { font-size: 12px; font-weight: 800; fill: #7a3e10; }
