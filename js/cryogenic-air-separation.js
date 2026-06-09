@@ -103,19 +103,19 @@ const unitData = {
 
 const streamData = {
   s1: { title: 'Ambient Air', from: 'Atmosphere', to: 'Air filter', purpose: 'Raw air enters the ASU battery limit.' },
-  s2: { title: 'Filtered Air', from: 'Air filter', to: 'Main air compressor', purpose: 'Particulate-free air is compressed.' },
+  s2: { title: 'Filtered Air', from: 'Air filter', to: 'Main air compressor', purpose: 'Particulate-free air is routed to compression.' },
   s3: { title: 'Compressed Air', from: 'Main air compressor', to: 'After-coolers', purpose: 'Hot compressed air is cooled and condensed water is removed.' },
   s4: { title: 'Cooled Compressed Air', from: 'After-coolers', to: 'Dryer', purpose: 'Air is routed for bulk moisture removal.' },
   s5: { title: 'Dried Air', from: 'Dryer', to: 'Molecular sieve beds', purpose: 'Partially dried air receives final CO₂ and H₂O removal.' },
-  s6: { title: 'Clean Dry Air', from: 'Molecular sieve beds', to: 'Cold box / main exchanger', purpose: 'CO₂/H₂O-free air enters cryogenic cooling service.' },
-  s7: { title: 'Cold Compressed Air', from: 'Cold box', to: 'Turbo-expander', purpose: 'A clean air stream expands to generate refrigeration.' },
-  s8: { title: 'Expanded Cold Air', from: 'Turbo-expander', to: 'High-pressure column', purpose: 'Cooled and partially liquefied air enters distillation.' },
-  s9: { title: 'Column Feed / Vapor-Liquid Traffic', from: 'High-pressure column', to: 'Low-pressure column', purpose: 'Intermediate streams are transferred for final N₂/O₂ separation.' },
-  s10: { title: 'Cold Return Stream', from: 'Low-pressure column', to: 'Cold box', purpose: 'Cold products and waste gas recover refrigeration in the main exchanger.' },
-  s11: { title: 'Argon-Rich Side Draw', from: 'Low-pressure column', to: 'Argon column', purpose: 'Intermediate boiling argon is extracted or purged.' },
+  s6: { title: 'Clean Dry Air', from: 'Molecular sieve beds', to: 'Turbo-expander', purpose: 'CO₂/H₂O-free air is expanded to generate refrigeration.' },
+  s7: { title: 'Expanded Cold Air', from: 'Turbo-expander', to: 'High-pressure column / cold box', purpose: 'Cooled and partially liquefied air enters cryogenic distillation.' },
+  s8: { title: 'HP Column Transfer', from: 'High-pressure column', to: 'Low-pressure column', purpose: 'Intermediate streams are transferred for final N₂/O₂ separation.' },
+  s9: { title: 'Argon-Rich Side Draw', from: 'Low-pressure column', to: 'Argon column', purpose: 'Intermediate boiling argon is extracted for recovery or purge.' },
+  s10: { title: 'Cold Return Stream', from: 'Column system', to: 'Main exchanger', purpose: 'Cold return streams recover refrigeration in the cold box.' },
+  s11: { title: 'Argon-Rich Column Feed', from: 'Low-pressure column side draw', to: 'Argon column', purpose: 'Argon-rich vapor/liquid is routed to the argon recovery section.' },
   s12: { title: 'Nitrogen Overhead', from: 'Low-pressure column top', to: 'Nitrogen product', purpose: 'High-purity nitrogen is withdrawn overhead because N₂ is more volatile.' },
   s13: { title: 'Oxygen Bottoms', from: 'Low-pressure column bottom', to: 'Oxygen product', purpose: 'Oxygen-rich liquid or vapor is removed from the lower column.' },
-  s14: { title: 'Argon Product / Purge', from: 'Argon column', to: 'Argon product or purge handling', purpose: 'Argon-rich stream is recovered or purged.' },
+  s14: { title: 'Argon Product / Purge', from: 'Argon column', to: 'Argon product or purge handling', purpose: 'Argon-rich stream is recovered or purged depending on plant design.' },
   s15: { title: 'Regeneration / Impurity Vent', from: 'Molecular sieve / purification system', to: 'Waste / vent system', purpose: 'Regeneration exhaust and impurity purge are safely discharged or reused.' }
 };
 
@@ -178,7 +178,7 @@ function bindButtons() {
   if (btnReset) {
     btnReset.addEventListener('click', () => {
       clearActive();
-      setOverlay('Click any block or stream', 'The diagram highlights the selected cryogenic air separation section.', 'Use this as a high-level ASU block flow diagram.');
+      setOverlay('Click any block or stream', 'The diagram highlights the selected cryogenic air separation section.', 'The optimized layout uses the full SVG canvas with visible inline arrowheads.');
     });
   }
 }
