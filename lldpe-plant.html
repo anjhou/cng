@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLDPE Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/lldpe-plant.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>LLDPE Plant Block Diagram</h1>
+      <p>Feed purification → gas-phase polymerization → recycle recovery → powder handling → extrusion → pelletizing and packaging.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="lldpeSvg" viewBox="0 0 1500 940" role="img" aria-label="LLDPE plant block diagram">
+      <defs>
+        <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#123b63" />
+          <stop offset="100%" stop-color="#1f6f9e" />
+        </linearGradient>
+      </defs>
+
+      <rect x="20" y="20" width="1460" height="900" rx="24" class="canvas-bg"></rect>
+      <text x="750" y="58" text-anchor="middle" class="svg-title">LLDPE Process — Block Flow Diagram</text>
+      <text x="750" y="84" text-anchor="middle" class="svg-subtitle">Ethylene + α-olefin comonomer + H₂ → catalyst polymerization → LLDPE powder → pellets</text>
+
+      <!-- Feed preparation row -->
+      <g class="section-band feed-band">
+        <rect x="55" y="115" width="900" height="235" rx="20"></rect>
+        <text x="75" y="142" class="section-label">Feed purification and catalyst preparation</text>
+      </g>
+
+      <g class="unit-block feed" data-unit="ethylene">
+        <rect x="75" y="175" width="165" height="105" rx="14"></rect>
+        <text x="157" y="211" text-anchor="middle" class="block-title">Ethylene Feed</text>
+        <text x="157" y="239" text-anchor="middle">Dried / treated</text>
+        <text x="157" y="263" text-anchor="middle">C₂H₄ monomer</text>
+      </g>
+
+      <g class="unit-block feed" data-unit="comonomer">
+        <rect x="275" y="175" width="190" height="105" rx="14"></rect>
+        <text x="370" y="211" text-anchor="middle" class="block-title">α-Olefin Feed</text>
+        <text x="370" y="239" text-anchor="middle">1-butene / 1-hexene</text>
+        <text x="370" y="263" text-anchor="middle">or 1-octene</text>
+      </g>
+
+      <g class="unit-block feed" data-unit="hydrogen">
+        <rect x="500" y="175" width="155" height="105" rx="14"></rect>
+        <text x="577" y="211" text-anchor="middle" class="block-title">Hydrogen</text>
+        <text x="577" y="239" text-anchor="middle">MW control</text>
+        <text x="577" y="263" text-anchor="middle">dry / purified</text>
+      </g>
+
+      <g class="unit-block catalyst" data-unit="catalyst">
+        <rect x="700" y="175" width="220" height="105" rx="14"></rect>
+        <text x="810" y="211" text-anchor="middle" class="block-title">Catalyst Feed</text>
+        <text x="810" y="239" text-anchor="middle">Ziegler-Natta or</text>
+        <text x="810" y="263" text-anchor="middle">metallocene system</text>
+      </g>
+
+      <!-- Main process row -->
+      <g class="section-band reactor-band">
+        <rect x="55" y="380" width="1390" height="245" rx="20"></rect>
+        <text x="75" y="407" class="section-label">Gas-phase polymerization and recycle loop</text>
+      </g>
+
+      <g class="unit-block purification" data-unit="purification">
+        <rect x="85" y="455" width="215" height="115" rx="16"></rect>
+        <text x="192" y="490" text-anchor="middle" class="block-title">Feed Purification</text>
+        <text x="192" y="518" text-anchor="middle">Dryers / guard beds</text>
+        <text x="192" y="542" text-anchor="middle">Remove H₂O, O₂, CO, S</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="reactor">
+        <rect x="360" y="430" width="240" height="165" rx="18"></rect>
+        <text x="480" y="468" text-anchor="middle" class="block-title">Gas-Phase Reactor</text>
+        <text x="480" y="500" text-anchor="middle">Fluidized-bed reactor</text>
+        <text x="480" y="524" text-anchor="middle">Moderate T / P</text>
+        <text x="480" y="548" text-anchor="middle">LLDPE powder formation</text>
+      </g>
+
+      <g class="unit-block recycle" data-unit="recycle">
+        <rect x="675" y="430" width="230" height="165" rx="18"></rect>
+        <text x="790" y="468" text-anchor="middle" class="block-title">Recycle Gas Loop</text>
+        <text x="790" y="500" text-anchor="middle">Compressor / cooler</text>
+        <text x="790" y="524" text-anchor="middle">Monomer recovery</text>
+        <text x="790" y="548" text-anchor="middle">Unreacted feed recycle</text>
+      </g>
+
+      <g class="unit-block powder" data-unit="powder">
+        <rect x="985" y="430" width="220" height="165" rx="18"></rect>
+        <text x="1095" y="468" text-anchor="middle" class="block-title">Powder Discharge</text>
+        <text x="1095" y="500" text-anchor="middle">Degassing / purge</text>
+        <text x="1095" y="524" text-anchor="middle">Catalyst deactivation</text>
+        <text x="1095" y="548" text-anchor="middle">Gas-solids separation</text>
+      </g>
+
+      <g class="unit-block offgas" data-unit="offgas">
+        <rect x="1260" y="430" width="155" height="165" rx="18"></rect>
+        <text x="1337" y="468" text-anchor="middle" class="block-title">Off-Gas</text>
+        <text x="1337" y="500" text-anchor="middle">Purge recovery</text>
+        <text x="1337" y="524" text-anchor="middle">Fuel gas / recycle</text>
+      </g>
+
+      <!-- Finishing row -->
+      <g class="section-band finishing-band">
+        <rect x="55" y="660" width="1390" height="205" rx="20"></rect>
+        <text x="75" y="687" class="section-label">Polymer finishing and logistics</text>
+      </g>
+
+      <g class="unit-block dryer" data-unit="drying">
+        <rect x="155" y="725" width="190" height="105" rx="16"></rect>
+        <text x="250" y="760" text-anchor="middle" class="block-title">Powder Drying</text>
+        <text x="250" y="789" text-anchor="middle">Nitrogen purge</text>
+        <text x="250" y="812" text-anchor="middle">Residual VOC removal</text>
+      </g>
+
+      <g class="unit-block extruder" data-unit="extruder">
+        <rect x="425" y="715" width="220" height="125" rx="16"></rect>
+        <text x="535" y="752" text-anchor="middle" class="block-title">Extruder</text>
+        <text x="535" y="781" text-anchor="middle">Stabilizers / antioxidants</text>
+        <text x="535" y="805" text-anchor="middle">Melt mixing</text>
+      </g>
+
+      <g class="unit-block pelletizer" data-unit="pelletizer">
+        <rect x="725" y="715" width="210" height="125" rx="16"></rect>
+        <text x="830" y="752" text-anchor="middle" class="block-title">Pelletizing</text>
+        <text x="830" y="781" text-anchor="middle">Die-face cutter</text>
+        <text x="830" y="805" text-anchor="middle">Cooling water loop</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1015" y="715" width="210" height="125" rx="16"></rect>
+        <text x="1120" y="752" text-anchor="middle" class="block-title">Pellet Silos</text>
+        <text x="1120" y="781" text-anchor="middle">Blending / QC</text>
+        <text x="1120" y="805" text-anchor="middle">Bulk storage</text>
+      </g>
+
+      <g class="unit-block packaging" data-unit="packaging">
+        <rect x="1290" y="715" width="130" height="125" rx="16"></rect>
+        <text x="1355" y="752" text-anchor="middle" class="block-title">Packaging</text>
+        <text x="1355" y="781" text-anchor="middle">Bags / bulk</text>
+        <text x="1355" y="805" text-anchor="middle">Shipment</text>
+      </g>
+
+      <!-- Streams -->
+      <path id="s1" class="stream feed-flow" d="M240 228 H275"></path>
+      <path id="s2" class="stream feed-flow" d="M465 228 H500"></path>
+      <path id="s3" class="stream feed-flow" d="M655 228 H700"></path>
+      <path id="s4" class="stream feed-flow" d="M157 280 C157 340 192 390 192 455"></path>
+      <path id="s5" class="stream feed-flow" d="M370 280 C370 345 260 390 245 455"></path>
+      <path id="s6" class="stream feed-flow" d="M577 280 C577 345 330 380 285 455"></path>
+      <path id="s7" class="stream catalyst-flow" d="M810 280 C810 355 575 375 530 430"></path>
+
+      <path id="s8" class="stream main-flow" d="M300 512 H360"></path>
+      <path id="s9" class="stream main-flow" d="M600 512 H675"></path>
+      <path id="s10" class="stream recycle-flow" d="M790 430 C790 365 480 365 480 430"></path>
+      <path id="s11" class="stream polymer-flow" d="M600 565 C690 645 160 650 250 725"></path>
+      <path id="s12" class="stream polymer-flow" d="M1205 512 H1260"></path>
+      <path id="s13" class="stream polymer-flow" d="M345 778 H425"></path>
+      <path id="s14" class="stream polymer-flow" d="M645 778 H725"></path>
+      <path id="s15" class="stream polymer-flow" d="M935 778 H1015"></path>
+      <path id="s16" class="stream product-flow" d="M1225 778 H1290"></path>
+      <path id="s17" class="stream product-flow" d="M1420 778 H1460"></path>
+
+      <!-- Inline arrowheads: visible and independent of marker rendering -->
+      <g class="arrow arrow-feed" transform="translate(272,228)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(497,228)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(697,228)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(192,452) rotate(90)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(245,452) rotate(90)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(285,452) rotate(90)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-catalyst" transform="translate(532,428) rotate(135)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-main" transform="translate(357,512)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-main" transform="translate(672,512)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-recycle" transform="translate(480,430) rotate(90)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-polymer" transform="translate(250,722) rotate(90)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-polymer" transform="translate(1257,512)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-polymer" transform="translate(422,778)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-polymer" transform="translate(722,778)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-polymer" transform="translate(1012,778)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-product" transform="translate(1287,778)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+      <g class="arrow arrow-product" transform="translate(1457,778)"><polygon points="0,-6 13,0 0,6"></polygon></g>
+
+      <!-- Labels -->
+      <text x="255" y="212" class="stream-label">Feeds</text>
+      <text x="325" y="495" class="stream-label">Purified feed</text>
+      <text x="625" y="496" class="stream-label">Reactor gas</text>
+      <text x="606" y="385" class="stream-label">Unreacted monomer recycle</text>
+      <text x="140" y="665" class="stream-label">LLDPE powder</text>
+      <text x="1220" y="496" class="stream-label">Purge gas</text>
+      <text x="1432" y="760" class="stream-label">LLDPE pellets</text>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="70" y="840" width="500" height="65" rx="14"></rect>
+        <text x="92" y="865" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="92" y="890" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="585" y="865" class="overlay-text">LLDPE gas-phase polymerization and finishing flowsheet.</text>
+        <text id="selectedDesc2" x="585" y="890" class="overlay-text">Animation can be paused from the top control.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel">
+      <h2>Unit Summary</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Notes</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<script src="js/lldpe-plant.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
