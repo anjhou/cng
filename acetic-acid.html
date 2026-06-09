@@ -26,7 +26,55 @@ fetch("header.html").then(r => r.ok ? r.text() : "").then(d => { document.getEle
 
   <section class="diagram-panel">
     <svg id="processSvg" viewBox="0 0 1600 980" role="img" aria-label="Acetic acid production block diagram">
-      <rect x="20" y="20" width="1560" height="940" rx="24" class="canvas-bg"></rect>
+      <style>
+        /* SVG-safe fallback styles: prevents black-screen rendering when external CSS is delayed or blocked. */
+        #processSvg { background: #f8fbfd; }
+        #processSvg .canvas-bg { fill: #f8fbfd !important; stroke: #d7e2ea !important; stroke-width: 2; }
+        #processSvg text { fill: #17324d; font-family: Arial, Helvetica, sans-serif; }
+        #processSvg .svg-title { fill: #123b63 !important; font-size: 28px; font-weight: 800; }
+        #processSvg .svg-subtitle { fill: #60758a !important; font-size: 16px; }
+        #processSvg .unit-block rect { fill: #ffffff !important; stroke: #1f6f9e !important; stroke-width: 3; }
+        #processSvg .unit-block.feed rect { stroke: #008b8b !important; }
+        #processSvg .unit-block.gas rect { stroke: #69788a !important; }
+        #processSvg .unit-block.reactor rect { stroke: #6b5fb5 !important; }
+        #processSvg .unit-block.separator rect { stroke: #c96f20 !important; }
+        #processSvg .unit-block.recycle rect { stroke: #8b741e !important; fill: #fffdf0 !important; }
+        #processSvg .unit-block.column rect { stroke: #1f6f9e !important; }
+        #processSvg .unit-block.storage rect { stroke: #2f8f46 !important; fill: #f2fbf5 !important; }
+        #processSvg .unit-block.utilities rect { stroke: #69788a !important; fill: #f3f7fa !important; }
+        #processSvg .unit-block text { fill: #17324d !important; font-size: 15px; }
+        #processSvg .unit-block .block-title { font-size: 18px; font-weight: 800; }
+        #processSvg .condition { fill: #b8483a !important; font-weight: 800; font-size: 14px !important; }
+        #processSvg .stream { fill: none !important; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 12 8; animation: flow 1.45s linear infinite; }
+        #processSvg .feed-flow { stroke: #008b8b !important; }
+        #processSvg .gas-flow { stroke: #69788a !important; }
+        #processSvg .process-flow { stroke: #1f6f9e !important; }
+        #processSvg .recycle-flow { stroke: #8b741e !important; }
+        #processSvg .product-flow { stroke: #2f8f46 !important; }
+        #processSvg .byproduct-flow { stroke: #c96f20 !important; }
+        #processSvg .arrow-tip { stroke: none !important; pointer-events: none; }
+        #processSvg .feed-arrow { fill: #008b8b !important; }
+        #processSvg .gas-arrow { fill: #69788a !important; }
+        #processSvg .process-arrow { fill: #1f6f9e !important; }
+        #processSvg .recycle-arrow { fill: #8b741e !important; }
+        #processSvg .product-arrow { fill: #2f8f46 !important; }
+        #processSvg .byproduct-arrow { fill: #c96f20 !important; }
+        #processSvg .stream-label { fill: #60758a !important; font-size: 14px; font-weight: 800; }
+        #processSvg .product-tag rect { fill: #fff7ed !important; stroke: #c96f20 !important; stroke-width: 2; }
+        #processSvg .product-tag text { fill: #7a3e10 !important; font-size: 14px; font-weight: 800; }
+        #processSvg .product-tag.acid-product rect { fill: #ecfbf0 !important; stroke: #2f8f46 !important; }
+        #processSvg .product-tag.acid-product text { fill: #1f6531 !important; }
+        #processSvg .product-tag.recycle-tag rect { fill: #fffbea !important; stroke: #8b741e !important; }
+        #processSvg .product-tag.recycle-tag text { fill: #6d5610 !important; }
+        #processSvg .info-overlay rect { fill: rgba(255,255,255,0.96) !important; stroke: #cbd8e2 !important; stroke-width: 2; }
+        #processSvg .overlay-title { fill: #123b63 !important; font-size: 16px; font-weight: 800; }
+        #processSvg .overlay-main { fill: #1f6f9e !important; font-size: 18px; font-weight: 800; }
+        #processSvg .overlay-text { fill: #60758a !important; font-size: 14px; }
+        @keyframes flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -40; } }
+        body.flow-paused #processSvg .stream { animation: none; }
+      </style>
+
+      <rect x="20" y="20" width="1560" height="940" rx="24" class="canvas-bg" fill="#f8fbfd" stroke="#d7e2ea" stroke-width="2"></rect>
       <text x="800" y="62" text-anchor="middle" class="svg-title">Acetic Acid Production — Methanol Carbonylation Process</text>
       <text x="800" y="91" text-anchor="middle" class="svg-subtitle">Methanol + CO → Carbonylation reactor → Flash → Light-ends recovery → Drying → Finishing → Glacial acetic acid storage</text>
 
