@@ -83,3 +83,16 @@ th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; ver
 th { background: linear-gradient(90deg, var(--deep-blue), var(--blue)); color: #fff; }
 tbody tr:nth-child(even) { background: #f5f9fc; }
 @media (max-width: 900px) { .topbar { display: block; } .controls { margin-top: 14px; } .panel { margin-top: 18px; } }
+
+.panel-note {
+  margin: -4px 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.applications-panel table th:first-child,
+.applications-panel table td:first-child {
+  width: 22%;
+  font-weight: 700;
+}
+.applications-panel table td:nth-child(2) { width: 34%; }
+.applications-panel table td:nth-child(3) { width: 44%; }
