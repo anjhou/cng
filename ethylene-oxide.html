@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethylene Oxide Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/ethylene-oxide.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Ethylene Oxide Plant Block Diagram</h1>
+      <p>Ethylene + oxygen feed preparation → silver-catalyst oxidation → EO absorption → CO₂ removal/recycle → stripping, refining, and refrigerated EO storage.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="eoSvg" viewBox="0 0 1500 960" role="img" aria-label="Ethylene oxide plant block diagram">
+      <defs>
+        <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#123b63" />
+          <stop offset="100%" stop-color="#1f6f9e" />
+        </linearGradient>
+      </defs>
+
+      <rect x="20" y="20" width="1460" height="920" rx="24" class="canvas-bg"></rect>
+      <text x="750" y="58" text-anchor="middle" class="svg-title">Ethylene Oxide Process — Block Flow Diagram</text>
+      <text x="750" y="84" text-anchor="middle" class="svg-subtitle">Catalytic oxidation of ethylene with oxygen in a fixed-bed silver-catalyst reactor</text>
+
+      <!-- Reaction section -->
+      <g class="section-band feed-band">
+        <rect x="55" y="115" width="1390" height="255" rx="20"></rect>
+        <text x="75" y="142" class="section-label">Feed preparation, heat recovery, and EO reactor</text>
+      </g>
+
+      <g class="unit-block feed" data-unit="ethylene">
+        <rect x="75" y="185" width="170" height="110" rx="14"></rect>
+        <text x="160" y="222" text-anchor="middle" class="block-title">Ethylene Feed</text>
+        <text x="160" y="250" text-anchor="middle">C₂H₄ makeup</text>
+        <text x="160" y="274" text-anchor="middle">controlled ratio</text>
+      </g>
+
+      <g class="unit-block oxygen" data-unit="oxygen">
+        <rect x="285" y="185" width="165" height="110" rx="14"></rect>
+        <text x="367" y="222" text-anchor="middle" class="block-title">Oxygen Feed</text>
+        <text x="367" y="250" text-anchor="middle">O₂ / air source</text>
+        <text x="367" y="274" text-anchor="middle">ratio control</text>
+      </g>
+
+      <g class="unit-block mixer" data-unit="mixer">
+        <rect x="500" y="175" width="190" height="130" rx="16"></rect>
+        <text x="595" y="211" text-anchor="middle" class="block-title">Feed Mixer</text>
+        <text x="595" y="239" text-anchor="middle">Ethylene + O₂</text>
+        <text x="595" y="263" text-anchor="middle">Recycle gas blending</text>
+        <text x="595" y="287" text-anchor="middle">Safe composition control</text>
+      </g>
+
+      <g class="unit-block exchanger" data-unit="feedEffluent">
+        <rect x="740" y="175" width="215" height="130" rx="16"></rect>
+        <text x="847" y="211" text-anchor="middle" class="block-title">Feed–Effluent</text>
+        <text x="847" y="235" text-anchor="middle" class="block-title">Exchanger</text>
+        <text x="847" y="263" text-anchor="middle">Preheats feed</text>
+        <text x="847" y="287" text-anchor="middle">Recovers reactor heat</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="reactor">
+        <rect x="1015" y="155" width="245" height="170" rx="18"></rect>
+        <text x="1137" y="193" text-anchor="middle" class="block-title">Fixed-Bed Reactor</text>
+        <text x="1137" y="224" text-anchor="middle">Silver catalyst tubes</text>
+        <text x="1137" y="248" text-anchor="middle">C₂H₄ + O₂ → EO</text>
+        <text x="1137" y="272" text-anchor="middle">CO₂ + H₂O byproducts</text>
+        <text x="1137" y="296" text-anchor="middle">Heat removal control</text>
+      </g>
+
+      <g class="unit-block cooling" data-unit="cooling">
+        <rect x="1305" y="175" width="120" height="130" rx="16"></rect>
+        <text x="1365" y="211" text-anchor="middle" class="block-title">Effluent</text>
+        <text x="1365" y="235" text-anchor="middle" class="block-title">Cooling</text>
+        <text x="1365" y="263" text-anchor="middle">Cooler / KO</text>
+        <text x="1365" y="287" text-anchor="middle">to absorber</text>
+      </g>
+
+      <!-- Recovery section -->
+      <g class="section-band recovery-band">
+        <rect x="55" y="405" width="1390" height="270" rx="20"></rect>
+        <text x="75" y="432" class="section-label">EO absorption, gas purification, and recycle</text>
+      </g>
+
+      <g class="unit-block absorber" data-unit="absorber">
+        <rect x="955" y="465" width="230" height="155" rx="18"></rect>
+        <text x="1070" y="503" text-anchor="middle" class="block-title">EO Absorber</text>
+        <text x="1070" y="535" text-anchor="middle">Water circulation</text>
+        <text x="1070" y="559" text-anchor="middle">EO selectively absorbed</text>
+        <text x="1070" y="583" text-anchor="middle">Unabsorbed gas overhead</text>
+      </g>
+
+      <g class="unit-block cru" data-unit="cru">
+        <rect x="650" y="465" width="220" height="155" rx="18"></rect>
+        <text x="760" y="503" text-anchor="middle" class="block-title">CO₂ Removal Unit</text>
+        <text x="760" y="535" text-anchor="middle">Carbonate / amine wash</text>
+        <text x="760" y="559" text-anchor="middle">Removes CO₂</text>
+        <text x="760" y="583" text-anchor="middle">Recycle gas purification</text>
+      </g>
+
+      <g class="unit-block recycle" data-unit="recycle">
+        <rect x="350" y="465" width="220" height="155" rx="18"></rect>
+        <text x="460" y="503" text-anchor="middle" class="block-title">Recycle Gas</text>
+        <text x="460" y="535" text-anchor="middle">Compressor / purge</text>
+        <text x="460" y="559" text-anchor="middle">Ethylene recovery</text>
+        <text x="460" y="583" text-anchor="middle">Inert control</text>
+      </g>
+
+      <g class="unit-block purge" data-unit="purge">
+        <rect x="95" y="475" width="175" height="135" rx="16"></rect>
+        <text x="182" y="512" text-anchor="middle" class="block-title">Purge / Vent</text>
+        <text x="182" y="542" text-anchor="middle">Inerts removal</text>
+        <text x="182" y="566" text-anchor="middle">Fuel gas / flare</text>
+      </g>
+
+      <!-- Purification and storage -->
+      <g class="section-band finishing-band">
+        <rect x="55" y="705" width="1390" height="200" rx="20"></rect>
+        <text x="75" y="732" class="section-label">EO stripping, refining, cooling, and refrigerated storage</text>
+      </g>
+
+      <g class="unit-block stripper" data-unit="stripper">
+        <rect x="180" y="770" width="200" height="105" rx="16"></rect>
+        <text x="280" y="806" text-anchor="middle" class="block-title">EO Stripper</text>
+        <text x="280" y="834" text-anchor="middle">Desorbs EO vapor</text>
+        <text x="280" y="858" text-anchor="middle">Water recycle</text>
+      </g>
+
+      <g class="unit-block compressor" data-unit="eoCompress">
+        <rect x="455" y="760" width="210" height="125" rx="16"></rect>
+        <text x="560" y="797" text-anchor="middle" class="block-title">EO Compression</text>
+        <text x="560" y="826" text-anchor="middle">Compresses EO vapor</text>
+        <text x="560" y="850" text-anchor="middle">Condensation service</text>
+      </g>
+
+      <g class="unit-block refining" data-unit="refining">
+        <rect x="745" y="760" width="220" height="125" rx="16"></rect>
+        <text x="855" y="797" text-anchor="middle" class="block-title">EO Refining</text>
+        <text x="855" y="826" text-anchor="middle">Removes water</text>
+        <text x="855" y="850" text-anchor="middle">Aldehydes / heavies</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1045" y="760" width="220" height="125" rx="16"></rect>
+        <text x="1155" y="797" text-anchor="middle" class="block-title">Refrigerated</text>
+        <text x="1155" y="821" text-anchor="middle" class="block-title">EO Storage</text>
+        <text x="1155" y="850" text-anchor="middle">Cooled tanks</text>
+      </g>
+
+      <g class="unit-block product" data-unit="product">
+        <rect x="1325" y="770" width="105" height="105" rx="16"></rect>
+        <text x="1377" y="806" text-anchor="middle" class="block-title">EO</text>
+        <text x="1377" y="830" text-anchor="middle" class="block-title">Product</text>
+        <text x="1377" y="858" text-anchor="middle">Distribution</text>
+      </g>
+
+      <!-- Streams -->
+      <path id="s1" class="stream feed-flow" d="M245 240 H285"></path>
+      <path id="s2" class="stream oxygen-flow" d="M450 240 H500"></path>
+      <path id="s3" class="stream feed-flow" d="M690 240 H740"></path>
+      <path id="s4" class="stream hot-flow" d="M955 240 H1015"></path>
+      <path id="s5" class="stream hot-flow" d="M1260 240 H1305"></path>
+      <path id="s6" class="stream hot-flow" d="M1365 305 C1365 390 1185 390 1185 542"></path>
+
+      <path id="s7" class="stream water-flow" d="M955 542 H870"></path>
+      <path id="s8" class="stream recycle-flow" d="M650 542 H570"></path>
+      <path id="s9" class="stream recycle-flow" d="M350 542 H270"></path>
+      <path id="s10" class="stream recycle-flow" d="M460 465 C460 350 595 335 595 305"></path>
+      <path id="s11" class="stream recycle-flow" d="M870 500 C970 390 595 390 595 305"></path>
+
+      <path id="s12" class="stream eo-flow" d="M1070 620 C1070 700 280 700 280 770"></path>
+      <path id="s13" class="stream eo-flow" d="M380 822 H455"></path>
+      <path id="s14" class="stream eo-flow" d="M665 822 H745"></path>
+      <path id="s15" class="stream product-flow" d="M965 822 H1045"></path>
+      <path id="s16" class="stream product-flow" d="M1265 822 H1325"></path>
+      <path id="s17" class="stream product-flow" d="M1430 822 H1460"></path>
+      <path id="s18" class="stream water-flow" d="M280 770 C280 645 965 645 965 575"></path>
+
+      <!-- Inline arrowheads -->
+      <g class="arrow arrow-feed" transform="translate(282,240)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-oxygen" transform="translate(497,240)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-feed" transform="translate(737,240)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-hot" transform="translate(1012,240)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-hot" transform="translate(1302,240)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-hot" transform="translate(1185,539) rotate(90)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-water" transform="translate(873,542) rotate(180)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-recycle" transform="translate(573,542) rotate(180)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-recycle" transform="translate(273,542) rotate(180)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-recycle" transform="translate(595,308) rotate(-90)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-recycle" transform="translate(598,308) rotate(-90)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-eo" transform="translate(280,767) rotate(90)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-eo" transform="translate(452,822)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-eo" transform="translate(742,822)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-product" transform="translate(1042,822)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-product" transform="translate(1322,822)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-product" transform="translate(1457,822)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+      <g class="arrow arrow-water" transform="translate(965,578) rotate(-90)"><polygon points="0,-7 15,0 0,7"></polygon></g>
+
+      <!-- Labels -->
+      <text x="250" y="222" class="stream-label">Ethylene</text>
+      <text x="452" y="222" class="stream-label">O₂</text>
+      <text x="700" y="222" class="stream-label">Mixed feed</text>
+      <text x="970" y="222" class="stream-label">Preheated feed</text>
+      <text x="1270" y="222" class="stream-label">Reactor effluent</text>
+      <text x="1195" y="405" class="stream-label">Cooled effluent</text>
+      <text x="880" y="526" class="stream-label">Unabsorbed gas</text>
+      <text x="580" y="526" class="stream-label">CO₂-lean recycle</text>
+      <text x="285" y="526" class="stream-label">Purge gas</text>
+      <text x="505" y="355" class="stream-label">Recycle to mixer</text>
+      <text x="580" y="690" class="stream-label">EO-rich water</text>
+      <text x="390" y="806" class="stream-label">EO vapor</text>
+      <text x="670" y="806" class="stream-label">Condensed EO</text>
+      <text x="970" y="806" class="stream-label">Purified EO</text>
+      <text x="1430" y="804" class="stream-label">Shipment</text>
+      <text x="480" y="665" class="stream-label">Lean water recycle</text>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="70" y="885" width="555" height="40" rx="14"></rect>
+        <text x="92" y="910" class="overlay-title">Selected:</text>
+        <text id="selectedTitle" x="175" y="910" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="650" y="910" class="overlay-text">EO oxidation, recovery, purification, and storage flowsheet.</text>
+        <text id="selectedDesc2" x="1060" y="910" class="overlay-text">Use Pause Flow to stop animation.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel">
+      <h2>Unit Summary</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Notes</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<script src="js/ethylene-oxide.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
