@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PTA Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/pta-plant.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Purified Terephthalic Acid (PTA) Plant Block Diagram</h1>
+      <p>Liquid-phase p-xylene oxidation in acetic acid solvent, CTA recovery, hydrogenation purification, crystallization, drying, and PTA silo storage.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="ptaSvg" viewBox="0 0 1600 980" role="img" aria-label="PTA plant block flow diagram">
+      <rect x="20" y="20" width="1560" height="940" rx="24" class="canvas-bg" fill="#f8fbfd" stroke="#d7e2ea" stroke-width="2"></rect>
+      <text x="800" y="62" text-anchor="middle" class="svg-title" fill="#123b63">PTA Production — Block Flow Diagram</text>
+      <text x="800" y="90" text-anchor="middle" class="svg-subtitle" fill="#60758a">p-Xylene oxidation → CTA separation → hydrogenation → crystallization → filtration/drying → PTA storage</text>
+
+      <!-- Feed and oxidation loop -->
+      <g class="unit-block feed" data-unit="feed">
+        <rect x="55" y="180" width="190" height="125" rx="15" fill="#ffffff" stroke="#1f6f9e" stroke-width="3"></rect>
+        <text x="150" y="217" text-anchor="middle" class="block-title">Feed Preparation</text>
+        <text x="150" y="246" text-anchor="middle">p-Xylene</text>
+        <text x="150" y="270" text-anchor="middle">Acetic acid solvent</text>
+        <text x="150" y="294" text-anchor="middle">Co/Mn/Br catalyst</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="oxidation">
+        <rect x="320" y="170" width="230" height="145" rx="16" fill="#ffffff" stroke="#c96f20" stroke-width="3"></rect>
+        <text x="435" y="207" text-anchor="middle" class="block-title">Oxidation Reactor</text>
+        <text x="435" y="236" text-anchor="middle">Liquid-phase oxidation</text>
+        <text x="435" y="260" text-anchor="middle">430–500 °F</text>
+        <text x="435" y="284" text-anchor="middle">300–450 psig</text>
+      </g>
+
+      <g class="unit-block separator" data-unit="flasher">
+        <rect x="640" y="175" width="205" height="135" rx="16" fill="#ffffff" stroke="#6b5fb5" stroke-width="3"></rect>
+        <text x="742" y="212" text-anchor="middle" class="block-title">Slurry Flasher</text>
+        <text x="742" y="241" text-anchor="middle">Pressure letdown</text>
+        <text x="742" y="265" text-anchor="middle">Off-gas removal</text>
+        <text x="742" y="289" text-anchor="middle">150–250 psig</text>
+      </g>
+
+      <g class="unit-block separator" data-unit="ctaSep">
+        <rect x="940" y="175" width="225" height="135" rx="16" fill="#ffffff" stroke="#008b8b" stroke-width="3"></rect>
+        <text x="1052" y="211" text-anchor="middle" class="block-title">CTA Solid–Liquid</text>
+        <text x="1052" y="240" text-anchor="middle">Separation</text>
+        <text x="1052" y="264" text-anchor="middle">CTA crystals recovery</text>
+        <text x="1052" y="288" text-anchor="middle">Mother liquor recycle</text>
+      </g>
+
+      <!-- Purification train -->
+      <g class="unit-block reactor" data-unit="hydrogenation">
+        <rect x="170" y="455" width="245" height="145" rx="16" fill="#ffffff" stroke="#2f8f46" stroke-width="3"></rect>
+        <text x="292" y="492" text-anchor="middle" class="block-title">Hydrogenation Reactor</text>
+        <text x="292" y="521" text-anchor="middle">4-CBA / color removal</text>
+        <text x="292" y="545" text-anchor="middle">500–550 °F</text>
+        <text x="292" y="569" text-anchor="middle">400–600 psig H₂</text>
+      </g>
+
+      <g class="unit-block crystallizer" data-unit="crystallizer">
+        <rect x="505" y="455" width="230" height="145" rx="16" fill="#ffffff" stroke="#1f6f9e" stroke-width="3"></rect>
+        <text x="620" y="492" text-anchor="middle" class="block-title">PTA Crystallizers</text>
+        <text x="620" y="521" text-anchor="middle">Controlled cooling</text>
+        <text x="620" y="545" text-anchor="middle">250–300 °F</text>
+        <text x="620" y="569" text-anchor="middle">High-purity crystals</text>
+      </g>
+
+      <g class="unit-block solid" data-unit="filter">
+        <rect x="825" y="455" width="230" height="145" rx="16" fill="#ffffff" stroke="#69788a" stroke-width="3"></rect>
+        <text x="940" y="492" text-anchor="middle" class="block-title">Filtration & Washing</text>
+        <text x="940" y="521" text-anchor="middle">Crystal washing</text>
+        <text x="940" y="545" text-anchor="middle">Mother liquor recovery</text>
+        <text x="940" y="569" text-anchor="middle">PTA cake handling</text>
+      </g>
+
+      <g class="unit-block solid" data-unit="dryer">
+        <rect x="1145" y="455" width="215" height="145" rx="16" fill="#ffffff" stroke="#c96f20" stroke-width="3"></rect>
+        <text x="1252" y="492" text-anchor="middle" class="block-title">PTA Dryer</text>
+        <text x="1252" y="521" text-anchor="middle">Drying / cooling</text>
+        <text x="1252" y="545" text-anchor="middle">300–350 °F dryer</text>
+        <text x="1252" y="569" text-anchor="middle">100–140 °F product</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1405" y="455" width="145" height="145" rx="16" fill="#ffffff" stroke="#2f8f46" stroke-width="3"></rect>
+        <text x="1477" y="492" text-anchor="middle" class="block-title">PTA Silos</text>
+        <path d="M1435 522 H1520 L1505 582 H1450 Z" class="silo" fill="#eaf7ef" stroke="#2f8f46" stroke-width="3"></path>
+        <text x="1477" y="624" text-anchor="middle" class="small-note">&gt;99.8 wt%</text>
+      </g>
+
+      <!-- Recycle / offgas -->
+      <g class="unit-block recycle" data-unit="recycle">
+        <rect x="655" y="740" width="310" height="120" rx="16" fill="#f3f7fa" stroke="#69788a" stroke-width="3"></rect>
+        <text x="810" y="777" text-anchor="middle" class="block-title">Solvent / Catalyst Recovery</text>
+        <text x="810" y="806" text-anchor="middle">Acetic acid + catalyst recycle</text>
+        <text x="810" y="830" text-anchor="middle">Mother liquor / wash liquor loop</text>
+      </g>
+
+      <g class="product-tag">
+        <rect x="1255" y="210" width="145" height="42" rx="13" fill="#fff7ed" stroke="#c96f20" stroke-width="2"></rect>
+        <text x="1328" y="237" text-anchor="middle">Off-gas / vent</text>
+      </g>
+      <g class="product-tag">
+        <rect x="55" y="500" width="85" height="42" rx="13" fill="#eefaf1" stroke="#2f8f46" stroke-width="2"></rect>
+        <text x="98" y="527" text-anchor="middle">H₂</text>
+      </g>
+
+      <!-- Main streams -->
+      <path id="s1" class="stream main-flow" d="M20 242 H55"></path><polygon class="arrow-inline main-arrow" points="55,242 43,235 43,249"></polygon>
+      <text x="28" y="224" class="stream-label">p-Xylene + AA + cat.</text>
+
+      <path id="s2" class="stream main-flow" d="M245 242 H320"></path><polygon class="arrow-inline main-arrow" points="320,242 308,235 308,249"></polygon>
+      <path id="s3" class="stream hot-flow" d="M550 242 H640"></path><polygon class="arrow-inline hot-arrow" points="640,242 628,235 628,249"></polygon>
+      <path id="s4" class="stream slurry-flow" d="M845 242 H940"></path><polygon class="arrow-inline slurry-arrow" points="940,242 928,235 928,249"></polygon>
+      <path id="s5" class="stream vent-flow" d="M1165 242 H1255"></path><polygon class="arrow-inline vent-arrow" points="1255,242 1243,235 1243,249"></polygon>
+
+      <path id="s6" class="stream slurry-flow" d="M1052 310 V390 H292 V455"></path><polygon class="arrow-inline slurry-arrow" points="292,455 285,443 299,443"></polygon>
+      <text x="575" y="378" class="stream-label">CTA slurry to purification</text>
+
+      <path id="s7" class="stream h2-flow" d="M140 521 H170"></path><polygon class="arrow-inline h2-arrow" points="170,521 158,514 158,528"></polygon>
+      <path id="s8" class="stream product-flow" d="M415 527 H505"></path><polygon class="arrow-inline product-arrow" points="505,527 493,520 493,534"></polygon>
+      <path id="s9" class="stream product-flow" d="M735 527 H825"></path><polygon class="arrow-inline product-arrow" points="825,527 813,520 813,534"></polygon>
+      <path id="s10" class="stream product-flow" d="M1055 527 H1145"></path><polygon class="arrow-inline product-arrow" points="1145,527 1133,520 1133,534"></polygon>
+      <path id="s11" class="stream product-flow" d="M1360 527 H1405"></path><polygon class="arrow-inline product-arrow" points="1405,527 1393,520 1393,534"></polygon>
+
+      <path id="s12" class="stream recycle-flow" d="M940 600 V740"></path><polygon class="arrow-inline recycle-arrow" points="940,740 933,728 947,728"></polygon>
+      <path id="s13" class="stream recycle-flow" d="M810 740 C810 690 435 690 435 315"></path><polygon class="arrow-inline recycle-arrow" points="435,315 428,327 442,327"></polygon>
+      <text x="545" y="714" class="stream-label">Recovered acetic acid / catalyst recycle</text>
+
+      <!-- Overlay -->
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="55" y="760" width="500" height="150" rx="14" fill="rgba(255,255,255,0.96)" stroke="#cbd8e2" stroke-width="2"></rect>
+        <text x="78" y="793" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="78" y="825" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="78" y="853" class="overlay-text">The PTA process section will be highlighted here.</text>
+        <text id="selectedDesc2" x="78" y="879" class="overlay-text">Unit and stream tables below include typical conditions.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel wide-panel">
+      <h2>Unit Summary with Process Conditions</h2>
+      <table id="unitSummaryTable">
+        <thead><tr><th>Section</th><th>Main Function</th><th>Typical Equipment</th><th>Typical Conditions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel wide-panel">
+      <h2>Major Streams with Conditions</h2>
+      <table id="streamSummaryTable">
+        <thead><tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th><th>Typical Conditions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel wide-panel applications-panel">
+      <h2>PTA Application Information</h2>
+      <p class="panel-note">Purified Terephthalic Acid (PTA) is a high-volume polyester building block used across resin, fiber, film, engineering plastics, coatings, and adhesive value chains.</p>
+      <table id="applicationSummaryTable">
+        <thead>
+          <tr><th>Application</th><th>PTA Role</th><th>Downstream Products / End Uses</th><th>Market Significance</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+
+  </section>
+</main>
+
+<script src="js/pta-plant.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
