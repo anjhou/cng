@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethylene Glycol Plant Block Diagram</title>
+  <link rel="stylesheet" href="css/ethylene-glycol.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Ethylene Glycol Production — EO Hydration Process</h1>
+      <p>EO hydration to MEG with DEG/TEG by-product recovery, water recycle, EO recycle, fractionation, product cooling, filtration, and storage.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="egSvg" viewBox="0 0 1600 940" role="img" aria-label="Ethylene glycol plant SVG flowsheet">
+      <rect x="20" y="20" width="1560" height="900" rx="24" class="canvas-bg"></rect>
+      <text x="800" y="62" text-anchor="middle" class="svg-title">Ethylene Glycol Plant — EO Hydration Block Flow Diagram</text>
+      <text x="800" y="90" text-anchor="middle" class="svg-subtitle">Ethylene oxide + process water → hydration reactor → water removal → MEG / DEG / TEG fractionation → storage</text>
+
+      <!-- Feed and reaction section -->
+      <g class="unit-block feed" data-unit="eoFeed">
+        <rect x="60" y="180" width="185" height="118" rx="16"></rect>
+        <text x="152" y="216" text-anchor="middle" class="block-title">EO Feed</text>
+        <text x="152" y="245" text-anchor="middle">From EO unit</text>
+        <text x="152" y="269" text-anchor="middle">Recovered EO recycle</text>
+      </g>
+
+      <g class="unit-block feed" data-unit="waterFeed">
+        <rect x="60" y="390" width="185" height="118" rx="16"></rect>
+        <text x="152" y="426" text-anchor="middle" class="block-title">Process Water</text>
+        <text x="152" y="455" text-anchor="middle">Fresh + recycle</text>
+        <text x="152" y="479" text-anchor="middle">Water to hydration</text>
+      </g>
+
+      <g class="unit-block mix" data-unit="mixer">
+        <rect x="325" y="270" width="210" height="128" rx="16"></rect>
+        <text x="430" y="307" text-anchor="middle" class="block-title">Feed Mixing</text>
+        <text x="430" y="336" text-anchor="middle">EO + water</text>
+        <text x="430" y="360" text-anchor="middle">Controlled ratio</text>
+        <text x="430" y="384" text-anchor="middle">Recycle integration</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="hydration">
+        <rect x="620" y="250" width="235" height="165" rx="18"></rect>
+        <text x="738" y="288" text-anchor="middle" class="block-title">Hydration Reactor</text>
+        <text x="738" y="318" text-anchor="middle">EO + H₂O → MEG</text>
+        <text x="738" y="342" text-anchor="middle">DEG / TEG by-products</text>
+        <text x="738" y="366" text-anchor="middle">350–430°F</text>
+        <text x="738" y="390" text-anchor="middle">150–300 psig</text>
+      </g>
+
+      <g class="unit-block sep" data-unit="flash">
+        <rect x="940" y="250" width="240" height="165" rx="18"></rect>
+        <text x="1060" y="288" text-anchor="middle" class="block-title">Evaporator / Flash</text>
+        <text x="1060" y="318" text-anchor="middle">Pressure reduced</text>
+        <text x="1060" y="342" text-anchor="middle">Excess water removed</text>
+        <text x="1060" y="366" text-anchor="middle">0–30 psig</text>
+        <text x="1060" y="390" text-anchor="middle">Water recycle</text>
+      </g>
+
+      <!-- Fractionation -->
+      <g class="unit-block frac" data-unit="megColumn">
+        <rect x="1250" y="165" width="240" height="165" rx="18"></rect>
+        <text x="1370" y="203" text-anchor="middle" class="block-title">MEG Column</text>
+        <text x="1370" y="233" text-anchor="middle">MEG purification</text>
+        <text x="1370" y="257" text-anchor="middle">150–250°F</text>
+        <text x="1370" y="281" text-anchor="middle">5–20 psig</text>
+        <text x="1370" y="305" text-anchor="middle">High-purity MEG</text>
+      </g>
+
+      <g class="unit-block frac" data-unit="heavyColumn">
+        <rect x="1250" y="455" width="240" height="165" rx="18"></rect>
+        <text x="1370" y="493" text-anchor="middle" class="block-title">DEG / TEG Column</text>
+        <text x="1370" y="523" text-anchor="middle">Heavy glycol split</text>
+        <text x="1370" y="547" text-anchor="middle">250–350°F</text>
+        <text x="1370" y="571" text-anchor="middle">5–15 psig</text>
+        <text x="1370" y="595" text-anchor="middle">DEG / TEG products</text>
+      </g>
+
+      <!-- Product handling -->
+      <g class="unit-block product" data-unit="coolFilter">
+        <rect x="940" y="650" width="245" height="130" rx="18"></rect>
+        <text x="1063" y="688" text-anchor="middle" class="block-title">MEG Cooling / Filter</text>
+        <text x="1063" y="719" text-anchor="middle">Cool to 80–120°F</text>
+        <text x="1063" y="743" text-anchor="middle">Final product filtration</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="1280" y="700" width="185" height="125" rx="18"></rect>
+        <text x="1372" y="738" text-anchor="middle" class="block-title">MEG Storage</text>
+        <text x="1372" y="768" text-anchor="middle">Tanks / loading</text>
+        <text x="1372" y="792" text-anchor="middle">Product export</text>
+      </g>
+
+      <g class="unit-block utility" data-unit="recycle">
+        <rect x="360" y="640" width="265" height="140" rx="18"></rect>
+        <text x="493" y="678" text-anchor="middle" class="block-title">Recycle Recovery</text>
+        <text x="493" y="708" text-anchor="middle">Recovered water</text>
+        <text x="493" y="732" text-anchor="middle">Unreacted EO</text>
+        <text x="493" y="756" text-anchor="middle">Returned to feed system</text>
+      </g>
+
+      <!-- Product tags -->
+      <g class="product-tag">
+        <rect x="1505" y="202" width="65" height="36" rx="10"></rect>
+        <text x="1537" y="226" text-anchor="middle">MEG</text>
+      </g>
+      <g class="product-tag heavy">
+        <rect x="1505" y="505" width="65" height="36" rx="10"></rect>
+        <text x="1537" y="529" text-anchor="middle">DEG</text>
+      </g>
+      <g class="product-tag heavy">
+        <rect x="1505" y="555" width="65" height="36" rx="10"></rect>
+        <text x="1537" y="579" text-anchor="middle">TEG</text>
+      </g>
+
+      <!-- Streams -->
+      <path id="s1" class="stream feed-flow" d="M245 239 C285 239 285 310 325 310"></path>
+      <polygon class="arrow feed-arrow" points="321,304 335,310 321,316"></polygon>
+      <text x="254" y="222" class="stream-label">EO feed</text>
+
+      <path id="s2" class="stream water-flow" d="M245 449 C285 449 285 360 325 360"></path>
+      <polygon class="arrow water-arrow" points="321,354 335,360 321,366"></polygon>
+      <text x="252" y="468" class="stream-label">Process water</text>
+
+      <path id="s3" class="stream process-flow" d="M535 334 H620"></path>
+      <polygon class="arrow process-arrow" points="616,328 630,334 616,340"></polygon>
+      <text x="552" y="318" class="stream-label">EO / water mix</text>
+
+      <path id="s4" class="stream process-flow" d="M855 333 H940"></path>
+      <polygon class="arrow process-arrow" points="936,327 950,333 936,339"></polygon>
+      <text x="870" y="315" class="stream-label">Reactor effluent</text>
+
+      <path id="s5" class="stream process-flow" d="M1180 320 C1215 320 1215 248 1250 248"></path>
+      <polygon class="arrow process-arrow" points="1245,242 1260,248 1245,254"></polygon>
+      <text x="1190" y="300" class="stream-label">Concentrated glycol</text>
+
+      <path id="s6" class="stream product-flow" d="M1490 220 H1505"></path>
+      <polygon class="arrow product-arrow" points="1500,214 1514,220 1500,226"></polygon>
+
+      <path id="s7" class="stream heavy-flow" d="M1370 330 V455"></path>
+      <polygon class="arrow heavy-arrow" points="1364,450 1370,464 1376,450"></polygon>
+      <text x="1388" y="398" class="stream-label">Heavy glycols</text>
+
+      <path id="s8" class="stream heavy-flow" d="M1490 522 H1505"></path>
+      <polygon class="arrow heavy-arrow" points="1500,516 1514,522 1500,528"></polygon>
+      <path id="s9" class="stream heavy-flow" d="M1490 572 H1505"></path>
+      <polygon class="arrow heavy-arrow" points="1500,566 1514,572 1500,578"></polygon>
+
+      <path id="s10" class="stream product-flow" d="M1370 330 C1370 385 1063 585 1063 650"></path>
+      <polygon class="arrow product-arrow" points="1057,645 1063,659 1069,645"></polygon>
+      <text x="1100" y="610" class="stream-label">MEG to finishing</text>
+
+      <path id="s11" class="stream product-flow" d="M1185 715 H1280"></path>
+      <polygon class="arrow product-arrow" points="1276,709 1290,715 1276,721"></polygon>
+      <text x="1200" y="697" class="stream-label">Filtered MEG</text>
+
+      <path id="s12" class="stream recycle-flow" d="M1038 415 C1038 580 625 580 530 640"></path>
+      <polygon class="arrow recycle-arrow" points="527,632 538,646 520,642"></polygon>
+      <text x="720" y="558" class="stream-label">Water / EO recovery</text>
+
+      <path id="s13" class="stream recycle-flow" d="M360 710 C260 710 210 560 152 508"></path>
+      <polygon class="arrow recycle-arrow" points="157,506 144,499 151,514"></polygon>
+      <text x="215" y="685" class="stream-label">Water recycle</text>
+
+      <path id="s14" class="stream recycle-flow" d="M360 675 C245 650 190 430 152 298"></path>
+      <polygon class="arrow recycle-arrow" points="158,301 148,288 146,305"></polygon>
+      <text x="198" y="620" class="stream-label">EO recycle</text>
+
+      <!-- Section bracket -->
+      <path d="M35 140 H890 V535 H35 Z" class="bracket"></path>
+      <text x="462" y="133" text-anchor="middle" class="section-label">Reaction and water recycle section</text>
+      <path d="M910 125 H1525 V845 H910 Z" class="bracket"></path>
+      <text x="1218" y="118" text-anchor="middle" class="section-label">Glycol separation and product finishing</text>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="60" y="810" width="610" height="86" rx="14"></rect>
+        <text x="82" y="840" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="82" y="866" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="82" y="890" class="overlay-text">The diagram highlights the selected ethylene glycol process section.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel wide">
+      <h2>Unit Summary with Process Conditions</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Typical Process Conditions</th><th>Key Equipment / Product</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+
+    <article class="panel wide applications-panel">
+      <h2>Ethylene Glycol (EG) Applications</h2>
+      <table id="applicationSummaryTable">
+        <thead>
+          <tr><th>Application Area</th><th>End Uses / Products</th><th>Role of Ethylene Glycol</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+
+    <article class="panel wide">
+      <h2>Major Streams with Conditions</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Typical Conditions / Purpose</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+<script src="js/ethylene-glycol.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
