@@ -96,46 +96,76 @@ fetch("header.html").then(r => r.text()).then(d => { document.getElementById("he
       <g class="info-overlay">
         <rect x="720" y="1475" width="650" height="145" rx="16"></rect>
         <text x="750" y="1510" class="overlay-title">Legend / Quality Targets</text>
-        <path class="stream river-flow" d="M755 1537 H835" marker-end="url(#arrowBlue)"></path><text x="855" y="1543" class="overlay-text">Raw / screened river water</text>
-        <path class="stream cooling-flow" d="M755 1567 H835" marker-end="url(#arrowCooling)"></path><text x="855" y="1573" class="overlay-text">Cooling water branch</text>
-        <path class="stream potable-flow" d="M755 1597 H835" marker-end="url(#arrowPotable)"></path><text x="855" y="1603" class="overlay-text">Potable water branch</text>
+        <path class="stream river-flow" d="M755 1537 H835"></path><text x="855" y="1543" class="overlay-text">Raw / screened river water</text>
+        <path class="stream cooling-flow" d="M755 1567 H835"></path><text x="855" y="1573" class="overlay-text">Cooling water branch</text>
+        <path class="stream potable-flow" d="M755 1597 H835"></path><text x="855" y="1603" class="overlay-text">Potable water branch</text>
         <text x="1120" y="1543" class="overlay-text">Clarified: low turbidity</text>
         <text x="1120" y="1573" class="overlay-text">Potable: disinfected / pH adjusted</text>
         <text x="1120" y="1603" class="overlay-text">Demin: low conductivity and silica</text>
       </g>
 
       <!-- Streams: common clarification -->
-      <path id="s1" class="stream river-flow" d="M35 238 H70" marker-end="url(#arrowBlue)"></path><text x="42" y="220" class="stream-label">River water</text>
-      <path id="s2" class="stream river-flow" d="M305 238 H390" marker-end="url(#arrowBlue)"></path>
-      <path id="s3" class="stream river-flow" d="M635 238 H720" marker-end="url(#arrowBlue)"></path>
-      <path id="s4" class="stream river-flow" d="M965 238 H1050" marker-end="url(#arrowBlue)"></path>
-      <path id="s5" class="stream clarified-flow" d="M1310 238 H1410" marker-end="url(#arrowClarified)"></path><text x="1330" y="218" class="stream-label">Clarified water</text>
-      <path id="s6" class="stream clarified-flow" d="M1690 238 H1855" marker-end="url(#arrowClarified)"></path>
+      <path id="s1" class="stream river-flow" d="M35 238 H70"></path><text x="42" y="220" class="stream-label">River water</text>
+      <path id="s2" class="stream river-flow" d="M305 238 H390"></path>
+      <path id="s3" class="stream river-flow" d="M635 238 H720"></path>
+      <path id="s4" class="stream river-flow" d="M965 238 H1050"></path>
+      <path id="s5" class="stream clarified-flow" d="M1310 238 H1410"></path><text x="1330" y="218" class="stream-label">Clarified water</text>
+      <path id="s6" class="stream clarified-flow" d="M1690 238 H1855"></path>
 
       <!-- Branch feed header from clarified tank: routed away from boxes -->
-      <path id="s7" class="stream cooling-flow" d="M1550 325 V410 H325 V490" marker-end="url(#arrowCooling)"></path><text x="350" y="430" class="stream-label">To cooling branch</text>
-      <path id="s8" class="stream potable-flow" d="M1585 325 V745 H325 V825" marker-end="url(#arrowPotable)"></path><text x="350" y="765" class="stream-label">To potable branch</text>
-      <path id="s9" class="stream demin-flow" d="M1620 325 V1090 H240 V1170" marker-end="url(#arrowDemin)"></path><text x="260" y="1110" class="stream-label">To demin branch</text>
+      <path id="s7" class="stream cooling-flow" d="M1550 325 V410 H325 V490"></path><text x="350" y="430" class="stream-label">To cooling branch</text>
+      <path id="s8" class="stream potable-flow" d="M1585 325 V745 H325 V825"></path><text x="350" y="765" class="stream-label">To potable branch</text>
+      <path id="s9" class="stream demin-flow" d="M1620 325 V1090 H240 V1170"></path><text x="260" y="1110" class="stream-label">To demin branch</text>
 
       <!-- Cooling branch -->
-      <path id="s10" class="stream cooling-flow" d="M460 563 H590" marker-end="url(#arrowCooling)"></path>
-      <path id="s11" class="stream cooling-flow" d="M860 563 H990" marker-end="url(#arrowCooling)"></path>
-      <path id="s12" class="stream cooling-flow" d="M1260 563 H1390" marker-end="url(#arrowCooling)"></path>
+      <path id="s10" class="stream cooling-flow" d="M460 563 H590"></path>
+      <path id="s11" class="stream cooling-flow" d="M860 563 H990"></path>
+      <path id="s12" class="stream cooling-flow" d="M1260 563 H1390"></path>
 
       <!-- Potable branch -->
-      <path id="s13" class="stream potable-flow" d="M460 903 H590" marker-end="url(#arrowPotable)"></path>
-      <path id="s14" class="stream potable-flow" d="M860 903 H990" marker-end="url(#arrowPotable)"></path>
-      <path id="s15" class="stream potable-flow" d="M1260 903 H1390" marker-end="url(#arrowPotable)"></path>
+      <path id="s13" class="stream potable-flow" d="M460 903 H590"></path>
+      <path id="s14" class="stream potable-flow" d="M860 903 H990"></path>
+      <path id="s15" class="stream potable-flow" d="M1260 903 H1390"></path>
 
       <!-- Demin branch -->
-      <path id="s16" class="stream demin-flow" d="M365 1248 H460" marker-end="url(#arrowDemin)"></path>
-      <path id="s17" class="stream demin-flow" d="M710 1248 H805" marker-end="url(#arrowDemin)"></path>
-      <path id="s18" class="stream demin-flow" d="M1075 1248 H1170" marker-end="url(#arrowDemin)"></path>
-      <path id="s19" class="stream demin-flow" d="M1440 1248 H1540" marker-end="url(#arrowDemin)"></path>
+      <path id="s16" class="stream demin-flow" d="M365 1248 H460"></path>
+      <path id="s17" class="stream demin-flow" d="M710 1248 H805"></path>
+      <path id="s18" class="stream demin-flow" d="M1075 1248 H1170"></path>
+      <path id="s19" class="stream demin-flow" d="M1440 1248 H1540"></path>
 
       <!-- Waste / reject paths routed to bottom waste block -->
-      <path id="s20" class="stream waste-flow" d="M1180 310 V1390 H430 V1475" marker-end="url(#arrowWaste)"></path><text x="760" y="1412" class="stream-label">Sludge / solids</text>
-      <path id="s21" class="stream waste-flow" d="M585 1325 V1405 H430 V1475" marker-end="url(#arrowWaste)"></path><text x="615" y="1375" class="stream-label">RO reject / backwash</text>
+      <path id="s20" class="stream waste-flow" d="M1180 310 V1390 H430 V1475"></path><text x="760" y="1412" class="stream-label">Sludge / solids</text>
+      <path id="s21" class="stream waste-flow" d="M585 1325 V1405 H430 V1475"></path><text x="615" y="1375" class="stream-label">RO reject / backwash</text>
+
+      <!-- Inline visible arrowheads: browser-safe replacement for SVG markers -->
+      <g id="visibleArrowheads" aria-hidden="true">
+        <polygon class="arrow-head river-arrow" points="70,238 58,231 58,245"></polygon>
+        <polygon class="arrow-head river-arrow" points="390,238 378,231 378,245"></polygon>
+        <polygon class="arrow-head river-arrow" points="720,238 708,231 708,245"></polygon>
+        <polygon class="arrow-head river-arrow" points="1050,238 1038,231 1038,245"></polygon>
+        <polygon class="arrow-head clarified-arrow" points="1410,238 1398,231 1398,245"></polygon>
+        <polygon class="arrow-head clarified-arrow" points="1855,238 1843,231 1843,245"></polygon>
+
+        <polygon class="arrow-head cooling-arrow" points="325,490 318,478 332,478"></polygon>
+        <polygon class="arrow-head potable-arrow" points="325,825 318,813 332,813"></polygon>
+        <polygon class="arrow-head demin-arrow" points="240,1170 233,1158 247,1158"></polygon>
+
+        <polygon class="arrow-head cooling-arrow" points="590,563 578,556 578,570"></polygon>
+        <polygon class="arrow-head cooling-arrow" points="990,563 978,556 978,570"></polygon>
+        <polygon class="arrow-head cooling-arrow" points="1390,563 1378,556 1378,570"></polygon>
+
+        <polygon class="arrow-head potable-arrow" points="590,903 578,896 578,910"></polygon>
+        <polygon class="arrow-head potable-arrow" points="990,903 978,896 978,910"></polygon>
+        <polygon class="arrow-head potable-arrow" points="1390,903 1378,896 1378,910"></polygon>
+
+        <polygon class="arrow-head demin-arrow" points="460,1248 448,1241 448,1255"></polygon>
+        <polygon class="arrow-head demin-arrow" points="805,1248 793,1241 793,1255"></polygon>
+        <polygon class="arrow-head demin-arrow" points="1170,1248 1158,1241 1158,1255"></polygon>
+        <polygon class="arrow-head demin-arrow" points="1540,1248 1528,1241 1528,1255"></polygon>
+
+        <polygon class="arrow-head waste-arrow" points="430,1475 423,1463 437,1463"></polygon>
+        <polygon class="arrow-head waste-arrow" points="455,1475 448,1463 462,1463"></polygon>
+      </g>
     </svg>
   </section>
 
