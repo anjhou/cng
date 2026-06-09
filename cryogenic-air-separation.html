@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryogenic Air Separation SVG Flowsheet</title>
+  <link rel="stylesheet" href="css/cryogenic-air-separation.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r => r.text()).then(d => { document.getElementById("header").innerHTML = d; }).catch(() => {});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Cryogenic Air Separation Process SVG Flowsheet</h1>
+      <p>Ambient air filtration, compression, purification, cryogenic cooling, distillation, and N₂/O₂/argon product recovery.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="asuSvg" viewBox="0 0 2350 1420" role="img" aria-label="Cryogenic air separation unit block flow diagram">
+      <rect x="24" y="24" width="2302" height="1372" rx="26" class="canvas-bg"></rect>
+      <text x="1175" y="68" text-anchor="middle" class="svg-title">Cryogenic Air Separation Unit — N₂, O₂, and Argon Production</text>
+      <text x="1175" y="98" text-anchor="middle" class="svg-subtitle">Ambient air → compression and purification → turbo-expansion / cryogenic cooling → fractional distillation</text>
+
+      <!-- Front-end and purification train -->
+      <g class="unit-block frontend" data-unit="filter"><rect x="65" y="165" width="235" height="145" rx="18"></rect><text x="183" y="204" text-anchor="middle" class="block-title">Air Filter</text><text x="183" y="235" text-anchor="middle">Ambient air inlet</text><text x="183" y="262" text-anchor="middle">Dust removal</text><text x="183" y="289" text-anchor="middle">Silencer / screen</text></g>
+      <g class="unit-block frontend" data-unit="compressor"><rect x="380" y="165" width="260" height="145" rx="18"></rect><text x="510" y="204" text-anchor="middle" class="block-title">Main Air Compressor</text><text x="510" y="235" text-anchor="middle">Multi-stage compression</text><text x="510" y="262" text-anchor="middle">Interstage cooling</text><text x="510" y="289" text-anchor="middle">~75–150 psig</text></g>
+      <g class="unit-block frontend" data-unit="aftercooler"><rect x="720" y="165" width="245" height="145" rx="18"></rect><text x="843" y="204" text-anchor="middle" class="block-title">After-Coolers</text><text x="843" y="235" text-anchor="middle">Cool compressed air</text><text x="843" y="262" text-anchor="middle">Condensate removal</text><text x="843" y="289" text-anchor="middle">KO drums</text></g>
+      <g class="unit-block cleanup" data-unit="dryer"><rect x="1045" y="165" width="245" height="145" rx="18"></rect><text x="1168" y="204" text-anchor="middle" class="block-title">Dryer</text><text x="1168" y="235" text-anchor="middle">Bulk H₂O removal</text><text x="1168" y="262" text-anchor="middle">Refrigerated / adsorbent</text><text x="1168" y="289" text-anchor="middle">Protects cold box</text></g>
+      <g class="unit-block cleanup" data-unit="molsieve"><rect x="1370" y="155" width="290" height="165" rx="18"></rect><text x="1515" y="194" text-anchor="middle" class="block-title">Molecular Sieve Beds</text><text x="1515" y="226" text-anchor="middle">Remove CO₂ + H₂O</text><text x="1515" y="253" text-anchor="middle">Prevent freezing</text><text x="1515" y="280" text-anchor="middle">Regeneration cycle</text></g>
+      <g class="unit-block cryo" data-unit="coldbox"><rect x="1770" y="135" width="305" height="205" rx="20"></rect><text x="1923" y="175" text-anchor="middle" class="block-title">Cold Box / Main Exchanger</text><text x="1923" y="207" text-anchor="middle">Counter-current cooling</text><text x="1923" y="234" text-anchor="middle">Air partially liquefied</text><text x="1923" y="261" text-anchor="middle">Approaches cryogenic T</text><text x="1923" y="288" text-anchor="middle">Integrated with products</text></g>
+
+      <!-- Expansion and distillation section -->
+      <g class="branch-label"><text x="1175" y="430" text-anchor="middle">Cryogenic Cooling and Fractional Distillation Section</text></g>
+      <g class="unit-block cryo" data-unit="expander"><rect x="360" y="490" width="280" height="160" rx="18"></rect><text x="500" y="530" text-anchor="middle" class="block-title">Turbo-Expander</text><text x="500" y="562" text-anchor="middle">Turbine expansion</text><text x="500" y="589" text-anchor="middle">Rapid refrigeration</text><text x="500" y="616" text-anchor="middle">Partial liquefaction</text></g>
+      <g class="unit-block column" data-unit="hpColumn"><rect x="815" y="465" width="270" height="210" rx="18"></rect><text x="950" y="505" text-anchor="middle" class="block-title">High-Pressure Column</text><path d="M910 535 C910 508 990 508 990 535 L990 630 C990 657 910 657 910 630 Z" class="column-shell"></path><line x1="918" y1="560" x2="982" y2="560" class="column-tray"></line><line x1="918" y1="585" x2="982" y2="585" class="column-tray"></line><line x1="918" y1="610" x2="982" y2="610" class="column-tray"></line><text x="950" y="663" text-anchor="middle">Initial N₂/O₂ split</text></g>
+      <g class="unit-block column" data-unit="lpColumn"><rect x="1235" y="430" width="305" height="290" rx="18"></rect><text x="1388" y="470" text-anchor="middle" class="block-title">Low-Pressure Column</text><path d="M1340 500 C1340 470 1435 470 1435 500 L1435 655 C1435 685 1340 685 1340 655 Z" class="column-shell"></path><line x1="1350" y1="525" x2="1425" y2="525" class="column-tray"></line><line x1="1350" y1="555" x2="1425" y2="555" class="column-tray"></line><line x1="1350" y1="585" x2="1425" y2="585" class="column-tray"></line><line x1="1350" y1="615" x2="1425" y2="615" class="column-tray"></line><text x="1388" y="690" text-anchor="middle">Fractional distillation</text></g>
+      <g class="unit-block argon" data-unit="argonColumn"><rect x="1740" y="475" width="290" height="190" rx="18"></rect><text x="1885" y="515" text-anchor="middle" class="block-title">Argon Side Column</text><text x="1885" y="547" text-anchor="middle">Intermediate boiling point</text><text x="1885" y="574" text-anchor="middle">Crude argon side draw</text><text x="1885" y="601" text-anchor="middle">Extract or purge</text><text x="1885" y="628" text-anchor="middle">Optional purification</text></g>
+
+      <!-- Product row -->
+      <g class="branch-label"><text x="1175" y="810" text-anchor="middle">Product Withdrawal, Warming, and Storage / Export</text></g>
+      <g class="unit-block product" data-unit="n2Product"><rect x="345" y="870" width="300" height="170" rx="18"></rect><text x="495" y="910" text-anchor="middle" class="block-title">Nitrogen Product</text><text x="495" y="942" text-anchor="middle">High-purity N₂</text><text x="495" y="969" text-anchor="middle">Top of column</text><text x="495" y="996" text-anchor="middle">Gas or liquid export</text></g>
+      <g class="unit-block product" data-unit="o2Product"><rect x="820" y="870" width="300" height="170" rx="18"></rect><text x="970" y="910" text-anchor="middle" class="block-title">Oxygen Product</text><text x="970" y="942" text-anchor="middle">O₂-rich bottoms</text><text x="970" y="969" text-anchor="middle">Liquid or gaseous O₂</text><text x="970" y="996" text-anchor="middle">Product vaporizer / pump</text></g>
+      <g class="unit-block argon" data-unit="argonProduct"><rect x="1295" y="870" width="300" height="170" rx="18"></rect><text x="1445" y="910" text-anchor="middle" class="block-title">Argon Product / Purge</text><text x="1445" y="942" text-anchor="middle">Crude or refined Ar</text><text x="1445" y="969" text-anchor="middle">Side-draw stream</text><text x="1445" y="996" text-anchor="middle">Storage or vent/purge</text></g>
+      <g class="unit-block waste" data-unit="waste"><rect x="1770" y="870" width="300" height="170" rx="18"></rect><text x="1920" y="910" text-anchor="middle" class="block-title">Waste / Vent Gas</text><text x="1920" y="942" text-anchor="middle">Impurity purge</text><text x="1920" y="969" text-anchor="middle">Warm vent / fuel use</text><text x="1920" y="996" text-anchor="middle">Safe discharge</text></g>
+
+      <!-- Product tags -->
+      <g class="product-tag n2-tag"><rect x="315" y="1085" width="360" height="44" rx="13"></rect><text x="495" y="1113" text-anchor="middle">N₂ boiling point −196°C</text></g>
+      <g class="product-tag o2-tag"><rect x="790" y="1085" width="360" height="44" rx="13"></rect><text x="970" y="1113" text-anchor="middle">O₂ boiling point −183°C</text></g>
+      <g class="product-tag argon-tag"><rect x="1265" y="1085" width="360" height="44" rx="13"></rect><text x="1445" y="1113" text-anchor="middle">Argon side draw</text></g>
+      <g class="product-tag waste-tag"><rect x="1740" y="1085" width="360" height="44" rx="13"></rect><text x="1920" y="1113" text-anchor="middle">Purge / regeneration vent</text></g>
+
+      <!-- Streams -->
+      <path id="s1" class="stream air-flow" d="M35 238 H65"></path><text x="42" y="220" class="stream-label">Ambient air</text>
+      <path id="s2" class="stream air-flow" d="M300 238 H380"></path>
+      <path id="s3" class="stream air-flow" d="M640 238 H720"></path>
+      <path id="s4" class="stream clean-flow" d="M965 238 H1045"></path>
+      <path id="s5" class="stream clean-flow" d="M1290 238 H1370"></path>
+      <path id="s6" class="stream clean-flow" d="M1660 238 H1770"></path><text x="1682" y="218" class="stream-label">Clean dry air</text>
+      <path id="s7" class="stream cryo-flow" d="M1923 340 V400 H500 V490"></path><text x="530" y="420" class="stream-label">Cold compressed air</text>
+      <path id="s8" class="stream cryo-flow" d="M640 570 H815"></path><text x="675" y="548" class="stream-label">Expanded cold air</text>
+      <path id="s9" class="stream cryo-flow" d="M1085 570 H1235"></path>
+      <path id="s10" class="stream cryo-flow" d="M1388 430 V365 H1923 V340"></path><text x="1505" y="385" class="stream-label">Cold return / heat integration</text>
+      <path id="s11" class="stream argon-flow" d="M1540 570 H1740"></path><text x="1590" y="548" class="stream-label">Argon-rich side draw</text>
+
+      <!-- Product withdrawal streams routed to lower row -->
+      <path id="s12" class="stream n2-flow" d="M1388 430 V360 H495 V870"></path><text x="560" y="852" class="stream-label">N₂ overhead</text>
+      <path id="s13" class="stream o2-flow" d="M1388 720 V785 H970 V870"></path><text x="1000" y="810" class="stream-label">O₂ bottoms</text>
+      <path id="s14" class="stream argon-flow" d="M1885 665 V785 H1445 V870"></path><text x="1510" y="810" class="stream-label">Argon product / purge</text>
+      <path id="s15" class="stream waste-flow" d="M1515 320 V780 H1920 V870"></path><text x="1720" y="765" class="stream-label">Regeneration / impurity vent</text>
+
+      <!-- Inline visible arrowheads -->
+      <g id="visibleArrowheads" aria-hidden="true">
+        <polygon class="arrow-head air-arrow" points="65,238 53,231 53,245"></polygon>
+        <polygon class="arrow-head air-arrow" points="380,238 368,231 368,245"></polygon>
+        <polygon class="arrow-head air-arrow" points="720,238 708,231 708,245"></polygon>
+        <polygon class="arrow-head clean-arrow" points="1045,238 1033,231 1033,245"></polygon>
+        <polygon class="arrow-head clean-arrow" points="1370,238 1358,231 1358,245"></polygon>
+        <polygon class="arrow-head clean-arrow" points="1770,238 1758,231 1758,245"></polygon>
+        <polygon class="arrow-head cryo-arrow" points="500,490 493,478 507,478"></polygon>
+        <polygon class="arrow-head cryo-arrow" points="815,570 803,563 803,577"></polygon>
+        <polygon class="arrow-head cryo-arrow" points="1235,570 1223,563 1223,577"></polygon>
+        <polygon class="arrow-head cryo-arrow" points="1923,340 1911,333 1911,347"></polygon>
+        <polygon class="arrow-head argon-arrow" points="1740,570 1728,563 1728,577"></polygon>
+        <polygon class="arrow-head n2-arrow" points="495,870 488,858 502,858"></polygon>
+        <polygon class="arrow-head o2-arrow" points="970,870 963,858 977,858"></polygon>
+        <polygon class="arrow-head argon-arrow" points="1445,870 1438,858 1452,858"></polygon>
+        <polygon class="arrow-head waste-arrow" points="1920,870 1913,858 1927,858"></polygon>
+      </g>
+
+      <g class="info-overlay">
+        <rect x="120" y="1195" width="720" height="150" rx="16"></rect>
+        <text x="150" y="1230" class="overlay-title">Legend / Cryogenic Separation Basis</text>
+        <path class="stream air-flow" d="M150 1258 H235"></path><text x="255" y="1264" class="overlay-text">Air / compressed air</text>
+        <path class="stream clean-flow" d="M150 1288 H235"></path><text x="255" y="1294" class="overlay-text">Clean dry air</text>
+        <path class="stream cryo-flow" d="M150 1318 H235"></path><text x="255" y="1324" class="overlay-text">Cryogenic air / cold return</text>
+        <text x="500" y="1264" class="overlay-text">N₂ lower boiling point: rises overhead</text>
+        <text x="500" y="1294" class="overlay-text">O₂ higher boiling point: collects at bottoms</text>
+        <text x="500" y="1324" class="overlay-text">Argon: intermediate side draw or purge</text>
+      </g>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="990" y="1195" width="950" height="150" rx="16"></rect>
+        <text x="1020" y="1230" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="1020" y="1265" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="1020" y="1298" class="overlay-text">The diagram highlights the selected cryogenic air separation section.</text>
+        <text id="selectedDesc2" x="1020" y="1325" class="overlay-text">Use this as a high-level ASU block flow diagram.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel">
+      <h2>Unit Summary</h2>
+      <table id="unitSummaryTable"><thead><tr><th>Section</th><th>Main Function</th><th>Typical Equipment / Process Condition</th></tr></thead><tbody></tbody></table>
+    </article>
+    <article class="panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable"><thead><tr><th>Stream</th><th>From</th><th>To</th><th>Purpose</th></tr></thead><tbody></tbody></table>
+    </article>
+  </section>
+</main>
+<script src="js/cryogenic-air-separation.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r => r.text()).then(d => { document.getElementById("footer").innerHTML = d; }).catch(() => {});
+</script>
+</body>
+</html>
