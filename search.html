@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Industry Link Search</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#eef4f8;color:#17324d}
+.container{max-width:1200px;margin:auto;padding:24px}
+h1{margin-bottom:8px}
+.search-panel,.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 25px rgba(0,0,0,.1)}
+.controls{display:flex;gap:12px;flex-wrap:wrap}
+input,select{padding:12px;border:1px solid #b8c6d1;border-radius:10px;font-size:15px;min-width:260px}
+.results{margin-bottom:16px}
+.result-link{display:inline-block;margin:6px 8px 6px 0;padding:8px 12px;background:#e7f2ff;border-radius:10px;color:#0b5d9e;text-decoration:none;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card h2{margin-top:0;font-size:20px;color:#123b63}
+.card a{display:block;padding:7px 0;color:#145c8f;text-decoration:none}
+.card a:hover{text-decoration:underline}
+.hidden{display:none}
+.badge{font-size:12px;background:#dfeaf3;border-radius:999px;padding:3px 8px;margin-left:6px;color:#38556d}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Industry Web Link Search</h1>
+  <p>Search links or filter by industry sector.</p>
+
+  <div class="search-panel">
+    <div id="matchResults" class="results"></div>
+    <div class="controls">
+      <input id="searchInput" type="text" placeholder="Search links..." />
+      <select id="sectorFilter">
+        <option value="all">All industry sectors</option>
+        <option value="oil-gas">Oil & Gas</option>
+        <option value="petrochemical">Petrochemical</option>
+        <option value="power">Power & Utilities</option>
+        <option value="water">Water & Environmental</option>
+        <option value="manufacturing">Manufacturing</option>
+        <option value="safety">Safety & Standards</option>
+        <option value="data">Data & Market Intelligence</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid" id="cards">
+
+    <section class="card" data-sector="oil-gas">
+      <h2>Oil & Gas <span class="badge">Upstream / LNG / Refining</span></h2>
+      <a href="https://www.eia.gov" target="_blank">U.S. Energy Information Administration</a>
+      <a href="https://www.api.org" target="_blank">American Petroleum Institute</a>
+      <a href="https://www.opec.org" target="_blank">OPEC</a>
+      <a href="https://www.iea.org" target="_blank">International Energy Agency</a>
+      <a href="https://www.shell.com" target="_blank">Shell</a>
+      <a href="https://www.chevron.com" target="_blank">Chevron</a>
+      <a href="https://www.exxonmobil.com" target="_blank">ExxonMobil</a>
+    </section>
+
+    <section class="card" data-sector="petrochemical">
+      <h2>Petrochemicals <span class="badge">Chemicals / Polymers</span></h2>
+      <a href="https://www.dow.com" target="_blank">Dow</a>
+      <a href="https://www.lyondellbasell.com" target="_blank">LyondellBasell</a>
+      <a href="https://www.basf.com" target="_blank">BASF</a>
+      <a href="https://www.sabic.com" target="_blank">SABIC</a>
+      <a href="https://www.ineos.com" target="_blank">INEOS</a>
+      <a href="https://www.chemours.com" target="_blank">Chemours</a>
+      <a href="https://www.icis.com" target="_blank">ICIS Chemical Market Data</a>
+    </section>
+
+    <section class="card" data-sector="power">
+      <h2>Power & Utilities <span class="badge">Grid / Turbines</span></h2>
+      <a href="https://www.gevernova.com" target="_blank">GE Vernova</a>
+      <a href="https://www.siemens-energy.com" target="_blank">Siemens Energy</a>
+      <a href="https://www.mhi.com" target="_blank">Mitsubishi Heavy Industries</a>
+      <a href="https://www.nrel.gov" target="_blank">NREL</a>
+      <a href="https://www.ferc.gov" target="_blank">FERC</a>
+      <a href="https://www.nerc.com" target="_blank">NERC</a>
+      <a href="https://www.energy.gov" target="_blank">U.S. Department of Energy</a>
+    </section>
+
+    <section class="card" data-sector="water">
+      <h2>Water & Environmental <span class="badge">Treatment / EPA</span></h2>
+      <a href="https://www.epa.gov" target="_blank">U.S. EPA</a>
+      <a href="https://www.awwa.org" target="_blank">American Water Works Association</a>
+      <a href="https://www.wef.org" target="_blank">Water Environment Federation</a>
+      <a href="https://www.desalination.biz" target="_blank">Desalination Industry News</a>
+      <a href="https://www.veoliawatertechnologies.com" target="_blank">Veolia Water Technologies</a>
+      <a href="https://www.suezwatertechnologies.com" target="_blank">SUEZ Water Technologies</a>
+      <a href="https://www.xylem.com" target="_blank">Xylem</a>
+    </section>
+
+    <section class="card" data-sector="manufacturing">
+      <h2>Manufacturing <span class="badge">Equipment / Automation</span></h2>
+      <a href="https://www.emerson.com" target="_blank">Emerson</a>
+      <a href="https://www.honeywellprocess.com" target="_blank">Honeywell Process Solutions</a>
+      <a href="https://www.rockwellautomation.com" target="_blank">Rockwell Automation</a>
+      <a href="https://www.schneider-electric.com" target="_blank">Schneider Electric</a>
+      <a href="https://www.abb.com" target="_blank">ABB</a>
+      <a href="https://www.yokogawa.com" target="_blank">Yokogawa</a>
+      <a href="https://www.endress.com" target="_blank">Endress+Hauser</a>
+    </section>
+
+    <section class="card" data-sector="safety">
+      <h2>Safety & Standards <span class="badge">Codes / HSE</span></h2>
+      <a href="https://www.osha.gov" target="_blank">OSHA</a>
+      <a href="https://www.nfpa.org" target="_blank">NFPA</a>
+      <a href="https://www.asme.org" target="_blank">ASME</a>
+      <a href="https://www.astm.org" target="_blank">ASTM International</a>
+      <a href="https://www.iso.org" target="_blank">ISO</a>
+      <a href="https://www.aiche.org/ccps" target="_blank">AIChE CCPS</a>
+      <a href="https://www.csb.gov" target="_blank">U.S. Chemical Safety Board</a>
+    </section>
+
+    <section class="card" data-sector="data">
+      <h2>Data & Market Intelligence <span class="badge">Prices / Reports</span></h2>
+      <a href="https://www.spglobal.com/commodityinsights" target="_blank">S&P Global Commodity Insights</a>
+      <a href="https://www.argusmedia.com" target="_blank">Argus Media</a>
+      <a href="https://www.rystadenergy.com" target="_blank">Rystad Energy</a>
+      <a href="https://www.woodmac.com" target="_blank">Wood Mackenzie</a>
+      <a href="https://www.bakerhughes.com/rig-count" target="_blank">Baker Hughes Rig Count</a>
+      <a href="https://tradingeconomics.com" target="_blank">Trading Economics</a>
+      <a href="https://fred.stlouisfed.org" target="_blank">FRED Economic Data</a>
+      <a href="https://www.worldbank.org" target="_blank">World Bank Data</a>
+    </section>
+
+  </div>
+</div>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const sectorFilter = document.getElementById("sectorFilter");
+const cards = [...document.querySelectorAll(".card")];
+const links = [...document.querySelectorAll(".card a")];
+const matchResults = document.getElementById("matchResults");
+
+function applySearchAndFilter() {
+  const q = searchInput.value.trim().toLowerCase();
+  const sector = sectorFilter.value;
+  matchResults.innerHTML = "";
+
+  cards.forEach(card => {
+    const sectorMatch = sector === "all" || card.dataset.sector === sector;
+    let hasVisibleLink = false;
+
+    [...card.querySelectorAll("a")].forEach(link => {
+      const text = link.textContent.toLowerCase();
+      const href = link.href.toLowerCase();
+      const match = !q || text.includes(q) || href.includes(q);
+
+      link.classList.toggle("hidden", !(sectorMatch && match));
+      if (sectorMatch && match) hasVisibleLink = true;
+    });
+
+    card.classList.toggle("hidden", !(sectorMatch && hasVisibleLink));
+  });
+
+  if (q) {
+    const matches = links.filter(link => {
+      const card = link.closest(".card");
+      const sectorMatch = sector === "all" || card.dataset.sector === sector;
+      return sectorMatch &&
+        (link.textContent.toLowerCase().includes(q) ||
+         link.href.toLowerCase().includes(q));
+    });
+
+    if (matches.length) {
+      matchResults.innerHTML =
+        "<strong>Matching links:</strong><br>" +
+        matches.slice(0, 10).map(link =>
+          `<a class="result-link" href="${link.href}" target="_blank">${link.textContent}</a>`
+        ).join("");
+    } else {
+      matchResults.innerHTML = "<strong>No matching links found.</strong>";
+    }
+  }
+}
+
+searchInput.addEventListener("input", applySearchAndFilter);
+sectorFilter.addEventListener("change", applySearchAndFilter);
+</script>
+</body>
+</html>
