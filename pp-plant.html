@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polypropylene Production Process</title>
+  <link rel="stylesheet" href="css/pp-plant.css" />
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.ok?r.text():"").then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1>Polypropylene (PP) Production Process</h1>
+      <p>Propylene purification, polymerization, monomer recovery/recycle, powder finishing, extrusion, pelletizing, and storage.</p>
+    </div>
+    <div class="controls">
+      <button id="btnAnimate" type="button">Pause Flow</button>
+      <button id="btnReset" type="button">Reset View</button>
+    </div>
+  </header>
+
+  <section class="diagram-panel">
+    <svg id="ppSvg" viewBox="0 0 1600 980" role="img" aria-label="Polypropylene production SVG flowsheet">
+      <defs>
+        <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#123b63" />
+          <stop offset="100%" stop-color="#1f6f9e" />
+        </linearGradient>
+      </defs>
+
+      <rect x="20" y="20" width="1560" height="940" rx="24" class="canvas-bg"></rect>
+      <text x="800" y="62" text-anchor="middle" class="svg-title">Polypropylene Production — Block Flow Diagram</text>
+      <text x="800" y="90" text-anchor="middle" class="svg-subtitle">Purified propylene + catalyst → polymerization → degassing/recycle → finishing → PP pellets</text>
+
+      <!-- Main feed / reaction train -->
+      <g class="unit-block feed" data-unit="feed">
+        <rect x="70" y="185" width="190" height="120" rx="16"></rect>
+        <text x="165" y="220" text-anchor="middle" class="block-title">Propylene Feed</text>
+        <text x="165" y="249" text-anchor="middle">Battery limit feed</text>
+        <text x="165" y="273" text-anchor="middle">Water / sulfur / O₂</text>
+        <text x="165" y="297" text-anchor="middle">Dienes removal</text>
+      </g>
+
+      <g class="unit-block pretreat" data-unit="purification">
+        <rect x="320" y="185" width="215" height="120" rx="16"></rect>
+        <text x="427" y="220" text-anchor="middle" class="block-title">Feed Purification</text>
+        <text x="427" y="249" text-anchor="middle">Adsorbers / treaters</text>
+        <text x="427" y="273" text-anchor="middle">Dry to &lt;1 ppm H₂O</text>
+        <text x="427" y="297" text-anchor="middle">Catalyst poison removal</text>
+      </g>
+
+      <g class="unit-block compression" data-unit="compression">
+        <rect x="595" y="185" width="205" height="120" rx="16"></rect>
+        <text x="697" y="220" text-anchor="middle" class="block-title">Compression</text>
+        <text x="697" y="249" text-anchor="middle">150–350 psig</text>
+        <text x="697" y="273" text-anchor="middle">Final drying</text>
+        <text x="697" y="297" text-anchor="middle">Clean reactor feed</text>
+      </g>
+
+      <g class="unit-block catalyst" data-unit="catalyst">
+        <rect x="875" y="105" width="210" height="110" rx="16"></rect>
+        <text x="980" y="140" text-anchor="middle" class="block-title">Catalyst System</text>
+        <text x="980" y="169" text-anchor="middle">Ziegler–Natta or</text>
+        <text x="980" y="193" text-anchor="middle">metallocene catalyst</text>
+      </g>
+
+      <g class="unit-block reactor" data-unit="reactor">
+        <rect x="880" y="255" width="245" height="185" rx="18"></rect>
+        <text x="1002" y="294" text-anchor="middle" class="block-title">Polymerization Reactor</text>
+        <text x="1002" y="326" text-anchor="middle">Gas-phase fluidized bed</text>
+        <text x="1002" y="352" text-anchor="middle">300–450 psig</text>
+        <text x="1002" y="378" text-anchor="middle">140–185°F</text>
+        <text x="1002" y="404" text-anchor="middle">PP particles formed</text>
+      </g>
+
+      <g class="unit-block flash" data-unit="flash">
+        <rect x="1195" y="255" width="210" height="145" rx="16"></rect>
+        <text x="1300" y="291" text-anchor="middle" class="block-title">Degassing / Flash</text>
+        <text x="1300" y="320" text-anchor="middle">0–30 psig</text>
+        <text x="1300" y="344" text-anchor="middle">Propylene vaporized</text>
+        <text x="1300" y="368" text-anchor="middle">Polymer solids out</text>
+      </g>
+
+      <g class="unit-block recycle" data-unit="recycle">
+        <rect x="1195" y="475" width="210" height="130" rx="16"></rect>
+        <text x="1300" y="511" text-anchor="middle" class="block-title">Monomer Recovery</text>
+        <text x="1300" y="540" text-anchor="middle">Compress 300–450 psig</text>
+        <text x="1300" y="564" text-anchor="middle">Cool to 80–120°F</text>
+        <text x="1300" y="588" text-anchor="middle">Recycle propylene</text>
+      </g>
+
+      <!-- Finishing train -->
+      <g class="unit-block finish" data-unit="deactivation">
+        <rect x="895" y="670" width="215" height="125" rx="16"></rect>
+        <text x="1002" y="706" text-anchor="middle" class="block-title">Deactivation & Drying</text>
+        <text x="1002" y="735" text-anchor="middle">Catalyst kill / purge</text>
+        <text x="1002" y="759" text-anchor="middle">Residual monomer removal</text>
+        <text x="1002" y="783" text-anchor="middle">Dry PP powder</text>
+      </g>
+
+      <g class="unit-block extruder" data-unit="extruder">
+        <rect x="615" y="670" width="205" height="125" rx="16"></rect>
+        <text x="717" y="706" text-anchor="middle" class="block-title">Extrusion</text>
+        <text x="717" y="735" text-anchor="middle">Additives blended</text>
+        <text x="717" y="759" text-anchor="middle">Melt: 400–500°F</text>
+        <text x="717" y="783" text-anchor="middle">Homogenized polymer</text>
+      </g>
+
+      <g class="unit-block pellet" data-unit="pelletizing">
+        <rect x="340" y="670" width="205" height="125" rx="16"></rect>
+        <text x="442" y="706" text-anchor="middle" class="block-title">Pelletizing</text>
+        <text x="442" y="735" text-anchor="middle">Pellet cut / cooling</text>
+        <text x="442" y="759" text-anchor="middle">Water: 60–90°F</text>
+        <text x="442" y="783" text-anchor="middle">Pellet dryer</text>
+      </g>
+
+      <g class="unit-block storage" data-unit="storage">
+        <rect x="80" y="670" width="190" height="125" rx="16"></rect>
+        <text x="175" y="706" text-anchor="middle" class="block-title">Storage & Packaging</text>
+        <text x="175" y="735" text-anchor="middle">Product silos</text>
+        <text x="175" y="759" text-anchor="middle">Bagging / bulk loadout</text>
+        <text x="175" y="783" text-anchor="middle">PP pellets</text>
+      </g>
+
+      <g class="unit-block utilities" data-unit="utilities">
+        <rect x="80" y="465" width="700" height="105" rx="16"></rect>
+        <text x="430" y="501" text-anchor="middle" class="block-title">Utilities, Additives & Safety Systems</text>
+        <text x="430" y="530" text-anchor="middle">Nitrogen purge • Vent recovery • Flare • Cooling water • Instrument air • Additive packages</text>
+        <text x="430" y="554" text-anchor="middle">Antioxidants • Stabilizers • Slip/antiblock where required</text>
+      </g>
+
+      <!-- Streams -->
+      <path id="s1" class="stream main-flow" d="M30 245 H70"></path>
+      <polygon class="arrow main-arrow" points="70,245 58,238 58,252"></polygon>
+      <text x="36" y="229" class="stream-label">Propylene</text>
+
+      <path id="s2" class="stream main-flow" d="M260 245 H320"></path>
+      <polygon class="arrow main-arrow" points="320,245 308,238 308,252"></polygon>
+
+      <path id="s3" class="stream main-flow" d="M535 245 H595"></path>
+      <polygon class="arrow main-arrow" points="595,245 583,238 583,252"></polygon>
+
+      <path id="s4" class="stream main-flow" d="M800 245 C840 245 840 348 880 348"></path>
+      <polygon class="arrow main-arrow" points="880,348 867,341 867,355"></polygon>
+      <text x="812" y="286" class="stream-label">Clean feed</text>
+
+      <path id="s5" class="stream catalyst-flow" d="M980 215 V255"></path>
+      <polygon class="arrow catalyst-arrow" points="980,255 973,243 987,243"></polygon>
+      <text x="997" y="239" class="stream-label">Catalyst</text>
+
+      <path id="s6" class="stream polymer-flow" d="M1125 348 H1195"></path>
+      <polygon class="arrow polymer-arrow" points="1195,348 1183,341 1183,355"></polygon>
+      <text x="1137" y="333" class="stream-label">PP + monomer</text>
+
+      <path id="s7" class="stream recycle-flow" d="M1300 400 V475"></path>
+      <polygon class="arrow recycle-arrow" points="1300,475 1293,463 1307,463"></polygon>
+      <text x="1316" y="444" class="stream-label">Recovered vapor</text>
+
+      <path id="s8" class="stream recycle-flow" d="M1195 540 C1040 540 1040 465 1002 440"></path>
+      <polygon class="arrow recycle-arrow" points="1002,440 1016,443 1008,455"></polygon>
+      <text x="1062" y="522" class="stream-label">Recycle propylene</text>
+
+      <path id="s9" class="stream polymer-flow" d="M1300 400 C1300 625 1002 625 1002 670"></path>
+      <polygon class="arrow polymer-arrow" points="1002,670 995,658 1009,658"></polygon>
+      <text x="1158" y="630" class="stream-label">Polymer solids</text>
+
+      <path id="s10" class="stream polymer-flow" d="M895 733 H820"></path>
+      <polygon class="arrow polymer-arrow" points="820,733 832,726 832,740"></polygon>
+
+      <path id="s11" class="stream additive-flow" d="M710 570 V670"></path>
+      <polygon class="arrow additive-arrow" points="710,670 703,658 717,658"></polygon>
+      <text x="726" y="625" class="stream-label">Additives</text>
+
+      <path id="s12" class="stream polymer-flow" d="M615 733 H545"></path>
+      <polygon class="arrow polymer-arrow" points="545,733 557,726 557,740"></polygon>
+
+      <path id="s13" class="stream polymer-flow" d="M340 733 H270"></path>
+      <polygon class="arrow polymer-arrow" points="270,733 282,726 282,740"></polygon>
+      <text x="286" y="716" class="stream-label">PP pellets</text>
+
+      <path id="s14" class="stream product-flow" d="M80 733 H35"></path>
+      <polygon class="arrow product-arrow" points="35,733 47,726 47,740"></polygon>
+      <text x="38" y="716" class="stream-label">Product</text>
+
+      <path id="s15" class="stream vent-flow" d="M1405 328 H1515"></path>
+      <polygon class="arrow vent-arrow" points="1515,328 1503,321 1503,335"></polygon>
+      <text x="1420" y="311" class="stream-label">Vent / purge to recovery</text>
+
+      <!-- Section brackets -->
+      <path d="M50 145 H820 V330 H50 Z" class="bracket"></path>
+      <text x="435" y="137" text-anchor="middle" class="section-label">Feed Preparation</text>
+
+      <path d="M850 80 H1430 V625 H850 Z" class="bracket"></path>
+      <text x="1140" y="72" text-anchor="middle" class="section-label">Reaction & Monomer Recycle</text>
+
+      <path d="M50 640 H1135 V825 H50 Z" class="bracket"></path>
+      <text x="592" y="632" text-anchor="middle" class="section-label">Finishing & Product Handling</text>
+
+      <g id="streamInfoOverlay" class="info-overlay">
+        <rect x="1165" y="690" width="355" height="155" rx="14"></rect>
+        <text x="1187" y="722" class="overlay-title">Selected Stream / Unit</text>
+        <text id="selectedTitle" x="1187" y="754" class="overlay-main">Click any block or stream</text>
+        <text id="selectedDesc1" x="1187" y="783" class="overlay-text">The diagram highlights PP process sections.</text>
+        <text id="selectedDesc2" x="1187" y="811" class="overlay-text">Process conditions are included in the summary table.</text>
+      </g>
+    </svg>
+  </section>
+
+  <section class="summary-grid">
+    <article class="panel wide-panel">
+      <h2>Unit Summary with Process Conditions</h2>
+      <table id="unitSummaryTable">
+        <thead>
+          <tr><th>Section</th><th>Main Function</th><th>Typical Equipment</th><th>Process Conditions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+    <article class="panel wide-panel">
+      <h2>Major Streams</h2>
+      <table id="streamSummaryTable">
+        <thead>
+          <tr><th>Stream</th><th>From</th><th>To</th><th>Purpose / Conditions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<script src="js/pp-plant.js"></script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.ok?r.text():"").then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
