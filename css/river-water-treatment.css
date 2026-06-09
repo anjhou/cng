@@ -78,3 +78,19 @@ th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; ver
 th { background: linear-gradient(90deg, var(--deep-blue), var(--blue)); color: #fff; }
 tbody tr:nth-child(even) { background: #f5f9fc; }
 @media (max-width: 900px) { .topbar, .summary-grid { grid-template-columns: 1fr; display: block; } .controls { margin-top: 14px; } .panel { margin-top: 18px; } }
+
+
+/* Browser-safe inline arrowheads. These polygons replace marker-end arrowheads so
+   arrows remain visible in Chrome/Edge even when SVG markers are scaled or clipped. */
+.arrow-head {
+  stroke: #ffffff;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.river-arrow { fill: var(--blue); }
+.clarified-arrow { fill: var(--cyan); }
+.cooling-arrow { fill: var(--green); }
+.potable-arrow { fill: var(--blue); }
+.demin-arrow { fill: var(--purple); }
+.waste-arrow { fill: var(--brown); }
