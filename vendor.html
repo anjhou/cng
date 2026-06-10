@@ -29,6 +29,10 @@ tbody tr:nth-child(even){background:#f6f9fc}
 
 <body>
 <div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 
 <main class="container">
   <h1>Engineering Vendor Directory</h1>
@@ -296,6 +300,10 @@ buildVendorCards();
 
 searchInput.addEventListener("input", applySearchAndFilter);
 categoryFilter.addEventListener("change", applySearchAndFilter);
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 </body>
 </html>
