@@ -4,7 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Houston Chemical and Energy | AI Consulting </title>
-    <style> </style>
+    <style> 
+	.slider-wrapper{
+    position:relative;
+    max-width:1100px;
+    margin:40px auto;
+    overflow:hidden;
+    padding:20px 60px;
+}
+
+.slider-track{
+    display:flex;
+    transition:transform 0.5s ease;
+}
+
+.slide-card{
+    min-width:100%;
+    background:white;
+    padding:60px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    text-align:center;
+    box-sizing:border-box;
+}
+
+.slide-card h2{
+    font-size:2.3rem;
+    color:#222;
+}
+
+.slide-card p{
+    font-size:1.1rem;
+    color:#555;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:white;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.prev{
+    left:10px;
+}
+
+.next{
+    right:10px;
+}
+	
+	</style>
 	<link rel="stylesheet" href="static/css/global-styles.css">
 
 </head>
@@ -18,51 +74,48 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <!-- -->
 <!-- Slider Section -->
-<div class="slider-wrapper">
+<script>
+const track = document.querySelector(".slider-track");
+const slides = document.querySelectorAll(".slide-card");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
 
-    <div class="slider-track">
+let index = 0;
 
-        <div class="slide-card slide-1">
-            <h2>Process Engineering</h2>
-            <p>Advanced process design and optimization solutions.</p>
-        </div>
+function updateSlider(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
 
-        <div class="slide-card slide-2">
-            <h2>Project Development</h2>
-            <p>Front-end engineering and project execution support.</p>
-        </div>
+nextBtn.addEventListener("click", function(){
+    index++;
 
-        <div class="slide-card slide-3">
-            <h2>Market Intelligence</h2>
-            <p>Energy and chemical market analytics.</p>
-        </div>
+    if(index >= slides.length){
+        index = 0;
+    }
 
-        <div class="slide-card slide-4">
-            <h2>Process Safety</h2>
-            <p>HAZOP, LOPA and risk management studies.</p>
-        </div>
+    updateSlider();
+});
 
-        <div class="slide-card slide-5">
-            <h2>AI Solutions</h2>
-            <p>Machine learning and digital transformation.</p>
-        </div>
+prevBtn.addEventListener("click", function(){
+    index--;
 
-        <div class="slide-card slide-6">
-            <h2>Decarbonization</h2>
-            <p>Hydrogen, CCUS and sustainability solutions.</p>
-        </div>
+    if(index < 0){
+        index = slides.length - 1;
+    }
 
-        <div class="slide-card slide-7">
-            <h2>Economic Analysis</h2>
-            <p>Investment evaluation and project economics.</p>
-        </div>
+    updateSlider();
+});
 
-    </div>
+setInterval(function(){
+    index++;
 
-    <button class="slider-btn prev">&#10094;</button>
-    <button class="slider-btn next">&#10095;</button>
+    if(index >= slides.length){
+        index = 0;
+    }
 
-</div>
+    updateSlider();
+}, 5000);
+</script>
 
 <!-- -->
 
@@ -110,5 +163,49 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 
+<script>
+<script>
+const track = document.querySelector(".slider-track");
+const slides = document.querySelectorAll(".slide-card");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let index = 0;
+
+function updateSlider(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+nextBtn.addEventListener("click", function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+});
+
+prevBtn.addEventListener("click", function(){
+    index--;
+
+    if(index < 0){
+        index = slides.length - 1;
+    }
+
+    updateSlider();
+});
+
+setInterval(function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+}, 5000);
+</script>
+</script>
 </body>
 </html>
