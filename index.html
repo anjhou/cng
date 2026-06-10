@@ -16,11 +16,75 @@
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script>
 
-<div class="hero">
-    <h2>Chemical and Energy AI Consulting</h2>
-    <p>Delivering AI-powered intelligence and solutions.</p>
-    <a href="contact.html" class="cta-btn">Request a Consultation</a>
+<!-- -->
+<!-- Slider Section -->
+<div class="slider-container">
+    <div class="slides fade" style="background:#0d47a1;">
+        <div class="slide-content">
+            <h2>Process Engineering</h2>
+            <p>Advanced process design and optimization solutions.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#00695c;">
+        <div class="slide-content">
+            <h2>Project Development</h2>
+            <p>Front-end engineering and project execution support.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#bf360c;">
+        <div class="slide-content">
+            <h2>Market Intelligence</h2>
+            <p>Energy and chemical market analytics.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#4a148c;">
+        <div class="slide-content">
+            <h2>Process Safety</h2>
+            <p>HAZOP, LOPA, SIL and risk management studies.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#37474f;">
+        <div class="slide-content">
+            <h2>AI Solutions</h2>
+            <p>Machine learning and digital transformation.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#1b5e20;">
+        <div class="slide-content">
+            <h2>Decarbonization</h2>
+            <p>CCUS, hydrogen and sustainability strategies.</p>
+        </div>
+    </div>
+
+    <div class="slides fade" style="background:#880e4f;">
+        <div class="slide-content">
+            <h2>Economic Analysis</h2>
+            <p>Investment evaluation and project economics.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <a class="prev" onclick="changeSlide(-1)">❮</a>
+    <a class="next" onclick="changeSlide(1)">❯</a>
+
+    <!-- Dots -->
+    <div class="slider-dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+        <span class="dot" onclick="currentSlide(6)"></span>
+        <span class="dot" onclick="currentSlide(7)"></span>
+    </div>
 </div>
+
+<!-- -->
 
 <section>
     <h3>Our Services</h3>
