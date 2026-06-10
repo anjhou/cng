@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vendor Directory</title>
+<link rel="stylesheet" href="style.css" />
+<script defer src="layout.js"></script>
+
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#eef4f8;color:#17324d}
+.container{max-width:1300px;margin:auto;padding:24px}
+.search-panel,.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 25px rgba(0,0,0,.1)}
+.controls{display:flex;gap:12px;flex-wrap:wrap}
+input,select{padding:12px;border:1px solid #b8c6d1;border-radius:10px;font-size:15px;min-width:260px}
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+.card h2{margin-top:0;color:#123b63}
+.badge{font-size:12px;background:#dfeaf3;border-radius:999px;padding:3px 8px;margin-left:6px;color:#38556d}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid #b8c6d1;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#123b63;color:#fff}
+tbody tr:nth-child(even){background:#f6f9fc}
+.hidden{display:none!important}
+.result-link{display:inline-block;margin:6px 8px 6px 0;padding:8px 12px;background:#e7f2ff;border-radius:10px;color:#0b5d9e;text-decoration:none;font-weight:700}
+@media(max-width:700px){.container{padding:14px}input,select{width:100%;min-width:0}}
+</style>
+</head>
+
+<body>
+<div id="header"></div>
+
+<main class="container">
+  <h1>Engineering Vendor Directory</h1>
+  <p>Curated vendor lists by major equipment category.</p>
+
+  <section class="search-panel">
+    <div id="matchResults"></div>
+    <div class="controls">
+      <input id="searchInput" type="text" placeholder="Search vendor, product, or notes..." />
+      <select id="categoryFilter">
+        <option value="all">All equipment categories</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="vendorCards" class="grid"></section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+const vendorData = {
+  "Instruments & Process Control": [
+    ["Emerson", "DCS, transmitters, flow, control systems", "DeltaV, Rosemount"],
+    ["Honeywell", "DCS, safety systems, analyzers", "Experion PKS"],
+    ["Yokogawa", "DCS, field instruments", "CENTUM VP"],
+    ["Siemens", "PLC, automation, instrumentation", "SIMATIC"],
+    ["ABB", "Control systems, instrumentation", "Ability, System 800xA"],
+    ["Schneider Electric", "Automation, power/process control", "EcoStruxure"],
+    ["Endress+Hauser", "Flow, level, pressure, analytical", "Field instrumentation"],
+    ["Vega", "Level and pressure instruments", "Radar level"],
+    ["Krohne", "Flow and level measurement", "Custody/process metering"],
+    ["WIKA", "Pressure and temperature instruments", "Gauges/transmitters"]
+  ],
+
+  "Valves": [
+    ["Emerson", "Control valves, regulators", "Fisher"],
+    ["Flowserve", "Control/isolation valves", "Valtek, Durco"],
+    ["Crane", "Industrial valves", "Gate, globe, check"],
+    ["Velan", "Severe-service valves", "High-pressure service"],
+    ["KITZ", "Industrial valves", "Ball, gate, globe"],
+    ["Bray", "Butterfly and ball valves", "Actuation packages"],
+    ["IMI Critical", "Severe-service control valves", "Steam/process"],
+    ["Samson", "Control valves", "Actuators/controllers"],
+    ["Metso / Neles", "Flow control valves", "Process industries"],
+    ["Cameron", "Valves for oil & gas", "Schlumberger brand"]
+  ],
+
+  "Pumps": [
+    ["Flowserve", "API/process pumps", "Refinery/chemical service"],
+    ["Sulzer", "Centrifugal pumps", "Process and water"],
+    ["KSB", "Industrial pumps", "Water/process"],
+    ["Ebara", "Centrifugal pumps", "Industrial service"],
+    ["Grundfos", "Utility/water pumps", "Booster systems"],
+    ["ITT Goulds Pumps", "Chemical/process pumps", "ANSI/API"],
+    ["SPX Flow", "Sanitary/process pumps", "Specialty service"],
+    ["Wilo", "Water/circulation pumps", "Building/industrial"],
+    ["Ruhrpumpen", "API pumps", "Oil & gas"],
+    ["Sundyne", "High-speed pumps", "Low-flow/high-head"]
+  ],
+
+  "Relief Valves": [
+    ["Emerson", "Pressure relief valves", "Crosby"],
+    ["Baker Hughes", "Safety relief valves", "Consolidated"],
+    ["LESER", "Safety valves", "API/ASME"],
+    ["Curtiss-Wright", "Relief valves", "Farris"],
+    ["Pentair", "Pressure relief", "Anderson Greenwood"],
+    ["Mercer Valve", "Relief valves", "ASME service"],
+    ["Kunkle", "Safety valves", "Steam/air/liquid"],
+    ["Weir", "Pressure control", "Severe service"],
+    ["Goetze", "Safety valves", "Industrial service"],
+    ["ARI-Armaturen", "Safety valves", "Steam/process"]
+  ],
+
+  "Heat Exchangers": [
+    ["Alfa Laval", "Plate heat exchangers", "Gasketed/welded"],
+    ["Kelvion", "Shell & tube, air coolers", "Industrial heat transfer"],
+    ["API Heat Transfer", "Shell & tube, plate", "Process heat transfer"],
+    ["Chart Industries", "Cryogenic exchangers", "LNG/industrial gas"],
+    ["SPX Flow", "Heat exchangers", "Thermal systems"],
+    ["Xylem", "Heat transfer equipment", "Standard Xchange"],
+    ["Danfoss", "Brazed plate exchangers", "HVAC/industrial"],
+    ["SWEP", "Brazed plate exchangers", "Compact service"],
+    ["Funke", "Shell & tube/plate", "Industrial"],
+    ["HRS Heat Exchangers", "Scraped surface/process", "Specialty fluids"]
+  ],
+
+  "Compressors": [
+    ["Baker Hughes", "Centrifugal compressors", "Nuovo Pignone"],
+    ["Siemens Energy", "Centrifugal/recip compressors", "Oil & gas"],
+    ["Atlas Copco", "Air/gas compressors", "Industrial"],
+    ["Ingersoll Rand", "Air compressors", "Utility air"],
+    ["MAN Energy Solutions", "Process compressors", "Large turbomachinery"],
+    ["Kobelco", "Screw/process compressors", "Petrochemical"],
+    ["Howden", "Fans, blowers, compressors", "Industrial gas"],
+    ["Burckhardt Compression", "Reciprocating compressors", "High pressure"],
+    ["Ariel", "Reciprocating compressors", "Gas compression"],
+    ["Sundyne", "Centrifugal compressors", "API/process"]
+  ],
+
+  "Electrical Components": [
+    ["Siemens", "Switchgear, MCC, drives", "Medium/low voltage"],
+    ["ABB", "Motors, drives, switchgear", "Industrial power"],
+    ["Schneider Electric", "MCC, breakers, UPS", "EcoStruxure"],
+    ["Eaton", "Switchgear, breakers", "Power distribution"],
+    ["Rockwell Automation", "MCC, drives, controls", "Allen-Bradley"],
+    ["GE Vernova", "Electrical distribution", "Grid/power systems"],
+    ["Mitsubishi Electric", "Drives, switchgear", "Industrial systems"],
+    ["Toshiba", "Motors, drives", "Heavy industry"],
+    ["WEG", "Motors, drives, transformers", "Industrial"],
+    ["Legrand", "Electrical infrastructure", "Distribution systems"]
+  ],
+
+  "Analysers": [
+    ["ABB", "Gas/liquid analyzers", "Process analytics"],
+    ["Emerson", "Gas analyzers", "Rosemount Analytical"],
+    ["Yokogawa", "Process analyzers", "Liquid/gas analysis"],
+    ["Siemens", "Gas chromatography/analyzers", "MAXUM"],
+    ["Thermo Fisher Scientific", "Environmental/process analyzers", "Lab/process"],
+    ["SICK", "Gas analyzers", "Emissions monitoring"],
+    ["Endress+Hauser", "Liquid analysis", "pH, conductivity, TOC"],
+    ["Mettler Toledo", "Analytical instruments", "pH/DO/conductivity"],
+    ["Ametek", "Process analyzers", "Moisture/gas"],
+    ["Servomex", "Gas analysis", "O₂, syngas, emissions"]
+  ],
+
+  "Vessels": [
+    ["Samuel Pressure Vessel Group", "Pressure vessels", "ASME vessels"],
+    ["Kennedy Tank", "Pressure vessels/tanks", "Custom fabrication"],
+    ["Boardman", "Pressure vessels", "Heavy fabrication"],
+    ["Apache Stainless", "Stainless vessels", "Sanitary/process"],
+    ["Hanson Tank", "Pressure vessels", "Air/process tanks"],
+    ["Modern Welding", "Tanks/vessels", "Storage/process"],
+    ["AT&F", "Large pressure vessels", "Heavy fabrication"],
+    ["PVI Industries", "Storage vessels", "Water/process"],
+    ["Highland Tank", "Storage tanks", "Fuel/water"],
+    ["BEPeterson", "Custom vessels", "ASME fabrication"]
+  ],
+
+  "Columns": [
+    ["Koch-Glitsch", "Trays, packing, internals", "Mass transfer"],
+    ["Sulzer", "Column internals", "Packing/trays"],
+    ["Raschig", "Random/structured packing", "Mass transfer"],
+    ["Montz", "Column internals", "Distillation"],
+    ["Finepac Structures", "Trays/packing", "Process columns"],
+    ["AMACS", "Mist eliminators/internals", "Separation"],
+    ["Munters", "Mist elimination", "Mass transfer"],
+    ["Perry Products", "Process columns", "Fabricated columns"],
+    ["Lantec Products", "Ceramic/plastic packing", "Tower packing"],
+    ["RVN Process Equipment", "Column internals", "Separation systems"]
+  ],
+
+  "Reactors": [
+    ["Parr Instrument", "Lab/pilot reactors", "High-pressure reactors"],
+    ["Buchiglas", "Glass-lined reactors", "Pilot/process"],
+    ["De Dietrich", "Glass-lined reactors", "Chemical service"],
+    ["Pfaudler", "Reactors and process systems", "Glass-lined"],
+    ["EKATO", "Agitated reactors", "Mixing systems"],
+    ["Autoclave Engineers", "High-pressure reactors", "Parker brand"],
+    ["Zeton", "Pilot plants/reactors", "Custom systems"],
+    ["Linde Engineering", "Process reactors", "Large-scale EPC"],
+    ["Technip Energies", "Process reactor systems", "Petrochemical"],
+    ["thyssenkrupp Uhde", "Chemical reactors", "Process technology"]
+  ],
+
+  "Pipes & Fittings": [
+    ["Tenaris", "Steel pipe", "OCTG/line pipe"],
+    ["Vallourec", "Seamless pipe", "Energy/industrial"],
+    ["Nippon Steel", "Steel pipe/tube", "Industrial"],
+    ["Tubacex", "Stainless/seamless tube", "Corrosion service"],
+    ["Sandvik", "Stainless tubing", "High alloy"],
+    ["Swagelok", "Tube fittings/valves", "Instrumentation"],
+    ["Parker", "Fittings, hoses, tubing", "Instrumentation/hydraulics"],
+    ["Victaulic", "Grooved piping systems", "Mechanical joining"],
+    ["Bonney Forge", "Forged fittings/valves", "High pressure"],
+    ["Weldbend", "Carbon steel fittings", "Pipe fittings"]
+  ]
+};
+
+const vendorCards = document.getElementById("vendorCards");
+const categoryFilter = document.getElementById("categoryFilter");
+const searchInput = document.getElementById("searchInput");
+const matchResults = document.getElementById("matchResults");
+
+function slugify(text){
+  return text.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+}
+
+function buildCategoryOptions(){
+  Object.keys(vendorData).forEach(category=>{
+    const option=document.createElement("option");
+    option.value=slugify(category);
+    option.textContent=category;
+    categoryFilter.appendChild(option);
+  });
+}
+
+function buildVendorCards(){
+  vendorCards.innerHTML = Object.entries(vendorData).map(([category, vendors])=>{
+    const slug=slugify(category);
+    const rows=vendors.map((v,i)=>`
+      <tr>
+        <td>${i+1}</td>
+        <td><strong>${v[0]}</strong></td>
+        <td>${v[1]}</td>
+        <td>${v[2]}</td>
+      </tr>
+    `).join("");
+
+    return `
+      <article class="card" data-category="${slug}">
+        <h2>${category} <span class="badge">${vendors.length} vendors</span></h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Vendor</th>
+                <th>Typical Scope</th>
+                <th>Notes / Known Brands</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function applySearchAndFilter(){
+  const q = searchInput.value.trim().toLowerCase();
+  const selected = categoryFilter.value;
+  const cards = [...document.querySelectorAll(".card")];
+  const matches = [];
+
+  cards.forEach(card=>{
+    const categoryMatch = selected === "all" || card.dataset.category === selected;
+    const rows = [...card.querySelectorAll("tbody tr")];
+    let visibleRows = 0;
+
+    rows.forEach(row=>{
+      const text = row.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      row.classList.toggle("hidden", !(categoryMatch && match));
+      if(categoryMatch && match){
+        visibleRows++;
+        if(q) matches.push(row.querySelector("td:nth-child(2)").textContent.trim());
+      }
+    });
+
+    card.classList.toggle("hidden", !(categoryMatch && visibleRows > 0));
+  });
+
+  matchResults.innerHTML = "";
+  if(q){
+    matchResults.innerHTML = matches.length
+      ? "<strong>Matching vendors:</strong><br>" + [...new Set(matches)].slice(0,15).map(v=>`<span class="result-link">${v}</span>`).join("")
+      : "<strong>No matching vendors found.</strong>";
+  }
+}
+
+buildCategoryOptions();
+buildVendorCards();
+
+searchInput.addEventListener("input", applySearchAndFilter);
+categoryFilter.addEventListener("change", applySearchAndFilter);
+</script>
+</body>
+</html>
