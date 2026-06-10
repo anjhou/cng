@@ -18,70 +18,50 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 
 <!-- -->
 <!-- Slider Section -->
-<div class="slider-container">
-    <div class="slides fade" style="background:#0d47a1;">
-        <div class="slide-content">
+<div class="slider-wrapper">
+
+    <div class="slider-track">
+
+        <div class="slide-card slide-1">
             <h2>Process Engineering</h2>
             <p>Advanced process design and optimization solutions.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#00695c;">
-        <div class="slide-content">
+        <div class="slide-card slide-2">
             <h2>Project Development</h2>
             <p>Front-end engineering and project execution support.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#bf360c;">
-        <div class="slide-content">
+        <div class="slide-card slide-3">
             <h2>Market Intelligence</h2>
             <p>Energy and chemical market analytics.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#4a148c;">
-        <div class="slide-content">
+        <div class="slide-card slide-4">
             <h2>Process Safety</h2>
-            <p>HAZOP, LOPA, SIL and risk management studies.</p>
+            <p>HAZOP, LOPA and risk management studies.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#37474f;">
-        <div class="slide-content">
+        <div class="slide-card slide-5">
             <h2>AI Solutions</h2>
             <p>Machine learning and digital transformation.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#1b5e20;">
-        <div class="slide-content">
+        <div class="slide-card slide-6">
             <h2>Decarbonization</h2>
-            <p>CCUS, hydrogen and sustainability strategies.</p>
+            <p>Hydrogen, CCUS and sustainability solutions.</p>
         </div>
-    </div>
 
-    <div class="slides fade" style="background:#880e4f;">
-        <div class="slide-content">
+        <div class="slide-card slide-7">
             <h2>Economic Analysis</h2>
             <p>Investment evaluation and project economics.</p>
         </div>
+
     </div>
 
-    <!-- Navigation -->
-    <a class="prev" onclick="changeSlide(-1)">❮</a>
-    <a class="next" onclick="changeSlide(1)">❯</a>
+    <button class="slider-btn prev">&#10094;</button>
+    <button class="slider-btn next">&#10095;</button>
 
-    <!-- Dots -->
-    <div class="slider-dots">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-        <span class="dot" onclick="currentSlide(4)"></span>
-        <span class="dot" onclick="currentSlide(5)"></span>
-        <span class="dot" onclick="currentSlide(6)"></span>
-        <span class="dot" onclick="currentSlide(7)"></span>
-    </div>
 </div>
 
 <!-- -->
