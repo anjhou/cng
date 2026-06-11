@@ -70,11 +70,15 @@ svg{
     fill:none;
     stroke:#334155;
     stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
 }
 .flow{
     fill:none;
     stroke:#0ea5e9;
     stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
     stroke-dasharray:12 10;
     animation:flowMove 1s linear infinite;
     marker-end:url(#flowArrow);
@@ -84,6 +88,8 @@ svg{
     fill:none;
     stroke:#16a34a;
     stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
     stroke-dasharray:12 10;
     animation:flowMove 1.2s linear infinite;
     marker-end:url(#productArrow);
@@ -93,6 +99,8 @@ svg{
     fill:none;
     stroke:#ef4444;
     stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
     stroke-dasharray:12 10;
     animation:flowMove 1s linear infinite;
     marker-end:url(#hotArrow);
@@ -102,6 +110,8 @@ svg{
     fill:none;
     stroke:#92400e;
     stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
     stroke-dasharray:12 10;
     animation:flowMove 1.4s linear infinite;
     marker-end:url(#bottomArrow);
@@ -229,56 +239,50 @@ button:hover{
 
 <defs>
 
-    <!-- Standard Process Arrow -->
+    <!-- Arrowheads aligned to the SVG process stream centerline -->
+    <!-- Use userSpaceOnUse so the marker size is stable and does not scale with stroke width. -->
     <marker id="flowArrow"
-            markerWidth="12"
-            markerHeight="12"
-            refX="10"
-            refY="5"
+            markerWidth="9"
+            markerHeight="9"
+            refX="8.5"
+            refY="4.5"
             orient="auto"
-            markerUnits="strokeWidth">
-
-        <path d="M0,0 L6.7,3.3 L0,6.7 Z"
-              fill="#334155" />
+            markerUnits="userSpaceOnUse"
+            viewBox="0 0 9 9">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#0ea5e9" />
     </marker>
 
-    <!-- Product Arrow -->
     <marker id="productArrow"
-            markerWidth="12"
-            markerHeight="12"
-            refX="10"
-            refY="5"
+            markerWidth="9"
+            markerHeight="9"
+            refX="8.5"
+            refY="4.5"
             orient="auto"
-            markerUnits="strokeWidth">
-
-        <path d="M0,0 L6.7,3.3 L0,6.7 Z"
-              fill="#16a34a" />
+            markerUnits="userSpaceOnUse"
+            viewBox="0 0 9 9">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a" />
     </marker>
 
-    <!-- Hot Stream Arrow -->
     <marker id="hotArrow"
-            markerWidth="12"
-            markerHeight="12"
-            refX="10"
-            refY="5"
+            markerWidth="9"
+            markerHeight="9"
+            refX="8.5"
+            refY="4.5"
             orient="auto"
-            markerUnits="strokeWidth">
-
-        <path d="M0,0 L6.7,3.3 L0,6.7 Z""
-              fill="#ef4444" />
+            markerUnits="userSpaceOnUse"
+            viewBox="0 0 9 9">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#ef4444" />
     </marker>
 
-    <!-- Bottom Product Arrow -->
     <marker id="bottomArrow"
-            markerWidth="12"
-            markerHeight="12"
-            refX="10"
-            refY="5"
+            markerWidth="9"
+            markerHeight="9"
+            refX="8.5"
+            refY="4.5"
             orient="auto"
-            markerUnits="strokeWidth">
-
-        <path d="M0,0 L6.7,3.3 L0,6.7 Z""
-              fill="#92400e" />
+            markerUnits="userSpaceOnUse"
+            viewBox="0 0 9 9">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#92400e" />
     </marker>
 
 </defs>
@@ -337,7 +341,7 @@ button:hover{
     <line x1="450" y1="530" x2="570" y2="530" class="tray"/>
 
     <!-- Overhead to condenser -->
-    <path d="M510 120 V60 H760" class="pipe" class="product-flow"/>
+    <path d="M510 120 V60 H760" class="pipe"/>
     <path d="M510 120 V60 H760" class="product-flow tooltip-target"
           data-name="Column Overhead Vapor"
           data-type="Process Stream"
@@ -356,7 +360,7 @@ button:hover{
     <text x="790" y="58" class="label">Condenser</text>
 
     <!-- LPG Product -->
-    <path d="M900 62 H1180" class="pipe" class="product-flow"/>
+    <path d="M900 62 H1180" class="pipe"/>
     <path d="M900 62 H1180" class="product-flow tooltip-target"
           data-name="LPG Product"
           data-type="Product Stream"
@@ -376,7 +380,7 @@ button:hover{
             data-duty="Estimated hydraulic power: 75 hp"/>
     <text x="763" y="150" class="small-label">Reflux Pump</text>
 
-    <path d="M820 145 H880 V110 H590" class="pipe" class="flow"/>
+    <path d="M820 145 H880 V110 H590" class="pipe"/>
     <path d="M820 145 H880 V110 H590" class="flow tooltip-target"
           data-name="Reflux Stream"
           data-type="Internal Reflux"
@@ -386,7 +390,7 @@ button:hover{
     <text x="705" y="128" class="stream-label">Reflux</text>
 
     <!-- Side Draws -->
-    <path d="M590 210 H1180" class="pipe" class="product-flow"/>
+    <path d="M590 210 H1180" class="pipe"/>
     <path d="M590 210 H1180" class="product-flow tooltip-target"
           data-name="Light Naphtha"
           data-type="Product Stream"
@@ -396,7 +400,7 @@ button:hover{
     <text x="690" y="190" class="stream-label" id="lnLabel">Light Naphtha: 180°F / 20 psig</text>
     <text x="1120" y="230" class="label" id="lnVol">15 MBPD</text>
 
-    <path d="M590 285 H1180" class="pipe" class="product-flow"/>
+    <path d="M590 285 H1180" class="pipe"/>
     <path d="M590 285 H1180" class="product-flow tooltip-target"
           data-name="Heavy Naphtha"
           data-type="Product Stream"
@@ -406,7 +410,7 @@ button:hover{
     <text x="690" y="265" class="stream-label" id="hnLabel">Heavy Naphtha: 280°F / 18 psig</text>
     <text x="1120" y="305" class="label" id="hnVol">18 MBPD</text>
 
-    <path d="M590 365 H1180" class="pipe" class="product-flow"/>
+    <path d="M590 365 H1180" class="pipe"/>
     <path d="M590 365 H1180" class="product-flow tooltip-target"
           data-name="Distillate"
           data-type="Product Stream"
@@ -416,7 +420,7 @@ button:hover{
     <text x="690" y="345" class="stream-label" id="distLabel">Distillate: 420°F / 15 psig</text>
     <text x="1120" y="385" class="label" id="distVol">25 MBPD</text>
 
-    <path d="M590 445 H1180" class="pipe" class="product-flow"/>
+    <path d="M590 445 H1180" class="pipe"/>
     <path d="M590 445 H1180" class="product-flow tooltip-target"
           data-name="Gas Oil"
           data-type="Product Stream"
@@ -426,7 +430,7 @@ button:hover{
     <text x="690" y="425" class="stream-label" id="goLabel">Gas Oil: 560°F / 12 psig</text>
     <text x="1120" y="465" class="label" id="goVol">22 MBPD</text>
 
-    <path d="M590 525 H1180" class="pipe" class="product-flow"/>
+    <path d="M590 525 H1180" class="pipe"/>
     <path d="M590 525 H1180" class="bottom-flow tooltip-target"
           data-name="Fuel Oil"
           data-type="Product Stream"
@@ -446,7 +450,7 @@ button:hover{
             data-duty="Estimated hydraulic power: 110 hp"/>
     <text x="482" y="655" class="small-label">Bottom Pump</text>
 
-    <path d="M510 600 V616" class="pipe" class="product-flow"/>
+    <path d="M510 600 V616" class="pipe"/>
     <path d="M510 600 V616" class="bottom-flow tooltip-target"
           data-name="Column Bottoms"
           data-type="Bottoms Stream"
@@ -455,7 +459,7 @@ button:hover{
           data-duty="Hot atmospheric residue"/>
 
     <!-- Residue Product -->
-    <path d="M544 650 H1180" class="pipe" class="product-flow"/>
+    <path d="M544 650 H1180" class="pipe"/>
     <path d="M544 650 H1180" class="bottom-flow tooltip-target"
           data-name="Residue"
           data-type="Product Stream"
