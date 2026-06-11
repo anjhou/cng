@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CDU Crude Distillation Unit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+header{
+    background:#0f172a;
+    color:white;
+    padding:18px 30px;
+    text-align:center;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+
+.panel{
+    background:white;
+    border-radius:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:20px;
+    margin-bottom:25px;
+}
+
+h2{
+    margin-top:0;
+}
+
+svg{
+    width:100%;
+    height:auto;
+    background:#eef3f8;
+    border-radius:12px;
+    border:1px solid #d0d7e2;
+}
+
+.equipment{
+    fill:#ffffff;
+    stroke:#1f2937;
+    stroke-width:2;
+}
+
+.column-body{
+    fill:#f9fafb;
+    stroke:#111827;
+    stroke-width:3;
+}
+
+.tray{
+    stroke:#6b7280;
+    stroke-width:1.4;
+}
+
+.pipe{
+    fill:none;
+    stroke:#334155;
+    stroke-width:5;
+}
+
+.flow{
+    fill:none;
+    stroke:#0ea5e9;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    animation:flowMove 1s linear infinite;
+}
+
+.product-flow{
+    fill:none;
+    stroke:#16a34a;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    animation:flowMove 1.2s linear infinite;
+}
+
+.hot-flow{
+    fill:none;
+    stroke:#ef4444;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    animation:flowMove 1s linear infinite;
+}
+
+.bottom-flow{
+    fill:none;
+    stroke:#92400e;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    animation:flowMove 1.4s linear infinite;
+}
+
+@keyframes flowMove{
+    to{stroke-dashoffset:-44;}
+}
+
+.label{
+    font-size:13px;
+    fill:#111827;
+    font-weight:bold;
+}
+
+.small-label{
+    font-size:11px;
+    fill:#374151;
+}
+
+.stream-label{
+    font-size:12px;
+    fill:#111827;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th,td{
+    border:1px solid #cbd5e1;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#1e293b;
+    color:white;
+}
+
+input{
+    width:95%;
+    padding:6px;
+    border:1px solid #94a3b8;
+    border-radius:5px;
+}
+
+button{
+    margin-top:12px;
+    padding:10px 18px;
+    border:none;
+    background:#0f172a;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-top:15px;
+}
+
+.card{
+    background:#f8fafc;
+    border-left:6px solid #2563eb;
+    padding:12px;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Crude Distillation Unit SVG Flowsheet</h1>
+</header>
+
+<div class="container">
+
+<div class="panel">
+<h2>CDU Flowsheet</h2>
+
+<svg viewBox="0 0 1300 720">
+
+    <!-- Feed Furnace -->
+    <rect x="70" y="390" width="130" height="95" rx="12" class="equipment"/>
+    <text x="105" y="425" class="label">Furnace</text>
+    <text x="95" y="445" class="small-label">Crude Heater</text>
+
+    <!-- Crude Feed Line -->
+    <path d="M20 440 H70" class="pipe"/>
+    <path d="M20 440 H70" class="hot-flow"/>
+    <text x="20" y="420" class="stream-label">Crude Feed</text>
+
+    <!-- Furnace to Column -->
+    <path d="M200 440 H430" class="pipe"/>
+    <path d="M200 440 H430" class="hot-flow"/>
+    <text x="245" y="420" class="stream-label" id="feedLabel">Crude: 650°F / 25 psig</text>
+
+    <!-- Column -->
+    <rect x="430" y="120" width="160" height="480" rx="75" class="column-body"/>
+    <text x="456" y="105" class="label">Crude Distillation Column</text>
+
+    <!-- Trays -->
+    <line x1="450" y1="180" x2="570" y2="180" class="tray"/>
+    <line x1="450" y1="230" x2="570" y2="230" class="tray"/>
+    <line x1="450" y1="280" x2="570" y2="280" class="tray"/>
+    <line x1="450" y1="330" x2="570" y2="330" class="tray"/>
+    <line x1="450" y1="380" x2="570" y2="380" class="tray"/>
+    <line x1="450" y1="430" x2="570" y2="430" class="tray"/>
+    <line x1="450" y1="480" x2="570" y2="480" class="tray"/>
+    <line x1="450" y1="530" x2="570" y2="530" class="tray"/>
+
+    <!-- Overhead to condenser -->
+    <path d="M510 120 V60 H760" class="pipe"/>
+    <path d="M510 120 V60 H760" class="product-flow"/>
+
+    <!-- Condenser -->
+    <rect x="760" y="30" width="140" height="65" rx="12" class="equipment"/>
+    <text x="790" y="58" class="label">Condenser</text>
+
+    <!-- LPG Product -->
+    <path d="M900 62 H1180" class="pipe"/>
+    <path d="M900 62 H1180" class="product-flow"/>
+    <text x="965" y="42" class="stream-label" id="lpgLabel">LPG: 110°F / 45 psig</text>
+    <text x="1120" y="82" class="label" id="lpgVol">5 MBPD</text>
+
+    <!-- Reflux Pump -->
+    <circle cx="790" cy="145" r="32" class="equipment"/>
+    <text x="763" y="150" class="small-label">Reflux Pump</text>
+
+    <path d="M820 145 H880 V110 H590" class="pipe"/>
+    <path d="M820 145 H880 V110 H590" class="flow"/>
+    <text x="705" y="128" class="stream-label">Reflux</text>
+
+    <!-- Side Draws -->
+    <path d="M590 210 H1180" class="pipe"/>
+    <path d="M590 210 H1180" class="product-flow"/>
+    <text x="690" y="190" class="stream-label" id="lnLabel">Light Naphtha: 180°F / 20 psig</text>
+    <text x="1120" y="230" class="label" id="lnVol">15 MBPD</text>
+
+    <path d="M590 285 H1180" class="pipe"/>
+    <path d="M590 285 H1180" class="product-flow"/>
+    <text x="690" y="265" class="stream-label" id="hnLabel">Heavy Naphtha: 280°F / 18 psig</text>
+    <text x="1120" y="305" class="label" id="hnVol">18 MBPD</text>
+
+    <path d="M590 365 H1180" class="pipe"/>
+    <path d="M590 365 H1180" class="product-flow"/>
+    <text x="690" y="345" class="stream-label" id="distLabel">Distillate: 420°F / 15 psig</text>
+    <text x="1120" y="385" class="label" id="distVol">25 MBPD</text>
+
+    <path d="M590 445 H1180" class="pipe"/>
+    <path d="M590 445 H1180" class="product-flow"/>
+    <text x="690" y="425" class="stream-label" id="goLabel">Gas Oil: 560°F / 12 psig</text>
+    <text x="1120" y="465" class="label" id="goVol">22 MBPD</text>
+
+    <path d="M590 525 H1180" class="pipe"/>
+    <path d="M590 525 H1180" class="bottom-flow"/>
+    <text x="690" y="505" class="stream-label" id="foLabel">Fuel Oil: 680°F / 10 psig</text>
+    <text x="1120" y="545" class="label" id="foVol">10 MBPD</text>
+
+    <!-- Bottom Pump -->
+    <circle cx="510" cy="650" r="34" class="equipment"/>
+    <text x="482" y="655" class="small-label">Bottom Pump</text>
+
+    <!-- Column Bottom to Pump -->
+    <path d="M510 600 V616" class="pipe"/>
+    <path d="M510 600 V616" class="bottom-flow"/>
+
+    <!-- Residue Product -->
+    <path d="M544 650 H1180" class="pipe"/>
+    <path d="M544 650 H1180" class="bottom-flow"/>
+    <text x="690" y="630" class="stream-label" id="resLabel">Residue: 720°F / 8 psig</text>
+    <text x="1120" y="670" class="label" id="resVol">30 MBPD</text>
+
+    <!-- Reboiler -->
+    <rect x="250" y="565" width="140" height="75" rx="12" class="equipment"/>
+    <text x="290" y="595" class="label">Reboiler</text>
+
+    <path d="M430 560 H390" class="pipe"/>
+    <path d="M430 560 H390" class="hot-flow"/>
+    <path d="M250 600 H200 V500 H430" class="pipe"/>
+    <path d="M250 600 H200 V500 H430" class="hot-flow"/>
+    <text x="220" y="545" class="stream-label">Reboil Return</text>
+
+</svg>
+</div>
+
+<div class="panel">
+<h2>Input Table</h2>
+
+<table>
+<thead>
+<tr>
+    <th>Parameter</th>
+    <th>Value</th>
+    <th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>Crude Feed Rate</td>
+    <td><input id="feedRate" type="number" value="125"></td>
+    <td>MBPD</td>
+</tr>
+<tr>
+    <td>Feed Temperature</td>
+    <td><input id="feedTemp" type="number" value="650"></td>
+    <td>°F</td>
+</tr>
+<tr>
+    <td>Feed Pressure</td>
+    <td><input id="feedPress" type="number" value="25"></td>
+    <td>psig</td>
+</tr>
+<tr>
+    <td>LPG Yield</td>
+    <td><input id="lpgYield" type="number" value="4"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Light Naphtha Yield</td>
+    <td><input id="lnYield" type="number" value="12"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Heavy Naphtha Yield</td>
+    <td><input id="hnYield" type="number" value="14"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Distillate Yield</td>
+    <td><input id="distYield" type="number" value="20"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Gas Oil Yield</td>
+    <td><input id="goYield" type="number" value="18"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Fuel Oil Yield</td>
+    <td><input id="foYield" type="number" value="8"></td>
+    <td>vol%</td>
+</tr>
+<tr>
+    <td>Residue Yield</td>
+    <td><input id="resYield" type="number" value="24"></td>
+    <td>vol%</td>
+</tr>
+</tbody>
+</table>
+
+<button onclick="updateCDU()">Update Flowsheet</button>
+
+<div class="summary" id="summaryCards"></div>
+
+</div>
+
+</div>
+
+<script>
+function value(id){
+    return Number(document.getElementById(id).value) || 0;
+}
+
+function productVolume(feed, yieldPercent){
+    return feed * yieldPercent / 100;
+}
+
+function updateCDU(){
+    const feed = value("feedRate");
+    const feedTemp = value("feedTemp");
+    const feedPress = value("feedPress");
+
+    const products = [
+        {
+            id:"lpg",
+            name:"LPG",
+            yield:value("lpgYield"),
+            temp:110,
+            press:45
+        },
+        {
+            id:"ln",
+            name:"Light Naphtha",
+            yield:value("lnYield"),
+            temp:180,
+            press:20
+        },
+        {
+            id:"hn",
+            name:"Heavy Naphtha",
+            yield:value("hnYield"),
+            temp:280,
+            press:18
+        },
+        {
+            id:"dist",
+            name:"Distillate",
+            yield:value("distYield"),
+            temp:420,
+            press:15
+        },
+        {
+            id:"go",
+            name:"Gas Oil",
+            yield:value("goYield"),
+            temp:560,
+            press:12
+        },
+        {
+            id:"fo",
+            name:"Fuel Oil",
+            yield:value("foYield"),
+            temp:680,
+            press:10
+        },
+        {
+            id:"res",
+            name:"Residue",
+            yield:value("resYield"),
+            temp:720,
+            press:8
+        }
+    ];
+
+    document.getElementById("feedLabel").textContent =
+        `Crude: ${feedTemp}°F / ${feedPress} psig`;
+
+    let summaryHTML = "";
+    let totalYield = 0;
+    let totalVolume = 0;
+
+    products.forEach(p=>{
+        const vol = productVolume(feed, p.yield);
+        totalYield += p.yield;
+        totalVolume += vol;
+
+        document.getElementById(`${p.id}Label`).textContent =
+            `${p.name}: ${p.temp}°F / ${p.press} psig`;
+
+        document.getElementById(`${p.id}Vol`).textContent =
+            `${vol.toFixed(1)} MBPD`;
+
+        summaryHTML += `
+            <div class="card">
+                <strong>${p.name}</strong><br>
+                Yield: ${p.yield.toFixed(1)} vol%<br>
+                Volume: ${vol.toFixed(1)} MBPD<br>
+                T/P: ${p.temp}°F / ${p.press} psig
+            </div>
+        `;
+    });
+
+    summaryHTML += `
+        <div class="card">
+            <strong>Total Products</strong><br>
+            Yield: ${totalYield.toFixed(1)} vol%<br>
+            Volume: ${totalVolume.toFixed(1)} MBPD<br>
+            Balance Error: ${(totalYield - 100).toFixed(1)} vol%
+        </div>
+    `;
+
+    document.getElementById("summaryCards").innerHTML = summaryHTML;
+}
+
+updateCDU();
+</script>
+
+</body>
+</html>
