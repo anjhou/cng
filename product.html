@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products | Houston Chemical and Energy</title>
+
+    <link rel="stylesheet" href="static/css/global-styles.css">
+
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+
+        .product-page {
+            padding: 40px 20px 70px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .product-slider {
+            position: relative;
+            max-width: 1180px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 25px 60px;
+        }
+
+        .product-slider-track {
+            display: flex;
+            transition: transform 0.55s ease-in-out;
+        }
+
+        .product-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 55px 45px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .product-slide h2 {
+            font-size: 2.1rem;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .product-slide p {
+            max-width: 760px;
+            margin: 0 auto 25px;
+            color: #555;
+            font-size: 1.08rem;
+            line-height: 1.7;
+        }
+
+        .slide-1 { border-top: 8px solid #1565c0; }
+        .slide-2 { border-top: 8px solid #00897b; }
+        .slide-3 { border-top: 8px solid #ef6c00; }
+        .slide-4 { border-top: 8px solid #8e24aa; }
+        .slide-5 { border-top: 8px solid #546e7a; }
+        .slide-6 { border-top: 8px solid #2e7d32; }
+        .slide-7 { border-top: 8px solid #c2185b; }
+
+        .product-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0f172a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .product-btn:hover {
+            background: #1e40af;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 46px;
+            height: 46px;
+            border: none;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 16px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
+
+        .slider-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .slider-prev {
+            left: 8px;
+        }
+
+        .slider-next {
+            right: 8px;
+        }
+
+        .slider-dots {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .slider-dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: none;
+            margin: 0 5px;
+            background: #cbd5e1;
+            cursor: pointer;
+        }
+
+        .slider-dot.active {
+            background: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .product-slider {
+                padding: 20px 45px;
+            }
+
+            .product-slide {
+                padding: 40px 25px;
+            }
+
+            .product-slide h2 {
+                font-size: 1.7rem;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .product-slider {
+                padding: 15px 35px;
+            }
+
+            .slider-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+    fetch("header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("header").innerHTML = data;
+        });
+</script>
+
+<main class="product-page">
+
+    <div class="page-title">
+        <h1>Our Product Solutions</h1>
+        <p>AI-powered tools and engineering solutions for chemical, energy, and infrastructure projects.</p>
+    </div>
+
+    <section class="product-slider" aria-label="Product slider">
+
+        <button class="slider-btn slider-prev" aria-label="Previous slide">&#10094;</button>
+
+        <div class="product-slider-track">
+
+            <div class="product-slide slide-1">
+                <h2>Process Engineering Tools</h2>
+                <p>Digital calculators and workflows for process design, hydraulic screening, equipment sizing, and operating analysis.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-2">
+                <h2>Market Intelligence Dashboards</h2>
+                <p>Interactive dashboards for energy prices, demand, supply, inventories, refinery margins, and product trends.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-3">
+                <h2>Project Economics</h2>
+                <p>Economic models for investment screening, revenue forecasting, cash-flow analysis, and cost-benefit evaluation.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-4">
+                <h2>Process Safety Applications</h2>
+                <p>Structured support tools for HAZOP, LOPA, relief analysis, risk ranking, safeguards, and safety documentation.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-5">
+                <h2>AI Consulting Products</h2>
+                <p>Custom AI assistants, engineering knowledge bases, workflow automation, and document intelligence systems.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-6">
+                <h2>Sustainability Solutions</h2>
+                <p>Tools for hydrogen, CCUS, emissions reduction, energy efficiency, and decarbonization strategy development.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+            <div class="product-slide slide-7">
+                <h2>Training & Knowledge Systems</h2>
+                <p>Structured engineering training modules, operating guides, technical references, and AI-based learning support.</p>
+                <a href="contact.html" class="product-btn">Learn More</a>
+            </div>
+
+        </div>
+
+        <button class="slider-btn slider-next" aria-label="Next slide">&#10095;</button>
+
+        <div class="slider-dots" aria-label="Slider navigation">
+            <button class="slider-dot active" aria-label="Slide 1"></button>
+            <button class="slider-dot" aria-label="Slide 2"></button>
+            <button class="slider-dot" aria-label="Slide 3"></button>
+            <button class="slider-dot" aria-label="Slide 4"></button>
+            <button class="slider-dot" aria-label="Slide 5"></button>
+            <button class="slider-dot" aria-label="Slide 6"></button>
+            <button class="slider-dot" aria-label="Slide 7"></button>
+        </div>
+
+    </section>
+
+</main>
+
+<div id="footer"></div>
+<script>
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer").innerHTML = data;
+        });
+</script>
+
+<script>
+    const sliderTrack = document.querySelector(".product-slider-track");
+    const slides = document.querySelectorAll(".product-slide");
+    const dots = document.querySelectorAll(".slider-dot");
+    const prevBtn = document.querySelector(".slider-prev");
+    const nextBtn = document.querySelector(".slider-next");
+
+    let currentSlide = 0;
+    let autoSlideTimer;
+
+    function updateSlider() {
+        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[currentSlide].classList.add("active");
+    }
+
+    function goToNextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateSlider();
+    }
+
+    function goToPrevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateSlider();
+    }
+
+    function startAutoSlide() {
+        autoSlideTimer = setInterval(goToNextSlide, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideTimer);
+        startAutoSlide();
+    }
+
+    nextBtn.addEventListener("click", () => {
+        goToNextSlide();
+        resetAutoSlide();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        goToPrevSlide();
+        resetAutoSlide();
+    });
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            currentSlide = index;
+            updateSlider();
+            resetAutoSlide();
+        });
+    });
+
+    startAutoSlide();
+</script>
+
+</body>
+</html>
