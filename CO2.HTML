@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CO₂ Capture Rate Calculator</title>
@@ -29,7 +23,10 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 </head>
 
 <body>
-<header-component></header-component>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 
 <main class="content-container">
     <h1>CO₂ Capture Rate Calculator</h1>
@@ -154,6 +151,5 @@ ṅ_avoided = ṅ_captured − ṅ_penalty
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
-
 </body>
 </html>
