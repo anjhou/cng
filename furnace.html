@@ -118,6 +118,10 @@ th{background:#e2e8f0}
 </head>
 
 <body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
 <header>
   <h2>Fired Heater / Furnace SVG Flowsheet & Calculator</h2>
 </header>
@@ -405,6 +409,10 @@ document.addEventListener("DOMContentLoaded", () => {
     input.addEventListener("input", calculateFurnace);
   });
 });
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 </body>
 </html>

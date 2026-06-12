@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Steam System Optimization</title>
+<style>
+:root{--blue:#0f3b57;--line:#2563eb;--steam:#64748b;--cond:#0284c7;--loss:#dc2626;--save:#16a34a;--panel:#fff;--bg:#f4f7fb;--text:#1f2937}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}header{background:var(--blue);color:white;padding:14px 22px}header h2{margin:0;font-size:22px}main{display:grid;grid-template-columns:1.45fr .9fr;gap:16px;padding:16px}.panel{background:var(--panel);border-radius:12px;box-shadow:0 4px 14px #0002;padding:14px}h3{margin:6px 0 12px}.svg-wrap{position:relative}svg{width:100%;height:660px;border:1px solid #cbd5e1;border-radius:10px;background:#fbfdff}.unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2;cursor:pointer}.boiler{fill:#fee2e2;stroke:#b91c1c;stroke-width:2;cursor:pointer}.prv{fill:#fef3c7;stroke:#b45309;stroke-width:2;cursor:pointer}.trap{fill:#dcfce7;stroke:#15803d;stroke-width:2;cursor:pointer}.tank{fill:#e5e7eb;stroke:#374151;stroke-width:2;cursor:pointer}.stream{fill:none;stroke-width:4;marker-end:url(#arrow);cursor:pointer}.steam{stroke:var(--steam)}.cond{stroke:var(--cond)}.loss{stroke:var(--loss);stroke-dasharray:8 6}.save{stroke:var(--save);stroke-dasharray:10 5}.label{font-size:13px;font-weight:700;fill:#111827;pointer-events:none}.note{font-size:11px;fill:#111827;pointer-events:none}.callout{fill:#fff7ed;stroke:#fb923c;stroke-width:1.4}.flow-dot{r:5;opacity:.95;pointer-events:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:13px;font-weight:700}input{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:7px;margin-top:4px}button{width:100%;padding:10px;border:0;border-radius:8px;background:#0f766e;color:white;font-weight:700;cursor:pointer;margin-top:12px}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}th,td{border:1px solid #d1d5db;padding:7px;text-align:left}th{background:#e2e8f0}.result{font-weight:700;color:#075985}.small{font-size:12px;color:#475569;margin-top:8px;line-height:1.35}#svgTooltip{position:fixed;z-index:9999;display:none;max-width:310px;background:#111827;color:white;padding:9px 11px;border-radius:8px;font-size:12px;line-height:1.35;pointer-events:none;box-shadow:0 8px 20px #0005}@media(max-width:1000px){main{grid-template-columns:1fr}svg{height:560px}}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+<header><h2>Steam System Optimization — SVG Flowsheet & Calculator</h2></header>
+<div id="svgTooltip"></div>
+<main>
+<section class="panel">
+<div class="svg-wrap">
+<svg viewBox="0 0 1120 680" id="steamSvg">
+<defs>
+  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path></marker>
+</defs>
+
+<!-- Units -->
+<rect x="55" y="255" width="165" height="120" rx="16" class="boiler tip" data-tip="B-101 Boiler / Steam Header<br>HP steam generation and distribution<br>Typical pressure: 150 psig<br>Steam quality assumed saturated/dry."></rect>
+<text x="102" y="298" class="label">B-101</text><text x="80" y="322" class="label">Steam Boiler</text><text x="78" y="346" class="note">HP Steam Header</text>
+
+<rect x="335" y="250" width="150" height="90" rx="12" class="unit tip" data-tip="E-201 Process Steam User<br>Steam consumer such as exchanger, reboiler, or tracing manifold<br>Condensate leaves through steam traps."></rect>
+<text x="373" y="286" class="label">E-201</text><text x="352" y="310" class="label">Steam User</text>
+
+<rect x="570" y="140" width="150" height="80" rx="12" class="prv tip" data-tip="PRV-301 Letdown Station<br>Reduces HP steam to LP steam<br>Energy-saving opportunity: replace throttling with backpressure turbine or recover flash steam."></rect>
+<text x="612" y="172" class="label">PRV-301</text><text x="593" y="196" class="label">Letdown Station</text>
+
+<rect x="840" y="140" width="160" height="80" rx="12" class="unit tip" data-tip="LP Steam Header<br>Receives letdown steam<br>Supplies low-pressure users."></rect>
+<text x="882" y="174" class="label">LP Header</text><text x="868" y="198" class="note">Low-pressure users</text>
+
+<rect x="355" y="420" width="105" height="70" rx="10" class="trap tip" data-tip="ST-201 Steam Trap Bank<br>Trap survey item<br>Failed-open traps cause live steam loss to condensate return."></rect>
+<text x="385" y="452" class="label">ST-201</text><text x="376" y="474" class="label">Trap Bank</text>
+
+<rect x="590" y="405" width="160" height="95" rx="18" class="tank tip" data-tip="TK-401 Condensate Receiver<br>Collects returned condensate<br>Condensate recovery reduces makeup water, chemical treatment, and boiler fuel."></rect>
+<text x="630" y="444" class="label">TK-401</text><text x="612" y="468" class="label">Condensate Tank</text>
+
+<rect x="850" y="405" width="170" height="95" rx="14" class="unit tip" data-tip="DA-501 Deaerator / BFW System<br>Receives condensate and makeup water<br>Higher condensate return increases feedwater temperature and reduces duty."></rect>
+<text x="895" y="443" class="label">DA-501</text><text x="876" y="468" class="label">Deaerator / BFW</text>
+
+<!-- Streams -->
+<path id="sHpSteam" d="M220 305 H335" class="stream steam tip" data-tip="HP Steam Supply<br>Pressure: 150 psig<br>Temperature: saturated steam<br>Flow: calculated from input."></path>
+<path id="sLetdown" d="M220 285 C385 120 500 180 570 180" class="stream steam tip" data-tip="HP Steam to Letdown<br>Throttled across PRV-301<br>Potential power recovery depends on letdown flow and pressure drop."></path>
+<path id="sLpSteam" d="M720 180 H840" class="stream steam tip" data-tip="LP Steam from Letdown Station<br>Lower-pressure steam to LP header<br>Useful duty retained but throttling destroys available work."></path>
+<path id="sCond" d="M410 340 V420" class="stream cond tip" data-tip="Condensate from Steam User<br>Condensate should discharge through functional traps only."></path>
+<path id="sReturn" d="M460 455 H590" class="stream cond tip" data-tip="Condensate Return<br>Returned condensate reduces boiler makeup and fuel requirement."></path>
+<path id="sBfw" d="M750 455 H850" class="stream cond tip" data-tip="Condensate to Deaerator<br>Higher return temperature improves boiler system efficiency."></path>
+<path id="sMakeup" d="M1020 455 H1085" class="stream cond tip" data-tip="Makeup Water Requirement<br>Reduced when condensate recovery increases."></path>
+<path id="sTrapLoss" d="M405 490 C405 545 485 565 560 560" class="stream loss tip" data-tip="Steam-Trap Loss<br>Live steam lost through failed-open traps or bypassed traps."></path>
+<path id="sEnergySave" d="M645 220 C680 315 750 365 850 410" class="stream save tip" data-tip="Letdown Energy Savings<br>Potential savings from backpressure turbine, flash recovery, or optimized pressure letdown."></path>
+
+<!-- Animated dots -->
+<circle class="flow-dot" fill="#64748b"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#sHpSteam"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#64748b"><animateMotion dur="2.7s" repeatCount="indefinite"><mpath href="#sLetdown"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#64748b"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#sLpSteam"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#0284c7"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#sCond"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#0284c7"><animateMotion dur="1.7s" repeatCount="indefinite"><mpath href="#sReturn"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#0284c7"><animateMotion dur="1.7s" repeatCount="indefinite"><mpath href="#sBfw"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#dc2626"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#sTrapLoss"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#16a34a"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#sEnergySave"></mpath></animateMotion></circle>
+
+<!-- Callouts -->
+<rect x="35" y="45" width="285" height="105" class="callout" rx="8"></rect>
+<text x="50" y="70" class="label">Steam Generation / Header</text>
+<text x="50" y="94" class="note" id="steamCallout1">HP steam: 150 psig, saturated</text>
+<text x="50" y="114" class="note" id="steamCallout2">Header flow: calculated</text>
+<text x="50" y="134" class="note">Composition: H₂O vapor</text>
+
+<rect x="330" y="45" width="300" height="105" class="callout" rx="8"></rect>
+<text x="345" y="70" class="label">Trap Loss Summary</text>
+<text x="345" y="94" class="note" id="trapCallout1">Trap population: 120</text>
+<text x="345" y="114" class="note" id="trapCallout2">Failed-open traps: calculated</text>
+<text x="345" y="134" class="note" id="trapCallout3">Live steam loss: calculated</text>
+
+<rect x="710" y="45" width="345" height="105" class="callout" rx="8"></rect>
+<text x="725" y="70" class="label">Letdown Station</text>
+<text x="725" y="94" class="note" id="letdownCallout1">HP to LP: 150 → 50 psig</text>
+<text x="725" y="114" class="note" id="letdownCallout2">Letdown flow: 20,000 lb/hr</text>
+<text x="725" y="134" class="note" id="letdownCallout3">Savings potential: calculated</text>
+
+<rect x="565" y="535" width="370" height="95" class="callout" rx="8"></rect>
+<text x="580" y="560" class="label">Condensate Recovery</text>
+<text x="580" y="584" class="note" id="condCallout1">Current recovery: 65%</text>
+<text x="580" y="604" class="note" id="condCallout2">Target recovery: 85%</text>
+<text x="580" y="624" class="note" id="condCallout3">Fuel / water savings: calculated</text>
+</svg>
+</div>
+</section>
+
+<section class="panel">
+<h3>Steam System Optimization Calculator</h3>
+<div class="grid">
+  <div><label>Steam Header Flow, lb/hr</label><input id="steamFlow" value="60000"></div>
+  <div><label>Steam Pressure, psig</label><input id="steamP" value="150"></div>
+  <div><label>Steam Cost, $/1000 lb</label><input id="steamCost" value="8.50"></div>
+  <div><label>Operating Hours/yr</label><input id="hours" value="8400"></div>
+  <div><label>Total Steam Traps</label><input id="trapCount" value="120"></div>
+  <div><label>Failed-Open Traps, %</label><input id="failedPct" value="8"></div>
+  <div><label>Avg Loss / Failed Trap, lb/hr</label><input id="lossPerTrap" value="75"></div>
+  <div><label>Condensate Recovery, %</label><input id="condRec" value="65"></div>
+  <div><label>Target Condensate Recovery, %</label><input id="targetCondRec" value="85"></div>
+  <div><label>Condensate Value, $/1000 lb</label><input id="condValue" value="1.50"></div>
+  <div><label>Letdown Flow, lb/hr</label><input id="letdownFlow" value="20000"></div>
+  <div><label>HP Steam Pressure, psig</label><input id="hpP" value="150"></div>
+  <div><label>LP Steam Pressure, psig</label><input id="lpP" value="50"></div>
+  <div><label>Recovery Efficiency, %</label><input id="recoveryEff" value="65"></div>
+  <div><label>Power Value, $/kWh</label><input id="powerValue" value="0.08"></div>
+  <div><label>Boiler Efficiency, %</label><input id="boilerEff" value="82"></div>
+</div>
+<button onclick="calculateSteam()">Run Steam Optimization</button>
+<table>
+<thead><tr><th>Parameter</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Failed-Open Trap Count</td><td class="result" id="failedTrapCount">-</td></tr>
+<tr><td>Live Steam Trap Loss</td><td class="result" id="trapLoss">-</td></tr>
+<tr><td>Annual Trap-Loss Cost</td><td class="result" id="trapCost">-</td></tr>
+<tr><td>Current Condensate Return</td><td class="result" id="condReturn">-</td></tr>
+<tr><td>Incremental Condensate Recovery</td><td class="result" id="condGain">-</td></tr>
+<tr><td>Annual Condensate Savings</td><td class="result" id="condSavings">-</td></tr>
+<tr><td>Letdown Energy-Recovery Potential</td><td class="result" id="letdownKw">-</td></tr>
+<tr><td>Annual Letdown Savings</td><td class="result" id="letdownSavings">-</td></tr>
+<tr><td>Total Annual Savings Potential</td><td class="result" id="totalSavings">-</td></tr>
+<tr><td>Estimated Boiler Fuel Reduction</td><td class="result" id="fuelReduction">-</td></tr>
+</tbody>
+</table>
+<p class="small">Screening method: trap loss is estimated from failed-open trap count and average steam leakage. Condensate savings include returned-water value. Letdown recovery is estimated from pressure drop using a simplified work-recovery factor suitable for preliminary optimization screening.</p>
+</section>
+</main>
+
+<script>
+function val(id){return parseFloat(document.getElementById(id).value)||0;}
+function money(x){return '$'+Math.round(x).toLocaleString();}
+function num(x,d=0){return Number(x).toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d});}
+
+function calculateSteam(){
+  const steamFlow=val('steamFlow'), steamP=val('steamP'), steamCost=val('steamCost'), hours=val('hours');
+  const trapCount=val('trapCount'), failedPct=val('failedPct'), lossPerTrap=val('lossPerTrap');
+  const condRec=val('condRec'), targetCondRec=val('targetCondRec'), condValue=val('condValue');
+  const letdownFlow=val('letdownFlow'), hpP=val('hpP'), lpP=val('lpP'), recoveryEff=val('recoveryEff'), powerValue=val('powerValue'), boilerEff=val('boilerEff');
+
+  const failedTraps=trapCount*failedPct/100;
+  const liveSteamLoss=failedTraps*lossPerTrap;
+  const annualTrapLoss=liveSteamLoss*hours;
+  const trapCost=annualTrapLoss/1000*steamCost;
+
+  const currentCondReturn=steamFlow*condRec/100;
+  const targetCondReturn=steamFlow*targetCondRec/100;
+  const incrementalCond=Math.max(0,targetCondReturn-currentCondReturn);
+  const annualCondSavings=incrementalCond*hours/1000*condValue;
+
+  const pressureDrop=Math.max(0,hpP-lpP);
+  const specificWorkBtuLb=pressureDrop*0.75*(recoveryEff/100);
+  const letdownBtuHr=letdownFlow*specificWorkBtuLb;
+  const letdownKw=letdownBtuHr/3412;
+  const annualLetdownSavings=letdownKw*hours*powerValue;
+
+  const totalSavings=trapCost+annualCondSavings+annualLetdownSavings;
+  const recoverableFuelMMBtuYr=(annualTrapLoss*950/1e6)/(Math.max(boilerEff,1)/100);
+
+  document.getElementById('failedTrapCount').textContent=num(failedTraps,1)+' traps';
+  document.getElementById('trapLoss').textContent=num(liveSteamLoss,0)+' lb/hr';
+  document.getElementById('trapCost').textContent=money(trapCost)+'/yr';
+  document.getElementById('condReturn').textContent=num(currentCondReturn,0)+' lb/hr';
+  document.getElementById('condGain').textContent=num(incrementalCond,0)+' lb/hr';
+  document.getElementById('condSavings').textContent=money(annualCondSavings)+'/yr';
+  document.getElementById('letdownKw').textContent=num(letdownKw,1)+' kW';
+  document.getElementById('letdownSavings').textContent=money(annualLetdownSavings)+'/yr';
+  document.getElementById('totalSavings').textContent=money(totalSavings)+'/yr';
+  document.getElementById('fuelReduction').textContent=num(recoverableFuelMMBtuYr,0)+' MMBtu/yr';
+
+  document.getElementById('steamCallout1').textContent='HP steam: '+steamP+' psig, saturated';
+  document.getElementById('steamCallout2').textContent='Header flow: '+num(steamFlow,0)+' lb/hr';
+  document.getElementById('trapCallout1').textContent='Trap population: '+num(trapCount,0);
+  document.getElementById('trapCallout2').textContent='Failed-open traps: '+num(failedTraps,1)+' ('+failedPct+'%)';
+  document.getElementById('trapCallout3').textContent='Live steam loss: '+num(liveSteamLoss,0)+' lb/hr';
+  document.getElementById('letdownCallout1').textContent='HP to LP: '+hpP+' → '+lpP+' psig';
+  document.getElementById('letdownCallout2').textContent='Letdown flow: '+num(letdownFlow,0)+' lb/hr';
+  document.getElementById('letdownCallout3').textContent='Savings potential: '+money(annualLetdownSavings)+'/yr';
+  document.getElementById('condCallout1').textContent='Current recovery: '+condRec+'% = '+num(currentCondReturn,0)+' lb/hr';
+  document.getElementById('condCallout2').textContent='Target recovery: '+targetCondRec+'% = '+num(targetCondReturn,0)+' lb/hr';
+  document.getElementById('condCallout3').textContent='Water/heat savings: '+money(annualCondSavings)+'/yr';
+
+  updateTooltips({steamFlow,steamP,failedTraps,liveSteamLoss,trapCost,currentCondReturn,incrementalCond,annualCondSavings,letdownFlow,hpP,lpP,letdownKw,annualLetdownSavings,totalSavings,recoverableFuelMMBtuYr});
+}
+
+function updateTooltips(r){
+  document.getElementById('sHpSteam').dataset.tip='HP Steam Supply<br>Pressure: '+r.steamP+' psig<br>Flow: '+num(r.steamFlow,0)+' lb/hr<br>Composition: H₂O vapor';
+  document.getElementById('sTrapLoss').dataset.tip='Steam-Trap Loss<br>Failed-open traps: '+num(r.failedTraps,1)+'<br>Live steam loss: '+num(r.liveSteamLoss,0)+' lb/hr<br>Annual cost: '+money(r.trapCost)+'/yr';
+  document.getElementById('sReturn').dataset.tip='Condensate Return<br>Current return: '+num(r.currentCondReturn,0)+' lb/hr<br>Incremental recovery potential: '+num(r.incrementalCond,0)+' lb/hr<br>Annual savings: '+money(r.annualCondSavings)+'/yr';
+  document.getElementById('sEnergySave').dataset.tip='Letdown Energy Savings<br>Letdown flow: '+num(r.letdownFlow,0)+' lb/hr<br>Pressure: '+r.hpP+' → '+r.lpP+' psig<br>Power potential: '+num(r.letdownKw,1)+' kW<br>Annual savings: '+money(r.annualLetdownSavings)+'/yr';
+  document.querySelector('.boiler').dataset.tip='B-101 Boiler / Steam Header<br>HP steam flow: '+num(r.steamFlow,0)+' lb/hr<br>Steam pressure: '+r.steamP+' psig<br>Estimated avoidable fuel from trap repair: '+num(r.recoverableFuelMMBtuYr,0)+' MMBtu/yr';
+}
+
+function initTooltips(){
+  const tooltip=document.getElementById('svgTooltip');
+  document.querySelectorAll('.tip').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{tooltip.innerHTML=el.dataset.tip||'';tooltip.style.display='block';});
+    el.addEventListener('mousemove',e=>{tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY+14)+'px';});
+    el.addEventListener('mouseleave',()=>{tooltip.style.display='none';});
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initTooltips();
+  calculateSteam();
+  document.querySelectorAll('input').forEach(i=>i.addEventListener('input',calculateSteam));
+});
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
