@@ -238,53 +238,49 @@ button:hover{
 <!-- arrow head -->
 
 <defs>
-    <!-- Arrowhead markers aligned to 5 px process stream centerlines -->
+    <!-- Arrowhead markers: stroke-width based so arrows align with 5 px stream centerlines -->
     <marker id="flowArrow"
-            viewBox="0 0 10 10"
-            markerWidth="7"
-            markerHeight="7"
-            refX="9"
-            refY="5"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
             orient="auto"
-            markerUnits="userSpaceOnUse"
-            overflow="visible">
-        <path d="M0,0 L10,5 L0,10 Z" fill="#0ea5e9"></path>
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#0ea5e9"></path>
     </marker>
 
     <marker id="productArrow"
-            viewBox="0 0 10 10"
-            markerWidth="7"
-            markerHeight="7"
-            refX="9"
-            refY="5"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
             orient="auto"
-            markerUnits="userSpaceOnUse"
-            overflow="visible">
-        <path d="M0,0 L10,5 L0,10 Z" fill="#16a34a"></path>
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#16a34a"></path>
     </marker>
 
     <marker id="hotArrow"
-            viewBox="0 0 10 10"
-            markerWidth="7"
-            markerHeight="7"
-            refX="9"
-            refY="5"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
             orient="auto"
-            markerUnits="userSpaceOnUse"
-            overflow="visible">
-        <path d="M0,0 L10,5 L0,10 Z" fill="#ef4444"></path>
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#ef4444"></path>
     </marker>
 
     <marker id="bottomArrow"
-            viewBox="0 0 10 10"
-            markerWidth="7"
-            markerHeight="7"
-            refX="9"
-            refY="5"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
             orient="auto"
-            markerUnits="userSpaceOnUse"
-            overflow="visible">
-        <path d="M0,0 L10,5 L0,10 Z" fill="#92400e"></path>
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#92400e"></path>
     </marker>
 </defs>
 
@@ -302,8 +298,8 @@ button:hover{
     <text x="95" y="445" class="small-label">Crude Heater</text>
 
     <!-- Crude Feed Line -->
-    <path d="M20 440 H70" class="pipe" />
-    <path d="M20 440 H70" class="hot-flow tooltip-target"
+    <path d="M20 440 H62" class="pipe" />
+    <path d="M20 440 H62" class="hot-flow tooltip-target"
           data-name="Crude Feed"
           data-type="Process Stream"
           data-condition="250°F / 60 psig"
@@ -312,8 +308,8 @@ button:hover{
     <text x="20" y="420" class="stream-label">Crude Feed</text>
 
     <!-- Furnace to Column -->
-    <path d="M200 440 H430" class="pipe"/>
-    <path d="M200 440 H430" class="hot-flow tooltip-target"
+    <path d="M200 440 H422" class="pipe"/>
+    <path d="M200 440 H422" class="hot-flow tooltip-target"
           data-name="Heated Crude"
           data-type="Process Stream"
           data-condition="650°F / 25 psig"
@@ -342,8 +338,8 @@ button:hover{
     <line x1="450" y1="530" x2="570" y2="530" class="tray"/>
 
     <!-- Overhead to condenser -->
-    <path d="M510 120 V60 H760" class="pipe"/>
-    <path d="M510 120 V60 H760" class="product-flow tooltip-target"
+    <path d="M510 120 V60 H752" class="pipe"/>
+    <path d="M510 120 V60 H752" class="product-flow tooltip-target"
           data-name="Column Overhead Vapor"
           data-type="Process Stream"
           data-condition="220°F / 22 psig"
@@ -381,8 +377,8 @@ button:hover{
             data-duty="Estimated hydraulic power: 75 hp"/>
     <text x="763" y="150" class="small-label">Reflux Pump</text>
 
-    <path d="M820 145 H880 V110 H590" class="pipe"/>
-    <path d="M820 145 H880 V110 H590" class="flow tooltip-target"
+    <path d="M820 145 H880 V110 H598" class="pipe"/>
+    <path d="M820 145 H880 V110 H598" class="flow tooltip-target"
           data-name="Reflux Stream"
           data-type="Internal Reflux"
           data-condition="110°F / 45 psig"
@@ -451,8 +447,8 @@ button:hover{
             data-duty="Estimated hydraulic power: 110 hp"/>
     <text x="482" y="655" class="small-label">Bottom Pump</text>
 
-    <path d="M510 600 V616" class="pipe"/>
-    <path d="M510 600 V616" class="bottom-flow tooltip-target"
+    <path d="M510 600 V610" class="pipe"/>
+    <path d="M510 600 V610" class="bottom-flow tooltip-target"
           data-name="Column Bottoms"
           data-type="Bottoms Stream"
           data-condition="720°F / 8 psig"
@@ -480,16 +476,16 @@ button:hover{
           data-duty="Estimated duty: 95 MMBtu/hr"/>
     <text x="290" y="595" class="label">Reboiler</text>
 
-    <path d="M430 560 H390" class="pipe"/>
-    <path d="M430 560 H390" class="hot-flow tooltip-target"
+    <path d="M430 560 H398" class="pipe"/>
+    <path d="M430 560 H398" class="hot-flow tooltip-target"
           data-name="Reboiler Draw"
           data-type="Process Stream"
           data-condition="700°F / 10 psig"
           data-flow="Bottom liquid to reboiler"
           data-duty="Reboiler circulation"/>
 
-    <path d="M250 600 H200 V500 H430" class="pipe"/>
-    <path d="M250 600 H200 V500 H430" class="hot-flow tooltip-target"
+    <path d="M250 600 H200 V500 H422" class="pipe"/>
+    <path d="M250 600 H200 V500 H422" class="hot-flow tooltip-target"
           data-name="Reboil Return"
           data-type="Process Stream"
           data-condition="730°F / 10 psig"
