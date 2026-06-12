@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CDU SVG Flowsheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+header{
+    background:#0f172a;
+    color:white;
+    padding:18px 30px;
+    text-align:center;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+
+.panel{
+    background:white;
+    border-radius:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.10);
+    padding:20px;
+    margin-bottom:25px;
+}
+
+svg{
+    width:100%;
+    height:auto;
+    background:#ffffff;
+    border-radius:12px;
+    border:1px solid #dbeafe;
+}
+
+/* Equipment */
+.equipment{
+    fill:#ffffff;
+    stroke:#2563eb;
+    stroke-width:2.5;
+}
+
+.duty-equipment{
+    fill:#ffffff;
+    stroke:#dc2626;
+    stroke-width:3;
+}
+
+.column-body{
+    fill:#ffffff;
+    stroke:#2563eb;
+    stroke-width:3;
+}
+
+.tray{
+    stroke:#64748b;
+    stroke-width:1.4;
+}
+
+.pipe{
+    fill:none;
+    stroke:#334155;
+    stroke-width:5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+.flow{
+    fill:none;
+    stroke:#0ea5e9;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:flowMove 1s linear infinite;
+    marker-end:url(#flowArrow);
+}
+
+.product-flow{
+    fill:none;
+    stroke:#16a34a;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:flowMove 1.2s linear infinite;
+    marker-end:url(#productArrow);
+}
+
+.hot-flow{
+    fill:none;
+    stroke:#ef4444;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:flowMove 1s linear infinite;
+    marker-end:url(#hotArrow);
+}
+
+.bottom-flow{
+    fill:none;
+    stroke:#92400e;
+    stroke-width:5;
+    stroke-dasharray:12 10;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:flowMove 1.4s linear infinite;
+    marker-end:url(#bottomArrow);
+}
+
+
+@keyframes flowMove{
+    to{stroke-dashoffset:-44;}
+}
+
+.label{
+    font-size:13px;
+    fill:#111827;
+    font-weight:bold;
+}
+
+.small-label{
+    font-size:11px;
+    fill:#374151;
+}
+
+.stream-label{
+    font-size:12px;
+    fill:#111827;
+}
+
+.tooltip-target{
+    cursor:pointer;
+}
+
+.tooltip-target:hover{
+    filter:drop-shadow(0 0 5px rgba(37,99,235,.6));
+}
+
+/* Tooltip */
+#tooltip{
+    position:fixed;
+    display:none;
+    max-width:280px;
+    background:#0f172a;
+    color:white;
+    padding:10px 12px;
+    border-radius:8px;
+    font-size:12px;
+    line-height:1.45;
+    z-index:9999;
+    box-shadow:0 8px 22px rgba(0,0,0,.25);
+    pointer-events:none;
+}
+
+#tooltip strong{
+    color:#93c5fd;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th,td{
+    border:1px solid #cbd5e1;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#1e293b;
+    color:white;
+}
+
+input{
+    width:95%;
+    padding:6px;
+    border:1px solid #94a3b8;
+    border-radius:5px;
+}
+
+button{
+    margin-top:12px;
+    padding:10px 18px;
+    border:none;
+    background:#0f172a;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-top:15px;
+}
+
+.card{
+    background:#f8fafc;
+    border-left:6px solid #2563eb;
+    padding:12px;
+    border-radius:8px;
+}
+
+
+/* SVG assay selector overlay */
+.svg-assay-control{
+    background:rgba(248,250,252,.96);
+    border:1px solid #93c5fd;
+    border-radius:10px;
+    box-shadow:0 6px 16px rgba(15,23,42,.16);
+    padding:10px;
+    font-family:Arial, sans-serif;
+}
+.svg-assay-control label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#0f172a;
+    margin-bottom:5px;
+}
+.svg-assay-control select{
+    width:100%;
+    padding:6px 8px;
+    border:1px solid #94a3b8;
+    border-radius:6px;
+    background:#ffffff;
+    color:#0f172a;
+}
+.price-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:12px;
+    margin-top:12px;
+}
+.price-card{
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    padding:10px;
+}
+.price-card label{
+    display:block;
+    font-weight:bold;
+    font-size:12px;
+    margin-bottom:5px;
+}
+.metric-card{
+    background:#ecfeff;
+    border-left:6px solid #0891b2;
+    padding:12px;
+    border-radius:8px;
+}
+.assay-note{
+    margin-top:12px;
+    padding:10px 12px;
+    background:#f8fafc;
+    border-left:5px solid #2563eb;
+    border-radius:8px;
+    line-height:1.5;
+}
+
+
+/* Heat integration / pinch screening */
+.heat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+.heat-controls{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin:12px 0;
+}
+.heat-card{
+    background:#fff7ed;
+    border-left:6px solid #f97316;
+    padding:12px;
+    border-radius:8px;
+}
+.curve-wrap{
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    padding:12px;
+}
+#pinchCurve{
+    width:100%;
+    height:380px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    background:#ffffff;
+}
+.svg-heat-table{
+    font-family:Arial, sans-serif;
+    background:rgba(255,247,237,.96);
+    border:1px solid #fb923c;
+    border-radius:10px;
+    padding:10px;
+    box-shadow:0 6px 16px rgba(15,23,42,.14);
+}
+.svg-heat-table h4{
+    margin:0 0 6px;
+    font-size:13px;
+    color:#7c2d12;
+}
+.svg-heat-table table{
+    margin:0;
+    font-size:10.5px;
+}
+.svg-heat-table th,.svg-heat-table td{
+    padding:3px 4px;
+}
+.svg-heat-table th{
+    background:#9a3412;
+}
+.hx-box{
+    fill:#fff7ed;
+    stroke:#f97316;
+    stroke-width:2.5;
+}
+.recovery-flow{
+    fill:none;
+    stroke:#f97316;
+    stroke-width:4;
+    stroke-dasharray:9 7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    animation:flowMove 1.1s linear infinite;
+    marker-end:url(#heatArrow);
+}
+@media(max-width:900px){.heat-grid{grid-template-columns:1fr;}}
+
+</style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+
+<div id="tooltip"></div>
+
+<div class="container">
+
+<div class="panel">
+<h2>CDU Flowsheet</h2>
+
+<svg viewBox="0 0 1300 720">
+
+<!-- arrow head -->
+
+<defs>
+    <!-- Arrowhead markers: stroke-width based so arrows align with 5 px stream centerlines -->
+    <marker id="flowArrow"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#0ea5e9"></path>
+    </marker>
+
+    <marker id="productArrow"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#16a34a"></path>
+    </marker>
+
+    <marker id="hotArrow"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#ef4444"></path>
+    </marker>
+
+    <marker id="bottomArrow"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#92400e"></path>
+    </marker>
+    <marker id="heatArrow"
+            viewBox="0 0 8 8"
+            markerWidth="3"
+            markerHeight="3"
+            refX="7.2"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#f97316"></path>
+    </marker>
+
+</defs>
+
+    <!-- Assay selector overlay -->
+    <foreignObject x="18" y="18" width="285" height="82">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="svg-assay-control">
+            <label for="assaySelect">Crude Assay Selection</label>
+            <select id="assaySelect" aria-label="Select crude assay"></select>
+        </div>
+    </foreignObject>
+
+
+<!--  -->
+
+    <!-- Feed Furnace -->
+    <rect x="70" y="390" width="130" height="95" rx="12"
+          class="duty-equipment tooltip-target"
+          data-name="Crude Furnace"
+          data-type="Fired Heater"
+          data-condition="650°F / 25 psig outlet"
+          data-flow="125 MBPD crude"
+          data-duty="Estimated duty: 285 MMBtu/hr"/>
+    <text x="105" y="425" class="label">Furnace</text>
+    <text x="95" y="445" class="small-label">Crude Heater</text>
+
+    <!-- Crude Feed Line -->
+    <path d="M20 440 H62" class="pipe" />
+    <path d="M20 440 H62" class="hot-flow tooltip-target"
+          data-name="Crude Feed"
+          data-type="Process Stream"
+          data-condition="250°F / 60 psig"
+          data-flow="125 MBPD"
+          data-duty="Preheated crude to furnace"/>
+    <text x="20" y="420" class="stream-label">Crude Feed</text>
+
+    <!-- Furnace to Column -->
+    <path d="M200 440 H422" class="pipe"/>
+    <path d="M200 440 H422" class="hot-flow tooltip-target"
+          data-name="Heated Crude"
+          data-type="Process Stream"
+          data-condition="650°F / 25 psig"
+          data-flow="125 MBPD"
+          data-duty="Furnace outlet to flash zone"/>
+    <text x="245" y="420" class="stream-label" id="feedLabel">Crude: 650°F / 25 psig</text>
+
+    <!-- Column -->
+    <rect x="430" y="120" width="160" height="480" rx="75"
+          class="column-body tooltip-target"
+          data-name="Crude Distillation Column"
+          data-type="Atmospheric Fractionator"
+          data-condition="Top: 110°F / 20 psig | Bottom: 720°F / 8 psig"
+          data-flow="125 MBPD crude feed"
+          data-duty="Separation by vapor-liquid fractionation"/>
+    <text x="456" y="105" class="label">Crude Distillation Column</text>
+
+    <!-- Trays -->
+    <line x1="450" y1="180" x2="570" y2="180" class="tray"/>
+    <line x1="450" y1="230" x2="570" y2="230" class="tray"/>
+    <line x1="450" y1="280" x2="570" y2="280" class="tray"/>
+    <line x1="450" y1="330" x2="570" y2="330" class="tray"/>
+    <line x1="450" y1="380" x2="570" y2="380" class="tray"/>
+    <line x1="450" y1="430" x2="570" y2="430" class="tray"/>
+    <line x1="450" y1="480" x2="570" y2="480" class="tray"/>
+    <line x1="450" y1="530" x2="570" y2="530" class="tray"/>
+
+    <!-- Overhead to condenser -->
+    <path d="M510 120 V60 H752" class="pipe"/>
+    <path d="M510 120 V60 H752" class="product-flow tooltip-target"
+          data-name="Column Overhead Vapor"
+          data-type="Process Stream"
+          data-condition="220°F / 22 psig"
+          data-flow="LPG + light ends"
+          data-duty="Condenser feed"/>
+
+    <!-- Condenser -->
+    <rect x="760" y="30" width="140" height="65" rx="12"
+          class="duty-equipment tooltip-target"
+          data-name="Overhead Condenser"
+          data-type="Heat Exchanger"
+          data-condition="Outlet: 110°F / 45 psig"
+          data-flow="LPG and overhead condensate"
+          data-duty="Estimated duty: -85 MMBtu/hr"/>
+    <text x="790" y="58" class="label">Condenser</text>
+
+    <!-- LPG Product -->
+    <path d="M900 62 H1180" class="pipe"/>
+    <path d="M900 62 H1180" class="product-flow tooltip-target"
+          data-name="LPG Product"
+          data-type="Product Stream"
+          data-condition="110°F / 45 psig"
+          data-flow="5.0 MBPD"
+          data-duty="Overhead light product"/>
+    <text x="965" y="42" class="stream-label" id="lpgLabel">LPG: 110°F / 45 psig</text>
+    <text x="1120" y="82" class="label" id="lpgVol">5 MBPD</text>
+
+    <!-- Reflux Pump -->
+    <circle cx="790" cy="145" r="32"
+            class="duty-equipment tooltip-target"
+            data-name="Reflux Pump"
+            data-type="Centrifugal Pump"
+            data-condition="110°F / 45 psig discharge"
+            data-flow="Reflux circulation"
+            data-duty="Estimated hydraulic power: 75 hp"/>
+    <text x="763" y="150" class="small-label">Reflux Pump</text>
+
+    <path d="M820 145 H880 V110 H598" class="pipe"/>
+    <path d="M820 145 H880 V110 H598" class="flow tooltip-target"
+          data-name="Reflux Stream"
+          data-type="Internal Reflux"
+          data-condition="110°F / 45 psig"
+          data-flow="Controlled reflux to column top"
+          data-duty="Maintains overhead temperature"/>
+    <text x="705" y="128" class="stream-label">Reflux</text>
+
+    <!-- Side Draws -->
+    <path d="M590 210 H1180" class="pipe"/>
+    <path d="M590 210 H1180" class="product-flow tooltip-target"
+          data-name="Light Naphtha"
+          data-type="Product Stream"
+          data-condition="180°F / 20 psig"
+          data-flow="15 MBPD"
+          data-duty="Side draw product"/>
+    <text x="690" y="190" class="stream-label" id="lnLabel">Light Naphtha: 180°F / 20 psig</text>
+    <text x="1120" y="230" class="label" id="lnVol">15 MBPD</text>
+
+    <path d="M590 285 H1180" class="pipe"/>
+    <path d="M590 285 H1180" class="product-flow tooltip-target"
+          data-name="Heavy Naphtha"
+          data-type="Product Stream"
+          data-condition="280°F / 18 psig"
+          data-flow="18 MBPD"
+          data-duty="Side draw product"/>
+    <text x="690" y="265" class="stream-label" id="hnLabel">Heavy Naphtha: 280°F / 18 psig</text>
+    <text x="1120" y="305" class="label" id="hnVol">18 MBPD</text>
+
+    <path d="M590 365 H1180" class="pipe"/>
+    <path d="M590 365 H1180" class="product-flow tooltip-target"
+          data-name="Distillate"
+          data-type="Product Stream"
+          data-condition="420°F / 15 psig"
+          data-flow="25 MBPD"
+          data-duty="Kerosene / diesel range product"/>
+    <text x="690" y="345" class="stream-label" id="distLabel">Distillate: 420°F / 15 psig</text>
+    <text x="1120" y="385" class="label" id="distVol">25 MBPD</text>
+
+    <path d="M590 445 H1180" class="pipe"/>
+    <path d="M590 445 H1180" class="product-flow tooltip-target"
+          data-name="Gas Oil"
+          data-type="Product Stream"
+          data-condition="560°F / 12 psig"
+          data-flow="22 MBPD"
+          data-duty="Atmospheric gas oil product"/>
+    <text x="690" y="425" class="stream-label" id="goLabel">Gas Oil: 560°F / 12 psig</text>
+    <text x="1120" y="465" class="label" id="goVol">22 MBPD</text>
+
+    <path d="M590 525 H1180" class="pipe"/>
+    <path d="M590 525 H1180" class="bottom-flow tooltip-target"
+          data-name="Fuel Oil"
+          data-type="Product Stream"
+          data-condition="680°F / 10 psig"
+          data-flow="10 MBPD"
+          data-duty="Heavy side draw product"/>
+    <text x="690" y="505" class="stream-label" id="foLabel">Fuel Oil: 680°F / 10 psig</text>
+    <text x="1120" y="545" class="label" id="foVol">10 MBPD</text>
+
+    <!-- Bottom Pump -->
+    <circle cx="510" cy="650" r="34"
+            class="duty-equipment tooltip-target"
+            data-name="Bottom Pump"
+            data-type="Residue Pump"
+            data-condition="720°F / 8 psig suction"
+            data-flow="Residue product"
+            data-duty="Estimated hydraulic power: 110 hp"/>
+    <text x="482" y="655" class="small-label">Bottom Pump</text>
+
+    <path d="M510 600 V610" class="pipe"/>
+    <path d="M510 600 V610" class="bottom-flow tooltip-target"
+          data-name="Column Bottoms"
+          data-type="Bottoms Stream"
+          data-condition="720°F / 8 psig"
+          data-flow="Residue to bottom pump"
+          data-duty="Hot atmospheric residue"/>
+
+    <!-- Residue Product -->
+    <path d="M544 650 H1180" class="pipe"/>
+    <path d="M544 650 H1180" class="bottom-flow tooltip-target"
+          data-name="Residue"
+          data-type="Product Stream"
+          data-condition="720°F / 8 psig"
+          data-flow="30 MBPD"
+          data-duty="Atmospheric residue product"/>
+    <text x="690" y="630" class="stream-label" id="resLabel">Residue: 720°F / 8 psig</text>
+    <text x="1120" y="670" class="label" id="resVol">30 MBPD</text>
+
+    <!-- Reboiler -->
+    <rect x="250" y="565" width="140" height="75" rx="12"
+          class="duty-equipment tooltip-target"
+          data-name="Reboiler"
+          data-type="Bottom Reboiler"
+          data-condition="720°F / 10 psig"
+          data-flow="Bottom liquid circulation"
+          data-duty="Estimated duty: 95 MMBtu/hr"/>
+    <text x="290" y="595" class="label">Reboiler</text>
+
+    <path d="M430 560 H398" class="pipe"/>
+    <path d="M430 560 H398" class="hot-flow tooltip-target"
+          data-name="Reboiler Draw"
+          data-type="Process Stream"
+          data-condition="700°F / 10 psig"
+          data-flow="Bottom liquid to reboiler"
+          data-duty="Reboiler circulation"/>
+
+    <path d="M250 600 H200 V500 H422" class="pipe"/>
+    <path d="M250 600 H200 V500 H422" class="hot-flow tooltip-target"
+          data-name="Reboil Return"
+          data-type="Process Stream"
+          data-condition="730°F / 10 psig"
+          data-flow="Vapor-liquid return to column"
+          data-duty="Heat returned to bottom section"/>
+    <text x="220" y="545" class="stream-label">Reboil Return</text>
+
+    <!-- Heat Integration Screening Overlay -->
+    <rect x="260" y="300" width="120" height="70" rx="12"
+          class="hx-box tooltip-target"
+          data-name="Preheat Train / Pinch Target"
+          data-type="Heat Recovery Network"
+          data-condition="ΔTmin: 20°F screening basis"
+          data-flow="Hot products and pumparounds heat crude feed"
+          data-duty="Run heat integration screening for savings target"/>
+    <text x="282" y="328" class="label">Preheat</text>
+    <text x="282" y="348" class="small-label">Train / HEN</text>
+    <path d="M1180 445 C965 500, 720 585, 382 350" class="recovery-flow tooltip-target"
+          data-name="Hot Product Heat Recovery"
+          data-type="Recovered Heat Path"
+          data-condition="Gas oil / residue cooling services"
+          data-flow="Available sensible heat to crude preheat"
+          data-duty="Potential furnace-duty offset"/>
+    <path d="M1180 525 C930 575, 680 612, 370 365" class="recovery-flow tooltip-target"
+          data-name="Pumparound and Bottoms Heat Recovery"
+          data-type="Recovered Heat Path"
+          data-condition="Fuel oil / residue / pumparound services"
+          data-flow="Hot stream cooling matched against crude feed"
+          data-duty="Potential cooling-water and furnace-duty reduction"/>
+    <foreignObject x="945" y="105" width="330" height="140">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="svg-heat-table">
+            <h4>Pinch / Heat Recovery Screening</h4>
+            <table>
+                <tbody>
+                    <tr><th>ΔTmin</th><td id="svgDtmin">20 °F</td></tr>
+                    <tr><th>Min Hot Utility</th><td id="svgHotUtil">- MW</td></tr>
+                    <tr><th>Min Cold Utility</th><td id="svgColdUtil">- MW</td></tr>
+                    <tr><th>Pinch Temp</th><td id="svgPinchTemp">- °F</td></tr>
+                    <tr><th>Furnace Savings</th><td id="svgSavings">- MMBtu/hr</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </foreignObject>
+
+</svg>
+</div>
+
+<div class="panel">
+<h2>CDU Heat Integration and Pinch Screening</h2>
+<p>Screen process heat recovery by defining hot and cold streams, applying ΔTmin, and estimating minimum hot/cold utilities, pinch location, and furnace-duty reduction potential.</p>
+<div class="heat-controls">
+    <div class="price-card"><label>ΔTmin (°F)</label><input id="dtMin" type="number" value="20" step="1"></div>
+    <div class="price-card"><label>Current Furnace Duty (MMBtu/hr)</label><input id="currentFurnaceDuty" type="number" value="285" step="1"></div>
+    <div class="price-card"><label>Current Cooling Load (MMBtu/hr)</label><input id="currentCoolingDuty" type="number" value="180" step="1"></div>
+    <div class="price-card"><label>Fuel Cost ($/MMBtu)</label><input id="fuelCost" type="number" value="4.50" step="0.01"></div>
+    <div class="price-card"><label>Operating Hours (hr/yr)</label><input id="operatingHours" type="number" value="8400" step="100"></div>
+</div>
+<div class="heat-grid">
+    <div>
+        <h3>Process Streams for Pinch Screening</h3>
+        <table id="pinchStreamTable">
+            <thead>
+                <tr><th>Stream</th><th>Type</th><th>Supply °F</th><th>Target °F</th><th>m·Cp MW/°F</th><th>Include</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="runPinchAssessment()">Run Pinch Screening</button>
+        <div class="summary" id="pinchCards"></div>
+    </div>
+    <div class="curve-wrap">
+        <h3>Composite Curve / Grand Composite Screening</h3>
+        <canvas id="pinchCurve" width="620" height="380"></canvas>
+    </div>
+</div>
+</div>
+
+<div class="panel">
+<h2>Input Table</h2>
+
+<table>
+<thead>
+<tr>
+    <th>Parameter</th>
+    <th>Value</th>
+    <th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Crude Feed Rate</td><td><input id="feedRate" type="number" value="125"></td><td>MBPD</td></tr>
+<tr><td>Feed Temperature</td><td><input id="feedTemp" type="number" value="650"></td><td>°F</td></tr>
+<tr><td>Feed Pressure</td><td><input id="feedPress" type="number" value="25"></td><td>psig</td></tr>
+<tr><td>LPG Yield</td><td><input id="lpgYield" type="number" value="4"></td><td>vol%</td></tr>
+<tr><td>Light Naphtha Yield</td><td><input id="lnYield" type="number" value="12"></td><td>vol%</td></tr>
+<tr><td>Heavy Naphtha Yield</td><td><input id="hnYield" type="number" value="14"></td><td>vol%</td></tr>
+<tr><td>Distillate Yield</td><td><input id="distYield" type="number" value="20"></td><td>vol%</td></tr>
+<tr><td>Gas Oil Yield</td><td><input id="goYield" type="number" value="18"></td><td>vol%</td></tr>
+<tr><td>Fuel Oil Yield</td><td><input id="foYield" type="number" value="8"></td><td>vol%</td></tr>
+<tr><td>Residue Yield</td><td><input id="resYield" type="number" value="24"></td><td>vol%</td></tr>
+</tbody>
+</table>
+
+<div class="assay-note" id="assayInfo">
+    Select a crude assay to update TBP-based CDU yields and estimated duties.
+</div>
+
+<h2>Price Inputs and Crack Spread</h2>
+<div class="price-grid">
+    <div class="price-card"><label>Crude Price ($/bbl)</label><input id="crudePrice" type="number" value="75" step="0.01"></div>
+    <div class="price-card"><label>Gasoline / Naphtha Price ($/bbl)</label><input id="gasolinePrice" type="number" value="90" step="0.01"></div>
+    <div class="price-card"><label>Distillate Price ($/bbl)</label><input id="distillatePrice" type="number" value="98" step="0.01"></div>
+    <div class="price-card"><label>Gas Oil Price ($/bbl)</label><input id="gasOilPrice" type="number" value="88" step="0.01"></div>
+    <div class="price-card"><label>Fuel Oil / Resid Price ($/bbl)</label><input id="fuelOilPrice" type="number" value="62" step="0.01"></div>
+</div>
+
+<button onclick="updateCDU()">Update Flowsheet</button>
+
+<div class="summary" id="summaryCards"></div>
+<div class="summary" id="crackCards"></div>
+</div>
+
+</div>
+
+<script>
+const EMBEDDED_CRUDE_ASSAYS = {
+  "WTI": {
+    "displayName": "WTI - Light Sweet",
+    "api": 39.6,
+    "sulfur": 0.24,
+    "tan": 0.08,
+    "ccr": 2.1,
+    "chloride": 4,
+    "nitrogen": 800,
+    "pona": {
+      "paraffins": 46,
+      "olefins": 1,
+      "naphthenes": 34,
+      "aromatics": 19
+    },
+    "tbp": {
+      "0": 90,
+      "10": 180,
+      "30": 320,
+      "50": 470,
+      "70": 650,
+      "90": 920,
+      "100": 1150
+    }
+  },
+  "Brent": {
+    "displayName": "Brent - Light Sweet",
+    "api": 38.3,
+    "sulfur": 0.4,
+    "tan": 0.1,
+    "ccr": 2.5,
+    "chloride": 5,
+    "nitrogen": 900,
+    "pona": {
+      "paraffins": 43,
+      "olefins": 1,
+      "naphthenes": 35,
+      "aromatics": 21
+    },
+    "tbp": {
+      "0": 95,
+      "10": 190,
+      "30": 335,
+      "50": 490,
+      "70": 675,
+      "90": 950,
+      "100": 1180
+    }
+  },
+  "ArabLight": {
+    "displayName": "Arab Light - Medium Sour",
+    "api": 33.0,
+    "sulfur": 1.8,
+    "tan": 0.15,
+    "ccr": 5.0,
+    "chloride": 8,
+    "nitrogen": 1500,
+    "pona": {
+      "paraffins": 37,
+      "olefins": 1,
+      "naphthenes": 38,
+      "aromatics": 24
+    },
+    "tbp": {
+      "0": 110,
+      "10": 220,
+      "30": 390,
+      "50": 560,
+      "70": 760,
+      "90": 1030,
+      "100": 1250
+    }
+  },
+  "ArabHeavy": {
+    "displayName": "Arab Heavy - Heavy Sour",
+    "api": 27.0,
+    "sulfur": 2.8,
+    "tan": 0.28,
+    "ccr": 9.0,
+    "chloride": 11,
+    "nitrogen": 2500,
+    "pona": {
+      "paraffins": 30,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 30
+    },
+    "tbp": {
+      "0": 125,
+      "10": 255,
+      "30": 455,
+      "50": 660,
+      "70": 890,
+      "90": 1160,
+      "100": 1400
+    }
+  },
+  "Mars": {
+    "displayName": "Mars - Medium Sour",
+    "api": 28.0,
+    "sulfur": 2.0,
+    "tan": 0.45,
+    "ccr": 7.5,
+    "chloride": 12,
+    "nitrogen": 2200,
+    "pona": {
+      "paraffins": 31,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 29
+    },
+    "tbp": {
+      "0": 120,
+      "10": 245,
+      "30": 440,
+      "50": 640,
+      "70": 860,
+      "90": 1120,
+      "100": 1370
+    }
+  },
+  "Maya": {
+    "displayName": "Maya - Heavy Sour",
+    "api": 22.0,
+    "sulfur": 3.4,
+    "tan": 0.65,
+    "ccr": 12.5,
+    "chloride": 20,
+    "nitrogen": 3500,
+    "pona": {
+      "paraffins": 25,
+      "olefins": 1,
+      "naphthenes": 40,
+      "aromatics": 34
+    },
+    "tbp": {
+      "0": 130,
+      "10": 260,
+      "30": 480,
+      "50": 690,
+      "70": 920,
+      "90": 1180,
+      "100": 1450
+    }
+  }
+};
+let crudeAssays = EMBEDDED_CRUDE_ASSAYS;
+let selectedAssayKey = Object.keys(crudeAssays)[0] || "";
+
+const PRODUCT_CUTS = [
+    {id:"lpg", name:"LPG Product", label:"LPG", low:null, high:120, temp:110, press:45},
+    {id:"ln", name:"Light Naphtha", label:"Light Naphtha", low:120, high:220, temp:180, press:20},
+    {id:"hn", name:"Heavy Naphtha", label:"Heavy Naphtha", low:220, high:360, temp:280, press:18},
+    {id:"dist", name:"Distillate", label:"Distillate", low:360, high:520, temp:420, press:15},
+    {id:"go", name:"Gas Oil", label:"Gas Oil", low:520, high:650, temp:560, press:12},
+    {id:"fo", name:"Fuel Oil", label:"Fuel Oil", low:650, high:900, temp:680, press:10},
+    {id:"res", name:"Residue", label:"Residue", low:900, high:null, temp:720, press:8}
+];
+
+function value(id){
+    return Number(document.getElementById(id)?.value) || 0;
+}
+
+function setValue(id, val){
+    const el = document.getElementById(id);
+    if(el) el.value = Number(val).toFixed(1);
+}
+
+function productVolume(feed, yieldPercent){
+    return feed * yieldPercent / 100;
+}
+
+function getAssay(){
+    return crudeAssays[selectedAssayKey] || crudeAssays[Object.keys(crudeAssays)[0]];
+}
+
+function volAtTemp(tbp, temp){
+    const pts = Object.entries(tbp)
+        .map(([vol, t]) => ({vol:Number(vol), temp:Number(t)}))
+        .sort((a,b)=>a.vol-b.vol);
+
+    if(temp <= pts[0].temp) return pts[0].vol;
+    if(temp >= pts[pts.length - 1].temp) return pts[pts.length - 1].vol;
+
+    for(let i=0;i<pts.length-1;i++){
+        const a = pts[i];
+        const b = pts[i+1];
+        if(temp >= a.temp && temp <= b.temp){
+            const frac = (temp - a.temp) / (b.temp - a.temp);
+            return a.vol + frac * (b.vol - a.vol);
+        }
+    }
+    return 0;
+}
+
+function calculateAssayYields(assay){
+    const tbp = assay.tbp;
+    const yields = {};
+
+    PRODUCT_CUTS.forEach(cut=>{
+        const lowVol = cut.low === null ? 0 : volAtTemp(tbp, cut.low);
+        const highVol = cut.high === null ? 100 : volAtTemp(tbp, cut.high);
+        yields[cut.id] = Math.max(0, highVol - lowVol);
+    });
+
+    const total = Object.values(yields).reduce((a,b)=>a+b,0) || 100;
+    Object.keys(yields).forEach(k=>{ yields[k] = yields[k] * 100 / total; });
+    return yields;
+}
+
+function calculateDuties(feed, feedTemp, assay, products){
+    const apiFactor = 1 + Math.max(0, 35 - assay.api) * 0.012;
+    const sulfurFactor = 1 + (assay.sulfur || 0) * 0.018;
+    const ccrFactor = 1 + (assay.ccr || 0) * 0.006;
+    const severityFactor = apiFactor * sulfurFactor * ccrFactor;
+    const deltaT = Math.max(0, feedTemp - 250);
+
+    const lpgVol = productVolume(feed, products.lpg || 0);
+    const lnVol = productVolume(feed, products.ln || 0);
+    const hnVol = productVolume(feed, products.hn || 0);
+    const distVol = productVolume(feed, products.dist || 0);
+    const resVol = productVolume(feed, products.res || 0);
+    const bottomVol = productVolume(feed, (products.fo || 0) + (products.res || 0));
+
+    return {
+        furnace: feed * deltaT * 0.00455 * severityFactor,
+        condenser: -1 * (lpgVol * 6.5 + lnVol * 3.2 + hnVol * 1.2),
+        reboiler: feed * (0.55 + (products.res || 0) / 100 * 1.4) * severityFactor,
+        refluxPump: Math.max(20, (lpgVol + lnVol + hnVol) * 3.1),
+        bottomPump: Math.max(25, bottomVol * 2.6),
+        column: feed * (1 + (products.dist || 0) / 100 + (products.go || 0) / 150)
+    };
+}
+
+function updateTooltipFlow(streamName, newFlow){
+    document.querySelectorAll(".tooltip-target").forEach(el=>{
+        if(el.dataset.name === streamName){
+            el.dataset.flow = `${newFlow.toFixed(1)} MBPD`;
+        }
+    });
+}
+
+function updateTooltipByName(name, fields){
+    document.querySelectorAll(".tooltip-target").forEach(el=>{
+        if(el.dataset.name === name){
+            Object.entries(fields).forEach(([k,v])=>{ el.dataset[k] = v; });
+        }
+    });
+}
+
+function populateAssaySelect(){
+    const select = document.getElementById("assaySelect");
+    if(!select) return;
+    select.innerHTML = "";
+
+    Object.entries(crudeAssays).forEach(([key, assay])=>{
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = assay.displayName || key;
+        select.appendChild(opt);
+    });
+
+    select.value = selectedAssayKey;
+    select.addEventListener("change", ()=>{
+        selectedAssayKey = select.value;
+        applyAssayToInputs();
+        updateCDU();
+    });
+}
+
+function applyAssayToInputs(){
+    const assay = getAssay();
+    if(!assay) return;
+    const y = calculateAssayYields(assay);
+    setValue("lpgYield", y.lpg);
+    setValue("lnYield", y.ln);
+    setValue("hnYield", y.hn);
+    setValue("distYield", y.dist);
+    setValue("goYield", y.go);
+    setValue("foYield", y.fo);
+    setValue("resYield", y.res);
+}
+
+function computeCrackSpreads(){
+    const crude = value("crudePrice");
+    const gasoline = value("gasolinePrice");
+    const dist = value("distillatePrice");
+    const gasOil = value("gasOilPrice");
+    const fuelOil = value("fuelOilPrice");
+
+    const crack321 = ((2 * gasoline + 1 * dist) - (3 * crude)) / 3;
+    const crack532 = ((3 * gasoline + 2 * dist) - (5 * crude)) / 5;
+    const cduWeighted = ((gasoline + gasoline + dist + gasOil + fuelOil) - (5 * crude)) / 5;
+
+    document.getElementById("crackCards").innerHTML = `
+        <div class="metric-card"><strong>3-2-1 Crack Spread</strong><br>${crack321.toFixed(2)} $/bbl<br><span>Formula: (2 gasoline + 1 distillate − 3 crude) / 3</span></div>
+        <div class="metric-card"><strong>5-3-2 Crack Spread</strong><br>${crack532.toFixed(2)} $/bbl<br><span>Formula: (3 gasoline + 2 distillate − 5 crude) / 5</span></div>
+        <div class="metric-card"><strong>CDU Indicative Basket Spread</strong><br>${cduWeighted.toFixed(2)} $/bbl<br><span>Uses gasoline, distillate, gas oil, and fuel oil inputs.</span></div>
+    `;
+}
+
+function updateCDU(){
+    const feed = value("feedRate");
+    const feedTemp = value("feedTemp");
+    const feedPress = value("feedPress");
+    const assay = getAssay();
+
+    const products = PRODUCT_CUTS.map(p => ({
+        ...p,
+        yield: value(`${p.id}Yield`)
+    }));
+
+    const productYieldMap = Object.fromEntries(products.map(p=>[p.id, p.yield]));
+    const duties = calculateDuties(feed, feedTemp, assay, productYieldMap);
+    const furnaceDutyInput = document.getElementById("currentFurnaceDuty");
+    if(furnaceDutyInput && document.activeElement !== furnaceDutyInput){
+        furnaceDutyInput.value = duties.furnace.toFixed(1);
+    }
+
+    document.getElementById("feedLabel").textContent =
+        `Crude: ${feedTemp}°F / ${feedPress} psig`;
+
+    updateTooltipByName("Heated Crude", {condition:`${feedTemp}°F / ${feedPress} psig`, flow:`${feed.toFixed(1)} MBPD`});
+    updateTooltipByName("Crude Feed", {flow:`${feed.toFixed(1)} MBPD`});
+    updateTooltipByName("Crude Furnace", {condition:`${feedTemp}°F / ${feedPress} psig outlet`, flow:`${feed.toFixed(1)} MBPD crude`, duty:`Estimated duty: ${duties.furnace.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Crude Distillation Column", {flow:`${feed.toFixed(1)} MBPD crude feed`, duty:`Estimated separation load index: ${duties.column.toFixed(1)}`});
+    updateTooltipByName("Overhead Condenser", {duty:`Estimated duty: ${duties.condenser.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Reboiler", {duty:`Estimated duty: ${duties.reboiler.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Reflux Pump", {duty:`Estimated hydraulic power: ${duties.refluxPump.toFixed(1)} hp`});
+    updateTooltipByName("Bottom Pump", {duty:`Estimated hydraulic power: ${duties.bottomPump.toFixed(1)} hp`});
+
+    let summaryHTML = "";
+    let totalYield = 0;
+    let totalVolume = 0;
+
+    products.forEach(p=>{
+        const vol = productVolume(feed, p.yield);
+        totalYield += p.yield;
+        totalVolume += vol;
+
+        document.getElementById(`${p.id}Label`).textContent =
+            `${p.label}: ${p.temp}°F / ${p.press} psig`;
+
+        document.getElementById(`${p.id}Vol`).textContent =
+            `${vol.toFixed(1)} MBPD`;
+
+        updateTooltipFlow(p.name, vol);
+
+        summaryHTML += `
+            <div class="card">
+                <strong>${p.label}</strong><br>
+                Yield: ${p.yield.toFixed(1)} vol%<br>
+                Volume: ${vol.toFixed(1)} MBPD<br>
+                T/P: ${p.temp}°F / ${p.press} psig
+            </div>
+        `;
+    });
+
+    summaryHTML += `
+        <div class="card">
+            <strong>Estimated Duties</strong><br>
+            Furnace: ${duties.furnace.toFixed(1)} MMBtu/hr<br>
+            Condenser: ${duties.condenser.toFixed(1)} MMBtu/hr<br>
+            Reboiler: ${duties.reboiler.toFixed(1)} MMBtu/hr<br>
+            Reflux Pump: ${duties.refluxPump.toFixed(1)} hp<br>
+            Bottom Pump: ${duties.bottomPump.toFixed(1)} hp
+        </div>
+        <div class="card">
+            <strong>Total Products</strong><br>
+            Yield: ${totalYield.toFixed(1)} vol%<br>
+            Volume: ${totalVolume.toFixed(1)} MBPD<br>
+            Balance Error: ${(totalYield - 100).toFixed(1)} vol%
+        </div>
+    `;
+
+    document.getElementById("summaryCards").innerHTML = summaryHTML;
+
+    document.getElementById("assayInfo").innerHTML = `
+        <strong>${assay.displayName || selectedAssayKey}</strong><br>
+        API: ${assay.api} | Sulfur: ${assay.sulfur} wt% | TAN: ${assay.tan} | CCR: ${assay.ccr} wt%<br>
+        TBP basis used for cut interpolation: LPG &lt;120°F, LN 120–220°F, HN 220–360°F, Distillate 360–520°F, Gas Oil 520–650°F, Fuel Oil 650–900°F, Residue &gt;900°F.
+    `;
+
+    computeCrackSpreads();
+    if(document.querySelector("#pinchStreamTable tbody")?.children.length){
+        runPinchAssessment();
+    }
+}
+
+
+const DEFAULT_PINCH_STREAMS = [
+    {id:"crudePreheat", name:"Crude Feed Preheat", type:"cold", supply:85, target:650, cp:0.235, include:true},
+    {id:"reboilerLoad", name:"Column Reboiler / Stripping Heat", type:"cold", supply:650, target:730, cp:0.110, include:true},
+    {id:"overheadCond", name:"Overhead Condenser", type:"hot", supply:220, target:110, cp:0.180, include:true},
+    {id:"lnCooler", name:"Light Naphtha Product Cooler", type:"hot", supply:180, target:110, cp:0.090, include:true},
+    {id:"hnCooler", name:"Heavy Naphtha Product Cooler", type:"hot", supply:280, target:120, cp:0.105, include:true},
+    {id:"distCooler", name:"Distillate Product Cooler", type:"hot", supply:420, target:140, cp:0.145, include:true},
+    {id:"goCooler", name:"Gas Oil Product Cooler", type:"hot", supply:560, target:180, cp:0.150, include:true},
+    {id:"paCooler", name:"Main Pumparound Cooling", type:"hot", supply:520, target:300, cp:0.170, include:true},
+    {id:"foCooler", name:"Fuel Oil Product Cooler", type:"hot", supply:680, target:250, cp:0.095, include:true},
+    {id:"resCooler", name:"Residue Product Cooler", type:"hot", supply:720, target:300, cp:0.125, include:true}
+];
+
+function populatePinchTable(){
+    const tbody = document.querySelector("#pinchStreamTable tbody");
+    if(!tbody) return;
+    tbody.innerHTML = DEFAULT_PINCH_STREAMS.map(s=>`
+        <tr>
+            <td>${s.name}</td>
+            <td>
+                <select id="${s.id}_type">
+                    <option value="hot" ${s.type === "hot" ? "selected" : ""}>Hot</option>
+                    <option value="cold" ${s.type === "cold" ? "selected" : ""}>Cold</option>
+                </select>
+            </td>
+            <td><input id="${s.id}_supply" type="number" value="${s.supply}" step="1"></td>
+            <td><input id="${s.id}_target" type="number" value="${s.target}" step="1"></td>
+            <td><input id="${s.id}_cp" type="number" value="${s.cp}" step="0.005"></td>
+            <td><input id="${s.id}_include" type="checkbox" ${s.include ? "checked" : ""}></td>
+        </tr>
+    `).join("");
+}
+
+function getPinchStreams(){
+    return DEFAULT_PINCH_STREAMS.map(s=>({
+        id:s.id,
+        name:s.name,
+        type:document.getElementById(`${s.id}_type`)?.value || s.type,
+        supply:Number(document.getElementById(`${s.id}_supply`)?.value) || s.supply,
+        target:Number(document.getElementById(`${s.id}_target`)?.value) || s.target,
+        cp:Number(document.getElementById(`${s.id}_cp`)?.value) || s.cp,
+        include:document.getElementById(`${s.id}_include`)?.checked !== false
+    })).filter(s=>s.include && s.cp > 0 && s.supply !== s.target);
+}
+
+function pinchAssessment(streams, dtMin){
+    const half = dtMin / 2;
+    const shifted = streams.map(s=>{
+        const isHot = s.type === "hot";
+        return {
+            ...s,
+            ss:isHot ? s.supply - half : s.supply + half,
+            tt:isHot ? s.target - half : s.target + half
+        };
+    });
+    const temps = [...new Set(shifted.flatMap(s=>[s.ss,s.tt]))].sort((a,b)=>b-a);
+    const intervals = [];
+    let cascade = 0;
+    let minCascade = 0;
+    let pinchShifted = temps[0] || 0;
+    const gcc = [{t:temps[0] || 0, h:0}];
+    for(let i=0;i<temps.length-1;i++){
+        const hi = temps[i], lo = temps[i+1], dT = hi - lo;
+        let hotCp = 0, coldCp = 0;
+        shifted.forEach(s=>{
+            const top = Math.max(s.ss, s.tt);
+            const bot = Math.min(s.ss, s.tt);
+            const active = hi <= top + 1e-9 && lo >= bot - 1e-9;
+            if(active){
+                if(s.type === "hot") hotCp += s.cp; else coldCp += s.cp;
+            }
+        });
+        const netHeat = (hotCp - coldCp) * dT;
+        cascade += netHeat;
+        if(cascade < minCascade){ minCascade = cascade; pinchShifted = lo; }
+        intervals.push({hi, lo, hotCp, coldCp, netHeat, cascade});
+        gcc.push({t:lo, h:cascade});
+    }
+    const minHotUtility = Math.max(0, -minCascade);
+    const minColdUtility = Math.max(0, cascade + minHotUtility);
+    const pinchHot = pinchShifted + half;
+    const pinchCold = pinchShifted - half;
+    const hotDemand = streams.filter(s=>s.type === "cold").reduce((a,s)=>a + Math.abs(s.target - s.supply) * s.cp, 0);
+    const heatAvailable = streams.filter(s=>s.type === "hot").reduce((a,s)=>a + Math.abs(s.supply - s.target) * s.cp, 0);
+    const maxRecovery = Math.max(0, hotDemand - minHotUtility);
+    return {intervals, gcc, minHotUtility, minColdUtility, pinchShifted, pinchHot, pinchCold, hotDemand, heatAvailable, maxRecovery};
+}
+
+function buildComposite(streams, type){
+    const selected = streams.filter(s=>s.type === type);
+    const temps = [...new Set(selected.flatMap(s=>[s.supply,s.target]))].sort((a,b)=> type === "hot" ? b-a : a-b);
+    let h = 0;
+    const pts = temps.length ? [{h:0,t:temps[0]}] : [];
+    for(let i=0;i<temps.length-1;i++){
+        const t1 = temps[i], t2 = temps[i+1];
+        const hi = Math.max(t1,t2), lo = Math.min(t1,t2);
+        const cp = selected.reduce((sum,s)=>{
+            const top = Math.max(s.supply,s.target), bot = Math.min(s.supply,s.target);
+            return (hi <= top + 1e-9 && lo >= bot - 1e-9) ? sum + s.cp : sum;
+        },0);
+        h += cp * Math.abs(t2 - t1);
+        pts.push({h,t:t2});
+    }
+    return pts;
+}
+
+function drawPinchCurves(streams, result){
+    const canvas = document.getElementById("pinchCurve");
+    if(!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const pad = 48;
+    const hot = buildComposite(streams,"hot");
+    const cold = buildComposite(streams,"cold");
+    const coldShift = result.maxRecovery;
+    const allPts = [...hot, ...cold.map(p=>({h:p.h + coldShift, t:p.t})), ...result.gcc.map(p=>({h:p.h + result.minHotUtility, t:p.t}))];
+    const maxH = Math.max(1, ...allPts.map(p=>p.h));
+    const minT = Math.min(...allPts.map(p=>p.t), 60);
+    const maxT = Math.max(...allPts.map(p=>p.t), 760);
+    const x = h => pad + (h / maxH) * (canvas.width - 2*pad);
+    const y = t => canvas.height - pad - ((t - minT) / (maxT - minT)) * (canvas.height - 2*pad);
+    ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,canvas.height-pad); ctx.lineTo(canvas.width-pad,canvas.height-pad); ctx.stroke();
+    ctx.fillStyle = "#111827"; ctx.font = "12px Arial";
+    ctx.fillText("Heat Load, MW", canvas.width/2 - 40, canvas.height - 12);
+    ctx.save(); ctx.translate(16, canvas.height/2 + 40); ctx.rotate(-Math.PI/2); ctx.fillText("Temperature, °F",0,0); ctx.restore();
+    function line(points, color, offset=0){
+        if(points.length < 2) return;
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath();
+        points.forEach((p,i)=>{ const xx=x(p.h+offset), yy=y(p.t); i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); });
+        ctx.stroke();
+    }
+    line(hot,"#ef4444",0);
+    line(cold,"#2563eb",coldShift);
+    line(result.gcc.map(p=>({h:p.h + result.minHotUtility, t:p.t})),"#16a34a",0);
+    const px = x(result.maxRecovery);
+    const py = y(result.pinchShifted);
+    ctx.setLineDash([5,5]); ctx.strokeStyle = "#f97316"; ctx.beginPath(); ctx.moveTo(px,pad); ctx.lineTo(px,canvas.height-pad); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = "#ef4444"; ctx.fillText("Hot composite", canvas.width - 165, 28);
+    ctx.fillStyle = "#2563eb"; ctx.fillText("Cold composite", canvas.width - 165, 46);
+    ctx.fillStyle = "#16a34a"; ctx.fillText("Grand composite", canvas.width - 165, 64);
+    ctx.fillStyle = "#7c2d12"; ctx.fillText(`Pinch shifted T: ${result.pinchShifted.toFixed(1)}°F`, 60, 32);
+}
+
+function runPinchAssessment(){
+    const streams = getPinchStreams();
+    const dtMin = value("dtMin") || 20;
+    const result = pinchAssessment(streams, dtMin);
+    const currentFurnaceMW = (value("currentFurnaceDuty") || 0) * 0.293071;
+    const currentCoolingMW = (value("currentCoolingDuty") || 0) * 0.293071;
+    const furnaceSavingsMW = Math.max(0, currentFurnaceMW - result.minHotUtility);
+    const coolingSavingsMW = Math.max(0, currentCoolingMW - result.minColdUtility);
+    const furnaceSavingsMMBtu = furnaceSavingsMW / 0.293071;
+    const annualSavings = furnaceSavingsMMBtu * (value("fuelCost") || 0) * (value("operatingHours") || 0);
+    document.getElementById("pinchCards").innerHTML = `
+        <div class="heat-card"><strong>Minimum Hot Utility</strong><br>${result.minHotUtility.toFixed(1)} MW<br>${(result.minHotUtility/0.293071).toFixed(1)} MMBtu/hr</div>
+        <div class="heat-card"><strong>Minimum Cold Utility</strong><br>${result.minColdUtility.toFixed(1)} MW<br>${(result.minColdUtility/0.293071).toFixed(1)} MMBtu/hr</div>
+        <div class="heat-card"><strong>Pinch Point</strong><br>Hot: ${result.pinchHot.toFixed(1)}°F<br>Cold: ${result.pinchCold.toFixed(1)}°F</div>
+        <div class="heat-card"><strong>Heat Recovery Target</strong><br>${result.maxRecovery.toFixed(1)} MW<br>${(result.maxRecovery/0.293071).toFixed(1)} MMBtu/hr</div>
+        <div class="heat-card"><strong>Estimated Furnace Savings</strong><br>${furnaceSavingsMW.toFixed(1)} MW<br>${furnaceSavingsMMBtu.toFixed(1)} MMBtu/hr</div>
+        <div class="heat-card"><strong>Estimated Fuel Cost Savings</strong><br>$${annualSavings.toLocaleString(undefined,{maximumFractionDigits:0})}/yr<br>Screening basis only</div>
+    `;
+    document.getElementById("svgDtmin").textContent = `${dtMin.toFixed(0)} °F`;
+    document.getElementById("svgHotUtil").textContent = `${result.minHotUtility.toFixed(1)} MW`;
+    document.getElementById("svgColdUtil").textContent = `${result.minColdUtility.toFixed(1)} MW`;
+    document.getElementById("svgPinchTemp").textContent = `${result.pinchHot.toFixed(0)} / ${result.pinchCold.toFixed(0)} °F`;
+    document.getElementById("svgSavings").textContent = `${furnaceSavingsMMBtu.toFixed(1)} MMBtu/hr`;
+    updateTooltipByName("Preheat Train / Pinch Target", {duty:`Target heat recovery: ${(result.maxRecovery/0.293071).toFixed(1)} MMBtu/hr`, condition:`Pinch hot/cold: ${result.pinchHot.toFixed(0)} / ${result.pinchCold.toFixed(0)}°F`});
+    updateTooltipByName("Hot Product Heat Recovery", {duty:`Furnace offset: ${furnaceSavingsMMBtu.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Pumparound and Bottoms Heat Recovery", {duty:`Cooling reduction target: ${(coolingSavingsMW/0.293071).toFixed(1)} MMBtu/hr`});
+    drawPinchCurves(streams, result);
+}
+
+const tooltip = document.getElementById("tooltip");
+
+document.querySelectorAll(".tooltip-target").forEach(el=>{
+    el.addEventListener("mousemove", e=>{
+        tooltip.innerHTML = `
+            <strong>${el.dataset.name || "Object"}</strong><br>
+            Type: ${el.dataset.type || "-"}<br>
+            Condition: ${el.dataset.condition || "-"}<br>
+            Flow: ${el.dataset.flow || "-"}<br>
+            Duty / Service: ${el.dataset.duty || "-"}
+        `;
+
+        tooltip.style.display = "block";
+        tooltip.style.left = `${e.clientX + 14}px`;
+        tooltip.style.top = `${e.clientY + 14}px`;
+    });
+
+    el.addEventListener("mouseleave", ()=>{
+        tooltip.style.display = "none";
+    });
+});
+
+["crudePrice","gasolinePrice","distillatePrice","gasOilPrice","fuelOilPrice"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", computeCrackSpreads);
+});
+
+populatePinchTable();
+["dtMin","currentFurnaceDuty","currentCoolingDuty","fuelCost","operatingHours"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", runPinchAssessment);
+});
+setTimeout(runPinchAssessment, 0);
+
+// If the page is served through a local/static server, this will use crudeAssays.json.
+// If it is opened directly as a file, the embedded attached data remains active.
+fetch("crudeAssays.json")
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+        crudeAssays = data;
+        selectedAssayKey = Object.keys(crudeAssays)[0] || selectedAssayKey;
+        populateAssaySelect();
+        applyAssayToInputs();
+        updateCDU();
+    })
+    .catch(()=>{
+        populateAssaySelect();
+        applyAssayToInputs();
+        updateCDU();
+    });
+</script>
+<div id="footer"></div>
+<script>
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer").innerHTML = data;
+        });
+</script>
+</body>
+</html>
