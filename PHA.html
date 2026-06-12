@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PHA Support Tool</title>
+<style>
+  body{font-family:Arial,sans-serif;margin:0;background:#f4f7fb;color:#1f2937}
+  header{background:#0f3b5f;color:white;padding:18px 28px}
+  main{padding:20px;max-width:1400px;margin:auto}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .tabs button{padding:10px 14px;border:0;border-radius:6px;background:#d9e6f2;cursor:pointer;font-weight:600}
+  .tabs button.active{background:#0f3b5f;color:white}
+  .panel{display:none;background:white;border-radius:10px;padding:18px;box-shadow:0 2px 8px #0001}
+  .panel.active{display:block}
+  h2{margin-top:0;color:#0f3b5f}
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+  th,td{border:1px solid #ccd6e0;padding:8px;vertical-align:top}
+  th{background:#eaf1f8}
+  input,select,textarea{width:100%;box-sizing:border-box;padding:7px;border:1px solid #b8c4d0;border-radius:5px}
+  textarea{min-height:55px}
+  .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  button.action{background:#0f766e;color:white;border:0;border-radius:6px;padding:9px 13px;cursor:pointer}
+  button.danger{background:#b91c1c}
+  .summary{background:#eef6ff;border-left:5px solid #0f3b5f;padding:12px;margin-top:14px;white-space:pre-wrap}
+  .risk-low{background:#dcfce7}
+  .risk-med{background:#fef9c3}
+  .risk-high{background:#fed7aa}
+  .risk-extreme{background:#fecaca}
+</style>
+</head>
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<header>
+  <h1>Process Hazard Analysis Support Tool</h1>
+  <p>HAZOP · LOPA · Relief Analysis · Risk Ranking · Safeguards · Safety Assessment</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab active" data-tab="hazop">HAZOP</button>
+    <button class="tab" data-tab="lopa">LOPA</button>
+    <button class="tab" data-tab="relief">Relief Analysis</button>
+    <button class="tab" data-tab="risk">Risk Ranking</button>
+    <button class="tab" data-tab="safeguards">Safeguards</button>
+    <button class="tab" data-tab="assessment">Overall Assessment</button>
+  </div>
+
+  <section id="hazop" class="panel active">
+    <h2>HAZOP Node–Deviation Analysis</h2>
+    <table id="hazopTable">
+      <thead>
+        <tr>
+          <th>Node</th><th>Deviation</th><th>Causes</th><th>Consequences</th><th>Safeguards</th><th>Recommendation</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="actions">
+      <button class="action" onclick="addHazopRow()">Add HAZOP Row</button>
+    </div>
+  </section>
+
+  <section id="lopa" class="panel">
+    <h2>LOPA Calculation</h2>
+    <table id="lopaTable">
+      <thead>
+        <tr>
+          <th>Scenario</th><th>Initiating Event Frequency /yr</th><th>IPL 1 PFD</th><th>IPL 2 PFD</th><th>IPL 3 PFD</th><th>Mitigated Frequency</th><th>Target SIL</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="actions">
+      <button class="action" onclick="addLopaRow()">Add LOPA Row</button>
+    </div>
+  </section>
+
+  <section id="relief" class="panel">
+    <h2>Relief Scenario Identification and Sizing Inputs</h2>
+    <table id="reliefTable">
+      <thead>
+        <tr>
+          <th>Equipment</th><th>Scenario</th><th>Required Relief Rate</th><th>Fluid</th><th>Set Pressure</th><th>Relieving Temp</th><th>Sizing Notes</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="actions">
+      <button class="action" onclick="addReliefRow()">Add Relief Row</button>
+    </div>
+  </section>
+
+  <section id="risk" class="panel">
+    <h2>Risk Ranking Matrix</h2>
+    <table id="riskTable">
+      <thead>
+        <tr>
+          <th>Scenario</th><th>Likelihood 1–5</th><th>Severity 1–5</th><th>Risk Score</th><th>Priority</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="actions">
+      <button class="action" onclick="addRiskRow()">Add Risk Row</button>
+    </div>
+  </section>
+
+  <section id="safeguards" class="panel">
+    <h2>Safeguards and Protection Layers</h2>
+    <table id="safeguardTable">
+      <thead>
+        <tr>
+          <th>Safeguard</th><th>Type</th><th>Preventive / Mitigative</th><th>Effectiveness Factor</th><th>Notes</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="actions">
+      <button class="action" onclick="addSafeguardRow()">Add Safeguard Row</button>
+    </div>
+  </section>
+
+  <section id="assessment" class="panel">
+    <h2>Integrated Safety Assessment</h2>
+    <div class="actions">
+      <button class="action" onclick="generateAssessment()">Generate Assessment</button>
+      <button class="action" onclick="exportJSON()">Export JSON</button>
+      <button class="action danger" onclick="clearAll()">Clear All</button>
+    </div>
+    <div id="assessmentOutput" class="summary">Click “Generate Assessment” to summarize PHA results.</div>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    $(btn.dataset.tab).classList.add("active");
+  });
+});
+
+function cellInput(type="text", value="", attrs="") {
+  return `<input type="${type}" value="${value}" ${attrs} oninput="recalculateAll()">`;
+}
+function cellText(value="") {
+  return `<textarea oninput="recalculateAll()">${value}</textarea>`;
+}
+function removeRow(btn){ btn.closest("tr").remove(); recalculateAll(); }
+
+function addHazopRow(data={}) {
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${cellInput("text",data.node||"")}</td>
+    <td>${cellInput("text",data.deviation||"High pressure")}</td>
+    <td>${cellText(data.causes||"")}</td>
+    <td>${cellText(data.consequences||"")}</td>
+    <td>${cellText(data.safeguards||"")}</td>
+    <td>${cellText(data.recommendation||"")}</td>
+    <td><button onclick="removeRow(this)">X</button></td>`;
+  $("hazopTable").querySelector("tbody").appendChild(tr);
+}
+
+function addLopaRow(data={}) {
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${cellInput("text",data.scenario||"")}</td>
+    <td>${cellInput("number",data.ief||0.01,'step="any" min="0"')}</td>
+    <td>${cellInput("number",data.ipl1||0.1,'step="any" min="0" max="1"')}</td>
+    <td>${cellInput("number",data.ipl2||1,'step="any" min="0" max="1"')}</td>
+    <td>${cellInput("number",data.ipl3||1,'step="any" min="0" max="1"')}</td>
+    <td class="mitigated">-</td>
+    <td class="sil">-</td>
+    <td><button onclick="removeRow(this)">X</button></td>`;
+  $("lopaTable").querySelector("tbody").appendChild(tr);
+  recalculateAll();
+}
+
+function addReliefRow(data={}) {
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${cellInput("text",data.equipment||"")}</td>
+    <td>${cellInput("text",data.scenario||"Blocked outlet")}</td>
+    <td>${cellInput("text",data.rate||"")}</td>
+    <td>${cellInput("text",data.fluid||"")}</td>
+    <td>${cellInput("text",data.pressure||"")}</td>
+    <td>${cellInput("text",data.temperature||"")}</td>
+    <td>${cellText(data.notes||"")}</td>
+    <td><button onclick="removeRow(this)">X</button></td>`;
+  $("reliefTable").querySelector("tbody").appendChild(tr);
+}
+
+function addRiskRow(data={}) {
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${cellInput("text",data.scenario||"")}</td>
+    <td>${cellInput("number",data.likelihood||3,'min="1" max="5"')}</td>
+    <td>${cellInput("number",data.severity||3,'min="1" max="5"')}</td>
+    <td class="score">-</td>
+    <td class="priority">-</td>
+    <td><button onclick="removeRow(this)">X</button></td>`;
+  $("riskTable").querySelector("tbody").appendChild(tr);
+  recalculateAll();
+}
+
+function addSafeguardRow(data={}) {
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td>${cellInput("text",data.name||"")}</td>
+    <td>
+      <select oninput="recalculateAll()">
+        <option>Alarm + Operator Response</option>
+        <option>SIS / Interlock</option>
+        <option>Relief Device</option>
+        <option>Mechanical Integrity</option>
+        <option>Procedure</option>
+        <option>Containment</option>
+      </select>
+    </td>
+    <td>
+      <select oninput="recalculateAll()">
+        <option>Preventive</option>
+        <option>Mitigative</option>
+      </select>
+    </td>
+    <td>${cellInput("number",data.factor||0.1,'step="any" min="0" max="1"')}</td>
+    <td>${cellText(data.notes||"")}</td>
+    <td><button onclick="removeRow(this)">X</button></td>`;
+  $("safeguardTable").querySelector("tbody").appendChild(tr);
+}
+
+function recalculateAll() {
+  calculateLOPA();
+  calculateRisk();
+}
+
+function calculateLOPA() {
+  $("lopaTable").querySelectorAll("tbody tr").forEach(row=>{
+    const inputs=row.querySelectorAll("input");
+    const ief=parseFloat(inputs[1].value)||0;
+    const pfd1=parseFloat(inputs[2].value)||1;
+    const pfd2=parseFloat(inputs[3].value)||1;
+    const pfd3=parseFloat(inputs[4].value)||1;
+    const mitigated=ief*pfd1*pfd2*pfd3;
+    row.querySelector(".mitigated").textContent=mitigated.toExponential(2);
+    row.querySelector(".sil").textContent=getSIL(mitigated);
+  });
+}
+
+function getSIL(freq) {
+  if(freq <= 1e-5) return "SIL 3 / Very Low Residual Risk";
+  if(freq <= 1e-4) return "SIL 2";
+  if(freq <= 1e-3) return "SIL 1";
+  return "Additional Risk Reduction Required";
+}
+
+function calculateRisk() {
+  $("riskTable").querySelectorAll("tbody tr").forEach(row=>{
+    const inputs=row.querySelectorAll("input");
+    const l=Math.max(1,Math.min(5,parseInt(inputs[1].value)||1));
+    const s=Math.max(1,Math.min(5,parseInt(inputs[2].value)||1));
+    const score=l*s;
+    const priority=getPriority(score);
+    row.querySelector(".score").textContent=score;
+    row.querySelector(".priority").textContent=priority.text;
+    row.className=priority.className;
+  });
+}
+
+function getPriority(score) {
+  if(score <= 4) return {text:"Low",className:"risk-low"};
+  if(score <= 9) return {text:"Medium",className:"risk-med"};
+  if(score <= 15) return {text:"High",className:"risk-high"};
+  return {text:"Extreme",className:"risk-extreme"};
+}
+
+function tableData(tableId) {
+  return [...$(tableId).querySelectorAll("tbody tr")].map(row =>
+    [...row.querySelectorAll("input,textarea,select")].map(el=>el.value)
+  );
+}
+
+function generateAssessment() {
+  recalculateAll();
+
+  const hazopCount=$("hazopTable").querySelectorAll("tbody tr").length;
+  const lopaRows=[...$("lopaTable").querySelectorAll("tbody tr")];
+  const riskRows=[...$("riskTable").querySelectorAll("tbody tr")];
+  const reliefCount=$("reliefTable").querySelectorAll("tbody tr").length;
+  const safeguardCount=$("safeguardTable").querySelectorAll("tbody tr").length;
+
+  const highRisks=riskRows.filter(r=>{
+    const score=parseInt(r.querySelector(".score").textContent)||0;
+    return score>9;
+  }).length;
+
+  const weakLopa=lopaRows.filter(r =>
+    r.querySelector(".sil").textContent.includes("Additional")
+  ).length;
+
+  let recommendation="Maintain existing safeguards and close PHA action items.";
+  if(highRisks>0 || weakLopa>0) {
+    recommendation="Prioritize high-risk scenarios, validate IPL independence, evaluate SIS/relief upgrades, and assign closure dates for open recommendations.";
+  }
+
+  $("assessmentOutput").textContent =
+`Integrated PHA Summary
+----------------------
+HAZOP scenarios reviewed: ${hazopCount}
+LOPA scenarios reviewed: ${lopaRows.length}
+Relief cases identified: ${reliefCount}
+Safeguards documented: ${safeguardCount}
+High / extreme risk items: ${highRisks}
+LOPA items needing added risk reduction: ${weakLopa}
+
+Recommended Actions
+-------------------
+${recommendation}
+
+Engineering Notes
+-----------------
+1. Confirm all IPLs are independent, auditable, and maintained.
+2. Validate relief loads using governing credible scenarios.
+3. Review common-cause failures between alarms, SIS, procedures, and equipment.
+4. Use site-approved risk matrix and corporate SIL criteria before final approval.`;
+}
+
+function exportJSON() {
+  const data={
+    hazop:tableData("hazopTable"),
+    lopa:tableData("lopaTable"),
+    relief:tableData("reliefTable"),
+    risk:tableData("riskTable"),
+    safeguards:tableData("safeguardTable"),
+    exportedAt:new Date().toISOString()
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="PHA_Assessment.json";
+  a.click();
+}
+
+function clearAll() {
+  if(!confirm("Clear all PHA data?")) return;
+  document.querySelectorAll("tbody").forEach(tb=>tb.innerHTML="");
+  $("assessmentOutput").textContent="PHA data cleared.";
+}
+
+addHazopRow();
+addLopaRow();
+addReliefRow();
+addRiskRow();
+addSafeguardRow();
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
