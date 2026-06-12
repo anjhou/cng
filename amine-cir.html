@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Amine Treating Unit SVG Flowsheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+    --navy:#0f172a;
+    --blue:#2563eb;
+    --cyan:#0ea5e9;
+    --green:#16a34a;
+    --red:#dc2626;
+    --amber:#d97706;
+    --slate:#334155;
+    --light:#f4f7fb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--light);color:#1f2937}
+header{background:var(--navy);color:white;padding:18px 30px;text-align:center}
+.container{max-width:1450px;margin:auto;padding:25px}.panel{background:white;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.10);padding:20px;margin-bottom:25px}
+svg{width:100%;height:auto;background:#fff;border-radius:12px;border:1px solid #dbeafe}.equipment{fill:#fff;stroke:var(--blue);stroke-width:2.6}.duty-equipment{fill:#fff;stroke:var(--red);stroke-width:3}.column-body{fill:#fff;stroke:var(--blue);stroke-width:3}.exchanger{fill:#fff;stroke:#7c3aed;stroke-width:3}.vessel{fill:#fff;stroke:#0891b2;stroke-width:2.8}.tray{stroke:#64748b;stroke-width:1.3}.pipe{fill:none;stroke:#334155;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}.gas-flow{fill:none;stroke:#0ea5e9;stroke-width:5;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round;animation:flowMove 1s linear infinite;marker-end:url(#gasArrow)}.amine-flow{fill:none;stroke:#16a34a;stroke-width:5;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round;animation:flowMove 1.15s linear infinite;marker-end:url(#amineArrow)}.rich-flow{fill:none;stroke:#d97706;stroke-width:5;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round;animation:flowMove 1.25s linear infinite;marker-end:url(#richArrow)}.acid-flow{fill:none;stroke:#dc2626;stroke-width:5;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round;animation:flowMove 1.1s linear infinite;marker-end:url(#acidArrow)}.water-flow{fill:none;stroke:#38bdf8;stroke-width:4;stroke-dasharray:8 8;animation:flowMove 1.2s linear infinite;marker-end:url(#waterArrow)}@keyframes flowMove{to{stroke-dashoffset:-44}}.label{font-size:13px;fill:#111827;font-weight:bold}.small-label{font-size:11px;fill:#374151}.stream-label{font-size:12px;fill:#111827}.callout{fill:#f8fafc;stroke:#93c5fd;stroke-width:1.2}.callout-hot{fill:#fff7ed;stroke:#fdba74;stroke-width:1.2}.callout-acid{fill:#fef2f2;stroke:#fca5a5;stroke-width:1.2}.callout-text{font-size:11px;fill:#0f172a}.callout-title{font-size:12px;fill:#0f172a;font-weight:bold}.tooltip-target{cursor:pointer}.tooltip-target:hover{filter:drop-shadow(0 0 5px rgba(37,99,235,.6))}#tooltip{position:fixed;display:none;max-width:310px;background:#0f172a;color:white;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.45;z-index:9999;box-shadow:0 8px 22px rgba(0,0,0,.25);pointer-events:none}#tooltip strong{color:#93c5fd}table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid #cbd5e1;padding:8px;text-align:center;vertical-align:middle}th{background:#1e293b;color:white}input,select{width:95%;padding:7px;border:1px solid #94a3b8;border-radius:6px;background:white}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.input-card{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:10px}.input-card label{display:block;font-size:12px;font-weight:bold;margin-bottom:5px}button{margin-top:12px;padding:10px 18px;border:none;background:#0f172a;color:white;border-radius:8px;cursor:pointer}button:hover{background:#1d4ed8}.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:15px}.card{background:#f8fafc;border-left:6px solid #2563eb;padding:12px;border-radius:8px;line-height:1.55}.metric-card{background:#ecfeff;border-left:6px solid #0891b2;padding:12px;border-radius:8px;line-height:1.55}.warn{background:#fffbeb;border-left:6px solid #d97706}.note{margin-top:12px;padding:10px 12px;background:#f8fafc;border-left:5px solid #2563eb;border-radius:8px;line-height:1.5}.svg-control{background:rgba(248,250,252,.96);border:1px solid #93c5fd;border-radius:10px;box-shadow:0 6px 16px rgba(15,23,42,.16);padding:10px;font-family:Arial,sans-serif}.svg-control label{display:block;font-size:12px;font-weight:bold;color:#0f172a;margin-bottom:5px}.svg-control select{width:100%;padding:6px 8px;border:1px solid #94a3b8;border-radius:6px;background:white;color:#0f172a}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<header><h1>Amine Treating Unit SVG Flowsheet</h1></header>
+<div id="tooltip"></div>
+<div class="container">
+<div class="panel">
+<h2>Acid Gas Absorber + Amine Regeneration Flowsheet</h2>
+<svg viewBox="0 0 1400 780">
+<defs>
+    <marker id="gasArrow" viewBox="0 0 8 8" markerWidth="3" markerHeight="3" refX="7.2" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#0ea5e9"/></marker>
+    <marker id="amineArrow" viewBox="0 0 8 8" markerWidth="3" markerHeight="3" refX="7.2" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#16a34a"/></marker>
+    <marker id="richArrow" viewBox="0 0 8 8" markerWidth="3" markerHeight="3" refX="7.2" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#d97706"/></marker>
+    <marker id="acidArrow" viewBox="0 0 8 8" markerWidth="3" markerHeight="3" refX="7.2" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#dc2626"/></marker>
+    <marker id="waterArrow" viewBox="0 0 8 8" markerWidth="3" markerHeight="3" refX="7.2" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#38bdf8"/></marker>
+</defs>
+<foreignObject x="18" y="18" width="285" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="svg-control"><label for="solventPreset">Solvent Preset</label><select id="solventPreset"><option value="MEA">MEA - 20 wt%</option><option value="DEA">DEA - 25 wt%</option><option value="MDEA">MDEA - 45 wt%</option><option value="DGA">DGA - 50 wt%</option></select></div></foreignObject>
+
+<!-- Absorber -->
+<rect x="225" y="150" width="145" height="420" rx="70" class="column-body tooltip-target" data-name="Acid Gas Absorber" data-type="Packed / Trayed Contactor" data-condition="Top: 105°F / 595 psig | Bottom: 120°F / 610 psig" data-flow="Sour gas upflow; lean amine downflow" data-duty="H₂S/CO₂ absorption"/>
+<text x="230" y="134" class="label">Acid Gas Absorber</text>
+<line x1="245" y1="210" x2="350" y2="210" class="tray"/><line x1="245" y1="260" x2="350" y2="260" class="tray"/><line x1="245" y1="310" x2="350" y2="310" class="tray"/><line x1="245" y1="360" x2="350" y2="360" class="tray"/><line x1="245" y1="410" x2="350" y2="410" class="tray"/><line x1="245" y1="460" x2="350" y2="460" class="tray"/><line x1="245" y1="510" x2="350" y2="510" class="tray"/>
+
+<!-- Sour gas inlet -->
+<path d="M30 485 H220" class="pipe"/><path d="M30 485 H220" class="gas-flow tooltip-target" data-name="Sour Gas Inlet" data-type="Feed Gas Stream" data-condition="100°F / 620 psig" data-flow="100.0 MMSCFD" data-duty="H₂S 1.00 mol%, CO₂ 2.00 mol%"/>
+<rect x="35" y="395" width="175" height="72" rx="8" class="callout-acid"/>
+<text x="48" y="415" class="callout-title">Acid-Gas Inlet</text>
+<text x="48" y="435" class="callout-text" id="svgFeedFlow">Flow: 100.0 MMSCFD</text>
+<text x="48" y="452" class="callout-text" id="svgFeedComp">H₂S 1.00% | CO₂ 2.00%</text>
+
+<!-- Treated gas outlet -->
+<path d="M298 150 V72 H560" class="pipe"/><path d="M298 150 V72 H560" class="gas-flow tooltip-target" data-name="Sweet Gas Outlet" data-type="Treated Gas" data-condition="105°F / 595 psig" data-flow="97.0 MMSCFD" data-duty="Reduced acid gas to sales specification"/>
+<text x="386" y="52" class="stream-label" id="sweetGasLabel">Sweet Gas: 105°F / 595 psig</text>
+<rect x="430" y="92" width="188" height="58" rx="8" class="callout"/>
+<text x="442" y="112" class="callout-title">Absorber Top</text><text x="442" y="130" class="callout-text" id="absorberTopCallout">Sweet gas, 97.0 MMSCFD</text>
+
+<!-- Lean amine to absorber -->
+<path d="M1050 610 H1185 V120 H374" class="pipe"/><path d="M1050 610 H1185 V120 H374" class="amine-flow tooltip-target" data-name="Lean Amine to Absorber" data-type="Lean Solvent" data-condition="110°F / 630 psig" data-flow="440 gpm" data-duty="Amine strength: 30 wt%"/>
+<text x="675" y="102" class="stream-label" id="leanAmineLabel">Lean Amine: 110°F / 630 psig</text>
+
+<!-- Rich amine bottom -->
+<path d="M298 570 V665 H600" class="pipe"/><path d="M298 570 V665 H600" class="rich-flow tooltip-target" data-name="Rich Amine from Absorber" data-type="Rich Solvent" data-condition="120°F / 610 psig" data-flow="440 gpm" data-duty="Rich loading after absorption"/>
+<rect x="380" y="575" width="190" height="58" rx="8" class="callout-hot"/>
+<text x="394" y="595" class="callout-title">Absorber Bottom</text><text x="394" y="613" class="callout-text" id="absorberBottomCallout">Rich amine, 440 gpm</text>
+
+<!-- Flash drum -->
+<rect x="610" y="630" width="120" height="70" rx="30" class="vessel tooltip-target" data-name="Rich Amine Flash Drum" data-type="Flash Separator" data-condition="125°F / 75 psig" data-flow="Rich amine + flashed hydrocarbons" data-duty="Hydrocarbon flash before regeneration"/>
+<text x="628" y="670" class="small-label">Flash Drum</text>
+<path d="M670 630 V585 H760" class="pipe"/><path d="M670 630 V585 H760" class="gas-flow tooltip-target" data-name="Flash Gas" data-type="Offgas" data-condition="125°F / 75 psig" data-flow="0.3 MMSCFD" data-duty="Recovered flash gas"/>
+
+<!-- L/R exchanger -->
+<rect x="760" y="625" width="150" height="82" rx="12" class="exchanger tooltip-target" data-name="Lean/Rich Amine Heat Exchanger" data-type="Plate / Shell-and-Tube Exchanger" data-condition="Rich out: 205°F | Lean out: 145°F" data-flow="Counter-current lean/rich amine" data-duty="Heat recovery before regenerator"/>
+<line x1="780" y1="648" x2="890" y2="685" stroke="#7c3aed" stroke-width="3"/><line x1="780" y1="685" x2="890" y2="648" stroke="#7c3aed" stroke-width="3"/>
+<text x="780" y="617" class="label">Lean/Rich Exchanger</text>
+<path d="M730 665 H760" class="pipe"/><path d="M730 665 H760" class="rich-flow tooltip-target" data-name="Rich Amine to Exchanger" data-type="Rich Solvent" data-condition="125°F / 75 psig" data-flow="440 gpm" data-duty="Preheated by hot lean amine"/>
+<path d="M910 665 H980 V515" class="pipe"/><path d="M910 665 H980 V515" class="rich-flow tooltip-target" data-name="Hot Rich Amine to Regenerator" data-type="Rich Solvent" data-condition="205°F / 35 psig" data-flow="440 gpm" data-duty="Feed to regenerator upper section"/>
+
+<!-- Regenerator -->
+<rect x="925" y="210" width="135" height="310" rx="62" class="column-body tooltip-target" data-name="Amine Regenerator" data-type="Stripper Column" data-condition="Top: 212°F / 18 psig | Bottom: 250°F / 22 psig" data-flow="Rich amine stripping with steam" data-duty="Acid gas regeneration"/>
+<text x="926" y="195" class="label">Amine Regenerator</text>
+<line x1="945" y1="260" x2="1042" y2="260" class="tray"/><line x1="945" y1="305" x2="1042" y2="305" class="tray"/><line x1="945" y1="350" x2="1042" y2="350" class="tray"/><line x1="945" y1="395" x2="1042" y2="395" class="tray"/><line x1="945" y1="440" x2="1042" y2="440" class="tray"/>
+<rect x="1080" y="255" width="198" height="65" rx="8" class="callout-acid"/>
+<text x="1092" y="275" class="callout-title">Regenerator Top</text><text x="1092" y="293" class="callout-text" id="regenTopCallout">Acid gas to SRU / incinerator</text><text x="1092" y="310" class="callout-text" id="acidGasRateCallout">Acid gas: 3.0 MMSCFD</text>
+
+<!-- Acid gas overhead condenser -->
+<path d="M992 210 V150 H1110" class="pipe"/><path d="M992 210 V150 H1110" class="acid-flow tooltip-target" data-name="Regenerator Overhead Acid Gas" data-type="H₂S/CO₂ + Water Vapor" data-condition="212°F / 18 psig" data-flow="3.0 MMSCFD acid gas" data-duty="To condenser and reflux drum"/>
+<rect x="1115" y="118" width="135" height="65" rx="12" class="duty-equipment tooltip-target" data-name="Overhead Condenser" data-type="Air / Water Cooler" data-condition="Outlet: 120°F / 15 psig" data-flow="Acid gas + water condensate" data-duty="Condense water reflux"/>
+<text x="1148" y="148" class="label">Condenser</text>
+<rect x="1260" y="118" width="100" height="65" rx="26" class="vessel tooltip-target" data-name="Reflux Drum" data-type="Separator" data-condition="120°F / 15 psig" data-flow="Acid gas overhead" data-duty="Separate reflux water from acid gas"/>
+<text x="1274" y="156" class="small-label">Reflux Drum</text>
+<path d="M1250 150 H1260" class="pipe"/><path d="M1250 150 H1260" class="acid-flow"/>
+<path d="M1360 150 H1390" class="pipe"/><path d="M1360 150 H1390" class="acid-flow tooltip-target" data-name="Acid Gas Product" data-type="Acid Gas to SRU" data-condition="120°F / 15 psig" data-flow="3.0 MMSCFD" data-duty="H₂S + CO₂ removed from feed"/>
+<text x="1260" y="102" class="stream-label" id="acidGasLabel">Acid Gas: H₂S + CO₂</text>
+
+<!-- Reboiler and lean amine circuit -->
+<rect x="760" y="510" width="130" height="75" rx="12" class="duty-equipment tooltip-target" data-name="Regenerator Reboiler" data-type="Steam Reboiler" data-condition="250°F / 25 psig" data-flow="Bottoms circulation" data-duty="Estimated duty: 20.0 MMBtu/hr"/>
+<text x="797" y="542" class="label">Reboiler</text>
+<path d="M925 500 H890" class="pipe"/><path d="M925 500 H890" class="acid-flow tooltip-target" data-name="Reboiler Draw" data-type="Lean Amine Bottoms" data-condition="248°F / 22 psig" data-flow="Bottom liquid circulation" data-duty="Steam input"/>
+<path d="M760 548 H712 V470 H925" class="pipe"/><path d="M760 548 H712 V470 H925" class="acid-flow tooltip-target" data-name="Reboiler Return" data-type="Vapor-Liquid Return" data-condition="252°F / 25 psig" data-flow="Steam-rich return" data-duty="Stripping vapor to column"/>
+<path d="M992 520 V610 H910" class="pipe"/><path d="M992 520 V610 H910" class="amine-flow tooltip-target" data-name="Hot Lean Amine from Regenerator" data-type="Lean Solvent" data-condition="250°F / 22 psig" data-flow="440 gpm" data-duty="Regenerated amine"/>
+<rect x="1080" y="455" width="190" height="58" rx="8" class="callout"/>
+<text x="1092" y="475" class="callout-title">Regenerator Bottom</text><text x="1092" y="493" class="callout-text" id="regenBottomCallout">Lean amine, 440 gpm</text>
+
+<!-- Cooler, pump, filter -->
+<path d="M760 640 H650 V610 H910" class="pipe" opacity="0"/>
+<path d="M760 665 V610 H610" class="pipe"/><path d="M760 665 V610 H610" class="amine-flow tooltip-target" data-name="Lean Amine after Exchanger" data-type="Warm Lean Solvent" data-condition="145°F / 45 psig" data-flow="440 gpm" data-duty="Cooled by rich amine"/>
+<rect x="470" y="580" width="135" height="65" rx="12" class="duty-equipment tooltip-target" data-name="Lean Amine Cooler" data-type="Trim Cooler" data-condition="Outlet: 110°F / 45 psig" data-flow="Lean amine" data-duty="Trim cooling before absorber"/>
+<text x="500" y="610" class="label">Lean Cooler</text>
+<path d="M610 610 H605" class="pipe"/><path d="M610 610 H605" class="amine-flow"/>
+<circle cx="405" cy="610" r="31" class="duty-equipment tooltip-target" data-name="Lean Amine Pump" data-type="Centrifugal Pump" data-condition="110°F / 630 psig discharge" data-flow="440 gpm" data-duty="Absorber circulation pump"/>
+<text x="381" y="614" class="small-label">Pump</text>
+<path d="M470 610 H436" class="pipe"/><path d="M470 610 H436" class="amine-flow"/>
+<path d="M374 610 H330 V570" class="pipe"/><path d="M374 610 H330 V570" class="amine-flow tooltip-target" data-name="Lean Amine Injection" data-type="Lean Solvent" data-condition="110°F / 630 psig" data-flow="440 gpm" data-duty="Lean loading to absorber top"/>
+
+<!-- Water makeup -->
+<path d="M405 704 V646" class="pipe"/><path d="M405 704 V646" class="water-flow tooltip-target" data-name="Water Makeup" data-type="Makeup Water" data-condition="Ambient / low pressure" data-flow="0.7 gpm" data-duty="Replaces vaporization and losses"/>
+<text x="330" y="728" class="stream-label" id="waterMakeupLabel">Water Makeup: 0.7 gpm</text>
+
+</svg>
+</div>
+
+<div class="panel">
+<h2>Amine Solvent Circulation Calculator</h2>
+<div class="grid">
+    <div class="input-card"><label>Sour Gas Flowrate</label><input id="gasFlow" type="number" value="100" step="0.1"><small>MMSCFD</small></div>
+    <div class="input-card"><label>H₂S in Sour Gas</label><input id="h2sMol" type="number" value="1.0" step="0.01"><small>mol%</small></div>
+    <div class="input-card"><label>CO₂ in Sour Gas</label><input id="co2Mol" type="number" value="2.0" step="0.01"><small>mol%</small></div>
+    <div class="input-card"><label>Target Capture Efficiency</label><input id="targetCapture" type="number" value="98" step="0.1"><small>% acid gas captured</small></div>
+    <div class="input-card"><label>Amine Solvent Type</label><select id="amineType"><option value="MEA">MEA</option><option value="DEA">DEA</option><option value="MDEA" selected>MDEA</option><option value="DGA">DGA</option></select></div>
+    <div class="input-card"><label>Amine Strength</label><input id="amineStrength" type="number" value="45" step="0.1"><small>wt%</small></div>
+    <div class="input-card"><label>Rich Loading</label><input id="richLoading" type="number" value="0.45" step="0.01"><small>mol acid gas / mol amine</small></div>
+    <div class="input-card"><label>Lean Loading</label><input id="leanLoading" type="number" value="0.05" step="0.01"><small>mol acid gas / mol amine</small></div>
+    <div class="input-card"><label>Solution Specific Gravity</label><input id="solutionSG" type="number" value="1.04" step="0.001"><small>relative to water</small></div>
+    <div class="input-card"><label>Reboiler Duty Factor</label><input id="dutyFactor" type="number" value="1150" step="10"><small>Btu/lb acid gas removed</small></div>
+    <div class="input-card"><label>Water Loss Factor</label><input id="waterLoss" type="number" value="0.15" step="0.01"><small>gal water / MSCF acid gas removed</small></div>
+    <div class="input-card"><label>Lean Amine Temperature / Pressure</label><input id="leanTP" type="text" value="110°F / 630 psig"><small>display on SVG</small></div>
+</div>
+<button onclick="updateAmineUnit()">Update Amine Flowsheet</button>
+<div class="summary" id="calcCards"></div>
+<div class="note" id="basisNote"></div>
+</div>
+
+<div class="panel">
+<h2>Major Unit and Stream Operating Conditions</h2>
+<table>
+<thead><tr><th>Node / Stream</th><th>Temperature</th><th>Pressure</th><th>Flow</th><th>Composition / Amine Strength</th><th>Service</th></tr></thead>
+<tbody id="conditionTable"></tbody>
+</table>
+</div>
+</div>
+<script>
+const SOLVENTS = {
+    MEA:{strength:20, mw:61.08, sg:1.02, rich:0.35, lean:0.08, duty:1650},
+    DEA:{strength:25, mw:105.14, sg:1.03, rich:0.45, lean:0.06, duty:1300},
+    MDEA:{strength:45, mw:119.16, sg:1.04, rich:0.45, lean:0.05, duty:1150},
+    DGA:{strength:50, mw:105.14, sg:1.06, rich:0.40, lean:0.05, duty:1250}
+};
+const MW_H2S=34.08, MW_CO2=44.01;
+function v(id){const el=document.getElementById(id); return Number(el?.value)||0;}
+function s(id){return document.getElementById(id)?.value||"";}
+function fmt(n,d=1){return Number.isFinite(n)?Number(n).toFixed(d):"0.0";}
+function setText(id,text){const el=document.getElementById(id); if(el) el.textContent=text;}
+function updateTooltipByName(name, fields){document.querySelectorAll('.tooltip-target').forEach(el=>{if(el.dataset.name===name){Object.entries(fields).forEach(([k,val])=>el.dataset[k]=val);}});}
+function acidGasMolesPerDay(gasMMSCFD,h2sPct,co2Pct){return gasMMSCFD*1_000_000/379.48*((h2sPct+co2Pct)/100);}
+function gasMolToMMSCFD(lbmolPerDay){return lbmolPerDay*379.48/1_000_000;}
+function updateAmineUnit(){
+    const gas=v('gasFlow'), h2s=v('h2sMol'), co2=v('co2Mol'), capture=Math.min(100,Math.max(0,v('targetCapture')))/100;
+    const type=s('amineType') || 'MDEA'; const strength=v('amineStrength'); const rich=v('richLoading'); const lean=v('leanLoading'); const sg=v('solutionSG'); const dutyFactor=v('dutyFactor'); const waterLoss=v('waterLoss');
+    const mwAmine=SOLVENTS[type].mw; const deltaLoading=Math.max(0.01, rich-lean);
+    const totalAcidLbmol=acidGasMolesPerDay(gas,h2s,co2); const capturedLbmol=totalAcidLbmol*capture; const remainingLbmol=totalAcidLbmol-capturedLbmol;
+    const h2sFrac=(h2s+co2)>0?h2s/(h2s+co2):0; const co2Frac=1-h2sFrac;
+    const capturedH2SLbmol=capturedLbmol*h2sFrac; const capturedCO2Lbmol=capturedLbmol*co2Frac;
+    const acidGasMMSCFD=gasMolToMMSCFD(capturedLbmol); const sweetGasMMSCFD=Math.max(0, gas-acidGasMMSCFD);
+    const acidGasLbPerDay=capturedH2SLbmol*MW_H2S+capturedCO2Lbmol*MW_CO2; const acidGasLbHr=acidGasLbPerDay/24;
+    const requiredAmineLbmolPerDay=capturedLbmol/deltaLoading; const pureAmineLbPerDay=requiredAmineLbmolPerDay*mwAmine;
+    const solutionLbPerDay=pureAmineLbPerDay/(Math.max(1,strength)/100); const solutionGalPerDay=solutionLbPerDay/(8.337*sg); const circGpm=solutionGalPerDay/1440;
+    const reboilerMMBtuHr=acidGasLbHr*dutyFactor/1_000_000; const waterMakeupGpm=acidGasMMSCFD*1000*waterLoss/1440;
+    const sulfurRemovedTPD=capturedH2SLbmol*32.065/2000; const co2RemovedTPD=capturedCO2Lbmol*MW_CO2/2000;
+    const richStrength=Math.max(0, strength-0.2); const regenBottomStrength=strength; const leanRichStrength=strength-0.1;
+
+    setText('svgFeedFlow',`Flow: ${fmt(gas,1)} MMSCFD`); setText('svgFeedComp',`H₂S ${fmt(h2s,2)}% | CO₂ ${fmt(co2,2)}%`);
+    setText('absorberTopCallout',`Sweet gas, ${fmt(sweetGasMMSCFD,1)} MMSCFD`); setText('absorberBottomCallout',`Rich amine, ${fmt(circGpm,0)} gpm`);
+    setText('regenTopCallout',`Acid gas, ${fmt(acidGasMMSCFD,2)} MMSCFD`); setText('acidGasRateCallout',`H₂S ${fmt(h2sFrac*100,1)}% | CO₂ ${fmt(co2Frac*100,1)}%`);
+    setText('regenBottomCallout',`Lean amine, ${fmt(circGpm,0)} gpm`); setText('acidGasLabel',`Acid Gas: ${fmt(acidGasMMSCFD,2)} MMSCFD to SRU`);
+    setText('leanAmineLabel',`Lean Amine: ${s('leanTP')}`); setText('sweetGasLabel',`Sweet Gas: 105°F / 595 psig`); setText('waterMakeupLabel',`Water Makeup: ${fmt(waterMakeupGpm,2)} gpm`);
+
+    updateTooltipByName('Sour Gas Inlet',{condition:'100°F / 620 psig',flow:`${fmt(gas,1)} MMSCFD`,duty:`H₂S ${fmt(h2s,2)} mol%, CO₂ ${fmt(co2,2)} mol%`});
+    updateTooltipByName('Sweet Gas Outlet',{flow:`${fmt(sweetGasMMSCFD,1)} MMSCFD`,duty:`Estimated capture: ${fmt(capture*100,1)}%`});
+    updateTooltipByName('Acid Gas Product',{flow:`${fmt(acidGasMMSCFD,2)} MMSCFD`,duty:`Composition: H₂S ${fmt(h2sFrac*100,1)} mol%, CO₂ ${fmt(co2Frac*100,1)} mol%`});
+    ['Lean Amine to Absorber','Lean Amine Injection','Lean Amine after Exchanger','Hot Lean Amine from Regenerator'].forEach(name=>updateTooltipByName(name,{flow:`${fmt(circGpm,0)} gpm`,duty:`Amine strength: ${fmt(strength,1)} wt% ${type}`}));
+    ['Rich Amine from Absorber','Rich Amine to Exchanger','Hot Rich Amine to Regenerator'].forEach(name=>updateTooltipByName(name,{flow:`${fmt(circGpm,0)} gpm`,duty:`Rich loading: ${fmt(rich,2)} mol/mol; strength ${fmt(richStrength,1)} wt%`}));
+    updateTooltipByName('Regenerator Reboiler',{duty:`Estimated duty: ${fmt(reboilerMMBtuHr,2)} MMBtu/hr`}); updateTooltipByName('Water Makeup',{flow:`${fmt(waterMakeupGpm,2)} gpm`});
+
+    document.getElementById('calcCards').innerHTML = `
+      <div class="metric-card"><strong>Solvent Circulation Rate</strong><br>${fmt(circGpm,0)} gpm<br>${fmt(solutionGalPerDay/1000,1)} kgal/day</div>
+      <div class="metric-card"><strong>Reboiler Duty</strong><br>${fmt(reboilerMMBtuHr,2)} MMBtu/hr<br>${fmt(reboilerMMBtuHr*1.055,2)} GJ/hr</div>
+      <div class="metric-card"><strong>Acid-Gas Capture Efficiency</strong><br>${fmt(capture*100,1)}%<br>Captured: ${fmt(acidGasMMSCFD,2)} MMSCFD</div>
+      <div class="metric-card"><strong>Water Makeup Requirement</strong><br>${fmt(waterMakeupGpm,2)} gpm<br>${fmt(waterMakeupGpm*1440,0)} gal/day</div>
+      <div class="card"><strong>Removed Acid Gas</strong><br>H₂S sulfur: ${fmt(sulfurRemovedTPD,2)} short t/d<br>CO₂: ${fmt(co2RemovedTPD,2)} short t/d</div>
+      <div class="card warn"><strong>Solvent Loading Basis</strong><br>Rich: ${fmt(rich,2)} mol/mol<br>Lean: ${fmt(lean,2)} mol/mol<br>Δ Loading: ${fmt(deltaLoading,2)} mol/mol</div>`;
+
+    const rows = [
+      ['Sour gas inlet','100°F','620 psig',`${fmt(gas,1)} MMSCFD`,`H₂S ${fmt(h2s,2)} mol%, CO₂ ${fmt(co2,2)} mol%`,'Feed to absorber bottom'],
+      ['Absorber top / sweet gas','105°F','595 psig',`${fmt(sweetGasMMSCFD,1)} MMSCFD`,`Residual acid gas ≈ ${fmt((1-capture)*(h2s+co2),3)} mol%`,'Treated gas outlet'],
+      ['Absorber bottom / rich amine','120°F','610 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(richStrength,1)} wt%, rich loading ${fmt(rich,2)}`,'Rich solvent to flash drum'],
+      ['Rich amine flash drum','125°F','75 psig',`${fmt(circGpm,0)} gpm`,`Flashed light HC + rich ${type}`,'Pressure letdown and hydrocarbon flash'],
+      ['Lean/rich amine exchanger - rich outlet','205°F','35 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(leanRichStrength,1)} wt%`,'Heat recovery before stripper'],
+      ['Regenerator top / acid gas','212°F','18 psig',`${fmt(acidGasMMSCFD,2)} MMSCFD`,`H₂S ${fmt(h2sFrac*100,1)} mol%, CO₂ ${fmt(co2Frac*100,1)} mol%`,'To condenser / reflux drum / SRU'],
+      ['Regenerator bottom / lean amine','250°F','22 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(regenBottomStrength,1)} wt%, lean loading ${fmt(lean,2)}`,'Regenerated lean solvent'],
+      ['Lean/rich amine exchanger - lean outlet','145°F','45 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(strength,1)} wt%`,'Warm lean amine to trim cooler'],
+      ['Lean amine cooler outlet','110°F','45 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(strength,1)} wt%`,'Cooler outlet to pump'],
+      ['Lean amine pump discharge','110°F','630 psig',`${fmt(circGpm,0)} gpm`,`${type} ${fmt(strength,1)} wt%`,'Lean amine to absorber top'],
+      ['Water makeup','Ambient','Low pressure',`${fmt(waterMakeupGpm,2)} gpm`,'Water','Replaces vaporization and mechanical losses']
+    ];
+    document.getElementById('conditionTable').innerHTML = rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+    document.getElementById('basisNote').innerHTML = `<strong>Calculation basis:</strong> circulation is based on acid gas lbmol/day captured and available loading swing. Reboiler duty uses the user-entered duty factor in Btu/lb acid gas removed. This is a screening calculator for conceptual process design; rigorous amine design should verify equilibrium, kinetics, hydraulic capacity, foaming margin, heat-stable salts, corrosion, and solvent degradation.`;
+}
+function applyPreset(type){const p=SOLVENTS[type]; document.getElementById('amineType').value=type; document.getElementById('amineStrength').value=p.strength; document.getElementById('solutionSG').value=p.sg; document.getElementById('richLoading').value=p.rich; document.getElementById('leanLoading').value=p.lean; document.getElementById('dutyFactor').value=p.duty; updateAmineUnit();}
+document.getElementById('solventPreset').addEventListener('change',e=>applyPreset(e.target.value)); document.getElementById('amineType').addEventListener('change',e=>{document.getElementById('solventPreset').value=e.target.value;applyPreset(e.target.value);});
+['gasFlow','h2sMol','co2Mol','targetCapture','amineStrength','richLoading','leanLoading','solutionSG','dutyFactor','waterLoss','leanTP'].forEach(id=>document.getElementById(id)?.addEventListener('input',updateAmineUnit));
+const tooltip=document.getElementById('tooltip'); document.querySelectorAll('.tooltip-target').forEach(el=>{el.addEventListener('mousemove',e=>{tooltip.innerHTML=`<strong>${el.dataset.name||'Object'}</strong><br>Type: ${el.dataset.type||'-'}<br>Condition: ${el.dataset.condition||'-'}<br>Flow: ${el.dataset.flow||'-'}<br>Duty / Service: ${el.dataset.duty||'-'}`; tooltip.style.display='block'; tooltip.style.left=`${e.clientX+14}px`; tooltip.style.top=`${e.clientY+14}px`;}); el.addEventListener('mouseleave',()=>tooltip.style.display='none');});
+updateAmineUnit();
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
