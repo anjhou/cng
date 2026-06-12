@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hydrogen Production Calculator</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0f766e;
+      color: white;
+      padding: 18px 28px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 1350px;
+      margin: 24px auto;
+      padding: 0 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #0f766e;
+      font-size: 20px;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 18px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0f766e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #115e59;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      text-align: right;
+      font-size: 14px;
+    }
+
+    th {
+      background: #0f766e;
+      color: white;
+    }
+
+    td:first-child, th:first-child {
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .results-card {
+      margin-top: 22px;
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow-x: auto;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #475569;
+      background: #ecfeff;
+      border-left: 4px solid #0f766e;
+      padding: 10px 12px;
+      margin-top: 16px;
+    }
+
+    .positive {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    .negative {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<header>
+  <h1>Hydrogen Production Calculator</h1>
+</header>
+
+<div class="container">
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>SMR - Steam Methane Reforming</h2>
+
+      <label>Natural Gas Feed, MMBtu/day</label>
+      <input id="smrGas" type="number" value="10000">
+
+      <label>Hydrogen Yield, kg H₂/MMBtu NG</label>
+      <input id="smrYield" type="number" value="9.5">
+
+      <label>Natural Gas Price, $/MMBtu</label>
+      <input id="smrGasPrice" type="number" value="3.5">
+
+      <label>Variable OPEX, $/kg H₂</label>
+      <input id="smrOpex" type="number" value="0.45">
+
+      <label>CO₂ Emissions, kg CO₂/kg H₂</label>
+      <input id="smrCO2" type="number" value="9.0">
+    </div>
+
+    <div class="card">
+      <h2>ATR - Autothermal Reforming</h2>
+
+      <label>Natural Gas Feed, MMBtu/day</label>
+      <input id="atrGas" type="number" value="10000">
+
+      <label>Hydrogen Yield, kg H₂/MMBtu NG</label>
+      <input id="atrYield" type="number" value="8.8">
+
+      <label>Natural Gas Price, $/MMBtu</label>
+      <input id="atrGasPrice" type="number" value="3.5">
+
+      <label>Oxygen Cost, $/kg H₂</label>
+      <input id="atrOxygen" type="number" value="0.25">
+
+      <label>Variable OPEX, $/kg H₂</label>
+      <input id="atrOpex" type="number" value="0.50">
+
+      <label>CO₂ Emissions, kg CO₂/kg H₂</label>
+      <input id="atrCO2" type="number" value="8.0">
+    </div>
+
+    <div class="card">
+      <h2>Electrolysis</h2>
+
+      <label>Power Input, MWh/day</label>
+      <input id="elyPower" type="number" value="1000">
+
+      <label>Specific Power, kWh/kg H₂</label>
+      <input id="elyKwh" type="number" value="52">
+
+      <label>Power Price, $/MWh</label>
+      <input id="elyPowerPrice" type="number" value="45">
+
+      <label>Water Cost, $/kg H₂</label>
+      <input id="elyWater" type="number" value="0.03">
+
+      <label>Variable OPEX, $/kg H₂</label>
+      <input id="elyOpex" type="number" value="0.35">
+
+      <label>CO₂ Emissions, kg CO₂/kg H₂</label>
+      <input id="elyCO2" type="number" value="0.0">
+    </div>
+
+    <div class="card">
+      <h2>Biomass Gasification</h2>
+
+      <label>Biomass Feed, ton/day</label>
+      <input id="bioFeed" type="number" value="500">
+
+      <label>Hydrogen Yield, kg H₂/ton biomass</label>
+      <input id="bioYield" type="number" value="75">
+
+      <label>Biomass Price, $/ton</label>
+      <input id="bioPrice" type="number" value="60">
+
+      <label>Variable OPEX, $/kg H₂</label>
+      <input id="bioOpex" type="number" value="0.75">
+
+      <label>CO₂ Emissions, kg CO₂/kg H₂</label>
+      <input id="bioCO2" type="number" value="2.0">
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:22px;">
+    <h2>Common Pricing Inputs</h2>
+
+    <div class="grid">
+      <div>
+        <label>Hydrogen Selling Price, $/kg H₂</label>
+        <input id="h2Price" type="number" value="4.00">
+      </div>
+
+      <div>
+        <label>Carbon Price / Tax, $/ton CO₂</label>
+        <input id="carbonPrice" type="number" value="0">
+      </div>
+
+      <div>
+        <label>Fixed Cost / Capital Recovery, $/kg H₂</label>
+        <input id="fixedCost" type="number" value="0.80">
+      </div>
+    </div>
+
+    <button onclick="calculateHydrogen()">Run Hydrogen Production Calculation</button>
+
+    <div class="note">
+      Cost basis includes feedstock, utilities, variable OPEX, fixed cost/capital recovery, and optional CO₂ cost.
+    </div>
+  </div>
+
+  <div class="results-card">
+    <h2>Hydrogen Production, Cost, and Margin Summary</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>H₂ Production<br>kg/day</th>
+          <th>H₂ Production<br>ton/day</th>
+          <th>Feed / Power Cost<br>$/kg</th>
+          <th>OPEX + Utility<br>$/kg</th>
+          <th>CO₂ Cost<br>$/kg</th>
+          <th>Total Cost<br>$/kg</th>
+          <th>Revenue<br>$/day</th>
+          <th>Margin<br>$/kg</th>
+          <th>Margin<br>$/day</th>
+          <th>CO₂ Emissions<br>ton/day</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+function val(id) {
+  return parseFloat(document.getElementById(id).value) || 0;
+}
+
+function format(num, decimals = 2) {
+  return num.toLocaleString(undefined, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+}
+
+function row(route, h2KgDay, feedCostKg, opexKg, co2KgPerKg) {
+  const h2Price = val("h2Price");
+  const carbonPrice = val("carbonPrice");
+  const fixedCost = val("fixedCost");
+
+  const co2CostKg = co2KgPerKg / 1000 * carbonPrice;
+  const totalCostKg = feedCostKg + opexKg + fixedCost + co2CostKg;
+  const revenueDay = h2KgDay * h2Price;
+  const marginKg = h2Price - totalCostKg;
+  const marginDay = marginKg * h2KgDay;
+  const co2TonDay = h2KgDay * co2KgPerKg / 1000;
+
+  const cls = marginKg >= 0 ? "positive" : "negative";
+
+  return `
+    <tr>
+      <td>${route}</td>
+      <td>${format(h2KgDay, 0)}</td>
+      <td>${format(h2KgDay / 1000, 2)}</td>
+      <td>${format(feedCostKg, 3)}</td>
+      <td>${format(opexKg, 3)}</td>
+      <td>${format(co2CostKg, 3)}</td>
+      <td>${format(totalCostKg, 3)}</td>
+      <td>${format(revenueDay, 0)}</td>
+      <td class="${cls}">${format(marginKg, 3)}</td>
+      <td class="${cls}">${format(marginDay, 0)}</td>
+      <td>${format(co2TonDay, 1)}</td>
+    </tr>
+  `;
+}
+
+function calculateHydrogen() {
+  let html = "";
+
+  // SMR
+  const smrH2 = val("smrGas") * val("smrYield");
+  const smrFeedCost = val("smrGasPrice") / val("smrYield");
+  html += row(
+    "SMR",
+    smrH2,
+    smrFeedCost,
+    val("smrOpex"),
+    val("smrCO2")
+  );
+
+  // ATR
+  const atrH2 = val("atrGas") * val("atrYield");
+  const atrFeedCost = val("atrGasPrice") / val("atrYield");
+  html += row(
+    "ATR",
+    atrH2,
+    atrFeedCost,
+    val("atrOpex") + val("atrOxygen"),
+    val("atrCO2")
+  );
+
+  // Electrolysis
+  const elyH2 = val("elyPower") * 1000 / val("elyKwh");
+  const elyFeedCost = val("elyKwh") * val("elyPowerPrice") / 1000;
+  html += row(
+    "Electrolysis",
+    elyH2,
+    elyFeedCost,
+    val("elyOpex") + val("elyWater"),
+    val("elyCO2")
+  );
+
+  // Biomass
+  const bioH2 = val("bioFeed") * val("bioYield");
+  const bioFeedCost = val("bioPrice") / val("bioYield");
+  html += row(
+    "Biomass Gasification",
+    bioH2,
+    bioFeedCost,
+    val("bioOpex"),
+    val("bioCO2")
+  );
+
+  document.getElementById("resultsBody").innerHTML = html;
+}
+
+document.addEventListener("DOMContentLoaded", calculateHydrogen);
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
