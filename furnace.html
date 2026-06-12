@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fired Heater / Furnace Calculator</title>
+<style>
+  body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}
+  header{background:#0f3b57;color:white;padding:14px 22px}
+  main{display:grid;grid-template-columns:1.45fr .9fr;gap:16px;padding:16px}
+  .panel{background:white;border-radius:12px;box-shadow:0 4px 14px #0002;padding:14px}
+  h2,h3{margin:6px 0 12px}
+  svg{width:100%;height:620px;border:1px solid #cbd5e1;border-radius:10px;background:#fbfdff}
+  .unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2}
+  .burner{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}
+  .stack{fill:#e5e7eb;stroke:#374151;stroke-width:2}
+  .stream{fill:none;stroke:#2563eb;stroke-width:4;marker-end:url(#arrow)}
+  .fuel{stroke:#dc2626}
+  .air{stroke:#16a34a}
+  .flue{stroke:#6b7280}
+  .process{stroke:#7c3aed}
+  .label{font-size:13px;font-weight:700;fill:#111827}
+  .note{font-size:11px;fill:#111827}
+  .callout{fill:#fff7ed;stroke:#fb923c;stroke-width:1.4}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  label{font-size:13px;font-weight:700}
+  input,select{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:7px;margin-top:4px}
+  button{width:100%;padding:10px;border:0;border-radius:8px;background:#0f766e;color:white;font-weight:700;cursor:pointer;margin-top:12px}
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+  th,td{border:1px solid #d1d5db;padding:7px;text-align:left}
+  th{background:#e2e8f0}
+  .result{font-weight:700;color:#075985}
+</style>
+</head>
+<body>
+<header>
+  <h2>Fired Heater / Furnace SVG Flowsheet & Calculator</h2>
+</header>
+
+<main>
+<section class="panel">
+<svg viewBox="0 0 1100 650">
+<defs>
+  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"/>
+  </marker>
+</defs>
+
+<!-- Units -->
+<rect x="435" y="210" width="230" height="210" rx="16" class="unit"/>
+<text x="495" y="250" class="label">F-101 Fired Heater</text>
+<rect x="490" y="345" width="120" height="45" rx="10" class="burner"/>
+<text x="525" y="373" class="label">Burner</text>
+
+<rect x="740" y="95" width="90" height="180" class="stack"/>
+<text x="757" y="130" class="label">Stack</text>
+
+<rect x="135" y="95" width="180" height="80" rx="12" class="unit"/>
+<text x="167" y="127" class="label">Feed Mix Drum</text>
+<text x="152" y="150" class="note">Heavy Naphtha + VGO</text>
+
+<rect x="120" y="435" width="185" height="75" rx="12" class="unit"/>
+<text x="155" y="465" class="label">Fuel Gas Skid</text>
+<text x="145" y="487" class="note">NG pressure control</text>
+
+<rect x="120" y="545" width="185" height="60" rx="12" class="unit"/>
+<text x="162" y="580" class="label">FD Air Blower</text>
+
+<rect x="800" y="435" width="190" height="75" rx="12" class="unit"/>
+<text x="835" y="465" class="label">Heat Recovery</text>
+<text x="828" y="488" class="note">APH / Economizer</text>
+
+<!-- Streams -->
+<path d="M315 135 H435" class="stream process"/>
+<path d="M665 285 H1000" class="stream process"/>
+<path d="M305 472 H490" class="stream fuel"/>
+<path d="M305 575 C390 575 420 395 490 370" class="stream air"/>
+<path d="M610 350 C700 330 742 275 785 275" class="stream flue"/>
+<path d="M785 95 V40" class="stream flue"/>
+<path d="M830 472 H760 C720 472 690 420 655 385" class="stream flue"/>
+
+<!-- Callouts -->
+<rect x="30" y="65" width="260" height="92" class="callout" rx="8"/>
+<text x="45" y="88" class="label">Feed Streams</text>
+<text x="45" y="110" class="note" id="feedCallout1">Heavy Naphtha: 8,000 bpd</text>
+<text x="45" y="128" class="note" id="feedCallout2">VGO: 12,000 bpd</text>
+<text x="45" y="146" class="note" id="feedCallout3">T: 300°F, P: 120 psig</text>
+
+<rect x="680" y="295" width="300" height="86" class="callout" rx="8"/>
+<text x="695" y="318" class="label">Heater Outlet</text>
+<text x="695" y="340" class="note" id="outletCallout">Outlet T: 720°F</text>
+<text x="695" y="358" class="note">Composition: Heated hydrocarbon feed</text>
+
+<rect x="330" y="455" width="260" height="84" class="callout" rx="8"/>
+<text x="345" y="478" class="label">Fuel Gas</text>
+<text x="345" y="500" class="note" id="fuelCallout">NG: 90 mol% CH₄, 6% C₂H₆</text>
+<text x="345" y="518" class="note" id="fuelRateCallout">Fuel rate: calculated</text>
+
+<rect x="330" y="548" width="260" height="70" class="callout" rx="8"/>
+<text x="345" y="572" class="label">Combustion Air</text>
+<text x="345" y="594" class="note" id="airCallout">Air: 21% O₂, 79% N₂</text>
+
+<rect x="840" y="55" width="225" height="72" class="callout" rx="8"/>
+<text x="855" y="78" class="label">Stack Gas</text>
+<text x="855" y="100" class="note" id="stackCallout">Stack T: 650°F</text>
+<text x="855" y="118" class="note">CO₂, H₂O, N₂, excess O₂</text>
+</svg>
+</section>
+
+<section class="panel">
+<h3>Furnace Calculator</h3>
+
+<div class="grid">
+  <div><label>Heavy Naphtha Flow, bpd</label><input id="hnFlow" value="8000"></div>
+  <div><label>VGO Flow, bpd</label><input id="vgoFlow" value="12000"></div>
+  <div><label>Feed Inlet T, °F</label><input id="tin" value="300"></div>
+  <div><label>Feed Outlet T, °F</label><input id="tout" value="720"></div>
+  <div><label>Feed Pressure, psig</label><input id="press" value="120"></div>
+  <div><label>Avg Cp, Btu/lb-°F</label><input id="cp" value="0.62"></div>
+  <div><label>Avg SG</label><input id="sg" value="0.86"></div>
+  <div><label>Fuel Gas LHV, Btu/scf</label><input id="lhv" value="950"></div>
+  <div><label>Stack Temp, °F</label><input id="stackT" value="650"></div>
+  <div><label>Ambient Temp, °F</label><input id="ambT" value="80"></div>
+  <div><label>Excess Air, %</label><input id="excessAir" value="15"></div>
+  <div><label>Target Stack Temp, °F</label><input id="targetStackT" value="450"></div>
+  <div><label>Target Excess Air, %</label><input id="targetAir" value="8"></div>
+  <div><label>Heat Recovery Gain, %</label><input id="recoveryGain" value="5"></div>
+</div>
+
+<button onclick="calculateFurnace()">Run Furnace Calculation</button>
+
+<table>
+<thead><tr><th>Parameter</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Furnace Duty</td><td class="result" id="duty">-</td></tr>
+<tr><td>Fuel Gas Consumption</td><td class="result" id="fuelRate">-</td></tr>
+<tr><td>Overall Fired-Heater Efficiency</td><td class="result" id="eff">-</td></tr>
+<tr><td>Feed Enthalpy Change</td><td class="result" id="dh">-</td></tr>
+<tr><td>Estimated Stack Loss</td><td class="result" id="stackLoss">-</td></tr>
+<tr><td>Fuel Savings Potential</td><td class="result" id="savings">-</td></tr>
+</tbody>
+</table>
+</section>
+</main>
+
+<script>
+function val(id){ return parseFloat(document.getElementById(id).value) || 0; }
+
+function calculateFurnace(){
+  const hn = val("hnFlow");
+  const vgo = val("vgoFlow");
+  const tin = val("tin");
+  const tout = val("tout");
+  const p = val("press");
+  const cp = val("cp");
+  const sg = val("sg");
+  const lhv = val("lhv");
+  const stackT = val("stackT");
+  const ambT = val("ambT");
+  const excessAir = val("excessAir");
+  const targetStackT = val("targetStackT");
+  const targetAir = val("targetAir");
+  const recoveryGain = val("recoveryGain");
+
+  const totalBpd = hn + vgo;
+  const lbPerDay = totalBpd * 42 * 8.337 * sg;
+  const lbPerHr = lbPerDay / 24;
+  const dT = tout - tin;
+
+  const duty = lbPerHr * cp * dT;
+  const dutyMMBtu = duty / 1e6;
+
+  const stackLossFrac = Math.max(0.04, 0.00018 * (stackT - ambT) + 0.0015 * excessAir);
+  const efficiency = Math.max(0.55, Math.min(0.92, 1 - stackLossFrac));
+  const firedDuty = duty / efficiency;
+  const fuelScfh = firedDuty / lhv;
+  const stackLoss = firedDuty - duty;
+
+  const targetStackLossFrac = Math.max(0.03, 0.00018 * (targetStackT - ambT) + 0.0015 * targetAir);
+  const targetEff = Math.min(0.94, 1 - targetStackLossFrac + recoveryGain/100);
+  const targetFuel = duty / targetEff / lhv;
+  const fuelSavings = fuelScfh - targetFuel;
+  const fuelSavingsPct = fuelScfh > 0 ? fuelSavings / fuelScfh * 100 : 0;
+
+  document.getElementById("duty").textContent = dutyMMBtu.toFixed(2) + " MMBtu/hr";
+  document.getElementById("fuelRate").textContent = fuelScfh.toFixed(0) + " scfh";
+  document.getElementById("eff").textContent = (efficiency*100).toFixed(1) + " %";
+  document.getElementById("dh").textContent = (cp*dT).toFixed(1) + " Btu/lb";
+  document.getElementById("stackLoss").textContent = (stackLoss/1e6).toFixed(2) + " MMBtu/hr";
+  document.getElementById("savings").textContent =
+    fuelSavings.toFixed(0) + " scfh (" + fuelSavingsPct.toFixed(1) + "%)";
+
+  document.getElementById("feedCallout1").textContent = "Heavy Naphtha: " + hn.toLocaleString() + " bpd";
+  document.getElementById("feedCallout2").textContent = "VGO: " + vgo.toLocaleString() + " bpd";
+  document.getElementById("feedCallout3").textContent = "T: " + tin + "°F, P: " + p + " psig";
+  document.getElementById("outletCallout").textContent = "Outlet T: " + tout + "°F";
+  document.getElementById("fuelRateCallout").textContent = "Fuel rate: " + fuelScfh.toFixed(0) + " scfh";
+  document.getElementById("stackCallout").textContent = "Stack T: " + stackT + "°F";
+}
+
+calculateFurnace();
+</script>
+</body>
+</html>
