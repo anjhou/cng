@@ -217,6 +217,65 @@ button:hover{
     padding:12px;
     border-radius:8px;
 }
+
+
+/* SVG assay selector overlay */
+.svg-assay-control{
+    background:rgba(248,250,252,.96);
+    border:1px solid #93c5fd;
+    border-radius:10px;
+    box-shadow:0 6px 16px rgba(15,23,42,.16);
+    padding:10px;
+    font-family:Arial, sans-serif;
+}
+.svg-assay-control label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#0f172a;
+    margin-bottom:5px;
+}
+.svg-assay-control select{
+    width:100%;
+    padding:6px 8px;
+    border:1px solid #94a3b8;
+    border-radius:6px;
+    background:#ffffff;
+    color:#0f172a;
+}
+.price-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:12px;
+    margin-top:12px;
+}
+.price-card{
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    padding:10px;
+}
+.price-card label{
+    display:block;
+    font-weight:bold;
+    font-size:12px;
+    margin-bottom:5px;
+}
+.metric-card{
+    background:#ecfeff;
+    border-left:6px solid #0891b2;
+    padding:12px;
+    border-radius:8px;
+}
+.assay-note{
+    margin-top:12px;
+    padding:10px 12px;
+    background:#f8fafc;
+    border-left:5px solid #2563eb;
+    border-radius:8px;
+    line-height:1.5;
+}
+
 </style>
 </head>
 
@@ -283,6 +342,15 @@ button:hover{
         <path d="M0,0 L8,4 L0,8 Z" fill="#92400e"></path>
     </marker>
 </defs>
+
+    <!-- Assay selector overlay -->
+    <foreignObject x="18" y="18" width="285" height="82">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="svg-assay-control">
+            <label for="assaySelect">Crude Assay Selection</label>
+            <select id="assaySelect" aria-label="Select crude assay"></select>
+        </div>
+    </foreignObject>
+
 
 <!--  -->
 
@@ -521,20 +589,260 @@ button:hover{
 </tbody>
 </table>
 
+<div class="assay-note" id="assayInfo">
+    Select a crude assay to update TBP-based CDU yields and estimated duties.
+</div>
+
+<h2>Price Inputs and Crack Spread</h2>
+<div class="price-grid">
+    <div class="price-card"><label>Crude Price ($/bbl)</label><input id="crudePrice" type="number" value="75" step="0.01"></div>
+    <div class="price-card"><label>Gasoline / Naphtha Price ($/bbl)</label><input id="gasolinePrice" type="number" value="90" step="0.01"></div>
+    <div class="price-card"><label>Distillate Price ($/bbl)</label><input id="distillatePrice" type="number" value="98" step="0.01"></div>
+    <div class="price-card"><label>Gas Oil Price ($/bbl)</label><input id="gasOilPrice" type="number" value="88" step="0.01"></div>
+    <div class="price-card"><label>Fuel Oil / Resid Price ($/bbl)</label><input id="fuelOilPrice" type="number" value="62" step="0.01"></div>
+</div>
+
 <button onclick="updateCDU()">Update Flowsheet</button>
 
 <div class="summary" id="summaryCards"></div>
+<div class="summary" id="crackCards"></div>
 </div>
 
 </div>
 
 <script>
+const EMBEDDED_CRUDE_ASSAYS = {
+  "WTI": {
+    "displayName": "WTI - Light Sweet",
+    "api": 39.6,
+    "sulfur": 0.24,
+    "tan": 0.08,
+    "ccr": 2.1,
+    "chloride": 4,
+    "nitrogen": 800,
+    "pona": {
+      "paraffins": 46,
+      "olefins": 1,
+      "naphthenes": 34,
+      "aromatics": 19
+    },
+    "tbp": {
+      "0": 90,
+      "10": 180,
+      "30": 320,
+      "50": 470,
+      "70": 650,
+      "90": 920,
+      "100": 1150
+    }
+  },
+  "Brent": {
+    "displayName": "Brent - Light Sweet",
+    "api": 38.3,
+    "sulfur": 0.4,
+    "tan": 0.1,
+    "ccr": 2.5,
+    "chloride": 5,
+    "nitrogen": 900,
+    "pona": {
+      "paraffins": 43,
+      "olefins": 1,
+      "naphthenes": 35,
+      "aromatics": 21
+    },
+    "tbp": {
+      "0": 95,
+      "10": 190,
+      "30": 335,
+      "50": 490,
+      "70": 675,
+      "90": 950,
+      "100": 1180
+    }
+  },
+  "ArabLight": {
+    "displayName": "Arab Light - Medium Sour",
+    "api": 33.0,
+    "sulfur": 1.8,
+    "tan": 0.15,
+    "ccr": 5.0,
+    "chloride": 8,
+    "nitrogen": 1500,
+    "pona": {
+      "paraffins": 37,
+      "olefins": 1,
+      "naphthenes": 38,
+      "aromatics": 24
+    },
+    "tbp": {
+      "0": 110,
+      "10": 220,
+      "30": 390,
+      "50": 560,
+      "70": 760,
+      "90": 1030,
+      "100": 1250
+    }
+  },
+  "ArabHeavy": {
+    "displayName": "Arab Heavy - Heavy Sour",
+    "api": 27.0,
+    "sulfur": 2.8,
+    "tan": 0.28,
+    "ccr": 9.0,
+    "chloride": 11,
+    "nitrogen": 2500,
+    "pona": {
+      "paraffins": 30,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 30
+    },
+    "tbp": {
+      "0": 125,
+      "10": 255,
+      "30": 455,
+      "50": 660,
+      "70": 890,
+      "90": 1160,
+      "100": 1400
+    }
+  },
+  "Mars": {
+    "displayName": "Mars - Medium Sour",
+    "api": 28.0,
+    "sulfur": 2.0,
+    "tan": 0.45,
+    "ccr": 7.5,
+    "chloride": 12,
+    "nitrogen": 2200,
+    "pona": {
+      "paraffins": 31,
+      "olefins": 1,
+      "naphthenes": 39,
+      "aromatics": 29
+    },
+    "tbp": {
+      "0": 120,
+      "10": 245,
+      "30": 440,
+      "50": 640,
+      "70": 860,
+      "90": 1120,
+      "100": 1370
+    }
+  },
+  "Maya": {
+    "displayName": "Maya - Heavy Sour",
+    "api": 22.0,
+    "sulfur": 3.4,
+    "tan": 0.65,
+    "ccr": 12.5,
+    "chloride": 20,
+    "nitrogen": 3500,
+    "pona": {
+      "paraffins": 25,
+      "olefins": 1,
+      "naphthenes": 40,
+      "aromatics": 34
+    },
+    "tbp": {
+      "0": 130,
+      "10": 260,
+      "30": 480,
+      "50": 690,
+      "70": 920,
+      "90": 1180,
+      "100": 1450
+    }
+  }
+};
+let crudeAssays = EMBEDDED_CRUDE_ASSAYS;
+let selectedAssayKey = Object.keys(crudeAssays)[0] || "";
+
+const PRODUCT_CUTS = [
+    {id:"lpg", name:"LPG Product", label:"LPG", low:null, high:120, temp:110, press:45},
+    {id:"ln", name:"Light Naphtha", label:"Light Naphtha", low:120, high:220, temp:180, press:20},
+    {id:"hn", name:"Heavy Naphtha", label:"Heavy Naphtha", low:220, high:360, temp:280, press:18},
+    {id:"dist", name:"Distillate", label:"Distillate", low:360, high:520, temp:420, press:15},
+    {id:"go", name:"Gas Oil", label:"Gas Oil", low:520, high:650, temp:560, press:12},
+    {id:"fo", name:"Fuel Oil", label:"Fuel Oil", low:650, high:900, temp:680, press:10},
+    {id:"res", name:"Residue", label:"Residue", low:900, high:null, temp:720, press:8}
+];
+
 function value(id){
-    return Number(document.getElementById(id).value) || 0;
+    return Number(document.getElementById(id)?.value) || 0;
+}
+
+function setValue(id, val){
+    const el = document.getElementById(id);
+    if(el) el.value = Number(val).toFixed(1);
 }
 
 function productVolume(feed, yieldPercent){
     return feed * yieldPercent / 100;
+}
+
+function getAssay(){
+    return crudeAssays[selectedAssayKey] || crudeAssays[Object.keys(crudeAssays)[0]];
+}
+
+function volAtTemp(tbp, temp){
+    const pts = Object.entries(tbp)
+        .map(([vol, t]) => ({vol:Number(vol), temp:Number(t)}))
+        .sort((a,b)=>a.vol-b.vol);
+
+    if(temp <= pts[0].temp) return pts[0].vol;
+    if(temp >= pts[pts.length - 1].temp) return pts[pts.length - 1].vol;
+
+    for(let i=0;i<pts.length-1;i++){
+        const a = pts[i];
+        const b = pts[i+1];
+        if(temp >= a.temp && temp <= b.temp){
+            const frac = (temp - a.temp) / (b.temp - a.temp);
+            return a.vol + frac * (b.vol - a.vol);
+        }
+    }
+    return 0;
+}
+
+function calculateAssayYields(assay){
+    const tbp = assay.tbp;
+    const yields = {};
+
+    PRODUCT_CUTS.forEach(cut=>{
+        const lowVol = cut.low === null ? 0 : volAtTemp(tbp, cut.low);
+        const highVol = cut.high === null ? 100 : volAtTemp(tbp, cut.high);
+        yields[cut.id] = Math.max(0, highVol - lowVol);
+    });
+
+    const total = Object.values(yields).reduce((a,b)=>a+b,0) || 100;
+    Object.keys(yields).forEach(k=>{ yields[k] = yields[k] * 100 / total; });
+    return yields;
+}
+
+function calculateDuties(feed, feedTemp, assay, products){
+    const apiFactor = 1 + Math.max(0, 35 - assay.api) * 0.012;
+    const sulfurFactor = 1 + (assay.sulfur || 0) * 0.018;
+    const ccrFactor = 1 + (assay.ccr || 0) * 0.006;
+    const severityFactor = apiFactor * sulfurFactor * ccrFactor;
+    const deltaT = Math.max(0, feedTemp - 250);
+
+    const lpgVol = productVolume(feed, products.lpg || 0);
+    const lnVol = productVolume(feed, products.ln || 0);
+    const hnVol = productVolume(feed, products.hn || 0);
+    const distVol = productVolume(feed, products.dist || 0);
+    const resVol = productVolume(feed, products.res || 0);
+    const bottomVol = productVolume(feed, (products.fo || 0) + (products.res || 0));
+
+    return {
+        furnace: feed * deltaT * 0.00455 * severityFactor,
+        condenser: -1 * (lpgVol * 6.5 + lnVol * 3.2 + hnVol * 1.2),
+        reboiler: feed * (0.55 + (products.res || 0) / 100 * 1.4) * severityFactor,
+        refluxPump: Math.max(20, (lpgVol + lnVol + hnVol) * 3.1),
+        bottomPump: Math.max(25, bottomVol * 2.6),
+        column: feed * (1 + (products.dist || 0) / 100 + (products.go || 0) / 150)
+    };
 }
 
 function updateTooltipFlow(streamName, newFlow){
@@ -545,38 +853,90 @@ function updateTooltipFlow(streamName, newFlow){
     });
 }
 
+function updateTooltipByName(name, fields){
+    document.querySelectorAll(".tooltip-target").forEach(el=>{
+        if(el.dataset.name === name){
+            Object.entries(fields).forEach(([k,v])=>{ el.dataset[k] = v; });
+        }
+    });
+}
+
+function populateAssaySelect(){
+    const select = document.getElementById("assaySelect");
+    if(!select) return;
+    select.innerHTML = "";
+
+    Object.entries(crudeAssays).forEach(([key, assay])=>{
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = assay.displayName || key;
+        select.appendChild(opt);
+    });
+
+    select.value = selectedAssayKey;
+    select.addEventListener("change", ()=>{
+        selectedAssayKey = select.value;
+        applyAssayToInputs();
+        updateCDU();
+    });
+}
+
+function applyAssayToInputs(){
+    const assay = getAssay();
+    if(!assay) return;
+    const y = calculateAssayYields(assay);
+    setValue("lpgYield", y.lpg);
+    setValue("lnYield", y.ln);
+    setValue("hnYield", y.hn);
+    setValue("distYield", y.dist);
+    setValue("goYield", y.go);
+    setValue("foYield", y.fo);
+    setValue("resYield", y.res);
+}
+
+function computeCrackSpreads(){
+    const crude = value("crudePrice");
+    const gasoline = value("gasolinePrice");
+    const dist = value("distillatePrice");
+    const gasOil = value("gasOilPrice");
+    const fuelOil = value("fuelOilPrice");
+
+    const crack321 = ((2 * gasoline + 1 * dist) - (3 * crude)) / 3;
+    const crack532 = ((3 * gasoline + 2 * dist) - (5 * crude)) / 5;
+    const cduWeighted = ((gasoline + gasoline + dist + gasOil + fuelOil) - (5 * crude)) / 5;
+
+    document.getElementById("crackCards").innerHTML = `
+        <div class="metric-card"><strong>3-2-1 Crack Spread</strong><br>${crack321.toFixed(2)} $/bbl<br><span>Formula: (2 gasoline + 1 distillate − 3 crude) / 3</span></div>
+        <div class="metric-card"><strong>5-3-2 Crack Spread</strong><br>${crack532.toFixed(2)} $/bbl<br><span>Formula: (3 gasoline + 2 distillate − 5 crude) / 5</span></div>
+        <div class="metric-card"><strong>CDU Indicative Basket Spread</strong><br>${cduWeighted.toFixed(2)} $/bbl<br><span>Uses gasoline, distillate, gas oil, and fuel oil inputs.</span></div>
+    `;
+}
+
 function updateCDU(){
     const feed = value("feedRate");
     const feedTemp = value("feedTemp");
     const feedPress = value("feedPress");
+    const assay = getAssay();
 
-    const products = [
-        {id:"lpg", name:"LPG Product", label:"LPG", yield:value("lpgYield"), temp:110, press:45},
-        {id:"ln", name:"Light Naphtha", label:"Light Naphtha", yield:value("lnYield"), temp:180, press:20},
-        {id:"hn", name:"Heavy Naphtha", label:"Heavy Naphtha", yield:value("hnYield"), temp:280, press:18},
-        {id:"dist", name:"Distillate", label:"Distillate", yield:value("distYield"), temp:420, press:15},
-        {id:"go", name:"Gas Oil", label:"Gas Oil", yield:value("goYield"), temp:560, press:12},
-        {id:"fo", name:"Fuel Oil", label:"Fuel Oil", yield:value("foYield"), temp:680, press:10},
-        {id:"res", name:"Residue", label:"Residue", yield:value("resYield"), temp:720, press:8}
-    ];
+    const products = PRODUCT_CUTS.map(p => ({
+        ...p,
+        yield: value(`${p.id}Yield`)
+    }));
+
+    const productYieldMap = Object.fromEntries(products.map(p=>[p.id, p.yield]));
+    const duties = calculateDuties(feed, feedTemp, assay, productYieldMap);
 
     document.getElementById("feedLabel").textContent =
         `Crude: ${feedTemp}°F / ${feedPress} psig`;
 
-    document.querySelectorAll(".tooltip-target").forEach(el=>{
-        if(el.dataset.name === "Heated Crude"){
-            el.dataset.condition = `${feedTemp}°F / ${feedPress} psig`;
-            el.dataset.flow = `${feed.toFixed(1)} MBPD`;
-        }
-        if(el.dataset.name === "Crude Distillation Column"){
-            el.dataset.flow = `${feed.toFixed(1)} MBPD crude feed`;
-        }
-        if(el.dataset.name === "Crude Furnace"){
-            el.dataset.condition = `${feedTemp}°F / ${feedPress} psig outlet`;
-            el.dataset.flow = `${feed.toFixed(1)} MBPD crude`;
-            el.dataset.duty = `Estimated duty: ${(feed * 2.28).toFixed(1)} MMBtu/hr`;
-        }
-    });
+    updateTooltipByName("Heated Crude", {condition:`${feedTemp}°F / ${feedPress} psig`, flow:`${feed.toFixed(1)} MBPD`});
+    updateTooltipByName("Crude Feed", {flow:`${feed.toFixed(1)} MBPD`});
+    updateTooltipByName("Crude Furnace", {condition:`${feedTemp}°F / ${feedPress} psig outlet`, flow:`${feed.toFixed(1)} MBPD crude`, duty:`Estimated duty: ${duties.furnace.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Crude Distillation Column", {flow:`${feed.toFixed(1)} MBPD crude feed`, duty:`Estimated separation load index: ${duties.column.toFixed(1)}`});
+    updateTooltipByName("Overhead Condenser", {duty:`Estimated duty: ${duties.condenser.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Reboiler", {duty:`Estimated duty: ${duties.reboiler.toFixed(1)} MMBtu/hr`});
+    updateTooltipByName("Reflux Pump", {duty:`Estimated hydraulic power: ${duties.refluxPump.toFixed(1)} hp`});
+    updateTooltipByName("Bottom Pump", {duty:`Estimated hydraulic power: ${duties.bottomPump.toFixed(1)} hp`});
 
     let summaryHTML = "";
     let totalYield = 0;
@@ -584,7 +944,6 @@ function updateCDU(){
 
     products.forEach(p=>{
         const vol = productVolume(feed, p.yield);
-
         totalYield += p.yield;
         totalVolume += vol;
 
@@ -608,6 +967,14 @@ function updateCDU(){
 
     summaryHTML += `
         <div class="card">
+            <strong>Estimated Duties</strong><br>
+            Furnace: ${duties.furnace.toFixed(1)} MMBtu/hr<br>
+            Condenser: ${duties.condenser.toFixed(1)} MMBtu/hr<br>
+            Reboiler: ${duties.reboiler.toFixed(1)} MMBtu/hr<br>
+            Reflux Pump: ${duties.refluxPump.toFixed(1)} hp<br>
+            Bottom Pump: ${duties.bottomPump.toFixed(1)} hp
+        </div>
+        <div class="card">
             <strong>Total Products</strong><br>
             Yield: ${totalYield.toFixed(1)} vol%<br>
             Volume: ${totalVolume.toFixed(1)} MBPD<br>
@@ -616,6 +983,14 @@ function updateCDU(){
     `;
 
     document.getElementById("summaryCards").innerHTML = summaryHTML;
+
+    document.getElementById("assayInfo").innerHTML = `
+        <strong>${assay.displayName || selectedAssayKey}</strong><br>
+        API: ${assay.api} | Sulfur: ${assay.sulfur} wt% | TAN: ${assay.tan} | CCR: ${assay.ccr} wt%<br>
+        TBP basis used for cut interpolation: LPG &lt;120°F, LN 120–220°F, HN 220–360°F, Distillate 360–520°F, Gas Oil 520–650°F, Fuel Oil 650–900°F, Residue &gt;900°F.
+    `;
+
+    computeCrackSpreads();
 }
 
 const tooltip = document.getElementById("tooltip");
@@ -640,7 +1015,26 @@ document.querySelectorAll(".tooltip-target").forEach(el=>{
     });
 });
 
-updateCDU();
+["crudePrice","gasolinePrice","distillatePrice","gasOilPrice","fuelOilPrice"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", computeCrackSpreads);
+});
+
+// If the page is served through a local/static server, this will use crudeAssays.json.
+// If it is opened directly as a file, the embedded attached data remains active.
+fetch("crudeAssays.json")
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+        crudeAssays = data;
+        selectedAssayKey = Object.keys(crudeAssays)[0] || selectedAssayKey;
+        populateAssaySelect();
+        applyAssayToInputs();
+        updateCDU();
+    })
+    .catch(()=>{
+        populateAssaySelect();
+        applyAssayToInputs();
+        updateCDU();
+    });
 </script>
 
 </body>
