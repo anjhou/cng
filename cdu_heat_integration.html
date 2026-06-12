@@ -1263,7 +1263,10 @@ function drawPinchCurves(streams, result){
     if(!canvas) return;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    const pad = 48;
+    const padL = 72;
+    const padR = 34;
+    const padT = 42;
+    const padB = 64;
     const hot = buildComposite(streams,"hot");
     const cold = buildComposite(streams,"cold");
     const coldShift = result.maxRecovery;
@@ -1271,13 +1274,70 @@ function drawPinchCurves(streams, result){
     const maxH = Math.max(1, ...allPts.map(p=>p.h));
     const minT = Math.min(...allPts.map(p=>p.t), 60);
     const maxT = Math.max(...allPts.map(p=>p.t), 760);
-    const x = h => pad + (h / maxH) * (canvas.width - 2*pad);
-    const y = t => canvas.height - pad - ((t - minT) / (maxT - minT)) * (canvas.height - 2*pad);
-    ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,canvas.height-pad); ctx.lineTo(canvas.width-pad,canvas.height-pad); ctx.stroke();
-    ctx.fillStyle = "#111827"; ctx.font = "12px Arial";
-    ctx.fillText("Heat Load, MW", canvas.width/2 - 40, canvas.height - 12);
-    ctx.save(); ctx.translate(16, canvas.height/2 + 40); ctx.rotate(-Math.PI/2); ctx.fillText("Temperature, °F",0,0); ctx.restore();
+    const plotW = canvas.width - padL - padR;
+    const plotH = canvas.height - padT - padB;
+    const x = h => padL + (h / maxH) * plotW;
+    const y = t => padT + (1 - ((t - minT) / (maxT - minT))) * plotH;
+
+    function niceTicks(min, max, count){
+        const span = Math.max(1e-9, max - min);
+        const raw = span / Math.max(1, count);
+        const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+        const mult = raw / pow;
+        const step = (mult <= 1 ? 1 : mult <= 2 ? 2 : mult <= 5 ? 5 : 10) * pow;
+        const start = Math.ceil(min / step) * step;
+        const ticks = [];
+        for(let v = start; v <= max + step * 0.5; v += step){ ticks.push(v); }
+        if(!ticks.length || ticks[0] > min) ticks.unshift(min);
+        if(ticks[ticks.length - 1] < max) ticks.push(max);
+        return ticks.slice(0, 9);
+    }
+
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL,padT);
+    ctx.lineTo(padL,canvas.height-padB);
+    ctx.lineTo(canvas.width-padR,canvas.height-padB);
+    ctx.stroke();
+
+    ctx.fillStyle = "#111827";
+    ctx.font = "12px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    const xTicks = niceTicks(0, maxH, 5);
+    xTicks.forEach(v=>{
+        const xx = x(v);
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.beginPath(); ctx.moveTo(xx,padT); ctx.lineTo(xx,canvas.height-padB); ctx.stroke();
+        ctx.strokeStyle = "#64748b";
+        ctx.beginPath(); ctx.moveTo(xx,canvas.height-padB); ctx.lineTo(xx,canvas.height-padB+6); ctx.stroke();
+        ctx.fillText(v.toFixed(v < 10 ? 1 : 0), xx, canvas.height-padB+10);
+    });
+    ctx.font = "bold 13px Arial";
+    ctx.fillText("Heat Load / Enthalpy, MW", padL + plotW/2, canvas.height - 26);
+
+    ctx.font = "12px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    const yTicks = niceTicks(minT, maxT, 6);
+    yTicks.forEach(v=>{
+        const yy = y(v);
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(canvas.width-padR,yy); ctx.stroke();
+        ctx.strokeStyle = "#64748b";
+        ctx.beginPath(); ctx.moveTo(padL-6,yy); ctx.lineTo(padL,yy); ctx.stroke();
+        ctx.fillText(`${v.toFixed(0)}°F`, padL-10, yy);
+    });
+    ctx.save();
+    ctx.translate(18, padT + plotH/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 13px Arial";
+    ctx.fillStyle = "#111827";
+    ctx.fillText("Temperature, °F",0,0);
+    ctx.restore();
     function line(points, color, offset=0){
         if(points.length < 2) return;
         ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath();
@@ -1289,11 +1349,19 @@ function drawPinchCurves(streams, result){
     line(result.gcc.map(p=>({h:p.h + result.minHotUtility, t:p.t})),"#16a34a",0);
     const px = x(result.maxRecovery);
     const py = y(result.pinchShifted);
-    ctx.setLineDash([5,5]); ctx.strokeStyle = "#f97316"; ctx.beginPath(); ctx.moveTo(px,pad); ctx.lineTo(px,canvas.height-pad); ctx.stroke(); ctx.setLineDash([]);
+    ctx.setLineDash([5,5]);
+    ctx.strokeStyle = "#f97316";
+    ctx.beginPath(); ctx.moveTo(px,padT); ctx.lineTo(px,canvas.height-padB); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "12px Arial";
     ctx.fillStyle = "#ef4444"; ctx.fillText("Hot composite", canvas.width - 165, 28);
     ctx.fillStyle = "#2563eb"; ctx.fillText("Cold composite", canvas.width - 165, 46);
     ctx.fillStyle = "#16a34a"; ctx.fillText("Grand composite", canvas.width - 165, 64);
-    ctx.fillStyle = "#7c2d12"; ctx.fillText(`Pinch shifted T: ${result.pinchShifted.toFixed(1)}°F`, 60, 32);
+    ctx.fillStyle = "#7c2d12"; ctx.fillText(`Pinch shifted T: ${result.pinchShifted.toFixed(1)}°F`, 84, 32);
+    ctx.fillText(`Qrecovered: ${result.maxRecovery.toFixed(1)} MW`, Math.min(px + 8, canvas.width - 170), Math.max(padT + 16, py - 8));
 }
 
 function runPinchAssessment(){
