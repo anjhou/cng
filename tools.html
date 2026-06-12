@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decarbonization Tools</title>
+
+  <style>
+    :root {
+      --primary: #0f766e;
+      --secondary: #164e63;
+      --accent: #22c55e;
+      --bg: #f4f8f7;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #d9e2e1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 10px auto 0;
+      max-width: 900px;
+      color: #e0f2f1;
+    }
+
+    .container {
+      width: min(1200px, 94%);
+      margin: 24px auto;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: white;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(15, 76, 92, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(15, 76, 92, 0.14);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: var(--secondary);
+      font-size: 1.25rem;
+      border-bottom: 2px solid #d1fae5;
+      padding-bottom: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .tool-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+    }
+
+    .tool-list li {
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .tool-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tool-list a {
+      color: var(--primary);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .tool-list a:hover {
+      text-decoration: underline;
+    }
+
+    .desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .calculator {
+      margin-top: 30px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 6px 16px rgba(15, 76, 92, 0.08);
+    }
+
+    .calculator h2 {
+      margin-top: 0;
+      color: var(--secondary);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #115e59;
+    }
+
+    .result {
+      margin-top: 16px;
+      padding: 14px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      font-weight: bold;
+      color: #14532d;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+      margin-top: 30px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 700px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+  <header>
+    <h1>Hydrogen, CCUS & Decarbonization Tools</h1>
+    <p>
+      Engineering tools and references for hydrogen systems, carbon capture,
+      emissions reduction, energy efficiency, and industrial decarbonization.
+    </p>
+  </header>
+
+  <main class="container">
+
+    <section class="toolbar">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search tools, calculators, technologies, or keywords..."
+        oninput="filterTools()"
+      />
+
+      <select id="categoryFilter" onchange="filterTools()">
+        <option value="all">All Categories</option>
+        <option value="hydrogen">Hydrogen</option>
+        <option value="ccus">CCUS</option>
+        <option value="emissions">Emissions Reduction</option>
+        <option value="efficiency">Energy Efficiency</option>
+        <option value="decarbonization">Decarbonization</option>
+      </select>
+    </section>
+
+    <section class="grid" id="toolsGrid">
+
+      <div class="card" data-category="hydrogen">
+        <span class="tag">Hydrogen</span>
+        <h2>Hydrogen Tools</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">Hydrogen Production Calculator</a>
+            <div class="desc">Estimate H2 production by SMR, ATR, electrolysis, or biomass routes.</div>
+          </li>
+          <li>
+            <a href="#">Electrolyzer Power Demand</a>
+            <div class="desc">Calculate kWh/kg H2, water demand, and power requirement.</div>
+          </li>
+          <li>
+            <a href="#">Hydrogen Storage Screening</a>
+            <div class="desc">Compare compressed gas, liquid H2, ammonia, and LOHC storage.</div>
+          </li>
+          <li>
+            <a href="#">Hydrogen Pipeline Sizing</a>
+            <div class="desc">Estimate pressure drop, velocity, and compressor duty for H2 pipelines.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card" data-category="ccus">
+        <span class="tag">CCUS</span>
+        <h2>CCUS Tools</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">CO₂ Capture Rate Calculator</a>
+            <div class="desc">Estimate CO2 captured, emitted, and avoided from flue gas or process gas.</div>
+          </li>
+          <li>
+            <a href="#">Amine Solvent Circulation</a>
+            <div class="desc">Calculate solvent rate, reboiler duty, and capture efficiency.</div>
+          </li>
+          <li>
+            <a href="#">CO2 Compression Power</a>
+            <div class="desc">Estimate multistage compression duty for transport or sequestration.</div>
+          </li>
+          <li>
+            <a href="#">CO2 Storage Capacity</a>
+            <div class="desc">Screen saline aquifer, depleted reservoir, or EOR storage potential.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card" data-category="emissions">
+        <span class="tag">Emissions Reduction</span>
+        <h2>Emissions Reduction Tools</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">Scope 1 Emissions Calculator</a>
+            <div class="desc">Calculate direct emissions from combustion, process vents, and flaring.</div>
+          </li>
+          <li>
+            <a href="#">Scope 2 Power Emissions</a>
+            <div class="desc">Estimate indirect CO2 emissions from purchased electricity.</div>
+          </li>
+          <li>
+            <a href="#">Flare Reduction Estimator</a>
+            <div class="desc">Quantify CO2e reduction from flare gas recovery or minimization.</div>
+          </li>
+          <li>
+            <a href="#">Methane Leak Reduction</a>
+            <div class="desc">Estimate methane emissions and CO2e reduction from LDAR programs.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card" data-category="efficiency">
+        <span class="tag">Energy Efficiency</span>
+        <h2>Energy Efficiency Tools</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">Furnace Efficiency Calculator</a>
+            <div class="desc">Calculate fired heater efficiency, stack loss, and fuel savings.</div>
+          </li>
+          <li>
+            <a href="#">Heat Integration Screening</a>
+            <div class="desc">Estimate energy savings from process heat recovery and pinch concepts.</div>
+          </li>
+          <li>
+            <a href="#">Steam System Optimization</a>
+            <div class="desc">Evaluate steam trap loss, condensate recovery, and letdown savings.</div>
+          </li>
+          <li>
+            <a href="#">Motor & Pump Efficiency</a>
+            <div class="desc">Estimate power savings from VFDs, impeller trim, and efficiency upgrades.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card" data-category="decarbonization">
+        <span class="tag">Decarbonization</span>
+        <h2>Decarbonization Tools</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">Marginal Abatement Cost Curve</a>
+            <div class="desc">Rank projects by $/ton CO2e avoided and annual reduction potential.</div>
+          </li>
+          <li>
+            <a href="#">Net-Zero Roadmap Builder</a>
+            <div class="desc">Build phased decarbonization pathways for industrial assets.</div>
+          </li>
+          <li>
+            <a href="#">Renewable Power Offset</a>
+            <div class="desc">Estimate CO2 reduction from solar, wind, PPA, or grid power replacement.</div>
+          </li>
+          <li>
+            <a href="#">Carbon Intensity Calculator</a>
+            <div class="desc">Calculate kg CO2e per barrel, ton, MMBtu, kg H2, or MWh.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card" data-category="decarbonization">
+        <span class="tag">Project Screening</span>
+        <h2>Project Prioritization</h2>
+        <ul class="tool-list">
+          <li>
+            <a href="#">CAPEX vs CO2 Reduction</a>
+            <div class="desc">Compare project capital intensity and annual carbon reduction.</div>
+          </li>
+          <li>
+            <a href="#">Payback Period Calculator</a>
+            <div class="desc">Estimate simple payback using fuel savings, carbon credits, and incentives.</div>
+          </li>
+          <li>
+            <a href="#">Carbon Price Sensitivity</a>
+            <div class="desc">Evaluate project economics under different carbon prices.</div>
+          </li>
+          <li>
+            <a href="#">Technology Readiness Ranking</a>
+            <div class="desc">Screen options by maturity, deployment risk, and operating complexity.</div>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+    <section class="calculator">
+      <h2>Simple CO2 Emissions Calculator</h2>
+
+      <div class="calc-grid">
+        <div>
+          <label for="fuelAmount">Fuel Consumed</label>
+          <input type="number" id="fuelAmount" placeholder="Enter fuel amount" />
+        </div>
+
+        <div>
+          <label for="emissionFactor">Emission Factor</label>
+          <input type="number" id="emissionFactor" placeholder="kg CO2 per unit fuel" />
+        </div>
+
+        <div>
+          <label for="captureRate">Capture / Reduction Rate (%)</label>
+          <input type="number" id="captureRate" placeholder="Example: 90" />
+        </div>
+      </div>
+
+      <button onclick="calculateCO2()">Calculate CO2 Reduction</button>
+
+      <div class="result" id="resultBox">
+        Enter values to calculate gross emissions, captured CO2, and remaining emissions.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Decarbonization Engineering Tools | Hydrogen | CCUS | Energy Efficiency | Emissions Reduction
+  </footer>
+
+  <script>
+    function filterTools() {
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
+      const selectedCategory = document.getElementById("categoryFilter").value;
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const category = card.dataset.category;
+
+        const matchesSearch = text.includes(searchValue);
+        const matchesCategory =
+          selectedCategory === "all" || category === selectedCategory;
+
+        card.style.display = matchesSearch && matchesCategory ? "block" : "none";
+      });
+    }
+
+    function calculateCO2() {
+      const fuelAmount = parseFloat(document.getElementById("fuelAmount").value);
+      const emissionFactor = parseFloat(document.getElementById("emissionFactor").value);
+      const captureRate = parseFloat(document.getElementById("captureRate").value);
+
+      const resultBox = document.getElementById("resultBox");
+
+      if (
+        isNaN(fuelAmount) ||
+        isNaN(emissionFactor) ||
+        isNaN(captureRate)
+      ) {
+        resultBox.innerHTML = "Please enter all required values.";
+        return;
+      }
+
+      const grossEmissionsKg = fuelAmount * emissionFactor;
+      const capturedKg = grossEmissionsKg * captureRate / 100;
+      const remainingKg = grossEmissionsKg - capturedKg;
+
+      resultBox.innerHTML = `
+        Gross Emissions: ${grossEmissionsKg.toFixed(2)} kg CO₂<br>
+        CO₂ Reduced / Captured: ${capturedKg.toFixed(2)} kg CO₂<br>
+        Remaining Emissions: ${remainingKg.toFixed(2)} kg CO₂<br>
+        Remaining Emissions: ${(remainingKg / 1000).toFixed(3)} metric tons CO₂
+      `;
+    }
+  </script>
+  <div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body>
+</html>
