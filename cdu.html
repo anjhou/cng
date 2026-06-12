@@ -281,9 +281,11 @@ button:hover{
 
 <body>
 
-<header>
-    <h1>Crude Distillation Unit SVG Flowsheet</h1>
-</header>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 
 <div id="tooltip"></div>
 
@@ -1036,6 +1038,13 @@ fetch("crudeAssays.json")
         updateCDU();
     });
 </script>
-
+<div id="footer"></div>
+<script>
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer").innerHTML = data;
+        });
+</script>
 </body>
 </html>
