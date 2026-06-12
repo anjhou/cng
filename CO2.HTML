@@ -1,25 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CO₂ Capture Rate Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CO₂ Capture Rate Calculator</title>
 
-    <!-- Shared Styles -->
-    <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
 
-    <!-- Shared Header/Footer Includes -->
-    <script src="/js/header.js" type="module"></script>
-    <script src="/js/footer.js" type="module"></script>
+    header {
+      background: #0f766e;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    main {
+      max-width: 1150px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
 
-    <!-- jsPDF for PDF Export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
 
-    <!-- Page‑Specific JS Module -->
-    <script src="/js/co2-calculator.js" type="module"></script>
+    h2 {
+      margin-top: 0;
+      color: #0f766e;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #0f766e;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    button:hover {
+      background: #115e59;
+    }
+
+    .secondary {
+      background: #475569;
+    }
+
+    .secondary:hover {
+      background: #334155;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      text-align: right;
+    }
+
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+
+    th {
+      background: #e0f2f1;
+      color: #134e4a;
+    }
+
+    .result-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      background: #ecfeff;
+      border-left: 5px solid #0f766e;
+      padding: 14px;
+      border-radius: 8px;
+    }
+
+    .metric span {
+      display: block;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .metric strong {
+      font-size: 21px;
+      color: #0f172a;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,128 +150,292 @@
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script>
 
-<main class="content-container">
-    <h1>CO₂ Capture Rate Calculator</h1>
-    <p class="page-intro">
-        Estimate <strong>CO₂ captured</strong>, <strong>CO₂ emitted</strong>, and 
-        <strong>CO₂ avoided</strong> from flue‑gas or process‑gas streams.
-    </p>
+  <header>
+    <h1>CO2 Capture Rate Calculator</h1>
+    <p>Estimate CO2 captured, emitted, avoided, and capture efficiency from flue gas or process gas streams</p>
+  </header>
 
-    <!-- ========================= -->
-    <!-- 1. INPUT SECTION          -->
-    <!-- ========================= -->
-    <section>
-        <h2>1. Required Inputs</h2>
+  <main>
+    <section class="card">
+      <h2>Stream Input</h2>
 
-        <div class="input-grid">
-            <div>
-                <label>Gas Flow Rate (ACFM or MMSCFD)</label>
-                <input id="gasFlow" type="number" />
-            </div>
-
-            <div>
-                <label>Gas Temperature (°F)</label>
-                <input id="gasTemp" type="number" />
-            </div>
-
-            <div>
-                <label>Gas Pressure (psia)</label>
-                <input id="gasPressure" type="number" />
-            </div>
-
-            <div>
-                <label>CO₂ Concentration (vol%)</label>
-                <input id="co2Conc" type="number" />
-            </div>
-
-            <div>
-                <label>Capture Efficiency (%)</label>
-                <input id="captureEff" type="number" />
-            </div>
-
-            <div>
-                <label>Molecular Weight of Gas (lb/lb‑mol)</label>
-                <input id="mwGas" type="number" />
-            </div>
+      <div class="grid">
+        <div>
+          <label for="streamType">Gas Stream Type</label>
+          <select id="streamType">
+            <option value="flue">Flue Gas</option>
+            <option value="process">Process Gas</option>
+            <option value="syngas">Syngas / Shifted Gas</option>
+            <option value="biogas">Biogas</option>
+            <option value="naturalgas">Natural Gas Treating</option>
+          </select>
         </div>
 
-        <button id="calculateBtn" class="primary-btn">Calculate</button>
-    </section>
-
-    <!-- ========================= -->
-    <!-- 2. RESULTS SECTION        -->
-    <!-- ========================= -->
-    <section>
-        <h2>2. Results</h2>
-        <div id="resultsBox" class="results-box">
-            <p>Enter values and click <strong>Calculate</strong>.</p>
+        <div>
+          <label for="flowBasis">Flow Basis</label>
+          <select id="flowBasis">
+            <option value="mmscfd">Gas Flow, MMSCFD</option>
+            <option value="scfh">Gas Flow, SCFH</option>
+            <option value="kmolph">Gas Flow, kmol/hr</option>
+            <option value="lbmolh">Gas Flow, lbmol/hr</option>
+            <option value="tphco2">CO2 Feed, metric ton/hr</option>
+          </select>
         </div>
 
-        <button id="exportPdfBtn" class="secondary-btn">Download PDF Report</button>
+        <div>
+          <label for="gasFlow">Gas Flow / CO2 Feed</label>
+          <input type="number" id="gasFlow" value="100" step="any">
+        </div>
+
+        <div>
+          <label for="co2Vol">CO2 Content, mol%</label>
+          <input type="number" id="co2Vol" value="12" step="any">
+        </div>
+
+        <div>
+          <label for="captureRate">CO2 Capture Rate, %</label>
+          <input type="number" id="captureRate" value="90" step="any">
+        </div>
+
+        <div>
+          <label for="availability">Plant Availability, %</label>
+          <input type="number" id="availability" value="92" step="any">
+        </div>
+
+        <div>
+          <label for="energyPenalty">Energy Penalty / Parasitic Emission, tCO2/tCO2 captured</label>
+          <input type="number" id="energyPenalty" value="0.08" step="any">
+        </div>
+
+        <div>
+          <label for="baselineEmission">Baseline CO2 Emission Factor, tCO2/tCO2 in feed</label>
+          <input type="number" id="baselineEmission" value="1.0" step="any">
+        </div>
+      </div>
+
+      <br>
+      <button onclick="calculateCO2()">Calculate</button>
+      <button class="secondary" onclick="resetDefaults()">Reset</button>
     </section>
 
-    <!-- ========================= -->
-    <!-- 3. CHART VISUALIZATION    -->
-    <!-- ========================= -->
-    <section>
-        <h2>3. CO₂ Capture Chart</h2>
-        <canvas id="co2Chart" width="900" height="450"></canvas>
+    <section class="card">
+      <h2>Calculated Results</h2>
+
+      <div class="result-box">
+        <div class="metric">
+          <span>CO2 in Feed</span>
+          <strong id="co2Feed">-</strong>
+        </div>
+
+        <div class="metric">
+          <span>CO2 Captured</span>
+          <strong id="co2Captured">-</strong>
+        </div>
+
+        <div class="metric">
+          <span>CO2 Emitted After Capture</span>
+          <strong id="co2Emitted">-</strong>
+        </div>
+
+        <div class="metric">
+          <span>Net CO2 Avoided</span>
+          <strong id="co2Avoided">-</strong>
+        </div>
+
+        <div class="metric">
+          <span>Annual CO2 Captured</span>
+          <strong id="annualCaptured">-</strong>
+        </div>
+
+        <div class="metric">
+          <span>Annual CO2 Avoided</span>
+          <strong id="annualAvoided">-</strong>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Hourly</th>
+            <th>Daily</th>
+            <th>Annual</th>
+          </tr>
+        </thead>
+        <tbody id="resultTable">
+          <tr>
+            <td>CO2 in Feed</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>CO2 Captured</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>CO2 Emitted</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Parasitic CO2 Emission</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Net CO2 Avoided</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
-    <!-- ========================= -->
-    <!-- 4. CSV BATCH PROCESSING   -->
-    <!-- ========================= -->
-    <section>
-        <h2>4. CSV Batch Processing</h2>
-        <p>Upload a CSV with columns: <strong>GasFlow, TempF, Pressure, CO2Conc, CaptureEff, MW</strong></p>
-
-        <input type="file" id="csvFile" accept=".csv" />
-        <button id="processCsvBtn" class="primary-btn">Process CSV</button>
-
-        <div id="csvResults" class="results-box"></div>
+    <section class="card">
+      <h2>Method Notes</h2>
+      <p class="note">
+        For volumetric gas flow, the calculator assumes ideal standard gas behavior.
+        1 lbmol occupies approximately 379.5 scf at standard conditions.
+        CO2 molecular weight is 44.01 lb/lbmol.
+        Net avoided CO2 is estimated as baseline emissions minus post-capture emitted CO2 and parasitic emissions.
+      </p>
     </section>
+  </main>
 
-    <!-- ========================= -->
-    <!-- 5. ENGINEERING EQUATIONS  -->
-    <!-- ========================= -->
-    <section>
-        <h2>5. Engineering Equations</h2>
+  <footer>
+    CO2 Capture Rate Calculator | Engineering Screening Tool
+  </footer>
 
-        <h3>CO₂ in Gas Stream</h3>
-        <pre class="equation">
-ṅ_CO2,in = Q_gas · y_CO2 · (P / (R · T))
-R = 10.73 (psia·ft³)/(lb‑mol·°R)
-        </pre>
+  <script>
+    const MW_CO2 = 44.01;
+    const SCF_PER_LBMOL = 379.5;
+    const LB_PER_METRIC_TON = 2204.62;
 
-        <h3>CO₂ Captured</h3>
-        <pre class="equation">
-ṅ_captured = ṅ_CO2,in · η_capture
-        </pre>
+    function getValue(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
 
-        <h3>CO₂ Emitted</h3>
-        <pre class="equation">
-ṅ_emitted = ṅ_CO2,in − ṅ_captured
-        </pre>
+    function format(value, decimals = 2) {
+      return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
 
-        <h3>CO₂ Avoided</h3>
-        <pre class="equation">
-ṅ_avoided = ṅ_captured − ṅ_penalty
-        </pre>
-    </section>
+    function convertToCO2TonPerHour(flowBasis, gasFlow, co2MolPercent) {
+      let lbmolPerHour;
+      const co2Fraction = co2MolPercent / 100;
 
-    <!-- ========================= -->
-    <!-- 6. JS MODULE HOOK         -->
-    <!-- ========================= -->
-    <section>
-        <h2>6. Calculator Module</h2>
-        <div id="co2-calculator"></div>
-    </section>
+      if (flowBasis === "mmscfd") {
+        const scfh = gasFlow * 1_000_000 / 24;
+        lbmolPerHour = scfh / SCF_PER_LBMOL;
+        return lbmolPerHour * co2Fraction * MW_CO2 / LB_PER_METRIC_TON;
+      }
 
-</main>
+      if (flowBasis === "scfh") {
+        lbmolPerHour = gasFlow / SCF_PER_LBMOL;
+        return lbmolPerHour * co2Fraction * MW_CO2 / LB_PER_METRIC_TON;
+      }
 
-<div id="footer"></div>
+      if (flowBasis === "kmolph") {
+        return gasFlow * co2Fraction * 44.01 / 1000;
+      }
+
+      if (flowBasis === "lbmolh") {
+        return gasFlow * co2Fraction * MW_CO2 / LB_PER_METRIC_TON;
+      }
+
+      if (flowBasis === "tphco2") {
+        return gasFlow;
+      }
+
+      return 0;
+    }
+
+    function calculateCO2() {
+      const flowBasis = document.getElementById("flowBasis").value;
+      const gasFlow = getValue("gasFlow");
+      const co2Vol = getValue("co2Vol");
+      const captureRate = getValue("captureRate") / 100;
+      const availability = getValue("availability") / 100;
+      const energyPenalty = getValue("energyPenalty");
+      const baselineFactor = getValue("baselineEmission");
+
+      const co2FeedTPH = convertToCO2TonPerHour(flowBasis, gasFlow, co2Vol);
+      const capturedTPH = co2FeedTPH * captureRate;
+      const emittedTPH = co2FeedTPH - capturedTPH;
+      const parasiticTPH = capturedTPH * energyPenalty;
+      const baselineTPH = co2FeedTPH * baselineFactor;
+      const avoidedTPH = Math.max(baselineTPH - emittedTPH - parasiticTPH, 0);
+
+      const dailyFactor = 24;
+      const annualFactor = 8760 * availability;
+
+      document.getElementById("co2Feed").textContent = `${format(co2FeedTPH)} t/h`;
+      document.getElementById("co2Captured").textContent = `${format(capturedTPH)} t/h`;
+      document.getElementById("co2Emitted").textContent = `${format(emittedTPH)} t/h`;
+      document.getElementById("co2Avoided").textContent = `${format(avoidedTPH)} t/h`;
+      document.getElementById("annualCaptured").textContent = `${format(capturedTPH * annualFactor, 0)} t/y`;
+      document.getElementById("annualAvoided").textContent = `${format(avoidedTPH * annualFactor, 0)} t/y`;
+
+      document.getElementById("resultTable").innerHTML = `
+        <tr>
+          <td>CO2 in Feed</td>
+          <td>${format(co2FeedTPH)} t/h</td>
+          <td>${format(co2FeedTPH * dailyFactor)} t/d</td>
+          <td>${format(co2FeedTPH * annualFactor, 0)} t/y</td>
+        </tr>
+        <tr>
+          <td>CO2 Captured</td>
+          <td>${format(capturedTPH)} t/h</td>
+          <td>${format(capturedTPH * dailyFactor)} t/d</td>
+          <td>${format(capturedTPH * annualFactor, 0)} t/y</td>
+        </tr>
+        <tr>
+          <td>CO2 Emitted</td>
+          <td>${format(emittedTPH)} t/h</td>
+          <td>${format(emittedTPH * dailyFactor)} t/d</td>
+          <td>${format(emittedTPH * annualFactor, 0)} t/y</td>
+        </tr>
+        <tr>
+          <td>Parasitic CO2 Emission</td>
+          <td>${format(parasiticTPH)} t/h</td>
+          <td>${format(parasiticTPH * dailyFactor)} t/d</td>
+          <td>${format(parasiticTPH * annualFactor, 0)} t/y</td>
+        </tr>
+        <tr>
+          <td>Net CO2 Avoided</td>
+          <td>${format(avoidedTPH)} t/h</td>
+          <td>${format(avoidedTPH * dailyFactor)} t/d</td>
+          <td>${format(avoidedTPH * annualFactor, 0)} t/y</td>
+        </tr>
+      `;
+    }
+
+    function resetDefaults() {
+      document.getElementById("streamType").value = "flue";
+      document.getElementById("flowBasis").value = "mmscfd";
+      document.getElementById("gasFlow").value = 100;
+      document.getElementById("co2Vol").value = 12;
+      document.getElementById("captureRate").value = 90;
+      document.getElementById("availability").value = 92;
+      document.getElementById("energyPenalty").value = 0.08;
+      document.getElementById("baselineEmission").value = 1.0;
+      calculateCO2();
+    }
+
+    window.onload = calculateCO2;
+  </script>
+  <div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
+
 </body>
 </html>
