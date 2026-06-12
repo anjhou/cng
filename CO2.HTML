@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CO₂ Capture Rate Calculator</title>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- Shared Header/Footer Includes -->
+    <script src="/js/header.js" type="module"></script>
+    <script src="/js/footer.js" type="module"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jsPDF for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Page‑Specific JS Module -->
+    <script src="/js/co2-calculator.js" type="module"></script>
+</head>
+
+<body>
+<header-component></header-component>
+
+<main class="content-container">
+    <h1>CO₂ Capture Rate Calculator</h1>
+    <p class="page-intro">
+        Estimate <strong>CO₂ captured</strong>, <strong>CO₂ emitted</strong>, and 
+        <strong>CO₂ avoided</strong> from flue‑gas or process‑gas streams.
+    </p>
+
+    <!-- ========================= -->
+    <!-- 1. INPUT SECTION          -->
+    <!-- ========================= -->
+    <section>
+        <h2>1. Required Inputs</h2>
+
+        <div class="input-grid">
+            <div>
+                <label>Gas Flow Rate (ACFM or MMSCFD)</label>
+                <input id="gasFlow" type="number" />
+            </div>
+
+            <div>
+                <label>Gas Temperature (°F)</label>
+                <input id="gasTemp" type="number" />
+            </div>
+
+            <div>
+                <label>Gas Pressure (psia)</label>
+                <input id="gasPressure" type="number" />
+            </div>
+
+            <div>
+                <label>CO₂ Concentration (vol%)</label>
+                <input id="co2Conc" type="number" />
+            </div>
+
+            <div>
+                <label>Capture Efficiency (%)</label>
+                <input id="captureEff" type="number" />
+            </div>
+
+            <div>
+                <label>Molecular Weight of Gas (lb/lb‑mol)</label>
+                <input id="mwGas" type="number" />
+            </div>
+        </div>
+
+        <button id="calculateBtn" class="primary-btn">Calculate</button>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 2. RESULTS SECTION        -->
+    <!-- ========================= -->
+    <section>
+        <h2>2. Results</h2>
+        <div id="resultsBox" class="results-box">
+            <p>Enter values and click <strong>Calculate</strong>.</p>
+        </div>
+
+        <button id="exportPdfBtn" class="secondary-btn">Download PDF Report</button>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 3. CHART VISUALIZATION    -->
+    <!-- ========================= -->
+    <section>
+        <h2>3. CO₂ Capture Chart</h2>
+        <canvas id="co2Chart" width="900" height="450"></canvas>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 4. CSV BATCH PROCESSING   -->
+    <!-- ========================= -->
+    <section>
+        <h2>4. CSV Batch Processing</h2>
+        <p>Upload a CSV with columns: <strong>GasFlow, TempF, Pressure, CO2Conc, CaptureEff, MW</strong></p>
+
+        <input type="file" id="csvFile" accept=".csv" />
+        <button id="processCsvBtn" class="primary-btn">Process CSV</button>
+
+        <div id="csvResults" class="results-box"></div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 5. ENGINEERING EQUATIONS  -->
+    <!-- ========================= -->
+    <section>
+        <h2>5. Engineering Equations</h2>
+
+        <h3>CO₂ in Gas Stream</h3>
+        <pre class="equation">
+ṅ_CO2,in = Q_gas · y_CO2 · (P / (R · T))
+R = 10.73 (psia·ft³)/(lb‑mol·°R)
+        </pre>
+
+        <h3>CO₂ Captured</h3>
+        <pre class="equation">
+ṅ_captured = ṅ_CO2,in · η_capture
+        </pre>
+
+        <h3>CO₂ Emitted</h3>
+        <pre class="equation">
+ṅ_emitted = ṅ_CO2,in − ṅ_captured
+        </pre>
+
+        <h3>CO₂ Avoided</h3>
+        <pre class="equation">
+ṅ_avoided = ṅ_captured − ṅ_penalty
+        </pre>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 6. JS MODULE HOOK         -->
+    <!-- ========================= -->
+    <section>
+        <h2>6. Calculator Module</h2>
+        <div id="co2-calculator"></div>
+    </section>
+
+</main>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
+</body>
+</html>
