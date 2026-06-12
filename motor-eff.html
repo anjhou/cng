@@ -20,9 +20,9 @@
     .panel h2{font-size:18px;margin:0;padding:14px 18px;border-bottom:1px solid var(--soft);background:#f8fafc}
     .svg-wrap{position:relative;padding:12px;background:#ffffff}
     svg{width:100%;height:auto;display:block;border-radius:10px;background:linear-gradient(#fbfdff,#f8fafc)}
-    .svg-input-card{position:absolute;left:26px;width:255px;background:rgba(255,255,255,.96);border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(15,23,42,.12);font-size:12px;z-index:5}
-    .svg-input-card.feed-card{top:26px}
-    .svg-input-card.pump-card{bottom:26px}
+    .svg-input-card{position:absolute;width:255px;background:rgba(255,255,255,.96);border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(15,23,42,.12);font-size:12px;z-index:5}
+    .svg-input-card.feed-card{left:26px;top:26px}
+    .svg-input-card.pump-card{right:26px;top:26px}
     .svg-input-card h3{margin:0 0 8px;font-size:13px;color:#0f172a}
     .svg-input-card label{display:grid;grid-template-columns:1fr 82px;align-items:center;gap:8px;margin:6px 0;color:#334155}
     input,select{width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:7px;background:white;color:#111827;font-size:13px}
@@ -54,7 +54,7 @@
     .tagText{font-size:11px;fill:#0f172a}
     .streamName{font-size:12px;font-weight:700;fill:#0f172a}
     .warning{color:#b45309;font-size:12px;padding:0 16px 16px}
-    .svg-tooltip{position:absolute;display:none;pointer-events:none;max-width:310px;background:#0f172a;color:#f8fafc;border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 18px rgba(15,23,42,.25);z-index:20}
+    .svg-tooltip{position:absolute;display:none;pointer-events:none;max-width:320px;background:#0f172a;color:#f8fafc;border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 18px rgba(15,23,42,.25);z-index:20}
     .svg-hover{cursor:help}
     .svg-result-table .box{fill:#ffffff;stroke:#64748b;stroke-width:1.2}
     .svg-result-table .head{fill:#e0f2fe;stroke:#64748b;stroke-width:1.2}
@@ -65,13 +65,16 @@
   </style>
 </head>
 <body>
- <div id="header"></div>
+
+<div id="header"></div>
 <script>
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script> 
+</script>
+
+  <header>
     <h1>Motor-Pump Efficiency Optimization Calculator</h1>
     <p>SVG flowsheet with VFD, impeller trimming, efficiency upgrade, NPSH, head, pressure increase, and recycle-valve loss estimates.</p>
-  
+  </header>
 
   <main>
     <section class="panel">
@@ -102,22 +105,22 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
           </defs>
 
           <!-- Main suction and discharge -->
-          <path id="suctionPipe" class="pipe svg-hover" data-tooltip="S-101 Suction stream" d="M80 340 H365" />
-          <path id="dischargePipe" class="pipe svg-hover" data-tooltip="S-102 Pump discharge stream" d="M555 340 H1045" />
-          <path id="processPipe" class="pipe svg-hover" data-tooltip="S-104 Process feed stream" d="M1045 340 H1190" />
+          <path id="suctionPipe" class="pipe svg-hover" data-tooltip="S-101 suction stream" d="M80 340 H365" />
+          <path id="dischargePipe" class="pipe svg-hover" data-tooltip="S-102 pump discharge stream" d="M555 340 H1045" />
+          <path id="processPipe" class="pipe svg-hover" data-tooltip="S-104 process feed stream" d="M1045 340 H1190" />
 
           <!-- Recycle path -->
-          <path id="recyclePipe1" class="recycle svg-hover" data-tooltip="S-103 Minimum-flow recycle stream" d="M930 340 V175 H515 V300" />
-          <path id="recyclePipe2" class="recycle svg-hover" data-tooltip="S-103 Recycle returns to pump suction" d="M515 300 C500 275 450 275 435 300" />
+          <path id="recyclePipe1" class="recycle svg-hover" data-tooltip="S-103 minimum-flow recycle stream" d="M930 340 V175 H515 V300" />
+          <path id="recyclePipe2" class="recycle svg-hover" data-tooltip="S-103 recycle return to pump suction" d="M515 300 C500 275 450 275 435 300" />
 
           <!-- Equipment -->
-          <rect id="motorShape" x="305" y="252" width="92" height="92" rx="12" class="motor svg-hover" data-tooltip="M-101 Motor"></rect>
+          <rect id="motorShape" x="305" y="252" width="92" height="92" rx="12" class="motor svg-hover" data-tooltip="M-101 motor"></rect>
           <text x="351" y="285" text-anchor="middle" class="label">M-101</text>
           <text x="351" y="308" text-anchor="middle" class="small">Motor</text>
           <text id="motorTxt" x="351" y="329" text-anchor="middle" class="small">150 hp, η 92%</text>
 
           <line x1="397" y1="298" x2="430" y2="298" stroke="#475569" stroke-width="7" />
-          <circle id="pumpShape" cx="480" cy="340" r="58" class="pump svg-hover" data-tooltip="P-101 Centrifugal pump"></circle>
+          <circle id="pumpShape" cx="480" cy="340" r="58" class="pump svg-hover" data-tooltip="P-101 centrifugal pump"></circle>
           <path d="M448 372 L507 340 L448 307 Z" fill="#86efac" stroke="#15803d" stroke-width="2"></path>
           <text x="480" y="250" text-anchor="middle" class="label">P-101</text>
           <text x="480" y="270" text-anchor="middle" class="small">Centrifugal Pump</text>
@@ -127,25 +130,27 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
           <polygon id="valveShape2" points="935,153 890,175 935,197 925,175" class="valve svg-hover" data-tooltip="FCV-101 minimum-flow recycle control valve"></polygon>
           <text x="890" y="132" text-anchor="middle" class="label">FCV-101</text>
           <text id="valveTxt" x="890" y="220" text-anchor="middle" class="small">Minimum-flow recycle</text>
+          <text id="valveDpTxt" x="890" y="238" text-anchor="middle" class="small">FCV ΔP — psig</text>
 
           <rect x="1048" y="306" width="118" height="68" rx="10" class="unit"></rect>
           <text x="1107" y="335" text-anchor="middle" class="label">Process</text>
           <text x="1107" y="357" text-anchor="middle" class="small">Header / User</text>
 
           <!-- Stream callouts -->
-          <g id="suctionTag" class="svg-hover" data-tooltip="S-101 Suction stream"><rect x="118" y="378" width="200" height="86" rx="9" class="tag"></rect><text x="130" y="398" class="streamName">S-101 Suction</text><text id="suctionCond" x="130" y="418" class="tagText"></text><text id="suctionCond2" x="130" y="437" class="tagText"></text><text id="suctionCond3" x="130" y="456" class="tagText"></text></g>
-          <g id="pumpTag" class="svg-hover" data-tooltip="S-102 Pump discharge stream"><rect x="585" y="378" width="215" height="86" rx="9" class="tag"></rect><text x="597" y="398" class="streamName">S-102 Pump Discharge</text><text id="dischCond" x="597" y="418" class="tagText"></text><text id="dischCond2" x="597" y="437" class="tagText"></text><text id="dischCond3" x="597" y="456" class="tagText"></text></g>
-          <g id="recycleTag" class="svg-hover" data-tooltip="S-103 Recycle stream"><rect x="610" y="70" width="220" height="78" rx="9" class="tag"></rect><text x="622" y="91" class="streamName">S-103 Recycle</text><text id="recycleCond" x="622" y="111" class="tagText"></text><text id="recycleCond2" x="622" y="130" class="tagText"></text></g>
-          <g id="headerTag" class="svg-hover" data-tooltip="S-104 Process feed stream"><rect x="986" y="390" width="210" height="86" rx="9" class="tag"></rect><text x="998" y="410" class="streamName">S-104 Process Feed</text><text id="headerCond" x="998" y="430" class="tagText"></text><text id="headerCond2" x="998" y="449" class="tagText"></text><text id="headerCond3" x="998" y="468" class="tagText"></text></g>
+          <g id="suctionTag" class="svg-hover" data-tooltip="S-101 suction stream"><rect x="118" y="378" width="200" height="86" rx="9" class="tag"></rect><text x="130" y="398" class="streamName">S-101 Suction</text><text id="suctionCond" x="130" y="418" class="tagText"></text><text id="suctionCond2" x="130" y="437" class="tagText"></text><text id="suctionCond3" x="130" y="456" class="tagText"></text></g>
+          <g id="pumpTag" class="svg-hover" data-tooltip="S-102 pump discharge stream"><rect x="585" y="378" width="215" height="86" rx="9" class="tag"></rect><text x="597" y="398" class="streamName">S-102 Pump Discharge</text><text id="dischCond" x="597" y="418" class="tagText"></text><text id="dischCond2" x="597" y="437" class="tagText"></text><text id="dischCond3" x="597" y="456" class="tagText"></text></g>
+          <g id="recycleTag" class="svg-hover" data-tooltip="S-103 minimum-flow recycle stream"><rect x="610" y="70" width="220" height="78" rx="9" class="tag"></rect><text x="622" y="91" class="streamName">S-103 Recycle</text><text id="recycleCond" x="622" y="111" class="tagText"></text><text id="recycleCond2" x="622" y="130" class="tagText"></text></g>
+          <g id="headerTag" class="svg-hover" data-tooltip="S-104 process feed stream"><rect x="986" y="390" width="210" height="86" rx="9" class="tag"></rect><text x="998" y="410" class="streamName">S-104 Process Feed</text><text id="headerCond" x="998" y="430" class="tagText"></text><text id="headerCond2" x="998" y="449" class="tagText"></text><text id="headerCond3" x="998" y="468" class="tagText"></text></g>
+
 
           <!-- Pump result table on SVG -->
           <g id="svgPumpTable" class="svg-result-table svg-hover" data-tooltip="Live pump calculation results: power in hp, pressure increase, head, and NPSH.">
             <rect x="342" y="474" width="360" height="104" rx="9" class="box"></rect>
             <rect x="342" y="474" width="360" height="24" rx="9" class="head"></rect>
             <text x="354" y="491" class="title">Pump Results - P-101</text>
-            <line x1="342" y1="522" x2="702" y2="522" stroke="#cbd5e1"/>
-            <line x1="342" y1="546" x2="702" y2="546" stroke="#cbd5e1"/>
-            <line x1="522" y1="498" x2="522" y2="578" stroke="#cbd5e1"/>
+            <line x1="342" y1="522" x2="702" y2="522" stroke="#cbd5e1"></line>
+            <line x1="342" y1="546" x2="702" y2="546" stroke="#cbd5e1"></line>
+            <line x1="522" y1="498" x2="522" y2="578" stroke="#cbd5e1"></line>
             <text x="354" y="516">Electric Power</text><text id="svgTblPower" x="534" y="516">—</text>
             <text x="354" y="540">Pressure / Head</text><text id="svgTblHead" x="534" y="540">—</text>
             <text x="354" y="564">NPSHr / NPSHa</text><text id="svgTblNpsh" x="534" y="564">—</text>
@@ -265,8 +270,8 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       const recycleKwLoss = hpToKW(electricHP(pumpPowerHP(recycleFlow, dp, sg, pumpEff), motorEff));
 
       const cases = [
-        ['VFD implementation', kwVfd, kwNow-kwVfd, 'Flow affinity: kW ≈ current kW × (target flow/current flow)³'],
-        ['Impeller trimming', kwTrim, kwNow-kwTrim, 'Diameter affinity: kW ≈ current kW × (trim diameter/current diameter)³'],
+        ['VFD implementation', kwVfd, kwNow-kwVfd, 'Flow affinity: hp ≈ current hp × (target flow/current flow)³'],
+        ['Impeller trimming', kwTrim, kwNow-kwTrim, 'Diameter affinity: hp ≈ current hp × (trim diameter/current diameter)³'],
         ['Motor/pump efficiency upgrades', kwEff, kwNow-kwEff, 'Same hydraulic load with upgraded pump and motor efficiencies'],
         ['Recycle minimization value', Math.max(kwNow-recycleKwLoss,0), recycleKwLoss, 'Power associated with minimum-flow recycle through FCV-101']
       ];
@@ -279,11 +284,11 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       const tDisch = tSuct + Math.max(0.3, dp * 0.006 / Math.max(pumpEff/100,0.1));
 
       $('powerNow').textContent = `${fmt(elecNowHp,1)} hp`;
-      $('headNow').textContent = `${fmt(dp,1)} psig / ${fmt(head,0)} ft`;
-      $('npsh').textContent = `${fmt(npshr,1)} / ${fmt(npsha,1)} ft`;
       if($('svgTblPower')) $('svgTblPower').textContent = `${fmt(elecNowHp,1)} hp`;
       if($('svgTblHead')) $('svgTblHead').textContent = `${fmt(dp,1)} psig / ${fmt(head,0)} ft`;
       if($('svgTblNpsh')) $('svgTblNpsh').textContent = `${fmt(npshr,1)} / ${fmt(npsha,1)} ft`;
+      $('headNow').textContent = `${fmt(dp,1)} psig / ${fmt(head,0)} ft`;
+      $('npsh').textContent = `${fmt(npshr,1)} / ${fmt(npsha,1)} ft`;
       $('totalSave').textContent = `${fmt(bestSaveKw/0.7457,1)} hp, $${fmt(bestAnnualCost,0)}/yr`;
 
       $('caseRows').innerHTML = cases.map(([name,kw,save,basis])=>{
@@ -295,6 +300,7 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
       $('motorTxt').textContent = `${fmt(elecNowHp,0)} hp, η ${fmt(motorEff,0)}%`;
       $('pumpTxt').textContent = `${fmt(rpm,0)} rpm / ${fmt(diam,1)} in`;
       $('valveTxt').textContent = `${fmt(recycleFlow,0)} gpm recycle, loss ${fmt(recycleKwLoss/0.7457,1)} hp`;
+      if($('valveDpTxt')) $('valveDpTxt').textContent = `FCV ΔP ${fmt(dp,1)} psig`;
 
       $('suctionCond').textContent = `T ${fmt(tSuct,0)} °F | P ${fmt(pSuct,1)} psig`;
       $('suctionCond2').textContent = `Flow ${fmt(flow,0)} gpm | SG ${fmt(sg,3)}`;
@@ -316,19 +322,18 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
     }
 
 
-
     function initSvgTooltips(){
       const tooltip = $('svgTooltip');
       if(!tooltip) return;
       const makeText = el => {
         const base = el.getAttribute('data-tooltip') || '';
-        if(el.id === 'pumpShape') return `${base}<br>Power: ${$('svgTblPower')?.textContent || '—'}<br>ΔP/Head: ${$('svgTblHead')?.textContent || '—'}<br>NPSH R/A: ${$('svgTblNpsh')?.textContent || '—'}`;
+        if(el.id === 'pumpShape' || el.id === 'svgPumpTable') return `${base}<br>Power: ${$('svgTblPower')?.textContent || '—'}<br>ΔP/Head: ${$('svgTblHead')?.textContent || '—'}<br>NPSH R/A: ${$('svgTblNpsh')?.textContent || '—'}`;
         if(el.id === 'motorShape') return `${base}<br>${$('motorTxt')?.textContent || ''}`;
-        if(el.id?.startsWith('valveShape')) return `${base}<br>${$('valveTxt')?.textContent || ''}`;
-        if(el.id === 'suctionPipe' || el.id === 'suctionTag') return `${base}<br>${$('suctionCond')?.textContent}<br>${$('suctionCond2')?.textContent}<br>${$('suctionCond3')?.textContent}`;
-        if(el.id === 'dischargePipe' || el.id === 'pumpTag') return `${base}<br>${$('dischCond')?.textContent}<br>${$('dischCond2')?.textContent}<br>${$('dischCond3')?.textContent}`;
-        if(el.id?.startsWith('recyclePipe') || el.id === 'recycleTag') return `${base}<br>${$('recycleCond')?.textContent}<br>${$('recycleCond2')?.textContent}`;
-        if(el.id === 'processPipe' || el.id === 'headerTag') return `${base}<br>${$('headerCond')?.textContent}<br>${$('headerCond2')?.textContent}<br>${$('headerCond3')?.textContent}`;
+        if(el.id?.startsWith('valveShape')) return `${base}<br>${$('valveTxt')?.textContent || ''}<br>${$('valveDpTxt')?.textContent || ''}`;
+        if(el.id === 'suctionPipe' || el.id === 'suctionTag') return `${base}<br>${$('suctionCond')?.textContent || ''}<br>${$('suctionCond2')?.textContent || ''}<br>${$('suctionCond3')?.textContent || ''}`;
+        if(el.id === 'dischargePipe' || el.id === 'pumpTag') return `${base}<br>${$('dischCond')?.textContent || ''}<br>${$('dischCond2')?.textContent || ''}<br>${$('dischCond3')?.textContent || ''}`;
+        if(el.id?.startsWith('recyclePipe') || el.id === 'recycleTag') return `${base}<br>${$('recycleCond')?.textContent || ''}<br>${$('recycleCond2')?.textContent || ''}<br>${$('valveDpTxt')?.textContent || ''}`;
+        if(el.id === 'processPipe' || el.id === 'headerTag') return `${base}<br>${$('headerCond')?.textContent || ''}<br>${$('headerCond2')?.textContent || ''}<br>${$('headerCond3')?.textContent || ''}`;
         return base;
       };
       document.querySelectorAll('.svg-hover').forEach(el=>{
