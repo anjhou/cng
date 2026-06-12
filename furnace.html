@@ -69,6 +69,7 @@ input{
   border:1px solid #cbd5e1;
   border-radius:7px;
   margin-top:4px;
+  box-sizing:border-box;
 }
 button{
   width:100%;
@@ -99,7 +100,7 @@ th{background:#e2e8f0}
   position:fixed;
   z-index:9999;
   display:none;
-  max-width:280px;
+  max-width:300px;
   background:#111827;
   color:white;
   padding:9px 11px;
@@ -108,6 +109,10 @@ th{background:#e2e8f0}
   line-height:1.35;
   pointer-events:none;
   box-shadow:0 8px 20px #0005;
+}
+
+@media(max-width:1000px){
+  main{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -213,6 +218,11 @@ data-tip="Recovered Heat Path<br>Represents heat recovery to combustion air or f
     <mpath href="#sFlue2"></mpath>
   </animateMotion>
 </circle>
+<circle class="flow-dot" fill="#6b7280">
+  <animateMotion dur="2.6s" repeatCount="indefinite">
+    <mpath href="#sRecovery"></mpath>
+  </animateMotion>
+</circle>
 
 <!-- Callouts -->
 <rect x="30" y="65" width="260" height="92" class="callout" rx="8"></rect>
@@ -231,9 +241,9 @@ data-tip="Recovered Heat Path<br>Represents heat recovery to combustion air or f
 <text x="345" y="500" class="note" id="fuelCallout">NG: 90 mol% CH₄, 6% C₂H₆</text>
 <text x="345" y="518" class="note" id="fuelRateCallout">Fuel rate: calculated</text>
 
-<rect x="330" y="548" width="260" height="70" class="callout" rx="8"></rect>
+<rect x="330" y="548" width="300" height="70" class="callout" rx="8"></rect>
 <text x="345" y="572" class="label">Combustion Air</text>
-<text x="345" y="594" class="note" id="airCallout">Air: 21% O₂, 79% N₂</text>
+<text x="345" y="594" class="note" id="airCallout">Air: calculated, 15% excess</text>
 
 <rect x="840" y="55" width="225" height="72" class="callout" rx="8"></rect>
 <text x="855" y="78" class="label">Stack Gas</text>
@@ -270,6 +280,7 @@ data-tip="Recovered Heat Path<br>Represents heat recovery to combustion air or f
 <tbody>
 <tr><td>Furnace Duty</td><td class="result" id="duty">-</td></tr>
 <tr><td>Fuel Gas Consumption</td><td class="result" id="fuelRate">-</td></tr>
+<tr><td>Combustion Air Flow</td><td class="result" id="airFlow">-</td></tr>
 <tr><td>Overall Fired-Heater Efficiency</td><td class="result" id="eff">-</td></tr>
 <tr><td>Feed Enthalpy Change</td><td class="result" id="dh">-</td></tr>
 <tr><td>Estimated Stack Loss</td><td class="result" id="stackLoss">-</td></tr>
@@ -312,6 +323,14 @@ function calculateFurnace(){
   const efficiency = Math.max(0.55, Math.min(0.92, 1 - stackLossFrac));
   const firedDuty = duty / efficiency;
   const fuelScfh = firedDuty / lhv;
+
+  // Natural-gas combustion air estimate.
+  // Approximate stoichiometric air requirement for methane-rich natural gas:
+  // CH4 + 2O2 -> CO2 + 2H2O; air contains ~21 mol% O2.
+  // Typical NG requires about 9.5–10.5 scf air/scf fuel depending on composition.
+  const stoichAirScfPerScfFuel = 9.8;
+  const actualAirScfh = fuelScfh * stoichAirScfPerScfFuel * (1 + excessAir / 100);
+
   const stackLoss = firedDuty - duty;
 
   const targetStackLossFrac = Math.max(0.03, 0.00018 * (targetStackT - ambT) + 0.0015 * targetAir);
@@ -322,6 +341,7 @@ function calculateFurnace(){
 
   document.getElementById("duty").textContent = dutyMMBtu.toFixed(2) + " MMBtu/hr";
   document.getElementById("fuelRate").textContent = fuelScfh.toFixed(0) + " scfh";
+  document.getElementById("airFlow").textContent = actualAirScfh.toFixed(0) + " scfh";
   document.getElementById("eff").textContent = (efficiency * 100).toFixed(1) + " %";
   document.getElementById("dh").textContent = (cp * dT).toFixed(1) + " Btu/lb";
   document.getElementById("stackLoss").textContent = (stackLoss / 1e6).toFixed(2) + " MMBtu/hr";
@@ -333,20 +353,28 @@ function calculateFurnace(){
   document.getElementById("feedCallout3").textContent = "T: " + tin + "°F, P: " + p + " psig";
   document.getElementById("outletCallout").textContent = "Outlet T: " + tout + "°F";
   document.getElementById("fuelRateCallout").textContent = "Fuel rate: " + fuelScfh.toFixed(0) + " scfh";
+  document.getElementById("airCallout").textContent =
+    "Air: " + actualAirScfh.toFixed(0) + " scfh, " + excessAir.toFixed(1) + "% excess";
   document.getElementById("stackCallout").textContent = "Stack T: " + stackT + "°F";
 
-  updateTooltips(fuelScfh, dutyMMBtu, efficiency, stackLoss);
+  updateTooltips(fuelScfh, dutyMMBtu, efficiency, stackLoss, actualAirScfh, excessAir);
 }
 
-function updateTooltips(fuelScfh, dutyMMBtu, efficiency, stackLoss){
+function updateTooltips(fuelScfh, dutyMMBtu, efficiency, stackLoss, actualAirScfh, excessAir){
   document.getElementById("sFuel").dataset.tip =
     "Natural Gas Fuel<br>Fuel rate: " + fuelScfh.toFixed(0) + " scfh<br>Fuel composition: CH₄/C₂H₆ rich natural gas";
+
+  document.getElementById("sAir").dataset.tip =
+    "Combustion Air<br>Air flow: " + actualAirScfh.toFixed(0) +
+    " scfh<br>Excess air: " + excessAir.toFixed(1) +
+    "%<br>Composition: 21 mol% O₂, 79 mol% N₂";
 
   document.getElementById("sOutlet").dataset.tip =
     "Heater Outlet Stream<br>Duty absorbed: " + dutyMMBtu.toFixed(2) + " MMBtu/hr<br>Outlet temperature: " + val("tout") + "°F";
 
   document.getElementById("sFlue2").dataset.tip =
-    "Stack Gas<br>Stack temperature: " + val("stackT") + "°F<br>Estimated stack loss: " + (stackLoss / 1e6).toFixed(2) + " MMBtu/hr<br>Efficiency: " + (efficiency * 100).toFixed(1) + "%";
+    "Stack Gas<br>Stack temperature: " + val("stackT") + "°F<br>Estimated stack loss: " +
+    (stackLoss / 1e6).toFixed(2) + " MMBtu/hr<br>Efficiency: " + (efficiency * 100).toFixed(1) + "%";
 }
 
 function initTooltips(){
