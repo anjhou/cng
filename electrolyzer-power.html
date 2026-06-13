@@ -19,7 +19,7 @@
     foreignObject h3{margin:0 0 8px;font-size:14px;color:#0f172a;border-bottom:1px solid #dbe4f0;padding-bottom:5px}.grid{display:grid;grid-template-columns:1fr 96px;gap:6px 8px;align-items:center}
     label{font-size:12px;color:#334155} input{width:100%;height:26px;border:1px solid #cbd5e1;border-radius:7px;padding:3px 6px;font-size:12px;background:#fff;color:#0f172a}
     .svg-table{width:100%;border-collapse:collapse;font-size:12px}.svg-table th,.svg-table td{border:1px solid #cbd5e1;padding:5px 6px;text-align:right}.svg-table th:first-child,.svg-table td:first-child{text-align:left}.svg-table th{background:#e2e8f0;color:#0f172a}
-    #screeningSummary .svg-card{padding:8px}#screeningSummary h3{font-size:13px;margin-bottom:6px}#screeningSummary .svg-table{font-size:11px;table-layout:fixed}#screeningSummary .svg-table th,#screeningSummary .svg-table td{padding:3px 4px;word-wrap:break-word;vertical-align:top}#screeningSummary .svg-table tr{height:24px}
+    #screeningSummary .svg-card{padding:8px}#screeningSummary h3{font-size:13px;margin-bottom:6px}#screeningSummary .svg-table{font-size:10.5px;table-layout:fixed}#screeningSummary .svg-table th,#screeningSummary .svg-table td{padding:3px 3px;word-wrap:break-word;vertical-align:top}#screeningSummary .svg-table tr{height:24px}
     .note{font-size:11px;color:#64748b;margin-top:6px;line-height:1.25}.below-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}.metric{border:1px solid #d9e2ef;border-radius:12px;padding:12px;background:#fff}.metric div:first-child{font-size:12px;color:#64748b}.metric div:last-child{font-size:20px;font-weight:800;margin-top:5px}
     .tooltip{position:fixed;display:none;pointer-events:none;z-index:50;max-width:330px;background:#111827;color:white;border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.28)}.hoverable{cursor:help}
     @media(max-width:900px){.below-grid{grid-template-columns:1fr 1fr}header h1{font-size:19px}}
@@ -96,7 +96,7 @@
 <rect class="unit hoverable" data-tip="Oxygen vent/byproduct" x="755" y="190" width="150" height="76" rx="12"/>
 <text class="label" x="792" y="220">O₂ Vent</text><text class="small" id="o2VentCond" x="778" y="242">- lb/hr</text>
 
-<path class="utility hoverable" data-tip="Electrical power supply" d="M340 185 L380 185"/><text class="tiny" id="powerLineLabel" x="220" y="177">Power: - MW AC</text>
+<path class="utility hoverable" data-tip="Electrical power supply" d="M465 80 L465 140"/><text class="tiny" id="powerLineLabel" x="395" y="70">AC Power In: - MW / - hp</text>
 <path class="utility hoverable" data-tip="DC power to electrolyzer stack" d="M550 185 C630 185 580 340 580 380"/><text class="tiny" id="dcLineLabel" x="580" y="260">DC: - MW</text>
 <path class="water hoverable" data-tip="Demineralized water feed stream WF-101" d="M270 474 L455 474"/><text class="stream-label" id="waterLineLabel" x="292" y="456">WF-101 DM water: - lb/hr</text><text class="tiny" x="310" y="490">50 psig | 80°F</text>
 <path class="h2 hoverable" data-tip="Wet hydrogen stream H2-101" d="M705 426 L790 426"/><text class="stream-label" id="wetH2Label" x="710" y="412">H2-101 Wet H₂: - lb/hr</text>
@@ -104,18 +104,18 @@
 <path class="o2 hoverable" data-tip="Oxygen byproduct stream O2-101" d="M645 380 C670 270 735 228 755 228"/><text class="stream-label" id="o2LineLabel" x="646" y="303">O2-101: - lb/hr</text>
 <path class="utility hoverable" data-tip="Cooling duty stream CW-101" d="M590 525 L590 612"/><text class="stream-label" id="coolingLineLabel" x="602" y="570">CW-101 Cooling: - MMBtu/hr</text>
 
-<foreignObject id="screeningSummary" x="28" y="560" width="260" height="282">
+<foreignObject id="screeningSummary" x="28" y="560" width="330" height="282">
 <div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
 <h3>Electrolyzer Screening Summary</h3>
 <table class="svg-table"><tbody>
-<tr><th style="width:58%">Metric</th><th style="width:42%">Value</th></tr>
-<tr><td>AC Power</td><td id="stripPower">-</td></tr>
-<tr><td>Water Demand</td><td id="stripWater">-</td></tr>
-<tr><td>H₂ Energy</td><td id="stripH2Energy">-</td></tr>
-<tr><td>Stack Efficiency</td><td id="stripEff">-</td></tr>
-<tr><td>O₂ Production</td><td id="stripO2">-</td></tr>
-<tr><td>Cooling Duty</td><td id="stripCooling">-</td></tr>
-<tr><td>Annual Power Cost</td><td id="stripAnnualCost">-</td></tr>
+<tr><th style="width:34%">Metric</th><th style="width:33%">Basis</th><th style="width:33%">Value</th></tr>
+<tr><td>AC Power</td><td>Stack kWh/lb × H₂ × BOP</td><td id="stripPower">-</td></tr>
+<tr><td>Water Demand</td><td>Water factor × H₂ rate</td><td id="stripWater">-</td></tr>
+<tr><td>H₂ Energy</td><td>LHV/HHV of H₂</td><td id="stripH2Energy">-</td></tr>
+<tr><td>Stack Efficiency</td><td>User input, LHV basis</td><td id="stripEff">-</td></tr>
+<tr><td>O₂ Production</td><td>8 lb O₂ / lb H₂</td><td id="stripO2">-</td></tr>
+<tr><td>Cooling Duty</td><td>AC input minus H₂ LHV</td><td id="stripCooling">-</td></tr>
+<tr><td>Annual Power Cost</td><td>AC kW × $/kWh × 8760</td><td id="stripAnnualCost">-</td></tr>
 </tbody></table>
 </div>
 </foreignObject>
@@ -141,7 +141,7 @@ function calculate(){
  $('svgPowerMw').textContent=`${fmt(acMW,2)} MW / ${fmt(acKw,0)} kW`;$('svgPowerHp').textContent=`${fmt(hp,0)} hp`;$('svgKwhLb').textContent=`${fmt(effectiveSec,2)} kWh/lb`;
  $('svgWater').textContent=`${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('svgO2').textContent=`${fmt(o2LbH,0)} lb/hr`;$('svgCooling').textContent=`${fmt(coolingMMBtuH,1)} MMBtu/hr`;$('svgDailyH2').textContent=`${fmt(h2Tpd,1)} short ton/d`;$('svgPowerCost').textContent=`$${fmt(hourlyCost,0)}/hr`;
  $('stackCond').textContent=`T: ${fmt(t,0)} °F | P: ${fmt(p,0)} psig`;$('stackRate').textContent=`H₂: ${fmt(h2,0)} lb/hr | SEC: ${fmt(sec,1)} kWh/lb`;$('sepCond').textContent=`${fmt(p,0)} psig | ${fmt(t,0)} °F`;$('h2ProductCond').textContent=`${fmt(h2,0)} lb/hr | ${fmt(p,0)} psig`;$('o2VentCond').textContent=`${fmt(o2LbH,0)} lb/hr`;$('wtCond').textContent=`50 psig | 80°F | ${fmt(purity,1)} ppm TDS`;
- $('powerLineLabel').textContent=`Power: ${fmt(acMW,2)} MW AC / ${fmt(hp,0)} hp`;$('dcLineLabel').textContent=`DC: ${fmt(stackMW,2)} MW`;$('waterLineLabel').textContent=`WF-101 DM water: ${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('wetH2Label').textContent=`H2-101 Wet H₂: ${fmt(h2,0)} lb/hr`;$('o2LineLabel').textContent=`O2-101: ${fmt(o2LbH,0)} lb/hr`;$('coolingLineLabel').textContent=`CW-101 Cooling: ${fmt(coolingMMBtuH,1)} MMBtu/hr`;
+ $('powerLineLabel').textContent=`AC Power In: ${fmt(acMW,2)} MW / ${fmt(hp,0)} hp`;$('dcLineLabel').textContent=`DC: ${fmt(stackMW,2)} MW`;$('waterLineLabel').textContent=`WF-101 DM water: ${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('wetH2Label').textContent=`H2-101 Wet H₂: ${fmt(h2,0)} lb/hr`;$('o2LineLabel').textContent=`O2-101: ${fmt(o2LbH,0)} lb/hr`;$('coolingLineLabel').textContent=`CW-101 Cooling: ${fmt(coolingMMBtuH,1)} MMBtu/hr`;
  $('stripPower').textContent=`${fmt(acMW,2)} MW / ${fmt(hp,0)} hp`;$('stripWater').textContent=`${fmt(waterLbH,0)} lb/hr; ${fmt(waterGpm,1)} gpm; ${fmt(waterBpd,0)} bpd`;$('stripH2Energy').textContent=`LHV ${fmt(lhvMMBtuH,1)}; HHV ${fmt(hhvMMBtuH,1)} MMBtu/hr`;$('stripEff').textContent=`${fmt(stackEff,1)}% LHV`;$('stripO2').textContent=`${fmt(o2LbH,0)} lb/hr`;$('stripCooling').textContent=`${fmt(coolingMMBtuH,1)} MMBtu/hr`;$('stripAnnualCost').textContent=`$${fmt(annualCost,0)}/yr`;
  $('cardPower').textContent=`${fmt(acMW,2)} MW`;$('cardSec').textContent=`${fmt(effectiveSec,2)} kWh/lb`;$('cardWater').textContent=`${fmt(waterLbH,0)} lb/hr`;$('cardO2').textContent=`${fmt(o2LbH,0)} lb/hr`;
  const tips={
