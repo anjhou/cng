@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>H₂ Pipeline Pressure Drop / Compressor Duty Calculator</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#1f2937;
+}
+header{
+  background:#0f3b57;
+  color:white;
+  padding:14px 22px;
+}
+main{
+  display:grid;
+  grid-template-columns:1.45fr .9fr;
+  gap:16px;
+  padding:16px;
+}
+.panel{
+  background:white;
+  border-radius:12px;
+  box-shadow:0 4px 14px #0002;
+  padding:14px;
+}
+svg{
+  width:100%;
+  height:640px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fbfdff;
+}
+.unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2;cursor:pointer}
+.compressor{fill:#fee2e2;stroke:#b91c1c;stroke-width:2;cursor:pointer}
+.pipeline-body{fill:none;stroke:#2563eb;stroke-width:9;stroke-linecap:round;marker-end:url(#arrow);cursor:pointer}
+.pipeline-shadow{fill:none;stroke:#dbeafe;stroke-width:17;stroke-linecap:round;pointer-events:none}
+.instrument{fill:#ecfeff;stroke:#0891b2;stroke-width:1.6;cursor:pointer}
+.callout{fill:#fff7ed;stroke:#fb923c;stroke-width:1.4}
+.label{font-size:13px;font-weight:700;fill:#111827;pointer-events:none}
+.note{font-size:11px;fill:#111827;pointer-events:none}
+.flow-dot{r:5;opacity:.95;pointer-events:none}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+label{font-size:13px;font-weight:700}
+input,select{
+  width:100%;
+  padding:8px;
+  border:1px solid #cbd5e1;
+  border-radius:7px;
+  margin-top:4px;
+  box-sizing:border-box;
+  background:white;
+}
+button{
+  width:100%;
+  padding:10px;
+  border:0;
+  border-radius:8px;
+  background:#0f766e;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:12px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:13px;
+}
+th,td{
+  border:1px solid #d1d5db;
+  padding:7px;
+  text-align:left;
+  vertical-align:top;
+}
+th{background:#e2e8f0}
+.result{font-weight:700;color:#075985}
+.chart-wrap{height:340px;margin-top:12px}
+.small-note{font-size:12px;color:#475569;margin-top:8px;line-height:1.35}
+#svgTooltip{
+  position:fixed;
+  z-index:9999;
+  display:none;
+  max-width:330px;
+  background:#111827;
+  color:white;
+  padding:9px 11px;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.35;
+  pointer-events:none;
+  box-shadow:0 8px 20px #0005;
+}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
+</script>
+<header>
+  <h2>H₂ Pipeline Sizing / Pressure Drop / Compressor Duty</h2>
+</header>
+<div id="svgTooltip"></div>
+<main>
+<section class="panel">
+<svg viewBox="0 0 1100 650" id="pipeSvg">
+<defs>
+  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path>
+  </marker>
+</defs>
+
+<rect x="70" y="235" width="180" height="110" rx="14" class="unit tip" id="sourceUnit"
+ data-tip="H₂ Source<br>Hydrogen supply node<br>Pressure, temperature, and flow are editable in the input panel."></rect>
+<text x="125" y="268" class="label">H₂ Source</text>
+<text x="93" y="292" class="note" id="srcPLabel">P: - psig</text>
+<text x="93" y="312" class="note" id="srcTLabel">T: - °F</text>
+<text x="93" y="332" class="note" id="srcFlowLabel">Flow: -</text>
+
+<circle cx="335" cy="290" r="48" class="compressor tip" id="compSymbol"
+ data-tip="C-101 Optional Compressor<br>Displayed duty is calculated only when inlet pressure plus line losses cannot meet the target outlet pressure."></circle>
+<path d="M306 290 L360 258 L360 322 Z" fill="#fecaca" stroke="#991b1b" stroke-width="2" class="tip" id="compImpeller"
+ data-tip="Compressor impeller symbol<br>Compression ratio and horsepower update dynamically."></path>
+<text x="310" y="363" class="label">C-101</text>
+<text x="276" y="383" class="note" id="compDutyLabel">Duty: - hp</text>
+<text x="276" y="401" class="note" id="compRatioLabel">Ratio: -</text>
+
+<path d="M250 290 H287" class="pipeline-body tip" id="inletLine"
+ data-tip="H₂ suction line to compressor / pipeline inlet"></path>
+<path d="M383 290 H925" class="pipeline-shadow"></path>
+<path d="M383 290 H925" class="pipeline-body tip" id="pipeLine"
+ data-tip="Straight H₂ pipeline<br>Length, ID, roughness, pressure drop, velocity, and Reynolds number update dynamically."></path>
+
+<rect x="925" y="235" width="180" height="110" rx="14" class="unit tip" id="deliveryUnit"
+ data-tip="Delivery Point<br>Target outlet pressure is used to determine whether compression is required."></rect>
+<text x="973" y="268" class="label">Delivery</text>
+<text x="948" y="292" class="note" id="outPLabel">Target P: - psig</text>
+<text x="948" y="312" class="note" id="outTLabel">Outlet T: - °F</text>
+<text x="948" y="332" class="note" id="outFlowLabel">Flow: -</text>
+
+<circle cx="505" cy="214" r="26" class="instrument tip" id="pi101"
+ data-tip="PI-101<br>Pipeline pressure profile diagnostic."></circle>
+<text x="487" y="219" class="label">PI</text>
+<circle cx="650" cy="214" r="26" class="instrument tip" id="fi101"
+ data-tip="FI-101<br>Hydrogen gas velocity diagnostic."></circle>
+<text x="632" y="219" class="label">VI</text>
+<circle cx="795" cy="214" r="26" class="instrument tip" id="ri101"
+ data-tip="RI-101<br>Reynolds number / flow regime diagnostic."></circle>
+<text x="777" y="219" class="label">Re</text>
+
+<line x1="505" y1="240" x2="505" y2="282" stroke="#0891b2" stroke-width="2" stroke-dasharray="5 4"></line>
+<line x1="650" y1="240" x2="650" y2="282" stroke="#0891b2" stroke-width="2" stroke-dasharray="5 4"></line>
+<line x1="795" y1="240" x2="795" y2="282" stroke="#0891b2" stroke-width="2" stroke-dasharray="5 4"></line>
+
+<circle class="flow-dot" fill="#2563eb">
+  <animateMotion dur="2.0s" repeatCount="indefinite"><mpath href="#inletLine"></mpath></animateMotion>
+</circle>
+<circle class="flow-dot" fill="#2563eb">
+  <animateMotion dur="4.0s" repeatCount="indefinite"><mpath href="#pipeLine"></mpath></animateMotion>
+</circle>
+<circle class="flow-dot" fill="#2563eb">
+  <animateMotion dur="4.0s" begin="1.3s" repeatCount="indefinite"><mpath href="#pipeLine"></mpath></animateMotion>
+</circle>
+<circle class="flow-dot" fill="#2563eb">
+  <animateMotion dur="4.0s" begin="2.6s" repeatCount="indefinite"><mpath href="#pipeLine"></mpath></animateMotion>
+</circle>
+
+<rect x="408" y="335" width="250" height="82" class="callout" rx="8"></rect>
+<text x="423" y="358" class="label">Pipeline Segment</text>
+<text x="423" y="380" class="note" id="pipeDimLabel">Length: - ft, ID: - in</text>
+<text x="423" y="398" class="note" id="roughLabel">Roughness: - ft</text>
+
+<rect x="680" y="335" width="260" height="100" class="callout" rx="8"></rect>
+<text x="695" y="358" class="label">Calculated Diagnostics</text>
+<text x="695" y="380" class="note" id="dpLabel">ΔP: - psid</text>
+<text x="695" y="398" class="note" id="velLabel">Velocity: - ft/s</text>
+<text x="695" y="416" class="note" id="reLabel">Re: -</text>
+
+<rect x="70" y="55" width="315" height="95" class="callout" rx="8"></rect>
+<text x="85" y="78" class="label">Basis</text>
+<text x="85" y="100" class="note">Hydrogen gas, MW = 2.016</text>
+<text x="85" y="118" class="note">Darcy-Weisbach with Haaland friction factor</text>
+<text x="85" y="136" class="note">Ideal-gas density; screening-level design</text>
+</svg>
+</section>
+
+<section class="panel">
+<h3>Pipeline Inputs</h3>
+<div class="grid">
+  <div><label>Pipeline Length, ft</label><input id="lengthFt" value="1000"></div>
+  <div><label>Internal Diameter, in</label><input id="diamIn" value="4.026"></div>
+  <div><label>Elevation Change, ft</label><input id="elevFt" value="0"></div>
+  <div><label>Inlet Pressure, psig</label><input id="pinPsig" value="600"></div>
+  <div><label>Inlet Temperature, °F</label><input id="tinF" value="80"></div>
+  <div><label>Target Outlet Pressure, psig</label><input id="poutTargetPsig" value="550"></div>
+  <div><label>Flow Basis</label><select id="flowBasis"><option value="lbhr">lb/h</option><option value="scfh">scfh</option><option value="mmscfd">MMSCFD</option></select></div>
+  <div><label>H₂ Flow</label><input id="flowValue" value="10000"></div>
+  <div><label>Pipe Material</label><select id="material"><option value="0.00015">Commercial steel, ε=0.00015 ft</option><option value="0.000005">Drawn tubing, ε=0.000005 ft</option><option value="0.00085">Cast iron, ε=0.00085 ft</option><option value="custom">Custom roughness</option></select></div>
+  <div><label>Custom Roughness, ft</label><input id="roughFt" value="0.00015"></div>
+  <div><label>Ambient / Soil Temp, °F</label><input id="ambF" value="70"></div>
+  <div><label>Temperature Approach, %</label><input id="tempApproach" value="25"></div>
+  <div><label>Compressor Efficiency, %</label><input id="compEff" value="75"></div>
+  <div><label>Gas Z Factor</label><input id="zFactor" value="1.00"></div>
+</div>
+<button onclick="calculatePipeSizing()">Run H₂ Pipe Calculation</button>
+
+<table>
+<thead><tr><th>Parameter</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Calculated Outlet Pressure</td><td class="result" id="calcPout">-</td></tr>
+<tr><td>Overall Pressure Drop</td><td class="result" id="totalDp">-</td></tr>
+<tr><td>Inlet / Outlet Velocity</td><td class="result" id="velocityOut">-</td></tr>
+<tr><td>Density Range</td><td class="result" id="densityOut">-</td></tr>
+<tr><td>Viscosity Range</td><td class="result" id="viscOut">-</td></tr>
+<tr><td>Reynolds Number</td><td class="result" id="reOut">-</td></tr>
+<tr><td>Friction Factor</td><td class="result" id="ffOut">-</td></tr>
+<tr><td>Compressor Duty / Ratio</td><td class="result" id="compOut">-</td></tr>
+</tbody>
+</table>
+
+<h3>Interactive Pipeline Profile</h3>
+<div class="grid">
+  <div><label>Chart Property</label><select id="chartProperty"><option value="pressure">Pressure</option><option value="velocity">Velocity</option><option value="density">Density</option><option value="viscosity">Viscosity</option><option value="temperature">Temperature</option></select></div>
+</div>
+<div class="chart-wrap"><canvas id="profileChart"></canvas></div>
+<div class="small-note">Discretization uses one calculation point every 10 ft, equivalent to 10 data points per 100 ft. This page is a screening tool; verify final hydrogen pipeline design with project codes, compressibility, real-gas properties, transient hydraulics, and metallurgy requirements.</div>
+</section>
+</main>
+
+<script>
+const MW_H2 = 2.016;                 // lb/lbmol
+const R_PSI = 10.7316;               // psia*ft3/(lbmol*R)
+const R_BTU = 1.98588;               // Btu/(lbmol*R)
+const GC = 32.174;
+const HP_PER_BTU_HR = 2544.43;
+let profileChart = null;
+let lastProfile = [];
+
+function val(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n,d=2){ return Number.isFinite(n) ? n.toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d}) : "-"; }
+function fmt0(n){ return Number.isFinite(n) ? n.toLocaleString(undefined,{maximumFractionDigits:0}) : "-"; }
+function psigToPsia(p){ return p + 14.696; }
+function rFromF(t){ return t + 459.67; }
+
+function roughness(){
+  const material = document.getElementById("material").value;
+  if(material === "custom") return Math.max(val("roughFt"),0.0000001);
+  document.getElementById("roughFt").value = material;
+  return parseFloat(material);
+}
+
+function h2ViscosityCp(tempF){
+  // Sutherland-style screening correlation, anchored near H2 viscosity at ambient temperature.
+  const T = rFromF(tempF) * 5/9; // K
+  const T0 = 300.0;
+  const mu0 = 0.0089; // cP near 300 K
+  const S = 72.0;
+  return mu0 * Math.pow(T/T0,1.5) * (T0 + S)/(T + S);
+}
+
+function densityLbFt3(psig,tempF,z){
+  const psia = Math.max(psigToPsia(psig),1);
+  return psia * MW_H2 / (Math.max(z,0.2) * R_PSI * rFromF(tempF));
+}
+
+function massFlowLbHr(){
+  const basis = document.getElementById("flowBasis").value;
+  const f = val("flowValue");
+  const rhoStd = 14.696 * MW_H2 / (R_PSI * rFromF(60));
+  if(basis === "scfh") return f * rhoStd;
+  if(basis === "mmscfd") return f * 1e6 / 24 * rhoStd;
+  return f;
+}
+
+function frictionFactor(re, eps, dFt){
+  if(re <= 0) return 0;
+  if(re < 2100) return 64 / re;
+  const rel = eps / Math.max(dFt,1e-9);
+  return Math.pow(-1.8 * Math.log10(Math.pow(rel/3.7,1.11) + 6.9/re), -2);
+}
+
+function calculatePipeSizing(){
+  const lengthFt = Math.max(val("lengthFt"),10);
+  const dFt = Math.max(val("diamIn")/12,0.01);
+  const area = Math.PI * dFt * dFt / 4;
+  const elevFt = val("elevFt");
+  const pin = val("pinPsig");
+  const target = val("poutTargetPsig");
+  const tin = val("tinF");
+  const amb = val("ambF");
+  const approach = Math.max(0,Math.min(val("tempApproach"),100))/100;
+  const z = Math.max(val("zFactor"),0.2);
+  const eps = roughness();
+  const mdotHr = Math.max(massFlowLbHr(),0.0001);
+  const mdotSec = mdotHr / 3600;
+  const dx = 10;
+  const nSeg = Math.max(1, Math.ceil(lengthFt/dx));
+  const dzdx = elevFt / lengthFt;
+
+  let p = pin;
+  let profile = [];
+  let ffLast = 0;
+  let reLast = 0;
+  let minRho = Infinity, maxRho = -Infinity, minMu = Infinity, maxMu = -Infinity;
+  let vin = 0, vout = 0;
+  let totalFrictionDp = 0;
+  let totalElevDp = 0;
+
+  for(let i=0;i<=nSeg;i++){
+    const x = Math.min(i*dx,lengthFt);
+    const frac = lengthFt > 0 ? x/lengthFt : 0;
+    const temp = tin + (amb - tin) * approach * frac;
+    const rho = densityLbFt3(p,temp,z);
+    const v = mdotSec / (rho * area);
+    const muCp = h2ViscosityCp(temp);
+    const muLbmFtS = muCp * 0.000671969;
+    const re = rho * v * dFt / Math.max(muLbmFtS,1e-12);
+    const f = frictionFactor(re,eps,dFt);
+    if(i===0) vin = v;
+    if(i===nSeg) vout = v;
+    ffLast = f;
+    reLast = re;
+    minRho = Math.min(minRho,rho); maxRho = Math.max(maxRho,rho);
+    minMu = Math.min(minMu,muCp); maxMu = Math.max(maxMu,muCp);
+    profile.push({distance:x,pressure:p,velocity:v,density:rho,viscosity:muCp,temperature:temp,reynolds:re,frictionFactor:f});
+    if(i<nSeg){
+      const step = Math.min(dx, lengthFt - x);
+      const frictionPsi = f * (step/dFt) * (rho * v * v / (2 * GC)) / 144;
+      const elevPsi = rho * dzdx * step / 144;
+      const dp = Math.max(frictionPsi + elevPsi, -Math.max(p-0.1,0));
+      p = Math.max(p - dp, 0.1);
+      totalFrictionDp += frictionPsi;
+      totalElevDp += elevPsi;
+    }
+  }
+
+  const calcOutlet = profile[profile.length-1].pressure;
+  const totalDp = pin - calcOutlet;
+  const comp = compressorDuty(calcOutlet,target,tin,mdotHr,val("compEff"));
+  lastProfile = profile;
+
+  updateOutputs({lengthFt,dFt,eps,pin,target,tin,amb,mdotHr,calcOutlet,totalDp,vin,vout,minRho,maxRho,minMu,maxMu,reLast,ffLast,comp,totalFrictionDp,totalElevDp});
+  updateSvg({lengthFt,dFt,eps,pin,target,tin,amb,mdotHr,calcOutlet,totalDp,vin,vout,minRho,maxRho,minMu,maxMu,reLast,ffLast,comp});
+  updateChart();
+}
+
+function compressorDuty(pSuctionPsig,pTargetPsig,tempF,mdotHr,effPct){
+  const p1 = Math.max(psigToPsia(pSuctionPsig),1);
+  const p2 = Math.max(psigToPsia(pTargetPsig),1);
+  if(p2 <= p1) return {required:false,hp:0,ratio:1};
+  const k = 1.405;
+  const eff = Math.max(Math.min(effPct/100,0.95),0.2);
+  const nLbmolHr = mdotHr / MW_H2;
+  const tR = rFromF(tempF);
+  const ratio = p2 / p1;
+  const btuHr = nLbmolHr * (k/(k-1)) * R_BTU * tR * (Math.pow(ratio,(k-1)/k)-1) / eff;
+  return {required:true,hp:btuHr/HP_PER_BTU_HR,ratio};
+}
+
+function updateOutputs(o){
+  document.getElementById("calcPout").textContent = fmt(o.calcOutlet,2) + " psig";
+  document.getElementById("totalDp").textContent = fmt(o.totalDp,2) + " psid";
+  document.getElementById("velocityOut").textContent = fmt(o.vin,2) + " / " + fmt(o.vout,2) + " ft/s";
+  document.getElementById("densityOut").textContent = fmt(o.minRho,5) + " - " + fmt(o.maxRho,5) + " lbm/ft³";
+  document.getElementById("viscOut").textContent = fmt(o.minMu,5) + " - " + fmt(o.maxMu,5) + " cP";
+  document.getElementById("reOut").textContent = fmt0(o.reLast);
+  document.getElementById("ffOut").textContent = fmt(o.ffLast,5);
+  document.getElementById("compOut").textContent = o.comp.required ? fmt(o.comp.hp,1) + " hp / " + fmt(o.comp.ratio,3) : "Not required / 1.000";
+}
+
+function flowText(mdotHr){
+  const basis = document.getElementById("flowBasis").value;
+  const f = val("flowValue");
+  if(basis === "scfh") return fmt0(f) + " scfh";
+  if(basis === "mmscfd") return fmt(f,3) + " MMSCFD";
+  return fmt0(mdotHr) + " lb/h";
+}
+
+function updateSvg(o){
+  document.getElementById("srcPLabel").textContent = "P: " + fmt(o.pin,1) + " psig";
+  document.getElementById("srcTLabel").textContent = "T: " + fmt(o.tin,1) + " °F";
+  document.getElementById("srcFlowLabel").textContent = "Flow: " + flowText(o.mdotHr);
+  document.getElementById("outPLabel").textContent = "Target P: " + fmt(o.target,1) + " psig";
+  document.getElementById("outTLabel").textContent = "Outlet T: " + fmt(lastProfile[lastProfile.length-1].temperature,1) + " °F";
+  document.getElementById("outFlowLabel").textContent = "Flow: " + flowText(o.mdotHr);
+  document.getElementById("compDutyLabel").textContent = "Duty: " + (o.comp.required ? fmt(o.comp.hp,1) : "0.0") + " hp";
+  document.getElementById("compRatioLabel").textContent = "Ratio: " + fmt(o.comp.ratio,3);
+  document.getElementById("pipeDimLabel").textContent = "Length: " + fmt0(o.lengthFt) + " ft, ID: " + fmt(o.dFt*12,3) + " in";
+  document.getElementById("roughLabel").textContent = "Roughness: " + o.eps.toExponential(2) + " ft";
+  document.getElementById("dpLabel").textContent = "ΔP: " + fmt(o.totalDp,2) + " psid";
+  document.getElementById("velLabel").textContent = "Velocity: " + fmt(o.vin,1) + " → " + fmt(o.vout,1) + " ft/s";
+  document.getElementById("reLabel").textContent = "Re: " + fmt0(o.reLast);
+
+  document.getElementById("sourceUnit").dataset.tip = "H₂ Source<br>P: " + fmt(o.pin,1) + " psig<br>T: " + fmt(o.tin,1) + "°F<br>Flow: " + flowText(o.mdotHr);
+  document.getElementById("deliveryUnit").dataset.tip = "Delivery Point<br>Target P: " + fmt(o.target,1) + " psig<br>Calculated pipeline outlet P before compression: " + fmt(o.calcOutlet,2) + " psig";
+  document.getElementById("compSymbol").dataset.tip = "C-101 Optional Compressor<br>Required: " + (o.comp.required ? "Yes" : "No") + "<br>Duty: " + fmt(o.comp.hp,1) + " hp<br>Compression ratio: " + fmt(o.comp.ratio,3);
+  document.getElementById("pipeLine").dataset.tip = "H₂ Pipeline<br>Length: " + fmt0(o.lengthFt) + " ft<br>ID: " + fmt(o.dFt*12,3) + " in<br>ΔP: " + fmt(o.totalDp,2) + " psid<br>Velocity: " + fmt(o.vin,2) + " to " + fmt(o.vout,2) + " ft/s";
+  document.getElementById("pi101").dataset.tip = "PI-101<br>Pressure profile: " + fmt(o.pin,2) + " to " + fmt(o.calcOutlet,2) + " psig";
+  document.getElementById("fi101").dataset.tip = "VI-101<br>Velocity profile: " + fmt(o.vin,2) + " to " + fmt(o.vout,2) + " ft/s";
+  document.getElementById("ri101").dataset.tip = "RI-101<br>Reynolds number near outlet: " + fmt0(o.reLast) + "<br>Friction factor: " + fmt(o.ffLast,5);
+}
+
+function updateChart(){
+  const prop = document.getElementById("chartProperty").value;
+  const meta = {
+    pressure:["Pressure, psig","Pressure Profile"],
+    velocity:["Velocity, ft/s","Velocity Profile"],
+    density:["Density, lbm/ft³","Density Profile"],
+    viscosity:["Viscosity, cP","Viscosity Profile"],
+    temperature:["Temperature, °F","Temperature Profile"]
+  }[prop];
+  const labels = lastProfile.map(p=>p.distance);
+  const data = lastProfile.map(p=>p[prop]);
+  const ctx = document.getElementById("profileChart").getContext("2d");
+  if(profileChart){ profileChart.destroy(); }
+  profileChart = new Chart(ctx,{
+    type:"line",
+    data:{labels,datasets:[{label:meta[0],data,borderWidth:2,tension:0.15,pointRadius:lastProfile.length>160?0:2}]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false},
+      plugins:{legend:{display:true,onClick:(e,legendItem,legend)=>{const ci=legend.chart;const idx=legendItem.datasetIndex;ci.setDatasetVisibility(idx,!ci.isDatasetVisible(idx));ci.update();}},tooltip:{enabled:true},title:{display:true,text:meta[1]}},
+      scales:{x:{title:{display:true,text:"Distance along pipeline, ft"},ticks:{maxTicksLimit:12}},y:{title:{display:true,text:meta[0]},beginAtZero:false}}
+    }
+  });
+}
+
+function initTooltips(){
+  const tooltip = document.getElementById("svgTooltip");
+  document.querySelectorAll(".tip").forEach(el=>{
+    el.addEventListener("mouseenter",()=>{tooltip.innerHTML=el.dataset.tip||"";tooltip.style.display="block";});
+    el.addEventListener("mousemove",e=>{tooltip.style.left=e.clientX+14+"px";tooltip.style.top=e.clientY+14+"px";});
+    el.addEventListener("mouseleave",()=>{tooltip.style.display="none";});
+  });
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  initTooltips();
+  calculatePipeSizing();
+  document.querySelectorAll("input,select").forEach(el=>{
+    el.addEventListener("input",calculatePipeSizing);
+    el.addEventListener("change",calculatePipeSizing);
+  });
+  document.getElementById("chartProperty").addEventListener("change",updateChart);
+});
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
+</script>
+</body>
+</html>
