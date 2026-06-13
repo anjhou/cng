@@ -35,7 +35,8 @@
     .chart-toolbar h3{margin:0;font-size:14px}.chart-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.chart-controls label{display:flex;gap:5px;align-items:center;margin:0;font-size:12px;font-weight:700;color:#334155}.chart-controls input[type=checkbox]{width:auto;margin:0}.chart-controls button{padding:8px 11px;background:#334155}
     .radar-wrap{height:360px;margin:10px 14px 14px;border:1px solid #dbe4ef;border-radius:12px;background:#fff;padding:10px;position:relative}.radar-wrap.hidden{display:none}canvas{width:100%;height:100%}
     .chart-tooltip{position:absolute;display:none;pointer-events:none;z-index:5;background:#0f172a;color:white;border-radius:9px;padding:8px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 18px rgba(15,23,42,.25);max-width:260px}.chart-tooltip strong{display:block;margin-bottom:3px;color:#e0f2fe}
-    .foot{padding:12px 18px;color:#64748b;font-size:12px}.svg-label{font-size:12px;fill:#0f172a;font-weight:700}.svg-small{font-size:10.5px;fill:#334155}.unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2}.tank{fill:#fefce8;stroke:#a16207;stroke-width:2}.pump{fill:#dcfce7;stroke:#15803d;stroke-width:2}.conv{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.line{stroke:#334155;stroke-width:2.2;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:5 4}.badge{fill:#1d4ed8}.callout{fill:white;stroke:#94a3b8;stroke-width:1.3}.score-dot{stroke:white;stroke-width:1}
+    .svg-tooltip{position:fixed;display:none;pointer-events:none;z-index:30;background:#0f172a;color:white;border-radius:10px;padding:9px 11px;font-size:12px;line-height:1.35;box-shadow:0 10px 24px rgba(15,23,42,.28);max-width:330px;border:1px solid rgba(226,232,240,.22)}.svg-tooltip strong{display:block;color:#e0f2fe;margin-bottom:4px}.svg-hover{cursor:help}.svg-hover:hover{filter:drop-shadow(0 0 4px rgba(37,99,235,.35))}
+    .foot{padding:12px 18px;color:#64748b;font-size:12px}.svg-label{font-size:12px;fill:#0f172a;font-weight:700;pointer-events:none}.svg-small{font-size:10.5px;fill:#334155;pointer-events:none}.unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2}.tank{fill:#fefce8;stroke:#a16207;stroke-width:2}.pump{fill:#dcfce7;stroke:#15803d;stroke-width:2}.conv{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.line{stroke:#334155;stroke-width:2.2;fill:none;marker-end:url(#arrow);pointer-events:stroke}.dash{stroke-dasharray:5 4}.badge{fill:#1d4ed8}.callout{fill:white;stroke:#94a3b8;stroke-width:1.3}.score-dot{stroke:white;stroke-width:1}
     @media(max-width:1120px){main{grid-template-columns:1fr}.input-grid{grid-template-columns:1fr}.rank-box{grid-template-columns:1fr 1fr}}
     @media(max-width:680px){.rank-box{grid-template-columns:1fr}header h1{font-size:20px}}
   </style>
@@ -101,6 +102,7 @@
         <rect x="58" y="675" width="548" height="45" rx="12" fill="#ecfeff" stroke="#0891b2"/>
         <text id="svgBest" x="75" y="703" class="svg-label">Best overall option: --</text>
       </svg>
+      <div id="svgTooltip" class="svg-tooltip"></div>
     </div>
   </section>
 
@@ -312,6 +314,70 @@ function exportRadarPng(){
   link.href=c.toDataURL('image/png');
   link.click();
 }
+function setSvgTip(selector, html){
+  const svg=document.querySelector('.svg-wrap svg');
+  if(!svg) return;
+  const el=svg.querySelector(selector);
+  if(el){ el.dataset.tip=html; el.classList.add('svg-hover'); }
+}
+function initSvgTooltips(){
+  const svg=document.querySelector('.svg-wrap svg');
+  const tip=$('svgTooltip');
+  if(!svg || !tip) return;
+  const tips={
+    'rect[x="46"][y="115"]':'<strong>H₂ Pipeline / Production</strong>Compressed hydrogen source feeding K-101. Typical source for pipeline import, electrolyzer outlet, or plant hydrogen header.',
+    'rect[x="46"][y="262"]':'<strong>LH₂ Import</strong>Cryogenic liquid hydrogen source. Screening uses LH₂ density and cryogenic loading capacity.',
+    'rect[x="46"][y="409"]':'<strong>NH₃ Ship / Rail Import</strong>Ammonia carrier supply. H₂ equivalent is calculated from NH₃ hydrogen mass fraction.',
+    'rect[x="46"][y="556"]':'<strong>LOHC Truck Import</strong>Loaded LOHC carrier supply. H₂ equivalent is calculated from usable LOHC hydrogen weight fraction.',
+    'circle[cx="298"][cy="154"]':'<strong>K-101 H₂ Compressor</strong>Dedicated compressed-H₂ loading machine. Loading time uses compressor capacity in lb/h.',
+    'circle[cx="298"][cy="301"]':'<strong>P-201 LH₂ Cryogenic Pump</strong>Dedicated liquid hydrogen loading pump. Loading time uses gpm converted to lb H₂/h.',
+    'circle[cx="298"][cy="448"]':'<strong>P-301 Ammonia Pump</strong>Dedicated ammonia transfer pump. Loading time uses gpm, SG, and NH₃ H₂ mass fraction.',
+    'circle[cx="298"][cy="595"]':'<strong>P-401 LOHC Pump</strong>Dedicated LOHC transfer pump. Loading time uses gpm, SG, and LOHC usable H₂ wt%.',
+    'rect[x="430"][y="105"]':'<strong>TK-101 Compressed H₂ Gas Storage</strong>Stores gaseous H₂ at the selected pressure and temperature. Volumetric density is estimated from pressure-scaled gas density.',
+    'rect[x="430"][y="252"]':'<strong>TK-201 Liquid H₂ Storage</strong>Stores cryogenic liquid H₂. Screening includes high volumetric density with liquefaction / boiloff penalty.',
+    'rect[x="430"][y="399"]':'<strong>TK-301 Ammonia Storage</strong>Stores NH₃ as a hydrogen carrier. Outlet requires cracking and purification for H₂ service.',
+    'rect[x="430"][y="546"]':'<strong>TK-401 LOHC Storage</strong>Stores hydrogenated LOHC. Outlet requires dehydrogenation and H₂ polishing.',
+    'rect[x="752"][y="116"]':'<strong>Direct H₂ End Use</strong>Compressed H₂ routed to fuel cell, turbine, refinery H₂ header, or process use.',
+    'rect[x="742"][y="260"]':'<strong>LH₂ Vaporizer</strong>Vaporizes liquid hydrogen before delivery to end-use header.',
+    'rect[x="742"][y="405"]':'<strong>NH₃ Cracker + Cleanup</strong>Converts ammonia to H₂/N₂ and removes residual NH₃ for downstream purity requirements.',
+    'rect[x="742"][y="552"]':'<strong>LOHC Dehydrogenation</strong>Releases H₂ from LOHC using heat input and downstream purification.',
+    'rect[x="1010"][y="255"]':'<strong>End Use Header</strong>Hydrogen delivery header for PEM fuel cells, fired equipment, turbines, or refinery process consumers.',
+    'rect[x="660"][y="64"]':'<strong>Key Input Parameters</strong>Live SVG callout summarizing tank volume, price basis, pressure, temperature, and loading assumptions.',
+    'rect[x="660"][y="652"]':'<strong>Four Screening Pillars</strong>Density, energy penalty, logistics / infrastructure, and safety / purity scores used in ranking.',
+    'rect[x="58"][y="675"]':'<strong>Best Overall Option</strong>Live ranked summary based on the average of the four pillar scores.'
+  };
+  Object.entries(tips).forEach(([selector,html])=>setSvgTip(selector,html));
+  const lineTips=[
+    ['path[d="M196 154 H260"]','<strong>Compressed H₂ Inlet Line</strong>Hydrogen source to compressor K-101.'],
+    ['path[d="M332 154 H430"]','<strong>Compressed H₂ Loading Line</strong>Compressor discharge to TK-101.'],
+    ['path[d="M625 154 H752"]','<strong>Compressed H₂ Outlet Line</strong>Stored H₂ to direct end-use header.'],
+    ['path[d="M196 301 H260"]','<strong>LH₂ Inlet Line</strong>Cryogenic liquid hydrogen source to pump P-201.'],
+    ['path[d="M332 301 H430"]','<strong>LH₂ Loading Line</strong>Cryogenic pump discharge to TK-201.'],
+    ['path[d="M625 301 H742"]','<strong>LH₂ Outlet Line</strong>Liquid H₂ routed to vaporization.'],
+    ['path[d="M907 301 H1010"]','<strong>Vaporized H₂ Delivery</strong>Gaseous H₂ from vaporizer to end-use header.'],
+    ['path[d="M196 448 H260"]','<strong>NH₃ Import Line</strong>Ammonia carrier supply to P-301.'],
+    ['path[d="M332 448 H430"]','<strong>NH₃ Loading Line</strong>Ammonia transfer to TK-301.'],
+    ['path[d="M625 448 H742"]','<strong>NH₃ Outlet Line</strong>Ammonia from storage to cracking unit.'],
+    ['path[d="M907 448 H1010"]','<strong>Cracked H₂ Delivery</strong>Purified hydrogen from NH₃ cracking to end-use header.'],
+    ['path[d="M196 595 H260"]','<strong>LOHC Import Line</strong>Hydrogenated LOHC supply to P-401.'],
+    ['path[d="M332 595 H430"]','<strong>LOHC Loading Line</strong>LOHC transfer to TK-401.'],
+    ['path[d="M625 595 H742"]','<strong>LOHC Outlet Line</strong>Loaded LOHC from tank to dehydrogenation unit.'],
+    ['path[d="M907 595 H1010"]','<strong>Released H₂ Delivery</strong>Purified hydrogen from LOHC dehydrogenation to end-use header.']
+  ];
+  lineTips.forEach(([selector,html])=>setSvgTip(selector,html));
+  svg.addEventListener('mousemove',(evt)=>{
+    const target=evt.target.closest('[data-tip]');
+    if(!target){ tip.style.display='none'; return; }
+    tip.innerHTML=target.dataset.tip;
+    tip.style.display='block';
+    const margin=16;
+    const x=Math.min(evt.clientX+margin, window.innerWidth-tip.offsetWidth-margin);
+    const y=Math.min(evt.clientY+margin, window.innerHeight-tip.offsetHeight-margin);
+    tip.style.left=Math.max(8,x)+'px';
+    tip.style.top=Math.max(8,y)+'px';
+  });
+  svg.addEventListener('mouseleave',()=>{tip.style.display='none';});
+}
 function reset(){Object.entries(defaults).forEach(([k,v])=>{if($(k)) $(k).value=v}); resetSeriesVisibility(); run();}
 document.addEventListener('DOMContentLoaded',()=>{
   Object.keys(defaults).forEach(k=>{if($(k)) $(k).value=defaults[k]});
@@ -325,6 +391,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('radar').addEventListener('dblclick',radarDoubleClick);
   $('radar').addEventListener('contextmenu',(evt)=>{evt.preventDefault(); resetSeriesVisibility(); $('radarTooltip').style.display='none';});
   $('radar').addEventListener('mouseleave',()=>{$('radarTooltip').style.display='none'; $('radar').style.cursor='default';});
+  initSvgTooltips();
   run();
 });
 </script>
