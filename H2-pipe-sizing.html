@@ -107,7 +107,7 @@ th{background:#e2e8f0}
 <body>
 
 <header>
-  <h2>H₂ Pipeline Sizing / Pressure Drop / Compressor Duty</h2>
+  <h2>H2 Pipeline Sizing / Pressure Drop / Compressor Duty</h2>
 </header>
 <div id="svgTooltip"></div>
 <main>
@@ -120,25 +120,25 @@ th{background:#e2e8f0}
 </defs>
 
 <rect x="70" y="235" width="180" height="110" rx="14" class="unit tip" id="sourceUnit"
- data-tip="H₂ Source<br>Hydrogen supply node<br>Pressure, temperature, and flow are editable in the input panel."></rect>
-<text x="125" y="268" class="label">H₂ Source</text>
+ data-tip="H2 Source<br>Hydrogen supply node<br>Pressure, temperature, and flow are editable in the input panel."></rect>
+<text x="125" y="268" class="label">H2 Source</text>
 <text x="93" y="292" class="note" id="srcPLabel">P: - psig</text>
 <text x="93" y="312" class="note" id="srcTLabel">T: - °F</text>
 <text x="93" y="332" class="note" id="srcFlowLabel">Flow: -</text>
 
 <circle cx="335" cy="290" r="48" class="compressor tip" id="compSymbol"
- data-tip="C-101 Optional Compressor<br>Displayed duty is calculated only when inlet pressure plus line losses cannot meet the target outlet pressure."></circle>
+ data-tip="C-101 Compressor<br>Calculated upstream compression duty required to maintain the target outlet pressure after pipeline losses."></circle>
 <path d="M306 290 L360 258 L360 322 Z" fill="#fecaca" stroke="#991b1b" stroke-width="2" class="tip" id="compImpeller"
- data-tip="Compressor impeller symbol<br>Compression ratio and horsepower update dynamically."></path>
+ data-tip="Compressor impeller symbol<br>Horsepower, pressure boost, and compression ratio update dynamically."></path>
 <text x="310" y="363" class="label">C-101</text>
 <text x="276" y="383" class="note" id="compDutyLabel">Duty: - hp</text>
 <text x="276" y="401" class="note" id="compRatioLabel">Ratio: -</text>
 
 <path d="M250 290 H287" class="pipeline-body tip" id="inletLine"
- data-tip="H₂ suction line to compressor / pipeline inlet"></path>
+ data-tip="H2 suction line to compressor / pipeline inlet"></path>
 <path d="M383 290 H925" class="pipeline-shadow"></path>
 <path d="M383 290 H925" class="pipeline-body tip" id="pipeLine"
- data-tip="Straight H₂ pipeline<br>Length, ID, roughness, pressure drop, velocity, and Reynolds number update dynamically."></path>
+ data-tip="Straight H2 pipeline<br>Length, ID, roughness, pressure drop, velocity, and Reynolds number update dynamically."></path>
 
 <rect x="925" y="235" width="180" height="110" rx="14" class="unit tip" id="deliveryUnit"
  data-tip="Delivery Point<br>Target outlet pressure is used to determine whether compression is required."></rect>
@@ -187,7 +187,7 @@ th{background:#e2e8f0}
 
 <rect x="70" y="55" width="315" height="95" class="callout" rx="8"></rect>
 <text x="85" y="78" class="label">Basis</text>
-<text x="85" y="100" class="note">Hydrogen gas, MW = 2.016</text>
+<text x="85" y="100" class="note">Hydrogen gas, MW = 2.016; compressor hp included</text>
 <text x="85" y="118" class="note">Darcy-Weisbach with Haaland friction factor</text>
 <text x="85" y="136" class="note">Ideal-gas density; screening-level design</text>
 </svg>
@@ -203,15 +203,16 @@ th{background:#e2e8f0}
   <div><label>Inlet Temperature, °F</label><input id="tinF" value="80"></div>
   <div><label>Target Outlet Pressure, psig</label><input id="poutTargetPsig" value="550"></div>
   <div><label>Flow Basis</label><select id="flowBasis"><option value="lbhr">lb/h</option><option value="scfh">scfh</option><option value="mmscfd">MMSCFD</option></select></div>
-  <div><label>H₂ Flow</label><input id="flowValue" value="10000"></div>
+  <div><label>H2 Flow</label><input id="flowValue" value="10000"></div>
   <div><label>Pipe Material</label><select id="material"><option value="0.00015">Commercial steel, ε=0.00015 ft</option><option value="0.000005">Drawn tubing, ε=0.000005 ft</option><option value="0.00085">Cast iron, ε=0.00085 ft</option><option value="custom">Custom roughness</option></select></div>
   <div><label>Custom Roughness, ft</label><input id="roughFt" value="0.00015"></div>
   <div><label>Ambient / Soil Temp, °F</label><input id="ambF" value="70"></div>
   <div><label>Temperature Approach, %</label><input id="tempApproach" value="25"></div>
   <div><label>Compressor Efficiency, %</label><input id="compEff" value="75"></div>
   <div><label>Gas Z Factor</label><input id="zFactor" value="1.00"></div>
+  <div><label>H2 Specific Heat Ratio, k</label><input id="kRatio" value="1.405"></div>
 </div>
-<button onclick="calculatePipeSizing()">Run H₂ Pipe Calculation</button>
+<button onclick="calculatePipeSizing()">Run H2 Pipe Calculation</button>
 
 <table>
 <thead><tr><th>Parameter</th><th>Result</th></tr></thead>
@@ -224,6 +225,7 @@ th{background:#e2e8f0}
 <tr><td>Reynolds Number</td><td class="result" id="reOut">-</td></tr>
 <tr><td>Friction Factor</td><td class="result" id="ffOut">-</td></tr>
 <tr><td>Compressor Duty / Ratio</td><td class="result" id="compOut">-</td></tr>
+<tr><td>Compressor Suction / Discharge</td><td class="result" id="compPressOut">-</td></tr>
 </tbody>
 </table>
 
@@ -232,7 +234,7 @@ th{background:#e2e8f0}
   <div><label>Chart Property</label><select id="chartProperty"><option value="pressure">Pressure</option><option value="velocity">Velocity</option><option value="density">Density</option><option value="viscosity">Viscosity</option><option value="temperature">Temperature</option></select></div>
 </div>
 <div class="chart-wrap"><canvas id="profileChart"></canvas></div>
-<div class="small-note">Discretization uses one calculation point every 10 ft, equivalent to 10 data points per 100 ft. This page is a screening tool; verify final hydrogen pipeline design with project codes, compressibility, real-gas properties, transient hydraulics, and metallurgy requirements.</div>
+<div class="small-note">Discretization uses one calculation point every 10 ft, equivalent to 10 data points per 100 ft. Compressor hp is calculated as upstream pressure boost required to overcome the hydraulic shortfall versus target outlet pressure. This page is a screening tool; verify final hydrogen pipeline design with project codes, compressibility, real-gas properties, transient hydraulics, compressor curves, and metallurgy requirements.</div>
 </section>
 </main>
 
@@ -345,7 +347,16 @@ function calculatePipeSizing(){
 
   const calcOutlet = profile[profile.length-1].pressure;
   const totalDp = pin - calcOutlet;
-  const comp = compressorDuty(calcOutlet,target,tin,mdotHr,val("compEff"));
+  const comp = compressorDutyToMaintainOutlet({
+    sourcePsig: pin,
+    hydraulicOutletPsig: calcOutlet,
+    targetOutletPsig: target,
+    tempF: tin,
+    mdotHr,
+    effPct: val("compEff"),
+    z,
+    k: val("kRatio")
+  });
   lastProfile = profile;
 
   updateOutputs({lengthFt,dFt,eps,pin,target,tin,amb,mdotHr,calcOutlet,totalDp,vin,vout,minRho,maxRho,minMu,maxMu,reLast,ffLast,comp,totalFrictionDp,totalElevDp});
@@ -353,17 +364,33 @@ function calculatePipeSizing(){
   updateChart();
 }
 
-function compressorDuty(pSuctionPsig,pTargetPsig,tempF,mdotHr,effPct){
-  const p1 = Math.max(psigToPsia(pSuctionPsig),1);
-  const p2 = Math.max(psigToPsia(pTargetPsig),1);
-  if(p2 <= p1) return {required:false,hp:0,ratio:1};
-  const k = 1.405;
+function compressorDutyToMaintainOutlet({sourcePsig, hydraulicOutletPsig, targetOutletPsig, tempF, mdotHr, effPct, z, k}){
+  // Upstream-compressor screening method:
+  // 1) First calculate the pipeline outlet pressure with no compressor.
+  // 2) If that outlet pressure is below the target, add the pressure shortfall
+  //    to the compressor discharge pressure upstream of the pipeline.
+  // 3) Calculate isentropic gas horsepower with efficiency correction.
+  // This gives a practical screening estimate for C-101 duty required to maintain
+  // the specified delivery pressure. Final design should use real-gas compressor curves.
+  const pressureShortfall = Math.max(targetOutletPsig - hydraulicOutletPsig, 0);
+  const suctionPsig = sourcePsig;
+  const dischargePsig = sourcePsig + pressureShortfall;
+  const p1 = Math.max(psigToPsia(suctionPsig),1);
+  const p2 = Math.max(psigToPsia(dischargePsig),1);
+  const ratio = p2 / p1;
+  if(pressureShortfall <= 0 || ratio <= 1.00001){
+    return {required:false,hp:0,ratio:1,suctionPsig,dischargePsig,boostPsi:0,shortfall:0};
+  }
+  const kk = Math.max(Math.min(k || 1.405,1.67),1.05);
   const eff = Math.max(Math.min(effPct/100,0.95),0.2);
+  const zc = Math.max(z || 1,0.2);
   const nLbmolHr = mdotHr / MW_H2;
   const tR = rFromF(tempF);
-  const ratio = p2 / p1;
-  const btuHr = nLbmolHr * (k/(k-1)) * R_BTU * tR * (Math.pow(ratio,(k-1)/k)-1) / eff;
-  return {required:true,hp:btuHr/HP_PER_BTU_HR,ratio};
+
+  // Isentropic compressor work, Btu/hr:
+  // W = n * Z * k/(k-1) * R * T1 * [(P2/P1)^((k-1)/k)-1] / eta
+  const btuHr = nLbmolHr * zc * (kk/(kk-1)) * R_BTU * tR * (Math.pow(ratio,(kk-1)/kk)-1) / eff;
+  return {required:true,hp:btuHr/HP_PER_BTU_HR,ratio,suctionPsig,dischargePsig,boostPsi:pressureShortfall,shortfall:pressureShortfall};
 }
 
 function updateOutputs(o){
@@ -374,7 +401,8 @@ function updateOutputs(o){
   document.getElementById("viscOut").textContent = fmt(o.minMu,5) + " - " + fmt(o.maxMu,5) + " cP";
   document.getElementById("reOut").textContent = fmt0(o.reLast);
   document.getElementById("ffOut").textContent = fmt(o.ffLast,5);
-  document.getElementById("compOut").textContent = o.comp.required ? fmt(o.comp.hp,1) + " hp / " + fmt(o.comp.ratio,3) : "Not required / 1.000";
+  document.getElementById("compOut").textContent = o.comp.required ? fmt(o.comp.hp,1) + " hp / " + fmt(o.comp.ratio,3) : "0.0 hp / 1.000";
+  document.getElementById("compPressOut").textContent = o.comp.required ? fmt(o.comp.suctionPsig,1) + " / " + fmt(o.comp.dischargePsig,1) + " psig; boost " + fmt(o.comp.boostPsi,2) + " psi" : "No boost required";
 }
 
 function flowText(mdotHr){
@@ -400,10 +428,10 @@ function updateSvg(o){
   document.getElementById("velLabel").textContent = "Velocity: " + fmt(o.vin,1) + " → " + fmt(o.vout,1) + " ft/s";
   document.getElementById("reLabel").textContent = "Re: " + fmt0(o.reLast);
 
-  document.getElementById("sourceUnit").dataset.tip = "H₂ Source<br>P: " + fmt(o.pin,1) + " psig<br>T: " + fmt(o.tin,1) + "°F<br>Flow: " + flowText(o.mdotHr);
+  document.getElementById("sourceUnit").dataset.tip = "H2 Source<br>P: " + fmt(o.pin,1) + " psig<br>T: " + fmt(o.tin,1) + "°F<br>Flow: " + flowText(o.mdotHr);
   document.getElementById("deliveryUnit").dataset.tip = "Delivery Point<br>Target P: " + fmt(o.target,1) + " psig<br>Calculated pipeline outlet P before compression: " + fmt(o.calcOutlet,2) + " psig";
-  document.getElementById("compSymbol").dataset.tip = "C-101 Optional Compressor<br>Required: " + (o.comp.required ? "Yes" : "No") + "<br>Duty: " + fmt(o.comp.hp,1) + " hp<br>Compression ratio: " + fmt(o.comp.ratio,3);
-  document.getElementById("pipeLine").dataset.tip = "H₂ Pipeline<br>Length: " + fmt0(o.lengthFt) + " ft<br>ID: " + fmt(o.dFt*12,3) + " in<br>ΔP: " + fmt(o.totalDp,2) + " psid<br>Velocity: " + fmt(o.vin,2) + " to " + fmt(o.vout,2) + " ft/s";
+  document.getElementById("compSymbol").dataset.tip = "C-101 Compressor<br>Required: " + (o.comp.required ? "Yes" : "No") + "<br>Duty: " + fmt(o.comp.hp,1) + " hp<br>Compression ratio: " + fmt(o.comp.ratio,3) + "<br>Suction: " + fmt(o.comp.suctionPsig,1) + " psig<br>Discharge: " + fmt(o.comp.dischargePsig,1) + " psig";
+  document.getElementById("pipeLine").dataset.tip = "H2 Pipeline<br>Length: " + fmt0(o.lengthFt) + " ft<br>ID: " + fmt(o.dFt*12,3) + " in<br>ΔP: " + fmt(o.totalDp,2) + " psid<br>Velocity: " + fmt(o.vin,2) + " to " + fmt(o.vout,2) + " ft/s";
   document.getElementById("pi101").dataset.tip = "PI-101<br>Pressure profile: " + fmt(o.pin,2) + " to " + fmt(o.calcOutlet,2) + " psig";
   document.getElementById("fi101").dataset.tip = "VI-101<br>Velocity profile: " + fmt(o.vin,2) + " to " + fmt(o.vout,2) + " ft/s";
   document.getElementById("ri101").dataset.tip = "RI-101<br>Reynolds number near outlet: " + fmt0(o.reLast) + "<br>Friction factor: " + fmt(o.ffLast,5);
