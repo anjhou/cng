@@ -154,6 +154,7 @@
         <label><input type="checkbox" class="seriesToggle" value="NH3" checked> NH₃</label>
         <label><input type="checkbox" class="seriesToggle" value="LOHC" checked> LOHC</label>
         <button id="toggleChartBtn" type="button">Hide Chart</button>
+        <button id="exportChartBtn" type="button">Export PNG</button>
       </div>
     </div>
     <div class="radar-wrap" id="radarWrap"><canvas id="radar" width="1100" height="340" aria-label="Ranked pillar comparison chart"></canvas><div id="radarTooltip" class="chart-tooltip"></div></div>
@@ -207,7 +208,29 @@ function scoreText(score){ if($('ratingMethod').value==='numeric') return score.
 function pill(score,text){ const cls=score>=4?'good':score>=3?'mid':'low'; return `<span class="pill ${cls}">${text}</span>`; }
 let latestRows=[];
 let radarHitZones=[];
+let radarLegendZones=[];
 function activeSeries(){return new Set([...document.querySelectorAll('.seriesToggle:checked')].map(el=>el.value));}
+function setSeriesVisible(key, visible){
+  const cb=document.querySelector(`.seriesToggle[value="${key}"]`);
+  if(cb) cb.checked=visible;
+}
+function toggleSeries(key){
+  const cb=document.querySelector(`.seriesToggle[value="${key}"]`);
+  if(cb) cb.checked=!cb.checked;
+  drawRadar(latestRows);
+}
+function isolateSeries(key){
+  document.querySelectorAll('.seriesToggle').forEach(cb=>{cb.checked=(cb.value===key);});
+  drawRadar(latestRows);
+}
+function resetSeriesVisibility(){
+  document.querySelectorAll('.seriesToggle').forEach(cb=>{cb.checked=true;});
+  drawRadar(latestRows);
+}
+function canvasPoint(evt){
+  const c=$('radar'), rect=c.getBoundingClientRect();
+  return {x:(evt.clientX-rect.left)*(c.width/rect.width), y:(evt.clientY-rect.top)*(c.height/rect.height), rect};
+}
 function run(){
   const rows=['CH2','LH2','NH3','LOHC'].map(optionCalc).map(r=>{
     r.densityScore=densityScore(r.h2Density); r.energyScore=energyScore(r.penalty);
@@ -233,7 +256,7 @@ function updateSvg(rows){
   $('svgBest').textContent=`Best overall option: ${rows[0].name} | Score ${fmt(rows[0].totalScore,2)} | ${fmt(rows[0].h2Density,3)} lb H₂/ft³`;
 }
 function drawRadar(rows){
-  const c=$('radar'), ctx=c.getContext('2d'), W=c.width, H=c.height; ctx.clearRect(0,0,W,H); radarHitZones=[];
+  const c=$('radar'), ctx=c.getContext('2d'), W=c.width, H=c.height; ctx.clearRect(0,0,W,H); radarHitZones=[]; radarLegendZones=[];
   const active=activeSeries();
   const cx=175, cy=170, maxR=118, labels=['Density','Energy','Logistics','Safety'];
   ctx.font='13px Arial'; ctx.strokeStyle='#cbd5e1'; ctx.fillStyle='#334155'; ctx.lineWidth=1;
@@ -248,14 +271,21 @@ function drawRadar(rows){
     pts.forEach(pt=>{ctx.beginPath(); ctx.fillStyle=colors[r.key]; ctx.arc(pt.x,pt.y,5,0,Math.PI*2); ctx.fill(); radarHitZones.push({x:pt.x,y:pt.y,radius:12,row:r,axis:pt.label,value:pt.value});});
   });
   let lx=380, ly=82; ctx.font='14px Arial'; rows.forEach((r,i)=>{
-    ctx.globalAlpha=active.has(r.key)?1:.25; ctx.fillStyle=colors[r.key]; ctx.fillRect(lx,ly+i*36,16,16); ctx.fillStyle='#0f172a'; ctx.fillText(`${r.name}: ${fmt(r.totalScore,2)} total score`,lx+24,ly+13+i*36);
+    const y=ly+i*36;
+    ctx.globalAlpha=active.has(r.key)?1:.25;
+    ctx.fillStyle=colors[r.key]; ctx.fillRect(lx,y,16,16);
+    ctx.fillStyle='#0f172a'; ctx.fillText(`${r.name}: ${fmt(r.totalScore,2)} total score`,lx+24,y+13);
+    radarLegendZones.push({key:r.key,row:r,x:lx,y:y,w:360,h:22});
   }); ctx.globalAlpha=1;
-  ctx.fillStyle='#475569'; ctx.font='12px Arial'; ctx.fillText('Hover over any radar point for scores, density, energy penalty, inventory value, and loading time.',380,250);
-  ctx.fillText('Use checkboxes to hide/show individual storage options, or hide the full chart.',380,270);
+  ctx.fillStyle='#475569'; ctx.font='12px Arial';
+  ctx.fillText('Hover radar points for detailed scores and economics. Click legend to hide/unhide.',380,250);
+  ctx.fillText('Double-click a legend item to isolate it. Right-click the chart to reset all options.',380,270);
 }
 function radarMouseMove(evt){
-  const c=$('radar'), tip=$('radarTooltip'), rect=c.getBoundingClientRect();
-  const x=(evt.clientX-rect.left)*(c.width/rect.width), y=(evt.clientY-rect.top)*(c.height/rect.height);
+  const c=$('radar'), tip=$('radarTooltip');
+  const {x,y,rect}=canvasPoint(evt);
+  const legendHit=radarLegendZones.find(z=>x>=z.x && x<=z.x+z.w && y>=z.y && y<=z.y+z.h);
+  if(legendHit){tip.style.display='none'; c.style.cursor='pointer'; return;}
   const hit=radarHitZones.find(p=>Math.hypot(p.x-x,p.y-y)<=p.radius);
   if(!hit){tip.style.display='none'; c.style.cursor='default'; return;}
   c.style.cursor='crosshair';
@@ -265,14 +295,36 @@ function radarMouseMove(evt){
   tip.style.left=Math.min(evt.clientX-rect.left+16, rect.width-270)+'px';
   tip.style.top=Math.max(evt.clientY-rect.top-10, 8)+'px';
 }
-function reset(){Object.entries(defaults).forEach(([k,v])=>{if($(k)) $(k).value=v}); run();}
+function radarClick(evt){
+  const {x,y}=canvasPoint(evt);
+  const legendHit=radarLegendZones.find(z=>x>=z.x && x<=z.x+z.w && y>=z.y && y<=z.y+z.h);
+  if(legendHit) toggleSeries(legendHit.key);
+}
+function radarDoubleClick(evt){
+  const {x,y}=canvasPoint(evt);
+  const legendHit=radarLegendZones.find(z=>x>=z.x && x<=z.x+z.w && y>=z.y && y<=z.y+z.h);
+  if(legendHit) isolateSeries(legendHit.key);
+}
+function exportRadarPng(){
+  const c=$('radar');
+  const link=document.createElement('a');
+  link.download='hydrogen-storage-radar.png';
+  link.href=c.toDataURL('image/png');
+  link.click();
+}
+function reset(){Object.entries(defaults).forEach(([k,v])=>{if($(k)) $(k).value=v}); resetSeriesVisibility(); run();}
 document.addEventListener('DOMContentLoaded',()=>{
   Object.keys(defaults).forEach(k=>{if($(k)) $(k).value=defaults[k]});
   $('runBtn').addEventListener('click',run); $('resetBtn').addEventListener('click',reset);
   document.querySelectorAll('input,select').forEach(el=>el.addEventListener('change',run));
   document.querySelectorAll('.seriesToggle').forEach(el=>el.addEventListener('change',()=>drawRadar(latestRows)));
   $('toggleChartBtn').addEventListener('click',()=>{const wrap=$('radarWrap'); const hidden=wrap.classList.toggle('hidden'); $('toggleChartBtn').textContent=hidden?'Show Chart':'Hide Chart';});
-  $('radar').addEventListener('mousemove',radarMouseMove); $('radar').addEventListener('mouseleave',()=>{$('radarTooltip').style.display='none'; $('radar').style.cursor='default';});
+  $('exportChartBtn').addEventListener('click',exportRadarPng);
+  $('radar').addEventListener('mousemove',radarMouseMove);
+  $('radar').addEventListener('click',radarClick);
+  $('radar').addEventListener('dblclick',radarDoubleClick);
+  $('radar').addEventListener('contextmenu',(evt)=>{evt.preventDefault(); resetSeriesVisibility(); $('radarTooltip').style.display='none';});
+  $('radar').addEventListener('mouseleave',()=>{$('radarTooltip').style.display='none'; $('radar').style.cursor='default';});
   run();
 });
 </script>
