@@ -19,30 +19,24 @@
     foreignObject h3{margin:0 0 8px;font-size:14px;color:#0f172a;border-bottom:1px solid #dbe4f0;padding-bottom:5px}.grid{display:grid;grid-template-columns:1fr 96px;gap:6px 8px;align-items:center}
     label{font-size:12px;color:#334155} input{width:100%;height:26px;border:1px solid #cbd5e1;border-radius:7px;padding:3px 6px;font-size:12px;background:#fff;color:#0f172a}
     .svg-table{width:100%;border-collapse:collapse;font-size:12px}.svg-table th,.svg-table td{border:1px solid #cbd5e1;padding:5px 6px;text-align:right}.svg-table th:first-child,.svg-table td:first-child{text-align:left}.svg-table th{background:#e2e8f0;color:#0f172a}
+    #screeningSummary .svg-card{padding:8px}#screeningSummary h3{font-size:13px;margin-bottom:6px}#screeningSummary .svg-table{font-size:11px;table-layout:fixed}#screeningSummary .svg-table th,#screeningSummary .svg-table td{padding:3px 4px;word-wrap:break-word;vertical-align:top}#screeningSummary .svg-table tr{height:24px}
     .note{font-size:11px;color:#64748b;margin-top:6px;line-height:1.25}.below-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}.metric{border:1px solid #d9e2ef;border-radius:12px;padding:12px;background:#fff}.metric div:first-child{font-size:12px;color:#64748b}.metric div:last-child{font-size:20px;font-weight:800;margin-top:5px}
     .tooltip{position:fixed;display:none;pointer-events:none;z-index:50;max-width:330px;background:#111827;color:white;border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.28)}.hoverable{cursor:help}
     @media(max-width:900px){.below-grid{grid-template-columns:1fr 1fr}header h1{font-size:19px}}
   </style>
 </head>
 <body>
-
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-
-
-<h1>Electrolyzer Power Demand Calculator - US Units</h1><p>Calculate kWh/lb H₂, water demand, oxygen byproduct, power requirement, cooling duty, and operating conditions using lb/hr, psig, °F, gpm, bpd, MW, hp, and MMBtu/hr.</p>
+<header><h1>Electrolyzer Power Demand Calculator - US Units</h1><p>Calculate kWh/lb H₂, water demand, oxygen byproduct, power requirement, cooling duty, and operating conditions using lb/hr, psig, °F, gpm, bpd, MW, hp, and MMBtu/hr.</p></header>
 <main>
 <section class="panel svg-wrap">
-<svg viewBox="0 0 1260 760" role="img" aria-label="Electrolyzer power demand SVG flowsheet with US units">
+<svg viewBox="0 0 1260 860" role="img" aria-label="Electrolyzer power demand SVG flowsheet with US units">
 <defs>
   <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#c2410c"/></marker>
   <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0891b2"/></marker>
   <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0f766e"/></marker>
   <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
 </defs>
-<rect x="0" y="0" width="1260" height="760" fill="#eef6ff"/>
+<rect x="0" y="0" width="1260" height="860" fill="#eef6ff"/>
 <text x="30" y="34" font-size="20" font-weight="800" fill="#0f172a">Electrolyzer System Power & Water Balance - US Customary Units</text>
 
 <foreignObject x="28" y="58" width="306" height="302">
@@ -110,14 +104,18 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <path class="o2 hoverable" data-tip="Oxygen byproduct stream O2-101" d="M645 380 C670 270 735 228 755 228"/><text class="stream-label" id="o2LineLabel" x="646" y="303">O2-101: - lb/hr</text>
 <path class="utility hoverable" data-tip="Cooling duty stream CW-101" d="M590 525 L590 612"/><text class="stream-label" id="coolingLineLabel" x="602" y="570">CW-101 Cooling: - MMBtu/hr</text>
 
-<foreignObject x="342" y="566" width="575" height="132">
+<foreignObject id="screeningSummary" x="28" y="560" width="260" height="282">
 <div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
 <h3>Electrolyzer Screening Summary</h3>
 <table class="svg-table"><tbody>
-<tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
-<tr><td>AC Power</td><td id="stripPower">-</td><td>Specific energy × H₂ rate × BOP loss</td></tr>
-<tr><td>Water Demand</td><td id="stripWater">-</td><td>lb/lb H₂ × H₂ rate; shown as lb/hr, gpm, bpd</td></tr>
-<tr><td>H₂ Energy</td><td id="stripH2Energy">-</td><td>LHV 51,600 Btu/lb; HHV 61,000 Btu/lb</td></tr>
+<tr><th style="width:58%">Metric</th><th style="width:42%">Value</th></tr>
+<tr><td>AC Power</td><td id="stripPower">-</td></tr>
+<tr><td>Water Demand</td><td id="stripWater">-</td></tr>
+<tr><td>H₂ Energy</td><td id="stripH2Energy">-</td></tr>
+<tr><td>Stack Efficiency</td><td id="stripEff">-</td></tr>
+<tr><td>O₂ Production</td><td id="stripO2">-</td></tr>
+<tr><td>Cooling Duty</td><td id="stripCooling">-</td></tr>
+<tr><td>Annual Power Cost</td><td id="stripAnnualCost">-</td></tr>
 </tbody></table>
 </div>
 </foreignObject>
@@ -144,7 +142,7 @@ function calculate(){
  $('svgWater').textContent=`${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('svgO2').textContent=`${fmt(o2LbH,0)} lb/hr`;$('svgCooling').textContent=`${fmt(coolingMMBtuH,1)} MMBtu/hr`;$('svgDailyH2').textContent=`${fmt(h2Tpd,1)} short ton/d`;$('svgPowerCost').textContent=`$${fmt(hourlyCost,0)}/hr`;
  $('stackCond').textContent=`T: ${fmt(t,0)} °F | P: ${fmt(p,0)} psig`;$('stackRate').textContent=`H₂: ${fmt(h2,0)} lb/hr | SEC: ${fmt(sec,1)} kWh/lb`;$('sepCond').textContent=`${fmt(p,0)} psig | ${fmt(t,0)} °F`;$('h2ProductCond').textContent=`${fmt(h2,0)} lb/hr | ${fmt(p,0)} psig`;$('o2VentCond').textContent=`${fmt(o2LbH,0)} lb/hr`;$('wtCond').textContent=`50 psig | 80°F | ${fmt(purity,1)} ppm TDS`;
  $('powerLineLabel').textContent=`Power: ${fmt(acMW,2)} MW AC / ${fmt(hp,0)} hp`;$('dcLineLabel').textContent=`DC: ${fmt(stackMW,2)} MW`;$('waterLineLabel').textContent=`WF-101 DM water: ${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('wetH2Label').textContent=`H2-101 Wet H₂: ${fmt(h2,0)} lb/hr`;$('o2LineLabel').textContent=`O2-101: ${fmt(o2LbH,0)} lb/hr`;$('coolingLineLabel').textContent=`CW-101 Cooling: ${fmt(coolingMMBtuH,1)} MMBtu/hr`;
- $('stripPower').textContent=`${fmt(acMW,2)} MW AC / ${fmt(hp,0)} hp / ${fmt(effectiveSec,2)} kWh/lb`;$('stripWater').textContent=`${fmt(waterLbH,0)} lb/hr / ${fmt(waterGpm,1)} gpm / ${fmt(waterBpd,0)} bpd`;$('stripH2Energy').textContent=`LHV ${fmt(lhvMMBtuH,1)} MMBtu/hr; HHV ${fmt(hhvMMBtuH,1)} MMBtu/hr`;
+ $('stripPower').textContent=`${fmt(acMW,2)} MW / ${fmt(hp,0)} hp`;$('stripWater').textContent=`${fmt(waterLbH,0)} lb/hr; ${fmt(waterGpm,1)} gpm; ${fmt(waterBpd,0)} bpd`;$('stripH2Energy').textContent=`LHV ${fmt(lhvMMBtuH,1)}; HHV ${fmt(hhvMMBtuH,1)} MMBtu/hr`;$('stripEff').textContent=`${fmt(stackEff,1)}% LHV`;$('stripO2').textContent=`${fmt(o2LbH,0)} lb/hr`;$('stripCooling').textContent=`${fmt(coolingMMBtuH,1)} MMBtu/hr`;$('stripAnnualCost').textContent=`$${fmt(annualCost,0)}/yr`;
  $('cardPower').textContent=`${fmt(acMW,2)} MW`;$('cardSec').textContent=`${fmt(effectiveSec,2)} kWh/lb`;$('cardWater').textContent=`${fmt(waterLbH,0)} lb/hr`;$('cardO2').textContent=`${fmt(o2LbH,0)} lb/hr`;
  const tips={
   'Water treatment package WT-101':`Water treatment package WT-101<br/>DM water demand: ${fmt(waterLbH,0)} lb/hr<br/>Water flow: ${fmt(waterGpm,1)} gpm / ${fmt(waterBpd,0)} bpd<br/>Feed condition: 50 psig, 80°F<br/>Water purity: ${fmt(purity,1)} ppm TDS`,
@@ -166,10 +164,6 @@ function calculate(){
 }
 document.querySelectorAll('input').forEach(el=>el.addEventListener('input',calculate));calculate();
 const tip=$('tooltip');document.querySelectorAll('.hoverable').forEach(el=>{el.addEventListener('mousemove',e=>{tip.innerHTML=el.dataset.tip||'';tip.style.display='block';tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px';});el.addEventListener('mouseleave',()=>tip.style.display='none');});
-</script>
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 </body>
 </html>
