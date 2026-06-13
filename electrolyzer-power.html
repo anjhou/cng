@@ -3,49 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Electrolyzer Power Demand Calculator</title>
+  <title>Electrolyzer Power Demand Calculator - US Units</title>
   <style>
-    :root{
-      --bg:#f4f7fb; --panel:#ffffff; --ink:#1f2937; --muted:#64748b;
-      --blue:#2563eb; --green:#0f766e; --orange:#c2410c; --line:#94a3b8;
-      --shadow:0 12px 28px rgba(15,23,42,.12);
-    }
+    :root{--bg:#f4f7fb;--panel:#ffffff;--ink:#1f2937;--muted:#64748b;--blue:#2563eb;--green:#0f766e;--orange:#c2410c;--cyan:#0891b2;--line:#94a3b8;--shadow:0 12px 28px rgba(15,23,42,.12)}
     *{box-sizing:border-box}
     body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
     header{padding:18px 24px;background:#0f172a;color:#fff}
-    header h1{margin:0;font-size:22px}
-    header p{margin:6px 0 0;color:#cbd5e1;font-size:14px}
-    main{max-width:1380px;margin:18px auto;padding:0 14px}
-    .panel{background:var(--panel);border-radius:16px;box-shadow:var(--shadow);padding:14px;margin-bottom:16px}
-    .svg-wrap{overflow:auto;border-radius:12px;border:1px solid #d8e0ec;background:#eef6ff}
-    svg{min-width:1260px;width:100%;height:auto;display:block}
-    .unit{fill:#fff;stroke:#334155;stroke-width:2}
-    .unit-blue{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}
-    .unit-green{fill:#ccfbf1;stroke:#0f766e;stroke-width:2}
-    .unit-orange{fill:#ffedd5;stroke:#c2410c;stroke-width:2}
-    .label{font-size:14px;font-weight:700;fill:#111827}
-    .small{font-size:12px;fill:#334155}
-    .tiny{font-size:11px;fill:#475569}
-    .stream{fill:none;stroke:#2563eb;stroke-width:4;marker-end:url(#arrow)}
-    .utility{fill:none;stroke:#c2410c;stroke-width:4;marker-end:url(#arrowOrange)}
-    .water{fill:none;stroke:#0891b2;stroke-width:4;marker-end:url(#arrowCyan)}
-    .h2{fill:none;stroke:#0f766e;stroke-width:4;marker-end:url(#arrowGreen)}
-    .o2{fill:none;stroke:#64748b;stroke-width:3;marker-end:url(#arrowGray)}
-    foreignObject .svg-card{height:100%;background:rgba(255,255,255,.94);border:1px solid #cbd5e1;border-radius:12px;padding:10px;box-shadow:0 6px 16px rgba(15,23,42,.12)}
-    foreignObject h3{margin:0 0 8px;font-size:14px;color:#0f172a;border-bottom:1px solid #dbe4f0;padding-bottom:5px}
-    .grid{display:grid;grid-template-columns:1fr 92px;gap:6px 8px;align-items:center}
-    label{font-size:12px;color:#334155}
-    input,select{width:100%;height:26px;border:1px solid #cbd5e1;border-radius:7px;padding:3px 6px;font-size:12px;background:#fff;color:#0f172a}
-    .svg-table{width:100%;border-collapse:collapse;font-size:12px}
-    .svg-table th,.svg-table td{border:1px solid #cbd5e1;padding:5px 6px;text-align:right}
-    .svg-table th:first-child,.svg-table td:first-child{text-align:left}
-    .svg-table th{background:#e2e8f0;color:#0f172a}
-    .note{font-size:11px;color:#64748b;margin-top:6px;line-height:1.25}
-    .below-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}
-    .metric{border:1px solid #d9e2ef;border-radius:12px;padding:12px;background:#fff}
-    .metric div:first-child{font-size:12px;color:#64748b}.metric div:last-child{font-size:20px;font-weight:800;margin-top:5px}
-    .tooltip{position:fixed;display:none;pointer-events:none;z-index:50;max-width:290px;background:#111827;color:white;border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.28)}
-    .hoverable{cursor:help}
+    header h1{margin:0;font-size:22px} header p{margin:6px 0 0;color:#cbd5e1;font-size:14px}
+    main{max-width:1380px;margin:18px auto;padding:0 14px}.panel{background:var(--panel);border-radius:16px;box-shadow:var(--shadow);padding:14px;margin-bottom:16px}
+    .svg-wrap{overflow:auto;border-radius:12px;border:1px solid #d8e0ec;background:#eef6ff} svg{min-width:1260px;width:100%;height:auto;display:block}
+    .unit{fill:#fff;stroke:#334155;stroke-width:2}.unit-blue{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.unit-green{fill:#ccfbf1;stroke:#0f766e;stroke-width:2}.unit-orange{fill:#ffedd5;stroke:#c2410c;stroke-width:2}
+    .label{font-size:14px;font-weight:700;fill:#111827}.small{font-size:12px;fill:#334155}.tiny{font-size:11px;fill:#475569}.stream-label{font-size:11px;font-weight:700;fill:#334155}
+    .utility{fill:none;stroke:#c2410c;stroke-width:4;marker-end:url(#arrowOrange)}.water{fill:none;stroke:#0891b2;stroke-width:4;marker-end:url(#arrowCyan)}.h2{fill:none;stroke:#0f766e;stroke-width:4;marker-end:url(#arrowGreen)}.o2{fill:none;stroke:#64748b;stroke-width:3;marker-end:url(#arrowGray)}
+    foreignObject .svg-card{height:100%;background:rgba(255,255,255,.95);border:1px solid #cbd5e1;border-radius:12px;padding:10px;box-shadow:0 6px 16px rgba(15,23,42,.12)}
+    foreignObject h3{margin:0 0 8px;font-size:14px;color:#0f172a;border-bottom:1px solid #dbe4f0;padding-bottom:5px}.grid{display:grid;grid-template-columns:1fr 96px;gap:6px 8px;align-items:center}
+    label{font-size:12px;color:#334155} input{width:100%;height:26px;border:1px solid #cbd5e1;border-radius:7px;padding:3px 6px;font-size:12px;background:#fff;color:#0f172a}
+    .svg-table{width:100%;border-collapse:collapse;font-size:12px}.svg-table th,.svg-table td{border:1px solid #cbd5e1;padding:5px 6px;text-align:right}.svg-table th:first-child,.svg-table td:first-child{text-align:left}.svg-table th{background:#e2e8f0;color:#0f172a}
+    .note{font-size:11px;color:#64748b;margin-top:6px;line-height:1.25}.below-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}.metric{border:1px solid #d9e2ef;border-radius:12px;padding:12px;background:#fff}.metric div:first-child{font-size:12px;color:#64748b}.metric div:last-child{font-size:20px;font-weight:800;margin-top:5px}
+    .tooltip{position:fixed;display:none;pointer-events:none;z-index:50;max-width:330px;background:#111827;color:white;border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.28)}.hoverable{cursor:help}
     @media(max-width:900px){.below-grid{grid-template-columns:1fr 1fr}header h1{font-size:19px}}
   </style>
 </head>
@@ -55,208 +30,146 @@
 <script>
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script>
-  
-    <h1>Electrolyzer Power Demand Calculator</h1>
-    <p>Estimate electrolyzer kWh/kg H₂, water demand, DC/AC power requirement, cooling duty, and production operating conditions.</p>
-  
 
-  <main>
-    <section class="panel svg-wrap">
-      <svg viewBox="0 0 1260 720" role="img" aria-label="Electrolyzer power demand SVG flowsheet">
-        <defs>
-          <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/></marker>
-          <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#c2410c"/></marker>
-          <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0891b2"/></marker>
-          <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0f766e"/></marker>
-          <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
-        </defs>
 
-        <rect x="0" y="0" width="1260" height="720" fill="#eef6ff"/>
-        <text x="30" y="34" font-size="20" font-weight="800" fill="#0f172a">Electrolyzer System Power & Water Balance</text>
+<h1>Electrolyzer Power Demand Calculator - US Units</h1><p>Calculate kWh/lb H₂, water demand, oxygen byproduct, power requirement, cooling duty, and operating conditions using lb/hr, psig, °F, gpm, bpd, MW, hp, and MMBtu/hr.</p>
+<main>
+<section class="panel svg-wrap">
+<svg viewBox="0 0 1260 760" role="img" aria-label="Electrolyzer power demand SVG flowsheet with US units">
+<defs>
+  <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#c2410c"/></marker>
+  <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0891b2"/></marker>
+  <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#0f766e"/></marker>
+  <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+</defs>
+<rect x="0" y="0" width="1260" height="760" fill="#eef6ff"/>
+<text x="30" y="34" font-size="20" font-weight="800" fill="#0f172a">Electrolyzer System Power & Water Balance - US Customary Units</text>
 
-        <!-- SVG input cards -->
-        <foreignObject x="28" y="58" width="288" height="245">
-          <div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
-            <h3>Calculation Inputs</h3>
-            <div class="grid">
-              <label for="h2Rate">H₂ production, kg/h</label><input id="h2Rate" type="number" value="1000" step="10" />
-              <label for="secKwh">Specific energy, kWh/kg H₂</label><input id="secKwh" type="number" value="52" step="0.1" />
-              <label for="stackEff">Stack efficiency, % LHV</label><input id="stackEff" type="number" value="64" step="0.1" />
-              <label for="bosLoss">BOP / rectifier loss, %</label><input id="bosLoss" type="number" value="8" step="0.1" />
-              <label for="waterFactor">Water use, kg/kg H₂</label><input id="waterFactor" type="number" value="10.0" step="0.1" />
-              <label for="opPressure">H₂ product pressure, barg</label><input id="opPressure" type="number" value="30" step="1" />
-              <label for="opTemp">Stack temperature, °C</label><input id="opTemp" type="number" value="70" step="1" />
-            </div>
-            <div class="note">Stoichiometric water = 9.0 kg/kg H₂. Default includes purification and blowdown allowance.</div>
-          </div>
-        </foreignObject>
+<foreignObject x="28" y="58" width="306" height="302">
+<div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
+<h3>Calculation Inputs</h3>
+<div class="grid">
+<label for="h2RateLb">H₂ production, lb/hr</label><input id="h2RateLb" type="number" value="10000" step="100" />
+<label for="secKwhLb">Specific energy, kWh/lb H₂</label><input id="secKwhLb" type="number" value="24.5" step="0.1" />
+<label for="stackEff">Stack efficiency, % LHV</label><input id="stackEff" type="number" value="72" step="0.1" />
+<label for="bosLoss">BOP / rectifier loss, %</label><input id="bosLoss" type="number" value="8" step="0.1" />
+<label for="waterFactorLb">Water use, lb/lb H₂</label><input id="waterFactorLb" type="number" value="9.5" step="0.1" />
+<label for="opPressurePsig">H₂ product pressure, psig</label><input id="opPressurePsig" type="number" value="450" step="5" />
+<label for="opTempF">Stack temperature, °F</label><input id="opTempF" type="number" value="140" step="1" />
+<label for="powerCost">Electricity cost, $/kWh</label><input id="powerCost" type="number" value="0.05" step="0.001" />
+<label for="waterPurity">Water purity, ppm TDS</label><input id="waterPurity" type="number" value="1" step="0.1" />
+</div><div class="note">Stoichiometric water = 9.0 lb H₂O/lb H₂. Default includes small makeup/purge allowance.</div>
+</div>
+</foreignObject>
 
-        <foreignObject x="932" y="58" width="300" height="245">
-          <div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
-            <h3>Calculated Outputs</h3>
-            <table class="svg-table">
-              <tbody>
-                <tr><th>Result</th><th>Value</th></tr>
-                <tr><td>Power demand</td><td id="svgPowerMw">-</td></tr>
-                <tr><td>Energy intensity</td><td id="svgKwhKg">-</td></tr>
-                <tr><td>Water demand</td><td id="svgWater">-</td></tr>
-                <tr><td>O₂ byproduct</td><td id="svgO2">-</td></tr>
-                <tr><td>Cooling duty</td><td id="svgCooling">-</td></tr>
-                <tr><td>Daily H₂</td><td id="svgDailyH2">-</td></tr>
-              </tbody>
-            </table>
-            <div class="note">Power includes BOP / rectifier loss. Cooling duty is screening estimate from losses versus H₂ LHV.</div>
-          </div>
-        </foreignObject>
+<foreignObject x="930" y="58" width="304" height="302">
+<div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
+<h3>Calculated Outputs</h3>
+<table class="svg-table"><tbody>
+<tr><th>Result</th><th>Value</th></tr>
+<tr><td>AC power</td><td id="svgPowerMw">-</td></tr>
+<tr><td>Power in hp</td><td id="svgPowerHp">-</td></tr>
+<tr><td>Energy intensity</td><td id="svgKwhLb">-</td></tr>
+<tr><td>Water demand</td><td id="svgWater">-</td></tr>
+<tr><td>O₂ byproduct</td><td id="svgO2">-</td></tr>
+<tr><td>Cooling duty</td><td id="svgCooling">-</td></tr>
+<tr><td>Daily H₂</td><td id="svgDailyH2">-</td></tr>
+<tr><td>Power cost</td><td id="svgPowerCost">-</td></tr>
+</tbody></table><div class="note">AC power includes BOP / rectifier loss. Cooling duty is a screening estimate based on electrical loss above H₂ LHV.</div>
+</div>
+</foreignObject>
 
-        <!-- Equipment -->
-        <rect class="unit hoverable" data-tip="Water treatment package WT-101<br/>Produces demineralized water for electrolyzer feed.<br/>Flow updates with selected H₂ production rate." x="120" y="395" width="150" height="78" rx="12"/>
-        <text class="label" x="154" y="426">WT-101</text><text class="small" x="141" y="447">DM Water Unit</text>
+<rect class="unit hoverable" data-tip="Water treatment package WT-101" x="120" y="435" width="150" height="78" rx="12"/>
+<text class="label" x="154" y="466">WT-101</text><text class="small" x="141" y="487">DM Water Unit</text>
+<text class="tiny" id="wtCond" x="134" y="505">50 psig | 80°F</text>
 
-        <rect class="unit-blue hoverable" data-tip="Power conversion unit REC-101<br/>Converts AC grid/renewable power to DC stack power.<br/>Includes rectifier and BOP electrical losses." x="380" y="120" width="170" height="88" rx="12"/>
-        <text class="label" x="418" y="153">REC-101</text><text class="small" x="408" y="176">AC/DC Rectifier</text>
+<rect class="unit-blue hoverable" data-tip="Power conversion unit REC-101" x="380" y="140" width="170" height="88" rx="12"/>
+<text class="label" x="418" y="173">REC-101</text><text class="small" x="408" y="196">AC/DC Rectifier</text>
 
-        <rect class="unit-green hoverable" data-tip="Electrolyzer stack EL-101<br/>Consumes demineralized water and DC power to produce H₂ and O₂.<br/>Operating conditions update from input values." x="455" y="340" width="250" height="145" rx="16"/>
-        <text class="label" x="530" y="382">EL-101</text><text class="small" x="508" y="405">Electrolyzer Stack</text>
-        <text class="tiny" id="stackCond" x="488" y="431">T: - °C | P: - barg</text>
-        <text class="tiny" id="stackRate" x="488" y="451">H₂: - kg/h</text>
+<rect class="unit-green hoverable" data-tip="Electrolyzer stack ELY-101" x="455" y="380" width="250" height="145" rx="16"/>
+<text class="label" x="530" y="422">ELY-101</text><text class="small" x="508" y="445">Electrolyzer Stack</text>
+<text class="tiny" id="stackCond" x="488" y="471">T: - °F | P: - psig</text><text class="tiny" id="stackRate" x="488" y="491">H₂: - lb/hr</text>
 
-        <rect class="unit hoverable" data-tip="Gas-liquid separator SEP-101<br/>Separates produced H₂ from water carryover before drying/polishing." x="790" y="330" width="145" height="118" rx="18"/>
-        <text class="label" x="830" y="374">SEP-101</text><text class="small" x="816" y="397">H₂ Separator</text>
+<rect class="unit hoverable" data-tip="Hydrogen gas-liquid separator SEP-101" x="790" y="370" width="145" height="118" rx="18"/>
+<text class="label" x="830" y="414">SEP-101</text><text class="small" x="816" y="437">H₂ Separator</text><text class="tiny" id="sepCond" x="812" y="458">- psig | - °F</text>
 
-        <rect class="unit-orange hoverable" data-tip="Cooling loop CL-101<br/>Rejects stack and electrical heat losses. Cooling duty is a screening estimate." x="510" y="570" width="170" height="70" rx="12"/>
-        <text class="label" x="552" y="600">CL-101</text><text class="small" x="543" y="621">Cooling Loop</text>
+<rect class="unit-orange hoverable" data-tip="Cooling loop CL-101" x="510" y="612" width="170" height="70" rx="12"/>
+<text class="label" x="552" y="642">CL-101</text><text class="small" x="543" y="663">Cooling Loop</text>
 
-        <rect class="unit-green hoverable" data-tip="Hydrogen product battery limit<br/>Dry H₂ product at selected production pressure." x="1010" y="338" width="165" height="92" rx="14"/>
-        <text class="label" x="1040" y="372">H₂ Product</text><text class="small" id="h2ProductCond" x="1034" y="395">- kg/h | - barg</text>
+<rect class="unit-green hoverable" data-tip="Hydrogen product battery limit" x="1010" y="378" width="165" height="98" rx="14"/>
+<text class="label" x="1040" y="412">H₂ Product</text><text class="small" id="h2ProductCond" x="1026" y="435">- lb/hr | - psig</text><text class="tiny" x="1045" y="455">Purity: 99.9%</text>
 
-        <rect class="unit hoverable" data-tip="Oxygen vent/byproduct<br/>O₂ production is calculated from stoichiometry: 8 kg O₂ per 1 kg H₂." x="755" y="170" width="150" height="70" rx="12"/>
-        <text class="label" x="792" y="200">O₂ Vent</text><text class="small" id="o2VentCond" x="782" y="221">- kg/h</text>
+<rect class="unit hoverable" data-tip="Oxygen vent/byproduct" x="755" y="190" width="150" height="76" rx="12"/>
+<text class="label" x="792" y="220">O₂ Vent</text><text class="small" id="o2VentCond" x="778" y="242">- lb/hr</text>
 
-        <!-- Lines -->
-        <path class="utility hoverable" data-tip="Electrical power supply<br/>AC power to rectifier. Displayed power includes stack and BOP electrical demand." d="M340 165 L380 165"/>
-        <text class="tiny" id="powerLineLabel" x="244" y="157">Power: - MW AC</text>
+<path class="utility hoverable" data-tip="Electrical power supply" d="M340 185 L380 185"/><text class="tiny" id="powerLineLabel" x="220" y="177">Power: - MW AC</text>
+<path class="utility hoverable" data-tip="DC power to electrolyzer stack" d="M550 185 C630 185 580 340 580 380"/><text class="tiny" id="dcLineLabel" x="580" y="260">DC: - MW</text>
+<path class="water hoverable" data-tip="Demineralized water feed stream WF-101" d="M270 474 L455 474"/><text class="stream-label" id="waterLineLabel" x="292" y="456">WF-101 DM water: - lb/hr</text><text class="tiny" x="310" y="490">50 psig | 80°F</text>
+<path class="h2 hoverable" data-tip="Wet hydrogen stream H2-101" d="M705 426 L790 426"/><text class="stream-label" id="wetH2Label" x="710" y="412">H2-101 Wet H₂: - lb/hr</text>
+<path class="h2 hoverable" data-tip="Hydrogen product stream H2-102" d="M935 426 L1010 426"/><text class="stream-label" id="dryH2Label" x="942" y="410">H2-102 Dry H₂</text>
+<path class="o2 hoverable" data-tip="Oxygen byproduct stream O2-101" d="M645 380 C670 270 735 228 755 228"/><text class="stream-label" id="o2LineLabel" x="646" y="303">O2-101: - lb/hr</text>
+<path class="utility hoverable" data-tip="Cooling duty stream CW-101" d="M590 525 L590 612"/><text class="stream-label" id="coolingLineLabel" x="602" y="570">CW-101 Cooling: - MMBtu/hr</text>
 
-        <path class="utility hoverable" data-tip="DC power to electrolyzer stack<br/>Specific energy and stack efficiency determine the main electrical load." d="M550 165 C630 165 580 300 580 340"/>
-        <text class="tiny" id="dcLineLabel" x="580" y="235">DC: - MW</text>
-
-        <path class="water hoverable" data-tip="Demineralized water feed stream<br/>Water demand is calculated from kg water per kg H₂ input." d="M270 434 L455 434"/>
-        <text class="tiny" id="waterLineLabel" x="300" y="420">DM water: - kg/h</text>
-
-        <path class="h2 hoverable" data-tip="Wet hydrogen stream from electrolyzer to separator<br/>Flow equals selected H₂ production rate before product polishing." d="M705 386 L790 386"/>
-        <text class="tiny" id="wetH2Label" x="710" y="374">Wet H₂: - kg/h</text>
-
-        <path class="h2 hoverable" data-tip="Hydrogen product stream<br/>Dry H₂ flow and pressure are displayed at product battery limit." d="M935 386 L1010 386"/>
-        <text class="tiny" id="dryH2Label" x="942" y="372">Dry H₂</text>
-
-        <path class="o2 hoverable" data-tip="Oxygen byproduct stream<br/>Stoichiometric oxygen generation equals 8 kg O₂ per kg H₂." d="M645 340 C670 245 735 205 755 205"/>
-        <text class="tiny" id="o2LineLabel" x="650" y="275">O₂: - kg/h</text>
-
-        <path class="utility hoverable" data-tip="Cooling water or closed-loop cooling duty<br/>Estimated heat rejection from electrical losses not retained as H₂ LHV." d="M590 485 L590 570"/>
-        <text class="tiny" id="coolingLineLabel" x="602" y="535">Cooling: - MWth</text>
-
-        <!-- Summary strip -->
-        <foreignObject x="342" y="535" width="575" height="94">
-          <div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
-            <h3>Electrolyzer Screening Summary</h3>
-            <table class="svg-table">
-              <tbody>
-                <tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
-                <tr><td>AC Power</td><td id="stripPower">-</td><td>Specific energy × H₂ rate × BOP loss</td></tr>
-                <tr><td>Water Demand</td><td id="stripWater">-</td><td>Input water factor × H₂ rate</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </foreignObject>
-      </svg>
-    </section>
-
-    <section class="panel below-grid" aria-label="calculation result cards">
-      <div class="metric"><div>AC Power Requirement</div><div id="cardPower">-</div></div>
-      <div class="metric"><div>Specific Energy</div><div id="cardSec">-</div></div>
-      <div class="metric"><div>Water Demand</div><div id="cardWater">-</div></div>
-      <div class="metric"><div>O₂ Byproduct</div><div id="cardO2">-</div></div>
-    </section>
-  </main>
-
-  <div id="tooltip" class="tooltip"></div>
-
-  <script>
-    const LHV_H2_KWH_PER_KG = 33.33;
-    const $ = id => document.getElementById(id);
-    const fmt = (v, d=1) => Number.isFinite(v) ? v.toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d}) : '-';
-    const val = id => Number($(id).value) || 0;
-
-    function calculate(){
-      const h2 = Math.max(0, val('h2Rate'));
-      const sec = Math.max(0, val('secKwh'));
-      const stackEff = Math.max(1, val('stackEff'));
-      const bop = Math.max(0, val('bosLoss')) / 100;
-      const waterFactor = Math.max(9, val('waterFactor'));
-      const p = val('opPressure');
-      const t = val('opTemp');
-
-      const stackPowerMW = h2 * sec / 1000;
-      const acPowerMW = stackPowerMW * (1 + bop);
-      const waterKgH = h2 * waterFactor;
-      const waterGpm = waterKgH * 2.20462 / 8.3454 / 60;
-      const o2KgH = h2 * 8.0;
-      const h2Tpd = h2 * 24 / 1000;
-      const effectiveSec = sec * (1 + bop);
-      const lhvPowerMW = h2 * LHV_H2_KWH_PER_KG / 1000;
-      const coolingMW = Math.max(0, acPowerMW - lhvPowerMW);
-      const impliedSecFromEff = LHV_H2_KWH_PER_KG / (stackEff/100);
-
-      $('svgPowerMw').textContent = `${fmt(acPowerMW,2)} MW AC`;
-      $('svgKwhKg').textContent = `${fmt(effectiveSec,1)} kWh/kg`;
-      $('svgWater').textContent = `${fmt(waterKgH,0)} kg/h (${fmt(waterGpm,1)} gpm)`;
-      $('svgO2').textContent = `${fmt(o2KgH,0)} kg/h`;
-      $('svgCooling').textContent = `${fmt(coolingMW,2)} MWth`;
-      $('svgDailyH2').textContent = `${fmt(h2Tpd,1)} t/d`;
-
-      $('stackCond').textContent = `T: ${fmt(t,0)} °C | P: ${fmt(p,0)} barg`;
-      $('stackRate').textContent = `H₂: ${fmt(h2,0)} kg/h | SEC: ${fmt(sec,1)} kWh/kg`;
-      $('h2ProductCond').textContent = `${fmt(h2,0)} kg/h | ${fmt(p,0)} barg`;
-      $('o2VentCond').textContent = `${fmt(o2KgH,0)} kg/h`;
-      $('powerLineLabel').textContent = `Power: ${fmt(acPowerMW,2)} MW AC`;
-      $('dcLineLabel').textContent = `DC: ${fmt(stackPowerMW,2)} MW`;
-      $('waterLineLabel').textContent = `DM water: ${fmt(waterKgH,0)} kg/h (${fmt(waterGpm,1)} gpm)`;
-      $('wetH2Label').textContent = `Wet H₂: ${fmt(h2,0)} kg/h`;
-      $('o2LineLabel').textContent = `O₂: ${fmt(o2KgH,0)} kg/h`;
-      $('coolingLineLabel').textContent = `Cooling: ${fmt(coolingMW,2)} MWth`;
-      $('stripPower').textContent = `${fmt(acPowerMW,2)} MW AC / ${fmt(effectiveSec,1)} kWh/kg`;
-      $('stripWater').textContent = `${fmt(waterKgH,0)} kg/h / ${fmt(waterGpm,1)} gpm`;
-
-      $('cardPower').textContent = `${fmt(acPowerMW,2)} MW`;
-      $('cardSec').textContent = `${fmt(effectiveSec,1)} kWh/kg`;
-      $('cardWater').textContent = `${fmt(waterKgH,0)} kg/h`;
-      $('cardO2').textContent = `${fmt(o2KgH,0)} kg/h`;
-
-      document.querySelector('[data-tip^="Electrolyzer stack"]').dataset.tip =
-        `Electrolyzer stack EL-101<br/>H₂ production: ${fmt(h2,0)} kg/h (${fmt(h2Tpd,1)} t/d)<br/>Stack energy: ${fmt(sec,1)} kWh/kg H₂<br/>Implied SEC from efficiency: ${fmt(impliedSecFromEff,1)} kWh/kg H₂<br/>T: ${fmt(t,0)} °C | P: ${fmt(p,0)} barg`;
-      document.querySelector('[data-tip^="Power conversion"]').dataset.tip =
-        `Power conversion unit REC-101<br/>Stack DC power: ${fmt(stackPowerMW,2)} MW<br/>AC power with BOP loss: ${fmt(acPowerMW,2)} MW<br/>BOP / rectifier loss: ${fmt(bop*100,1)}%`;
-    }
-
-    document.querySelectorAll('input,select').forEach(el => el.addEventListener('input', calculate));
-    calculate();
-
-    const tip = $('tooltip');
-    document.querySelectorAll('.hoverable').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        tip.innerHTML = el.dataset.tip || '';
-        tip.style.display = 'block';
-        tip.style.left = (e.clientX + 14) + 'px';
-        tip.style.top = (e.clientY + 14) + 'px';
-      });
-      el.addEventListener('mouseleave', () => tip.style.display = 'none');
-    });
-  </script>
-  
-  <div id="footer"></div>
+<foreignObject x="342" y="566" width="575" height="132">
+<div xmlns="http://www.w3.org/1999/xhtml" class="svg-card">
+<h3>Electrolyzer Screening Summary</h3>
+<table class="svg-table"><tbody>
+<tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
+<tr><td>AC Power</td><td id="stripPower">-</td><td>Specific energy × H₂ rate × BOP loss</td></tr>
+<tr><td>Water Demand</td><td id="stripWater">-</td><td>lb/lb H₂ × H₂ rate; shown as lb/hr, gpm, bpd</td></tr>
+<tr><td>H₂ Energy</td><td id="stripH2Energy">-</td><td>LHV 51,600 Btu/lb; HHV 61,000 Btu/lb</td></tr>
+</tbody></table>
+</div>
+</foreignObject>
+</svg>
+</section>
+<section class="panel below-grid" aria-label="calculation result cards">
+<div class="metric"><div>AC Power Requirement</div><div id="cardPower">-</div></div>
+<div class="metric"><div>Specific Energy</div><div id="cardSec">-</div></div>
+<div class="metric"><div>Water Demand</div><div id="cardWater">-</div></div>
+<div class="metric"><div>O₂ Byproduct</div><div id="cardO2">-</div></div>
+</section>
+</main>
+<div id="tooltip" class="tooltip"></div>
+<script>
+const LHV_BTU_PER_LB=51600, HHV_BTU_PER_LB=61000, KW_TO_HP=1.34102209;
+const $=id=>document.getElementById(id);const fmt=(v,d=1)=>Number.isFinite(v)?v.toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d}):'-';const val=id=>Number($(id).value)||0;
+function calculate(){
+ const h2=Math.max(0,val('h2RateLb')); const sec=Math.max(0,val('secKwhLb')); const stackEff=Math.max(1,val('stackEff')); const bop=Math.max(0,val('bosLoss'))/100; const wf=Math.max(9,val('waterFactorLb')); const p=val('opPressurePsig'); const t=val('opTempF'); const cost=val('powerCost'); const purity=val('waterPurity');
+ const stackKw=h2*sec; const acKw=stackKw*(1+bop); const stackMW=stackKw/1000; const acMW=acKw/1000; const hp=acKw*KW_TO_HP;
+ const waterLbH=h2*wf; const waterGpm=waterLbH/(8.34*60); const waterBpd=waterLbH/350; const o2LbH=h2*8.0; const h2LbDay=h2*24; const h2Tpd=h2LbDay/2000; const effectiveSec=sec*(1+bop);
+ const lhvMMBtuH=h2*LHV_BTU_PER_LB/1e6; const hhvMMBtuH=h2*HHV_BTU_PER_LB/1e6; const acMMBtuH=acKw*3412.142/1e6; const coolingMMBtuH=Math.max(0,acMMBtuH-lhvMMBtuH); const coolingMW=coolingMMBtuH/3.412142; const impliedSecFromEff=(LHV_BTU_PER_LB/3412.142)/(stackEff/100);
+ const hourlyCost=acKw*cost, dailyCost=hourlyCost*24, annualCost=dailyCost*365;
+ $('svgPowerMw').textContent=`${fmt(acMW,2)} MW / ${fmt(acKw,0)} kW`;$('svgPowerHp').textContent=`${fmt(hp,0)} hp`;$('svgKwhLb').textContent=`${fmt(effectiveSec,2)} kWh/lb`;
+ $('svgWater').textContent=`${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('svgO2').textContent=`${fmt(o2LbH,0)} lb/hr`;$('svgCooling').textContent=`${fmt(coolingMMBtuH,1)} MMBtu/hr`;$('svgDailyH2').textContent=`${fmt(h2Tpd,1)} short ton/d`;$('svgPowerCost').textContent=`$${fmt(hourlyCost,0)}/hr`;
+ $('stackCond').textContent=`T: ${fmt(t,0)} °F | P: ${fmt(p,0)} psig`;$('stackRate').textContent=`H₂: ${fmt(h2,0)} lb/hr | SEC: ${fmt(sec,1)} kWh/lb`;$('sepCond').textContent=`${fmt(p,0)} psig | ${fmt(t,0)} °F`;$('h2ProductCond').textContent=`${fmt(h2,0)} lb/hr | ${fmt(p,0)} psig`;$('o2VentCond').textContent=`${fmt(o2LbH,0)} lb/hr`;$('wtCond').textContent=`50 psig | 80°F | ${fmt(purity,1)} ppm TDS`;
+ $('powerLineLabel').textContent=`Power: ${fmt(acMW,2)} MW AC / ${fmt(hp,0)} hp`;$('dcLineLabel').textContent=`DC: ${fmt(stackMW,2)} MW`;$('waterLineLabel').textContent=`WF-101 DM water: ${fmt(waterLbH,0)} lb/hr (${fmt(waterGpm,1)} gpm)`;$('wetH2Label').textContent=`H2-101 Wet H₂: ${fmt(h2,0)} lb/hr`;$('o2LineLabel').textContent=`O2-101: ${fmt(o2LbH,0)} lb/hr`;$('coolingLineLabel').textContent=`CW-101 Cooling: ${fmt(coolingMMBtuH,1)} MMBtu/hr`;
+ $('stripPower').textContent=`${fmt(acMW,2)} MW AC / ${fmt(hp,0)} hp / ${fmt(effectiveSec,2)} kWh/lb`;$('stripWater').textContent=`${fmt(waterLbH,0)} lb/hr / ${fmt(waterGpm,1)} gpm / ${fmt(waterBpd,0)} bpd`;$('stripH2Energy').textContent=`LHV ${fmt(lhvMMBtuH,1)} MMBtu/hr; HHV ${fmt(hhvMMBtuH,1)} MMBtu/hr`;
+ $('cardPower').textContent=`${fmt(acMW,2)} MW`;$('cardSec').textContent=`${fmt(effectiveSec,2)} kWh/lb`;$('cardWater').textContent=`${fmt(waterLbH,0)} lb/hr`;$('cardO2').textContent=`${fmt(o2LbH,0)} lb/hr`;
+ const tips={
+  'Water treatment package WT-101':`Water treatment package WT-101<br/>DM water demand: ${fmt(waterLbH,0)} lb/hr<br/>Water flow: ${fmt(waterGpm,1)} gpm / ${fmt(waterBpd,0)} bpd<br/>Feed condition: 50 psig, 80°F<br/>Water purity: ${fmt(purity,1)} ppm TDS`,
+  'Power conversion unit REC-101':`Power conversion unit REC-101<br/>Stack DC power: ${fmt(stackMW,2)} MW<br/>AC power with BOP loss: ${fmt(acMW,2)} MW (${fmt(hp,0)} hp)<br/>BOP / rectifier loss: ${fmt(bop*100,1)}%`,
+  'Electrolyzer stack ELY-101':`Electrolyzer stack ELY-101<br/>H₂ production: ${fmt(h2,0)} lb/hr (${fmt(h2Tpd,1)} short ton/d)<br/>Specific energy: ${fmt(sec,2)} kWh/lb H₂<br/>Effective SEC: ${fmt(effectiveSec,2)} kWh/lb H₂<br/>Implied SEC from efficiency: ${fmt(impliedSecFromEff,2)} kWh/lb H₂<br/>T: ${fmt(t,0)} °F | P: ${fmt(p,0)} psig`,
+  'Hydrogen gas-liquid separator SEP-101':`Hydrogen separator SEP-101<br/>Wet H₂: ${fmt(h2,0)} lb/hr<br/>Operating pressure: ${fmt(p,0)} psig<br/>Operating temperature: ${fmt(t,0)} °F`,
+  'Cooling loop CL-101':`Cooling loop CL-101<br/>Estimated heat rejection: ${fmt(coolingMMBtuH,1)} MMBtu/hr (${fmt(coolingMW,2)} MWth)<br/>Screening basis: AC electrical input minus H₂ LHV energy.`,
+  'Hydrogen product battery limit':`Hydrogen product H2-102<br/>Flow: ${fmt(h2,0)} lb/hr<br/>Pressure: ${fmt(p,0)} psig<br/>Temperature: ${fmt(t,0)} °F<br/>Purity: 99.9%`,
+  'Oxygen vent/byproduct':`Oxygen stream O2-101<br/>Calculated by stoichiometry: 8 lb O₂/lb H₂<br/>O₂ flow: ${fmt(o2LbH,0)} lb/hr<br/>Pressure: ${fmt(p,0)} psig<br/>Temperature: ${fmt(t,0)} °F`,
+  'Electrical power supply':`Electrical power supply<br/>AC power: ${fmt(acMW,2)} MW / ${fmt(acKw,0)} kW / ${fmt(hp,0)} hp<br/>Power cost: $${fmt(hourlyCost,0)}/hr; $${fmt(dailyCost,0)}/day; $${fmt(annualCost,0)}/yr`,
+  'DC power to electrolyzer stack':`DC stack power<br/>Power: ${fmt(stackMW,2)} MW<br/>Specific energy input: ${fmt(sec,2)} kWh/lb H₂`,
+  'Demineralized water feed stream WF-101':`WF-101 DM water feed<br/>Flow: ${fmt(waterLbH,0)} lb/hr<br/>Flow: ${fmt(waterGpm,1)} gpm / ${fmt(waterBpd,0)} bpd<br/>P: 50 psig | T: 80°F | SG: 1.0`,
+  'Wet hydrogen stream H2-101':`H2-101 wet hydrogen<br/>Flow: ${fmt(h2,0)} lb/hr<br/>P: ${fmt(p,0)} psig | T: ${fmt(t,0)} °F`,
+  'Hydrogen product stream H2-102':`H2-102 dry hydrogen product<br/>Flow: ${fmt(h2,0)} lb/hr<br/>P: ${fmt(p,0)} psig | T: ${fmt(t,0)} °F<br/>Purity: 99.9%`,
+  'Oxygen byproduct stream O2-101':`O2-101 oxygen byproduct<br/>Flow: ${fmt(o2LbH,0)} lb/hr<br/>P: ${fmt(p,0)} psig | T: ${fmt(t,0)} °F<br/>Purity: 99.5%`,
+  'Cooling duty stream CW-101':`CW-101 cooling duty<br/>Estimated duty: ${fmt(coolingMMBtuH,1)} MMBtu/hr<br/>Equivalent: ${fmt(coolingMW,2)} MWth`
+ };
+ document.querySelectorAll('.hoverable').forEach(el=>{const key=Object.keys(tips).find(k=>(el.dataset.tip||'').startsWith(k)); if(key) el.dataset.tip=tips[key];});
+}
+document.querySelectorAll('input').forEach(el=>el.addEventListener('input',calculate));calculate();
+const tip=$('tooltip');document.querySelectorAll('.hoverable').forEach(el=>{el.addEventListener('mousemove',e=>{tip.innerHTML=el.dataset.tip||'';tip.style.display='block';tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px';});el.addEventListener('mouseleave',()=>tip.style.display='none');});
+</script>
+<div id="footer"></div>
 <script>
 fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
-
 </body>
 </html>
