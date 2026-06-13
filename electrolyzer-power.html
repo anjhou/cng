@@ -27,6 +27,12 @@
   </style>
 </head>
 <body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
 <header><h1>Electrolyzer Power Demand Calculator - US Units</h1><p>Calculate kWh/lb H₂, water demand, oxygen byproduct, power requirement, cooling duty, and operating conditions using lb/hr, psig, °F, gpm, bpd, MW, hp, and MMBtu/hr.</p></header>
 <main>
 <section class="panel svg-wrap">
@@ -165,6 +171,10 @@ function calculate(){
 }
 document.querySelectorAll('input').forEach(el=>el.addEventListener('input',calculate));calculate();
 const tip=$('tooltip');document.querySelectorAll('.hoverable').forEach(el=>{el.addEventListener('mousemove',e=>{tip.innerHTML=el.dataset.tip||'';tip.style.display='block';tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px';});el.addEventListener('mouseleave',()=>tip.style.display='none');});
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
 </script>
 </body>
 </html>
