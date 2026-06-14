@@ -15,11 +15,11 @@ main{max-width:1480px;margin:18px auto;padding:0 14px;display:grid;gap:16px}.pan
 </style>
 </head>
 <body>
-<header><h1>Furnace Direct Emissions Calculator</h1><p>SVG fired-heater flowsheet with natural gas fuel, burner, combustion air, stack gas, nC4 / heavy naphtha / VGO process feeds, combustion emissions, process vents, flaring, and interactive emission trend screening.</p></header>
+<h1>Furnace Direct Emissions Calculator</h1><p>SVG fired-heater flowsheet with natural gas fuel, burner, combustion air, stack gas, nC4 / heavy naphtha / VGO process feeds, combustion emissions, process vents, flaring, and interactive emission trend screening.</p>
 <div id="svgTooltip" class="tooltip"></div>
 <main>
 <section class="panel svg-panel">
-<svg viewBox="0 0 1280 760" id="emissionsSvg" role="img" aria-label="Furnace emissions SVG flowsheet">
+<svg viewBox="0 0 1280 880" id="emissionsSvg" role="img" aria-label="Furnace emissions SVG flowsheet">
 <defs>
   <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/></marker>
   <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#c2410c"/></marker>
@@ -27,42 +27,44 @@ main{max-width:1480px;margin:18px auto;padding:0 14px;display:grid;gap:16px}.pan
   <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
   <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#b91c1c"/></marker>
 </defs>
-<rect x="0" y="0" width="1280" height="760" fill="#eef6ff"/>
+<rect x="0" y="0" width="1280" height="850" fill="#eef6ff"/>
 <text x="28" y="34" font-size="20" font-weight="800" fill="#0f172a">F-101 Fired Heater / Emissions Screening Flowsheet</text>
+<text x="380" y="105" class="tiny" id="svg-layout-note">Top-left area reserved for live input/output tables. Process equipment shifted down/right to avoid overlap.</text>
 <text x="28" y="55" class="small">Direct Scope 1 estimate: combustion CO₂/CH₄/N₂O + process vents + flare emissions</text>
 
 <foreignObject x="24" y="76" width="335" height="316"><div xmlns="http://www.w3.org/1999/xhtml" class="svg-card"><h3>Live Inputs / Key Conditions</h3><table class="svg-table"><tbody>
 <tr><th>Pressure</th><td id="svgPressure">-- psig</td></tr><tr><th>Inlet / Outlet T</th><td id="svgTemps">-- / -- °F</td></tr><tr><th>nC4 Feed</th><td id="svgNc4">-- bpd</td></tr><tr><th>HN / VGO</th><td id="svgFeeds">-- / -- bpd</td></tr><tr><th>Air Flow</th><td id="svgAir">-- scfh</td></tr><tr><th>Stack Temp</th><td id="svgStack">-- °F</td></tr></tbody></table></div></foreignObject>
 
-<foreignObject x="900" y="486" width="350" height="226"><div xmlns="http://www.w3.org/1999/xhtml" class="svg-card"><h3>Calculated Emissions</h3><table class="svg-table"><tbody>
+<foreignObject x="24" y="405" width="335" height="230"><div xmlns="http://www.w3.org/1999/xhtml" class="svg-card"><h3>Calculated Emissions</h3><table class="svg-table"><tbody>
 <tr><th>Furnace Duty</th><td id="svgDuty">-- MMBtu/hr</td></tr><tr><th>Fuel Gas</th><td id="svgFuel">-- scfh</td></tr><tr><th>Combustion CO₂e</th><td id="svgComb">-- ton/d</td></tr><tr><th>Vent CO₂e</th><td id="svgVent">-- ton/d</td></tr><tr><th>Flare CO₂e</th><td id="svgFlare">-- ton/d</td></tr><tr><th>Total CO₂e</th><td id="svgTotal">-- ton/d</td></tr></tbody></table></div></foreignObject>
 
-<rect x="494" y="260" width="220" height="205" rx="16" class="unit tip" id="furnace" data-tip="F-101 Fired Heater<br>Process feed heater for nC4, heavy naphtha, and VGO. Duty is calculated from feed rate, SG, Cp, and temperature rise."/>
-<text x="545" y="305" class="label">F-101 Furnace</text><text x="540" y="330" class="small">Radiant + convection</text>
-<rect x="542" y="388" width="122" height="45" rx="10" class="burner tip" id="burner" data-tip="Burner<br>Natural gas fired. Fuel use increases when absorbed duty rises or heater efficiency falls."/><text x="580" y="417" class="label">Burner</text>
-<rect x="792" y="95" width="92" height="205" class="stack tip" id="stack" data-tip="Stack<br>Flue gas outlet containing CO₂, H₂O, N₂, O₂, and trace products of combustion. Stack temperature impacts inferred heater losses."/><text x="816" y="132" class="label">Stack</text><text x="805" y="154" class="small" id="stackText">-- °F</text>
-<rect x="110" y="455" width="185" height="74" rx="12" class="unit tip" id="fuelSkid" data-tip="Fuel Gas Skid<br>Natural gas fuel supply. CO₂ from combustion is estimated using fuel heat input and an EF in lb CO₂/MMBtu."/><text x="148" y="487" class="label">Fuel Gas Skid</text><text x="145" y="510" class="small">Natural gas</text>
-<rect x="110" y="585" width="185" height="64" rx="12" class="unit tip" id="fdFan" data-tip="Forced Draft Air Blower<br>Combustion air supply. Actual air is estimated from stoichiometric methane combustion plus excess air."/><text x="145" y="623" class="label">FD Air Blower</text>
-<rect x="980" y="96" width="185" height="75" rx="14" class="vent tip" id="vent" data-tip="Process Vents<br>Direct vented hydrocarbon/CO₂ streams are converted to CO₂e using CO₂ fraction and methane-equivalent GWP basis."/><text x="1026" y="128" class="label">Process Vent</text><text x="1014" y="151" class="small">vents / purge / relief</text>
-<rect x="990" y="262" width="166" height="96" rx="16" class="flare tip" id="flare" data-tip="Flare<br>Flared hydrocarbon emissions include combustion CO₂ plus uncombusted methane slip from flare destruction inefficiency."/><text x="1045" y="306" class="label">Flare</text><path d="M1073 260 C1050 230 1098 223 1076 190 C1124 224 1105 245 1101 262 Z" fill="#f97316" stroke="#b91c1c" stroke-width="2"/>
-<rect x="110" y="94" width="185" height="68" rx="12" class="unit tip" id="nc4Src" data-tip="nC4 Feed<br>Normal butane feed to heater. Feed rate contributes to absorbed process duty."/><text x="158" y="134" class="label">nC4 Feed</text>
-<rect x="110" y="190" width="185" height="68" rx="12" class="unit tip" id="hnSrc" data-tip="Heavy Naphtha Feed<br>Heavy naphtha process feed. Uses SG and Cp basis for heating duty."/><text x="144" y="230" class="label">Heavy Naphtha</text>
-<rect x="110" y="286" width="185" height="68" rx="12" class="unit tip" id="vgoSrc" data-tip="VGO Feed<br>Vacuum gas oil feed. Higher SG and flow increase absorbed heater duty."/><text x="176" y="326" class="label">VGO</text>
-<rect x="790" y="386" width="170" height="70" rx="12" class="unit tip" id="outlet" data-tip="Heater Outlet<br>Combined heated process stream leaving F-101."/><text x="824" y="418" class="label">Heated Feed</text><text x="825" y="440" class="small" id="outText">-- °F</text>
+<rect x="560" y="360" width="220" height="205" rx="16" class="unit tip" id="furnace" data-tip="F-101 Fired Heater<br>Process feed heater for nC4, heavy naphtha, and VGO. Duty is calculated from feed rate, SG, Cp, and temperature rise."/>
+<text x="612" y="405" class="label">F-101 Furnace</text><text x="606" y="430" class="small">Radiant + convection</text>
+<rect x="608" y="488" width="122" height="45" rx="10" class="burner tip" id="burner" data-tip="Burner<br>Natural gas fired. Fuel use increases when absorbed duty rises or heater efficiency falls."/><text x="646" y="517" class="label">Burner</text>
+<rect x="860" y="245" width="92" height="205" class="stack tip" id="stack" data-tip="Stack<br>Flue gas outlet containing CO₂, H₂O, N₂, O₂, and trace products of combustion. Stack temperature impacts inferred heater losses."/><text x="884" y="282" class="label">Stack</text><text x="873" y="304" class="small" id="stackText">-- °F</text>
+<path id="fuelGasLine" class="stream fuel tip" d="M670 690 V533" marker-end="url(#arrowOrange)" data-tip="Fuel Gas to Burner&#10;Natural Gas: 65.0 MMscf/h&#10;LHV: 1,020 Btu/scf" />
+<rect x="570" y="690" width="200" height="78" rx="12" class="unit tip" id="fuelSkid" data-tip="Fuel Gas Skid<br>Natural gas fuel supply. CO₂ from combustion is estimated using fuel heat input and an EF in lb CO₂/MMBtu."/><text x="618" y="724" class="label">Fuel Gas Skid</text><text x="626" y="748" class="small">Natural gas</text>
+<rect x="380" y="720" width="160" height="60" rx="12" class="unit tip" id="fdFan" data-tip="Forced Draft Air Blower<br>Combustion air supply. Actual air is estimated from stoichiometric methane combustion plus excess air."/><text x="410" y="756" class="label">FD Air Blower</text>
+<rect x="1020" y="255" width="185" height="75" rx="14" class="vent tip" id="vent" data-tip="Process Vents<br>Direct vented hydrocarbon/CO₂ streams are converted to CO₂e using CO₂ fraction and methane-equivalent GWP basis."/><text x="1066" y="287" class="label">Process Vent</text><text x="1054" y="310" class="small">vents / purge / relief</text>
+<rect x="1020" y="395" width="166" height="96" rx="16" class="flare tip" id="flare" data-tip="Flare<br>Flared hydrocarbon emissions include combustion CO₂ plus uncombusted methane slip from flare destruction inefficiency."/><text x="1075" y="439" class="label">Flare</text><path d="M1103 393 C1080 363 1128 356 1106 323 C1154 357 1135 378 1131 395 Z" fill="#f97316" stroke="#b91c1c" stroke-width="2"/>
+<rect x="380" y="620" width="160" height="60" rx="12" class="unit tip" id="nc4Src" data-tip="nC4 Feed<br>Normal butane feed to heater. Feed rate contributes to absorbed process duty."/><text x="428" y="656" class="label">nC4 Feed</text>
+<rect x="380" y="535" width="160" height="60" rx="12" class="unit tip" id="hnSrc" data-tip="Heavy Naphtha Feed<br>Heavy naphtha process feed. Uses SG and Cp basis for heating duty."/><text x="394" y="571" class="label">Heavy Naphtha</text>
+<rect x="380" y="450" width="160" height="60" rx="12" class="unit tip" id="vgoSrc" data-tip="VGO Feed<br>Vacuum gas oil feed. Higher SG and flow increase absorbed heater duty."/><text x="426" y="486" class="label">VGO Feed</text>
+<rect x="835" y="485" width="170" height="70" rx="12" class="unit tip" id="outlet" data-tip="Heater Outlet<br>Combined heated process stream leaving F-101."/><text x="869" y="517" class="label">Heated Feed</text><text x="870" y="539" class="small" id="outText">-- °F</text>
 
-<path id="sNc4" d="M295 128 C375 128 410 282 494 282" class="stream process tip" data-tip="nC4 process feed to furnace"/>
-<path id="sHN" d="M295 224 H494" class="stream process tip" data-tip="Heavy naphtha process feed to furnace"/>
-<path id="sVGO" d="M295 320 C380 320 415 347 494 347" class="stream process tip" data-tip="VGO process feed to furnace"/>
-<path id="sFuel" d="M295 492 C410 492 450 410 542 410" class="stream fuel tip" data-tip="Natural gas fuel to burner"/>
-<path id="sAir" d="M295 618 C425 618 455 444 542 418" class="stream air tip" data-tip="Combustion air to burner"/>
-<path id="sOut" d="M714 410 H790" class="stream process tip" data-tip="Combined heated product outlet"/>
-<path id="sFlue1" d="M650 330 C725 310 760 245 792 215" class="stream flue tip" data-tip="Flue gas from heater to stack"/>
-<path id="sStack" d="M838 95 V58 H1070" class="stream emiss tip" data-tip="Stack emissions to atmosphere"/>
-<path id="sVent" d="M960 135 H980" class="stream emiss tip" data-tip="Process vent emissions"/>
-<path id="sFlare" d="M960 310 H990" class="stream emiss tip" data-tip="Flare emissions"/>
+<path id="sNc4" d="M540 650 C555 650 560 570 560 500" class="stream process tip" data-tip="nC4 process feed to furnace"/>
+<path id="sHN" d="M540 565 C555 565 560 515 560 465" class="stream process tip" data-tip="Heavy naphtha process feed to furnace"/>
+<path id="sVGO" d="M540 480 H560" class="stream process tip" data-tip="VGO process feed to furnace"/>
+<path id="sFuel" d="M670 690 V533" class="stream fuel tip" data-tip="Natural gas fuel to burner"/>
+<path id="sAir" d="M540 750 C590 750 600 555 608 515" class="stream air tip" data-tip="Combustion air to burner"/>
+<path id="sOut" d="M780 510 H835" class="stream process tip" data-tip="Combined heated product outlet"/>
+<path id="sFlue1" d="M725 410 C805 385 825 330 860 320" class="stream flue tip" data-tip="Flue gas from heater to stack"/>
+<path id="sStack" d="M906 245 V210 H1100" class="stream emiss tip" data-tip="Stack emissions to atmosphere"/>
+<path id="sVent" d="M780 455 C890 455 930 292 1020 292" class="stream emiss tip" data-tip="Process vent emissions"/>
+<path id="sFlare" d="M780 520 C890 520 930 443 1020 443" class="stream emiss tip" data-tip="Flare emissions"/>
 
-<rect x="720" y="38" width="155" height="44" rx="8" class="callout"/><text x="732" y="64" class="small" id="stackCall">Stack: -- °F</text>
-<rect x="386" y="520" width="230" height="62" rx="8" class="callout"/><text x="400" y="545" class="small" id="fuelCall">Fuel: -- scfh</text><text x="400" y="565" class="small" id="airCall">Air: -- scfh</text>
+<rect x="835" y="180" width="155" height="44" rx="8" class="callout"/><text x="847" y="206" class="small" id="stackCall">Stack: -- °F</text>
+<rect x="790" y="670" width="230" height="62" rx="8" class="callout"/><text x="804" y="695" class="small" id="fuelCall">Fuel: -- scfh</text><text x="804" y="715" class="small" id="airCall">Air: -- scfh</text>
 </svg>
 </section>
 
