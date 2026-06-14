@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CO₂ Storage Capacity Screening</title>
+<style>
+:root{
+  --blue:#0f3b57;--teal:#0f766e;--cyan:#0369a1;--ink:#1f2937;--muted:#64748b;
+  --panel:#ffffff;--bg:#f4f7fb;--line:#cbd5e1;--good:#047857;--warn:#b45309;
+}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--blue);color:#fff;padding:14px 22px}header h2{margin:0;font-size:22px}
+main{display:grid;grid-template-columns:1.4fr .95fr;gap:16px;padding:16px}.panel{background:var(--panel);border-radius:12px;box-shadow:0 4px 14px #0002;padding:14px}.wide{grid-column:1/-1}
+svg{width:100%;height:640px;border:1px solid var(--line);border-radius:10px;background:#fbfdff}.unit{fill:#e0f2fe;stroke:#0369a1;stroke-width:2;cursor:pointer}.store{fill:#dcfce7;stroke:#047857;stroke-width:2;cursor:pointer}.well{fill:#fee2e2;stroke:#b91c1c;stroke-width:2;cursor:pointer}.sep{fill:#fef3c7;stroke:#b45309;stroke-width:2;cursor:pointer}.stream{fill:none;stroke-width:4;marker-end:url(#arrow);cursor:pointer}.co2{stroke:#2563eb}.brine{stroke:#0ea5e9}.oil{stroke:#7c2d12}.label{font-size:13px;font-weight:700;fill:#111827;pointer-events:none}.note{font-size:11px;fill:#111827;pointer-events:none}.tiny{font-size:10px;fill:#334155;pointer-events:none}.callout{fill:#fff7ed;stroke:#fb923c;stroke-width:1.4}.subsurface{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}.caprock{fill:#94a3b8;opacity:.55}.reservoir{fill:#bbf7d0;opacity:.75;stroke:#047857}.depleted{fill:#fde68a;opacity:.75;stroke:#b45309}.eorzone{fill:#fecaca;opacity:.75;stroke:#b91c1c}.flow-dot{r:5;opacity:.95;pointer-events:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}label{font-size:13px;font-weight:700}input,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:7px;margin-top:4px;box-sizing:border-box;background:#fff}button{width:100%;padding:10px;border:0;border-radius:8px;background:var(--teal);color:#fff;font-weight:700;cursor:pointer;margin-top:12px}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}th,td{border:1px solid #d1d5db;padding:7px;text-align:left;vertical-align:top}th{background:#e2e8f0}.result{font-weight:700;color:#075985}.ok{color:var(--good);font-weight:700}.warn{color:var(--warn);font-weight:700}.small{font-size:12px;color:var(--muted);line-height:1.35}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tab{border:1px solid var(--line);background:#f8fafc;color:#0f172a;border-radius:999px;padding:7px 11px;font-weight:700;cursor:pointer}.tab.active{background:#0f766e;color:#fff}.chart-wrap{height:340px}#svgTooltip{position:fixed;z-index:9999;display:none;max-width:320px;background:#111827;color:#fff;padding:9px 11px;border-radius:8px;font-size:12px;line-height:1.35;pointer-events:none;box-shadow:0 8px 20px #0005}.pill{display:inline-block;border-radius:999px;background:#e0f2fe;color:#075985;font-size:12px;font-weight:700;padding:4px 8px;margin:2px 4px 2px 0}@media(max-width:1000px){main{grid-template-columns:1fr}.grid,.grid3{grid-template-columns:1fr}svg{height:560px}}
+</style>
+</head>
+<body>
+<div id="header"></div><script>fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});</script>
+<header><h2>CO₂ Storage Capacity Screening — Saline Aquifer, Depleted Reservoir & EOR</h2></header>
+<div id="svgTooltip"></div>
+<main>
+<section class="panel">
+<svg viewBox="0 0 1100 650" id="storageSvg" aria-label="CO2 storage capacity screening flowsheet">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path></marker></defs>
+<rect x="40" y="60" width="170" height="85" rx="14" class="unit tip" data-tip="Captured CO₂ Source<br>Flue gas, gas treating, ammonia, hydrogen, or ethanol source.<br>Flow and purity are user inputs."></rect>
+<text x="75" y="93" class="label">CO₂ Source</text><text x="58" y="119" class="note" id="srcLabel">Flow: 1.00 MMt/yr</text>
+<rect x="285" y="62" width="185" height="82" rx="14" class="sep tip" data-tip="CO₂ Conditioning<br>Drying, dehydration, oxygen removal, pressure control, and metering before injection."></rect>
+<text x="322" y="94" class="label">Conditioning</text><text x="306" y="119" class="note">Dry / meter / compress</text>
+<rect x="545" y="55" width="165" height="95" rx="16" class="well tip" data-tip="Injection Wellhead<br>Accepts injection pressure, temperature, and injectivity assumptions.<br>Checks approximate well count from annual injection target."></rect>
+<text x="585" y="90" class="label">INJ-101</text><text x="565" y="116" class="note" id="wellLabel">Wells: calculated</text>
+<path id="s1" d="M210 102 H285" class="stream co2 tip" data-tip="Captured dense-phase or gas-phase CO₂ to conditioning."></path>
+<path id="s2" d="M470 102 H545" class="stream co2 tip" data-tip="Conditioned CO₂ to injection wellhead."></path>
+<path id="s3" d="M628 150 V258" class="stream co2 tip" data-tip="CO₂ injection tubing to selected storage interval."></path>
+<circle class="flow-dot" fill="#2563eb"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#s1"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#2563eb"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#s2"></mpath></animateMotion></circle>
+<circle class="flow-dot" fill="#2563eb"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#s3"></mpath></animateMotion></circle>
+
+<rect x="70" y="255" width="940" height="320" rx="22" class="subsurface"></rect>
+<rect x="95" y="290" width="890" height="38" rx="8" class="caprock tip" data-tip="Regional Seal / Caprock<br>Screening assumes competent confining zone with adequate fracture-pressure margin."></rect>
+<text x="110" y="315" class="label">Regional Seal / Caprock</text>
+<path d="M628 258 V515" stroke="#b91c1c" stroke-width="8" fill="none"></path><path d="M628 258 V515" stroke="#fff" stroke-width="2" fill="none" stroke-dasharray="8 8"></path>
+<ellipse x="0" y="0" rx="0" ry="0"></ellipse>
+<path d="M170 365 C310 315 480 350 575 390 C430 440 290 455 150 430 C120 410 130 380 170 365 Z" class="reservoir tip" data-tip="Saline Aquifer Storage<br>Capacity = area × net thickness × porosity × CO₂ density × storage efficiency."></path>
+<text x="230" y="392" class="label">Saline Aquifer</text><text x="223" y="416" class="note" id="salineCapLabel">Capacity: calculated</text>
+<path d="M665 365 C770 322 930 350 972 404 C920 455 785 467 665 425 C630 406 632 382 665 365 Z" class="depleted tip" data-tip="Depleted Reservoir Storage<br>Uses pore volume and depletion / pressure-utilization factor."></path>
+<text x="735" y="393" class="label">Depleted Reservoir</text><text x="737" y="417" class="note" id="deplCapLabel">Capacity: calculated</text>
+<path d="M410 470 C540 430 790 443 905 492 C830 545 560 552 385 515 C350 500 365 480 410 470 Z" class="eorzone tip" data-tip="EOR Storage<br>Capacity is screened from original oil in place, CO₂ utilization, and retention fraction."></path>
+<text x="585" y="498" class="label">EOR Storage Zone</text><text x="570" y="522" class="note" id="eorCapLabel">Retained CO₂: calculated</text>
+
+<rect x="735" y="65" width="320" height="132" rx="10" class="callout"></rect>
+<text x="752" y="91" class="label">Selected Case Summary</text>
+<text x="752" y="116" class="note" id="caseLabel">Storage type: Saline Aquifer</text>
+<text x="752" y="137" class="note" id="capacityLabel">Theoretical capacity: calculated</text>
+<text x="752" y="158" class="note" id="effectiveLabel">Effective capacity: calculated</text>
+<text x="752" y="179" class="note" id="yearsLabel">Storage duration: calculated</text>
+
+<rect x="70" y="180" width="420" height="58" rx="8" class="callout"></rect>
+<text x="86" y="203" class="label">Diagnostics</text>
+<text x="86" y="224" class="note" id="diagLabel">Injectivity, pore volume, pressure margin calculated from inputs</text>
+</svg>
+</section>
+
+<section class="panel">
+<h3>CO₂ Storage Screening Inputs</h3>
+<div class="grid">
+  <div><label>Storage Type</label><select id="storageType"><option value="saline">Saline Aquifer</option><option value="depleted">Depleted Reservoir</option><option value="eor">EOR / CO₂ Flood</option></select></div>
+  <div><label>CO₂ Injection Rate, MMt/yr</label><input id="co2Rate" type="number" step="0.01" value="1.00"></div>
+  <div><label>Project Life, yr</label><input id="projectLife" type="number" step="1" value="25"></div>
+  <div><label>CO₂ Density at Reservoir, lb/ft³</label><input id="co2Density" type="number" step="0.1" value="42.0"></div>
+  <div><label>Reservoir Area, acres</label><input id="areaAcres" type="number" step="100" value="12000"></div>
+  <div><label>Net Pay / Storage Thickness, ft</label><input id="netThickness" type="number" step="1" value="80"></div>
+  <div><label>Porosity, fraction</label><input id="porosity" type="number" step="0.01" value="0.18"></div>
+  <div><label>Storage Efficiency, fraction</label><input id="storageEff" type="number" step="0.001" value="0.025"></div>
+  <div><label>Depletion / Pressure Utilization, fraction</label><input id="pressureUtil" type="number" step="0.01" value="0.65"></div>
+  <div><label>OOIP for EOR, MMSTB</label><input id="ooip" type="number" step="1" value="250"></div>
+  <div><label>CO₂ Utilization, Mscf/STB</label><input id="co2Util" type="number" step="0.1" value="6.0"></div>
+  <div><label>EOR Retention, fraction</label><input id="retention" type="number" step="0.01" value="0.45"></div>
+  <div><label>Injectivity / Well, MMt/yr</label><input id="injPerWell" type="number" step="0.01" value="0.25"></div>
+  <div><label>Reservoir Pressure, psia</label><input id="resPressure" type="number" step="10" value="2200"></div>
+  <div><label>Fracture Pressure, psia</label><input id="fracPressure" type="number" step="10" value="3500"></div>
+  <div><label>Wellhead / Injection Pressure, psia</label><input id="injPressure" type="number" step="10" value="3000"></div>
+</div>
+<button id="runBtn">Run CO₂ Storage Screening</button>
+<table><thead><tr><th>Parameter</th><th>Result</th></tr></thead><tbody>
+<tr><td>Selected Storage Option</td><td class="result" id="outType">-</td></tr>
+<tr><td>Theoretical Pore / Retention Capacity</td><td class="result" id="outTheoretical">-</td></tr>
+<tr><td>Effective Storage Capacity</td><td class="result" id="outEffective">-</td></tr>
+<tr><td>Required Storage Over Project Life</td><td class="result" id="outRequired">-</td></tr>
+<tr><td>Storage Duration at Injection Rate</td><td class="result" id="outYears">-</td></tr>
+<tr><td>Estimated Injection Wells</td><td class="result" id="outWells">-</td></tr>
+<tr><td>Pressure Margin to Fracture</td><td class="result" id="outMargin">-</td></tr>
+<tr><td>Screening Status</td><td class="result" id="outStatus">-</td></tr>
+</tbody></table>
+<p class="small">Screening estimates only. Confirm with reservoir simulation, geomechanics, seal integrity, plume migration, mineral trapping, wellbore integrity, regulatory MRV requirements, and site-specific PVT data.</p>
+</section>
+
+<section class="panel wide">
+<h3>Storage Option Comparison</h3>
+<div class="tabs"><button class="tab active" data-tab="capacity">Capacity Basis</button><button class="tab" data-tab="risk">Screening Notes</button></div>
+<div id="capacityTab"><table><thead><tr><th>Storage Option</th><th>Capacity Method</th><th>Calculated Capacity</th><th>Typical Use</th></tr></thead><tbody id="compareBody"></tbody></table></div>
+<div id="riskTab" style="display:none"><table><thead><tr><th>Storage Option</th><th>Key Screening Checks</th><th>Primary Risks / Constraints</th></tr></thead><tbody><tr><td>Saline Aquifer</td><td>Area, net thickness, porosity, storage efficiency, injectivity, seal integrity.</td><td>Largest theoretical potential but highest uncertainty in plume migration and pressure management.</td></tr><tr><td>Depleted Reservoir</td><td>Known trap, historical production, pressure depletion, well inventory, residual hydrocarbon compatibility.</td><td>Legacy wells and abandoned penetrations can dominate containment risk.</td></tr><tr><td>EOR</td><td>OOIP, miscibility pressure, CO₂ utilization, recycle ratio, retention fraction, oil response.</td><td>Storage depends on recycle operations, economics, and retained fraction after production handling.</td></tr></tbody></table></div>
+</section>
+</main>
+<script>
+const LB_PER_METRIC_TON = 2204.62262185;
+const FT3_PER_ACRE_FT = 43560;
+const CO2_LB_PER_MSCF_STD = 114.4; // approximate at 60 F, 14.7 psia
+function n(id){return parseFloat(document.getElementById(id).value)||0}
+function fmt(x,d=2){return Number.isFinite(x)?x.toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d}):"-"}
+function mmtFromLb(lb){return lb/LB_PER_METRIC_TON/1e6}
+function storageName(v){return v==="saline"?"Saline Aquifer":v==="depleted"?"Depleted Reservoir":"EOR / CO₂ Flood"}
+function calcAll(){
+ const type=document.getElementById('storageType').value;
+ const rate=n('co2Rate'), life=n('projectLife'), rho=n('co2Density'), area=n('areaAcres'), h=n('netThickness'), phi=n('porosity'), eff=n('storageEff');
+ const pressureUtil=n('pressureUtil'), ooip=n('ooip'), util=n('co2Util'), ret=n('retention'), injPerWell=n('injPerWell'), resP=n('resPressure'), fracP=n('fracPressure'), injP=n('injPressure');
+ const bulkVol=area*h*FT3_PER_ACRE_FT;
+ const poreVol=bulkVol*phi;
+ const poreCapacity=mmtFromLb(poreVol*rho);
+ const salineEff=poreCapacity*eff;
+ const depletedEff=poreCapacity*pressureUtil;
+ const eorMscf=ooip*1e6*util;
+ const eorStoredMmt=(eorMscf*CO2_LB_PER_MSCF_STD*ret)/LB_PER_METRIC_TON/1e6;
+ const theoretical = type==='eor' ? eorMscf*CO2_LB_PER_MSCF_STD/LB_PER_METRIC_TON/1e6 : poreCapacity;
+ const effective = type==='saline' ? salineEff : type==='depleted' ? depletedEff : eorStoredMmt;
+ const required=rate*life;
+ const years=rate>0?effective/rate:0;
+ const wells=injPerWell>0?Math.ceil(rate/injPerWell):0;
+ const margin=fracP-injP;
+ const okCapacity=effective>=required;
+ const okPressure=margin>0 && injP>resP;
+ const status=okCapacity&&okPressure?'PASS — capacity and injection pressure screen':'CHECK — capacity or pressure margin needs review';
+ document.getElementById('outType').textContent=storageName(type);
+ document.getElementById('outTheoretical').textContent=fmt(theoretical,2)+' MMt CO₂';
+ document.getElementById('outEffective').textContent=fmt(effective,2)+' MMt CO₂';
+ document.getElementById('outRequired').textContent=fmt(required,2)+' MMt CO₂';
+ document.getElementById('outYears').textContent=fmt(years,1)+' yr';
+ document.getElementById('outWells').textContent=wells+' injection well(s)';
+ document.getElementById('outMargin').textContent=fmt(margin,0)+' psi';
+ document.getElementById('outStatus').innerHTML='<span class="'+(okCapacity&&okPressure?'ok':'warn')+'">'+status+'</span>';
+ document.getElementById('srcLabel').textContent='Flow: '+fmt(rate,2)+' MMt/yr';
+ document.getElementById('wellLabel').textContent='Wells: '+wells+', P inj: '+fmt(injP,0)+' psia';
+ document.getElementById('caseLabel').textContent='Storage type: '+storageName(type);
+ document.getElementById('capacityLabel').textContent='Theoretical capacity: '+fmt(theoretical,2)+' MMt CO₂';
+ document.getElementById('effectiveLabel').textContent='Effective capacity: '+fmt(effective,2)+' MMt CO₂';
+ document.getElementById('yearsLabel').textContent='Storage duration: '+fmt(years,1)+' yr at '+fmt(rate,2)+' MMt/yr';
+ document.getElementById('diagLabel').textContent='Pore volume: '+fmt(poreVol/1e9,2)+' Bft³; fracture margin: '+fmt(margin,0)+' psi; required: '+fmt(required,2)+' MMt';
+ document.getElementById('salineCapLabel').textContent='Capacity: '+fmt(salineEff,2)+' MMt';
+ document.getElementById('deplCapLabel').textContent='Capacity: '+fmt(depletedEff,2)+' MMt';
+ document.getElementById('eorCapLabel').textContent='Retained CO₂: '+fmt(eorStoredMmt,2)+' MMt';
+ document.getElementById('compareBody').innerHTML=`<tr><td>Saline Aquifer</td><td>Area × net thickness × porosity × CO₂ density × storage efficiency.</td><td><b>${fmt(salineEff,2)} MMt</b><br><span class="small">Pore volume basis: ${fmt(poreCapacity,2)} MMt</span></td><td>Dedicated storage where large capacity is needed.</td></tr><tr><td>Depleted Reservoir</td><td>Pore volume × CO₂ density × depletion / pressure-utilization factor.</td><td><b>${fmt(depletedEff,2)} MMt</b><br><span class="small">Utilization factor: ${fmt(pressureUtil,2)}</span></td><td>Storage in known traps with production history.</td></tr><tr><td>EOR / CO₂ Flood</td><td>OOIP × CO₂ utilization × standard CO₂ density × retention fraction.</td><td><b>${fmt(eorStoredMmt,2)} MMt</b><br><span class="small">Gross purchased/injected basis: ${fmt(theoretical,2)} MMt</span></td><td>Storage coupled with incremental oil recovery.</td></tr>`;
+ updateTooltips({rate,effective,years,wells,margin,type,salineEff,depletedEff,eorStoredMmt,poreCapacity});
+}
+function updateTooltips(o){
+ document.getElementById('s1').dataset.tip=`Captured CO₂<br>Flow: ${fmt(o.rate,2)} MMt/yr<br>Routed to conditioning and dehydration.`;
+ document.getElementById('s2').dataset.tip=`Conditioned CO₂<br>Selected storage: ${storageName(o.type)}<br>Effective capacity: ${fmt(o.effective,2)} MMt CO₂`;
+ document.getElementById('s3').dataset.tip=`Injection Well<br>Estimated wells: ${o.wells}<br>Fracture pressure margin: ${fmt(o.margin,0)} psi`;
+}
+function initTooltips(){const tt=document.getElementById('svgTooltip');document.querySelectorAll('.tip').forEach(el=>{el.addEventListener('mouseenter',()=>{tt.innerHTML=el.dataset.tip||'';tt.style.display='block'});el.addEventListener('mousemove',e=>{tt.style.left=e.clientX+14+'px';tt.style.top=e.clientY+14+'px'});el.addEventListener('mouseleave',()=>{tt.style.display='none'})})}
+function initTabs(){document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('capacityTab').style.display=btn.dataset.tab==='capacity'?'block':'none';document.getElementById('riskTab').style.display=btn.dataset.tab==='risk'?'block':'none'}))}
+document.addEventListener('DOMContentLoaded',()=>{initTooltips();initTabs();calcAll();document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calcAll));document.getElementById('runBtn').addEventListener('click',calcAll)});
+</script>
+<div id="footer"></div><script>fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});</script>
+</body>
+</html>
