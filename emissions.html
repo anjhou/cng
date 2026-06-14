@@ -15,8 +15,6 @@ main{max-width:1480px;margin:18px auto;padding:0 14px;display:grid;gap:16px}.pan
 </style>
 </head>
 <body>
-<div id="header"></div>
-<script>fetch('header.html').then(r=>r.ok?r.text():'').then(d=>{const h=document.getElementById('header'); if(d) h.innerHTML=d;}).catch(()=>{});</script>
 <header><h1>Furnace Direct Emissions Calculator</h1><p>SVG fired-heater flowsheet with natural gas fuel, burner, combustion air, stack gas, nC4 / heavy naphtha / VGO process feeds, combustion emissions, process vents, flaring, and interactive emission trend screening.</p></header>
 <div id="svgTooltip" class="tooltip"></div>
 <main>
