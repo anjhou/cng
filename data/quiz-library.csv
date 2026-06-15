@@ -1,0 +1,3 @@
+topic,question,choiceA,choiceB,choiceC,choiceD,answer,svg
+geometry,What is the area of a triangle with base 12 ft and height 8 ft?,24 ft²,36 ft²,48 ft²,96 ft²,C,"<svg viewBox='0 0 320 220'><polygon points='60,170 240,170 60,50' fill='#dbeafe' stroke='#1f5f8b' stroke-width='3'/><text x='130' y='190'>Base = 12 ft</text><text x='20' y='115' transform='rotate(-90 20 115)'>Height = 8 ft</text></svg>"
+circle,If radius is 5 ft, what is the circle area?,15.7 ft²,31.4 ft²,78.5 ft²,100 ft²,C,"<svg viewBox='0 0 320 220'><circle cx='160' cy='110' r='70' fill='#dcfce7' stroke='#15803d' stroke-width='3'/><line x1='160' y1='110' x2='230' y2='110' stroke='#15803d' stroke-width='3'/><text x='180' y='100'>r = 5 ft</text></svg>"
