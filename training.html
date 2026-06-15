@@ -3,179 +3,38 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Training Center</title>
-
+<title>Interactive Training Center</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
-  --bg:#f4f7fb;
-  --card:#ffffff;
-  --primary:#1f5f8b;
-  --dark:#102a43;
-  --muted:#64748b;
-  --border:#d9e2ec;
+  --bg:#f4f7fb; --card:#fff; --primary:#1f5f8b;
+  --dark:#102a43; --muted:#64748b; --border:#d9e2ec;
 }
-
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:var(--bg);
-  color:var(--dark);
-}
-
-header{
-  background:linear-gradient(135deg,#123c69,#1f5f8b);
-  color:white;
-  padding:24px;
-  text-align:center;
-}
-
-nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
-  background:white;
-  padding:14px;
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-nav button,
-.control-btn{
-  border:none;
-  background:#e8f1fb;
-  color:#123c69;
-  padding:10px 14px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-}
-
-nav button.active,
-.control-btn:hover{
-  background:var(--primary);
-  color:white;
-}
-
-main{
-  max-width:1180px;
-  margin:24px auto;
-  padding:0 16px;
-}
-
-.section{
-  display:none;
-  background:var(--card);
-  padding:24px;
-  border-radius:14px;
-  box-shadow:0 8px 24px rgba(15,23,42,.08);
-  min-height:520px;
-}
-
-.section.active{
-  display:block;
-}
-
-h2{
-  margin-top:0;
-  color:#123c69;
-}
-
-.viewer{
-  display:grid;
-  gap:18px;
-  align-items:center;
-  justify-items:center;
-  text-align:center;
-}
-
-.media-box{
-  width:100%;
-  max-width:850px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background:#f8fafc;
-  padding:18px;
-}
-
-img.gallery-img{
-  width:100%;
-  max-height:460px;
-  object-fit:cover;
-  border-radius:12px;
-}
-
-iframe{
-  width:100%;
-  height:440px;
-  border:0;
-  border-radius:12px;
-}
-
-.controls{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:16px;
-}
-
-.counter{
-  color:var(--muted);
-  font-weight:600;
-}
-
-.pdf-text{
-  text-align:left;
-  line-height:1.65;
-  white-space:pre-line;
-  background:#f8fafc;
-  border:1px solid var(--border);
-  padding:18px;
-  border-radius:12px;
-  min-height:300px;
-}
-
-.chart-wrap{
-  width:100%;
-  max-width:850px;
-  margin:auto;
-}
-
-.profile-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px;
-}
-
-.profile{
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:18px;
-  background:#f8fafc;
-}
-
-.profile h3{
-  margin-bottom:4px;
-  color:#123c69;
-}
-
-.profile small{
-  color:var(--muted);
-  font-weight:700;
-}
-
-footer{
-  text-align:center;
-  padding:20px;
-  color:var(--muted);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--dark)}
+header{background:linear-gradient(135deg,#123c69,#1f5f8b);color:white;padding:24px;text-align:center}
+nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;background:white;padding:14px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+nav button,.control-btn{border:none;background:#e8f1fb;color:#123c69;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+nav button.active,.control-btn:hover{background:var(--primary);color:white}
+main{max-width:1180px;margin:24px auto;padding:0 16px}
+.section{display:none;background:var(--card);padding:24px;border-radius:14px;box-shadow:0 8px 24px rgba(15,23,42,.08);min-height:520px}
+.section.active{display:block}
+h2{margin-top:0;color:#123c69}
+.viewer{display:grid;gap:18px;align-items:center;justify-items:center;text-align:center}
+.media-box{width:100%;max-width:850px;border:1px solid var(--border);border-radius:12px;background:#f8fafc;padding:18px}
+.gallery-img{width:100%;max-height:460px;object-fit:cover;border-radius:12px}
+iframe{width:100%;height:440px;border:0;border-radius:12px}
+.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px}
+.counter{color:var(--muted);font-weight:600}
+.pdf-text{text-align:left;line-height:1.65;white-space:pre-line;background:#f8fafc;border:1px solid var(--border);padding:18px;border-radius:12px;min-height:300px}
+.chart-wrap{width:100%;max-width:850px;margin:auto}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.profile{border:1px solid var(--border);border-radius:12px;padding:18px;background:#f8fafc}
+.profile h3{margin-bottom:4px;color:#123c69}
+.profile small{color:var(--muted);font-weight:700}
+#quizSvg svg{max-width:100%;height:auto}
+footer{text-align:center;padding:20px;color:var(--muted)}
 </style>
 </head>
 
@@ -183,7 +42,7 @@ footer{
 
 <header>
   <h1>Interactive Training Center</h1>
-  <p>Audio, images, videos, PDF text, charts, and expert-led learning modules</p>
+  <p>Audio, images, videos, PDF text, charts, expert profiles, and quiz modules</p>
 </header>
 
 <nav id="sectionNav">
@@ -193,6 +52,7 @@ footer{
   <button onclick="showSection(3)">PDF Text Viewer</button>
   <button onclick="showSection(4)">Charts Dashboard</button>
   <button onclick="showSection(5)">Expert Profiles</button>
+  <button onclick="showSection(6)">Quiz Library</button>
 </nav>
 
 <main>
@@ -282,11 +142,25 @@ footer{
   <div class="profile-grid" id="profileGrid"></div>
 </section>
 
+<section class="section">
+  <h2>Section 7 – Quiz Library</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="quizTitle"></h3>
+      <p id="quizQuestion"></p>
+      <div id="quizSvg"></div>
+      <div class="controls">
+        <button class="control-btn" onclick="prevQuiz()">Previous Question</button>
+        <span class="counter" id="quizCounter"></span>
+        <button class="control-btn" onclick="nextQuiz()">Next Question</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
-<footer>
-  Training Center © 2026
-</footer>
+<footer>Training Center © 2026</footer>
 
 <script>
 const sections = document.querySelectorAll(".section");
@@ -297,33 +171,16 @@ function showSection(index){
   navButtons.forEach(b => b.classList.remove("active"));
   sections[index].classList.add("active");
   navButtons[index].classList.add("active");
-
-  if(index === 4){
-    renderChart();
-  }
+  if(index === 4) renderChart();
 }
 
-/* Section 1 – Audio */
+/* Audio */
 const audioItems = [
-  {
-    title:"Module 1: Process Safety Introduction",
-    desc:"Overview of basic safety concepts and training objectives.",
-    src:"audio/process-safety-intro.mp3"
-  },
-  {
-    title:"Module 2: Equipment Walkthrough",
-    desc:"Narrated explanation of major process equipment.",
-    src:"audio/equipment-walkthrough.mp3"
-  },
-  {
-    title:"Module 3: Operating Discipline",
-    desc:"Short audio lesson on operating limits and procedural control.",
-    src:"audio/operating-discipline.mp3"
-  }
+  {title:"Module 1: Process Safety Introduction",desc:"Overview of basic safety concepts and training objectives.",src:"audio/process-safety-intro.mp3"},
+  {title:"Module 2: Equipment Walkthrough",desc:"Narrated explanation of major process equipment.",src:"audio/equipment-walkthrough.mp3"},
+  {title:"Module 3: Operating Discipline",desc:"Short audio lesson on operating limits and procedural control.",src:"audio/operating-discipline.mp3"}
 ];
-
 let audioIndex = 0;
-
 function renderAudio(){
   const item = audioItems[audioIndex];
   audioTitle.textContent = item.title;
@@ -331,38 +188,16 @@ function renderAudio(){
   audioPlayer.src = item.src;
   audioCounter.textContent = `${audioIndex + 1} / ${audioItems.length}`;
 }
+function nextAudio(){audioIndex=(audioIndex+1)%audioItems.length;renderAudio()}
+function prevAudio(){audioIndex=(audioIndex-1+audioItems.length)%audioItems.length;renderAudio()}
 
-function nextAudio(){
-  audioIndex = (audioIndex + 1) % audioItems.length;
-  renderAudio();
-}
-
-function prevAudio(){
-  audioIndex = (audioIndex - 1 + audioItems.length) % audioItems.length;
-  renderAudio();
-}
-
-/* Section 2 – Images */
+/* Images */
 const imageItems = [
-  {
-    title:"Training Image 1: Process Overview",
-    desc:"Use this image to introduce the full system layout.",
-    src:"images/training-process-1.jpg"
-  },
-  {
-    title:"Training Image 2: Equipment Detail",
-    desc:"Detailed visual reference for key equipment.",
-    src:"images/training-equipment-2.jpg"
-  },
-  {
-    title:"Training Image 3: Safety Zones",
-    desc:"Illustration of restricted, caution, and operating zones.",
-    src:"images/training-safety-3.jpg"
-  }
+  {title:"Training Image 1: Process Overview",desc:"Use this image to introduce the full system layout.",src:"images/training-process-1.jpg"},
+  {title:"Training Image 2: Equipment Detail",desc:"Detailed visual reference for key equipment.",src:"images/training-equipment-2.jpg"},
+  {title:"Training Image 3: Safety Zones",desc:"Illustration of restricted, caution, and operating zones.",src:"images/training-safety-3.jpg"}
 ];
-
 let imageIndex = 0;
-
 function renderImage(){
   const item = imageItems[imageIndex];
   imageTitle.textContent = item.title;
@@ -370,38 +205,16 @@ function renderImage(){
   galleryImage.src = item.src;
   imageCounter.textContent = `${imageIndex + 1} / ${imageItems.length}`;
 }
+function nextImage(){imageIndex=(imageIndex+1)%imageItems.length;renderImage()}
+function prevImage(){imageIndex=(imageIndex-1+imageItems.length)%imageItems.length;renderImage()}
 
-function nextImage(){
-  imageIndex = (imageIndex + 1) % imageItems.length;
-  renderImage();
-}
-
-function prevImage(){
-  imageIndex = (imageIndex - 1 + imageItems.length) % imageItems.length;
-  renderImage();
-}
-
-/* Section 3 – Videos */
+/* Videos */
 const videoItems = [
-  {
-    title:"Video 1: Safety Training Overview",
-    desc:"Introductory video for the training program.",
-    youtubeId:"ysz5S6PUM-U"
-  },
-  {
-    title:"Video 2: Process Operations",
-    desc:"Video lesson covering basic process operation concepts.",
-    youtubeId:"ScMzIvxBSi4"
-  },
-  {
-    title:"Video 3: Maintenance Awareness",
-    desc:"Training video for maintenance and reliability awareness.",
-    youtubeId:"jNQXAC9IVRw"
-  }
+  {title:"Video 1: Safety Training Overview",desc:"Introductory video for the training program.",youtubeId:"ysz5S6PUM-U"},
+  {title:"Video 2: Process Operations",desc:"Video lesson covering basic process operation concepts.",youtubeId:"ScMzIvxBSi4"},
+  {title:"Video 3: Maintenance Awareness",desc:"Training video for maintenance and reliability awareness.",youtubeId:"jNQXAC9IVRw"}
 ];
-
 let videoIndex = 0;
-
 function renderVideo(){
   const item = videoItems[videoIndex];
   videoTitle.textContent = item.title;
@@ -409,175 +222,187 @@ function renderVideo(){
   videoFrame.src = `https://www.youtube.com/embed/${item.youtubeId}`;
   videoCounter.textContent = `${videoIndex + 1} / ${videoItems.length}`;
 }
+function nextVideo(){videoIndex=(videoIndex+1)%videoItems.length;renderVideo()}
+function prevVideo(){videoIndex=(videoIndex-1+videoItems.length)%videoItems.length;renderVideo()}
 
-function nextVideo(){
-  videoIndex = (videoIndex + 1) % videoItems.length;
-  renderVideo();
-}
-
-function prevVideo(){
-  videoIndex = (videoIndex - 1 + videoItems.length) % videoItems.length;
-  renderVideo();
-}
-
-/* Section 4 – PDF Text */
+/* PDF Text */
 const pdfPages = [
-  {
-    title:"PDF Training Manual – Page 1",
-    text:`Introduction
+  {title:"PDF Training Manual – Page 1",text:`Introduction
 
 This training module introduces the operating philosophy, safety basis, and expected learning outcomes.
 
-Learners should review the process overview before proceeding to equipment-specific training.`
-  },
-  {
-    title:"PDF Training Manual – Page 2",
-    text:`Operating Guidance
+Learners should review the process overview before proceeding to equipment-specific training.`},
+  {title:"PDF Training Manual – Page 2",text:`Operating Guidance
 
 Operators should verify flow, pressure, temperature, and equipment status before startup.
 
-Any abnormal deviation should be escalated according to the operating procedure.`
-  },
-  {
-    title:"PDF Training Manual – Page 3",
-    text:`Assessment Notes
+Any abnormal deviation should be escalated according to the operating procedure.`},
+  {title:"PDF Training Manual – Page 3",text:`Assessment Notes
 
-After completing the module, trainees should be able to explain the major hazards, safeguards, and key process variables.`
-  }
+After completing the module, trainees should be able to explain the major hazards, safeguards, and key process variables.`}
 ];
-
 let pdfIndex = 0;
-
 function renderPdf(){
   const page = pdfPages[pdfIndex];
   pdfTitle.textContent = page.title;
   pdfText.textContent = page.text;
   pdfCounter.textContent = `Page ${pdfIndex + 1} / ${pdfPages.length}`;
 }
+function nextPdfPage(){pdfIndex=(pdfIndex+1)%pdfPages.length;renderPdf()}
+function prevPdfPage(){pdfIndex=(pdfIndex-1+pdfPages.length)%pdfPages.length;renderPdf()}
 
-function nextPdfPage(){
-  pdfIndex = (pdfIndex + 1) % pdfPages.length;
-  renderPdf();
-}
-
-function prevPdfPage(){
-  pdfIndex = (pdfIndex - 1 + pdfPages.length) % pdfPages.length;
-  renderPdf();
-}
-
-/* Section 5 – Charts */
+/* Charts */
 const chartItems = [
-  {
-    title:"Training Completion by Module",
-    type:"bar",
-    labels:["Safety","Operations","Maintenance","Quality","Assessment"],
-    data:[88,76,69,82,91],
-    label:"Completion %"
-  },
-  {
-    title:"Assessment Scores",
-    type:"line",
-    labels:["Week 1","Week 2","Week 3","Week 4"],
-    data:[72,78,84,89],
-    label:"Average Score"
-  },
-  {
-    title:"Training Content Mix",
-    type:"doughnut",
-    labels:["Audio","Images","Videos","PDF","Charts"],
-    data:[15,20,30,20,15],
-    label:"Content Share"
-  }
+  {title:"Training Completion by Module",type:"bar",labels:["Safety","Operations","Maintenance","Quality","Assessment"],data:[88,76,69,82,91],label:"Completion %"},
+  {title:"Assessment Scores",type:"line",labels:["Week 1","Week 2","Week 3","Week 4"],data:[72,78,84,89],label:"Average Score"},
+  {title:"Training Content Mix",type:"doughnut",labels:["Audio","Images","Videos","PDF","Charts"],data:[15,20,30,20,15],label:"Content Share"}
 ];
-
 let chartIndex = 0;
 let activeChart = null;
-
 function renderChart(){
   const item = chartItems[chartIndex];
   chartTitle.textContent = item.title;
   chartCounter.textContent = `${chartIndex + 1} / ${chartItems.length}`;
-
-  if(activeChart){
-    activeChart.destroy();
-  }
-
+  if(activeChart) activeChart.destroy();
   activeChart = new Chart(document.getElementById("trainingChart"), {
     type:item.type,
     data:{
       labels:item.labels,
-      datasets:[{
-        label:item.label,
-        data:item.data,
-        borderWidth:2
-      }]
+      datasets:[{label:item.label,data:item.data,borderWidth:2}]
     },
     options:{
       responsive:true,
-      plugins:{
-        legend:{
-          display:true,
-          onClick:(e, legendItem, legend) => {
-            const index = legendItem.datasetIndex;
-            const chart = legend.chart;
-            chart.setDatasetVisibility(index, !chart.isDatasetVisible(index));
-            chart.update();
-          }
-        },
-        tooltip:{
-          enabled:true
-        }
-      },
-      scales:item.type === "doughnut" ? {} : {
-        y:{beginAtZero:true}
-      }
+      plugins:{legend:{display:true},tooltip:{enabled:true}},
+      scales:item.type === "doughnut" ? {} : {y:{beginAtZero:true}}
     }
   });
 }
+function nextChart(){chartIndex=(chartIndex+1)%chartItems.length;renderChart()}
+function prevChart(){chartIndex=(chartIndex-1+chartItems.length)%chartItems.length;renderChart()}
 
-function nextChart(){
-  chartIndex = (chartIndex + 1) % chartItems.length;
-  renderChart();
-}
-
-function prevChart(){
-  chartIndex = (chartIndex - 1 + chartItems.length) % chartItems.length;
-  renderChart();
-}
-
-/* Section 6 – Experts */
+/* Expert Profiles */
 const experts = [
-  {
-    name:"Dr. Maya Reynolds",
-    role:"Process Safety Specialist",
-    bio:"Introduces hazard awareness, safeguards, and operating discipline."
-  },
-  {
-    name:"James Carter",
-    role:"Operations Training Lead",
-    bio:"Explains startup, shutdown, abnormal operation, and field response."
-  },
-  {
-    name:"Priya Nair",
-    role:"Reliability Engineer",
-    bio:"Connects equipment behavior, maintenance strategy, and failure prevention."
-  },
-  {
-    name:"Luis Hernandez",
-    role:"Data & Performance Analyst",
-    bio:"Uses charts and dashboards to interpret training progress and operating trends."
-  }
+  {name:"Dr. Maya Reynolds",role:"Process Safety Specialist",bio:"Introduces hazard awareness, safeguards, and operating discipline."},
+  {name:"James Carter",role:"Operations Training Lead",bio:"Explains startup, shutdown, abnormal operation, and field response."},
+  {name:"Priya Nair",role:"Reliability Engineer",bio:"Connects equipment behavior, maintenance strategy, and failure prevention."},
+  {name:"Luis Hernandez",role:"Data & Performance Analyst",bio:"Uses charts and dashboards to interpret training progress and operating trends."}
 ];
-
 function renderProfiles(){
-  profileGrid.innerHTML = experts.map(expert => `
+  profileGrid.innerHTML = experts.map(e => `
     <div class="profile">
-      <h3>${expert.name}</h3>
-      <small>${expert.role}</small>
-      <p>${expert.bio}</p>
+      <h3>${e.name}</h3>
+      <small>${e.role}</small>
+      <p>${e.bio}</p>
     </div>
   `).join("");
 }
+
+/* Quiz Library */
+const quizItems = [
+  {
+    title:"Quiz 1: Right Triangle",
+    question:"What is the approximate area of this right triangle?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <polygon points="60,170 240,170 60,50" fill="#dbeafe" stroke="#1f5f8b" stroke-width="3"/>
+      <text x="130" y="190">Base = 12 ft</text>
+      <text x="20" y="115" transform="rotate(-90 20 115)">Height = 8 ft</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 2: Circle",
+    question:"If the radius is 5 ft, what is the circle area?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <circle cx="160" cy="110" r="70" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+      <line x1="160" y1="110" x2="230" y2="110" stroke="#15803d" stroke-width="3"/>
+      <text x="180" y="100">r = 5 ft</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 3: Rectangle",
+    question:"What is the perimeter of this rectangle?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <rect x="70" y="60" width="180" height="100" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+      <text x="130" y="185">Length = 18 ft</text>
+      <text x="255" y="115">Width = 10 ft</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 4: Trapezoid",
+    question:"Which formula should be used to calculate the area of this trapezoid?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <polygon points="100,60 220,60 260,160 60,160" fill="#ede9fe" stroke="#6d28d9" stroke-width="3"/>
+      <text x="135" y="50">b₁ = 10 ft</text>
+      <text x="125" y="185">b₂ = 16 ft</text>
+      <text x="265" y="115">h = 7 ft</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 5: Pentagon",
+    question:"How many sides does this polygon have?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <polygon points="160,35 245,95 210,180 110,180 75,95" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/>
+    </svg>`
+  },
+  {
+    title:"Quiz 6: Hexagon",
+    question:"Identify the geometric shape shown below.",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <polygon points="110,55 210,55 260,110 210,165 110,165 60,110" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/>
+    </svg>`
+  },
+  {
+    title:"Quiz 7: Triangle Angles",
+    question:"If two angles are 45° and 45°, what is the third angle?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <polygon points="160,40 250,170 70,170" fill="#f0fdf4" stroke="#166534" stroke-width="3"/>
+      <text x="90" y="160">45°</text>
+      <text x="220" y="160">45°</text>
+      <text x="150" y="65">?</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 8: Sector",
+    question:"What fraction of the circle is shaded?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <circle cx="160" cy="110" r="75" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+      <path d="M160 110 L160 35 A75 75 0 0 1 235 110 Z" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="3"/>
+      <text x="178" y="75">90°</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 9: Coordinate Grid",
+    question:"Which quadrant contains point A?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <line x1="160" y1="20" x2="160" y2="200" stroke="#475569" stroke-width="2"/>
+      <line x1="40" y1="110" x2="280" y2="110" stroke="#475569" stroke-width="2"/>
+      <circle cx="220" cy="65" r="7" fill="#dc2626"/>
+      <text x="232" y="65">A</text>
+      <text x="265" y="125">x</text>
+      <text x="170" y="30">y</text>
+    </svg>`
+  },
+  {
+    title:"Quiz 10: Cylinder Cross Section",
+    question:"What 2D shape forms the top face of this cylinder?",
+    svg:`<svg width="320" height="220" viewBox="0 0 320 220">
+      <ellipse cx="160" cy="60" rx="80" ry="28" fill="#e0e7ff" stroke="#4338ca" stroke-width="3"/>
+      <path d="M80 60 V160" stroke="#4338ca" stroke-width="3"/>
+      <path d="M240 60 V160" stroke="#4338ca" stroke-width="3"/>
+      <ellipse cx="160" cy="160" rx="80" ry="28" fill="#eef2ff" stroke="#4338ca" stroke-width="3"/>
+    </svg>`
+  }
+];
+
+let quizIndex = 0;
+function renderQuiz(){
+  const item = quizItems[quizIndex];
+  quizTitle.textContent = item.title;
+  quizQuestion.textContent = item.question;
+  quizSvg.innerHTML = item.svg;
+  quizCounter.textContent = `${quizIndex + 1} / ${quizItems.length}`;
+}
+function nextQuiz(){quizIndex=(quizIndex+1)%quizItems.length;renderQuiz()}
+function prevQuiz(){quizIndex=(quizIndex-1+quizItems.length)%quizItems.length;renderQuiz()}
 
 /* Initialize */
 renderAudio();
@@ -586,6 +411,7 @@ renderVideo();
 renderPdf();
 renderProfiles();
 renderChart();
+renderQuiz();
 </script>
 
 </body>
