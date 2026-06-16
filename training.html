@@ -338,6 +338,7 @@ footer{
           id="quizSearchInput" 
           type="text" 
           placeholder="Search quiz topic, e.g. geometry, circle, triangle"
+		  onkeydown="if(event.key === 'Enter') loadQuizFromCsv();"
         />
         <button class="control-btn" onclick="loadQuizFromCsv()">Load Quiz</button>
       </div>
@@ -364,6 +365,9 @@ footer{
 <footer>Training Center © 2026</footer>
 
 <script>
+
+
+
 const sections = document.querySelectorAll(".section");
 const navButtons = document.querySelectorAll("#sectionNav button");
 
@@ -647,25 +651,32 @@ function renderProfiles(){
 }
 
 /* Section 7 – CSV-Driven Quiz Library */
+
+
 const QUIZ_CSV_PATH = "data/quiz-library.csv";
 
+let allQuizRows = [];
 let quizItems = [];
 let quizIndex = 0;
+let quizCsvLoaded = false;
 
 async function loadQuizFromCsv(){
   const query = document.getElementById("quizSearchInput").value.trim().toLowerCase();
 
   try{
-    const response = await fetch(QUIZ_CSV_PATH);
+    if(!quizCsvLoaded){
+      const response = await fetch(QUIZ_CSV_PATH);
 
-    if(!response.ok){
-      throw new Error("CSV file not found or could not be loaded.");
+      if(!response.ok){
+        throw new Error("CSV file not found or could not be loaded.");
+      }
+
+      const csvText = await response.text();
+      allQuizRows = parseCsv(csvText);
+      quizCsvLoaded = true;
     }
 
-    const csvText = await response.text();
-    const rows = parseCsv(csvText);
-
-    quizItems = rows.filter(row => {
+    quizItems = allQuizRows.filter(row => {
       const searchable = [
         row.topic,
         row.question,
@@ -679,27 +690,111 @@ async function loadQuizFromCsv(){
     });
 
     quizIndex = 0;
-
-    if(!quizItems.length){
-      quizTitle.textContent = "No Quiz Found";
-      quizQuestion.textContent = "No matching quiz questions were found for this query.";
-      quizSvg.innerHTML = "";
-      quizChoices.innerHTML = "";
-      quizFeedback.textContent = "";
-      quizCounter.textContent = "0 / 0";
-      return;
-    }
-
     renderQuiz();
 
   }catch(error){
-    quizTitle.textContent = "Quiz Load Error";
-    quizQuestion.textContent = error.message;
-    quizSvg.innerHTML = "";
-    quizChoices.innerHTML = "";
-    quizFeedback.textContent = "";
-    quizCounter.textContent = "0 / 0";
+    showQuizMessage("Quiz Load Error", error.message);
   }
+}
+
+function renderQuiz(){
+  if(!quizItems.length){
+    showQuizMessage(
+      "No Quiz Found",
+      "No matching quiz questions were found for this query."
+    );
+    return;
+  }
+
+  const item = quizItems[quizIndex];
+
+  document.getElementById("quizTitle").textContent =
+    item.topic || `Question ${quizIndex + 1}`;
+
+  document.getElementById("quizQuestion").textContent =
+    item.question || "";
+
+  document.getElementById("quizSvg").innerHTML =
+    item.svg || "";
+
+  document.getElementById("quizFeedback").textContent = "";
+
+  document.getElementById("quizCounter").textContent =
+    `${quizIndex + 1} / ${quizItems.length}`;
+
+  const choices = [
+    {key:"A", text:item.choiceA},
+    {key:"B", text:item.choiceB},
+    {key:"C", text:item.choiceC},
+    {key:"D", text:item.choiceD}
+  ];
+
+  document.getElementById("quizChoices").innerHTML = choices
+    .filter(choice => choice.text)
+    .map(choice => `
+      <button 
+        class="control-btn quiz-choice"
+        onclick="checkQuizAnswer('${choice.key}')">
+        ${choice.key}. ${choice.text}
+      </button>
+    `).join("");
+}
+
+function showQuizMessage(title, message){
+  document.getElementById("quizTitle").textContent = title;
+  document.getElementById("quizQuestion").textContent = message;
+  document.getElementById("quizSvg").innerHTML = "";
+  document.getElementById("quizChoices").innerHTML = "";
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizCounter").textContent = "0 / 0";
+}
+
+function checkQuizAnswer(selected){
+  if(!quizItems.length) return;
+
+  const item = quizItems[quizIndex];
+  const correct = String(item.answer || "").trim().toUpperCase();
+
+  document.querySelectorAll(".quiz-choice").forEach(button => {
+    button.disabled = true;
+    button.style.opacity = "0.85";
+
+    if(button.textContent.trim().startsWith(correct + ".")){
+      button.classList.add("correct");
+    }
+
+    if(button.textContent.trim().startsWith(selected + ".") && selected !== correct){
+      button.classList.add("incorrect");
+    }
+  });
+
+  if(selected === correct){
+    quizFeedback.textContent = "Correct answer.";
+    quizFeedback.style.color = "#15803d";
+  }else{
+    quizFeedback.textContent = `Incorrect. Correct answer is ${correct}.`;
+    quizFeedback.style.color = "#b91c1c";
+  }
+}
+
+function nextQuiz(){
+  if(!quizItems.length){
+    loadQuizFromCsv();
+    return;
+  }
+
+  quizIndex = (quizIndex + 1) % quizItems.length;
+  renderQuiz();
+}
+
+function prevQuiz(){
+  if(!quizItems.length){
+    loadQuizFromCsv();
+    return;
+  }
+
+  quizIndex = (quizIndex - 1 + quizItems.length) % quizItems.length;
+  renderQuiz();
 }
 
 function parseCsv(csvText){
@@ -715,11 +810,9 @@ function parseCsv(csvText){
     .filter(values => values.some(value => value.trim()))
     .map(values => {
       const row = {};
-
       headers.forEach((header, index) => {
         row[header] = values[index] ? values[index].trim() : "";
       });
-
       return row;
     });
 }
@@ -770,80 +863,8 @@ function csvToRows(text){
   return rows;
 }
 
-function renderQuiz(){
-  if(!quizItems.length){
-    return;
-  }
 
-  const item = quizItems[quizIndex];
 
-  quizTitle.textContent = item.topic || `Question ${quizIndex + 1}`;
-  quizQuestion.textContent = item.question || "";
-  quizSvg.innerHTML = item.svg || "";
-  quizFeedback.textContent = "";
-  quizCounter.textContent = `${quizIndex + 1} / ${quizItems.length}`;
-
-  const choices = [
-    {key:"A", text:item.choiceA},
-    {key:"B", text:item.choiceB},
-    {key:"C", text:item.choiceC},
-    {key:"D", text:item.choiceD}
-  ];
-
-  quizChoices.innerHTML = choices
-    .filter(choice => choice.text)
-    .map(choice => `
-      <button 
-        class="control-btn quiz-choice"
-        onclick="checkQuizAnswer('${choice.key}')">
-        ${choice.key}. ${choice.text}
-      </button>
-    `).join("");
-}
-
-function checkQuizAnswer(selected){
-  const item = quizItems[quizIndex];
-  const correct = String(item.answer || "").trim().toUpperCase();
-
-  document.querySelectorAll(".quiz-choice").forEach(button => {
-    button.disabled = true;
-    button.style.opacity = "0.85";
-
-    if(button.textContent.trim().startsWith(correct + ".")){
-      button.classList.add("correct");
-    }
-
-    if(button.textContent.trim().startsWith(selected + ".") && selected !== correct){
-      button.classList.add("incorrect");
-    }
-  });
-
-  if(selected === correct){
-    quizFeedback.textContent = "Correct answer.";
-    quizFeedback.style.color = "#15803d";
-  }else{
-    quizFeedback.textContent = `Incorrect. Correct answer is ${correct}.`;
-    quizFeedback.style.color = "#b91c1c";
-  }
-}
-
-function nextQuiz(){
-  if(!quizItems.length){
-    return;
-  }
-
-  quizIndex = (quizIndex + 1) % quizItems.length;
-  renderQuiz();
-}
-
-function prevQuiz(){
-  if(!quizItems.length){
-    return;
-  }
-
-  quizIndex = (quizIndex - 1 + quizItems.length) % quizItems.length;
-  renderQuiz();
-}
 
 /* Initialize */
 renderAudio();
