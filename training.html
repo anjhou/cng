@@ -787,30 +787,34 @@ function renderQuiz(){
 function renderQuizFigure(item){
   const displayDiv = document.getElementById("quizSvg");
   const imagePath = normalizeImagePath(item.image || "");
-  const svgMarkup = item.svg || "";
+  const svgMarkup = String(item.svg || "").trim();
+
+  displayDiv.innerHTML = "";
+
+  function renderSvgFallback(){
+    if(svgMarkup){
+      displayDiv.innerHTML = svgMarkup;
+    }else{
+      displayDiv.innerHTML = `
+        <div style="color:#b91c1c;font-weight:700;">
+          No SVG or image figure is defined for this quiz item.
+        </div>`;
+    }
+  }
 
   if(imagePath){
-    displayDiv.innerHTML = `
-      <img
-        src="${escapeHtml(imagePath)}"
-        alt="Quiz Figure"
-        onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=&quot;color:#b91c1c;font-weight:700;&quot;>Image not found: ${escapeHtml(imagePath)}</div>');"
-        style="
-          max-width:100%;
-          max-height:400px;
-          object-fit:contain;
-          border:1px solid #ccc;
-          border-radius:8px;
-          background:#fff;
-        ">
-    `;
+    const img = document.createElement("img");
+    img.src = imagePath;
+    img.alt = "Quiz geometry figure";
+    img.loading = "lazy";
+    img.onerror = function(){
+      renderSvgFallback();
+    };
+    displayDiv.appendChild(img);
+    return;
   }
-  else if(svgMarkup){
-    displayDiv.innerHTML = svgMarkup;
-  }
-  else{
-    displayDiv.innerHTML = "";
-  }
+
+  renderSvgFallback();
 }
 
 function normalizeImagePath(path){
