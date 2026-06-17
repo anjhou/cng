@@ -746,9 +746,35 @@ function renderQuiz(){
   document.getElementById("quizQuestion").textContent =
     item.question || "";
 
+	/*
   document.getElementById("quizSvg").innerHTML =
-    item.svg || "";
+    item.svg || ""; */
 
+	/* */
+	const displayDiv = document.getElementById("quizSvg");
+
+	if(item.image){
+    displayDiv.innerHTML = `
+        <img
+            src="${item.image}"
+            alt="Quiz Figure"
+            style="
+                max-width:100%;
+                max-height:400px;
+                object-fit:contain;
+                border:1px solid #ccc;
+                border-radius:8px;
+            ">
+    `;
+}
+else if(item.svg){
+    displayDiv.innerHTML = item.svg;
+}
+else{
+    displayDiv.innerHTML = "";
+}
+	/* */
+	
   document.getElementById("quizFeedback").textContent = "";
 
   document.getElementById("quizCounter").textContent =
