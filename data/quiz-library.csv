@@ -1,4 +1,4 @@
-topic,question,choiceA,choiceB,choiceC,choiceD,answer,svg
+topic,question,choiceA,choiceB,choiceC,choiceD,answer,svg,image
 geometry,What is the area of a rectangle measuring 15 ft by 12 ft?,120 ft²,150 ft²,180 ft²,210 ft²,C,"<svg viewBox='0 0 320 220'><rect x='70' y='60' width='180' height='100' fill='#dbeafe' stroke='#1f5f8b' stroke-width='3'/><text x='120' y='185'>15 ft</text><text x='260' y='120'>12 ft</text></svg>"
 
 geometry,What is the circumference of a circle with radius 10 ft?,31.4 ft,62.8 ft,78.5 ft,100 ft,B,"<svg viewBox='0 0 320 220'><circle cx='160' cy='110' r='70' fill='#dcfce7' stroke='#15803d' stroke-width='3'/><line x1='160' y1='110' x2='230' y2='110' stroke='#15803d' stroke-width='3'/><text x='185' y='100'>r=10 ft</text></svg>"
