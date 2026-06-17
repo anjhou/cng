@@ -704,8 +704,17 @@ async function fetchQuizCsv(){
   throw lastError || new Error("CSV file could not be loaded.");
 }
 
+function normalizeQuizSearchQuery(value){
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[–—-]\s*question\s*\d+/g, "")
+    .replace(/question\s*\d+/g, "")
+    .trim();
+}
+
 async function loadQuizFromCsv(){
-  const query = document.getElementById("quizSearchInput").value.trim().toLowerCase();
+  const rawQuery = document.getElementById("quizSearchInput").value;
+  const query = normalizeQuizSearchQuery(rawQuery);
 
   try{
     if(!quizCsvLoaded){
@@ -787,34 +796,30 @@ function renderQuiz(){
 function renderQuizFigure(item){
   const displayDiv = document.getElementById("quizSvg");
   const imagePath = normalizeImagePath(item.image || "");
-  const svgMarkup = String(item.svg || "").trim();
-
-  displayDiv.innerHTML = "";
-
-  function renderSvgFallback(){
-    if(svgMarkup){
-      displayDiv.innerHTML = svgMarkup;
-    }else{
-      displayDiv.innerHTML = `
-        <div style="color:#b91c1c;font-weight:700;">
-          No SVG or image figure is defined for this quiz item.
-        </div>`;
-    }
-  }
+  const svgMarkup = item.svg || "";
 
   if(imagePath){
-    const img = document.createElement("img");
-    img.src = imagePath;
-    img.alt = "Quiz geometry figure";
-    img.loading = "lazy";
-    img.onerror = function(){
-      renderSvgFallback();
-    };
-    displayDiv.appendChild(img);
-    return;
+    displayDiv.innerHTML = `
+      <img
+        src="${escapeHtml(imagePath)}"
+        alt="Quiz Figure"
+        onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=&quot;color:#b91c1c;font-weight:700;&quot;>Image not found: ${escapeHtml(imagePath)}</div>');"
+        style="
+          max-width:100%;
+          max-height:400px;
+          object-fit:contain;
+          border:1px solid #ccc;
+          border-radius:8px;
+          background:#fff;
+        ">
+    `;
   }
-
-  renderSvgFallback();
+  else if(svgMarkup){
+    displayDiv.innerHTML = svgMarkup;
+  }
+  else{
+    displayDiv.innerHTML = "";
+  }
 }
 
 function normalizeImagePath(path){
@@ -931,10 +936,11 @@ function parseCsv(csvText){
   return dataRows
     .filter(values => values.some(value => String(value).trim()))
     .map(values => {
+      const repairedValues = repairQuizCsvRow(values, headers);
       const row = {};
 
       headers.forEach((header, index) => {
-        row[header] = values[index] ? String(values[index]).trim() : "";
+        row[header] = repairedValues[index] ? String(repairedValues[index]).trim() : "";
       });
 
       // Ensure all expected keys exist even when the CSV has older headers.
@@ -945,6 +951,25 @@ function parseCsv(csvText){
       return row;
     })
     .filter(row => row.question && row.answer);
+}
+
+
+function repairQuizCsvRow(values, headers){
+  const expected = headers.length;
+
+  // Common CSV error: a comma inside the question text, for example (4,3),
+  // is not quoted. That creates one or more extra columns. For this quiz CSV
+  // schema, the safest repair is to merge the extra columns back into question.
+  if(values.length > expected && headers[1] && headers[1].toLowerCase() === "question"){
+    const extra = values.length - expected;
+    return [
+      values[0],
+      values.slice(1, 2 + extra).join(","),
+      ...values.slice(2 + extra)
+    ];
+  }
+
+  return values;
 }
 
 function csvToRows(text){
