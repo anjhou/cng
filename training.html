@@ -349,6 +349,7 @@ footer{
       <div id="quizSvg" style="margin:14px auto;"></div>
       <div id="quizChoices"></div>
       <div id="quizFeedback"></div>
+      <div id="quizStats" style="margin-top:8px;color:var(--muted);font-weight:600;"></div>
 
       <div class="controls">
         <button class="control-btn" onclick="prevQuiz()">Previous Question</button>
@@ -380,10 +381,6 @@ function showSection(index){
 
   if(index === 4){
     renderChart();
-  }
-
-  if(index === 6 && !quizCsvLoaded){
-    loadQuizFromCsv();
   }
 }
 
@@ -684,11 +681,10 @@ async function fetchQuizCsv(){
   for(const path of QUIZ_CSV_PATHS){
     try{
       const response = await fetch(path, {cache:"no-store"});
-
       if(response.ok){
+        console.log(`Loaded quiz CSV from: ${path}`);
         return await response.text();
       }
-
       lastError = new Error(`Could not load ${path}`);
     }catch(error){
       lastError = error;
@@ -706,25 +702,22 @@ async function loadQuizFromCsv(){
       const csvText = await fetchQuizCsv();
       allQuizRows = parseCsv(csvText);
       quizCsvLoaded = true;
+      console.log("Total valid CSV questions:", allQuizRows.length);
     }
 
-    quizItems = allQuizRows.filter(row => {
-      const searchable = [
-        row.topic,
-        row.question,
-        row.choiceA,
-        row.choiceB,
-        row.choiceC,
-        row.choiceD,
-        row.answer,
-        row.svg,
-        row.image
-      ].join(" ").toLowerCase();
-
-      return !query || searchable.includes(query);
-    });
+    if(query === ""){
+      quizItems = [...allQuizRows];
+    }else{
+      quizItems = allQuizRows.filter(row => {
+        const searchable = Object.values(row)
+          .join(" ")
+          .toLowerCase();
+        return searchable.includes(query);
+      });
+    }
 
     quizIndex = 0;
+    console.log("Filtered questions:", quizItems.length, "Query:", query || "<blank>");
     renderQuiz();
 
   }catch(error){
@@ -740,8 +733,9 @@ function renderQuiz(){
   if(!quizItems.length){
     showQuizMessage(
       "No Quiz Found",
-      "No matching quiz questions were found for this query."
+      "No matching quiz questions were found for this query. Clear the search box and click Load Quiz to display all questions."
     );
+    updateQuizStats();
     return;
   }
 
@@ -753,39 +747,14 @@ function renderQuiz(){
   document.getElementById("quizQuestion").textContent =
     item.question || "";
 
-	/*
-  document.getElementById("quizSvg").innerHTML =
-    item.svg || ""; */
+  renderQuizFigure(item);
 
-  const displayDiv = document.getElementById("quizSvg");
-  const imagePath = String(item.image || "").trim().replaceAll("\\", "/");
-
-  if(imagePath){
-    displayDiv.innerHTML = `
-      <img
-        src="${escapeHtml(imagePath)}"
-        alt="Quiz Figure"
-        style="
-          max-width:100%;
-          max-height:400px;
-          object-fit:contain;
-          border:1px solid #ccc;
-          border-radius:8px;
-        "
-        onerror="this.outerHTML='<div style=&quot;padding:12px;border:1px solid #b91c1c;color:#b91c1c;border-radius:8px;&quot;>Image not found: ${escapeHtml(imagePath)}</div>';"
-      >`;
-  }
-  else if(item.svg){
-    displayDiv.innerHTML = item.svg;
-  }
-  else{
-    displayDiv.innerHTML = "";
-  }
-	
   document.getElementById("quizFeedback").textContent = "";
 
   document.getElementById("quizCounter").textContent =
     `${quizIndex + 1} / ${quizItems.length}`;
+
+  updateQuizStats();
 
   const choices = [
     {key:"A", text:item.choiceA},
@@ -803,6 +772,52 @@ function renderQuiz(){
         ${choice.key}. ${escapeHtml(choice.text)}
       </button>
     `).join("");
+}
+
+function renderQuizFigure(item){
+  const displayDiv = document.getElementById("quizSvg");
+  const imagePath = normalizeImagePath(item.image || "");
+  const svgMarkup = item.svg || "";
+
+  if(imagePath){
+    displayDiv.innerHTML = `
+      <img
+        src="${escapeHtml(imagePath)}"
+        alt="Quiz Figure"
+        onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=&quot;color:#b91c1c;font-weight:700;&quot;>Image not found: ${escapeHtml(imagePath)}</div>');"
+        style="
+          max-width:100%;
+          max-height:400px;
+          object-fit:contain;
+          border:1px solid #ccc;
+          border-radius:8px;
+          background:#fff;
+        ">
+    `;
+  }
+  else if(svgMarkup){
+    displayDiv.innerHTML = svgMarkup;
+  }
+  else{
+    displayDiv.innerHTML = "";
+  }
+}
+
+function normalizeImagePath(path){
+  return String(path || "")
+    .trim()
+    .replace(/^['"]|['"]$/g, "")
+    .replaceAll("\\\\", "/")
+    .replaceAll("\\", "/")
+    .replace(/^\/+/, "");
+}
+
+function updateQuizStats(){
+  const stats = document.getElementById("quizStats");
+  if(!stats) return;
+
+  const query = document.getElementById("quizSearchInput").value.trim();
+  stats.textContent = `Questions loaded: ${quizItems.length} of ${allQuizRows.length}${query ? ` | Query: ${query}` : ""}`;
 }
 
 function showQuizMessage(title, message){
@@ -882,13 +897,20 @@ function parseCsv(csvText){
   let dataRows;
 
   const firstRow = rows[0].map(value => String(value).trim());
-  const hasHeader = QUIZ_DEFAULT_HEADERS.every(header => firstRow.includes(header));
+  const normalizedFirstRow = firstRow.map(value => value.toLowerCase());
+  const hasHeader = ["topic", "question", "choicea", "choiceb", "choicec", "choiced", "answer"].every(header => normalizedFirstRow.includes(header));
 
   if(hasHeader){
-    headers = firstRow;
+    headers = firstRow.map(header => header.trim());
+
+    // Backward compatibility: old CSV files may have 8-column header but 9-column image rows.
+    if(!headers.includes("image") && rows.some(row => row.length >= 9)){
+      headers.push("image");
+    }
+
     dataRows = rows.slice(1);
   }else{
-    headers = QUIZ_DEFAULT_HEADERS;
+    headers = [...QUIZ_DEFAULT_HEADERS];
     dataRows = rows;
   }
 
@@ -899,6 +921,11 @@ function parseCsv(csvText){
 
       headers.forEach((header, index) => {
         row[header] = values[index] ? String(values[index]).trim() : "";
+      });
+
+      // Ensure all expected keys exist even when the CSV has older headers.
+      QUIZ_DEFAULT_HEADERS.forEach(header => {
+        if(!(header in row)) row[header] = "";
       });
 
       return row;
