@@ -18,3 +18,23 @@ trapezoid,What is the area of a trapezoid with bases 10 ft and 16 ft and height 
 hexagon,How many sides does a hexagon have?,5,6,7,8,B,"<svg viewBox='0 0 320 220'><polygon points='110,55 210,55 260,110 210,165 110,165 60,110' fill='#e0f2fe' stroke='#0369a1' stroke-width='3'/></svg>"
 
 cylinder,What shape is the top face of a cylinder?,Square,Rectangle,Circle,Ellipse,C,"<svg viewBox='0 0 320 220'><ellipse cx='160' cy='60' rx='80' ry='28' fill='#e0e7ff' stroke='#4338ca' stroke-width='3'/><path d='M80 60 V160' stroke='#4338ca' stroke-width='3'/><path d='M240 60 V160' stroke='#4338ca' stroke-width='3'/><ellipse cx='160' cy='160' rx='80' ry='28' fill='#eef2ff' stroke='#4338ca' stroke-width='3'/></svg>"
+
+image-geometry,What shape is shown in the image?,Triangle,Circle,Rectangle,Hexagon,A,,img/q/0001c.png
+
+image-geometry,How many sides does the polygon have?,4,5,6,8,B,,img/q/0002c.png
+
+image-circle,Identify the radius shown in the image.,Line from center to circumference,Diameter,Chord,Tangent,A,,img/q/0003c.png
+
+image-triangle,What type of triangle is shown?,Right Triangle,Equilateral Triangle,Scalene Triangle,Isosceles Triangle,D,,img/q/0004c.png
+
+image-coordinate,Which quadrant contains Point A?,Quadrant I,Quadrant II,Quadrant III,Quadrant IV,A,,img/q/0005c.png
+
+image-area,Which formula should be used for this figure?,Circle Area,Triangle Area,Rectangle Area,Trapezoid Area,D,,img/q/0006c.png
+
+image-polygon,What is the name of this shape?,Pentagon,Hexagon,Heptagon,Octagon,B,,img/q/0007c.png
+
+image-volume,Which solid is displayed?,Cylinder,Cone,Cube,Sphere,A,,img/q/0008c.png
+
+image-angle,Estimate the angle shown.,45°,60°,90°,120°,C,,img/q/0009c.png
+
+image-graph,What does the highlighted point represent?,X-Intercept,Y-Intercept,Origin,Maximum Point,C,,img/q/0010c.png
