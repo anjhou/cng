@@ -381,6 +381,10 @@ function showSection(index){
   if(index === 4){
     renderChart();
   }
+
+  if(index === 6 && !quizCsvLoaded){
+    loadQuizFromCsv();
+  }
 }
 
 /* Section 1 – Audio Library */
@@ -665,7 +669,8 @@ const QUIZ_DEFAULT_HEADERS = [
   "choiceC",
   "choiceD",
   "answer",
-  "svg"
+  "svg",
+  "image"
 ];
 
 let allQuizRows = [];
@@ -711,7 +716,9 @@ async function loadQuizFromCsv(){
         row.choiceB,
         row.choiceC,
         row.choiceD,
-        row.answer
+        row.answer,
+        row.svg,
+        row.image
       ].join(" ").toLowerCase();
 
       return !query || searchable.includes(query);
@@ -750,30 +757,30 @@ function renderQuiz(){
   document.getElementById("quizSvg").innerHTML =
     item.svg || ""; */
 
-	/* */
-	const displayDiv = document.getElementById("quizSvg");
+  const displayDiv = document.getElementById("quizSvg");
+  const imagePath = String(item.image || "").trim().replaceAll("\\", "/");
 
-	if(item.image){
+  if(imagePath){
     displayDiv.innerHTML = `
-        <img
-            src="${item.image}"
-            alt="Quiz Figure"
-            style="
-                max-width:100%;
-                max-height:400px;
-                object-fit:contain;
-                border:1px solid #ccc;
-                border-radius:8px;
-            ">
-    `;
-}
-else if(item.svg){
+      <img
+        src="${escapeHtml(imagePath)}"
+        alt="Quiz Figure"
+        style="
+          max-width:100%;
+          max-height:400px;
+          object-fit:contain;
+          border:1px solid #ccc;
+          border-radius:8px;
+        "
+        onerror="this.outerHTML='<div style=&quot;padding:12px;border:1px solid #b91c1c;color:#b91c1c;border-radius:8px;&quot;>Image not found: ${escapeHtml(imagePath)}</div>';"
+      >`;
+  }
+  else if(item.svg){
     displayDiv.innerHTML = item.svg;
-}
-else{
+  }
+  else{
     displayDiv.innerHTML = "";
-}
-	/* */
+  }
 	
   document.getElementById("quizFeedback").textContent = "";
 
