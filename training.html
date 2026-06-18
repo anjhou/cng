@@ -351,8 +351,13 @@ footer{
         />
         <button class="control-btn" onclick="loadQuizFromCsv(true)">Load Quiz</button>
         <button class="control-btn" onclick="resetQuizAndReload()">Reload CSV</button>
-        <label class="control-btn" for="quizCsvFile" style="display:inline-block;">Choose CSV File</label>
-        <input id="quizCsvFile" type="file" accept=".csv,text/csv" onchange="loadQuizFromLocalFile(event)" style="display:none;" />
+        <input
+          id="quizCsvFile"
+          type="file"
+          accept=".csv,text/csv"
+          onchange="loadQuizFromLocalFile(event)"
+          style="padding:9px;border:1px solid var(--border);border-radius:8px;background:#fff;color:#123c69;font-weight:600;"
+        />
       </div>
 
       <h3 id="quizTitle">Quiz Library</h3>
