@@ -347,9 +347,9 @@ footer{
           id="quizSearchInput" 
           type="text" 
           placeholder="Search quiz topic, e.g. geometry, circle, triangle"
-		  onkeydown="if(event.key === 'Enter') loadQuizFromCsv();"
+		  onkeydown="if(event.key === 'Enter') loadQuizFromCsv(true);"
         />
-        <button class="control-btn" onclick="loadQuizFromCsv()">Load Quiz</button>
+        <button class="control-btn" onclick="loadQuizFromCsv(true)">Load Quiz</button>
         <button class="control-btn" onclick="resetQuizAndReload()">Reload CSV</button>
       </div>
 
@@ -683,18 +683,26 @@ const QUIZ_DEFAULT_HEADERS = [
 let allQuizRows = [];
 let quizItems = [];
 let quizIndex = 0;
-let quizCsvLoaded = false;
 
-async function fetchQuizCsv(){
+async function fetchQuizCsv(forceReload = false){
   let lastError = null;
+  const cacheBust = forceReload ? `?v=${Date.now()}` : "";
 
   for(const path of QUIZ_CSV_PATHS){
     try{
-      const response = await fetch(path, {cache:"no-store"});
+      const response = await fetch(path + cacheBust, {
+        cache: "reload",
+        headers: {
+          "Cache-Control": "no-cache",
+          "Pragma": "no-cache"
+        }
+      });
+
       if(response.ok){
-        console.log(`Loaded quiz CSV from: ${path}`);
+        console.log(`Loaded fresh quiz CSV from: ${path + cacheBust}`);
         return await response.text();
       }
+
       lastError = new Error(`Could not load ${path}`);
     }catch(error){
       lastError = error;
@@ -712,17 +720,14 @@ function normalizeQuizSearchQuery(value){
     .trim();
 }
 
-async function loadQuizFromCsv(){
+async function loadQuizFromCsv(forceReload = false){
   const rawQuery = document.getElementById("quizSearchInput").value;
   const query = normalizeQuizSearchQuery(rawQuery);
 
   try{
-    if(!quizCsvLoaded){
-      const csvText = await fetchQuizCsv();
-      allQuizRows = parseCsv(csvText);
-      quizCsvLoaded = true;
-      console.log("Total valid CSV questions:", allQuizRows.length);
-    }
+    const csvText = await fetchQuizCsv(forceReload);
+    allQuizRows = parseCsv(csvText);
+    console.log("Total valid CSV questions:", allQuizRows.length);
 
     if(query === ""){
       quizItems = [...allQuizRows];
@@ -897,11 +902,11 @@ function prevQuiz(){
 }
 
 function resetQuizAndReload(){
-  quizCsvLoaded = false;
   allQuizRows = [];
   quizItems = [];
   quizIndex = 0;
-  loadQuizFromCsv();
+  showQuizMessage("Reloading Quiz CSV", "Fetching the latest CSV file and clearing the previous in-memory quiz data.");
+  loadQuizFromCsv(true);
 }
 
 function parseCsv(csvText){
