@@ -351,6 +351,8 @@ footer{
         />
         <button class="control-btn" onclick="loadQuizFromCsv(true)">Load Quiz</button>
         <button class="control-btn" onclick="resetQuizAndReload()">Reload CSV</button>
+        <label class="control-btn" for="quizCsvFile" style="display:inline-block;">Choose CSV File</label>
+        <input id="quizCsvFile" type="file" accept=".csv,text/csv" onchange="loadQuizFromLocalFile(event)" style="display:none;" />
       </div>
 
       <h3 id="quizTitle">Quiz Library</h3>
@@ -686,24 +688,27 @@ let quizIndex = 0;
 
 async function fetchQuizCsv(forceReload = false){
   let lastError = null;
-  const cacheBust = forceReload ? `?v=${Date.now()}` : "";
+  const cacheBust = `?v=${Date.now()}`; // always cache-bust CSV requests
 
   for(const path of QUIZ_CSV_PATHS){
     try{
-      const response = await fetch(path + cacheBust, {
-        cache: "reload",
+      const url = path + cacheBust;
+      const response = await fetch(url, {
+        cache: "no-store",
         headers: {
-          "Cache-Control": "no-cache",
-          "Pragma": "no-cache"
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
         }
       });
 
       if(response.ok){
-        console.log(`Loaded fresh quiz CSV from: ${path + cacheBust}`);
-        return await response.text();
+        const text = await response.text();
+        console.log(`Loaded quiz CSV from: ${url}; bytes=${text.length}`);
+        return text;
       }
 
-      lastError = new Error(`Could not load ${path}`);
+      lastError = new Error(`Could not load ${url}; HTTP ${response.status}`);
     }catch(error){
       lastError = error;
     }
@@ -712,11 +717,42 @@ async function fetchQuizCsv(forceReload = false){
   throw lastError || new Error("CSV file could not be loaded.");
 }
 
+async function loadQuizFromLocalFile(event){
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+
+  try{
+    const csvText = await file.text();
+    allQuizRows = parseCsv(csvText);
+    quizItems = [...allQuizRows];
+    quizIndex = 0;
+
+    const searchBox = document.getElementById("quizSearchInput");
+    const query = normalizeQuizSearchQuery(searchBox.value);
+    if(query){
+      quizItems = allQuizRows.filter(row =>
+        Object.values(row).join(" ").toLowerCase().includes(query)
+      );
+    }
+
+    renderQuiz();
+    const stats = document.getElementById("quizStats");
+    if(stats){
+      stats.textContent = `Loaded local CSV: ${file.name} | Questions shown: ${quizItems.length} of ${allQuizRows.length}`;
+    }
+  }catch(error){
+    showQuizMessage("Local CSV Load Error", error.message);
+    console.error(error);
+  }finally{
+    event.target.value = ""; // allow selecting the same file again after editing
+  }
+}
+
 function normalizeQuizSearchQuery(value){
   return String(value || "")
     .toLowerCase()
     .replace(/[–—-]\s*question\s*\d+/g, "")
-    .replace(/question\s*\d+/g, "")
+    .replace(/\bquestion\s*\d+\b/g, "")
     .trim();
 }
 
@@ -725,7 +761,7 @@ async function loadQuizFromCsv(forceReload = false){
   const query = normalizeQuizSearchQuery(rawQuery);
 
   try{
-    const csvText = await fetchQuizCsv(forceReload);
+    const csvText = await fetchQuizCsv(true); // always fetch fresh CSV
     allQuizRows = parseCsv(csvText);
     console.log("Total valid CSV questions:", allQuizRows.length);
 
@@ -733,9 +769,7 @@ async function loadQuizFromCsv(forceReload = false){
       quizItems = [...allQuizRows];
     }else{
       quizItems = allQuizRows.filter(row => {
-        const searchable = Object.values(row)
-          .join(" ")
-          .toLowerCase();
+        const searchable = Object.values(row).join(" ").toLowerCase();
         return searchable.includes(query);
       });
     }
@@ -744,10 +778,14 @@ async function loadQuizFromCsv(forceReload = false){
     console.log("Filtered questions:", quizItems.length, "Query:", query || "<blank>");
     renderQuiz();
 
+    const stats = document.getElementById("quizStats");
+    if(stats){
+      stats.textContent = `Fresh CSV request completed | Questions shown: ${quizItems.length} of ${allQuizRows.length}${query ? ` | Query: ${rawQuery}` : ""}`;
+    }
   }catch(error){
     showQuizMessage(
       "Quiz Load Error",
-      "Unable to load quiz-library.csv. Place the updated 20-question quiz-library.csv either beside training.html or inside the data folder."
+      "Unable to load quiz-library.csv from the page path. Use the Choose CSV File button to load the updated CSV directly, or confirm quiz-library.csv is uploaded beside training.html or inside the data folder."
     );
     console.error(error);
   }
