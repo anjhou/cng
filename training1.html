@@ -165,6 +165,19 @@ iframe{
   font-weight:700;
 }
 
+.profile audio{
+  width:100%;
+  margin-top:12px;
+}
+
+.profile .audio-caption{
+  margin-top:10px;
+  margin-bottom:4px;
+  color:var(--muted);
+  font-size:0.9rem;
+  font-weight:700;
+}
+
 .quiz-search{
   display:flex;
   gap:10px;
@@ -639,31 +652,44 @@ const experts = [
   {
     name:"Dr. Maya Reynolds",
     role:"Process Safety Specialist",
-    bio:"Introduces hazard awareness, safeguards, and operating discipline."
+    bio:"Introduces hazard awareness, safeguards, and operating discipline.",
+    audioTitle:"Process Safety Specialist Introduction",
+    audioSrc:"audio/experts/maya-reynolds.mp3"
   },
   {
     name:"James Carter",
     role:"Operations Training Lead",
-    bio:"Explains startup, shutdown, abnormal operation, and field response."
+    bio:"Explains startup, shutdown, abnormal operation, and field response.",
+    audioTitle:"Operations Training Lead Introduction",
+    audioSrc:"audio/experts/james-carter.mp3"
   },
   {
     name:"Priya Nair",
     role:"Reliability Engineer",
-    bio:"Connects equipment behavior, maintenance strategy, and failure prevention."
+    bio:"Connects equipment behavior, maintenance strategy, and failure prevention.",
+    audioTitle:"Reliability Engineer Introduction",
+    audioSrc:"audio/experts/priya-nair.mp3"
   },
   {
     name:"Luis Hernandez",
     role:"Data & Performance Analyst",
-    bio:"Uses charts and dashboards to interpret training progress and operating trends."
+    bio:"Uses charts and dashboards to interpret training progress and operating trends.",
+    audioTitle:"Data and Performance Analyst Introduction",
+    audioSrc:"audio/experts/luis-hernandez.mp3"
   }
 ];
 
 function renderProfiles(){
   profileGrid.innerHTML = experts.map(expert => `
     <div class="profile">
-      <h3>${expert.name}</h3>
-      <small>${expert.role}</small>
-      <p>${expert.bio}</p>
+      <h3>${escapeHtml(expert.name)}</h3>
+      <small>${escapeHtml(expert.role)}</small>
+      <p>${escapeHtml(expert.bio)}</p>
+      <div class="audio-caption">${escapeHtml(expert.audioTitle || "Expert Audio")}</div>
+      <audio controls preload="metadata">
+        <source src="${escapeHtml(expert.audioSrc || "")}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
     </div>
   `).join("");
 }
