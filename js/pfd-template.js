@@ -212,6 +212,7 @@ function unitIdFor(selection, i) {
 }
 
 function unitTypeFor(name, i) {
+  if (/pump/i.test(name)) return "pump";
   if (/furnace|heater|reboiler/i.test(name)) return "furnace";
   if (/compressor|blower|expander/i.test(name)) return "blower";
   if (/tank|storage/i.test(name)) return "tank";
@@ -237,6 +238,7 @@ function drawUnit(unit, model) {
   const g = svgEl("g", { class: "selectable unit" });
   g.dataset.tooltip = `${unit.id} ${unit.name}\nView: ${model.selection.config.title}`;
   if (unit.type === "furnace") drawFurnaceShape(g, unit, model);
+  else if (unit.type === "pump") drawPumpShape(g, unit);
   else if (unit.type === "blower") drawBlowerShape(g, unit);
   else if (unit.type === "column") drawColumnShape(g, unit);
   else if (unit.type === "reactor") drawReactorShape(g, unit);
@@ -244,6 +246,23 @@ function drawUnit(unit, model) {
   else drawBoxShape(g, unit);
   layers.units.appendChild(g);
   attachTooltip(g);
+}
+
+
+function drawPumpShape(g, u) {
+  const cx = u.x + u.width / 2;
+  const cy = u.y + 48;
+  const inletX1 = u.x + 5;
+  const inletX2 = cx - 30;
+  const outletX1 = cx + 30;
+  const outletX2 = u.x + u.width - 5;
+
+  g.appendChild(svgEl("line", { x1: inletX1, y1: cy, x2: inletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
+  g.appendChild(svgEl("line", { x1: outletX1, y1: cy, x2: outletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
+  g.appendChild(svgEl("circle", { cx, cy, r: 30, class: "pump-body" }));
+  g.appendChild(svgEl("polygon", { points: `${cx},${cy - 40} ${cx + 20},${cy - 10} ${cx - 20},${cy - 10}`, class: "pump-orientation" }));
+  addText(g, u.id.replace(/^OBJ-101$/, "P-101"), cx, u.y + 108, "pump-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
 }
 
 function drawBoxShape(g, u) { g.appendChild(svgEl("rect", { x: u.x, y: u.y, width: u.width, height: u.height, rx: 10, class: "unit-muted" })); addText(g, u.id, u.x + u.width / 2, u.y + 30, "unit-tag", "middle"); addText(g, u.name, u.x + u.width / 2, u.y + 52, "unit-name", "middle"); }
@@ -356,6 +375,215 @@ async function startPfdTemplate() {
     svgWrap.insertAdjacentHTML("beforeend", `<div class="svg-load-error">${error.message}</div>`);
     console.error(error);
   }
+}
+
+
+
+/* ------------------------------------------------------------------
+   Reusable HYSYS / UniSim-style symbol library
+   These overrides let the renderer use standard symbols whenever a
+   dynamic view contains pump, compressor, turbine, heat exchanger,
+   column, separator, vessel, valve, pipe, liquid/vapor/energy stream.
+------------------------------------------------------------------ */
+function unitTypeFor(name, i) {
+  if (/pump/i.test(name)) return "pump";
+  if (/compressor|blower/i.test(name)) return "compressor";
+  if (/turbine|expander/i.test(name)) return "turbine";
+  if (/exchanger|preheater|cooler|heater|reboiler|condenser|mche/i.test(name)) return "exchanger";
+  if (/furnace|fired heater/i.test(name)) return "furnace";
+  if (/column|absorber|regenerator|deethanizer|depropanizer|debutanizer|stabilizer|stripper|demethanizer/i.test(name)) return "column";
+  if (/separator|drum|knockout|ko drum/i.test(name)) return "separator";
+  if (/vessel|reactor|bed|adsorber|guard/i.test(name)) return "vessel";
+  if (/tank|storage/i.test(name)) return "tank";
+  if (/valve|control/i.test(name)) return "valve";
+  if (/pipe|pipeline|header/i.test(name)) return "pipe";
+  return i === 0 || i === 4 ? "box" : "skid";
+}
+
+function streamTypeFor(model, i) {
+  const key = model.selection.key;
+  if (i === 0) return /LNG|Dehydration|Mercury Removal|NGLs/.test(key) ? "vapor" : "liquid";
+  if (i === 1) return /LNG|NGLs|Dehydration|Mercury Removal|Amine/.test(key) ? "vapor" : "liquid";
+  if (i === 2) return /Fractionation|Stabilizer|Refinery|Petchem|HDS/.test(key) ? "liquid" : "vapor";
+  return "liquid";
+}
+
+function buildDynamicPfd(model) {
+  if (model.selection.type === "objectLevel" && model.selection.key === "Units") {
+    return buildUnitSymbolShowcase(model);
+  }
+  const unitNames = model.selection.config.units;
+  const unitX = [105, 335, 570, 815, 1050];
+  const y = model.selection.type === "objectLevel" ? 340 : 315;
+  const units = unitNames.map((name, i) => ({ id: unitIdFor(model.selection, i), name, type: unitTypeFor(name, i), x: unitX[i], y, width: i === 2 ? 180 : 155, height: i === 2 ? 130 : 95 }));
+  const streams = [];
+  for (let i = 0; i < units.length - 1; i++) {
+    const from = units[i];
+    const to = units[i + 1];
+    const sy = y + from.height / 2;
+    streams.push({
+      id: `S-${101 + i}`,
+      name: ["Feed", "Intermediate", "Treated", "Product"][i],
+      type: streamTypeFor(model, i),
+      utility: false,
+      path: [{ x: from.x + from.width, y: sy }, { x: to.x, y: sy }],
+      label: { x: from.x + from.width + 18, y: sy - 64 },
+      lines: streamLinesFor(model, i),
+      tooltip: `${["Feed", "Intermediate", "Treated", "Product"][i]}\n${streamLinesFor(model, i).join("\n")}`
+    });
+  }
+  streams.push({ id: "E-101", name: "Energy", type: "energy", utility: true, path: [{ x: 650, y: 625 }, { x: 650, y: y + 135 }], label: { x: 670, y: 548 }, lines: [`Energy: ${fmt(model.selection.config.energy, 2)} MMBtu/klb`, `Opex: ${money(model.selection.config.operating, 3)}/lb`], tooltip: "Energy stream / duty input" });
+  return { units, streams };
+}
+
+function buildUnitSymbolShowcase(model) {
+  const units = [
+    { id: "P-101", name: "Pump", type: "pump", x: 60, y: 230, width: 165, height: 120 },
+    { id: "C-101", name: "Compressor", type: "compressor", x: 280, y: 230, width: 165, height: 120 },
+    { id: "GT-101", name: "Turbine", type: "turbine", x: 500, y: 230, width: 165, height: 120 },
+    { id: "E-101", name: "Heat Exchanger", type: "exchanger", x: 720, y: 230, width: 175, height: 120 },
+    { id: "T-101", name: "Column", type: "column", x: 955, y: 205, width: 150, height: 180 },
+    { id: "V-101", name: "Separator", type: "separator", x: 80, y: 500, width: 185, height: 120 },
+    { id: "D-101", name: "Vessel", type: "vessel", x: 335, y: 500, width: 170, height: 120 },
+    { id: "XV-101", name: "Valve", type: "valve", x: 575, y: 500, width: 150, height: 110 },
+    { id: "PL-101", name: "Pipe", type: "pipe", x: 785, y: 500, width: 220, height: 110 }
+  ];
+  const streams = [
+    { id: "L-101", name: "Liquid Stream", type: "liquid", utility: false, path: [{x:1050,y:525},{x:1260,y:525}], label:{x:1080,y:455}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:"Liquid process stream" },
+    { id: "V-101", name: "Vapor Stream", type: "vapor", utility: false, path: [{x:1050,y:570},{x:1260,y:570}], label:{x:1080,y:590}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Vapor process stream" },
+    { id: "Q-101", name: "Energy Stream", type: "energy", utility: true, path: [{x:1050,y:615},{x:1260,y:615}], label:{x:1080,y:635}, lines:[`Duty basis`, `${fmt(model.selection.config.energy,2)} MMBtu/klb`], tooltip:"Energy stream" }
+  ];
+  return { units, streams };
+}
+
+function drawUnit(unit, model) {
+  const g = svgEl("g", { class: "selectable unit" });
+  g.dataset.tooltip = `${unit.id} ${unit.name}\nSymbol: ${unit.type}\nView: ${model.selection.config.title}`;
+  if (unit.type === "furnace") drawFurnaceShape(g, unit, model);
+  else if (unit.type === "pump") drawPumpShape(g, unit);
+  else if (unit.type === "compressor") drawCompressorShape(g, unit);
+  else if (unit.type === "turbine") drawTurbineShape(g, unit);
+  else if (unit.type === "exchanger") drawHeatExchangerShape(g, unit);
+  else if (unit.type === "column") drawColumnShape(g, unit);
+  else if (unit.type === "separator") drawSeparatorShape(g, unit);
+  else if (unit.type === "vessel") drawVesselShape(g, unit);
+  else if (unit.type === "valve") drawValveShape(g, unit);
+  else if (unit.type === "pipe") drawPipeShape(g, unit);
+  else if (unit.type === "tank") drawTankShape(g, unit);
+  else drawBoxShape(g, unit);
+  layers.units.appendChild(g);
+  attachTooltip(g);
+}
+
+function drawCompressorShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 48;
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: cx - 34, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx + 34, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("path", { d: `M ${cx-35} ${cy-30} L ${cx+35} ${cy-18} L ${cx+35} ${cy+18} L ${cx-35} ${cy+30} Z`, class: "compressor-body" }));
+  g.appendChild(svgEl("path", { d: `M ${cx-12} ${cy-18} Q ${cx+12} ${cy} ${cx-12} ${cy+18}`, class: "compressor-blade" }));
+  addText(g, u.id, cx, u.y + 108, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
+}
+
+function drawTurbineShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 48;
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: cx - 36, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx + 36, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("path", { d: `M ${cx-36} ${cy-18} L ${cx+36} ${cy-30} L ${cx+36} ${cy+30} L ${cx-36} ${cy+18} Z`, class: "turbine-body" }));
+  g.appendChild(svgEl("path", { d: `M ${cx+12} ${cy-20} Q ${cx-10} ${cy} ${cx+12} ${cy+20}`, class: "turbine-blade" }));
+  g.appendChild(svgEl("line", { x1: cx, y1: cy+32, x2: cx, y2: cy+55, class: "symbol-energy-line" }));
+  addText(g, u.id, cx, u.y + 108, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
+}
+
+function drawHeatExchangerShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 50;
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: cx - 45, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx + 45, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("ellipse", { cx, cy, rx: 45, ry: 28, class: "exchanger-shell" }));
+  g.appendChild(svgEl("path", { d: `M ${cx-36} ${cy} C ${cx-18} ${cy-22}, ${cx+18} ${cy+22}, ${cx+36} ${cy}`, class: "exchanger-tube" }));
+  g.appendChild(svgEl("path", { d: `M ${cx-36} ${cy} C ${cx-18} ${cy+22}, ${cx+18} ${cy-22}, ${cx+36} ${cy}`, class: "exchanger-tube" }));
+  addText(g, u.id, cx, u.y + 108, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
+}
+
+function drawColumnShape(g, u) {
+  const cx = u.x + u.width / 2;
+  const top = u.y - 20, h = u.height + 65;
+  g.appendChild(svgEl("rect", { x: cx - 36, y: top, width: 72, height: h, rx: 34, class: "column-shell" }));
+  for (let i = 1; i <= 5; i++) {
+    const yy = top + i * h / 6;
+    g.appendChild(svgEl("line", { x1: cx - 28, y1: yy, x2: cx + 28, y2: yy, class: "column-tray" }));
+  }
+  g.appendChild(svgEl("line", { x1: cx - 72, y1: top + h * 0.45, x2: cx - 36, y2: top + h * 0.45, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx, y1: top, x2: cx, y2: top - 38, class: "symbol-stream-line" }));
+  addText(g, u.id, cx, top + h + 28, "unit-tag", "middle");
+  addText(g, u.name, cx, top + h + 46, "unit-name", "middle");
+}
+
+function drawSeparatorShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 52;
+  const x = u.x + 20, y = u.y + 25, w = u.width - 40, h = 55;
+  g.appendChild(svgEl("rect", { x, y, width: w, height: h, rx: h/2, class: "separator-shell" }));
+  g.appendChild(svgEl("line", { x1: x + 18, y1: y + h*0.62, x2: x + w - 18, y2: y + h*0.62, class: "separator-level" }));
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: x, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: x+w, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+  addText(g, u.id, cx, u.y + 108, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
+}
+
+function drawVesselShape(g, u) {
+  const cx = u.x + u.width / 2;
+  g.appendChild(svgEl("ellipse", { cx, cy: u.y + 28, rx: 42, ry: 20, class: "vessel-shell" }));
+  g.appendChild(svgEl("rect", { x: cx - 42, y: u.y + 28, width: 84, height: 52, class: "vessel-shell" }));
+  g.appendChild(svgEl("ellipse", { cx, cy: u.y + 80, rx: 42, ry: 20, class: "vessel-shell" }));
+  addText(g, u.id, cx, u.y + 112, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 130, "unit-name", "middle");
+}
+
+function drawValveShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 50;
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: cx - 34, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx + 34, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("polygon", { points: `${cx-34},${cy-22} ${cx},${cy} ${cx-34},${cy+22}`, class: "valve-body" }));
+  g.appendChild(svgEl("polygon", { points: `${cx+34},${cy-22} ${cx},${cy} ${cx+34},${cy+22}`, class: "valve-body" }));
+  g.appendChild(svgEl("line", { x1: cx, y1: cy, x2: cx, y2: cy - 42, class: "valve-stem" }));
+  g.appendChild(svgEl("line", { x1: cx - 22, y1: cy - 42, x2: cx + 22, y2: cy - 42, class: "valve-stem" }));
+  addText(g, u.id, cx, u.y + 102, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 120, "unit-name", "middle");
+}
+
+function drawPipeShape(g, u) {
+  const y = u.y + 52;
+  g.appendChild(svgEl("line", { x1: u.x + 12, y1: y, x2: u.x + u.width - 12, y2: y, class: "pipe-body" }));
+  g.appendChild(svgEl("line", { x1: u.x + 12, y1: y, x2: u.x + u.width - 12, y2: y, class: "pipe-centerline" }));
+  g.appendChild(svgEl("line", { x1: u.x + u.width - 54, y1: y, x2: u.x + u.width - 12, y2: y, class: "symbol-stream-line" }));
+  addText(g, u.id, u.x + u.width/2, u.y + 102, "unit-tag", "middle");
+  addText(g, u.name, u.x + u.width/2, u.y + 120, "unit-name", "middle");
+}
+
+function drawStream(stream) {
+  if (!showUtilities && stream.utility) return;
+  const g = svgEl("g", { class: `stream-group ${stream.type}` });
+  const line = svgEl("polyline", { points: pointsToString(stream.path), class: `stream ${stream.type}` });
+  const hit = svgEl("polyline", { points: pointsToString(stream.path), class: "stream-hitbox" });
+  hit.dataset.tooltip = stream.tooltip;
+  g.appendChild(line);
+  g.appendChild(hit);
+  layers.streams.appendChild(g);
+  attachTooltip(hit);
+}
+
+function drawLegendOverlay() {
+  const g = svgEl("g");
+  g.appendChild(svgEl("rect", { x: 1095, y: 35, width: 255, height: 210, rx: 10, class: "legend-box" }));
+  addText(g, "Legend", 1113, 60, "legend-title");
+  [["liquid","Liquid Stream"],["vapor","Vapor Stream"],["energy","Energy Stream"],["fuel","Fuel"],["utility","Utility"],["flue","Vent / Flue"]].forEach(([cls,label],i)=>{
+    const y=84+i*24;
+    g.appendChild(svgEl("line", { x1: 1115, y1: y, x2: 1163, y2: y, class: `stream ${cls}` }));
+    addText(g, label, 1177, y + 4, "legend-text");
+  });
+  layers.overlays.appendChild(g);
 }
 
 startPfdTemplate();
