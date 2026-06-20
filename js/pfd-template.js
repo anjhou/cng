@@ -4,34 +4,37 @@ let svg;
 let layers;
 const svgWrap = document.getElementById("svgWrap");
 const tooltip = document.getElementById("pfdTooltip");
-const pfdSvgObject = document.getElementById("pfdSvgObject");
+const pfdSvgMount = document.getElementById("pfdSvgMount");
 
-function initializeSvgReferences() {
-  const svgDoc = pfdSvgObject.contentDocument;
-  if (!svgDoc) {
-    throw new Error("Unable to access pfd-template.svg. Serve the files from the same folder on a local or web server.");
+async function loadExternalSvg() {
+  const svgPath = pfdSvgMount?.dataset.svgSrc || "svg/pfd-template.svg";
+
+  if (!pfdSvgMount) {
+    throw new Error("SVG mount element #pfdSvgMount was not found.");
   }
 
-  svg = svgDoc.getElementById("pfdSvg");
-  layers = {
-    grid: svgDoc.getElementById("layerGrid"),
-    streams: svgDoc.getElementById("layerStreams"),
-    units: svgDoc.getElementById("layerUnits"),
-    labels: svgDoc.getElementById("layerLabels"),
-    overlays: svgDoc.getElementById("layerOverlays")
-  };
+  const response = await fetch(svgPath, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Unable to load ${svgPath}. Check that the file exists at /svg/pfd-template.svg and is served with the page.`);
+  }
+
+  const svgText = await response.text();
+  pfdSvgMount.innerHTML = svgText;
 }
 
-function whenSvgLoaded() {
-  return new Promise((resolve, reject) => {
-    if (pfdSvgObject.contentDocument?.getElementById("pfdSvg")) {
-      resolve();
-      return;
-    }
+function initializeSvgReferences() {
+  svg = document.getElementById("pfdSvg");
+  layers = {
+    grid: document.getElementById("layerGrid"),
+    streams: document.getElementById("layerStreams"),
+    units: document.getElementById("layerUnits"),
+    labels: document.getElementById("layerLabels"),
+    overlays: document.getElementById("layerOverlays")
+  };
 
-    pfdSvgObject.addEventListener("load", () => resolve(), { once: true });
-    pfdSvgObject.addEventListener("error", () => reject(new Error("pfd-template.svg failed to load.")), { once: true });
-  });
+  if (!svg || Object.values(layers).some(layer => !layer)) {
+    throw new Error("The SVG loaded, but one or more required layer IDs are missing: pfdSvg, layerGrid, layerStreams, layerUnits, layerLabels, layerOverlays.");
+  }
 }
 
 let showLabels = true;
@@ -411,7 +414,7 @@ function initializeControls() {
 
 async function startPfdTemplate() {
   try {
-    await whenSvgLoaded();
+    await loadExternalSvg();
     initializeSvgReferences();
     initializeControls();
     render();

@@ -298,6 +298,7 @@ td:last-child { text-align: right; font-weight: 700; }
   .field-grid { grid-template-columns: 1fr; }
 }
 
+.pfd-svg-mount,
 .pfd-svg-object {
   display: block;
   width: 100%;
@@ -320,9 +321,4 @@ td:last-child { text-align: right; font-weight: 700; }
   background: #fff1f2;
   color: #991b1b;
   font: 13px Arial, sans-serif;
-}
-
-/* Fixed external SVG placement */
-.pfd-svg-object {
-  height: min(70vw, 720px);
 }
