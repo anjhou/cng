@@ -319,7 +319,12 @@ function updateEconomicsTable(model) {
     ["Spread vs feed", `${money(e.spreadLb, 3)}/lb | ${money(e.spreadGal, 2)}/gal | ${money(e.spreadMMBtu, 2)}/MMBtu`],
     ["Estimated net margin", `${money(e.netMargin, 2)}/hr`]
   ];
-  economicsTable.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+		  if (economicsTable) {
+		  economicsTable.innerHTML = rows.map(([k, v]) =>
+			`<tr><td>${k}</td><td>${v}</td></tr>`
+		  ).join("");
+		}
+
 }
 
 function attachTooltip(el) { el.addEventListener("mouseenter", () => { tooltip.textContent = el.dataset.tooltip || ""; tooltip.style.display = "block"; }); el.addEventListener("mousemove", (event) => { const rect = svgWrap.getBoundingClientRect(); tooltip.style.left = `${event.clientX - rect.left + svgWrap.scrollLeft + 14}px`; tooltip.style.top = `${event.clientY - rect.top + svgWrap.scrollTop + 14}px`; }); el.addEventListener("mouseleave", () => { tooltip.style.display = "none"; }); }
