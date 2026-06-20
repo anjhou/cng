@@ -1,16 +1,38 @@
 const svgNS = "http://www.w3.org/2000/svg";
 
-const svg = document.getElementById("pfdSvg");
+let svg;
+let layers;
 const svgWrap = document.getElementById("svgWrap");
 const tooltip = document.getElementById("pfdTooltip");
+const pfdSvgObject = document.getElementById("pfdSvgObject");
 
-const layers = {
-  grid: document.getElementById("layerGrid"),
-  streams: document.getElementById("layerStreams"),
-  units: document.getElementById("layerUnits"),
-  labels: document.getElementById("layerLabels"),
-  overlays: document.getElementById("layerOverlays")
-};
+function initializeSvgReferences() {
+  const svgDoc = pfdSvgObject.contentDocument;
+  if (!svgDoc) {
+    throw new Error("Unable to access pfd-template.svg. Serve the files from the same folder on a local or web server.");
+  }
+
+  svg = svgDoc.getElementById("pfdSvg");
+  layers = {
+    grid: svgDoc.getElementById("layerGrid"),
+    streams: svgDoc.getElementById("layerStreams"),
+    units: svgDoc.getElementById("layerUnits"),
+    labels: svgDoc.getElementById("layerLabels"),
+    overlays: svgDoc.getElementById("layerOverlays")
+  };
+}
+
+function whenSvgLoaded() {
+  return new Promise((resolve, reject) => {
+    if (pfdSvgObject.contentDocument?.getElementById("pfdSvg")) {
+      resolve();
+      return;
+    }
+
+    pfdSvgObject.addEventListener("load", () => resolve(), { once: true });
+    pfdSvgObject.addEventListener("error", () => reject(new Error("pfd-template.svg failed to load.")), { once: true });
+  });
+}
 
 let showLabels = true;
 let showUtilities = true;
@@ -370,19 +392,33 @@ function resetInputs() {
   render();
 }
 
-inputIds.forEach(id => document.getElementById(id).addEventListener("input", render));
-document.getElementById("btnReset").addEventListener("click", resetInputs);
-document.getElementById("btnLabels").addEventListener("click", () => { showLabels = !showLabels; render(); });
-document.getElementById("btnUtilities").addEventListener("click", () => { showUtilities = !showUtilities; render(); });
-document.getElementById("btnOverlays").addEventListener("click", () => { showOverlays = !showOverlays; render(); });
+function initializeControls() {
+  inputIds.forEach(id => document.getElementById(id).addEventListener("input", render));
+  document.getElementById("btnReset").addEventListener("click", resetInputs);
+  document.getElementById("btnLabels").addEventListener("click", () => { showLabels = !showLabels; render(); });
+  document.getElementById("btnUtilities").addEventListener("click", () => { showUtilities = !showUtilities; render(); });
+  document.getElementById("btnOverlays").addEventListener("click", () => { showOverlays = !showOverlays; render(); });
 
-const clearBusinessViewButton = document.getElementById("btnClearBusinessView");
-if (clearBusinessViewButton) {
-  clearBusinessViewButton.addEventListener("click", () => {
-    document.querySelectorAll('input[name="businessView"]').forEach(radio => {
-      radio.checked = false;
+  const clearBusinessViewButton = document.getElementById("btnClearBusinessView");
+  if (clearBusinessViewButton) {
+    clearBusinessViewButton.addEventListener("click", () => {
+      document.querySelectorAll('input[name="businessView"]').forEach(radio => {
+        radio.checked = false;
+      });
     });
-  });
+  }
 }
 
-render();
+async function startPfdTemplate() {
+  try {
+    await whenSvgLoaded();
+    initializeSvgReferences();
+    initializeControls();
+    render();
+  } catch (error) {
+    svgWrap.insertAdjacentHTML("beforeend", `<div class="svg-load-error">${error.message}</div>`);
+    console.error(error);
+  }
+}
+
+startPfdTemplate();
