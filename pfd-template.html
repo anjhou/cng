@@ -11,7 +11,7 @@
   <header class="app-header">
     <div>
       <h1>Dynamic PFD View</h1>
-      <p>Dropdown selections update the SVG flowsheet and the calculated output table.</p>
+      <p>Dropdown selections refresh the SVG, input form, product table, and economics summary.</p>
     </div>
   </header>
 
@@ -74,26 +74,19 @@
     </section>
 
     <section class="panel-grid">
-      <form class="input-panel" id="inputForm">
-        <h2>Calculation Inputs</h2>
-        <div class="field-grid">
-          <label>Heavy Naphtha Flow, lb/h <input id="naphthaFlow" type="number" value="15000" min="0" step="100"></label>
-          <label>VGO Flow, lb/h <input id="vgoFlow" type="number" value="22000" min="0" step="100"></label>
-          <label>Feed Inlet Temp, °F <input id="feedTin" type="number" value="420" step="1"></label>
-          <label>Feed Outlet Temp, °F <input id="feedTout" type="number" value="680" step="1"></label>
-          <label>Feed Pressure, psig <input id="feedPressure" type="number" value="55" step="1"></label>
-          <label>Average Cp, Btu/lb-°F <input id="cp" type="number" value="0.62" min="0.01" step="0.01"></label>
-          <label>Fuel Gas LHV, Btu/scf <input id="fuelLhv" type="number" value="950" min="1" step="10"></label>
-          <label>Heater Efficiency, % <input id="efficiency" type="number" value="87" min="1" max="100" step="0.5"></label>
-          <label>Stack Temp, °F <input id="stackTemp" type="number" value="650" step="1"></label>
-          <label>Air Excess, % <input id="excessAir" type="number" value="15" min="0" step="1"></label>
-        </div>
-      </form>
+      <form class="input-panel" id="inputForm" aria-label="Dynamic calculation inputs"></form>
 
       <section class="output-panel">
-        <h2 id="outputTitle">Calculated Outputs</h2>
+        <h2 id="outputTitle">Product Properties</h2>
         <table>
           <tbody id="outputTable"></tbody>
+        </table>
+      </section>
+
+      <section class="economics-panel">
+        <h2>Economics</h2>
+        <table>
+          <tbody id="economicsTable"></tbody>
         </table>
       </section>
     </section>
