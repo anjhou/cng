@@ -155,6 +155,33 @@ iframe{
   background:#f8fafc;
 }
 
+
+.profile-photo{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#ffffff;
+  margin-bottom:14px;
+}
+
+.profile-photo-fallback{
+  display:none;
+  width:100%;
+  min-height:120px;
+  border:1px dashed var(--border);
+  border-radius:10px;
+  background:#ffffff;
+  color:var(--muted);
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px;
+  margin-bottom:14px;
+  font-weight:700;
+}
+
 .profile h3{
   margin-bottom:4px;
   color:#123c69;
@@ -653,6 +680,8 @@ const experts = [
     name:"Dr. Maya Reynolds",
     role:"Process Safety Specialist",
     bio:"Introduces hazard awareness, safeguards, and operating discipline.",
+    imageSrc:"img/e/maya-reynolds.jpg",
+    imageAlt:"Dr. Maya Reynolds profile image",
     audioTitle:"Process Safety Specialist Introduction",
     audioSrc:"audio/experts/maya-reynolds.mp3"
   },
@@ -660,6 +689,8 @@ const experts = [
     name:"James Carter",
     role:"Operations Training Lead",
     bio:"Explains startup, shutdown, abnormal operation, and field response.",
+    imageSrc:"img/e/james-carter.jpg",
+    imageAlt:"James Carter profile image",
     audioTitle:"Operations Training Lead Introduction",
     audioSrc:"audio/experts/james-carter.mp3"
   },
@@ -667,6 +698,8 @@ const experts = [
     name:"Priya Nair",
     role:"Reliability Engineer",
     bio:"Connects equipment behavior, maintenance strategy, and failure prevention.",
+    imageSrc:"img/e/priya-nair.jpg",
+    imageAlt:"Priya Nair profile image",
     audioTitle:"Reliability Engineer Introduction",
     audioSrc:"audio/experts/priya-nair.mp3"
   },
@@ -674,6 +707,8 @@ const experts = [
     name:"Luis Hernandez",
     role:"Data & Performance Analyst",
     bio:"Uses charts and dashboards to interpret training progress and operating trends.",
+    imageSrc:"img/e/luis-hernandez.jpg",
+    imageAlt:"Luis Hernandez profile image",
     audioTitle:"Data and Performance Analyst Introduction",
     audioSrc:"audio/experts/luis-hernandez.mp3"
   }
@@ -682,6 +717,14 @@ const experts = [
 function renderProfiles(){
   profileGrid.innerHTML = experts.map(expert => `
     <div class="profile">
+      <img
+        class="profile-photo"
+        src="${escapeHtml(expert.imageSrc || "")}"
+        alt="${escapeHtml(expert.imageAlt || expert.name || "Expert profile image")}"
+        loading="lazy"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="profile-photo-fallback">Image not found<br>${escapeHtml(expert.imageSrc || "")}</div>
       <h3>${escapeHtml(expert.name)}</h3>
       <small>${escapeHtml(expert.role)}</small>
       <p>${escapeHtml(expert.bio)}</p>
