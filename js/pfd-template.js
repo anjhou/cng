@@ -16,7 +16,27 @@ const activeViewName = document.getElementById("activeViewName");
 const outputTitle = document.getElementById("outputTitle");
 const inputForm = document.getElementById("inputForm");
 const outputTable = document.getElementById("outputTable");
-const economicsTable = document.getElementById("economicsTable");
+let economicsTable = document.getElementById("economicsTable");
+
+function ensureEconomicsTable() {
+  economicsTable = document.getElementById("economicsTable");
+  if (economicsTable) return economicsTable;
+
+  const panelGrid = document.querySelector(".panel-grid");
+  if (!panelGrid) return null;
+
+  const panel = document.createElement("section");
+  panel.className = "economics-panel";
+  panel.innerHTML = `
+    <h2>Economics</h2>
+    <table>
+      <tbody id="economicsTable"></tbody>
+    </table>
+  `;
+  panelGrid.appendChild(panel);
+  economicsTable = document.getElementById("economicsTable");
+  return economicsTable;
+}
 
 const processAreas = {
   "Amine": { title: "Amine Treating", subtitle: "Acid gas absorber, lean/rich exchanger, regenerator", units: ["Acid Gas Feed", "Absorber", "Lean/Rich Exchanger", "Regenerator", "Sweet Gas"], factor: 0.985, density: 61.5, viscosity: 1.8, dT: -8, dP: -6, energy: 0.18, operating: 0.020 },
@@ -301,7 +321,7 @@ function drawOverlays(model) {
 function drawLegendOverlay() { const g = svgEl("g"); g.appendChild(svgEl("rect", { x: 1110, y: 35, width: 235, height: 165, rx: 10, class: "legend-box" })); addText(g, "Legend", 1128, 60, "legend-title"); [["process","Process"],["fuel","Fuel"],["gas","Gas"],["utility","Utility"],["flue","Vent / Flue"]].forEach(([cls,label],i)=>{ const y=84+i*24; g.appendChild(svgEl("line", { x1: 1130, y1: y, x2: 1178, y2: y, class: `stream ${cls}` })); addText(g, label, 1192, y + 4, "legend-text"); }); layers.overlays.appendChild(g); }
 
 function updateOutputTable(model) {
-  outputTitle.textContent = `${model.selection.config.title} Product Properties`;
+  if (outputTitle) outputTitle.textContent = `${model.selection.config.title} Product Properties`;
   const p = model.product;
   const rows = [
     ["Product flow", `${fmt(p.flowGpm, 1)} gpm`],
@@ -314,8 +334,10 @@ function updateOutputTable(model) {
     ["Price", `${money(p.priceGal, 2)}/gal`],
     ["Price", `${money(p.priceMMBtu, 2)}/MMBtu`]
   ];
-  outputTable.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
-  activeViewName.textContent = model.selection.config.title;
+  if (outputTable) {
+    outputTable.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  }
+  if (activeViewName) activeViewName.textContent = model.selection.config.title;
 }
 
 function updateEconomicsTable(model) {
@@ -328,7 +350,10 @@ function updateEconomicsTable(model) {
     ["Spread vs feed", `${money(e.spreadLb, 3)}/lb | ${money(e.spreadGal, 2)}/gal | ${money(e.spreadMMBtu, 2)}/MMBtu`],
     ["Estimated net margin", `${money(e.netMargin, 2)}/hr`]
   ];
-  economicsTable.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  const table = ensureEconomicsTable();
+  if (table) {
+    table.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  }
 }
 
 function attachTooltip(el) { el.addEventListener("mouseenter", () => { tooltip.textContent = el.dataset.tooltip || ""; tooltip.style.display = "block"; }); el.addEventListener("mousemove", (event) => { const rect = svgWrap.getBoundingClientRect(); tooltip.style.left = `${event.clientX - rect.left + svgWrap.scrollLeft + 14}px`; tooltip.style.top = `${event.clientY - rect.top + svgWrap.scrollTop + 14}px`; }); el.addEventListener("mouseleave", () => { tooltip.style.display = "none"; }); }
