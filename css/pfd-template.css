@@ -155,3 +155,37 @@ td:last-child { text-align: right; font-weight: 700; }
 .stream.liquid { stroke: #2563eb; marker-end: url(#arrowLiquid); }
 .stream.vapor { stroke: #059669; marker-end: url(#arrowVapor); }
 .stream.energy { stroke: #b45309; stroke-dasharray: 8 5; marker-end: url(#arrowEnergy); }
+
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.wide-field select,
+.field-grid select {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: 14px Arial, sans-serif;
+  background: #fff;
+}
+
+.svg-input-table .overlay-box {
+  fill: rgba(255,255,255,0.985);
+  stroke: #64748b;
+  stroke-width: 1.4;
+}
+
+.svg-table-key {
+  font: 700 12px Arial, sans-serif;
+  fill: #334155;
+}
+
+.svg-table-value {
+  font: 12px Arial, sans-serif;
+  fill: #111827;
+}
+
+.svg-table-row-line {
+  stroke: #e2e8f0;
+  stroke-width: 1;
+}

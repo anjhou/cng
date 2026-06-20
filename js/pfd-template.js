@@ -52,12 +52,28 @@ const processAreas = {
 };
 
 const objectLevels = {
-  "Streams": { title: "Stream Network View", subtitle: "Feed, intermediate, utility, and product stream focus", units: ["Feed Stream", "Mixing Node", "Process Stream", "Utility Header", "Product Stream"], factor: 0.980, density: 46.0, viscosity: 1.10, dT: 35, dP: -5, energy: 0.20, operating: 0.020 },
+  "Streams": { title: "Single Stream View", subtitle: "One selected feed/product stream with live property and economics summary", units: ["Selected Stream"], factor: 1.000, density: 46.0, viscosity: 1.10, dT: 0, dP: 0, energy: 0.00, operating: 0.000 },
   "Units": { title: "Unit Operation View", subtitle: "Major equipment blocks and unit operation boundaries", units: ["Pump", "Heat Exchanger", "Furnace", "Column/Reactor", "Separator"], factor: 0.965, density: 47.5, viscosity: 1.25, dT: 80, dP: -12, energy: 0.38, operating: 0.038 },
   "Plants": { title: "Plant View", subtitle: "Integrated process plant with utilities and product routing", units: ["Feed System", "Process Plant", "Utility Plant", "Storage", "Loading"], factor: 0.950, density: 44.0, viscosity: 0.90, dT: 25, dP: -10, energy: 0.30, operating: 0.030 },
   "Sites": { title: "Site View", subtitle: "Multiple plants connected by site-wide utilities and logistics", units: ["Refinery", "LNG", "Petchem", "Tank Farm", "Export"], factor: 0.940, density: 43.0, viscosity: 0.85, dT: 15, dP: -8, energy: 0.24, operating: 0.024 },
   "Regions": { title: "Regional View", subtitle: "Sites, pipelines, storage hubs, and product markets", units: ["Supply Basin", "Pipeline Hub", "Storage Hub", "Market", "Export Dock"], factor: 0.930, density: 41.5, viscosity: 0.78, dT: 5, dP: -6, energy: 0.18, operating: 0.018 }
 };
+
+
+const streamMaterials = {
+  "Natural Gas": { feedFlowGpm: 900, densityLbFt3: 3.2, viscosityCp: 0.012, temperatureF: 80, pressurePsig: 850, priceLb: 0.065, priceMMBtu: 3.75 },
+  "Crude": { feedFlowGpm: 1500, densityLbFt3: 53.0, viscosityCp: 12.0, temperatureF: 90, pressurePsig: 80, priceLb: 0.46, priceMMBtu: 13.50 },
+  "LPG": { feedFlowGpm: 950, densityLbFt3: 31.0, viscosityCp: 0.18, temperatureF: 85, pressurePsig: 160, priceLb: 0.34, priceMMBtu: 10.50 },
+  "NGLs": { feedFlowGpm: 1100, densityLbFt3: 34.0, viscosityCp: 0.24, temperatureF: 85, pressurePsig: 220, priceLb: 0.30, priceMMBtu: 9.50 },
+  "Light Naphtha": { feedFlowGpm: 1200, densityLbFt3: 42.0, viscosityCp: 0.35, temperatureF: 95, pressurePsig: 75, priceLb: 0.42, priceMMBtu: 13.20 },
+  "Heavy Naphtha": { feedFlowGpm: 1200, densityLbFt3: 46.0, viscosityCp: 0.70, temperatureF: 100, pressurePsig: 75, priceLb: 0.40, priceMMBtu: 12.80 },
+  "Gasoil": { feedFlowGpm: 1000, densityLbFt3: 52.0, viscosityCp: 3.2, temperatureF: 120, pressurePsig: 70, priceLb: 0.44, priceMMBtu: 14.00 },
+  "VGO": { feedFlowGpm: 900, densityLbFt3: 57.0, viscosityCp: 14.0, temperatureF: 150, pressurePsig: 60, priceLb: 0.36, priceMMBtu: 11.60 },
+  "Fueloil": { feedFlowGpm: 850, densityLbFt3: 60.0, viscosityCp: 90.0, temperatureF: 180, pressurePsig: 50, priceLb: 0.28, priceMMBtu: 8.90 },
+  "Slurry": { feedFlowGpm: 650, densityLbFt3: 64.0, viscosityCp: 180.0, temperatureF: 250, pressurePsig: 45, priceLb: 0.22, priceMMBtu: 7.20 },
+  "Residue": { feedFlowGpm: 700, densityLbFt3: 62.5, viscosityCp: 220.0, temperatureF: 300, pressurePsig: 40, priceLb: 0.20, priceMMBtu: 6.80 }
+};
+const streamMaterialNames = Object.keys(streamMaterials);
 
 const formFields = [
   { id: "feedFlowGpm", label: "Feed flow", unit: "gpm", min: 0, step: 1 },
@@ -78,6 +94,25 @@ function getSelection() {
 }
 
 function defaultInputs(selection) {
+  if (selection.type === "objectLevel" && selection.key === "Streams") {
+    const materialName = document.getElementById("streamMaterial")?.value || "Natural Gas";
+    const m = streamMaterials[materialName] || streamMaterials["Natural Gas"];
+    const massFlow = m.feedFlowGpm * 60 * 0.133681 * m.densityLbFt3;
+    const priceGal = m.priceLb * m.densityLbFt3 * 0.133681;
+    return {
+      streamMaterial: materialName,
+      feedFlowGpm: m.feedFlowGpm,
+      massFlowLbHr: massFlow,
+      densityLbFt3: m.densityLbFt3,
+      viscosityCp: m.viscosityCp,
+      temperatureF: m.temperatureF,
+      pressurePsig: m.pressurePsig,
+      priceLb: m.priceLb,
+      priceGal,
+      priceMMBtu: m.priceMMBtu
+    };
+  }
+
   const c = selection.config;
   const feedFlow = selection.type === "objectLevel" ? 1200 : selection.key === "LNG" ? 4200 : selection.key === "Amine" ? 850 : 1500;
   const density = c.density;
@@ -100,11 +135,22 @@ function defaultInputs(selection) {
 
 function renderInputForm(selection) {
   const d = defaultInputs(selection);
+  const isStreamView = selection.type === "objectLevel" && selection.key === "Streams";
   currentInputIds = formFields.map(f => f.id);
+
+  const streamSelectorHtml = isStreamView ? `
+      <label class="wide-field">Stream / Feed Material
+        <select id="streamMaterial">
+          ${streamMaterialNames.map(name => `<option value="${name}" ${name === d.streamMaterial ? "selected" : ""}>${name}</option>`).join("")}
+        </select>
+      </label>
+  ` : "";
+
   inputForm.innerHTML = `
     <h2>${selection.config.title} Inputs</h2>
-    <p class="panel-note">Dynamic basis: ${selection.type === "objectLevel" ? "Object Level" : selection.type === "processArea" ? "Process Area" : "Default"}</p>
+    <p class="panel-note">Dynamic basis: ${isStreamView ? "Single stream property view" : selection.type === "objectLevel" ? "Object Level" : selection.type === "processArea" ? "Process Area" : "Default"}</p>
     <div class="field-grid">
+      ${streamSelectorHtml}
       ${formFields.map(f => `
         <label>${f.label}, ${f.unit}
           <input id="${f.id}" type="number" value="${formatInputValue(d[f.id])}" ${f.min !== undefined ? `min="${f.min}"` : ""} step="${f.step}">
@@ -112,6 +158,25 @@ function renderInputForm(selection) {
       `).join("")}
     </div>
   `;
+
+  const materialSelect = document.getElementById("streamMaterial");
+  if (materialSelect) {
+    materialSelect.addEventListener("change", () => {
+      const m = streamMaterials[materialSelect.value] || streamMaterials["Natural Gas"];
+      document.getElementById("feedFlowGpm").value = formatInputValue(m.feedFlowGpm);
+      document.getElementById("densityLbFt3").value = formatInputValue(m.densityLbFt3);
+      document.getElementById("viscosityCp").value = formatInputValue(m.viscosityCp);
+      document.getElementById("temperatureF").value = formatInputValue(m.temperatureF);
+      document.getElementById("pressurePsig").value = formatInputValue(m.pressurePsig);
+      document.getElementById("priceLb").value = formatInputValue(m.priceLb);
+      document.getElementById("priceMMBtu").value = formatInputValue(m.priceMMBtu);
+      const massFlow = m.feedFlowGpm * 60 * 0.133681 * m.densityLbFt3;
+      document.getElementById("massFlowLbHr").value = formatInputValue(massFlow);
+      document.getElementById("priceGal").value = formatInputValue(m.priceLb * m.densityLbFt3 * 0.133681);
+      render();
+    });
+  }
+
   currentInputIds.forEach(id => document.getElementById(id).addEventListener("input", render));
 }
 
@@ -369,6 +434,7 @@ function render() {
   pfd.units.forEach(unit => drawUnit(unit, model));
   pfd.streams.forEach(drawStreamLabel);
   drawOverlays(model);
+  drawStreamInputTable(model);
   updateOutputTable(model);
   updateEconomicsTable(model);
 }
@@ -442,7 +508,54 @@ function streamTypeFor(model, i) {
   return "liquid";
 }
 
+
+function buildSingleStreamPfd(model) {
+  const materialName = document.getElementById("streamMaterial")?.value || "Natural Gas";
+  const streamKind = /Natural Gas|LPG|NGLs/i.test(materialName) ? "vapor" : "liquid";
+  const y = 395;
+  const stream = {
+    id: "S-100",
+    name: materialName,
+    type: streamKind,
+    utility: false,
+    path: [{ x: 430, y }, { x: 1120, y }],
+    label: { x: 710, y: 285 },
+    lines: [`${fmt(model.inputs.feedFlowGpm, 1)} gpm`, `${fmt(model.inputs.temperature, 1)} °F | ${fmt(model.inputs.pressure, 1)} psig`],
+    tooltip: `${materialName}\nFlow: ${fmt(model.inputs.feedFlowGpm, 1)} gpm\nMass Flow: ${fmt(model.inputs.massFlowLbHr, 0)} lb/hr\nDensity: ${fmt(model.inputs.density, 2)} lb/ft³\nViscosity: ${fmt(model.inputs.viscosity, 3)} cP\nTemperature: ${fmt(model.inputs.temperature, 1)} °F\nPressure: ${fmt(model.inputs.pressure, 1)} psig`
+  };
+  return { units: [], streams: [stream] };
+}
+
+function drawStreamInputTable(model) {
+  if (!(model.selection.type === "objectLevel" && model.selection.key === "Streams")) return;
+  const materialName = document.getElementById("streamMaterial")?.value || "Natural Gas";
+  const g = svgEl("g", { class: "svg-input-table" });
+  g.appendChild(svgEl("rect", { x: 35, y: 125, width: 345, height: 430, rx: 10, class: "overlay-box" }));
+  addText(g, "Stream Input Table", 55, 155, "overlay-title");
+  addText(g, `Selected: ${materialName}`, 55, 180, "overlay-text");
+  const rows = [
+    ["Feed flow", `${fmt(model.inputs.feedFlowGpm, 1)} gpm`],
+    ["Mass flow", `${fmt(model.inputs.massFlowLbHr, 0)} lb/hr`],
+    ["Density", `${fmt(model.inputs.density, 2)} lb/ft³`],
+    ["Viscosity", `${fmt(model.inputs.viscosity, 3)} cP`],
+    ["Temperature", `${fmt(model.inputs.temperature, 1)} °F`],
+    ["Pressure", `${fmt(model.inputs.pressure, 1)} psig`],
+    ["Price", `${money(model.inputs.priceLb, 3)}/lb`],
+    ["Price", `${money(model.inputs.priceGal, 2)}/gal`],
+    ["Price", `${money(model.inputs.priceMMBtu, 2)}/MMBtu`]
+  ];
+  rows.forEach(([k, v], i) => {
+    const yy = 215 + i * 34;
+    g.appendChild(svgEl("line", { x1: 55, y1: yy + 9, x2: 355, y2: yy + 9, class: "svg-table-row-line" }));
+    addText(g, k, 55, yy, "svg-table-key");
+    addText(g, v, 355, yy, "svg-table-value", "end");
+  });
+  layers.overlays.appendChild(g);
+}
 function buildDynamicPfd(model) {
+  if (model.selection.type === "objectLevel" && model.selection.key === "Streams") {
+    return buildSingleStreamPfd(model);
+  }
   if (model.selection.type === "objectLevel" && model.selection.key === "Units") {
     return buildUnitSymbolShowcase(model);
   }
