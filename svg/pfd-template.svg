@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="pfd-template.css"?>
+<?xml-stylesheet type="text/css" href="../css/pfd-template.css"?>
 <svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Process Flow Diagram">
           <defs>
             <marker id="arrowProcess" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
