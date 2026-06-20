@@ -65,6 +65,66 @@ button {
 
 button:hover { background: #e2e8f0; }
 
+.context-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: end;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: #f8fafc;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.radio-group legend {
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.radio-group label,
+.select-field {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.radio-group input {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.clear-button {
+  padding: 6px 10px;
+}
+
+.select-field {
+  display: grid;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.select-field select {
+  min-height: 34px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
 .svg-wrap {
   position: relative;
   overflow: auto;

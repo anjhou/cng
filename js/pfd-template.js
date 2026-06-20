@@ -376,4 +376,13 @@ document.getElementById("btnLabels").addEventListener("click", () => { showLabel
 document.getElementById("btnUtilities").addEventListener("click", () => { showUtilities = !showUtilities; render(); });
 document.getElementById("btnOverlays").addEventListener("click", () => { showOverlays = !showOverlays; render(); });
 
+const clearBusinessViewButton = document.getElementById("btnClearBusinessView");
+if (clearBusinessViewButton) {
+  clearBusinessViewButton.addEventListener("click", () => {
+    document.querySelectorAll('input[name="businessView"]').forEach(radio => {
+      radio.checked = false;
+    });
+  });
+}
+
 render();

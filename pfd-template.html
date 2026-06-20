@@ -23,6 +23,45 @@
         <button id="btnOverlays">Toggle Overlays</button>
       </div>
 
+      <div class="context-toolbar" aria-label="PFD selection filters">
+        <fieldset class="radio-group">
+          <legend>Business View</legend>
+          <label><input type="radio" name="businessView" value="Chemicals"> Chemicals</label>
+          <label><input type="radio" name="businessView" value="Energy"> Energy</label>
+          <label><input type="radio" name="businessView" value="Chemicals & Energy"> Chemicals &amp; Energy</label>
+          <button type="button" id="btnClearBusinessView" class="clear-button">Clear</button>
+        </fieldset>
+
+        <label class="select-field">
+          Object Level
+          <select id="objectLevel">
+            <option value="">Select level</option>
+            <option value="Streams">Streams</option>
+            <option value="Units">Units</option>
+            <option value="Plants">Plants</option>
+            <option value="Sites">Sites</option>
+            <option value="Regions">Regions</option>
+          </select>
+        </label>
+
+        <label class="select-field">
+          Process Area
+          <select id="processArea">
+            <option value="">Select process area</option>
+            <option value="Amine">Amine</option>
+            <option value="Dehydration">Dehydration</option>
+            <option value="HDS">HDS</option>
+            <option value="Mercury Removal">Mercury Removal</option>
+            <option value="Fractionation">Fractionation</option>
+            <option value="Stabilizer">Stabilizer</option>
+            <option value="LNG">LNG</option>
+            <option value="NGLs">NGLs</option>
+            <option value="Refinery">Refinery</option>
+            <option value="Petchem">Petchem</option>
+          </select>
+        </label>
+      </div>
+
       <div class="svg-wrap" id="svgWrap">
         <svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Process Flow Diagram">
           <defs>
