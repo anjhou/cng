@@ -1,0 +1,104 @@
+:root {
+  --bg: #ffffff;
+  --fg: #000000;
+  --panel-bg: #ffffff;
+  --panel-border: #ccc;
+  --header-bg: #003366;
+  --header-fg: #ffffff;
+}
+
+.dark-mode {
+  --bg: #0d1117;
+  --fg: #e6edf3;
+  --panel-bg: #161b22;
+  --panel-border: #30363d;
+  --header-bg: #1f6feb;
+  --header-fg: #ffffff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial;
+}
+
+/* Tooltip */
+#pfd-tooltip {
+  position:absolute;
+  display:none;
+  background:var(--panel-bg);
+  border:1px solid var(--panel-border);
+  padding:6px 10px;
+  border-radius:4px;
+  pointer-events:none;
+  z-index:999;
+}
+
+/* Search */
+#pfd-search {
+  width: 300px;
+  padding: 8px;
+  margin: 10px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  color: var(--fg);
+}
+
+/* Side Panel */
+#pfd-sidepanel {
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background: var(--panel-bg);
+  border-left: 2px solid var(--panel-border);
+  transition: right 0.3s ease;
+  z-index: 9999;
+}
+#pfd-sidepanel.open { right: 0; }
+
+#pfd-sidepanel-header {
+  padding: 12px;
+  background: var(--header-bg);
+  color: var(--header-fg);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Tabs */
+#pfd-tabs { display: flex; border-bottom: 1px solid var(--panel-border); }
+.pfd-tab {
+  flex: 1; padding: 10px; cursor: pointer;
+  background: var(--panel-bg); color: var(--fg);
+  border: none;
+}
+.pfd-tab.active { background: var(--header-bg); color: var(--header-fg); }
+
+.pfd-tab-pane { display: none; padding: 12px; }
+.pfd-tab-pane.active { display: block; }
+
+/* Modal */
+#pfd-modal-overlay {
+  display:none; position:fixed; top:0; left:0;
+  width:100%; height:100%; background:rgba(0,0,0,0.4);
+  z-index:9998;
+}
+#pfd-modal {
+  display:none; position:fixed; top:50%; left:50%;
+  transform:translate(-50%, -50%);
+  width:500px; background:var(--panel-bg);
+  border-radius:6px; z-index:9999;
+}
+
+/* Minimap */
+#pfd-minimap {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  height: 120px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  z-index: 9999;
+}
