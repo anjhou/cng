@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PFD</title>
+  <title>Dynamic HYSYS / UniSim Styled PFD</title>
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="css/pfd-template.css" />
 </head>
 <body>
   <header class="app-header">
     <div>
-      <h1>PFD</h1>
-      <p>Process flowsheet with live inputs, outputs, overlays, labels, and tooltips.</p>
+      <h1>Dynamic PFD View</h1>
+      <p>Dropdown selections update the SVG flowsheet and the calculated output table.</p>
     </div>
   </header>
 
   <main class="page-shell">
     <section class="flowsheet-card">
       <div class="flowsheet-toolbar">
-        <button id="btnReset">Reset</button>
-        <button id="btnLabels">Toggle Labels</button>
-        <button id="btnUtilities">Toggle Utilities</button>
-        <button id="btnOverlays">Toggle Overlays</button>
+        <button id="btnReset" type="button">Reset</button>
+        <button id="btnLabels" type="button">Toggle Labels</button>
+        <button id="btnUtilities" type="button">Toggle Utilities</button>
+        <button id="btnOverlays" type="button">Toggle Overlays</button>
       </div>
 
       <div class="context-toolbar" aria-label="PFD selection filters">
@@ -63,6 +63,10 @@
         </label>
       </div>
 
+      <div class="active-view-bar">
+        <strong>Active View:</strong> <span id="activeViewName">Default Fired Heater</span>
+      </div>
+
       <div class="svg-wrap" id="svgWrap">
         <div id="pfdSvgMount" class="pfd-svg-mount" data-svg-src="svg/pfd-template.svg" aria-label="Process Flow Diagram"></div>
         <div id="pfdTooltip" class="pfd-tooltip"></div>
@@ -87,7 +91,7 @@
       </form>
 
       <section class="output-panel">
-        <h2>Calculated Outputs</h2>
+        <h2 id="outputTitle">Calculated Outputs</h2>
         <table>
           <tbody id="outputTable"></tbody>
         </table>

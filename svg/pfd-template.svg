@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="../css/pfd-template.css"?>
-<svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Process Flow Diagram">
-          <defs>
-            <marker id="arrowProcess" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#2563eb"></path>
-            </marker>
-            <marker id="arrowGas" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#059669"></path>
-            </marker>
-            <marker id="arrowFuel" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#dc2626"></path>
-            </marker>
-            <marker id="arrowFlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#6b7280"></path>
-            </marker>
-          </defs>
-
-          <g id="layerGrid"></g>
-          <g id="layerStreams"></g>
-          <g id="layerUnits"></g>
-          <g id="layerLabels"></g>
-          <g id="layerOverlays"></g>
-        </svg>
+<svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Dynamic Process Flow Diagram" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowProcess" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#2563eb"/></marker>
+    <marker id="arrowGas" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#059669"/></marker>
+    <marker id="arrowFuel" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#dc2626"/></marker>
+    <marker id="arrowFlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#6b7280"/></marker>
+    <marker id="arrowUtility" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#7c3aed"/></marker>
+  </defs>
+  <g id="layerGrid"></g>
+  <g id="layerStreams"></g>
+  <g id="layerUnits"></g>
+  <g id="layerLabels"></g>
+  <g id="layerOverlays"></g>
+</svg>
