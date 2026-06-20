@@ -272,7 +272,16 @@ function drawColumnShape(g, u) { g.appendChild(svgEl("rect", { x: u.x + 42, y: u
 function drawReactorShape(g, u) { g.appendChild(svgEl("rect", { x: u.x + 18, y: u.y - 10, width: u.width - 36, height: u.height + 45, rx: 26, class: "unit-highlight" })); addText(g, "CAT", u.x + u.width / 2, u.y + 45, "unit-name", "middle"); addText(g, u.id, u.x + u.width / 2, u.y + u.height + 52, "unit-tag", "middle"); addText(g, u.name, u.x + u.width / 2, u.y + u.height + 70, "unit-name", "middle"); }
 function drawTankShape(g, u) { g.appendChild(svgEl("ellipse", { cx: u.x + u.width/2, cy: u.y + 18, rx: u.width/2 - 12, ry: 18, class: "unit-shape" })); g.appendChild(svgEl("rect", { x: u.x + 12, y: u.y + 18, width: u.width - 24, height: u.height - 8, class: "unit-shape" })); addText(g, u.id, u.x + u.width / 2, u.y + 52, "unit-tag", "middle"); addText(g, u.name, u.x + u.width / 2, u.y + 72, "unit-name", "middle"); }
 function drawStream(stream) { if (!showUtilities && stream.utility) return; const g = svgEl("g", { class: `stream-group ${stream.type}` }); const line = svgEl("polyline", { points: pointsToString(stream.path), class: `stream ${stream.type}` }); const hit = svgEl("polyline", { points: pointsToString(stream.path), class: "stream-hitbox" }); hit.dataset.tooltip = stream.tooltip; g.appendChild(line); g.appendChild(hit); layers.streams.appendChild(g); attachTooltip(hit); }
-function drawStreamLabel(stream) { if (!showLabels || (!showUtilities && stream.utility)) return; const x = stream.label.x, y = stream.label.y, w = 168, h = 58; const g = svgEl("g", { class: "stream-label" }); g.appendChild(svgEl("rect", { x, y, width: w, height: h, rx: 7, class: "stream-label-box" })); addText(g, `${stream.id} ${stream.name}`, x + 8, y + 17, "stream-label-title"); addText(g, stream.lines[0], x + 8, y + 35, "stream-label-text"); addText(g, stream.lines[1], x + 8, y + 51, "stream-label-text"); layers.labels.appendChild(g); }
+function drawStreamLabel(stream) {
+  if (!showLabels || (!showUtilities && stream.utility)) return;
+  const x = stream.label.x, y = stream.label.y, w = 182, h = 58;
+  const g = svgEl("g", { class: "stream-label stream-table" });
+  g.appendChild(svgEl("rect", { x, y, width: w, height: h, rx: 7, class: "stream-label-box" }));
+  addText(g, `${stream.id} ${stream.name}`, x + 8, y + 17, "stream-label-title");
+  addText(g, stream.lines[0], x + 8, y + 35, "stream-label-text");
+  addText(g, stream.lines[1], x + 8, y + 51, "stream-label-text");
+  layers.labels.appendChild(g);
+}
 
 function drawOverlays(model) {
   if (!showOverlays) return;
@@ -319,12 +328,7 @@ function updateEconomicsTable(model) {
     ["Spread vs feed", `${money(e.spreadLb, 3)}/lb | ${money(e.spreadGal, 2)}/gal | ${money(e.spreadMMBtu, 2)}/MMBtu`],
     ["Estimated net margin", `${money(e.netMargin, 2)}/hr`]
   ];
-		  if (economicsTable) {
-		  economicsTable.innerHTML = rows.map(([k, v]) =>
-			`<tr><td>${k}</td><td>${v}</td></tr>`
-		  ).join("");
-		}
-
+  economicsTable.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
 }
 
 function attachTooltip(el) { el.addEventListener("mouseenter", () => { tooltip.textContent = el.dataset.tooltip || ""; tooltip.style.display = "block"; }); el.addEventListener("mousemove", (event) => { const rect = svgWrap.getBoundingClientRect(); tooltip.style.left = `${event.clientX - rect.left + svgWrap.scrollLeft + 14}px`; tooltip.style.top = `${event.clientY - rect.top + svgWrap.scrollTop + 14}px`; }); el.addEventListener("mouseleave", () => { tooltip.style.display = "none"; }); }
@@ -426,18 +430,26 @@ function buildDynamicPfd(model) {
     const from = units[i];
     const to = units[i + 1];
     const sy = y + from.height / 2;
+    // Keep stream label/table boxes in the open upper band of the SVG.
+    // This prevents overlap with unit symbols and the stream centerlines.
+    const labelSlots = [
+      { x: 105, y: 115 },
+      { x: 370, y: 115 },
+      { x: 635, y: 115 },
+      { x: 900, y: 115 }
+    ];
     streams.push({
       id: `S-${101 + i}`,
       name: ["Feed", "Intermediate", "Treated", "Product"][i],
       type: streamTypeFor(model, i),
       utility: false,
       path: [{ x: from.x + from.width, y: sy }, { x: to.x, y: sy }],
-      label: { x: from.x + from.width + 18, y: sy - 64 },
+      label: labelSlots[i],
       lines: streamLinesFor(model, i),
       tooltip: `${["Feed", "Intermediate", "Treated", "Product"][i]}\n${streamLinesFor(model, i).join("\n")}`
     });
   }
-  streams.push({ id: "E-101", name: "Energy", type: "energy", utility: true, path: [{ x: 650, y: 625 }, { x: 650, y: y + 135 }], label: { x: 670, y: 548 }, lines: [`Energy: ${fmt(model.selection.config.energy, 2)} MMBtu/klb`, `Opex: ${money(model.selection.config.operating, 3)}/lb`], tooltip: "Energy stream / duty input" });
+  streams.push({ id: "E-101", name: "Energy", type: "energy", utility: true, path: [{ x: 650, y: 625 }, { x: 650, y: y + 135 }], label: { x: 760, y: 690 }, lines: [`Energy: ${fmt(model.selection.config.energy, 2)} MMBtu/klb`, `Opex: ${money(model.selection.config.operating, 3)}/lb`], tooltip: "Energy stream / duty input" });
   return { units, streams };
 }
 
@@ -454,9 +466,9 @@ function buildUnitSymbolShowcase(model) {
     { id: "PL-101", name: "Pipe", type: "pipe", x: 785, y: 500, width: 220, height: 110 }
   ];
   const streams = [
-    { id: "L-101", name: "Liquid Stream", type: "liquid", utility: false, path: [{x:1050,y:525},{x:1260,y:525}], label:{x:1080,y:455}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:"Liquid process stream" },
-    { id: "V-101", name: "Vapor Stream", type: "vapor", utility: false, path: [{x:1050,y:570},{x:1260,y:570}], label:{x:1080,y:590}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Vapor process stream" },
-    { id: "Q-101", name: "Energy Stream", type: "energy", utility: true, path: [{x:1050,y:615},{x:1260,y:615}], label:{x:1080,y:635}, lines:[`Duty basis`, `${fmt(model.selection.config.energy,2)} MMBtu/klb`], tooltip:"Energy stream" }
+    { id: "L-101", name: "Liquid Stream", type: "liquid", utility: false, path: [{x:1050,y:525},{x:1260,y:525}], label:{x:1110,y:285}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:"Liquid process stream" },
+    { id: "V-101", name: "Vapor Stream", type: "vapor", utility: false, path: [{x:1050,y:570},{x:1260,y:570}], label:{x:1110,y:360}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Vapor process stream" },
+    { id: "Q-101", name: "Energy Stream", type: "energy", utility: true, path: [{x:1050,y:615},{x:1260,y:615}], label:{x:1110,y:435}, lines:[`Duty basis`, `${fmt(model.selection.config.energy,2)} MMBtu/klb`], tooltip:"Energy stream" }
   ];
   return { units, streams };
 }
