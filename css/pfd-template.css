@@ -189,3 +189,35 @@ td:last-child { text-align: right; font-weight: 700; }
   stroke: #e2e8f0;
   stroke-width: 1;
 }
+
+
+.svg-control-overlay {
+  position: absolute;
+  top: 22px;
+  left: 420px;
+  z-index: 10;
+  display: none;
+  padding: 10px 12px;
+  border: 1px solid #94a3b8;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.16);
+}
+
+.svg-control-overlay label {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.svg-control-overlay select {
+  min-width: 210px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: #ffffff;
+  color: #111827;
+  font: 13px Arial, sans-serif;
+}

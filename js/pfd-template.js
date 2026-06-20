@@ -741,4 +741,398 @@ function drawLegendOverlay() {
   layers.overlays.appendChild(g);
 }
 
+
+/* ------------------------------------------------------------------
+   Unit-operation view upgrade
+   - Object Level = Units now displays one selected unit symbol
+   - Adds SVG-canvas dropdown overlay for unit operation selection
+   - Input form includes feed selector + unit-specific inputs
+   - Output table branches calculations for pressure, temperature, and V/L split
+------------------------------------------------------------------ */
+const unitOperationNames = [
+  "Valve", "Pump", "Separator", "Vessel", "Pipe", "Compressor", "Turbine",
+  "Heat Exchanger", "Heater", "Column", "Reactor"
+];
+
+const unitOperationDefaults = {
+  "Valve": { dP: -25, dT: 0, efficiency: 100, vaporFraction: 0.05, dutyFactor: 0, opex: 0.003 },
+  "Pump": { dP: 145, dT: 2, efficiency: 72, vaporFraction: 0.00, dutyFactor: 0, opex: 0.006 },
+  "Separator": { dP: -8, dT: -3, efficiency: 100, vaporFraction: 0.22, dutyFactor: 0, opex: 0.008 },
+  "Vessel": { dP: -5, dT: -1, efficiency: 100, vaporFraction: 0.12, dutyFactor: 0, opex: 0.006 },
+  "Pipe": { dP: -18, dT: 0, efficiency: 100, vaporFraction: 0.00, dutyFactor: 0, opex: 0.004 },
+  "Compressor": { dP: 250, dT: 75, efficiency: 76, vaporFraction: 1.00, dutyFactor: 0, opex: 0.018 },
+  "Turbine": { dP: -180, dT: -45, efficiency: 82, vaporFraction: 1.00, dutyFactor: -0.15, opex: 0.010 },
+  "Heat Exchanger": { dP: -10, dT: 80, efficiency: 100, vaporFraction: 0.02, dutyFactor: 1, opex: 0.010 },
+  "Heater": { dP: -7, dT: 220, efficiency: 87, vaporFraction: 0.15, dutyFactor: 1, opex: 0.024 },
+  "Column": { dP: -20, dT: 35, efficiency: 100, vaporFraction: 0.35, dutyFactor: 0.65, opex: 0.045 },
+  "Reactor": { dP: -35, dT: 60, efficiency: 100, vaporFraction: 0.10, dutyFactor: 0.50, opex: 0.060 }
+};
+
+function selectedUnitOperation() {
+  return document.getElementById("unitOperation")?.value || document.getElementById("svgUnitOperation")?.value || "Pump";
+}
+
+function ensureUnitOperationOverlay() {
+  let overlay = document.getElementById("unitOperationOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "unitOperationOverlay";
+    overlay.className = "svg-control-overlay";
+    overlay.innerHTML = `
+      <label>Unit Operation
+        <select id="svgUnitOperation">
+          ${unitOperationNames.map(name => `<option value="${name}">${name}</option>`).join("")}
+        </select>
+      </label>
+    `;
+    svgWrap.appendChild(overlay);
+    overlay.querySelector("select").addEventListener("change", () => {
+      const panelSelect = document.getElementById("unitOperation");
+      if (panelSelect) panelSelect.value = overlay.querySelector("select").value;
+      renderInputForm(getSelection());
+      const refreshed = document.getElementById("unitOperation");
+      if (refreshed) refreshed.value = overlay.querySelector("select").value;
+      render();
+    });
+  }
+  return overlay;
+}
+
+function syncUnitOperationOverlay(selection) {
+  const overlay = ensureUnitOperationOverlay();
+  const isUnits = selection.type === "objectLevel" && selection.key === "Units";
+  overlay.style.display = isUnits ? "block" : "none";
+  if (isUnits) {
+    const current = selectedUnitOperation();
+    const svgSelect = document.getElementById("svgUnitOperation");
+    if (svgSelect) svgSelect.value = current;
+  }
+}
+
+function materialInputDefaults() {
+  const materialName = document.getElementById("feedMaterial")?.value || document.getElementById("streamMaterial")?.value || "Natural Gas";
+  const m = streamMaterials[materialName] || streamMaterials["Natural Gas"];
+  const massFlow = m.feedFlowGpm * 60 * 0.133681 * m.densityLbFt3;
+  const priceGal = m.priceLb * m.densityLbFt3 * 0.133681;
+  return { materialName, m, massFlow, priceGal };
+}
+
+function defaultInputs(selection) {
+  if (selection.type === "objectLevel" && (selection.key === "Streams" || selection.key === "Units")) {
+    const { materialName, m, massFlow, priceGal } = materialInputDefaults();
+    return {
+      streamMaterial: materialName,
+      feedMaterial: materialName,
+      unitOperation: selectedUnitOperation(),
+      feedFlowGpm: m.feedFlowGpm,
+      massFlowLbHr: massFlow,
+      densityLbFt3: m.densityLbFt3,
+      viscosityCp: m.viscosityCp,
+      temperatureF: m.temperatureF,
+      pressurePsig: m.pressurePsig,
+      priceLb: m.priceLb,
+      priceGal,
+      priceMMBtu: m.priceMMBtu
+    };
+  }
+  const c = selection.config;
+  const feedFlow = selection.type === "objectLevel" ? 1200 : selection.key === "LNG" ? 4200 : selection.key === "Amine" ? 850 : 1500;
+  const density = c.density;
+  const massFlow = feedFlow * 60 * 0.133681 * density;
+  const priceLb = selection.key === "LNG" ? 0.18 : selection.key === "Petchem" ? 0.55 : selection.key === "Amine" ? 0.08 : 0.22;
+  const priceGal = priceLb * density * 0.133681;
+  const priceMMBtu = selection.key === "LNG" ? 9.50 : selection.key === "Refinery" ? 14.00 : 11.00;
+  return { feedFlowGpm: feedFlow, massFlowLbHr: massFlow, densityLbFt3: density, viscosityCp: c.viscosity, temperatureF: selection.key === "LNG" ? -250 : selection.key === "Dehydration" ? 95 : 100, pressurePsig: selection.key === "LNG" ? 45 : selection.key === "Amine" ? 950 : 150, priceLb, priceGal, priceMMBtu };
+}
+
+function renderInputForm(selection) {
+  const d = defaultInputs(selection);
+  const isStreamView = selection.type === "objectLevel" && selection.key === "Streams";
+  const isUnitView = selection.type === "objectLevel" && selection.key === "Units";
+  currentInputIds = formFields.map(f => f.id);
+  const feedSelectHtml = (isStreamView || isUnitView) ? `
+      <label class="wide-field">Feed Type
+        <select id="${isStreamView ? "streamMaterial" : "feedMaterial"}">
+          ${streamMaterialNames.map(name => `<option value="${name}" ${name === (d.feedMaterial || d.streamMaterial) ? "selected" : ""}>${name}</option>`).join("")}
+        </select>
+      </label>` : "";
+  const unitSelectHtml = isUnitView ? `
+      <label class="wide-field">Unit Operation Symbol
+        <select id="unitOperation">
+          ${unitOperationNames.map(name => `<option value="${name}" ${name === d.unitOperation ? "selected" : ""}>${name}</option>`).join("")}
+        </select>
+      </label>
+      <label>Pressure Change, psig
+        <input id="unitDeltaP" type="number" value="${unitOperationDefaults[d.unitOperation].dP}" step="1">
+      </label>
+      <label>Temperature Change, °F
+        <input id="unitDeltaT" type="number" value="${unitOperationDefaults[d.unitOperation].dT}" step="1">
+      </label>
+      <label>Efficiency, %
+        <input id="unitEfficiency" type="number" value="${unitOperationDefaults[d.unitOperation].efficiency}" min="1" max="100" step="1">
+      </label>
+      <label>Vapor Split, fraction
+        <input id="unitVaporFraction" type="number" value="${unitOperationDefaults[d.unitOperation].vaporFraction}" min="0" max="1" step="0.01">
+      </label>` : "";
+
+  inputForm.innerHTML = `
+    <h2>${selection.config.title} Inputs</h2>
+    <p class="panel-note">Dynamic basis: ${isStreamView ? "Single stream property view" : isUnitView ? "Single unit-operation view" : selection.type === "objectLevel" ? "Object Level" : selection.type === "processArea" ? "Process Area" : "Default"}</p>
+    <div class="field-grid">
+      ${feedSelectHtml}
+      ${unitSelectHtml}
+      ${formFields.map(f => `
+        <label>${f.label}, ${f.unit}
+          <input id="${f.id}" type="number" value="${formatInputValue(d[f.id])}" ${f.min !== undefined ? `min="${f.min}"` : ""} step="${f.step}">
+        </label>`).join("")}
+    </div>`;
+
+  const materialSelect = document.getElementById(isStreamView ? "streamMaterial" : "feedMaterial");
+  if (materialSelect) {
+    materialSelect.addEventListener("change", () => {
+      const m = streamMaterials[materialSelect.value] || streamMaterials["Natural Gas"];
+      document.getElementById("feedFlowGpm").value = formatInputValue(m.feedFlowGpm);
+      document.getElementById("densityLbFt3").value = formatInputValue(m.densityLbFt3);
+      document.getElementById("viscosityCp").value = formatInputValue(m.viscosityCp);
+      document.getElementById("temperatureF").value = formatInputValue(m.temperatureF);
+      document.getElementById("pressurePsig").value = formatInputValue(m.pressurePsig);
+      document.getElementById("priceLb").value = formatInputValue(m.priceLb);
+      document.getElementById("priceMMBtu").value = formatInputValue(m.priceMMBtu);
+      document.getElementById("massFlowLbHr").value = formatInputValue(m.feedFlowGpm * 60 * 0.133681 * m.densityLbFt3);
+      document.getElementById("priceGal").value = formatInputValue(m.priceLb * m.densityLbFt3 * 0.133681);
+      render();
+    });
+  }
+  const unitSelect = document.getElementById("unitOperation");
+  if (unitSelect) {
+    unitSelect.addEventListener("change", () => {
+      const dft = unitOperationDefaults[unitSelect.value];
+      document.getElementById("unitDeltaP").value = dft.dP;
+      document.getElementById("unitDeltaT").value = dft.dT;
+      document.getElementById("unitEfficiency").value = dft.efficiency;
+      document.getElementById("unitVaporFraction").value = dft.vaporFraction;
+      const svgSelect = document.getElementById("svgUnitOperation");
+      if (svgSelect) svgSelect.value = unitSelect.value;
+      render();
+    });
+    currentInputIds.push("unitDeltaP", "unitDeltaT", "unitEfficiency", "unitVaporFraction");
+  }
+  currentInputIds.forEach(id => document.getElementById(id)?.addEventListener("input", render));
+  syncUnitOperationOverlay(selection);
+}
+
+function unitTypeFromOperation(op) {
+  if (op === "Pump") return "pump";
+  if (op === "Compressor") return "compressor";
+  if (op === "Turbine") return "turbine";
+  if (op === "Heat Exchanger") return "exchanger";
+  if (op === "Heater") return "furnace";
+  if (op === "Column") return "column";
+  if (op === "Separator") return "separator";
+  if (op === "Vessel") return "vessel";
+  if (op === "Valve") return "valve";
+  if (op === "Pipe") return "pipe";
+  if (op === "Reactor") return "reactor";
+  return "box";
+}
+
+function unitIdFromOperation(op) {
+  return { Valve:"XV-101", Pump:"P-101", Separator:"V-101", Vessel:"D-101", Pipe:"PL-101", Compressor:"C-101", Turbine:"GT-101", "Heat Exchanger":"E-101", Heater:"F-101", Column:"T-101", Reactor:"R-101" }[op] || "U-101";
+}
+
+function computeModel() {
+  const selection = getSelection();
+  const c = selection.config;
+  const isUnitView = selection.type === "objectLevel" && selection.key === "Units";
+  const op = selectedUnitOperation();
+  const opDefaults = unitOperationDefaults[op] || unitOperationDefaults.Pump;
+  const feedFlowGpm = n("feedFlowGpm");
+  const density = n("densityLbFt3");
+  const enteredMassFlow = n("massFlowLbHr");
+  const hydraulicMassFlow = feedFlowGpm * 60 * 0.133681 * density;
+  const massFlowLbHr = enteredMassFlow > 0 ? enteredMassFlow : hydraulicMassFlow;
+  const inletTemp = n("temperatureF");
+  const inletPressure = n("pressurePsig");
+  const deltaP = isUnitView ? n("unitDeltaP") : c.dP;
+  const deltaT = isUnitView ? n("unitDeltaT") : c.dT;
+  const efficiency = Math.max(isUnitView ? n("unitEfficiency") : 100, 1);
+  const vaporFraction = Math.min(Math.max(isUnitView ? n("unitVaporFraction") : 0, 0), 1);
+  const factor = isUnitView ? 1.0 : c.factor;
+  let productFlowGpm = feedFlowGpm * factor;
+  let productMassFlow = massFlowLbHr * factor;
+  let productDensity = density;
+  let productViscosity = Math.max(n("viscosityCp"), 0.001);
+  let productTemp = inletTemp;
+  let productPressure = Math.max(inletPressure, 0);
+  let dutyMMBtuHr = 0;
+  let hydraulicHp = 0;
+  let vaporFlowLbHr = 0;
+  let liquidFlowLbHr = productMassFlow;
+  let resultMode = "Property Transfer";
+
+  if (isUnitView && /Pump|Compressor|Valve|Pipe|Turbine/.test(op)) {
+    resultMode = /Pump|Compressor/.test(op) ? "Pressure Change" : op === "Turbine" ? "Pressure Letdown / Power Recovery" : "Pressure Drop";
+    productPressure = Math.max(inletPressure + deltaP, 0);
+    productTemp = inletTemp + deltaT;
+    hydraulicHp = Math.abs(feedFlowGpm * deltaP) / (1714 * (efficiency / 100 || 1));
+    if (op === "Turbine") hydraulicHp *= -1;
+    productViscosity = Math.max(n("viscosityCp") * (deltaT > 0 ? 0.97 : 1.00), 0.001);
+  } else if (isUnitView && /Heat Exchanger|Heater|Column|Reactor/.test(op)) {
+    resultMode = "Temperature Change / Duty";
+    productTemp = inletTemp + deltaT;
+    productPressure = Math.max(inletPressure + deltaP, 0);
+    productDensity = Math.max(density * (1 - 0.00025 * deltaT), 0.01);
+    productViscosity = Math.max(n("viscosityCp") * Math.exp(-0.006 * deltaT), 0.001);
+    dutyMMBtuHr = massFlowLbHr * 0.62 * deltaT / 1_000_000 / (efficiency / 100 || 1);
+  } else if (isUnitView && /Separator|Vessel/.test(op)) {
+    resultMode = "Vapor-Liquid Separation";
+    productTemp = inletTemp + deltaT;
+    productPressure = Math.max(inletPressure + deltaP, 0);
+    vaporFlowLbHr = massFlowLbHr * vaporFraction;
+    liquidFlowLbHr = massFlowLbHr - vaporFlowLbHr;
+    productMassFlow = liquidFlowLbHr;
+    productFlowGpm = productMassFlow / Math.max(density * 60 * 0.133681, 0.001);
+    productDensity = density * 1.01;
+    productViscosity = n("viscosityCp");
+  } else {
+    productFlowGpm = feedFlowGpm * c.factor;
+    productMassFlow = massFlowLbHr * c.factor;
+    productDensity = density * (1 + (c.dT < -100 ? 0.10 : c.dT > 80 ? -0.025 : -0.01));
+    productViscosity = Math.max(n("viscosityCp") * (c.dT > 0 ? 0.72 : 1.08), 0.001);
+    productTemp = inletTemp + c.dT;
+    productPressure = Math.max(inletPressure + c.dP, 0);
+    dutyMMBtuHr = massFlowLbHr * 0.62 * c.dT / 1_000_000;
+  }
+
+  const productPriceLb = n("priceLb") * (isUnitView ? 1.02 : 1.08 + (1 - c.factor) * 0.55);
+  const productPriceGal = productPriceLb * productDensity * 0.133681;
+  const productPriceMMBtu = n("priceMMBtu") * (isUnitView ? 1.01 : 1.06 + c.energy * 0.08);
+  const energyInputCost = Math.abs(dutyMMBtuHr) * n("priceMMBtu") + Math.max(hydraulicHp, 0) * 0.746 * 0.075;
+  const opCostFactor = isUnitView ? opDefaults.opex : c.operating;
+  const feedInputCost = massFlowLbHr * n("priceLb");
+  const operatingCost = massFlowLbHr * opCostFactor;
+  const productRevenue = productMassFlow * productPriceLb;
+  const spreadLb = productPriceLb - n("priceLb");
+  const spreadGal = productPriceGal - n("priceGal");
+  const spreadMMBtu = productPriceMMBtu - n("priceMMBtu");
+  const netMargin = productRevenue - feedInputCost - energyInputCost - operatingCost;
+
+  return {
+    selection, unitOperation: op, resultMode, hydraulicHp, dutyMMBtuHr, vaporFlowLbHr, liquidFlowLbHr,
+    inputs: { feedFlowGpm, massFlowLbHr, density, viscosity: n("viscosityCp"), temperature: inletTemp, pressure: inletPressure, priceLb: n("priceLb"), priceGal: n("priceGal"), priceMMBtu: n("priceMMBtu") },
+    product: { flowGpm: productFlowGpm, massFlowLbHr: productMassFlow, density: productDensity, viscosity: productViscosity, temperature: productTemp, pressure: productPressure, priceLb: productPriceLb, priceGal: productPriceGal, priceMMBtu: productPriceMMBtu },
+    economics: { feedInputCost, energyInputCost, operatingCost, productRevenue, spreadLb, spreadGal, spreadMMBtu, netMargin }
+  };
+}
+
+function buildUnitSymbolShowcase(model) {
+  const op = model.unitOperation || selectedUnitOperation();
+  const unitType = unitTypeFromOperation(op);
+  const unit = { id: unitIdFromOperation(op), name: op, type: unitType, x: 610, y: 310, width: op === "Column" ? 170 : op === "Pipe" ? 260 : 190, height: op === "Column" ? 190 : 125 };
+  const feedName = document.getElementById("feedMaterial")?.value || "Natural Gas";
+  const streamType = /Natural Gas|LPG|NGLs/i.test(feedName) || op === "Compressor" || op === "Turbine" ? "vapor" : "liquid";
+  const y = 375;
+  const streams = [
+    { id: "S-101", name: `${feedName} Feed`, type: streamType, utility: false, path: [{x:180,y},{x:unit.x,y}], label:{x:215,y:230}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:`Feed to ${op}` },
+    { id: "S-102", name: `${op} Outlet`, type: streamType, utility: false, path: [{x:unit.x+unit.width,y},{x:1220,y}], label:{x:980,y:230}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:`Outlet from ${op}` }
+  ];
+  if (/Heat Exchanger|Heater|Column|Reactor/.test(op)) streams.push({ id: "Q-101", name: "Energy", type: "energy", utility: true, path: [{x:705,y:625},{x:705,y:unit.y+unit.height}], label:{x:760,y:585}, lines:[`Duty: ${fmt(model.dutyMMBtuHr,2)} MMBtu/h`, `ΔT: ${fmt(model.product.temperature-model.inputs.temperature,0)} °F`], tooltip:"Energy stream" });
+  if (/Separator|Vessel/.test(op)) {
+    streams.push({ id: "V-101", name: "Vapor Product", type: "vapor", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y},{x:unit.x+unit.width/2,y:210},{x:1220,y:210}], label:{x:980,y:115}, lines:[`${fmt(model.vaporFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Separated vapor product" });
+    streams[1].name = "Liquid Product";
+    streams[1].lines[0] = `${fmt(model.liquidFlowLbHr,0)} lb/hr`;
+  }
+  return { units: [unit], streams };
+}
+
+function drawUnit(unit, model) {
+  const g = svgEl("g", { class: "selectable unit" });
+  g.dataset.tooltip = `${unit.id} ${unit.name}\nSymbol: ${unit.type}\nView: ${model.selection.config.title}`;
+  if (unit.type === "furnace") drawFurnaceShape(g, unit, model);
+  else if (unit.type === "pump") drawPumpShape(g, unit);
+  else if (unit.type === "compressor") drawCompressorShape(g, unit);
+  else if (unit.type === "turbine") drawTurbineShape(g, unit);
+  else if (unit.type === "exchanger") drawHeatExchangerShape(g, unit);
+  else if (unit.type === "column") drawColumnShape(g, unit);
+  else if (unit.type === "separator") drawSeparatorShape(g, unit);
+  else if (unit.type === "vessel") drawVesselShape(g, unit);
+  else if (unit.type === "valve") drawValveShape(g, unit);
+  else if (unit.type === "pipe") drawPipeShape(g, unit);
+  else if (unit.type === "reactor") drawReactorShape(g, unit);
+  else if (unit.type === "tank") drawTankShape(g, unit);
+  else drawBoxShape(g, unit);
+  layers.units.appendChild(g);
+  attachTooltip(g);
+}
+
+function updateOutputTable(model) {
+  outputTitle.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `${model.unitOperation} Output Results` : `${model.selection.config.title} Product Properties`;
+  const unitRows = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `
+    <tr><td>Calculation Mode</td><td>${model.resultMode}</td></tr>
+    <tr><td>Pressure Change</td><td>${fmt(model.product.pressure - model.inputs.pressure, 1)} psig</td></tr>
+    <tr><td>Temperature Change</td><td>${fmt(model.product.temperature - model.inputs.temperature, 1)} °F</td></tr>
+    <tr><td>Hydraulic / Shaft Power</td><td>${fmt(model.hydraulicHp, 2)} hp</td></tr>
+    <tr><td>Heat Duty</td><td>${fmt(model.dutyMMBtuHr, 3)} MMBtu/h</td></tr>
+    <tr><td>Vapor Flow</td><td>${fmt(model.vaporFlowLbHr, 0)} lb/hr</td></tr>
+    <tr><td>Liquid Flow</td><td>${fmt(model.liquidFlowLbHr, 0)} lb/hr</td></tr>` : "";
+  outputTable.innerHTML = `
+    ${unitRows}
+    <tr><td>Product flow</td><td>${fmt(model.product.flowGpm, 1)} gpm</td></tr>
+    <tr><td>Mass flow rate</td><td>${fmt(model.product.massFlowLbHr, 0)} lb/hr</td></tr>
+    <tr><td>Density</td><td>${fmt(model.product.density, 2)} lb/ft³</td></tr>
+    <tr><td>Viscosity</td><td>${fmt(model.product.viscosity, 3)} cP</td></tr>
+    <tr><td>Temperature</td><td>${fmt(model.product.temperature, 1)} °F</td></tr>
+    <tr><td>Pressure</td><td>${fmt(model.product.pressure, 1)} psig</td></tr>
+    <tr><td>Price</td><td>${money(model.product.priceLb, 3)}/lb</td></tr>
+    <tr><td>Price</td><td>${money(model.product.priceGal, 2)}/gal</td></tr>
+    <tr><td>Price</td><td>${money(model.product.priceMMBtu, 2)}/MMBtu</td></tr>`;
+}
+
+function drawUnitInputTable(model) {
+  if (!(model.selection.type === "objectLevel" && model.selection.key === "Units")) return;
+  const feedName = document.getElementById("feedMaterial")?.value || "Natural Gas";
+  const g = svgEl("g", { class: "svg-input-table" });
+  g.appendChild(svgEl("rect", { x: 35, y: 125, width: 345, height: 365, rx: 10, class: "overlay-box" }));
+  addText(g, "Unit Input Table", 55, 155, "overlay-title");
+  addText(g, `Feed: ${feedName}`, 55, 180, "overlay-text");
+  addText(g, `Unit: ${model.unitOperation}`, 55, 202, "overlay-text");
+  const rows = [
+    ["Feed flow", `${fmt(model.inputs.feedFlowGpm, 1)} gpm`],
+    ["Mass flow", `${fmt(model.inputs.massFlowLbHr, 0)} lb/hr`],
+    ["Density", `${fmt(model.inputs.density, 2)} lb/ft³`],
+    ["Viscosity", `${fmt(model.inputs.viscosity, 3)} cP`],
+    ["Temperature", `${fmt(model.inputs.temperature, 1)} °F`],
+    ["Pressure", `${fmt(model.inputs.pressure, 1)} psig`],
+    ["Price", `${money(model.inputs.priceLb, 3)}/lb`],
+    ["Price", `${money(model.inputs.priceGal, 2)}/gal`],
+    ["Price", `${money(model.inputs.priceMMBtu, 2)}/MMBtu`]
+  ];
+  rows.forEach(([k, v], i) => {
+    const yy = 235 + i * 26;
+    addText(g, k, 55, yy, "svg-table-key");
+    addText(g, v, 355, yy, "svg-table-value", "end");
+  });
+  layers.overlays.appendChild(g);
+}
+
+function render() {
+  if (!layers) return;
+  const selection = getSelection();
+  syncUnitOperationOverlay(selection);
+  clearLayers();
+  const model = computeModel();
+  const pfd = buildDynamicPfd(model);
+  activeViewName.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `Units - ${model.unitOperation}` : model.selection.config.title;
+  drawGrid();
+  drawViewTitle(model);
+  pfd.streams.forEach(drawStream);
+  pfd.units.forEach(unit => drawUnit(unit, model));
+  pfd.streams.forEach(drawStreamLabel);
+  drawOverlays(model);
+  drawStreamInputTable(model);
+  drawUnitInputTable(model);
+  updateOutputTable(model);
+  updateEconomicsTable(model);
+}
+
 startPfdTemplate();
