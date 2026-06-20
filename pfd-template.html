@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYSYS / UniSim Style PFD Template</title>
+  <link rel="stylesheet" href="pfd-template.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>HYSYS / UniSim Style PFD Starter Template</h1>
+      <p>SVG-based process flowsheet with live inputs, outputs, overlays, labels, and tooltips.</p>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="flowsheet-card">
+      <div class="flowsheet-toolbar">
+        <button id="btnReset">Reset</button>
+        <button id="btnLabels">Toggle Labels</button>
+        <button id="btnUtilities">Toggle Utilities</button>
+        <button id="btnOverlays">Toggle Overlays</button>
+      </div>
+
+      <div class="svg-wrap" id="svgWrap">
+        <svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Process Flow Diagram">
+          <defs>
+            <marker id="arrowProcess" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#2563eb"></path>
+            </marker>
+            <marker id="arrowGas" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#059669"></path>
+            </marker>
+            <marker id="arrowFuel" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#dc2626"></path>
+            </marker>
+            <marker id="arrowFlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#6b7280"></path>
+            </marker>
+          </defs>
+
+          <g id="layerGrid"></g>
+          <g id="layerStreams"></g>
+          <g id="layerUnits"></g>
+          <g id="layerLabels"></g>
+          <g id="layerOverlays"></g>
+        </svg>
+        <div id="pfdTooltip" class="pfd-tooltip"></div>
+      </div>
+    </section>
+
+    <section class="panel-grid">
+      <form class="input-panel" id="inputForm">
+        <h2>Calculation Inputs</h2>
+        <div class="field-grid">
+          <label>Heavy Naphtha Flow, lb/h <input id="naphthaFlow" type="number" value="15000" min="0" step="100"></label>
+          <label>VGO Flow, lb/h <input id="vgoFlow" type="number" value="22000" min="0" step="100"></label>
+          <label>Feed Inlet Temp, °F <input id="feedTin" type="number" value="420" step="1"></label>
+          <label>Feed Outlet Temp, °F <input id="feedTout" type="number" value="680" step="1"></label>
+          <label>Feed Pressure, psig <input id="feedPressure" type="number" value="55" step="1"></label>
+          <label>Average Cp, Btu/lb-°F <input id="cp" type="number" value="0.62" min="0.01" step="0.01"></label>
+          <label>Fuel Gas LHV, Btu/scf <input id="fuelLhv" type="number" value="950" min="1" step="10"></label>
+          <label>Heater Efficiency, % <input id="efficiency" type="number" value="87" min="1" max="100" step="0.5"></label>
+          <label>Stack Temp, °F <input id="stackTemp" type="number" value="650" step="1"></label>
+          <label>Air Excess, % <input id="excessAir" type="number" value="15" min="0" step="1"></label>
+        </div>
+      </form>
+
+      <section class="output-panel">
+        <h2>Calculated Outputs</h2>
+        <table>
+          <tbody id="outputTable"></tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+
+  <script src="pfd-template.js"></script>
+</body>
+</html>
