@@ -345,8 +345,8 @@ function drawPumpShape(g, u) {
   g.appendChild(svgEl("line", { x1: inletX1, y1: cy, x2: inletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
   g.appendChild(svgEl("line", { x1: outletX1, y1: cy, x2: outletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
   g.appendChild(svgEl("circle", { cx, cy, r: 30, class: "pump-body" }));
+  g.appendChild(svgEl("polygon", { points: `${cx},${cy + 40} ${cx + 20},${cy} ${cx - 20},${cy}`, class: "pump-orientation" }));
   
-  g.appendChild(svgEl("polygon", { points: `${cx},${cy+80} ${cx + 20},${cy + 70} ${cx - 20},${cy + 70}`, class: "pump-orientation" }));
   addText(g, u.id.replace(/^OBJ-101$/, "P-101"), cx, u.y + 108, "pump-tag", "middle");
   addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
 }
