@@ -1858,3 +1858,142 @@ function buildDynamicPfd(model) {
   }
   return addEnergyNetworkToPfd({ units, streams }, model);
 }
+
+/* ------------------------------------------------------------------
+   Final override: Regions object-level routing
+   - Energy stream routes only to Supply Hub.
+   - Three site feeds plus imports enter Supply Hub near sea ports.
+   - Exports leave Supply Hub.
+   - Supply Hub, Site Storage, and Plant all feed Market.
+   - Market routes product to Consumers.
+   - Regional process-stream tooltips show bpd, gpm, lb/hr,
+     $/MMBtu, MMBtu/bbl, and MMBtu/lb.
+------------------------------------------------------------------ */
+const previousBuildDynamicPfdForRegions = buildDynamicPfd;
+const previousDrawEnergyTableForRegions = drawEnergyTable;
+
+function regionalStreamMeta(model, options = {}) {
+  const bpd = Number(options.bpd || 0);
+  const gpm = bpd * 42 / 1440;
+  const density = Number(options.density || model.inputs?.density || 45);
+  const lbHr = gpm * 60 * 0.133681 * density;
+  const mmbtuBbl = Number(options.mmbtuBbl || 5.8);
+  const mmbtuLb = mmbtuBbl / Math.max(density * 5.61458, 0.000001);
+  const priceMMBtu = Number(options.priceMMBtu || model.inputs?.priceMMBtu || 10);
+  return { bpd, gpm, lbHr, mmbtuBbl, mmbtuLb, priceMMBtu };
+}
+
+function regionalStream(id, name, type, path, label, model, metaOptions) {
+  const meta = regionalStreamMeta(model, metaOptions);
+  return {
+    id,
+    name,
+    type,
+    utility: false,
+    path,
+    label,
+    lines: [`${fmt(meta.bpd, 0)} bpd`, `${fmt(meta.gpm, 1)} gpm | ${fmt(meta.lbHr, 0)} lb/hr`],
+    meta
+  };
+}
+
+function buildRegionsViewPfd(model) {
+  const units = [
+    { id: "SITE-A", name: "Site 1 Terminal", type: "box", x: 55, y: 95, width: 170, height: 70 },
+    { id: "SITE-B", name: "Site 2 Terminal", type: "box", x: 55, y: 215, width: 170, height: 70 },
+    { id: "SITE-C", name: "Site 3 Terminal", type: "box", x: 55, y: 335, width: 170, height: 70 },
+    { id: "IMP-101", name: "Imports", type: "box", x: 55, y: 555, width: 170, height: 70 },
+    { id: "HUB-101", name: "Supply Hub (Near Sea Port)", type: "tank", x: 405, y: 245, width: 215, height: 135 },
+    { id: "ST-101", name: "Site Storage Terminal", type: "tank", x: 725, y: 95, width: 205, height: 120 },
+    { id: "PLT-101", name: "Plant", type: "box", x: 735, y: 455, width: 185, height: 95 },
+    { id: "MKT-101", name: "Market", type: "box", x: 1015, y: 275, width: 180, height: 100 },
+    { id: "CONS-101", name: "Consumers", type: "box", x: 1235, y: 275, width: 140, height: 100 },
+    { id: "EXP-101", name: "Exports", type: "box", x: 725, y: 655, width: 190, height: 80 },
+    { id: "Q-REG", name: "Energy Supply", type: "box", x: 405, y: 665, width: 185, height: 70 }
+  ];
+
+  const byId = Object.fromEntries(units.map(u => [u.id, u]));
+  const midY = u => u.y + u.height / 2;
+  const midX = u => u.x + u.width / 2;
+  const leftX = u => u.x;
+  const rightX = u => u.x + u.width;
+  const topY = u => u.y;
+  const botY = u => u.y + u.height;
+  const hub = byId["HUB-101"];
+  const market = byId["MKT-101"];
+
+  const streams = [
+    regionalStream("R-101", "Site 1 Supply to Hub", "liquid", [{x:rightX(byId["SITE-A"]),y:midY(byId["SITE-A"])},{x:310,y:midY(byId["SITE-A"])},{x:310,y:hub.y+25},{x:leftX(hub),y:hub.y+25}], {x:230,y:82}, model, {bpd: 85000, density: 48, mmbtuBbl: 5.75, priceMMBtu: 11.25}),
+    regionalStream("R-102", "Site 2 Supply to Hub", "liquid", [{x:rightX(byId["SITE-B"]),y:midY(byId["SITE-B"])},{x:leftX(hub),y:hub.y+58}], {x:230,y:205}, model, {bpd: 65000, density: 50, mmbtuBbl: 5.85, priceMMBtu: 10.90}),
+    regionalStream("R-103", "Site 3 Supply to Hub", "liquid", [{x:rightX(byId["SITE-C"]),y:midY(byId["SITE-C"])},{x:310,y:midY(byId["SITE-C"])},{x:310,y:hub.y+95},{x:leftX(hub),y:hub.y+95}], {x:230,y:405}, model, {bpd: 52000, density: 46, mmbtuBbl: 5.55, priceMMBtu: 10.40}),
+    regionalStream("R-104", "Imports to Supply Hub", "vapor", [{x:rightX(byId["IMP-101"]),y:midY(byId["IMP-101"])},{x:350,y:midY(byId["IMP-101"])},{x:350,y:midY(hub)},{x:leftX(hub),y:midY(hub)}], {x:230,y:575}, model, {bpd: 72000, density: 32, mmbtuBbl: 4.25, priceMMBtu: 8.75}),
+    regionalStream("R-105", "Supply Hub to Market", "liquid", [{x:rightX(hub),y:midY(hub)},{x:leftX(market),y:midY(market)}], {x:690,y:285}, model, {bpd: 120000, density: 45, mmbtuBbl: 5.60, priceMMBtu: 12.00}),
+    regionalStream("R-106", "Supply Hub Exports", "liquid", [{x:midX(hub),y:botY(hub)},{x:midX(hub),y:620},{x:leftX(byId["EXP-101"]),y:midY(byId["EXP-101"])}], {x:520,y:585}, model, {bpd: 60000, density: 43, mmbtuBbl: 5.35, priceMMBtu: 12.50}),
+    regionalStream("R-107", "Site Storage to Market", "liquid", [{x:rightX(byId["ST-101"]),y:midY(byId["ST-101"])},{x:965,y:midY(byId["ST-101"])},{x:965,y:market.y+25},{x:leftX(market),y:market.y+25}], {x:940,y:140}, model, {bpd: 45000, density: 48, mmbtuBbl: 5.70, priceMMBtu: 12.20}),
+    regionalStream("R-108", "Plant Direct Supply to Market", "liquid", [{x:rightX(byId["PLT-101"]),y:midY(byId["PLT-101"])},{x:970,y:midY(byId["PLT-101"])},{x:970,y:market.y+78},{x:leftX(market),y:market.y+78}], {x:900,y:485}, model, {bpd: 38000, density: 42, mmbtuBbl: 5.20, priceMMBtu: 13.10}),
+    regionalStream("R-109", "Market to Consumers", "liquid", [{x:rightX(market),y:midY(market)},{x:leftX(byId["CONS-101"]),y:midY(byId["CONS-101"])}], {x:1190,y:230}, model, {bpd: 165000, density: 44, mmbtuBbl: 5.45, priceMMBtu: 14.00})
+  ];
+
+  // Energy is intentionally routed only to the Supply Hub, with no branches to other units.
+  streams.push({
+    id: "E-REG",
+    name: "Energy to Supply Hub Only",
+    type: "energy",
+    utility: true,
+    path: [{x:midX(byId["Q-REG"]),y:topY(byId["Q-REG"])},{x:midX(byId["Q-REG"]),y:515},{x:midX(hub),y:515},{x:midX(hub),y:botY(hub)}],
+    label: {x:390,y:545},
+    lines: [`Energy to hub only`, `${fmt(totalEnergyMMBtu(model),2)} MMBtu/h`],
+    tooltip: `Energy stream routed only to HUB-101 Supply Hub\nDuty: ${fmt(totalEnergyMMBtu(model),2)} MMBtu/h\nPower equivalent: ${fmt(totalEnergyHp(model),1)} hp`
+  });
+
+  return { units, streams };
+}
+
+function buildDynamicPfd(model) {
+  if (model.selection.type === "objectLevel" && model.selection.key === "Regions") {
+    return buildRegionsViewPfd(model);
+  }
+  return previousBuildDynamicPfdForRegions(model);
+}
+
+function drawEnergyTable(model) {
+  if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions") return;
+  return previousDrawEnergyTableForRegions(model);
+}
+
+const previousStreamDataForTooltipRegions = streamDataForTooltip;
+function streamDataForTooltip(stream, model) {
+  if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions" && stream?.meta) {
+    return {
+      name: stream.name,
+      gpm: stream.meta.gpm,
+      bpd: stream.meta.bpd,
+      lbHr: stream.meta.lbHr,
+      temp: model.inputs?.temperature || 0,
+      pressure: model.inputs?.pressure || 0,
+      enthalpy: stream.meta.bpd * stream.meta.mmbtuBbl / 24,
+      priceMMBtu: stream.meta.priceMMBtu,
+      priceBbl: stream.meta.priceMMBtu * stream.meta.mmbtuBbl,
+      mmbtuBbl: stream.meta.mmbtuBbl,
+      mmbtuLb: stream.meta.mmbtuLb
+    };
+  }
+  return previousStreamDataForTooltipRegions(stream, model);
+}
+
+const previousBuildStreamTooltipRegions = buildStreamTooltip;
+function buildStreamTooltip(stream, model) {
+  if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions" && stream?.meta) {
+    const d = streamDataForTooltip(stream, model);
+    return [
+      `Name: ${d.name}`,
+      `Flow rate: ${fmt(d.bpd, 1)} bpd`,
+      `Volumetric flow: ${fmt(d.gpm, 1)} gpm`,
+      `Mass flow: ${fmt(d.lbHr, 0)} lb/hr`,
+      `Energy value: ${money(d.priceMMBtu, 2)}/MMBtu`,
+      `Energy content: ${fmt(d.mmbtuBbl, 3)} MMBtu/bbl`,
+      `Energy content: ${fmt(d.mmbtuLb, 5)} MMBtu/lb`
+    ].join("\n");
+  }
+  return previousBuildStreamTooltipRegions(stream, model);
+}
