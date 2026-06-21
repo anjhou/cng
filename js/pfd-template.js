@@ -1444,7 +1444,13 @@ function streamDataForTooltip(stream, model) {
     enthalpy = Math.abs(unitEnergyMMBtu(model || {}, 0) || totalEnergyMMBtu(model || {}) || model?.dutyMMBtuHr || 0);
   }
 
-  return { name, gpm, bpd: gpmToBpd(gpm), lbHr, temp, pressure, enthalpy };
+  const streamKey = `${stream?.id || ""} ${stream?.name || ""}`;
+  const useProductPrice = /S-102|S-106|S-107|S-108|S-109|outlet|product|treated|intermediate|storage|export|petrochemical/i.test(streamKey);
+  const priceMMBtu = useProductPrice ? Number(product.priceMMBtu || input.priceMMBtu || 0) : Number(input.priceMMBtu || product.priceMMBtu || 0);
+  const priceGal = useProductPrice ? Number(product.priceGal || input.priceGal || 0) : Number(input.priceGal || product.priceGal || 0);
+  const priceBbl = priceGal * 42;
+
+  return { name, gpm, bpd: gpmToBpd(gpm), lbHr, temp, pressure, enthalpy, priceMMBtu, priceBbl };
 }
 
 function buildStreamTooltip(stream, model) {
@@ -1456,7 +1462,9 @@ function buildStreamTooltip(stream, model) {
     `Mass flow rate: ${fmt(d.lbHr, 0)} lb/hr`,
     `Temperature: ${fmt(d.temp, 1)} °F`,
     `Pressure: ${fmt(d.pressure, 1)} psig`,
-    `Enthalpy: ${fmt(d.enthalpy, 3)} MMBtu/hr`
+    `Enthalpy: ${fmt(d.enthalpy, 3)} MMBtu/hr`,
+    `Price: ${money(d.priceMMBtu, 2)}/MMBtu`,
+    `Price: ${money(d.priceBbl, 2)}/bbl`
   ].join("\n");
 }
 
@@ -1478,7 +1486,9 @@ function buildUnitTooltip(unit, model) {
     `Volumetric flow rate: ${fmt(input.feedFlowGpm, 1)} gpm`,
     `Mass flow rate: ${fmt(input.massFlowLbHr, 0)} lb/hr`,
     `Duty: ${fmt(duty, 3)} MMBtu/hr`,
-    `Power: ${fmt(hp, 2)} hp`
+    `Power: ${fmt(hp, 2)} hp`,
+    `Price: ${money(input.priceMMBtu || 0, 2)}/MMBtu`,
+    `Price: ${money((input.priceGal || 0) * 42, 2)}/bbl`
   ];
 
   if (/pump|compressor|turbine/i.test(unit.type)) {
@@ -1805,7 +1815,8 @@ function buildSitesViewPfd(model) {
     }
   ];
 
-  return addEnergyNetworkToPfd({ units, streams }, model);
+  // Sites view intentionally does not include an energy stream/header.
+  return { units, streams };
 }
 
 function buildDynamicPfd(model) {
