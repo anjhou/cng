@@ -252,3 +252,22 @@ button.toggle-off {
   border-color: #fca5a5;
   color: #991b1b;
 }
+
+/* Amine detailed process-area view */
+.amine-field-grid {
+  grid-template-columns: repeat(3, minmax(190px, 1fr));
+}
+.amine-svg-summary .overlay-box {
+  fill: rgba(255, 255, 255, 0.985);
+  stroke: #0f766e;
+  stroke-width: 1.5;
+}
+.stream.vapor { stroke: #059669; }
+.stream.liquid { stroke: #2563eb; }
+.stream.energy { stroke: #b45309; stroke-dasharray: 8 5; marker-end: url(#arrowEnergy); }
+@media (max-width: 1100px) {
+  .amine-field-grid { grid-template-columns: repeat(2, minmax(190px, 1fr)); }
+}
+@media (max-width: 700px) {
+  .amine-field-grid { grid-template-columns: 1fr; }
+}

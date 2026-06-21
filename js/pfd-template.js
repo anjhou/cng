@@ -2108,3 +2108,355 @@ function render() {
   updateEconomicsTable(model);
   updateToggleButtons();
 }
+
+/* ------------------------------------------------------------------
+   Amine process-area detailed view
+   Basis: sour gas sweetening with MDEA absorption/regeneration loop.
+   This override is applied only when processArea = Amine.
+------------------------------------------------------------------ */
+const previousRenderInputFormBeforeAmine = renderInputForm;
+const previousComputeModelBeforeAmine = computeModel;
+const previousBuildDynamicPfdBeforeAmine = buildDynamicPfd;
+const previousUpdateOutputTableBeforeAmine = updateOutputTable;
+const previousUpdateEconomicsTableBeforeAmine = updateEconomicsTable;
+const previousStreamDataForTooltipBeforeAmine = streamDataForTooltip;
+const previousBuildUnitTooltipBeforeAmine = buildUnitTooltip;
+
+function isAmineSelection(selection = getSelection()) {
+  return selection?.type === "processArea" && selection?.key === "Amine";
+}
+
+const amineInputFields = [
+  { id: "sourGasMmscfd", label: "Sour gas feed", unit: "MMSCFD", value: 10, min: 0, step: 0.1 },
+  { id: "h2sMolPct", label: "H₂S in sour gas", unit: "mol%", value: 2.0, min: 0, step: 0.1 },
+  { id: "co2MolPct", label: "CO₂ in sour gas", unit: "mol%", value: 1.0, min: 0, step: 0.1 },
+  { id: "gasTemperatureF", label: "Sour gas temperature", unit: "°F", value: 100, step: 1 },
+  { id: "gasPressurePsig", label: "Absorber pressure", unit: "psig", value: 950, step: 5 },
+  { id: "mdeaWtPct", label: "MDEA solution strength", unit: "wt%", value: 40, min: 1, max: 70, step: 1 },
+  { id: "leanLoading", label: "Lean loading", unit: "mol/mol", value: 0.05, min: 0, step: 0.01 },
+  { id: "richLoading", label: "Rich loading", unit: "mol/mol", value: 0.40, min: 0, step: 0.01 },
+  { id: "circulationFactor", label: "Design circulation factor", unit: "× theoretical", value: 1.35, min: 1, step: 0.05 },
+  { id: "solutionDensity", label: "Amine solution density", unit: "lb/gal", value: 8.75, min: 1, step: 0.05 },
+  { id: "leanAmineTemperatureF", label: "Lean amine to absorber", unit: "°F", value: 110, step: 1 },
+  { id: "richAmineTemperatureF", label: "Rich amine from absorber", unit: "°F", value: 125, step: 1 },
+  { id: "stripperPressurePsig", label: "Regenerator pressure", unit: "psig", value: 15, step: 1 },
+  { id: "acidGasRemovalPct", label: "Acid-gas removal", unit: "%", value: 99.0, min: 0, max: 100, step: 0.1 },
+  { id: "reboilerDutyPerGal", label: "Reboiler duty factor", unit: "Btu/gal circulated", value: 950, min: 0, step: 25 },
+  { id: "pumpDischargePsig", label: "Lean amine pump discharge", unit: "psig", value: 1000, step: 5 },
+  { id: "powerCost", label: "Power cost", unit: "$/kWh", value: 0.075, min: 0, step: 0.005 },
+  { id: "fuelCostMMBtu", label: "Reboiler fuel cost", unit: "$/MMBtu", value: 4.50, min: 0, step: 0.05 },
+  { id: "solventMakeupCost", label: "Solvent makeup cost", unit: "$/day", value: 250, min: 0, step: 10 }
+];
+
+function renderInputForm(selection) {
+  if (!isAmineSelection(selection)) {
+    return previousRenderInputFormBeforeAmine(selection);
+  }
+
+  currentInputIds = amineInputFields.map(f => f.id);
+  inputForm.innerHTML = `
+    <h2>Amine Gas-Sweetening Inputs</h2>
+    <p class="panel-note">Basis: sour gas + MDEA absorber/regenerator closed-loop solvent treating.</p>
+    <div class="field-grid amine-field-grid">
+      ${amineInputFields.map(f => `
+        <label>${f.label}, ${f.unit}
+          <input id="${f.id}" type="number" value="${f.value}" ${f.min !== undefined ? `min="${f.min}"` : ""} ${f.max !== undefined ? `max="${f.max}"` : ""} step="${f.step}">
+        </label>
+      `).join("")}
+    </div>
+  `;
+  currentInputIds.forEach(id => document.getElementById(id)?.addEventListener("input", render));
+}
+
+function nLocal(id, fallback = 0) {
+  const el = document.getElementById(id);
+  return el ? Number(el.value || fallback) : Number(fallback || 0);
+}
+
+function computeAmineModel() {
+  const selection = getSelection();
+  const gasMmscfd = nLocal("sourGasMmscfd", 10);
+  const h2sPct = nLocal("h2sMolPct", 2.0);
+  const co2Pct = nLocal("co2MolPct", 1.0);
+  const gasTemp = nLocal("gasTemperatureF", 100);
+  const gasPressure = nLocal("gasPressurePsig", 950);
+  const mdeaWt = nLocal("mdeaWtPct", 40);
+  const leanLoading = nLocal("leanLoading", 0.05);
+  const richLoading = nLocal("richLoading", 0.40);
+  const circulationFactor = nLocal("circulationFactor", 1.35);
+  const solutionDensityLbGal = nLocal("solutionDensity", 8.75);
+  const leanTemp = nLocal("leanAmineTemperatureF", 110);
+  const richTemp = nLocal("richAmineTemperatureF", 125);
+  const stripperPressure = nLocal("stripperPressurePsig", 15);
+  const removalPct = nLocal("acidGasRemovalPct", 99.0);
+  const reboilerDutyPerGal = nLocal("reboilerDutyPerGal", 950);
+  const pumpDischarge = nLocal("pumpDischargePsig", 1000);
+  const powerCost = nLocal("powerCost", 0.075);
+  const fuelCost = nLocal("fuelCostMMBtu", 4.50);
+  const solventMakeupCost = nLocal("solventMakeupCost", 250);
+
+  const gasLbmolDay = gasMmscfd * 1_000_000 / 379.5;
+  const h2sLbmolDay = gasLbmolDay * h2sPct / 100;
+  const co2LbmolDay = gasLbmolDay * co2Pct / 100;
+  const acidGasLbmolDay = h2sLbmolDay + co2LbmolDay;
+  const removedAcidGasLbmolDay = acidGasLbmolDay * removalPct / 100;
+  const workingCapacity = Math.max(richLoading - leanLoading, 0.0001);
+  const mdeaLbmolDay = removedAcidGasLbmolDay / workingCapacity;
+  const pureMdeaLbDay = mdeaLbmolDay * 119.16;
+  const solutionLbDayTheoretical = pureMdeaLbDay / Math.max(mdeaWt / 100, 0.0001);
+  const theoreticalGalDay = solutionLbDayTheoretical / solutionDensityLbGal;
+  const theoreticalGph = theoreticalGalDay / 24;
+  const designGph = theoreticalGph * circulationFactor;
+  const designGpm = designGph / 60;
+  const solutionLbHr = designGph * solutionDensityLbGal;
+  const treatedGasMmscfd = gasMmscfd * (1 - removedAcidGasLbmolDay / Math.max(gasLbmolDay, 1));
+  const acidGasLbmolHr = removedAcidGasLbmolDay / 24;
+  const acidGasLbHr = (h2sLbmolDay * 34.08 + co2LbmolDay * 44.01) * removalPct / 100 / 24;
+  const sweetGasPressure = Math.max(gasPressure - 10, 0);
+  const richAminePressure = Math.max(gasPressure - 15, 0);
+  const flashDrumPressure = 65;
+  const exchangerRichOutF = 205;
+  const regeneratorBottomF = 245;
+  const leanCoolerOutF = leanTemp;
+  const reboilerDutyMMBtuHr = designGph * reboilerDutyPerGal / 1_000_000;
+  const exchangerDutyMMBtuHr = solutionLbHr * 0.82 * Math.max(exchangerRichOutF - richTemp, 0) / 1_000_000;
+  const coolerDutyMMBtuHr = solutionLbHr * 0.82 * Math.max(regeneratorBottomF - leanCoolerOutF, 0) / 1_000_000;
+  const pumpDeltaP = Math.max(pumpDischarge - 65, 0);
+  const pumpHp = designGpm * pumpDeltaP / (1714 * 0.70);
+  const fuelCostHr = reboilerDutyMMBtuHr * fuelCost;
+  const powerCostHr = pumpHp * 0.746 * powerCost;
+  const operatingCostHr = fuelCostHr + powerCostHr + solventMakeupCost / 24;
+  const acidGasRemovalLbHr = acidGasLbHr;
+
+  return {
+    selection,
+    isAmine: true,
+    inputs: {
+      feedFlowGpm: gasMmscfd * 694.4,
+      massFlowLbHr: gasMmscfd * 1_000_000 / 24 * 0.045,
+      density: 3.2,
+      viscosity: 0.012,
+      temperature: gasTemp,
+      pressure: gasPressure,
+      priceLb: 0,
+      priceGal: 0,
+      priceMMBtu: fuelCost,
+      gasMmscfd, h2sPct, co2Pct, mdeaWt, leanLoading, richLoading, circulationFactor,
+      solutionDensityLbGal, leanTemp, richTemp, stripperPressure, removalPct, reboilerDutyPerGal,
+      pumpDischarge, powerCost, fuelCost, solventMakeupCost
+    },
+    product: {
+      flowGpm: treatedGasMmscfd * 694.4,
+      massFlowLbHr: treatedGasMmscfd * 1_000_000 / 24 * 0.043,
+      density: 3.0,
+      viscosity: 0.011,
+      temperature: gasTemp + 5,
+      pressure: sweetGasPressure,
+      priceLb: 0,
+      priceGal: 0,
+      priceMMBtu: 3.75
+    },
+    amine: {
+      gasLbmolDay, h2sLbmolDay, co2LbmolDay, acidGasLbmolDay, removedAcidGasLbmolDay,
+      workingCapacity, mdeaLbmolDay, pureMdeaLbDay, solutionLbDayTheoretical,
+      theoreticalGalDay, theoreticalGph, designGph, designGpm, solutionLbHr,
+      treatedGasMmscfd, acidGasLbmolHr, acidGasLbHr, acidGasRemovalLbHr,
+      richAminePressure, flashDrumPressure, exchangerRichOutF, regeneratorBottomF,
+      leanCoolerOutF, reboilerDutyMMBtuHr, exchangerDutyMMBtuHr, coolerDutyMMBtuHr,
+      pumpDeltaP, pumpHp, fuelCostHr, powerCostHr, operatingCostHr
+    },
+    dutyMMBtuHr: reboilerDutyMMBtuHr,
+    hydraulicHp: pumpHp,
+    vaporFlowLbHr: acidGasLbHr,
+    liquidFlowLbHr: solutionLbHr,
+    economics: {
+      feedInputCost: 0,
+      energyInputCost: fuelCostHr + powerCostHr,
+      operatingCost: operatingCostHr,
+      productRevenue: 0,
+      spreadLb: 0,
+      spreadGal: 0,
+      spreadMMBtu: 0,
+      netMargin: -operatingCostHr
+    }
+  };
+}
+
+function computeModel() {
+  if (isAmineSelection()) return computeAmineModel();
+  return previousComputeModelBeforeAmine();
+}
+
+function amineStreamMeta(model, { name, gpm = 0, lbHr = 0, temp = 100, pressure = 0, cp = 0.62 }) {
+  return {
+    name,
+    gpm,
+    bpd: gpmToBpd(gpm),
+    lbHr,
+    temp,
+    pressure,
+    enthalpy: streamEnthalpyMMBtuHr(lbHr, temp, 60, cp),
+    priceMMBtu: model.inputs.fuelCost || model.inputs.priceMMBtu || 0,
+    priceBbl: 0
+  };
+}
+
+function streamFromMeta(id, name, type, path, label, lines, meta, utility = false) {
+  return { id, name, type, utility, path, label, lines, meta };
+}
+
+function buildAminePfd(model) {
+  const a = model.amine;
+  const units = [
+    { id: "V-101", name: "Inlet Separator", type: "separator", x: 60, y: 315, width: 150, height: 95 },
+    { id: "T-101", name: "Amine Absorber", type: "column", x: 285, y: 235, width: 150, height: 210 },
+    { id: "LV-101", name: "LCV", type: "valve", x: 475, y: 475, width: 80, height: 70 },
+    { id: "V-102", name: "Rich Amine Flash Drum", type: "separator", x: 610, y: 445, width: 165, height: 105 },
+    { id: "F-101", name: "Rich Amine Filters", type: "box", x: 820, y: 455, width: 155, height: 85 },
+    { id: "E-101", name: "Rich/Lean Exchanger", type: "exchanger", x: 555, y: 270, width: 185, height: 110 },
+    { id: "T-102", name: "Amine Regenerator", type: "column", x: 835, y: 180, width: 155, height: 230 },
+    { id: "E-102", name: "Overhead Condenser", type: "exchanger", x: 1080, y: 105, width: 175, height: 90 },
+    { id: "V-103", name: "Reflux Drum", type: "separator", x: 1085, y: 240, width: 165, height: 95 },
+    { id: "E-103", name: "Lean Amine Cooler", type: "exchanger", x: 555, y: 92, width: 185, height: 90 },
+    { id: "V-104", name: "Lean Amine Surge Drum", type: "tank", x: 320, y: 80, width: 165, height: 100 },
+    { id: "P-101A/B", name: "Lean Amine Pumps", type: "pump", x: 80, y: 100, width: 165, height: 120 },
+    { id: "H-101", name: "Regenerator Reboiler", type: "furnace", x: 1015, y: 430, width: 170, height: 140 }
+  ];
+  const u = Object.fromEntries(units.map(x => [x.id, x]));
+  const cx = x => x.x + x.width / 2;
+  const cy = x => unitConnectionY(x);
+  const lx = x => x.x;
+  const rx = x => x.x + x.width;
+
+  const streams = [];
+  streams.push(streamFromMeta("S-101", "Sour Gas Feed", "vapor", [{x:15,y:cy(u["V-101"])},{x:lx(u["V-101"]),y:cy(u["V-101"])}], {x:25,y:250}, [`${fmt(model.inputs.gasMmscfd,1)} MMSCFD`, `${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], amineStreamMeta(model,{name:"Sour Gas Feed",gpm:model.inputs.feedFlowGpm,lbHr:model.inputs.massFlowLbHr,temp:model.inputs.temperature,pressure:model.inputs.pressure,cp:0.52})));
+  streams.push(streamFromMeta("S-102", "Conditioned Sour Gas", "vapor", [{x:rx(u["V-101"]),y:cy(u["V-101"])},{x:260,y:cy(u["V-101"])},{x:260,y:u["T-101"].y+175},{x:lx(u["T-101"])+35,y:u["T-101"].y+175}], {x:218,y:355}, [`${fmt(model.inputs.gasMmscfd,1)} MMSCFD`, `${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure-3,0)} psig`], amineStreamMeta(model,{name:"Conditioned Sour Gas",gpm:model.inputs.feedFlowGpm,lbHr:model.inputs.massFlowLbHr,temp:model.inputs.temperature,pressure:model.inputs.pressure-3,cp:0.52})));
+  streams.push(streamFromMeta("S-103", "Sweet Gas Product", "vapor", [{x:cx(u["T-101"]),y:u["T-101"].y-20},{x:cx(u["T-101"]),y:55},{x:1280,y:55}], {x:1010,y:25}, [`${fmt(a.treatedGasMmscfd,2)} MMSCFD`, `${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], amineStreamMeta(model,{name:"Sweet Gas Product",gpm:model.product.flowGpm,lbHr:model.product.massFlowLbHr,temp:model.product.temperature,pressure:model.product.pressure,cp:0.52})));
+  streams.push(streamFromMeta("S-104", "Rich Amine", "liquid", [{x:cx(u["T-101"]),y:u["T-101"].y+u["T-101"].height+40},{x:cx(u["T-101"]),y:510},{x:lx(u["LV-101"]),y:510}], {x:350,y:525}, [`${fmt(a.designGph,0)} gph`, `${fmt(model.inputs.richTemp,0)} °F | ${fmt(a.richAminePressure,0)} psig`], amineStreamMeta(model,{name:"Rich Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:model.inputs.richTemp,pressure:a.richAminePressure,cp:0.82})));
+  streams.push(streamFromMeta("S-105", "Flashed Rich Amine", "liquid", [{x:rx(u["LV-101"]),y:510},{x:lx(u["V-102"]),y:510}], {x:540,y:525}, [`${fmt(a.designGph,0)} gph`, `${fmt(model.inputs.richTemp,0)} °F | ${fmt(a.flashDrumPressure,0)} psig`], amineStreamMeta(model,{name:"Flashed Rich Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:model.inputs.richTemp,pressure:a.flashDrumPressure,cp:0.82})));
+  streams.push(streamFromMeta("S-106", "Flash Vapor to Fuel/Flare", "vapor", [{x:cx(u["V-102"]),y:u["V-102"].y},{x:cx(u["V-102"]),y:400},{x:790,y:400}], {x:675,y:375}, [`${fmt(a.acidGasLbHr*0.06,0)} lb/hr`, `${fmt(model.inputs.richTemp,0)} °F | ${fmt(a.flashDrumPressure,0)} psig`], amineStreamMeta(model,{name:"Flash Vapor to Fuel/Flare",gpm:0,lbHr:a.acidGasLbHr*0.06,temp:model.inputs.richTemp,pressure:a.flashDrumPressure,cp:0.52})));
+  streams.push(streamFromMeta("S-107", "Filtered Rich Amine", "liquid", [{x:rx(u["V-102"]),y:510},{x:lx(u["F-101"]),y:510}], {x:775,y:535}, [`${fmt(a.designGph,0)} gph`, `${fmt(model.inputs.richTemp,0)} °F | ${fmt(a.flashDrumPressure-3,0)} psig`], amineStreamMeta(model,{name:"Filtered Rich Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:model.inputs.richTemp,pressure:a.flashDrumPressure-3,cp:0.82})));
+  streams.push(streamFromMeta("S-108", "Preheated Rich Amine", "liquid", [{x:895,y:455},{x:895,y:365},{x:rx(u["E-101"]),y:325},{x:u["T-102"].x+10,y:325}], {x:735,y:300}, [`${fmt(a.designGph,0)} gph`, `${fmt(a.exchangerRichOutF,0)} °F | ${fmt(a.flashDrumPressure-8,0)} psig`], amineStreamMeta(model,{name:"Preheated Rich Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:a.exchangerRichOutF,pressure:a.flashDrumPressure-8,cp:0.82})));
+  streams.push(streamFromMeta("S-109", "Acid Gas to SRU/Flare", "vapor", [{x:cx(u["T-102"]),y:u["T-102"].y-20},{x:cx(u["T-102"]),y:150},{x:lx(u["E-102"]),y:150}], {x:920,y:110}, [`${fmt(a.acidGasLbHr,0)} lb/hr`, `${fmt(a.acidGasLbmolHr,1)} lbmol/hr`], amineStreamMeta(model,{name:"Acid Gas to SRU/Flare",gpm:0,lbHr:a.acidGasLbHr,temp:210,pressure:model.inputs.stripperPressure,cp:0.50})));
+  streams.push(streamFromMeta("S-110", "Condensed Overhead", "liquid", [{x:rx(u["E-102"]),y:150},{x:1165,y:150},{x:1165,y:u["V-103"].y}], {x:1175,y:170}, [`Water reflux`, `${fmt(model.inputs.stripperPressure,0)} psig`], amineStreamMeta(model,{name:"Condensed Overhead",gpm:a.designGpm*0.04,lbHr:a.solutionLbHr*0.04,temp:120,pressure:model.inputs.stripperPressure,cp:1.0})));
+  streams.push(streamFromMeta("S-111", "Lean Amine from Regenerator", "liquid", [{x:cx(u["T-102"]),y:u["T-102"].y+u["T-102"].height+45},{x:cx(u["T-102"]),y:600},{x:650,y:600},{x:650,y:380}], {x:710,y:610}, [`${fmt(a.designGph,0)} gph`, `${fmt(a.regeneratorBottomF,0)} °F | ${fmt(model.inputs.stripperPressure,0)} psig`], amineStreamMeta(model,{name:"Hot Lean Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:a.regeneratorBottomF,pressure:model.inputs.stripperPressure,cp:0.82})));
+  streams.push(streamFromMeta("S-112", "Cooled Lean Amine", "liquid", [{x:650,y:270},{x:650,y:138},{x:rx(u["V-104"]),y:138},{x:lx(u["E-103"]),y:138}], {x:505,y:105}, [`${fmt(a.designGph,0)} gph`, `${fmt(model.inputs.leanTemp,0)} °F | ${fmt(model.inputs.pumpDischarge,0)} psig`], amineStreamMeta(model,{name:"Cooled Lean Amine",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:model.inputs.leanTemp,pressure:model.inputs.pumpDischarge,cp:0.82})));
+  streams.push(streamFromMeta("S-113", "Lean Amine to Absorber", "liquid", [{x:rx(u["P-101A/B"]),y:unitConnectionY(u["P-101A/B"])},{x:260,y:unitConnectionY(u["P-101A/B"])},{x:260,y:u["T-101"].y+35},{x:lx(u["T-101"])+35,y:u["T-101"].y+35}], {x:230,y:135}, [`${fmt(a.designGph,0)} gph`, `${fmt(model.inputs.leanTemp,0)} °F | ${fmt(model.inputs.pumpDischarge,0)} psig`], amineStreamMeta(model,{name:"Lean Amine to Absorber",gpm:a.designGpm,lbHr:a.solutionLbHr,temp:model.inputs.leanTemp,pressure:model.inputs.pumpDischarge,cp:0.82})));
+  streams.push(streamFromMeta("Q-101", "Reboiler Duty", "energy", [{x:1100,y:650},{x:1100,y:u["H-101"].y+u["H-101"].height}], {x:1125,y:610}, [`${fmt(a.reboilerDutyMMBtuHr,2)} MMBtu/hr`, `${fmt(a.reboilerDutyMMBtuHr*393.014,0)} hp equiv.`], amineStreamMeta(model,{name:"Reboiler Duty",gpm:0,lbHr:0,temp:0,pressure:0,cp:0}), true));
+  streams.push(streamFromMeta("Q-102", "Lean Cooler Duty", "energy", [{x:650,y:235},{x:650,y:u["E-103"].y+u["E-103"].height}], {x:735,y:200}, [`${fmt(a.coolerDutyMMBtuHr,2)} MMBtu/hr`, `Cooling duty`], amineStreamMeta(model,{name:"Lean Cooler Duty",gpm:0,lbHr:0,temp:0,pressure:0,cp:0}), true));
+
+  return { units, streams };
+}
+
+function buildDynamicPfd(model) {
+  if (model?.isAmine || isAmineSelection(model?.selection)) return buildAminePfd(model);
+  return previousBuildDynamicPfdBeforeAmine(model);
+}
+
+function streamDataForTooltip(stream, model) {
+  if ((model?.isAmine || isAmineSelection(model?.selection)) && stream?.meta) {
+    return stream.meta;
+  }
+  return previousStreamDataForTooltipBeforeAmine(stream, model);
+}
+
+function buildUnitTooltip(unit, model) {
+  if (!(model?.isAmine || isAmineSelection(model?.selection))) return previousBuildUnitTooltipBeforeAmine(unit, model);
+  const a = model.amine;
+  const rows = [
+    `Tag name: ${unit.id}`,
+    `Service: ${unit.name}`,
+    `Amine circulation: ${fmt(a.designGpm,1)} gpm / ${fmt(a.solutionLbHr,0)} lb/hr`,
+    `Acid gas removed: ${fmt(a.removedAcidGasLbmolDay,1)} lbmol/day`,
+    `Reboiler duty: ${fmt(a.reboilerDutyMMBtuHr,2)} MMBtu/hr`,
+    `Pump power: ${fmt(a.pumpHp,1)} hp`
+  ];
+  if (/P-101/.test(unit.id)) rows.push(`Pressure change: ${fmt(a.pumpDeltaP,1)} psig`, `Head change: ${fmt(pressureHeadFt(a.pumpDeltaP, a.solutionDensityLbGal / 0.133681),0)} ft`);
+  if (/E-101/.test(unit.id)) rows.push(`Temperature change: ${fmt(a.exchangerRichOutF - model.inputs.richTemp,1)} °F`, `Duty: ${fmt(a.exchangerDutyMMBtuHr,2)} MMBtu/hr`);
+  if (/E-103/.test(unit.id)) rows.push(`Temperature change: ${fmt(a.regeneratorBottomF - model.inputs.leanTemp,1)} °F`, `Duty: ${fmt(a.coolerDutyMMBtuHr,2)} MMBtu/hr`);
+  if (/H-101/.test(unit.id)) rows.push(`Duty: ${fmt(a.reboilerDutyMMBtuHr,2)} MMBtu/hr`);
+  if (/T-101/.test(unit.id)) rows.push(`Feed gas: ${fmt(model.inputs.gasMmscfd,1)} MMSCFD`, `Sweet gas: ${fmt(a.treatedGasMmscfd,2)} MMSCFD`, `T/P: ${fmt(model.inputs.temperature,0)} °F / ${fmt(model.inputs.pressure,0)} psig`);
+  if (/T-102/.test(unit.id)) rows.push(`Rich amine feed: ${fmt(a.designGpm,1)} gpm / ${fmt(a.solutionLbHr,0)} lb/hr`, `Acid gas overhead: ${fmt(a.acidGasLbHr,0)} lb/hr`, `Regenerator pressure: ${fmt(model.inputs.stripperPressure,0)} psig`);
+  if (/V-101|V-102|V-103/.test(unit.id)) rows.push(`Vapor flow: ${fmt(a.acidGasLbHr,0)} lb/hr`, `Liquid flow: ${fmt(a.solutionLbHr,0)} lb/hr`);
+  return rows.join("\n");
+}
+
+function drawAmineSvgSummary(model) {
+  if (!(model?.isAmine || isAmineSelection(model?.selection))) return;
+  const a = model.amine;
+  const g = svgEl("g", { class: "amine-svg-summary" });
+  g.appendChild(svgEl("rect", { x: 25, y: 645, width: 430, height: 175, rx: 10, class: "overlay-box" }));
+  addText(g, "Amine Design Basis", 45, 672, "overlay-title");
+  addMultilineText(g, [
+    `Sour gas: ${fmt(model.inputs.gasMmscfd,1)} MMSCFD | H₂S ${fmt(model.inputs.h2sPct,1)} mol% | CO₂ ${fmt(model.inputs.co2Pct,1)} mol%`,
+    `Total acid gas load: ${fmt(a.acidGasLbmolDay,1)} lbmol/day`,
+    `MDEA working capacity: ${fmt(a.workingCapacity,2)} mol acid/mol amine`,
+    `Theoretical circulation: ${fmt(a.theoreticalGph,0)} gph`,
+    `Design circulation: ${fmt(a.designGph,0)} gph (${fmt(a.designGpm,1)} gpm)`,
+    `Reboiler duty: ${fmt(a.reboilerDutyMMBtuHr,2)} MMBtu/hr | Pump: ${fmt(a.pumpHp,1)} hp`
+  ], 45, 698, "overlay-text", 18);
+  layers.overlays.appendChild(g);
+}
+
+function updateOutputTable(model) {
+  if (!(model?.isAmine || isAmineSelection(model?.selection))) return previousUpdateOutputTableBeforeAmine(model);
+  if (outputTitle) outputTitle.textContent = "Amine Sweetening Calculated Outputs";
+  const a = model.amine;
+  const rows = [
+    ["Sour gas feed", `${fmt(model.inputs.gasMmscfd,2)} MMSCFD`],
+    ["H₂S load", `${fmt(a.h2sLbmolDay,1)} lbmol/day`],
+    ["CO₂ load", `${fmt(a.co2LbmolDay,1)} lbmol/day`],
+    ["Total acid gas load", `${fmt(a.acidGasLbmolDay,1)} lbmol/day`],
+    ["Acid gas removed", `${fmt(a.removedAcidGasLbmolDay,1)} lbmol/day`],
+    ["Working capacity", `${fmt(a.workingCapacity,2)} mol/mol`],
+    ["Pure MDEA required", `${fmt(a.pureMdeaLbDay,0)} lb/day`],
+    ["40 wt% solution circulation, theoretical", `${fmt(a.theoreticalGph,0)} gph`],
+    ["Design amine circulation", `${fmt(a.designGph,0)} gph / ${fmt(a.designGpm,1)} gpm`],
+    ["Amine mass circulation", `${fmt(a.solutionLbHr,0)} lb/hr`],
+    ["Sweet gas product", `${fmt(a.treatedGasMmscfd,2)} MMSCFD`],
+    ["Rich/lean exchanger duty", `${fmt(a.exchangerDutyMMBtuHr,2)} MMBtu/hr`],
+    ["Regenerator reboiler duty", `${fmt(a.reboilerDutyMMBtuHr,2)} MMBtu/hr`],
+    ["Lean cooler duty", `${fmt(a.coolerDutyMMBtuHr,2)} MMBtu/hr`],
+    ["Lean amine pump power", `${fmt(a.pumpHp,1)} hp`]
+  ];
+  if (outputTable) outputTable.innerHTML = rows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  if (activeViewName) activeViewName.textContent = "Amine Gas Sweetening - Absorption and Regeneration";
+}
+
+function updateEconomicsTable(model) {
+  if (!(model?.isAmine || isAmineSelection(model?.selection))) return previousUpdateEconomicsTableBeforeAmine(model);
+  const a = model.amine;
+  const rows = [
+    ["Reboiler fuel cost", `${money(a.fuelCostHr,2)}/hr`],
+    ["Lean amine pump power cost", `${money(a.powerCostHr,2)}/hr`],
+    ["Solvent makeup allowance", `${money(model.inputs.solventMakeupCost/24,2)}/hr`],
+    ["Total operating cost", `${money(a.operatingCostHr,2)}/hr`],
+    ["Operating cost per MMSCFD sour gas", `${money(a.operatingCostHr / Math.max(model.inputs.gasMmscfd,0.001),2)}/hr per MMSCFD`],
+    ["Acid gas removal cost", `${money(a.operatingCostHr / Math.max(a.removedAcidGasLbmolDay/24,0.001),2)}/lbmol removed`]
+  ];
+  const table = ensureEconomicsTable();
+  if (table) table.innerHTML = rows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+}
+
+const previousRenderBeforeAmine = render;
+function render() {
+  if (!layers || !isAmineSelection()) return previousRenderBeforeAmine();
+  const selection = getSelection();
+  clearLayers();
+  const model = computeModel();
+  currentRenderModel = model;
+  const pfd = buildDynamicPfd(model);
+  if (activeViewName) activeViewName.textContent = "Amine Gas Sweetening - Absorption and Regeneration";
+  drawGrid();
+  if (showLabels) drawViewTitle(model);
+  pfd.streams.forEach(drawStream);
+  pfd.units.forEach(unit => drawUnit(unit, model));
+  pfd.streams.forEach(drawStreamLabel);
+  if (showOverlays) {
+    drawOverlays(model);
+    drawAmineSvgSummary(model);
+  }
+  updateOutputTable(model);
+  updateEconomicsTable(model);
+  updateToggleButtons();
+}
