@@ -1318,7 +1318,7 @@ function drawSeparatorShape(g, u) {
   addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
 }
 
-function drawEnergyTable(model) {
+function drawEnergyTableBaseBeforeRegions(model) {
   if (!showOverlays) return;
   if (!(model.selection.type === "objectLevel" && model.selection.key === "Units") && model.selection.type !== "processArea" && model.selection.type !== "objectLevel") return;
   const x = 405, y = 635;
@@ -1403,7 +1403,7 @@ function pressureHeadFt(deltaPpsig, densityLbFt3) {
   return Number(deltaPpsig || 0) * 144 / Math.max(Number(densityLbFt3 || 0), 0.000001);
 }
 
-function streamDataForTooltip(stream, model) {
+function streamDataForTooltipBaseBeforeRegions(stream, model) {
   const input = model?.inputs || {};
   const product = model?.product || {};
   const density = input.density || product.density || 50;
@@ -1453,7 +1453,7 @@ function streamDataForTooltip(stream, model) {
   return { name, gpm, bpd: gpmToBpd(gpm), lbHr, temp, pressure, enthalpy, priceMMBtu, priceBbl };
 }
 
-function buildStreamTooltip(stream, model) {
+function buildStreamTooltipBaseBeforeRegions(stream, model) {
   const d = streamDataForTooltip(stream, model);
   return [
     `Name: ${d.name}`,
@@ -1819,7 +1819,7 @@ function buildSitesViewPfd(model) {
   return { units, streams };
 }
 
-function buildDynamicPfd(model) {
+function buildDynamicPfdBaseBeforeRegions(model) {
   let pfd;
   if (model.selection.type === "objectLevel" && model.selection.key === "Streams") {
     return buildSingleStreamPfd(model);
@@ -1869,8 +1869,8 @@ function buildDynamicPfd(model) {
    - Regional process-stream tooltips show bpd, gpm, lb/hr,
      $/MMBtu, MMBtu/bbl, and MMBtu/lb.
 ------------------------------------------------------------------ */
-const previousBuildDynamicPfdForRegions = buildDynamicPfd;
-const previousDrawEnergyTableForRegions = drawEnergyTable;
+const previousBuildDynamicPfdForRegions = buildDynamicPfdBaseBeforeRegions;
+const previousDrawEnergyTableForRegions = drawEnergyTableBaseBeforeRegions;
 
 function regionalStreamMeta(model, options = {}) {
   const bpd = Number(options.bpd || 0);
@@ -1961,7 +1961,7 @@ function drawEnergyTable(model) {
   return previousDrawEnergyTableForRegions(model);
 }
 
-const previousStreamDataForTooltipRegions = streamDataForTooltip;
+const previousStreamDataForTooltipRegions = streamDataForTooltipBaseBeforeRegions;
 function streamDataForTooltip(stream, model) {
   if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions" && stream?.meta) {
     return {
@@ -1981,7 +1981,7 @@ function streamDataForTooltip(stream, model) {
   return previousStreamDataForTooltipRegions(stream, model);
 }
 
-const previousBuildStreamTooltipRegions = buildStreamTooltip;
+const previousBuildStreamTooltipRegions = buildStreamTooltipBaseBeforeRegions;
 function buildStreamTooltip(stream, model) {
   if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions" && stream?.meta) {
     const d = streamDataForTooltip(stream, model);
