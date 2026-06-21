@@ -1379,3 +1379,205 @@ function render() {
 }
 
 startPfdTemplate();
+
+/* ------------------------------------------------------------------
+   Final tooltip update
+   - Stream tooltips: name, gpm, bpd, lb/hr, °F, psig, enthalpy MMBtu/h
+   - Unit tooltips: tag, gpm, lb/hr, duty, hp, plus unit-specific details
+------------------------------------------------------------------ */
+let currentRenderModel = null;
+
+function gpmToBpd(gpm) {
+  return Number(gpm || 0) * 1440 / 42;
+}
+
+function massFlowToGpm(lbHr, densityLbFt3) {
+  return Number(lbHr || 0) / Math.max(Number(densityLbFt3 || 0) * 60 * 0.133681, 0.000001);
+}
+
+function streamEnthalpyMMBtuHr(flowLbHr, tempF, referenceF = 60, cp = 0.62) {
+  return Number(flowLbHr || 0) * cp * (Number(tempF || 0) - referenceF) / 1_000_000;
+}
+
+function pressureHeadFt(deltaPpsig, densityLbFt3) {
+  return Number(deltaPpsig || 0) * 144 / Math.max(Number(densityLbFt3 || 0), 0.000001);
+}
+
+function streamDataForTooltip(stream, model) {
+  const input = model?.inputs || {};
+  const product = model?.product || {};
+  const density = input.density || product.density || 50;
+  let name = stream?.name || "Stream";
+  let gpm = input.feedFlowGpm || 0;
+  let lbHr = input.massFlowLbHr || 0;
+  let temp = input.temperature || 0;
+  let pressure = input.pressure || 0;
+  let enthalpy = streamEnthalpyMMBtuHr(lbHr, temp);
+
+  if (/S-102|outlet|product|treated|intermediate/i.test(`${stream?.id || ""} ${stream?.name || ""}`)) {
+    gpm = product.flowGpm || gpm;
+    lbHr = product.massFlowLbHr || lbHr;
+    temp = product.temperature || temp;
+    pressure = product.pressure || pressure;
+    enthalpy = streamEnthalpyMMBtuHr(lbHr, temp);
+  }
+  if (/^V-|vapor/i.test(`${stream?.id || ""} ${stream?.name || ""}`)) {
+    lbHr = model?.vaporFlowLbHr || product.massFlowLbHr || lbHr;
+    gpm = massFlowToGpm(lbHr, Math.max(density * 0.08, 0.1));
+    temp = product.temperature || temp;
+    pressure = product.pressure || pressure;
+    enthalpy = streamEnthalpyMMBtuHr(lbHr, temp, 60, 0.52);
+  }
+  if (/^W-|water/i.test(`${stream?.id || ""} ${stream?.name || ""}`)) {
+    lbHr = (model?.liquidFlowLbHr || lbHr) * 0.08;
+    gpm = massFlowToGpm(lbHr, 62.4);
+    temp = product.temperature || temp;
+    pressure = product.pressure || pressure;
+    enthalpy = streamEnthalpyMMBtuHr(lbHr, temp, 60, 1.0);
+  }
+  if (/^Q-|^E-|energy/i.test(`${stream?.id || ""} ${stream?.name || ""} ${stream?.type || ""}`)) {
+    name = stream?.name || "Energy Stream";
+    gpm = 0;
+    lbHr = 0;
+    temp = 0;
+    pressure = 0;
+    enthalpy = Math.abs(unitEnergyMMBtu(model || {}, 0) || totalEnergyMMBtu(model || {}) || model?.dutyMMBtuHr || 0);
+  }
+
+  return { name, gpm, bpd: gpmToBpd(gpm), lbHr, temp, pressure, enthalpy };
+}
+
+function buildStreamTooltip(stream, model) {
+  const d = streamDataForTooltip(stream, model);
+  return [
+    `Name: ${d.name}`,
+    `Volumetric flow rate: ${fmt(d.gpm, 1)} gpm`,
+    `Volumetric flow rate: ${fmt(d.bpd, 1)} bpd`,
+    `Mass flow rate: ${fmt(d.lbHr, 0)} lb/hr`,
+    `Temperature: ${fmt(d.temp, 1)} °F`,
+    `Pressure: ${fmt(d.pressure, 1)} psig`,
+    `Enthalpy: ${fmt(d.enthalpy, 3)} MMBtu/hr`
+  ].join("\n");
+}
+
+function buildUnitTooltip(unit, model) {
+  const input = model?.inputs || {};
+  const product = model?.product || {};
+  const deltaP = Number(product.pressure || 0) - Number(input.pressure || 0);
+  const deltaT = Number(product.temperature || 0) - Number(input.temperature || 0);
+  const duty = Number(model?.dutyMMBtuHr || 0);
+  const hp = Number(model?.hydraulicHp || 0);
+  const headFt = pressureHeadFt(deltaP, input.density);
+  const vaporLbHr = Number(model?.vaporFlowLbHr || 0);
+  const liquidLbHr = Number(model?.liquidFlowLbHr || product.massFlowLbHr || 0);
+  const vaporGpm = massFlowToGpm(vaporLbHr, Math.max(Number(input.density || 50) * 0.08, 0.1));
+  const liquidGpm = massFlowToGpm(liquidLbHr, Number(input.density || 50));
+
+  const rows = [
+    `Tag name: ${unit.id}`,
+    `Volumetric flow rate: ${fmt(input.feedFlowGpm, 1)} gpm`,
+    `Mass flow rate: ${fmt(input.massFlowLbHr, 0)} lb/hr`,
+    `Duty: ${fmt(duty, 3)} MMBtu/hr`,
+    `Power: ${fmt(hp, 2)} hp`
+  ];
+
+  if (/pump|compressor|turbine/i.test(unit.type)) {
+    rows.push(`Pressure change: ${fmt(deltaP, 1)} psig`);
+    rows.push(`Head change: ${fmt(headFt, 1)} ft`);
+  }
+
+  if (/furnace|exchanger/i.test(unit.type) || /heater|cooler|heat exchanger/i.test(unit.name)) {
+    rows.push(`Temperature change: ${fmt(deltaT, 1)} °F`);
+    rows.push(`Duty: ${fmt(duty, 3)} MMBtu/hr`);
+  }
+
+  if (/column/i.test(unit.type)) {
+    rows.push(`Feed stream flow rate: ${fmt(input.feedFlowGpm, 1)} gpm / ${fmt(input.massFlowLbHr, 0)} lb/hr`);
+    rows.push(`Product stream flow rate: ${fmt(product.flowGpm, 1)} gpm / ${fmt(product.massFlowLbHr, 0)} lb/hr`);
+    rows.push(`Feed stream T/P: ${fmt(input.temperature, 1)} °F / ${fmt(input.pressure, 1)} psig`);
+    rows.push(`Product stream T/P: ${fmt(product.temperature, 1)} °F / ${fmt(product.pressure, 1)} psig`);
+  }
+
+  if (/separator|vessel/i.test(unit.type)) {
+    rows.push(`Vapor flow rate: ${fmt(vaporGpm, 1)} gpm / ${fmt(vaporLbHr, 0)} lb/hr`);
+    rows.push(`Liquid flow rate: ${fmt(liquidGpm, 1)} gpm / ${fmt(liquidLbHr, 0)} lb/hr`);
+  }
+
+  return rows.join("\n");
+}
+
+function drawStream(stream) {
+  if (!showUtilities && stream.utility) return;
+  const g = svgEl("g", { class: `stream-group ${stream.type}` });
+  const line = svgEl("polyline", { points: pointsToString(stream.path), class: `stream ${stream.type}` });
+  const hit = svgEl("polyline", { points: pointsToString(stream.path), class: "stream-hitbox" });
+  hit.dataset.tooltip = buildStreamTooltip(stream, currentRenderModel || computeModel());
+  g.appendChild(line);
+  g.appendChild(hit);
+  layers.streams.appendChild(g);
+  attachTooltip(hit);
+}
+
+function drawUnit(unit, model) {
+  const g = svgEl("g", { class: "selectable unit" });
+  g.dataset.tooltip = buildUnitTooltip(unit, model);
+  if (unit.type === "furnace") drawFurnaceShape(g, unit, model);
+  else if (unit.type === "pump") drawPumpShape(g, unit);
+  else if (unit.type === "compressor") drawCompressorShape(g, unit);
+  else if (unit.type === "turbine") drawTurbineShape(g, unit);
+  else if (unit.type === "exchanger") drawHeatExchangerShape(g, unit);
+  else if (unit.type === "column") drawColumnShape(g, unit);
+  else if (unit.type === "separator") drawSeparatorShape(g, unit);
+  else if (unit.type === "vessel") drawVesselShape(g, unit);
+  else if (unit.type === "valve") drawValveShape(g, unit);
+  else if (unit.type === "pipe") drawPipeShape(g, unit);
+  else if (unit.type === "reactor") drawReactorShape(g, unit);
+  else if (unit.type === "tank") drawTankShape(g, unit);
+  else drawBoxShape(g, unit);
+  layers.units.appendChild(g);
+  attachTooltip(g);
+}
+
+function buildUnitSymbolShowcase(model) {
+  const op = model.unitOperation || selectedUnitOperation();
+  const unitType = unitTypeFromOperation(op);
+  const unit = { id: unitIdFromOperation(op), name: op, type: unitType, x: 610, y: 310, width: op === "Column" ? 170 : op === "Pipe" ? 260 : 190, height: op === "Column" ? 190 : 125 };
+  const feedName = document.getElementById("feedMaterial")?.value || "Natural Gas";
+  const streamType = /Natural Gas|LPG|NGLs/i.test(feedName) || op === "Compressor" || op === "Turbine" ? "vapor" : "liquid";
+  const y = unitConnectionY(unit);
+  const inletEndX = unit.x + 5;
+  const outletStartX = unit.x + unit.width - 5;
+  const streams = [
+    { id: "S-101", name: `${feedName} Feed`, type: streamType, utility: false, path: [{x:180,y},{x:inletEndX,y}], label:{x:215,y:230}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`] },
+    { id: "S-102", name: `${op} Outlet`, type: streamType, utility: false, path: [{x:outletStartX,y},{x:1220,y}], label:{x:980,y:230}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`] }
+  ];
+  if (/Separator|Vessel/.test(op)) {
+    streams.push({ id: "V-101", name: "Vapor Product", type: "vapor", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y+25},{x:unit.x+unit.width/2,y:210},{x:1220,y:210}], label:{x:980,y:115}, lines:[`${fmt(model.vaporFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`] });
+    streams.push({ id: "W-101", name: "Water Phase", type: "liquid", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y+90},{x:unit.x+unit.width/2,y:535},{x:1220,y:535}], label:{x:980,y:548}, lines:[`${fmt(model.liquidFlowLbHr * 0.08,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`] });
+    streams[1].name = "Hydrocarbon Liquid";
+    streams[1].lines[0] = `${fmt(model.liquidFlowLbHr * 0.92,0)} lb/hr`;
+  }
+  return { units: [unit], streams };
+}
+
+function render() {
+  if (!layers) return;
+  const selection = getSelection();
+  syncUnitOperationOverlay(selection);
+  clearLayers();
+  const model = computeModel();
+  currentRenderModel = model;
+  const pfd = buildDynamicPfd(model);
+  activeViewName.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `Units - ${model.unitOperation}` : model.selection.config.title;
+  drawGrid();
+  drawViewTitle(model);
+  pfd.streams.forEach(drawStream);
+  pfd.units.forEach(unit => drawUnit(unit, model));
+  pfd.streams.forEach(drawStreamLabel);
+  drawOverlays(model);
+  drawStreamInputTable(model);
+  drawUnitInputTable(model);
+  drawEnergyTable(model);
+  updateOutputTable(model);
+  updateEconomicsTable(model);
+}
