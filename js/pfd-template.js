@@ -1997,3 +1997,114 @@ function buildStreamTooltip(stream, model) {
   }
   return previousBuildStreamTooltipRegions(stream, model);
 }
+
+
+/* ------------------------------------------------------------------
+   Final toggle-control repair
+   Ensures toolbar buttons continue to work after all dynamic view
+   overrides.  Labels, Utilities, and Overlays are now applied in the
+   final render path, including Streams, Units, Sites, and Regions.
+------------------------------------------------------------------ */
+function setToggleButtonState(buttonId, enabled, label) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
+  btn.dataset.enabled = enabled ? "true" : "false";
+  btn.textContent = `${label}: ${enabled ? "On" : "Off"}`;
+  btn.classList.toggle("toggle-off", !enabled);
+}
+
+function updateToggleButtons() {
+  setToggleButtonState("btnLabels", showLabels, "Labels");
+  setToggleButtonState("btnUtilities", showUtilities, "Utilities");
+  setToggleButtonState("btnOverlays", showOverlays, "Overlays");
+}
+
+function bindButtonClick(id, handler) {
+  const oldButton = document.getElementById(id);
+  if (!oldButton) return null;
+  const newButton = oldButton.cloneNode(true);
+  oldButton.parentNode.replaceChild(newButton, oldButton);
+  newButton.addEventListener("click", handler);
+  return newButton;
+}
+
+function initializeControls() {
+  renderInputForm(getSelection());
+
+  bindButtonClick("btnReset", () => {
+    showLabels = true;
+    showUtilities = true;
+    showOverlays = true;
+    renderInputForm(getSelection());
+    render();
+  });
+
+  bindButtonClick("btnLabels", () => {
+    showLabels = !showLabels;
+    render();
+  });
+
+  bindButtonClick("btnUtilities", () => {
+    showUtilities = !showUtilities;
+    render();
+  });
+
+  bindButtonClick("btnOverlays", () => {
+    showOverlays = !showOverlays;
+    render();
+  });
+
+  bindButtonClick("btnClearBusinessView", () => {
+    document.querySelectorAll('input[name="businessView"]').forEach(radio => { radio.checked = false; });
+    render();
+  });
+
+  document.querySelectorAll('input[name="businessView"]').forEach(radio => {
+    radio.addEventListener("change", render);
+  });
+
+  objectLevelSelect?.addEventListener("change", () => {
+    if (objectLevelSelect.value) processAreaSelect.value = "";
+    refreshSelectionInputs();
+  });
+
+  processAreaSelect?.addEventListener("change", () => {
+    if (processAreaSelect.value) objectLevelSelect.value = "";
+    refreshSelectionInputs();
+  });
+
+  updateToggleButtons();
+}
+
+function render() {
+  if (!layers) return;
+  const selection = getSelection();
+  syncUnitOperationOverlay(selection);
+  clearLayers();
+  const model = computeModel();
+  currentRenderModel = model;
+  const pfd = buildDynamicPfd(model);
+
+  if (activeViewName) {
+    activeViewName.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units"
+      ? `Units - ${model.unitOperation}`
+      : model.selection.config.title;
+  }
+
+  drawGrid();
+  if (showLabels) drawViewTitle(model);
+  pfd.streams.forEach(drawStream);
+  pfd.units.forEach(unit => drawUnit(unit, model));
+  pfd.streams.forEach(drawStreamLabel);
+
+  if (showOverlays) {
+    drawOverlays(model);
+    drawStreamInputTable(model);
+    drawUnitInputTable(model);
+    drawEnergyTable(model);
+  }
+
+  updateOutputTable(model);
+  updateEconomicsTable(model);
+  updateToggleButtons();
+}

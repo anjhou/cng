@@ -245,3 +245,10 @@ td:last-child { text-align: right; font-weight: 700; }
   stroke: #b45309;
   stroke-width: 1.4;
 }
+
+/* Toggle state styling */
+button.toggle-off {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
