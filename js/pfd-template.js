@@ -133,7 +133,7 @@ function defaultInputs(selection) {
   };
 }
 
-function renderInputForm(selection) {
+function renderInputFormLegacyInitial(selection) {
   const d = defaultInputs(selection);
   const isStreamView = selection.type === "objectLevel" && selection.key === "Streams";
   currentInputIds = formFields.map(f => f.id);
@@ -404,7 +404,7 @@ function updateOutputTable(model) {
   if (activeViewName) activeViewName.textContent = model.selection.config.title;
 }
 
-function updateEconomicsTable(model) {
+function updateEconomicsTableBaseBeforeAmine(model) {
   const e = model.economics;
   const rows = [
     ["Feed input cost", `${money(e.feedInputCost, 2)}/hr`],
@@ -847,7 +847,7 @@ function defaultInputs(selection) {
   return { feedFlowGpm: feedFlow, massFlowLbHr: massFlow, densityLbFt3: density, viscosityCp: c.viscosity, temperatureF: selection.key === "LNG" ? -250 : selection.key === "Dehydration" ? 95 : 100, pressurePsig: selection.key === "LNG" ? 45 : selection.key === "Amine" ? 950 : 150, priceLb, priceGal, priceMMBtu };
 }
 
-function renderInputForm(selection) {
+function renderInputFormBaseBeforeAmine(selection) {
   const d = defaultInputs(selection);
   const isStreamView = selection.type === "objectLevel" && selection.key === "Streams";
   const isUnitView = selection.type === "objectLevel" && selection.key === "Units";
@@ -942,7 +942,7 @@ function unitIdFromOperation(op) {
   return { Valve:"XV-101", Pump:"P-101", Separator:"V-101", Vessel:"D-101", Pipe:"PL-101", Compressor:"C-101", Turbine:"GT-101", "Heat Exchanger":"E-101", Heater:"F-101", Column:"T-101", Reactor:"R-101" }[op] || "U-101";
 }
 
-function computeModel() {
+function computeModelBaseBeforeAmine() {
   const selection = getSelection();
   const c = selection.config;
   const isUnitView = selection.type === "objectLevel" && selection.key === "Units";
@@ -1087,7 +1087,7 @@ function drawUnit(unit, model) {
   attachTooltip(g);
 }
 
-function updateOutputTable(model) {
+function updateOutputTableBaseBeforeAmine(model) {
   outputTitle.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `${model.unitOperation} Output Results` : `${model.selection.config.title} Product Properties`;
   const unitRows = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `
     <tr><td>Calculation Mode</td><td>${model.resultMode}</td></tr>
@@ -1137,7 +1137,7 @@ function drawUnitInputTable(model) {
   layers.overlays.appendChild(g);
 }
 
-function render() {
+function renderBaseBeforeAmine() {
   if (!layers) return;
   const selection = getSelection();
   syncUnitOperationOverlay(selection);
@@ -1468,7 +1468,7 @@ function buildStreamTooltipBaseBeforeRegions(stream, model) {
   ].join("\n");
 }
 
-function buildUnitTooltip(unit, model) {
+function buildUnitTooltipBaseBeforeAmine(unit, model) {
   const input = model?.inputs || {};
   const product = model?.product || {};
   const deltaP = Number(product.pressure || 0) - Number(input.pressure || 0);
@@ -1949,7 +1949,7 @@ function buildRegionsViewPfd(model) {
   return { units, streams };
 }
 
-function buildDynamicPfd(model) {
+function buildDynamicPfdBaseBeforeAmineFinal(model) {
   if (model.selection.type === "objectLevel" && model.selection.key === "Regions") {
     return buildRegionsViewPfd(model);
   }
@@ -1962,7 +1962,7 @@ function drawEnergyTable(model) {
 }
 
 const previousStreamDataForTooltipRegions = streamDataForTooltipBaseBeforeRegions;
-function streamDataForTooltip(stream, model) {
+function streamDataForTooltipBaseBeforeAmineFinal(stream, model) {
   if (model?.selection?.type === "objectLevel" && model?.selection?.key === "Regions" && stream?.meta) {
     return {
       name: stream.name,
@@ -2114,13 +2114,13 @@ function render() {
    Basis: sour gas sweetening with MDEA absorption/regeneration loop.
    This override is applied only when processArea = Amine.
 ------------------------------------------------------------------ */
-const previousRenderInputFormBeforeAmine = renderInputForm;
-const previousComputeModelBeforeAmine = computeModel;
-const previousBuildDynamicPfdBeforeAmine = buildDynamicPfd;
-const previousUpdateOutputTableBeforeAmine = updateOutputTable;
-const previousUpdateEconomicsTableBeforeAmine = updateEconomicsTable;
-const previousStreamDataForTooltipBeforeAmine = streamDataForTooltip;
-const previousBuildUnitTooltipBeforeAmine = buildUnitTooltip;
+const previousRenderInputFormBeforeAmine = renderInputFormBaseBeforeAmine;
+const previousComputeModelBeforeAmine = computeModelBaseBeforeAmine;
+const previousBuildDynamicPfdBeforeAmine = buildDynamicPfdBaseBeforeAmineFinal;
+const previousUpdateOutputTableBeforeAmine = updateOutputTableBaseBeforeAmine;
+const previousUpdateEconomicsTableBeforeAmine = updateEconomicsTableBaseBeforeAmine;
+const previousStreamDataForTooltipBeforeAmine = streamDataForTooltipBaseBeforeAmineFinal;
+const previousBuildUnitTooltipBeforeAmine = buildUnitTooltipBaseBeforeAmine;
 
 function isAmineSelection(selection = getSelection()) {
   return selection?.type === "processArea" && selection?.key === "Amine";
@@ -2438,7 +2438,7 @@ function updateEconomicsTable(model) {
   if (table) table.innerHTML = rows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
 }
 
-const previousRenderBeforeAmine = render;
+const previousRenderBeforeAmine = renderBaseBeforeAmine;
 function render() {
   if (!layers || !isAmineSelection()) return previousRenderBeforeAmine();
   const selection = getSelection();
