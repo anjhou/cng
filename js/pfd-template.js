@@ -342,12 +342,9 @@ function drawPumpShape(g, u) {
   const outletX1 = cx + 30;
   const outletX2 = u.x + u.width - 5;
 
-  g.appendChild(svgEl("line", { x1: inletX1, y1: cy, x2: inletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
-  g.appendChild(svgEl("line", { x1: outletX1, y1: cy, x2: outletX2, y2: cy, class: "pump-stream-line", "marker-end": "url(#pumpArrowHead)" }));
+  g.appendChild(svgEl("line", { x1: inletX1, y1: cy, x2: inletX2, y2: cy, class: "pump-stream-line" }));
+  g.appendChild(svgEl("line", { x1: outletX1, y1: cy, x2: outletX2, y2: cy, class: "pump-stream-line" }));
   g.appendChild(svgEl("circle", { cx, cy, r: 30, class: "pump-body" }));
-  
-  g.appendChild(svgEl("polygon", { points: `${cx - 20},${cy} ${cx + 20},${cy} ${cx},${cy + 22}`, class: "pump-orientation" }));
-  
   addText(g, u.id.replace(/^OBJ-101$/, "P-101"), cx, u.y + 108, "pump-tag", "middle");
   addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
 }
@@ -732,13 +729,16 @@ function drawStream(stream) {
 }
 
 function drawLegendOverlay() {
-  const g = svgEl("g");
-  g.appendChild(svgEl("rect", { x: 1095, y: 35, width: 255, height: 210, rx: 10, class: "legend-box" }));
-  addText(g, "Legend", 1113, 60, "legend-title");
+  const g = svgEl("g", { class: "legend-overlay" });
+  const boxX = 1095;
+  const boxY = 610;
+  const rowStartY = boxY + 49;
+  g.appendChild(svgEl("rect", { x: boxX, y: boxY, width: 255, height: 205, rx: 10, class: "legend-box" }));
+  addText(g, "Legend", boxX + 18, boxY + 25, "legend-title");
   [["liquid","Liquid Stream"],["vapor","Vapor Stream"],["energy","Energy Stream"],["fuel","Fuel"],["utility","Utility"],["flue","Vent / Flue"]].forEach(([cls,label],i)=>{
-    const y=84+i*24;
-    g.appendChild(svgEl("line", { x1: 1115, y1: y, x2: 1163, y2: y, class: `stream ${cls}` }));
-    addText(g, label, 1177, y + 4, "legend-text");
+    const y = rowStartY + i * 24;
+    g.appendChild(svgEl("line", { x1: boxX + 20, y1: y, x2: boxX + 68, y2: y, class: `stream ${cls}` }));
+    addText(g, label, boxX + 82, y + 4, "legend-text");
   });
   layers.overlays.appendChild(g);
 }
@@ -1027,18 +1027,38 @@ function computeModel() {
   };
 }
 
+
+function getUnitStreamY(unit) {
+  if (!unit) return 375;
+  const cx = unit.x + unit.width / 2;
+  if (unit.type === "pump" || unit.type === "compressor" || unit.type === "turbine") return unit.y + 48;
+  if (unit.type === "exchanger" || unit.type === "valve") return unit.y + 50;
+  if (unit.type === "separator" || unit.type === "pipe") return unit.y + 52;
+  if (unit.type === "column") {
+    const top = unit.y - 20;
+    const h = unit.height + 65;
+    return top + h * 0.45;
+  }
+  if (unit.type === "furnace") return unit.y + unit.height / 2;
+  if (unit.type === "vessel") return unit.y + 54;
+  if (unit.type === "reactor") return unit.y + unit.height / 2;
+  return unit.y + unit.height / 2;
+}
+
 function buildUnitSymbolShowcase(model) {
   const op = model.unitOperation || selectedUnitOperation();
   const unitType = unitTypeFromOperation(op);
   const unit = { id: unitIdFromOperation(op), name: op, type: unitType, x: 610, y: 310, width: op === "Column" ? 170 : op === "Pipe" ? 260 : 190, height: op === "Column" ? 190 : 125 };
   const feedName = document.getElementById("feedMaterial")?.value || "Natural Gas";
   const streamType = /Natural Gas|LPG|NGLs/i.test(feedName) || op === "Compressor" || op === "Turbine" ? "vapor" : "liquid";
-  const y = 375;
+  const y = getUnitStreamY(unit);
+  const inletEndX = unit.x + 5;
+  const outletStartX = unit.x + unit.width - 5;
   const streams = [
-    { id: "S-101", name: `${feedName} Feed`, type: streamType, utility: false, path: [{x:180,y},{x:unit.x,y}], label:{x:215,y:230}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:`Feed to ${op}` },
-    { id: "S-102", name: `${op} Outlet`, type: streamType, utility: false, path: [{x:unit.x+unit.width,y},{x:1220,y}], label:{x:980,y:230}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:`Outlet from ${op}` }
+    { id: "S-101", name: `${feedName} Feed`, type: streamType, utility: false, path: [{x:180,y},{x:inletEndX,y}], label:{x:215,y:230}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:`Feed to ${op}` },
+    { id: "S-102", name: `${op} Outlet`, type: streamType, utility: false, path: [{x:outletStartX,y},{x:1220,y}], label:{x:980,y:230}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:`Outlet from ${op}` }
   ];
-  if (/Heat Exchanger|Heater|Column|Reactor/.test(op)) streams.push({ id: "Q-101", name: "Energy", type: "energy", utility: true, path: [{x:705,y:625},{x:705,y:unit.y+unit.height}], label:{x:760,y:585}, lines:[`Duty: ${fmt(model.dutyMMBtuHr,2)} MMBtu/h`, `ΔT: ${fmt(model.product.temperature-model.inputs.temperature,0)} °F`], tooltip:"Energy stream" });
+  if (/Heat Exchanger|Heater|Column|Reactor/.test(op)) streams.push({ id: "Q-101", name: "Energy", type: "energy", utility: true, path: [{x:unit.x + unit.width/2,y:625},{x:unit.x + unit.width/2,y:unit.y+unit.height}], label:{x:760,y:585}, lines:[`Duty: ${fmt(model.dutyMMBtuHr,2)} MMBtu/h`, `ΔT: ${fmt(model.product.temperature-model.inputs.temperature,0)} °F`], tooltip:"Energy stream" });
   if (/Separator|Vessel/.test(op)) {
     streams.push({ id: "V-101", name: "Vapor Product", type: "vapor", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y},{x:unit.x+unit.width/2,y:210},{x:1220,y:210}], label:{x:980,y:115}, lines:[`${fmt(model.vaporFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Separated vapor product" });
     streams[1].name = "Liquid Product";
