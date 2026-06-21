@@ -1158,3 +1158,224 @@ function render() {
 }
 
 startPfdTemplate();
+
+
+/* ------------------------------------------------------------------
+   Final layout updates
+   - Energy stream header branches to every displayed unit with arrowheads
+   - SVG energy table shows MMBtu/h and hp
+   - Separator / vessel view includes water phase outlet
+   - Heater uses a single clean box symbol
+   - Unit tags remain explicit on each symbol
+------------------------------------------------------------------ */
+function unitConnectionY(unit) {
+  return getUnitStreamY(unit);
+}
+
+function unitEnergyTarget(unit) {
+  const x = unit.x + unit.width / 2;
+  let y = unit.y + unit.height + 8;
+  if (unit.type === "column") y = unit.y + unit.height + 35;
+  if (unit.type === "furnace") y = unit.y + unit.height + 5;
+  if (unit.type === "pipe") y = unit.y + 92;
+  return { x, y };
+}
+
+function addEnergyNetworkToPfd(pfd, model) {
+  if (!pfd.units || !pfd.units.length) return pfd;
+  const busY = 705;
+  const firstX = Math.min(...pfd.units.map(u => u.x + u.width / 2)) - 35;
+  const lastX = Math.max(...pfd.units.map(u => u.x + u.width / 2)) + 35;
+  pfd.streams = pfd.streams.filter(s => !/^Q-|^E-BUS/.test(s.id));
+  pfd.streams.push({
+    id: "E-BUS",
+    name: "Energy Header",
+    type: "energy",
+    utility: true,
+    path: [{ x: firstX, y: busY }, { x: lastX, y: busY }],
+    label: { x: 515, y: 728 },
+    lines: [`Total: ${fmt(Math.abs(totalEnergyMMBtu(model)), 2)} MMBtu/h`, `${fmt(Math.abs(totalEnergyHp(model)), 1)} hp`],
+    tooltip: "Energy header supplying/receiving duty for all displayed units"
+  });
+  pfd.units.forEach((u, i) => {
+    const target = unitEnergyTarget(u);
+    pfd.streams.push({
+      id: `Q-${101 + i}`,
+      name: `${u.id} Energy`,
+      type: "energy",
+      utility: true,
+      path: [{ x: target.x, y: busY }, { x: target.x, y: target.y }],
+      label: { x: -9999, y: -9999 },
+      lines: [`${fmt(Math.abs(unitEnergyMMBtu(model, i)), 2)} MMBtu/h`, `${fmt(Math.abs(unitEnergyHp(model, i)), 1)} hp`],
+      tooltip: `${u.id} ${u.name}\nEnergy: ${fmt(Math.abs(unitEnergyMMBtu(model, i)), 2)} MMBtu/h\nPower equivalent: ${fmt(Math.abs(unitEnergyHp(model, i)), 1)} hp`
+    });
+  });
+  return pfd;
+}
+
+function totalEnergyMMBtu(model) {
+  const duty = Number(model.dutyMMBtuHr || 0);
+  const hpMMBtu = Number(model.hydraulicHp || 0) * 2544.43 / 1_000_000;
+  const processFactor = Number(model.selection?.config?.energy || 0) * Number(model.inputs?.massFlowLbHr || 0) / 1000;
+  return Math.abs(duty) + Math.abs(hpMMBtu) + Math.abs(processFactor);
+}
+
+function totalEnergyHp(model) {
+  const hpFromDuty = totalEnergyMMBtu(model) * 1_000_000 / 2544.43;
+  return Math.abs(Number(model.hydraulicHp || 0)) + hpFromDuty;
+}
+
+function unitEnergyMMBtu(model, i) {
+  const base = totalEnergyMMBtu(model);
+  if (!base) return 0;
+  return base * (0.75 + i * 0.08) / Math.max(1, (model.selection?.config?.units?.length || 1));
+}
+
+function unitEnergyHp(model, i) {
+  return unitEnergyMMBtu(model, i) * 1_000_000 / 2544.43;
+}
+
+function buildDynamicPfd(model) {
+  let pfd;
+  if (model.selection.type === "objectLevel" && model.selection.key === "Streams") {
+    pfd = buildSingleStreamPfd(model);
+    return pfd;
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Units") {
+    pfd = buildUnitSymbolShowcase(model);
+    return addEnergyNetworkToPfd(pfd, model);
+  }
+  const unitNames = model.selection.config.units;
+  const unitX = [105, 335, 570, 815, 1050];
+  const y = model.selection.type === "objectLevel" ? 340 : 315;
+  const units = unitNames.map((name, i) => ({ id: unitIdFor(model.selection, i), name, type: unitTypeFor(name, i), x: unitX[i], y, width: i === 2 ? 180 : 155, height: i === 2 ? 130 : 95 }));
+  const streams = [];
+  for (let i = 0; i < units.length - 1; i++) {
+    const from = units[i];
+    const to = units[i + 1];
+    const sy = unitConnectionY(from);
+    const ty = unitConnectionY(to);
+    const labelSlots = [{ x: 105, y: 115 }, { x: 370, y: 115 }, { x: 635, y: 115 }, { x: 900, y: 115 }];
+    streams.push({
+      id: `S-${101 + i}`,
+      name: ["Feed", "Intermediate", "Treated", "Product"][i],
+      type: streamTypeFor(model, i),
+      utility: false,
+      path: sy === ty ? [{ x: from.x + from.width, y: sy }, { x: to.x, y: ty }] : [{ x: from.x + from.width, y: sy }, { x: (from.x + from.width + to.x)/2, y: sy }, { x: (from.x + from.width + to.x)/2, y: ty }, { x: to.x, y: ty }],
+      label: labelSlots[i],
+      lines: streamLinesFor(model, i),
+      tooltip: `${["Feed", "Intermediate", "Treated", "Product"][i]}\n${streamLinesFor(model, i).join("\n")}`
+    });
+  }
+  pfd = { units, streams };
+  return addEnergyNetworkToPfd(pfd, model);
+}
+
+function buildUnitSymbolShowcase(model) {
+  const op = model.unitOperation || selectedUnitOperation();
+  const unitType = unitTypeFromOperation(op);
+  const unit = { id: unitIdFromOperation(op), name: op, type: unitType, x: 610, y: 310, width: op === "Column" ? 170 : op === "Pipe" ? 260 : 190, height: op === "Column" ? 190 : 125 };
+  const feedName = document.getElementById("feedMaterial")?.value || "Natural Gas";
+  const streamType = /Natural Gas|LPG|NGLs/i.test(feedName) || op === "Compressor" || op === "Turbine" ? "vapor" : "liquid";
+  const y = unitConnectionY(unit);
+  const inletEndX = unit.x;
+  const outletStartX = unit.x + unit.width;
+  const streams = [
+    { id: "S-101", name: `${feedName} Feed`, type: streamType, utility: false, path: [{x:180,y},{x:inletEndX,y}], label:{x:215,y:230}, lines:[`${fmt(model.inputs.massFlowLbHr,0)} lb/hr`,`${fmt(model.inputs.temperature,0)} °F | ${fmt(model.inputs.pressure,0)} psig`], tooltip:`Feed to ${op}` },
+    { id: "S-102", name: `${op} Outlet`, type: streamType, utility: false, path: [{x:outletStartX,y},{x:1220,y}], label:{x:980,y:230}, lines:[`${fmt(model.product.massFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:`Outlet from ${op}` }
+  ];
+  if (/Separator|Vessel/.test(op)) {
+    streams.push({ id: "V-101", name: "Vapor Product", type: "vapor", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y+25},{x:unit.x+unit.width/2,y:210},{x:1220,y:210}], label:{x:980,y:115}, lines:[`${fmt(model.vaporFlowLbHr,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Separated vapor product" });
+    streams.push({ id: "W-101", name: "Water Phase", type: "liquid", utility: false, path: [{x:unit.x+unit.width/2,y:unit.y+90},{x:unit.x+unit.width/2,y:535},{x:1220,y:535}], label:{x:980,y:548}, lines:[`${fmt(model.liquidFlowLbHr * 0.08,0)} lb/hr`,`${fmt(model.product.temperature,0)} °F | ${fmt(model.product.pressure,0)} psig`], tooltip:"Separated water phase" });
+    streams[1].name = "Hydrocarbon Liquid";
+    streams[1].lines[0] = `${fmt(model.liquidFlowLbHr * 0.92,0)} lb/hr`;
+  }
+  return { units: [unit], streams };
+}
+
+function drawFurnaceShape(g, u, model) {
+  const cx = u.x + u.width / 2;
+  g.appendChild(svgEl("rect", { x: u.x, y: u.y, width: u.width, height: u.height, rx: 12, class: "unit-shape heater-single-box" }));
+  for (let i = 0; i < 4; i++) {
+    g.appendChild(svgEl("path", { d: `M ${u.x + 28} ${u.y + 34 + i * 20} H ${u.x + u.width - 28}`, class: "unit-coil" }));
+  }
+  addText(g, u.id, cx, u.y + 26, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + u.height + 22, "unit-name", "middle");
+  addText(g, `${fmt(Math.abs(model.dutyMMBtuHr || model.selection.config.energy), 2)} MMBtu/h`, cx, u.y + u.height - 18, "unit-name energy-text", "middle");
+}
+
+function drawSeparatorShape(g, u) {
+  const cx = u.x + u.width / 2, cy = u.y + 52;
+  const x = u.x + 20, y = u.y + 25, w = u.width - 40, h = 55;
+  g.appendChild(svgEl("rect", { x, y, width: w, height: h, rx: h/2, class: "separator-shell" }));
+  g.appendChild(svgEl("line", { x1: x + 18, y1: y + h*0.48, x2: x + w - 18, y2: y + h*0.48, class: "separator-level" }));
+  g.appendChild(svgEl("line", { x1: x + 18, y1: y + h*0.70, x2: x + w - 18, y2: y + h*0.70, class: "separator-water-level" }));
+  g.appendChild(svgEl("line", { x1: u.x, y1: cy, x2: x, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: x+w, y1: cy, x2: u.x + u.width, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx, y1: y, x2: cx, y2: y - 24, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: cx, y1: y + h, x2: cx, y2: y + h + 28, class: "symbol-stream-line" }));
+  addText(g, u.id, cx, u.y + 108, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 128, "unit-name", "middle");
+}
+
+function drawEnergyTable(model) {
+  if (!showOverlays) return;
+  if (!(model.selection.type === "objectLevel" && model.selection.key === "Units") && model.selection.type !== "processArea" && model.selection.type !== "objectLevel") return;
+  const x = 405, y = 635;
+  const g = svgEl("g", { class: "svg-energy-table" });
+  g.appendChild(svgEl("rect", { x, y, width: 275, height: 78, rx: 10, class: "overlay-box" }));
+  addText(g, "Energy Summary", x + 16, y + 24, "overlay-title");
+  addText(g, `Duty: ${fmt(Math.abs(totalEnergyMMBtu(model)), 2)} MMBtu/h`, x + 16, y + 48, "overlay-text energy-text");
+  addText(g, `Power Eq.: ${fmt(Math.abs(totalEnergyHp(model)), 1)} hp`, x + 16, y + 66, "overlay-text energy-text");
+  layers.overlays.appendChild(g);
+}
+
+function drawLegendOverlay() {
+  const g = svgEl("g", { class: "legend-overlay" });
+  const boxX = 1095;
+  const boxY = 610;
+  const rowStartY = boxY + 49;
+  g.appendChild(svgEl("rect", { x: boxX, y: boxY, width: 255, height: 205, rx: 10, class: "legend-box" }));
+  addText(g, "Legend", boxX + 18, boxY + 25, "legend-title");
+  [["liquid","Liquid Stream"],["vapor","Vapor Stream"],["energy","Energy Stream"],["fuel","Fuel"],["utility","Utility"],["flue","Vent / Flue"]].forEach(([cls,label],i)=>{
+    const yy = rowStartY + i * 24;
+    g.appendChild(svgEl("line", { x1: boxX + 20, y1: yy, x2: boxX + 68, y2: yy, class: `stream ${cls}` }));
+    addText(g, label, boxX + 82, yy + 4, "legend-text");
+  });
+  layers.overlays.appendChild(g);
+}
+
+function drawStreamLabel(stream) {
+  if (!showLabels || (!showUtilities && stream.utility)) return;
+  if (stream.label?.x < 0 || stream.label?.y < 0) return;
+  const x = stream.label.x, y = stream.label.y, w = 182, h = 58;
+  const g = svgEl("g", { class: "stream-label stream-table" });
+  g.appendChild(svgEl("rect", { x, y, width: w, height: h, rx: 7, class: "stream-label-box" }));
+  addText(g, `${stream.id} ${stream.name}`, x + 8, y + 17, "stream-label-title");
+  addText(g, stream.lines[0], x + 8, y + 35, "stream-label-text");
+  addText(g, stream.lines[1], x + 8, y + 51, "stream-label-text");
+  layers.labels.appendChild(g);
+}
+
+function render() {
+  if (!layers) return;
+  const selection = getSelection();
+  syncUnitOperationOverlay(selection);
+  clearLayers();
+  const model = computeModel();
+  const pfd = buildDynamicPfd(model);
+  activeViewName.textContent = model.selection.type === "objectLevel" && model.selection.key === "Units" ? `Units - ${model.unitOperation}` : model.selection.config.title;
+  drawGrid();
+  drawViewTitle(model);
+  pfd.streams.forEach(drawStream);
+  pfd.units.forEach(unit => drawUnit(unit, model));
+  pfd.streams.forEach(drawStreamLabel);
+  drawOverlays(model);
+  drawStreamInputTable(model);
+  drawUnitInputTable(model);
+  drawEnergyTable(model);
+  updateOutputTable(model);
+  updateEconomicsTable(model);
+}
+
+startPfdTemplate();
