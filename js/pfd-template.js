@@ -1694,3 +1694,156 @@ function buildDynamicPfd(model) {
   }
   return addEnergyNetworkToPfd({ units, streams }, model);
 }
+
+/* ------------------------------------------------------------------
+   Final override: Sites object-level inter-site routing
+   - Natural Gas feeds both LNG and Refinery.
+   - Crude Oil and Condensate feed Refinery.
+   - Condensate also feeds NGLs.
+   - Refinery products route to Fuels Storage, Petrochemical Units,
+     and Loading / Export.
+------------------------------------------------------------------ */
+function buildSitesViewPfd(model) {
+  const units = [
+    { id: "NG-101", name: "Natural Gas", type: "box", x: 55, y: 120, width: 155, height: 75 },
+    { id: "CR-101", name: "Crude Oil", type: "box", x: 55, y: 295, width: 155, height: 75 },
+    { id: "CD-101", name: "Condensate", type: "box", x: 55, y: 470, width: 155, height: 75 },
+
+    { id: "LNG-101", name: "LNG Facility", type: "box", x: 430, y: 105, width: 180, height: 90 },
+    { id: "REF-101", name: "Refinery", type: "box", x: 430, y: 300, width: 180, height: 105 },
+    { id: "NGL-101", name: "NGLs Facility", type: "box", x: 430, y: 500, width: 180, height: 90 },
+
+    { id: "TK-101", name: "Fuels Storage\nGasoline / Diesel\nNaphtha / Gasoil", type: "tank", x: 805, y: 215, width: 190, height: 125 },
+    { id: "PC-101", name: "Petrochemical Units", type: "reactor", x: 805, y: 405, width: 190, height: 120 },
+    { id: "LD-101", name: "Loading / Export", type: "box", x: 1110, y: 315, width: 180, height: 100 }
+  ];
+
+  const midY = u => u.y + u.height / 2;
+  const leftX = u => u.x;
+  const rightX = u => u.x + u.width;
+  const streams = [
+    {
+      id: "S-101",
+      name: "Natural Gas to LNG",
+      type: "vapor",
+      utility: false,
+      path: [{ x: rightX(units[0]), y: midY(units[0]) }, { x: 300, y: midY(units[0]) }, { x: 300, y: midY(units[3]) }, { x: leftX(units[3]), y: midY(units[3]) }],
+      label: { x: 245, y: 55 },
+      lines: [`${fmt(model.inputs.massFlowLbHr * 0.45, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`]
+    },
+    {
+      id: "S-102",
+      name: "Natural Gas to Refinery",
+      type: "vapor",
+      utility: false,
+      path: [{ x: rightX(units[0]), y: midY(units[0]) }, { x: 280, y: midY(units[0]) }, { x: 280, y: midY(units[4]) }, { x: leftX(units[4]), y: midY(units[4]) }],
+      label: { x: 235, y: 210 },
+      lines: [`${fmt(model.inputs.massFlowLbHr * 0.20, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`]
+    },
+    {
+      id: "S-103",
+      name: "Crude Oil to Refinery",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[1]), y: midY(units[1]) }, { x: leftX(units[4]), y: midY(units[4]) }],
+      label: { x: 225, y: 300 },
+      lines: [`${fmt(model.inputs.massFlowLbHr * 0.55, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`]
+    },
+    {
+      id: "S-104",
+      name: "Condensate to Refinery",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[2]), y: midY(units[2]) }, { x: 330, y: midY(units[2]) }, { x: 330, y: midY(units[4]) + 30 }, { x: leftX(units[4]), y: midY(units[4]) + 30 }],
+      label: { x: 225, y: 405 },
+      lines: [`${fmt(model.inputs.massFlowLbHr * 0.25, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`]
+    },
+    {
+      id: "S-105",
+      name: "Condensate to NGLs",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[2]), y: midY(units[2]) }, { x: 315, y: midY(units[2]) }, { x: leftX(units[5]), y: midY(units[5]) }],
+      label: { x: 245, y: 560 },
+      lines: [`${fmt(model.inputs.massFlowLbHr * 0.18, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`]
+    },
+    {
+      id: "S-106",
+      name: "Refinery Products to Fuels Storage",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[4]), y: midY(units[4]) - 25 }, { x: 700, y: midY(units[4]) - 25 }, { x: 700, y: midY(units[6]) }, { x: leftX(units[6]), y: midY(units[6]) }],
+      label: { x: 610, y: 215 },
+      lines: [`${fmt(model.product.massFlowLbHr * 0.70, 0)} lb/hr`, `${fmt(model.product.temperature, 0)} °F | ${fmt(model.product.pressure, 0)} psig`]
+    },
+    {
+      id: "S-107",
+      name: "Refinery Products to Petrochemicals",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[4]), y: midY(units[4]) + 20 }, { x: leftX(units[7]), y: midY(units[7]) }],
+      label: { x: 610, y: 405 },
+      lines: [`${fmt(model.product.massFlowLbHr * 0.20, 0)} lb/hr`, `${fmt(model.product.temperature, 0)} °F | ${fmt(model.product.pressure, 0)} psig`]
+    },
+    {
+      id: "S-108",
+      name: "Storage to Loading / Export",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[6]), y: midY(units[6]) }, { x: 1050, y: midY(units[6]) }, { x: 1050, y: midY(units[8]) - 20 }, { x: leftX(units[8]), y: midY(units[8]) - 20 }],
+      label: { x: 1005, y: 205 },
+      lines: [`${fmt(model.product.massFlowLbHr * 0.65, 0)} lb/hr`, `${fmt(model.product.temperature, 0)} °F | ${fmt(model.product.pressure, 0)} psig`]
+    },
+    {
+      id: "S-109",
+      name: "Direct Refinery Exports",
+      type: "liquid",
+      utility: false,
+      path: [{ x: rightX(units[4]), y: midY(units[4]) }, { x: 1035, y: midY(units[4]) }, { x: 1035, y: midY(units[8]) + 20 }, { x: leftX(units[8]), y: midY(units[8]) + 20 }],
+      label: { x: 920, y: 545 },
+      lines: [`${fmt(model.product.massFlowLbHr * 0.10, 0)} lb/hr`, `${fmt(model.product.temperature, 0)} °F | ${fmt(model.product.pressure, 0)} psig`]
+    }
+  ];
+
+  return addEnergyNetworkToPfd({ units, streams }, model);
+}
+
+function buildDynamicPfd(model) {
+  let pfd;
+  if (model.selection.type === "objectLevel" && model.selection.key === "Streams") {
+    return buildSingleStreamPfd(model);
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Units") {
+    pfd = buildUnitSymbolShowcase(model);
+    return addEnergyNetworkToPfd(pfd, model);
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Plants") {
+    return buildPlantViewPfd(model);
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Sites") {
+    return buildSitesViewPfd(model);
+  }
+
+  const unitNames = model.selection.config.units;
+  const unitX = [105, 335, 570, 815, 1050];
+  const y = model.selection.type === "objectLevel" ? 340 : 315;
+  const units = unitNames.map((name, i) => ({ id: unitIdFor(model.selection, i), name, type: unitTypeFor(name, i), x: unitX[i], y, width: i === 2 ? 180 : 155, height: i === 2 ? 130 : 95 }));
+  const streams = [];
+  for (let i = 0; i < units.length - 1; i++) {
+    const from = units[i];
+    const to = units[i + 1];
+    const sy = unitConnectionY(from);
+    const ty = unitConnectionY(to);
+    const labelSlots = [{ x: 105, y: 115 }, { x: 370, y: 115 }, { x: 635, y: 115 }, { x: 900, y: 115 }];
+    streams.push({
+      id: `S-${101 + i}`,
+      name: ["Feed", "Intermediate", "Treated", "Product"][i],
+      type: streamTypeFor(model, i),
+      utility: false,
+      path: sy === ty ? [{ x: from.x + from.width, y: sy }, { x: to.x, y: ty }] : [{ x: from.x + from.width, y: sy }, { x: (from.x + from.width + to.x)/2, y: sy }, { x: (from.x + from.width + to.x)/2, y: ty }, { x: to.x, y: ty }],
+      label: labelSlots[i],
+      lines: streamLinesFor(model, i)
+    });
+  }
+  return addEnergyNetworkToPfd({ units, streams }, model);
+}
