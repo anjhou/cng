@@ -1581,3 +1581,116 @@ function render() {
   updateOutputTable(model);
   updateEconomicsTable(model);
 }
+
+/* ------------------------------------------------------------------
+   Final override: corrected Plants object-level layout
+   - Utility Plant moved lower on the SVG.
+   - Utility outlet connects upward to the Process Plant.
+   - Process Plant outlet connects directly to Storage.
+   - Storage outlet connects to Loading.
+------------------------------------------------------------------ */
+function buildPlantViewPfd(model) {
+  const y = 315;
+  const plantUnits = [
+    { id: "FS-101", name: "Feed System", type: "box", x: 105, y, width: 155, height: 95 },
+    { id: "PLT-101", name: "Process Plant", type: "box", x: 365, y, width: 205, height: 105 },
+    { id: "UT-101", name: "Utility Plant", type: "box", x: 375, y: 545, width: 185, height: 95 },
+    { id: "TK-101", name: "Storage", type: "tank", x: 705, y: 315, width: 170, height: 105 },
+    { id: "LD-101", name: "Loading", type: "box", x: 1010, y: 315, width: 155, height: 95 }
+  ];
+
+  const feed = plantUnits[0];
+  const plant = plantUnits[1];
+  const utilities = plantUnits[2];
+  const storage = plantUnits[3];
+  const loading = plantUnits[4];
+  const feedY = unitConnectionY(feed);
+  const plantY = unitConnectionY(plant);
+  const storageY = unitConnectionY(storage);
+  const loadingY = unitConnectionY(loading);
+  const utilityOutletX = utilities.x + utilities.width / 2;
+  const plantUtilityInletX = plant.x + plant.width / 2;
+
+  const streams = [
+    {
+      id: "S-101",
+      name: "Plant Feed",
+      type: streamTypeFor(model, 0),
+      utility: false,
+      path: [{ x: feed.x + feed.width, y: feedY }, { x: plant.x, y: plantY }],
+      label: { x: 275, y: 205 },
+      lines: streamLinesFor(model, 0)
+    },
+    {
+      id: "S-102",
+      name: "Plant Outlet",
+      type: streamTypeFor(model, 1),
+      utility: false,
+      path: [{ x: plant.x + plant.width, y: plantY }, { x: storage.x, y: storageY }],
+      label: { x: 585, y: 205 },
+      lines: streamLinesFor(model, 1)
+    },
+    {
+      id: "S-103",
+      name: "Storage Outlet",
+      type: streamTypeFor(model, 2),
+      utility: false,
+      path: [{ x: storage.x + storage.width, y: storageY }, { x: loading.x, y: loadingY }],
+      label: { x: 885, y: 205 },
+      lines: streamLinesFor(model, 2)
+    },
+    {
+      id: "U-101",
+      name: "Utilities to Plant",
+      type: "utility",
+      utility: true,
+      path: [
+        { x: utilityOutletX, y: utilities.y },
+        { x: utilityOutletX, y: 485 },
+        { x: plantUtilityInletX, y: 485 },
+        { x: plantUtilityInletX, y: plant.y + plant.height }
+      ],
+      label: { x: 575, y: 495 },
+      lines: [`Utility Load: ${fmt(model.selection.config.energy, 2)} MMBtu/klb`, `Opex: ${money(model.selection.config.operating, 3)}/lb`]
+    }
+  ];
+
+  return addEnergyNetworkToPfd({ units: plantUnits, streams }, model);
+}
+
+function buildDynamicPfd(model) {
+  let pfd;
+  if (model.selection.type === "objectLevel" && model.selection.key === "Streams") {
+    return buildSingleStreamPfd(model);
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Units") {
+    pfd = buildUnitSymbolShowcase(model);
+    return addEnergyNetworkToPfd(pfd, model);
+  }
+  if (model.selection.type === "objectLevel" && model.selection.key === "Plants") {
+    return buildPlantViewPfd(model);
+  }
+
+  const unitNames = model.selection.config.units;
+  const unitX = [105, 335, 570, 815, 1050];
+  const y = model.selection.type === "objectLevel" ? 340 : 315;
+  const units = unitNames.map((name, i) => ({ id: unitIdFor(model.selection, i), name, type: unitTypeFor(name, i), x: unitX[i], y, width: i === 2 ? 180 : 155, height: i === 2 ? 130 : 95 }));
+  const streams = [];
+  for (let i = 0; i < units.length - 1; i++) {
+    const from = units[i];
+    const to = units[i + 1];
+    const sy = unitConnectionY(from);
+    const ty = unitConnectionY(to);
+    const labelSlots = [{ x: 105, y: 115 }, { x: 370, y: 115 }, { x: 635, y: 115 }, { x: 900, y: 115 }];
+    streams.push({
+      id: `S-${101 + i}`,
+      name: ["Feed", "Intermediate", "Treated", "Product"][i],
+      type: streamTypeFor(model, i),
+      utility: false,
+      path: sy === ty ? [{ x: from.x + from.width, y: sy }, { x: to.x, y: ty }] : [{ x: from.x + from.width, y: sy }, { x: (from.x + from.width + to.x)/2, y: sy }, { x: (from.x + from.width + to.x)/2, y: ty }, { x: to.x, y: ty }],
+      label: labelSlots[i],
+      lines: streamLinesFor(model, i)
+    });
+  }
+  return addEnergyNetworkToPfd({ units, streams }, model);
+}
