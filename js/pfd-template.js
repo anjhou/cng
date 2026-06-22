@@ -2460,3 +2460,203 @@ function render() {
   updateEconomicsTable(model);
   updateToggleButtons();
 }
+
+/* ------------------------------------------------------------------
+   Amine detailed routing update override
+   - V-101 relocated to bottom-left and drawn as vertical vessel
+   - Sour gas enters V-101 from top; liquids drain from bottom
+   - V-104 above P-101A/B; P-101A/B suction from V-104
+   - New shell-and-tube E-101 with shell-side rich amine and tube-side lean amine
+   - V-102 flash gas/liquid routing; T-102 overhead condenser/reflux drum routing
+------------------------------------------------------------------ */
+function buildAminePfd(model) {
+  const a = model.amine;
+  const units = [
+    { id: "V-101", name: "Inlet Separator", type: "vessel", x: 70, y: 520, width: 150, height: 120 },
+    { id: "P-101A/B", name: "Lean Amine Pumps", type: "pump", x: 235, y: 545, width: 165, height: 120 },
+    { id: "V-104", name: "Lean Amine Surge Drum", type: "vessel", x: 235, y: 390, width: 165, height: 120 },
+    { id: "T-101", name: "Amine Absorber", type: "column", x: 430, y: 290, width: 150, height: 230 },
+    { id: "LV-101", name: "Rich Amine LCV", type: "valve", x: 610, y: 565, width: 90, height: 75 },
+    { id: "V-102", name: "Rich Amine Flash Drum", type: "separator", x: 745, y: 535, width: 180, height: 120 },
+    { id: "E-101", name: "Shell & Tube Rich/Lean Exchanger", type: "exchanger", x: 970, y: 505, width: 190, height: 115 },
+    { id: "T-102", name: "Amine Regenerator", type: "column", x: 1010, y: 245, width: 155, height: 235 },
+    { id: "E-102", name: "Overhead Condenser", type: "exchanger", x: 1065, y: 88, width: 185, height: 90 },
+    { id: "V-103", name: "Reflux Drum", type: "separator", x: 1080, y: 175, width: 175, height: 110 },
+    { id: "E-103", name: "Lean Amine Cooler", type: "exchanger", x: 610, y: 350, width: 190, height: 100 },
+    { id: "H-101", name: "Regenerator Reboiler", type: "furnace", x: 1210, y: 540, width: 165, height: 130 },
+    { id: "SRU-101", name: "Sulfur & CO₂ Recovery", type: "box", x: 1260, y: 175, width: 115, height: 90 }
+  ];
+
+  const u = Object.fromEntries(units.map(unit => [unit.id, unit]));
+  const cx = unit => unit.x + unit.width / 2;
+  const midY = unit => unitConnectionY(unit);
+  const lx = unit => unit.x;
+  const rx = unit => unit.x + unit.width;
+  const top = unit => unit.y;
+  const bottom = unit => unit.y + unit.height;
+  const streams = [];
+
+  streams.push(streamFromMeta(
+    "S-101", "Sour Gas Feed", "vapor",
+    [{ x: cx(u["V-101"]), y: 430 }, { x: cx(u["V-101"]), y: top(u["V-101"]) }],
+    { x: 52, y: 430 },
+    [`${fmt(model.inputs.gasMmscfd, 1)} MMSCFD`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Sour Gas Feed", gpm: model.inputs.feedFlowGpm, lbHr: model.inputs.massFlowLbHr, temp: model.inputs.temperature, pressure: model.inputs.pressure, cp: 0.52 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-102", "Separated Liquids", "liquid",
+    [{ x: cx(u["V-101"]), y: bottom(u["V-101"]) }, { x: cx(u["V-101"]), y: 755 }, { x: 235, y: 755 }],
+    { x: 70, y: 765 },
+    [`${fmt(model.inputs.massFlowLbHr * 0.015, 0)} lb/hr`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure - 2, 0)} psig`],
+    amineStreamMeta(model, { name: "Inlet Separator Liquid", gpm: model.inputs.feedFlowGpm * 0.015, lbHr: model.inputs.massFlowLbHr * 0.015, temp: model.inputs.temperature, pressure: model.inputs.pressure - 2, cp: 0.65 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-103", "Conditioned Sour Gas", "vapor",
+    [{ x: rx(u["V-101"]), y: top(u["V-101"]) + 48 }, { x: 355, y: top(u["V-101"]) + 48 }, { x: 355, y: u["T-101"].y + 180 }, { x: lx(u["T-101"]) + 38, y: u["T-101"].y + 180 }],
+    { x: 245, y: 455 },
+    [`${fmt(model.inputs.gasMmscfd, 1)} MMSCFD`, `${fmt(model.inputs.temperature, 0)} °F | ${fmt(model.inputs.pressure - 3, 0)} psig`],
+    amineStreamMeta(model, { name: "Conditioned Sour Gas", gpm: model.inputs.feedFlowGpm, lbHr: model.inputs.massFlowLbHr, temp: model.inputs.temperature, pressure: model.inputs.pressure - 3, cp: 0.52 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-104", "Sweet Gas Product", "vapor",
+    [{ x: cx(u["T-101"]), y: u["T-101"].y - 18 }, { x: cx(u["T-101"]), y: 60 }, { x: 900, y: 60 }],
+    { x: 610, y: 25 },
+    [`${fmt(a.treatedGasMmscfd, 2)} MMSCFD`, `${fmt(model.product.temperature, 0)} °F | ${fmt(model.product.pressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Sweet Gas Product", gpm: model.product.flowGpm, lbHr: model.product.massFlowLbHr, temp: model.product.temperature, pressure: model.product.pressure, cp: 0.52 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-105", "Rich Amine to LV-101", "liquid",
+    [{ x: cx(u["T-101"]), y: bottom(u["T-101"]) + 25 }, { x: cx(u["T-101"]), y: 602 }, { x: lx(u["LV-101"]), y: 602 }],
+    { x: 455, y: 620 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.richTemp, 0)} °F | ${fmt(a.richAminePressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Rich Amine to LV-101", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.richTemp, pressure: a.richAminePressure, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-106", "LV-101 Outlet to V-102", "liquid",
+    [{ x: rx(u["LV-101"]), y: 602 }, { x: lx(u["V-102"]), y: 602 }],
+    { x: 680, y: 620 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.richTemp, 0)} °F | ${fmt(a.flashDrumPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "LV-101 Outlet to V-102", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.richTemp, pressure: a.flashDrumPressure, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-107", "Flash Gas to Fuel/Flare", "vapor",
+    [{ x: cx(u["V-102"]), y: top(u["V-102"]) }, { x: cx(u["V-102"]), y: 480 }, { x: 940, y: 480 }],
+    { x: 780, y: 455 },
+    [`${fmt(a.acidGasLbHr * 0.06, 0)} lb/hr`, `${fmt(model.inputs.richTemp, 0)} °F | ${fmt(a.flashDrumPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Flash Gas to Fuel/Flare", gpm: 0, lbHr: a.acidGasLbHr * 0.06, temp: model.inputs.richTemp, pressure: a.flashDrumPressure, cp: 0.52 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-108", "Rich Amine Shell Side Inlet", "liquid",
+    [{ x: rx(u["V-102"]), y: 602 }, { x: lx(u["E-101"]), y: 602 }],
+    { x: 915, y: 625 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.richTemp, 0)} °F | ${fmt(a.flashDrumPressure - 3, 0)} psig`],
+    amineStreamMeta(model, { name: "Rich Amine to E-101 Shell Side", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.richTemp, pressure: a.flashDrumPressure - 3, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-109", "Preheated Rich Amine to T-102", "liquid",
+    [{ x: cx(u["E-101"]), y: top(u["E-101"]) }, { x: cx(u["E-101"]), y: 365 }, { x: lx(u["T-102"]) + 18, y: 365 }],
+    { x: 835, y: 330 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(a.exchangerRichOutF, 0)} °F | ${fmt(a.flashDrumPressure - 8, 0)} psig`],
+    amineStreamMeta(model, { name: "Preheated Rich Amine to Regenerator", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.exchangerRichOutF, pressure: a.flashDrumPressure - 8, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-110", "T-102 Overhead H₂S + CO₂", "vapor",
+    [{ x: cx(u["T-102"]), y: top(u["T-102"]) - 18 }, { x: cx(u["T-102"]), y: 132 }, { x: lx(u["E-102"]), y: 132 }],
+    { x: 885, y: 92 },
+    [`${fmt(a.acidGasLbHr, 0)} lb/hr`, `${fmt(a.acidGasLbmolHr, 1)} lbmol/hr`],
+    amineStreamMeta(model, { name: "T-102 Overhead H₂S + CO₂", gpm: 0, lbHr: a.acidGasLbHr, temp: 210, pressure: model.inputs.stripperPressure, cp: 0.50 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-111", "Condenser Outlet to V-103", "liquid",
+    [{ x: cx(u["E-102"]), y: bottom(u["E-102"]) }, { x: cx(u["E-102"]), y: top(u["V-103"]) }],
+    { x: 1245, y: 142 },
+    [`Acid gas + reflux`, `${fmt(model.inputs.stripperPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Condensed Overhead to V-103", gpm: a.designGpm * 0.04, lbHr: a.solutionLbHr * 0.04 + a.acidGasLbHr, temp: 120, pressure: model.inputs.stripperPressure, cp: 1.0 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-112", "H₂S + CO₂ to Recovery", "vapor",
+    [{ x: rx(u["V-103"]), y: top(u["V-103"]) + 40 }, { x: lx(u["SRU-101"]), y: top(u["V-103"]) + 40 }],
+    { x: 1250, y: 125 },
+    [`${fmt(a.acidGasLbHr, 0)} lb/hr`, `To sulfur & CO₂ recovery`],
+    amineStreamMeta(model, { name: "Overhead Gas to Sulfur and CO₂ Recovery", gpm: 0, lbHr: a.acidGasLbHr, temp: 115, pressure: model.inputs.stripperPressure, cp: 0.50 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-113", "Reflux to T-102", "liquid",
+    [{ x: cx(u["V-103"]), y: bottom(u["V-103"]) }, { x: cx(u["V-103"]), y: 500 }, { x: rx(u["T-102"]), y: 500 }, { x: rx(u["T-102"]), y: 420 }],
+    { x: 1195, y: 470 },
+    [`Reflux water`, `${fmt(model.inputs.stripperPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "V-103 Bottoms Reflux to T-102", gpm: a.designGpm * 0.04, lbHr: a.solutionLbHr * 0.04, temp: 120, pressure: model.inputs.stripperPressure, cp: 1.0 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-114", "Lean Amine Tube Side Inlet", "liquid",
+    [{ x: cx(u["T-102"]), y: bottom(u["T-102"]) + 25 }, { x: cx(u["T-102"]), y: 705 }, { x: cx(u["E-101"]), y: 705 }, { x: cx(u["E-101"]), y: bottom(u["E-101"]) }],
+    { x: 960, y: 715 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(a.regeneratorBottomF, 0)} °F | ${fmt(model.inputs.stripperPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "Lean Amine from T-102 Bottom to E-101 Tube Side", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.regeneratorBottomF, pressure: model.inputs.stripperPressure, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-115", "E-101 Tube Outlet to E-103", "liquid",
+    [{ x: lx(u["E-101"]), y: top(u["E-101"]) + 35 }, { x: 840, y: top(u["E-101"]) + 35 }, { x: 840, y: 400 }, { x: rx(u["E-103"]), y: 400 }],
+    { x: 805, y: 422 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(a.leanCoolerOutF + 25, 0)} °F | ${fmt(model.inputs.stripperPressure, 0)} psig`],
+    amineStreamMeta(model, { name: "E-101 Tube Outlet to Lean Amine Cooler", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.leanCoolerOutF + 25, pressure: model.inputs.stripperPressure, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-116", "E-103 Outlet to V-104", "liquid",
+    [{ x: lx(u["E-103"]), y: 400 }, { x: rx(u["V-104"]), y: 400 }],
+    { x: 435, y: 365 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.leanTemp, 0)} °F | ${fmt(model.inputs.stripperPressure - 3, 0)} psig`],
+    amineStreamMeta(model, { name: "Cooled Lean Amine to V-104", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.leanTemp, pressure: model.inputs.stripperPressure - 3, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-117", "P-101A/B Suction from V-104", "liquid",
+    [{ x: cx(u["V-104"]), y: bottom(u["V-104"]) }, { x: cx(u["V-104"]), y: top(u["P-101A/B"]) }],
+    { x: 250, y: 505 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.leanTemp, 0)} °F | ${fmt(model.inputs.stripperPressure - 3, 0)} psig`],
+    amineStreamMeta(model, { name: "Lean Amine Pump Suction", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.leanTemp, pressure: model.inputs.stripperPressure - 3, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "S-118", "Lean Amine to Absorber", "liquid",
+    [{ x: rx(u["P-101A/B"]), y: midY(u["P-101A/B"]) }, { x: 395, y: midY(u["P-101A/B"]) }, { x: 395, y: u["T-101"].y + 45 }, { x: lx(u["T-101"]) + 38, y: u["T-101"].y + 45 }],
+    { x: 350, y: 250 },
+    [`${fmt(a.designGph, 0)} gph`, `${fmt(model.inputs.leanTemp, 0)} °F | ${fmt(model.inputs.pumpDischarge, 0)} psig`],
+    amineStreamMeta(model, { name: "Lean Amine to Absorber", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.leanTemp, pressure: model.inputs.pumpDischarge, cp: 0.82 })
+  ));
+
+  streams.push(streamFromMeta(
+    "Q-101", "Reboiler Duty", "energy",
+    [{ x: 1292, y: 745 }, { x: 1292, y: bottom(u["H-101"]) }],
+    { x: 1125, y: 735 },
+    [`${fmt(a.reboilerDutyMMBtuHr, 2)} MMBtu/hr`, `${fmt(a.reboilerDutyMMBtuHr * 393.014, 0)} hp equiv.`],
+    amineStreamMeta(model, { name: "Regenerator Reboiler Duty", gpm: 0, lbHr: 0, temp: 0, pressure: 0, cp: 0 }),
+    true
+  ));
+
+  streams.push(streamFromMeta(
+    "Q-102", "Lean Cooler Duty", "energy",
+    [{ x: 690, y: 300 }, { x: 690, y: top(u["E-103"]) }],
+    { x: 700, y: 280 },
+    [`${fmt(a.coolerDutyMMBtuHr, 2)} MMBtu/hr`, `Cooling duty`],
+    amineStreamMeta(model, { name: "Lean Cooler Duty", gpm: 0, lbHr: 0, temp: 0, pressure: 0, cp: 0 }),
+    true
+  ));
+
+  return { units, streams };
+}
