@@ -271,3 +271,25 @@ button.toggle-off {
 @media (max-width: 700px) {
   .amine-field-grid { grid-template-columns: 1fr; }
 }
+
+
+/* 3 x 3 SVG section grid */
+.pfd-section-boundary {
+  stroke: #2563eb;
+  stroke-width: 1.6;
+  stroke-dasharray: 6 6;
+  fill: none;
+  pointer-events: none;
+}
+
+.pfd-section-cell {
+  fill: transparent;
+  stroke: none;
+  pointer-events: none;
+}
+
+.pfd-section-label {
+  font: 700 13px Arial, sans-serif;
+  fill: #2563eb;
+  pointer-events: none;
+}

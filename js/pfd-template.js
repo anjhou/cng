@@ -198,6 +198,7 @@ function initializeSvgReferences() {
   svg = document.getElementById("pfdSvg");
   layers = {
     grid: document.getElementById("layerGrid"),
+    sections: document.getElementById("layerSections"),
     streams: document.getElementById("layerStreams"),
     units: document.getElementById("layerUnits"),
     labels: document.getElementById("layerLabels"),
@@ -256,9 +257,72 @@ function computeModel() {
 }
 
 function clearLayers() { Object.values(layers).forEach(layer => layer.innerHTML = ""); }
+function drawSectionGrid() {
+  if (!layers.sections) return;
+
+  const width = 1400;
+  const height = 850;
+  const sectionWidth = width / 3;
+  const sectionHeight = height / 3;
+
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+      const x = col * sectionWidth;
+      const y = row * sectionHeight;
+      const sectionId = `pfd-section-r${row + 1}c${col + 1}`;
+      const g = svgEl("g", {
+        id: sectionId,
+        class: "pfd-section",
+        "data-section-row": row + 1,
+        "data-section-col": col + 1
+      });
+
+      g.appendChild(svgEl("rect", {
+        x,
+        y,
+        width: sectionWidth,
+        height: sectionHeight,
+        class: "pfd-section-cell"
+      }));
+
+      addText(g, sectionId, x + 14, y + 22, "pfd-section-label");
+      layers.sections.appendChild(g);
+    }
+  }
+
+  [sectionWidth, sectionWidth * 2].forEach(x => {
+    layers.sections.appendChild(svgEl("line", {
+      x1: x,
+      y1: 0,
+      x2: x,
+      y2: height,
+      class: "pfd-section-boundary"
+    }));
+  });
+
+  [sectionHeight, sectionHeight * 2].forEach(y => {
+    layers.sections.appendChild(svgEl("line", {
+      x1: 0,
+      y1: y,
+      x2: width,
+      y2: y,
+      class: "pfd-section-boundary"
+    }));
+  });
+
+  layers.sections.appendChild(svgEl("rect", {
+    x: 0,
+    y: 0,
+    width,
+    height,
+    class: "pfd-section-boundary"
+  }));
+}
+
 function drawGrid() {
   for (let x = 0; x <= 1400; x += 50) layers.grid.appendChild(svgEl("line", { x1: x, y1: 0, x2: x, y2: 850, class: x % 100 === 0 ? "grid-major" : "grid-line" }));
   for (let y = 0; y <= 850; y += 50) layers.grid.appendChild(svgEl("line", { x1: 0, y1: y, x2: 1400, y2: y, class: y % 100 === 0 ? "grid-major" : "grid-line" }));
+  drawSectionGrid();
 }
 
 function buildDynamicPfd(model) {
