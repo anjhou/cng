@@ -2853,7 +2853,7 @@ function buildAminePfd(model) {
     { id: "P-101A/B", name: "Lean Amine Pumps", type: "pump", x: 150, y: 305, width: 165, height: 120 },
     { id: "V-101", name: "Inlet Separator", type: "vessel", x: 155, y: 430, width: 155, height: 125 },
     { id: "T-101", name: "Absorber", type: "column", x: 390, y: 325, width: 150, height: 235 },
-    { id: "T-102", name: "Amine Regenerator", type: "column", x: 980, y: 340, width: 155, height: 245 },
+    { id: "T-102", name: "Amine Regenerator", type: "column", x: 1094, y: 313, width: 145, height: 225 },
 
     // Row 3 / lower rich-amine loop
     { id: "LV-101", name: "Level Control Valve", type: "valve", x: 580, y: 570, width: 90, height: 70 },
@@ -3087,13 +3087,13 @@ function buildAminePfd(model) {
     { id: "V-103", name: "Reflux Drum / Accumulator", type: "separator", x: 1085, y: 95, width: 170, height: 120 },
 
     { id: "P-101A/B", name: "Lean Amine Pumps", type: "pump", x: 150, y: 365, width: 165, height: 120 },
-    { id: "T-101", name: "Absorber", type: "column", x: 392, y: 325, width: 150, height: 235 },
-    { id: "T-102", name: "Amine Regenerator", type: "column", x: 980, y: 340, width: 155, height: 245 },
+    { id: "T-101", name: "Absorber", type: "column", x: 520, y: 340, width: 145, height: 230 },
+    { id: "T-102", name: "Amine Regenerator", type: "column", x: 1094, y: 313, width: 145, height: 225 },
 
     { id: "V-101", name: "Inlet Separator", type: "vessel", x: 155, y: 646, width: 155, height: 125 },
     { id: "LV-101", name: "Level Control Valve", type: "valve", x: 610, y: 570, width: 42, height: 32 },
     { id: "V-102", name: "Rich Amine Flash Drum", type: "separator", x: 690, y: 568, width: 175, height: 125 },
-    { id: "E-101", name: "Rich / Lean Amine Exchanger (Shell & Tube)", type: "exchanger", x: 805, y: 638, width: 220, height: 100 },
+    { id: "E-101", name: "Rich / Lean Amine Exchanger (Shell & Tube)", type: "exchanger", x: 823, y: 660, width: 220, height: 100 },
     { id: "H-101", name: "Regenerator Reboiler", type: "heater", x: 1165, y: 680, width: 130, height: 85 },
     { id: "SRU-101", name: "Sulfur + CO₂ Recovery", type: "box", x: 1245, y: 110, width: 130, height: 90 }
   ];
@@ -3111,8 +3111,8 @@ function buildAminePfd(model) {
   const sourGasY = 708;        // V-101 side feed elevation
   const t101BottomFeedY = 520; // Below bottom tray, left-side feed to T-101
   const richLineY = 620;       // T-101 bottom liquid -> LV-101 -> V-102 straight line
-  const e101RichY = 688;       // E-101 tube-side rich amine elevation
-  const e101LeanY = 720;       // E-101 shell-side lean amine elevation
+  const e101RichY = 710;       // E-101 tube-side rich amine elevation
+  const e101LeanY = 742;       // E-101 shell-side lean amine elevation
   const overheadY = 150;
   const refluxY = 300;
   const leanHeaderY = unitY(u["P-101A/B"]);
@@ -3144,8 +3144,8 @@ function buildAminePfd(model) {
   );
 
   add("S-103", "Sweet Gas Product", "vapor",
-    [{ x: cx(u["T-101"]), y: top(u["T-101"]) - 18 }, { x: cx(u["T-101"]), y: sweetGasY }, { x: 900, y: sweetGasY }],
-    { x: 650, y: 238 },
+    [{ x: cx(u["T-101"]), y: top(u["T-101"]) - 18 }, { x: cx(u["T-101"]), y: sweetGasY }, { x: 680, y: sweetGasY }],
+    { x: 610, y: 238 },
     [`${fmt(a.treatedGasMmscfd, 2)} MMSCFD`, `along r1c2/r2c2 border`],
     amineStreamMeta(model, { name: "Sweet Gas Product", gpm: 0, lbHr: model.inputs.gasMmscfd * 1000000 * 18 / 379.5 / 24, temp: model.inputs.leanTemp + 10, pressure: model.inputs.absorberPressure - 8, cp: 0.55 })
   );
@@ -3265,4 +3265,44 @@ function buildAminePfd(model) {
   );
 
   return { units, streams };
+}
+
+
+/* ------------------------------------------------------------------
+   Final exchanger symbol override: shell-and-tube display for E-101
+   and consistent shell-and-tube style for exchanger symbols.
+------------------------------------------------------------------ */
+function drawHeatExchangerShape(g, u) {
+  const cx = u.x + u.width / 2;
+  const cy = u.y + 50;
+  const shellW = Math.min(u.width - 28, 190);
+  const shellH = Math.min(54, Math.max(40, u.height - 38));
+  const x = cx - shellW / 2;
+  const y = cy - shellH / 2;
+  const capR = shellH / 2;
+
+  // Unit inlet / outlet centerlines; no unit arrowheads.
+  g.appendChild(svgEl("line", { x1: u.x + 5, y1: cy, x2: x, y2: cy, class: "symbol-stream-line" }));
+  g.appendChild(svgEl("line", { x1: x + shellW, y1: cy, x2: u.x + u.width - 5, y2: cy, class: "symbol-stream-line" }));
+
+  // Shell barrel with rounded heads.
+  g.appendChild(svgEl("rect", { x, y, width: shellW, height: shellH, rx: capR, class: "exchanger-shell" }));
+  g.appendChild(svgEl("line", { x1: x + 24, y1: y - 8, x2: x + 24, y2: y + shellH + 8, class: "unit-detail" }));
+  g.appendChild(svgEl("line", { x1: x + shellW - 24, y1: y - 8, x2: x + shellW - 24, y2: y + shellH + 8, class: "unit-detail" }));
+
+  // Tube bundle.
+  for (let i = 0; i < 5; i++) {
+    const yy = y + 12 + i * ((shellH - 24) / 4);
+    g.appendChild(svgEl("line", { x1: x + 34, y1: yy, x2: x + shellW - 34, y2: yy, class: "exchanger-tube" }));
+  }
+
+  // Shell-side nozzles for E-101 to clarify rich/lean exchanger connections.
+  if (u.id === "E-101") {
+    g.appendChild(svgEl("line", { x1: cx - 45, y1: y, x2: cx - 45, y2: y - 22, class: "unit-detail" }));
+    g.appendChild(svgEl("line", { x1: cx + 45, y1: y + shellH, x2: cx + 45, y2: y + shellH + 22, class: "unit-detail" }));
+    addText(g, "Shell & Tube", cx, u.y + 98, "unit-name", "middle");
+  }
+
+  addText(g, u.id, cx, u.y + 112, "unit-tag", "middle");
+  addText(g, u.name, cx, u.y + 130, "unit-name", "middle");
 }
