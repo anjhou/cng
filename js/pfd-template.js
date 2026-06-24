@@ -3082,7 +3082,6 @@ function buildAminePfd(model) {
   const a = model.amine;
   const units = [
     { id: "V-104", name: "Lean Amine Surge Drum", type: "vessel", x: 150, y: 80, width: 165, height: 120 },
-    { id: "E-103", name: "Lean Amine Cooler", type: "exchanger", x: 520, y: 120, width: 180, height: 95 },
     { id: "E-102", name: "Overhead Condenser", type: "exchanger", x: 750, y: 120, width: 180, height: 95 },
     { id: "V-103", name: "Reflux Drum / Accumulator", type: "separator", x: 1085, y: 95, width: 170, height: 120 },
 
@@ -3118,6 +3117,14 @@ function buildAminePfd(model) {
     t101Unit.x = t101BoundaryX - t101Unit.width / 2;
   }
 
+  // Place E-102 at the center of pfd-section-r1c2.
+  // Grid: 1400 x 850, so r1c2 center is approximately (700, 142).
+  const e102Unit = units.find(unit => unit.id === "E-102");
+  if (e102Unit) {
+    e102Unit.x = 700 - e102Unit.width / 2;
+    e102Unit.y = 142 - e102Unit.height / 2;
+  }
+
   const u = Object.fromEntries(units.map(unit => [unit.id, unit]));
   const left = unit => unit.x;
   const right = unit => unit.x + unit.width;
@@ -3130,7 +3137,12 @@ function buildAminePfd(model) {
   const sweetGasY = 283;       // Border between pfd-section-r1c2 and pfd-section-r2c2
   const sourGasY = 708;        // V-101 side feed elevation
   const t101BottomFeedY = 520; // Below bottom tray, left-side feed to T-101
-  const richLineY = 620;       // T-101 bottom liquid -> LV-101 -> V-102 straight line
+  const richLineY = bottom(u["T-101"]); // T-101 bottom liquid outlet -> LV-101 -> V-102 straight line
+
+  // Align LV-101 and V-102 centerlines with the T-101 bottom liquid outlet.
+  u["LV-101"].y = richLineY - u["LV-101"].height / 2;
+  u["V-102"].y = richLineY - u["V-102"].height / 2;
+
   const e101RichY = 710;       // E-101 tube-side rich amine elevation
   const e101LeanY = 742;       // E-101 shell-side lean amine elevation
   const overheadY = 150;
@@ -3240,18 +3252,11 @@ function buildAminePfd(model) {
     amineStreamMeta(model, { name: "T-102 Bottom Liquid Outlet to E-101 Shell Side Inlet", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.regeneratorBottomF, pressure: model.inputs.stripperPressure, cp: 0.82 })
   );
 
-  add("S-114", "E-101 Shell Outlet to E-103", "liquid",
-    [{ x: left(u["E-101"]), y: e101LeanY }, { x: 625, y: e101LeanY }, { x: 625, y: cy(u["E-103"]) }, { x: right(u["E-103"]), y: cy(u["E-103"]) }],
-    { x: 650, y: 240 },
-    [`Lean amine to cooler`, `${fmt(a.leanCoolerOutF + 25, 0)} °F`],
-    amineStreamMeta(model, { name: "E-101 Shell Side Outlet to E-103 Inlet", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.leanCoolerOutF + 25, pressure: model.inputs.stripperPressure - 2, cp: 0.82 })
-  );
-
-  add("S-115", "E-103 Outlet to V-104", "liquid",
-    [{ x: left(u["E-103"]), y: cy(u["E-103"]) }, { x: right(u["V-104"]), y: cy(u["V-104"]) }],
-    { x: 330, y: 135 },
-    [`Cooled lean amine`, `${fmt(model.inputs.leanTemp, 0)} °F`],
-    amineStreamMeta(model, { name: "E-103 Outlet to Lean Amine Surge Drum", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.leanTemp, pressure: model.inputs.stripperPressure - 3, cp: 0.82 })
+  add("S-114", "E-101 Shell Outlet to V-104", "liquid",
+    [{ x: left(u["E-101"]), y: e101LeanY }, { x: 625, y: e101LeanY }, { x: 625, y: cy(u["V-104"]) }, { x: right(u["V-104"]), y: cy(u["V-104"]) }],
+    { x: 555, y: 235 },
+    [`Lean amine to surge drum`, `${fmt(a.leanCoolerOutF + 25, 0)} °F`],
+    amineStreamMeta(model, { name: "E-101 Shell Side Outlet to Lean Amine Surge Drum", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.leanCoolerOutF + 25, pressure: model.inputs.stripperPressure - 2, cp: 0.82 })
   );
 
   add("S-116", "V-104 to P-101A/B", "liquid",
@@ -3273,14 +3278,6 @@ function buildAminePfd(model) {
     { x: 1110, y: 735 },
     [`${fmt(a.reboilerDutyMMBtuHr, 2)} MMBtu/hr`, `${fmt(a.reboilerDutyMMBtuHr * 393.014, 0)} hp equiv.`],
     amineStreamMeta(model, { name: "Regenerator Reboiler Duty", gpm: 0, lbHr: 0, temp: 0, pressure: 0, cp: 0 }),
-    true
-  );
-
-  add("Q-102", "Lean Cooler Duty", "energy",
-    [{ x: 615, y: 82 }, { x: 615, y: top(u["E-103"]) }],
-    { x: 625, y: 95 },
-    [`${fmt(a.coolerDutyMMBtuHr, 2)} MMBtu/hr`, `Cooling duty`],
-    amineStreamMeta(model, { name: "Lean Cooler Duty", gpm: 0, lbHr: 0, temp: 0, pressure: 0, cp: 0 }),
     true
   );
 
