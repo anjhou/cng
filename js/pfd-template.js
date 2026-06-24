@@ -2846,7 +2846,7 @@ function buildAminePfd(model) {
     // Row 1
     { id: "V-104", name: "Lean Amine Surge Drum", type: "vessel", x: 150, y: 80, width: 165, height: 120 },
     { id: "E-103", name: "Lean Amine Cooler", type: "exchanger", x: 525, y: 120, width: 180, height: 95 },
-    { id: "E-102", name: "Overhead Condenser", type: "exchanger", x: 750, y: 120, width: 180, height: 95 },
+    { id: "E-102", name: "Lean Amine Cooler", type: "exchanger", x: 750, y: 120, width: 180, height: 95 },
     { id: "V-103", name: "Reflux Drum / Accumulator", type: "separator", x: 1085, y: 95, width: 170, height: 120 },
 
     // Row 2
@@ -3082,7 +3082,7 @@ function buildAminePfd(model) {
   const a = model.amine;
   const units = [
     { id: "V-104", name: "Lean Amine Surge Drum", type: "vessel", x: 150, y: 80, width: 165, height: 120 },
-    { id: "E-102", name: "Overhead Condenser", type: "exchanger", x: 750, y: 120, width: 180, height: 95 },
+    { id: "E-102", name: "Lean Amine Cooler", type: "exchanger", x: 750, y: 120, width: 180, height: 95 },
     { id: "V-103", name: "Reflux Drum / Accumulator", type: "separator", x: 1085, y: 95, width: 170, height: 120 },
 
     { id: "P-101A/B", name: "Lean Amine Pumps", type: "pump", x: 150, y: 365, width: 165, height: 120 },
@@ -3217,18 +3217,18 @@ function buildAminePfd(model) {
     amineStreamMeta(model, { name: "E-101 Tube Outlet to T-102 Feed Inlet", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.exchangerRichOutF, pressure: a.flashDrumPressure - 8, cp: 0.82 })
   );
 
-  add("S-109", "T-102 Overhead Vapor", "vapor",
-    [{ x: cx(u["T-102"]), y: top(u["T-102"]) }, { x: cx(u["T-102"]), y: overheadY }, { x: left(u["E-102"]), y: overheadY }],
-    { x: 935, y: 120 },
+  add("S-109", "T-102 Overhead Vapor to V-103", "vapor",
+    [{ x: cx(u["T-102"]), y: top(u["T-102"]) }, { x: cx(u["T-102"]), y: overheadY }, { x: left(u["V-103"]), y: overheadY }],
+    { x: 925, y: 120 },
     [`H₂S + CO₂ + H₂O`, `${fmt(model.inputs.stripperPressure, 0)} psig`],
-    amineStreamMeta(model, { name: "T-102 Overhead Vapor to E-102", gpm: 0, lbHr: a.acidGasLbHr + a.solutionLbHr * 0.04, temp: 220, pressure: model.inputs.stripperPressure, cp: 0.65 })
+    amineStreamMeta(model, { name: "T-102 Overhead Vapor to V-103 Accumulator", gpm: 0, lbHr: a.acidGasLbHr + a.solutionLbHr * 0.04, temp: 220, pressure: model.inputs.stripperPressure, cp: 0.65 })
   );
 
-  add("S-110", "E-102 Outlet to V-103", "liquid",
-    [{ x: right(u["E-102"]), y: overheadY }, { x: left(u["V-103"]), y: overheadY }],
-    { x: 940, y: 175 },
-    [`Condensed overhead`, `to accumulator`],
-    amineStreamMeta(model, { name: "E-102 Condenser Outlet to V-103", gpm: a.designGpm * 0.04, lbHr: a.solutionLbHr * 0.04 + a.acidGasLbHr, temp: 120, pressure: model.inputs.stripperPressure, cp: 1.0 })
+  add("S-110", "V-103 Condensate / Reflux Inventory", "liquid",
+    [{ x: left(u["V-103"]), y: top(u["V-103"]) + 78 }, { x: left(u["V-103"]) - 85, y: top(u["V-103"]) + 78 }],
+    { x: 990, y: 195 },
+    [`Condensed liquid`, `accumulator section`],
+    amineStreamMeta(model, { name: "V-103 Condensed Overhead Inventory", gpm: a.designGpm * 0.04, lbHr: a.solutionLbHr * 0.04 + a.acidGasLbHr, temp: 120, pressure: model.inputs.stripperPressure, cp: 1.0 })
   );
 
   add("S-111", "Acid Gas to Recovery", "vapor",
@@ -3252,11 +3252,18 @@ function buildAminePfd(model) {
     amineStreamMeta(model, { name: "T-102 Bottom Liquid Outlet to E-101 Shell Side Inlet", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.regeneratorBottomF, pressure: model.inputs.stripperPressure, cp: 0.82 })
   );
 
-  add("S-114", "E-101 Shell Outlet to V-104", "liquid",
-    [{ x: left(u["E-101"]), y: e101LeanY }, { x: 625, y: e101LeanY }, { x: 625, y: cy(u["V-104"]) }, { x: right(u["V-104"]), y: cy(u["V-104"]) }],
-    { x: 555, y: 235 },
-    [`Lean amine to surge drum`, `${fmt(a.leanCoolerOutF + 25, 0)} °F`],
-    amineStreamMeta(model, { name: "E-101 Shell Side Outlet to Lean Amine Surge Drum", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.leanCoolerOutF + 25, pressure: model.inputs.stripperPressure - 2, cp: 0.82 })
+  add("S-114", "E-101 Shell Outlet to E-102 Inlet", "liquid",
+    [{ x: left(u["E-101"]), y: e101LeanY }, { x: 625, y: e101LeanY }, { x: 625, y: cy(u["E-102"]) }, { x: left(u["E-102"]), y: cy(u["E-102"]) }],
+    { x: 600, y: 210 },
+    [`E-102 inlet`, `${fmt(a.leanCoolerOutF + 25, 0)} °F`],
+    amineStreamMeta(model, { name: "E-101 Shell Side Outlet to E-102 Inlet", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: a.leanCoolerOutF + 25, pressure: model.inputs.stripperPressure - 2, cp: 0.82 })
+  );
+
+  add("S-115", "E-102 Outlet to V-104", "liquid",
+    [{ x: left(u["E-102"]), y: cy(u["E-102"]) }, { x: 430, y: cy(u["E-102"]) }, { x: 430, y: cy(u["V-104"]) }, { x: right(u["V-104"]), y: cy(u["V-104"]) }],
+    { x: 405, y: 120 },
+    [`Cooled lean amine`, `${fmt(model.inputs.leanTemp, 0)} °F`],
+    amineStreamMeta(model, { name: "E-102 Outlet to V-104 Lean Amine Surge Drum", gpm: a.designGpm, lbHr: a.solutionLbHr, temp: model.inputs.leanTemp, pressure: model.inputs.stripperPressure - 4, cp: 0.82 })
   );
 
   add("S-116", "V-104 to P-101A/B", "liquid",
