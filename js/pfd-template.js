@@ -3098,6 +3098,26 @@ function buildAminePfd(model) {
     { id: "SRU-101", name: "Sulfur + CO₂ Recovery", type: "box", x: 1245, y: 110, width: 130, height: 90 }
   ];
 
+  // Resize all Amine PFD unit bounding boxes to 67% of their prior size.
+  // Centers are preserved so existing routing remains readable while symbols are smaller.
+  const AMINE_UNIT_SCALE = 0.67;
+  units.forEach(unit => {
+    const unitCx = unit.x + unit.width / 2;
+    const unitCy = unit.y + unit.height / 2;
+    unit.width = unit.width * AMINE_UNIT_SCALE;
+    unit.height = unit.height * AMINE_UNIT_SCALE;
+    unit.x = unitCx - unit.width / 2;
+    unit.y = unitCy - unit.height / 2;
+  });
+
+  // Place T-101 on the vertical boundary between pfd-section-r2c1 and pfd-section-r2c2.
+  // SVG viewBox width is 1400, so the column boundary is 1400 / 3.
+  const t101BoundaryX = 1400 / 3;
+  const t101Unit = units.find(unit => unit.id === "T-101");
+  if (t101Unit) {
+    t101Unit.x = t101BoundaryX - t101Unit.width / 2;
+  }
+
   const u = Object.fromEntries(units.map(unit => [unit.id, unit]));
   const left = unit => unit.x;
   const right = unit => unit.x + unit.width;
