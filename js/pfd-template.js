@@ -3339,6 +3339,10 @@ function drawHeatExchangerShape(g, u) {
    pfd-template.svg that were derived from the attached Amine-Treating-1.svg.
 ------------------------------------------------------------------ */
 function addSourceSymbolUse(g, u, symbolId, vbW, vbH, labelOffset = 18) {
+  // Clean replacement: the generated unit wrapper <g> keeps the original id,
+  // tooltip/event listeners, and JS calculation mapping. Only the internal
+  // legacy geometry is replaced with a source SVG symbol.
+  g.innerHTML = "";
   const use = svgEl("use", {
     href: `#${symbolId}`,
     x: u.x,
@@ -3401,8 +3405,7 @@ function drawBoxShape(g, u) {
 const drawUnitBeforeSourceSymbolReplacement = typeof drawUnit === "function" ? drawUnit : null;
 function drawUnit(unit, model) {
   const g = svgEl("g", { id: `unit-${unit.id.replace(/[^A-Za-z0-9_-]/g, "-")}`, class: "selectable unit" });
-  g.dataset.tooltip = `${unit.id} ${unit.name}\
-View: ${model.selection.config.title}`;
+  g.dataset.tooltip = `${unit.id} ${unit.name}\nView: ${model.selection.config.title}`;
   if (unit.type === "pump") drawPumpShape(g, unit);
   else if (unit.type === "exchanger") drawHeatExchangerShape(g, unit);
   else if (unit.type === "column") drawColumnShape(g, unit);
