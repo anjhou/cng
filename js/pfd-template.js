@@ -3330,3 +3330,88 @@ function drawHeatExchangerShape(g, u) {
   addText(g, u.id, cx, u.y + 112, "unit-tag", "middle");
   addText(g, u.name, cx, u.y + 130, "unit-name", "middle");
 }
+
+
+/* ------------------------------------------------------------------
+   Amine-Treating-1.svg symbol replacement layer
+   Unit wrappers, IDs, tooltips, event listeners, and calculation mappings
+   are preserved; only the internal geometry is replaced by symbols from
+   pfd-template.svg that were derived from the attached Amine-Treating-1.svg.
+------------------------------------------------------------------ */
+function addSourceSymbolUse(g, u, symbolId, vbW, vbH, labelOffset = 18) {
+  const use = svgEl("use", {
+    href: `#${symbolId}`,
+    x: u.x,
+    y: u.y,
+    width: u.width,
+    height: u.height,
+    class: "source-symbol-use"
+  });
+  use.setAttributeNS("http://www.w3.org/1999/xlink", "href", `#${symbolId}`);
+  g.appendChild(use);
+  g.dataset.unitId = u.id;
+  g.dataset.unitType = u.type || "unit";
+  addText(g, u.id, u.x + u.width / 2, u.y + u.height + labelOffset, "unit-tag", "middle");
+  addText(g, u.name, u.x + u.width / 2, u.y + u.height + labelOffset + 18, "unit-name", "middle");
+}
+
+function drawPumpShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-pump", 120, 90, 18);
+}
+
+function drawVesselShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-vertical-vessel", 90, 150, 18);
+}
+
+function drawSeparatorShape(g, u) {
+  const vertical = u.height >= u.width * 0.75;
+  addSourceSymbolUse(g, u, vertical ? "src-symbol-vertical-vessel" : "src-symbol-horizontal-vessel", vertical ? 90 : 160, vertical ? 150 : 90, 18);
+}
+
+function drawTankShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-vertical-vessel", 90, 150, 18);
+}
+
+function drawColumnShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-column", 100, 190, 18);
+}
+
+function drawHeatExchangerShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-shell-tube", 190, 90, 18);
+  if (u.id === "E-101") {
+    addText(g, "Shell & Tube", u.x + u.width / 2, u.y + u.height + 54, "unit-name", "middle");
+  }
+}
+
+function drawValveShape(g, u) {
+  addSourceSymbolUse(g, u, "src-symbol-valve", 90, 60, 14);
+}
+
+function drawFurnaceShape(g, u, model) {
+  addSourceSymbolUse(g, u, "src-symbol-heater", 120, 120, 18);
+}
+
+function drawBoxShape(g, u) {
+  const rx = Math.min(10, Math.max(4, u.height / 8));
+  g.appendChild(svgEl("rect", { x: u.x, y: u.y, width: u.width, height: u.height, rx, class: "unit-muted" }));
+  addText(g, u.id, u.x + u.width / 2, u.y + u.height / 2 - 4, "unit-tag", "middle");
+  addText(g, u.name, u.x + u.width / 2, u.y + u.height / 2 + 16, "unit-name", "middle");
+}
+
+const drawUnitBeforeSourceSymbolReplacement = typeof drawUnit === "function" ? drawUnit : null;
+function drawUnit(unit, model) {
+  const g = svgEl("g", { id: `unit-${unit.id.replace(/[^A-Za-z0-9_-]/g, "-")}`, class: "selectable unit" });
+  g.dataset.tooltip = `${unit.id} ${unit.name}\
+View: ${model.selection.config.title}`;
+  if (unit.type === "pump") drawPumpShape(g, unit);
+  else if (unit.type === "exchanger") drawHeatExchangerShape(g, unit);
+  else if (unit.type === "column") drawColumnShape(g, unit);
+  else if (unit.type === "separator") drawSeparatorShape(g, unit);
+  else if (unit.type === "vessel") drawVesselShape(g, unit);
+  else if (unit.type === "valve") drawValveShape(g, unit);
+  else if (unit.type === "furnace" || unit.type === "heater") drawFurnaceShape(g, unit, model);
+  else if (unit.type === "tank") drawTankShape(g, unit);
+  else drawBoxShape(g, unit);
+  layers.units.appendChild(g);
+  attachTooltip(g);
+}
