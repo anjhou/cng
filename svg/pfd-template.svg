@@ -1,134 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Dynamic Process Flow Diagram" xmlns="http://www.w3.org/2000/svg">
+<svg id="pfdSvg" class="pfd-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">Amine Treating Unit Process Flow Diagram</title>
+  <desc id="desc">Fresh amine treating unit rebuilt with PFD-grade unit symbols based on Amine-Treating-1.svg.</desc>
   <defs>
-    <linearGradient id="pumpPressureGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#4A90E2"/>
-      <stop offset="100%" stop-color="#D0021B"/>
-    </linearGradient>
-    <marker id="pumpArrowHead" markerWidth="4.5" markerHeight="10" refX="3.6" refY="3" orient="auto" markerUnits="strokeWidth">
-      <polygon points="0 0, 3.6 3, 0 6" fill="black"/>
-    </marker>
-    <marker id="arrowProcess" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#2563eb"/></marker>
-    <marker id="arrowGas" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#059669"/></marker>
-    <marker id="arrowFuel" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#dc2626"/></marker>
-    <marker id="arrowFlue" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#6b7280"/></marker>
-    <marker id="arrowUtility" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#7c3aed"/></marker>
-  
-    <linearGradient id="compressorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#D9ECFF"/>
-      <stop offset="100%" stop-color="#7DB7F5"/>
-    </linearGradient>
-    <linearGradient id="turbineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FDE68A"/>
-      <stop offset="100%" stop-color="#F97316"/>
-    </linearGradient>
-    <linearGradient id="columnGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#F8FAFC"/>
-      <stop offset="100%" stop-color="#DBEAFE"/>
-    </linearGradient>
-    <linearGradient id="separatorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#F0FDFA"/>
-      <stop offset="100%" stop-color="#BAE6FD"/>
-    </linearGradient>
-    <linearGradient id="vesselGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FFF7ED"/>
-      <stop offset="100%" stop-color="#FED7AA"/>
-    </linearGradient>
-    <marker id="unitArrowHead" markerWidth="4.5" markerHeight="10" refX="3.6" refY="3" orient="auto" markerUnits="strokeWidth">
-      <polygon points="0 0, 3.6 3, 0 6" fill="#111827"/>
-    </marker>
-    <marker id="arrowLiquid" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#2563eb"/></marker>
-    <marker id="arrowVapor" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#059669"/></marker>
-    <marker id="arrowEnergy" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#b45309"/></marker>
-
-    <!-- Unit symbol library derived from Amine-Treating-1.svg.
-         These symbols are referenced by pfd-template.js so dynamic IDs,
-         tooltips, data bindings, and calculations remain attached to the
-         generated unit <g> wrappers. -->
-    <symbol id="src-symbol-pump" viewBox="0 0 120 90">
-      <g class="source-symbol source-pump">
-        <line x1="8" y1="48" x2="38" y2="48" class="source-nozzle"/>
-        <line x1="82" y1="48" x2="112" y2="48" class="source-nozzle"/>
-        <circle cx="50" cy="48" r="17" class="source-body"/>
-        <circle cx="70" cy="48" r="17" class="source-body"/>
-        <line x1="38" y1="70" x2="82" y2="70" class="source-base"/>
-        <path d="M34 70 L42 62 M78 70 L86 62" class="source-base"/>
-        <path d="M50 48 L60 48" class="source-detail"/>
-        <path d="M70 48 L80 48" class="source-detail"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-vertical-vessel" viewBox="0 0 90 150">
-      <g class="source-symbol source-vessel">
-        <path d="M30 15 Q45 4 60 15 L60 125 Q45 146 30 125 Z" class="source-body"/>
-        <line x1="45" y1="0" x2="45" y2="15" class="source-nozzle"/>
-        <line x1="45" y1="125" x2="45" y2="148" class="source-nozzle"/>
-        <line x1="60" y1="70" x2="82" y2="70" class="source-nozzle"/>
-        <line x1="8" y1="70" x2="30" y2="70" class="source-nozzle"/>
-        <line x1="33" y1="112" x2="57" y2="112" class="source-level"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-horizontal-vessel" viewBox="0 0 160 90">
-      <g class="source-symbol source-vessel">
-        <rect x="25" y="24" width="110" height="42" rx="21" class="source-body"/>
-        <line x1="0" y1="45" x2="25" y2="45" class="source-nozzle"/>
-        <line x1="135" y1="45" x2="160" y2="45" class="source-nozzle"/>
-        <line x1="80" y1="8" x2="80" y2="24" class="source-nozzle"/>
-        <line x1="80" y1="66" x2="80" y2="84" class="source-nozzle"/>
-        <line x1="42" y1="54" x2="118" y2="54" class="source-level"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-column" viewBox="0 0 100 190">
-      <g class="source-symbol source-column">
-        <path d="M28 22 Q50 6 72 22 L72 168 Q50 184 28 168 Z" class="source-body"/>
-        <line x1="50" y1="0" x2="50" y2="22" class="source-nozzle"/>
-        <line x1="50" y1="168" x2="50" y2="190" class="source-nozzle"/>
-        <line x1="28" y1="55" x2="6" y2="55" class="source-nozzle"/>
-        <line x1="72" y1="80" x2="96" y2="80" class="source-nozzle"/>
-        <line x1="34" y1="50" x2="66" y2="50" class="source-tray"/>
-        <line x1="34" y1="75" x2="66" y2="75" class="source-tray"/>
-        <path d="M32 92 L68 132 M68 92 L32 132" class="source-packing"/>
-        <line x1="34" y1="145" x2="66" y2="145" class="source-tray"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-shell-tube" viewBox="0 0 190 90">
-      <g class="source-symbol source-exchanger">
-        <line x1="0" y1="45" x2="25" y2="45" class="source-nozzle"/>
-        <line x1="165" y1="45" x2="190" y2="45" class="source-nozzle"/>
-        <rect x="25" y="25" width="140" height="40" rx="20" class="source-body"/>
-        <line x1="44" y1="16" x2="44" y2="74" class="source-tube-sheet"/>
-        <line x1="146" y1="16" x2="146" y2="74" class="source-tube-sheet"/>
-        <line x1="55" y1="34" x2="135" y2="34" class="source-tube"/>
-        <line x1="55" y1="42" x2="135" y2="42" class="source-tube"/>
-        <line x1="55" y1="50" x2="135" y2="50" class="source-tube"/>
-        <line x1="55" y1="58" x2="135" y2="58" class="source-tube"/>
-        <line x1="95" y1="6" x2="95" y2="25" class="source-nozzle"/>
-        <line x1="95" y1="65" x2="95" y2="84" class="source-nozzle"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-valve" viewBox="0 0 90 60">
-      <g class="source-symbol source-valve">
-        <line x1="0" y1="34" x2="22" y2="34" class="source-nozzle"/>
-        <line x1="68" y1="34" x2="90" y2="34" class="source-nozzle"/>
-        <path d="M22 20 L45 34 L22 48 Z" class="source-body"/>
-        <path d="M68 20 L45 34 L68 48 Z" class="source-body"/>
-        <line x1="45" y1="34" x2="45" y2="12" class="source-detail"/>
-        <rect x="39" y="5" width="12" height="7" class="source-body"/>
-      </g>
-    </symbol>
-    <symbol id="src-symbol-heater" viewBox="0 0 120 120">
-      <g class="source-symbol source-heater">
-        <rect x="25" y="18" width="70" height="78" rx="10" class="source-body"/>
-        <line x1="0" y1="56" x2="25" y2="56" class="source-nozzle"/>
-        <line x1="95" y1="56" x2="120" y2="56" class="source-nozzle"/>
-        <path d="M38 40 H82 M38 52 H82 M38 64 H82" class="source-tube"/>
-        <path d="M45 88 L60 70 L75 88 Z" class="source-flame"/>
-      </g>
-    </symbol>
+    <marker id="arrowGas" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#b7791f"/></marker>
+    <marker id="arrowSweet" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#2563eb"/></marker>
+    <marker id="arrowLean" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#166534"/></marker>
+    <marker id="arrowRich" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#15803d"/></marker>
+    <marker id="arrowAcid" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7e22ce"/></marker>
+    <marker id="arrowWater" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#0f67d2"/></marker>
+    <marker id="arrowHeat" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ea580c"/></marker>
   </defs>
-  <g id="layerGrid"></g>
-  <g id="layerSections" aria-label="3 by 3 PFD section grid"></g>
+
+  <g id="layerGrid">
+    <rect x="0" y="0" width="1500" height="900" fill="#fff"/>
+    <line x1="500" y1="0" x2="500" y2="900" class="grid-line"/>
+    <line x1="1000" y1="0" x2="1000" y2="900" class="grid-line"/>
+    <line x1="0" y1="300" x2="1500" y2="300" class="grid-line"/>
+    <line x1="0" y1="600" x2="1500" y2="600" class="grid-line"/>
+    <text x="16" y="28" class="section-id">pfd-section-r1c1</text><text x="516" y="28" class="section-id">pfd-section-r1c2</text><text x="1016" y="28" class="section-id">pfd-section-r1c3</text>
+    <text x="16" y="328" class="section-id">pfd-section-r2c1</text><text x="516" y="328" class="section-id">pfd-section-r2c2</text><text x="1016" y="328" class="section-id">pfd-section-r2c3</text>
+    <text x="16" y="628" class="section-id">pfd-section-r3c1</text><text x="516" y="628" class="section-id">pfd-section-r3c2</text><text x="1016" y="628" class="section-id">pfd-section-r3c3</text>
+  </g>
+
   <g id="layerStreams"></g>
   <g id="layerUnits"></g>
   <g id="layerLabels"></g>
-  <g id="layerOverlays"></g>
+  <g id="layerTables"></g>
 </svg>
