@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="pfdSvg" class="pfd-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
-  <title id="title">Amine Treating Unit Process Flow Diagram</title>
-  <desc id="desc">Fresh amine treating unit rebuilt with PFD-grade unit symbols based on Amine-Treating-1.svg.</desc>
+<svg id="pfdSvg" class="pfd-svg" viewBox="0 0 1400 850" role="img" aria-label="Dynamic Process Flow Diagram" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arrowGas" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#b7791f"/></marker>
-    <marker id="arrowSweet" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#2563eb"/></marker>
-    <marker id="arrowLean" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#166534"/></marker>
-    <marker id="arrowRich" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#15803d"/></marker>
-    <marker id="arrowAcid" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7e22ce"/></marker>
-    <marker id="arrowWater" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#0f67d2"/></marker>
-    <marker id="arrowHeat" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ea580c"/></marker>
+    <linearGradient id="pumpPressureGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A90E2"/>
+      <stop offset="100%" stop-color="#D0021B"/>
+    </linearGradient>
+    <marker id="pumpArrowHead" markerWidth="4.5" markerHeight="10" refX="3.6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 3.6 3, 0 6" fill="black"/>
+    </marker>
+    <marker id="arrowProcess" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#2563eb"/></marker>
+    <marker id="arrowGas" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#059669"/></marker>
+    <marker id="arrowFuel" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#dc2626"/></marker>
+    <marker id="arrowFlue" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#6b7280"/></marker>
+    <marker id="arrowUtility" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#7c3aed"/></marker>
+  
+    <linearGradient id="compressorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D9ECFF"/>
+      <stop offset="100%" stop-color="#7DB7F5"/>
+    </linearGradient>
+    <linearGradient id="turbineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+    <linearGradient id="columnGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="separatorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F0FDFA"/>
+      <stop offset="100%" stop-color="#BAE6FD"/>
+    </linearGradient>
+    <linearGradient id="vesselGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFF7ED"/>
+      <stop offset="100%" stop-color="#FED7AA"/>
+    </linearGradient>
+    <marker id="unitArrowHead" markerWidth="4.5" markerHeight="10" refX="3.6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 3.6 3, 0 6" fill="#111827"/>
+    </marker>
+    <marker id="arrowLiquid" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#2563eb"/></marker>
+    <marker id="arrowVapor" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#059669"/></marker>
+    <marker id="arrowEnergy" markerWidth="4.5" markerHeight="10" refX="3.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L4.5,5 L0,10 Z" fill="#b45309"/></marker>
   </defs>
-
-  <g id="layerGrid">
-    <rect x="0" y="0" width="1500" height="900" fill="#fff"/>
-    <line x1="500" y1="0" x2="500" y2="900" class="grid-line"/>
-    <line x1="1000" y1="0" x2="1000" y2="900" class="grid-line"/>
-    <line x1="0" y1="300" x2="1500" y2="300" class="grid-line"/>
-    <line x1="0" y1="600" x2="1500" y2="600" class="grid-line"/>
-    <text x="16" y="28" class="section-id">pfd-section-r1c1</text><text x="516" y="28" class="section-id">pfd-section-r1c2</text><text x="1016" y="28" class="section-id">pfd-section-r1c3</text>
-    <text x="16" y="328" class="section-id">pfd-section-r2c1</text><text x="516" y="328" class="section-id">pfd-section-r2c2</text><text x="1016" y="328" class="section-id">pfd-section-r2c3</text>
-    <text x="16" y="628" class="section-id">pfd-section-r3c1</text><text x="516" y="628" class="section-id">pfd-section-r3c2</text><text x="1016" y="628" class="section-id">pfd-section-r3c3</text>
-  </g>
-
+  <g id="layerGrid"></g>
+  <g id="layerSections" aria-label="3 by 3 PFD section grid"></g>
   <g id="layerStreams"></g>
   <g id="layerUnits"></g>
   <g id="layerLabels"></g>
-  <g id="layerTables"></g>
+  <g id="layerOverlays"></g>
 </svg>
