@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SVG Flowsheet Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+  }
+
+  header {
+    padding: 12px 18px;
+    background: #0f172a;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 52px);
+  }
+
+  .sidebar {
+    background: white;
+    border-right: 1px solid #cbd5e1;
+    padding: 14px;
+    overflow-y: auto;
+  }
+
+  .sidebar h3 {
+    margin: 8px 0;
+  }
+
+  button, select, input {
+    width: 100%;
+    margin: 6px 0;
+    padding: 8px;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    background: white;
+  }
+
+  button {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  button.active {
+    background: #2563eb;
+    color: white;
+  }
+
+  .symbol-btn {
+    text-align: left;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  svg#flowsheet {
+    width: 100%;
+    height: 100%;
+    background: white;
+    cursor: crosshair;
+  }
+
+  .grid {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 1;
+  }
+
+  .unit {
+    cursor: move;
+  }
+
+  .unit.selected .bbox {
+    stroke: #2563eb;
+    stroke-width: 2;
+    stroke-dasharray: 5 3;
+    fill: none;
+    pointer-events: none;
+  }
+
+  .stream {
+    stroke: #111827;
+    stroke-width: 2.2;
+    fill: none;
+    cursor: pointer;
+  }
+
+  .stream.selected {
+    stroke: #dc2626;
+    stroke-width: 3;
+  }
+
+  .port {
+    fill: #2563eb;
+    stroke: white;
+    stroke-width: 1.5;
+    cursor: crosshair;
+  }
+
+  .label {
+    font-size: 12px;
+    fill: #111827;
+    pointer-events: none;
+  }
+
+  .status {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    color: white;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+</style>
+</head>
+
+<body>
+<header>SVG Flowsheet Builder</header>
+
+<div class="app">
+  <aside class="sidebar">
+    <h3>Symbols</h3>
+    <div id="symbolList">Loading Symbol.svg...</div>
+
+    <h3>Actions</h3>
+    <button id="selectMode" class="active">Select / Move</button>
+    <button id="connectMode">Connect Streams</button>
+    <button id="deleteBtn">Delete Selected</button>
+    <button id="exportBtn">Export SVG</button>
+
+    <h3>Selected Object</h3>
+    <input id="tagInput" placeholder="Equipment tag e.g. P-101" />
+    <button id="applyTagBtn">Apply Tag</button>
+
+    <p style="font-size:13px;line-height:1.4;">
+      Click a symbol, then click the canvas to place it.
+      Use Connect Streams, then click two equipment items to draw a line.
+    </p>
+  </aside>
+
+  <main class="canvas-wrap">
+    <svg id="flowsheet" viewBox="0 0 1600 900">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3"
+                orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#111827"></path>
+        </marker>
+      </defs>
+
+      <g id="gridLayer"></g>
+      <g id="streamLayer"></g>
+      <g id="unitLayer"></g>
+    </svg>
+
+    <div class="status" id="status">Ready</div>
+  </main>
+</div>
+
+<script>
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+const flowsheet = document.getElementById("flowsheet");
+const gridLayer = document.getElementById("gridLayer");
+const unitLayer = document.getElementById("unitLayer");
+const streamLayer = document.getElementById("streamLayer");
+const symbolList = document.getElementById("symbolList");
+const statusBox = document.getElementById("status");
+
+let symbols = [];
+let selectedSymbol = null;
+let mode = "select";
+let selectedElement = null;
+let dragTarget = null;
+let dragOffset = { x: 0, y: 0 };
+let unitCounter = 1;
+let streamCounter = 1;
+let connectStart = null;
+let connections = [];
+
+drawGrid();
+
+async function loadSymbols() {
+  try {
+    const res = await fetch("Symbol.svg", { cache: "no-store" });
+    const text = await res.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, "image/svg+xml");
+    const root = doc.documentElement;
+
+    let candidates = [...root.querySelectorAll("g")];
+
+    if (candidates.length === 0) {
+      candidates = [...root.children].filter(el =>
+        !["defs", "metadata", "sodipodi:namedview"].includes(el.tagName)
+      );
+    }
+
+    symbols = candidates.map((node, i) => {
+      const clone = node.cloneNode(true);
+      clone.removeAttribute("transform");
+
+      return {
+        id: node.id || `symbol_${i + 1}`,
+        name: node.id || `Symbol ${i + 1}`,
+        node: clone
+      };
+    });
+
+    renderSymbolButtons();
+    setStatus(`Loaded ${symbols.length} symbols from Symbol.svg`);
+  } catch (err) {
+    symbolList.innerHTML = `<b style="color:red;">Could not load Symbol.svg</b>`;
+    setStatus("Error loading Symbol.svg. Keep flowsheet.html and Symbol.svg in the same folder.");
+    console.error(err);
+  }
+}
+
+function renderSymbolButtons() {
+  symbolList.innerHTML = "";
+
+  symbols.forEach(sym => {
+    const btn = document.createElement("button");
+    btn.className = "symbol-btn";
+    btn.textContent = sym.name;
+
+    btn.onclick = () => {
+      selectedSymbol = sym;
+      mode = "place";
+      setButtons();
+      setStatus(`Placement mode: ${sym.name}`);
+    };
+
+    symbolList.appendChild(btn);
+  });
+}
+
+function drawGrid() {
+  for (let x = 0; x <= 1600; x += 40) {
+    const line = svgEl("line", { x1: x, y1: 0, x2: x, y2: 900, class: "grid" });
+    gridLayer.appendChild(line);
+  }
+
+  for (let y = 0; y <= 900; y += 40) {
+    const line = svgEl("line", { x1: 0, y1: y, x2: 1600, y2: y, class: "grid" });
+    gridLayer.appendChild(line);
+  }
+}
+
+flowsheet.addEventListener("mousedown", e => {
+  const pt = getMouse(e);
+
+  if (mode === "place" && selectedSymbol) {
+    addUnit(selectedSymbol, pt.x, pt.y);
+    return;
+  }
+
+  if (e.target.closest(".unit")) {
+    const unit = e.target.closest(".unit");
+
+    if (mode === "connect") {
+      handleConnectClick(unit);
+      return;
+    }
+
+    selectElement(unit);
+    dragTarget = unit;
+    const tx = Number(unit.dataset.x || 0);
+    const ty = Number(unit.dataset.y || 0);
+    dragOffset = { x: pt.x - tx, y: pt.y - ty };
+  } else if (e.target.closest(".stream")) {
+    selectElement(e.target.closest(".stream"));
+  } else {
+    clearSelection();
+  }
+});
+
+flowsheet.addEventListener("mousemove", e => {
+  if (!dragTarget) return;
+
+  const pt = getMouse(e);
+  const x = snap(pt.x - dragOffset.x);
+  const y = snap(pt.y - dragOffset.y);
+
+  dragTarget.dataset.x = x;
+  dragTarget.dataset.y = y;
+  dragTarget.setAttribute("transform", `translate(${x},${y}) scale(1.4)`);
+
+  updateConnections();
+});
+
+window.addEventListener("mouseup", () => {
+  dragTarget = null;
+});
+
+function addUnit(sym, x, y) {
+  const unit = svgEl("g", {
+    class: "unit",
+    id: `unit_${unitCounter}`,
+    transform: `translate(${snap(x)},${snap(y)}) scale(1.4)`
+  });
+
+  unit.dataset.x = snap(x);
+  unit.dataset.y = snap(y);
+  unit.dataset.tag = `U-${String(unitCounter).padStart(3, "0")}`;
+
+  const graphics = sym.node.cloneNode(true);
+  unit.appendChild(graphics);
+
+  const bboxRect = svgEl("rect", {
+    class: "bbox",
+    x: -35,
+    y: -35,
+    width: 90,
+    height: 70,
+    rx: 5
+  });
+
+  const label = svgEl("text", {
+    class: "label",
+    x: 0,
+    y: 55,
+    "text-anchor": "middle"
+  });
+  label.textContent = unit.dataset.tag;
+
+  const leftPort = svgEl("circle", { class: "port", cx: -45, cy: 0, r: 5 });
+  const rightPort = svgEl("circle", { class: "port", cx: 65, cy: 0, r: 5 });
+
+  unit.appendChild(bboxRect);
+  unit.appendChild(label);
+  unit.appendChild(leftPort);
+  unit.appendChild(rightPort);
+
+  unitLayer.appendChild(unit);
+  selectElement(unit);
+
+  unitCounter++;
+}
+
+function handleConnectClick(unit) {
+  if (!connectStart) {
+    connectStart = unit;
+    selectElement(unit);
+    setStatus(`Connect from ${unit.dataset.tag}. Select destination.`);
+    return;
+  }
+
+  if (connectStart === unit) return;
+
+  addStream(connectStart, unit);
+  connectStart = null;
+  setStatus("Stream connected.");
+}
+
+function addStream(fromUnit, toUnit) {
+  const stream = svgEl("path", {
+    class: "stream",
+    id: `stream_${streamCounter}`,
+    "marker-end": "url(#arrow)"
+  });
+
+  stream.dataset.from = fromUnit.id;
+  stream.dataset.to = toUnit.id;
+  stream.dataset.tag = `S-${String(streamCounter).padStart(3, "0")}`;
+
+  const label = svgEl("text", {
+    class: "label",
+    id: `stream_label_${streamCounter}`,
+    "text-anchor": "middle"
+  });
+  label.textContent = stream.dataset.tag;
+
+  streamLayer.appendChild(stream);
+  streamLayer.appendChild(label);
+
+  connections.push({ stream, label, fromUnit, toUnit });
+  updateStreamPath(stream, label, fromUnit, toUnit);
+
+  streamCounter++;
+}
+
+function updateConnections() {
+  connections.forEach(c => updateStreamPath(c.stream, c.label, c.fromUnit, c.toUnit));
+}
+
+function updateStreamPath(stream, label, fromUnit, toUnit) {
+  const a = unitCenter(fromUnit);
+  const b = unitCenter(toUnit);
+
+  const x1 = a.x + 90;
+  const y1 = a.y;
+  const x2 = b.x - 65;
+  const y2 = b.y;
+
+  const midX = (x1 + x2) / 2;
+
+  const d = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+  stream.setAttribute("d", d);
+
+  label.setAttribute("x", midX);
+  label.setAttribute("y", (y1 + y2) / 2 - 8);
+}
+
+function unitCenter(unit) {
+  return {
+    x: Number(unit.dataset.x || 0),
+    y: Number(unit.dataset.y || 0)
+  };
+}
+
+function selectElement(el) {
+  clearSelection();
+  selectedElement = el;
+  el.classList.add("selected");
+
+  document.getElementById("tagInput").value = el.dataset.tag || "";
+}
+
+function clearSelection() {
+  if (selectedElement) selectedElement.classList.remove("selected");
+  selectedElement = null;
+}
+
+document.getElementById("selectMode").onclick = () => {
+  mode = "select";
+  connectStart = null;
+  setButtons();
+  setStatus("Select / move mode");
+};
+
+document.getElementById("connectMode").onclick = () => {
+  mode = "connect";
+  connectStart = null;
+  setButtons();
+  setStatus("Connect mode: click source equipment, then destination equipment.");
+};
+
+document.getElementById("deleteBtn").onclick = () => {
+  if (!selectedElement) return;
+
+  if (selectedElement.classList.contains("unit")) {
+    connections = connections.filter(c => {
+      const remove = c.fromUnit === selectedElement || c.toUnit === selectedElement;
+      if (remove) {
+        c.stream.remove();
+        c.label.remove();
+      }
+      return !remove;
+    });
+  }
+
+  selectedElement.remove();
+  selectedElement = null;
+};
+
+document.getElementById("applyTagBtn").onclick = () => {
+  if (!selectedElement) return;
+
+  const tag = document.getElementById("tagInput").value.trim();
+  if (!tag) return;
+
+  selectedElement.dataset.tag = tag;
+
+  const text = selectedElement.querySelector("text.label");
+  if (text) text.textContent = tag;
+  else selectedElement.textContent = tag;
+};
+
+document.getElementById("exportBtn").onclick = () => {
+  const clone = flowsheet.cloneNode(true);
+  const source = new XMLSerializer().serializeToString(clone);
+  const blob = new Blob([source], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "exported-flowsheet.svg";
+  a.click();
+
+  URL.revokeObjectURL(url);
+};
+
+function setButtons() {
+  document.getElementById("selectMode").classList.toggle("active", mode === "select");
+  document.getElementById("connectMode").classList.toggle("active", mode === "connect");
+}
+
+function setStatus(msg) {
+  statusBox.textContent = msg;
+}
+
+function getMouse(evt) {
+  const pt = flowsheet.createSVGPoint();
+  pt.x = evt.clientX;
+  pt.y = evt.clientY;
+  return pt.matrixTransform(flowsheet.getScreenCTM().inverse());
+}
+
+function snap(v) {
+  return Math.round(v / 20) * 20;
+}
+
+function svgEl(tag, attrs = {}) {
+  const el = document.createElementNS(SVG_NS, tag);
+  Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+  return el;
+}
+
+loadSymbols();
+</script>
+</body>
+</html>
