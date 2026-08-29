@@ -21,6 +21,8 @@
 		font-weight: 600;
 		}
 	</style>
+	
+	<link rel="stylesheet" href="static/css/global-styles.css">
 </head>
 
 <body>
@@ -46,6 +48,19 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 		<p></p>
         <p><strong>Location: Energy Corridoor SW Houston, Texas </strong> </p>
         
+    </div>
+</section>
+
+<section>
+    <h3>Contact</h3>
+    <p>Submit your inquiry below.</p>
+    <div class="contact-form">
+        <form action="https://formspree.io/f/xlgzbngj" method="POST">
+            <label>Name</label><input type="text" name="name" required>
+            <label>Your Email</label><input type="email" name="email" required>
+            <label>Message</label><textarea name="message" rows="6" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
     </div>
 </section>
 
