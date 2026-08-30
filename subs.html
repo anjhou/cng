@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Houston Chemical and Energy | AI Consulting </title>
+    <style> 
+	.slider-wrapper{
+    position:relative;
+    max-width:1100px;
+    margin:40px auto;
+    overflow:hidden;
+    padding:20px 60px;
+}
+
+.slider-track{
+    display:flex;
+    transition:transform 0.5s ease;
+}
+
+.slide-card{
+    min-width:100%;
+    background:white;
+    padding:60px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    text-align:center;
+    box-sizing:border-box;
+}
+
+.slide-card h2{
+    font-size:2.3rem;
+    color:#222;
+}
+
+.slide-card p{
+    font-size:1.1rem;
+    color:#555;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:white;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.prev{
+    left:10px;
+}
+
+.next{
+    right:10px;
+}
+	
+	</style>
+	<link rel="stylesheet" href="static/css/global-styles.css">
+
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<!-- -->
+<!-- Slider Section -->
+<script>
+const track = document.querySelector(".slider-track");
+const slides = document.querySelectorAll(".slide-card");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let index = 0;
+
+function updateSlider(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+nextBtn.addEventListener("click", function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+});
+
+prevBtn.addEventListener("click", function(){
+    index--;
+
+    if(index < 0){
+        index = slides.length - 1;
+    }
+
+    updateSlider();
+});
+
+setInterval(function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+}, 5000);
+</script>
+
+<!-- -->
+
+<section>
+    <h3>Our Services</h3>
+    <div class="services-grid">
+		
+		<div class="service-box"><h4>Upstream</h4>
+		<p>Weekly Prices, Monthly Intelligence, Quarterly  Outlook </p>
+		</div>
+		
+			
+		<div class="service-box"><h4>Midstream</h4>
+		<p>Document management, Process Engineering, Project Control</p>
+		</div>
+		
+		<div class="service-box"><h4>Downstream</h4>
+		<p>Economics, Opportunity Framing</p>
+		</div>
+		
+		<div class="service-box">
+		<h4>Chemicals</h4>
+		<p>Cost–benefit.</p>
+		<p>Project Risk.</p>
+		</div>
+		
+		<div class="service-box">
+		<h4>Vendors</h4>
+		<p>Most effective technology.</p>
+		</div>
+		
+		<div class="service-box">
+		<h4>Fabricator</h4>
+		<p>NDA, Quote, Control</p>
+		</div>
+		
+		<div class="service-box"><h4>Tools</h4>
+		<p> Process Engineering Tools</p>
+		</div>
+		
+		<div class="service-box"><h4>Process Safety</h4>
+		<p> PHA, LOPA</p>
+		</div>
+        
+        
+        <div class="service-box">
+		<h4>Sustainability & Decarbonization</h4>
+		<p>Emissions reduction and energy transition strategies.</p>
+		</div>
+        
+    </div>
+</section>
+
+<section>
+    <h3>Contact</h3>
+    <p>Submit your inquiry below.</p>
+    <div class="contact-form">
+        <form action="https://formspree.io/f/xlgzbngj" method="POST">
+            <label>Name</label><input type="text" name="name" required>
+            <label>Your Email</label><input type="email" name="email" required>
+            <label>Message</label><textarea name="message" rows="6" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+
+
+<script>
+const track = document.querySelector(".slider-track");
+const slides = document.querySelectorAll(".slide-card");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let index = 0;
+
+function updateSlider(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+nextBtn.addEventListener("click", function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+});
+
+prevBtn.addEventListener("click", function(){
+    index--;
+
+    if(index < 0){
+        index = slides.length - 1;
+    }
+
+    updateSlider();
+});
+
+setInterval(function(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    updateSlider();
+}, 5000);
+</script>
+
+</body>
+</html>
