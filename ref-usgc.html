@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>U.S. Gulf Coast Refinery Capacity & Conversion Profile</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1f4e78;
+      --accent-2: #2f75b5;
+      --border: #d7dde5;
+      --header: #eaf1f8;
+      --hover: #f3f8fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .topbar {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      color: var(--accent);
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    input[type="search"] {
+      flex: 1 1 320px;
+      min-width: 220px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="search"]:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(47,117,181,.12);
+    }
+    .status {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 210px);
+    }
+    table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--accent);
+      color: white;
+      text-align: left;
+      padding: 9px 10px;
+      border-right: 1px solid rgba(255,255,255,.2);
+      border-bottom: 1px solid #173a5a;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { background: #285f91; }
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid #edf0f3;
+      white-space: nowrap;
+      background: #fff;
+    }
+    tbody tr:nth-child(even) td { background: #fbfcfe; }
+    tbody tr:hover td { background: var(--hover); }
+    .error {
+      padding: 20px;
+      color: #9b1c1c;
+      background: #fff5f5;
+      border-top: 1px solid #fecaca;
+      display: none;
+      white-space: pre-wrap;
+    }
+    .note {
+      padding: 10px 22px 16px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      background: #fcfdff;
+    }
+    .sort-indicator { opacity: .75; margin-left: 4px; font-size: 10px; }
+  </style>
+</head>
+<body>
+
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="topbar">
+        <h1>U.S. Gulf Coast Refineries</h1>
+        <div class="subtitle">Capacity, processing configuration, conversion intensity, product orientation, crude-slate capability, and refinery ranking.</div>
+        <div class="controls">
+          <input id="search" type="search" placeholder="Search refinery, state, location, ranking, crude capability..." />
+          <div id="status" class="status">Loading CSV…</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="dataTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="error" class="error"></div>
+      <div class="note">
+        Data source file: <strong>us_gulf_coast_refineries_conversion_orientation_2026.csv</strong>. Click a column header to sort. Use the search box to filter all columns.
+      </div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+	<script>
+	fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+	</script>
+
+  <script>
+    const CSV_FILE = 'us_gulf_coast_refineries_conversion_orientation_2026.csv';
+    let headers = [];
+    let rows = [];
+    let filteredRows = [];
+    let sortColumn = null;
+    let sortDirection = 1;
+
+    function parseCSV(text) {
+      const result = [];
+      let row = [];
+      let field = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (ch === '"' && next === '"') {
+            field += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuotes = false;
+          } else {
+            field += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ',') {
+            row.push(field);
+            field = '';
+          } else if (ch === '\n') {
+            row.push(field.replace(/\r$/, ''));
+            result.push(row);
+            row = [];
+            field = '';
+          } else {
+            field += ch;
+          }
+        }
+      }
+      if (field.length || row.length) {
+        row.push(field.replace(/\r$/, ''));
+        result.push(row);
+      }
+      return result.filter(r => r.some(v => v !== ''));
+    }
+
+    function isNumeric(value) {
+      if (value === null || value === undefined || value === '') return false;
+      return !Number.isNaN(Number(String(value).replace(/,/g, '')));
+    }
+
+    function formatValue(header, value) {
+      if (value === '') return '';
+      if (isNumeric(value)) {
+        const num = Number(String(value).replace(/,/g, ''));
+        if (/pct|ratio|index|lb_per_bbl|scf_per_bbl/i.test(header)) {
+          return Number.isInteger(num) ? num.toLocaleString() : num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        }
+        return Number.isInteger(num) ? num.toLocaleString() : num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      }
+      return value;
+    }
+
+    function renderTable() {
+      const thead = document.querySelector('#dataTable thead');
+      const tbody = document.querySelector('#dataTable tbody');
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      const trh = document.createElement('tr');
+      headers.forEach((h, idx) => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        const indicator = document.createElement('span');
+        indicator.className = 'sort-indicator';
+        indicator.textContent = sortColumn === idx ? (sortDirection === 1 ? '▲' : '▼') : '↕';
+        th.appendChild(indicator);
+        th.addEventListener('click', () => sortBy(idx));
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+
+      const frag = document.createDocumentFragment();
+      filteredRows.forEach(r => {
+        const tr = document.createElement('tr');
+        headers.forEach((h, idx) => {
+          const td = document.createElement('td');
+          td.textContent = formatValue(h, r[idx] ?? '');
+          tr.appendChild(td);
+        });
+        frag.appendChild(tr);
+      });
+      tbody.appendChild(frag);
+      document.getElementById('status').textContent = `${filteredRows.length.toLocaleString()} of ${rows.length.toLocaleString()} rows`;
+    }
+
+    function sortBy(idx) {
+      if (sortColumn === idx) sortDirection *= -1;
+      else {
+        sortColumn = idx;
+        sortDirection = 1;
+      }
+      filteredRows.sort((a, b) => {
+        const av = a[idx] ?? '';
+        const bv = b[idx] ?? '';
+        if (isNumeric(av) && isNumeric(bv)) {
+          return (Number(av) - Number(bv)) * sortDirection;
+        }
+        return String(av).localeCompare(String(bv), undefined, { numeric: true, sensitivity: 'base' }) * sortDirection;
+      });
+      renderTable();
+    }
+
+    function applyFilter() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      filteredRows = !q ? [...rows] : rows.filter(r => r.some(v => String(v).toLowerCase().includes(q)));
+      if (sortColumn !== null) {
+        const idx = sortColumn;
+        filteredRows.sort((a, b) => {
+          const av = a[idx] ?? '';
+          const bv = b[idx] ?? '';
+          if (isNumeric(av) && isNumeric(bv)) return (Number(av) - Number(bv)) * sortDirection;
+          return String(av).localeCompare(String(bv), undefined, { numeric: true, sensitivity: 'base' }) * sortDirection;
+        });
+      }
+      renderTable();
+    }
+
+    async function loadCSV() {
+      try {
+        const resp = await fetch(CSV_FILE, { cache: 'no-store' });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status} while loading ${CSV_FILE}`);
+        const text = await resp.text();
+        const parsed = parseCSV(text);
+        if (!parsed.length) throw new Error('CSV is empty or could not be parsed.');
+
+        headers = parsed[0];
+        rows = parsed.slice(1).map(r => {
+          const copy = r.slice(0, headers.length);
+          while (copy.length < headers.length) copy.push('');
+          return copy;
+        });
+        filteredRows = [...rows];
+        renderTable();
+      } catch (err) {
+        document.getElementById('status').textContent = 'CSV could not be loaded';
+        const box = document.getElementById('error');
+        box.style.display = 'block';
+        box.textContent = `Unable to load ${CSV_FILE}.\n\nIf you opened this HTML directly from your computer, some browsers block local file access for fetch(). Put both files in the same web-server folder (for example GitHub Pages / Cloudflare Pages), or serve the folder locally.\n\nDetails: ${err.message}`;
+      }
+    }
+
+    document.getElementById('search').addEventListener('input', applyFilter);
+    loadCSV();
+  </script>
+</body>
+</html>
