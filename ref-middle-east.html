@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Middle East Refinery Conversion & Product Orientation | Houston Chemical and Energy</title>
+<link rel="stylesheet" href="static/css/global-styles.css">
+<style>
+:root{--ink:#17212b;--muted:#667085;--line:#d9e1e8;--panel:#f7f9fb;--accent:#0b5cab}
+body{margin:0;color:var(--ink);font-family:Arial,Helvetica,sans-serif;background:#fff}
+main{max-width:1500px;margin:0 auto;padding:24px}
+.hero{padding:28px 28px 20px;background:linear-gradient(135deg,#f7f9fb,#edf4fa);border:1px solid var(--line);border-radius:14px;margin:20px 0}
+.hero h1{margin:0 0 8px;font-size:2rem}.hero p{margin:6px 0;color:var(--muted);line-height:1.5}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin:16px 0 22px}.kpi{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff}.kpi b{display:block;font-size:1.35rem;margin-top:5px}.kpi span{color:var(--muted);font-size:.86rem}
+.controls{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin:14px 0}.controls input,.controls select{padding:10px;border:1px solid #bcc7d2;border-radius:8px;background:#fff}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:72vh}.data-table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:12px}.data-table th,.data-table td{padding:8px 9px;border-right:1px solid #e6ebf0;border-bottom:1px solid #e6ebf0;white-space:nowrap;text-align:right}.data-table th{position:sticky;top:0;background:#eef3f7;z-index:3;cursor:pointer;font-size:11px}.data-table th:first-child,.data-table td:first-child{position:sticky;left:0;z-index:2;background:inherit;text-align:left}.data-table th:nth-child(2),.data-table td:nth-child(2){text-align:left}.data-table th:nth-child(3),.data-table td:nth-child(3){text-align:left}.data-table th:nth-child(4),.data-table td:nth-child(4){text-align:left}.data-table tbody tr:nth-child(even){background:#fafbfd}.data-table tbody tr:hover{background:#eef7ff}.badge{padding:3px 7px;border-radius:999px;background:#eef3f7;font-size:11px}.note{margin:14px 0;padding:12px 14px;background:#fff8e6;border:1px solid #f0d28a;border-radius:10px;font-size:13px;line-height:1.45}.footer-note{font-size:12px;color:var(--muted);margin:12px 0 24px}.download{display:inline-block;padding:9px 13px;background:var(--accent);color:#fff;text-decoration:none;border-radius:8px;font-weight:700}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr}.hero h1{font-size:1.55rem}}
+</style>
+</head>
+<body>
+<div id="header"></div><script>fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);</script>
+<main>
+<section class="hero">
+<h1>Middle East Refinery Conversion & Product Orientation — 2026</h1>
+<p>Screening database of major Middle East refineries using a structure comparable to the US Gulf Coast refinery dataset: primary capacity, conversion units, treating, hydrogen/sulfur intensity, estimated product orientation, crude-slate capability and conversion ranking.</p>
+<p><a class="download" href="middle_east_refineries_conversion_orientation_2026.csv" download>Download refinery CSV</a></p>
+</section>
+<div class="kpis"><div class="kpi"><span>Refineries shown</span><b id="kRef">—</b></div><div class="kpi"><span>Countries</span><b id="kCountry">—</b></div><div class="kpi"><span>Total CDU capacity</span><b id="kCdu">—</b></div><div class="kpi"><span>Deep / high conversion</span><b id="kDeep">—</b></div></div>
+<div class="controls"><input id="search" placeholder="Search refinery, refiner, location..."><select id="country"><option value="">All countries</option></select><select id="rank"><option value="">All conversion ranks</option></select><select id="orient"><option value="">All product orientations</option></select></div>
+<div class="note"><b>Data-quality note:</b> Nameplate crude capacities and selected disclosed unit capacities are sourced from public operator/government references. Many secondary-unit, product-capacity, Nelson-style complexity and intensity values are engineering screening estimates, not refinery-reported operating data. Use for comparative market/strategy analysis rather than design guarantees.</div>
+<div class="table-wrap"><table class="data-table"><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+<p class="footer-note">Scope: major GCC, Iraq and Iran refineries. Values are normalized for cross-refinery comparison. “FCC conversion severity” is capacity intensity (FCC/CDU), not reactor operating severity or conversion.</p>
+</main>
+<div id="footer"></div><script>fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);</script>
+<script>
+const CSV='middle_east_refineries_conversion_orientation_2026.csv'; let all=[], view=[], sortCol='CDU_Operating_bpsd', sortDir=-1;
+function parseCSV(text){let rows=[],row=[],field='',q=false;for(let i=0;i<text.length;i++){let c=text[i],n=text[i+1];if(q){if(c==='"'&&n==='"'){field+='"';i++;}else if(c==='"')q=false;else field+=c;}else{if(c==='"')q=true;else if(c===','){row.push(field);field='';}else if(c==='
+'){row.push(field.replace(/$/,''));rows.push(row);row=[];field='';}else field+=c;}}if(field||row.length){row.push(field);rows.push(row)}let h=rows.shift();return rows.filter(r=>r.length>1).map(r=>Object.fromEntries(h.map((x,i)=>[x,r[i]??''])))}
+const n=x=>Number(String(x).replace(/,/g,''))||0; const fmt=x=>n(x).toLocaleString();
+function populate(){const uniq=(k)=>[...new Set(all.map(r=>r[k]).filter(Boolean))].sort(); for(const [id,k] of [['country','Country'],['rank','Refinery_Conversion_Ranking'],['orient','Product_Orientation']]){let s=document.getElementById(id);uniq(k).forEach(v=>{let o=document.createElement('option');o.value=o.textContent=v;s.appendChild(o)})}}
+function filters(){let q=document.getElementById('search').value.toLowerCase(),c=country.value,r=rank.value,o=orient.value;view=all.filter(x=>(!q||Object.values(x).join(' ').toLowerCase().includes(q))&&(!c||x.Country===c)&&(!r||x.Refinery_Conversion_Ranking===r)&&(!o||x.Product_Orientation===o));render()}
+function render(){if(!view.length){tbody.innerHTML='<tr><td>No matching refineries</td></tr>';return}let headers=Object.keys(view[0]);view.sort((a,b)=>{let A=a[sortCol],B=b[sortCol],na=Number(A),nb=Number(B);if(A!==''&&B!==''&&!isNaN(na)&&!isNaN(nb))return (na-nb)*sortDir;return String(A).localeCompare(String(B))*sortDir});thead.innerHTML='<tr>'+headers.map(h=>`<th data-k="${h}">${h.replaceAll('_',' ')}</th>`).join('')+'</tr>';tbody.innerHTML=view.map(r=>'<tr>'+headers.map(h=>{let v=r[h]; if(/bpsd|bpd|tpd|MMcfd/.test(h)&&v!=='')v=fmt(v); if(['Refinery_Conversion_Ranking','Product_Orientation','Data_Confidence'].includes(h))v=`<span class="badge">${v}</span>`; if(h==='Source')v=v.split(';').map((u,i)=>`<a href="${u.trim()}" target="_blank" rel="noopener">Source ${i+1}</a>`).join(' · '); return `<td>${v}</td>`}).join('')+'</tr>').join('');document.querySelectorAll('th').forEach(th=>th.onclick=()=>{let k=th.dataset.k;if(sortCol===k)sortDir*=-1;else{sortCol=k;sortDir=-1}render()});updateKPI()}
+function updateKPI(){kRef.textContent=view.length;kCountry.textContent=new Set(view.map(r=>r.Country)).size;kCdu.textContent=(view.reduce((s,r)=>s+n(r.CDU_Operating_bpsd),0)/1e6).toFixed(2)+' MMbpd';kDeep.textContent=view.filter(r=>/Deep|High/.test(r.Refinery_Conversion_Ranking)).length}
+fetch(CSV).then(r=>r.text()).then(t=>{all=parseCSV(t);view=[...all];populate();render();['search','country','rank','orient'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',filters))}).catch(e=>{document.querySelector('.table-wrap').innerHTML='<p style="padding:20px">Unable to load CSV. Serve this page from the same web directory as the CSV file.</p>';console.error(e)});
+</script>
+</body></html>
