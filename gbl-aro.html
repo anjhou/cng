@@ -102,6 +102,68 @@ renderHead();renderBody();
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+let aroMap,markerLayer;
+const GEO_KEY="gblAromaticsCoordinatesV3";let geo={};
+try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
+const REGION_CENTER={
+"North America":[39,-100],"Latin America":[-15,-60],"South America":[-15,-60],
+"Europe":[51,10],"Western Europe":[50,8],"Eastern Europe":[50,25],"Middle East":[27,45],
+"Africa":[5,20],"Asia":[30,105],"Asia Pacific":[20,115],"Northeast Asia":[35,120],
+"East Asia":[34,115],"South Asia":[22,78],"Southeast Asia":[8,110],"Oceania":[-25,135],
+"Russia & CIS":[56,70]};
+const COUNTRY_CENTER={
+"United States":[39.8,-98.6],"USA":[39.8,-98.6],"Canada":[56.1,-106.3],"Mexico":[23.6,-102.5],
+"Brazil":[-14.2,-51.9],"Argentina":[-38.4,-63.6],"Chile":[-33.4,-70.7],"Colombia":[4.6,-74.1],
+"Venezuela":[7,-66],"Peru":[-9.2,-75],"United Kingdom":[54.5,-3.4],"UK":[54.5,-3.4],
+"France":[46.2,2.2],"Germany":[51.2,10.4],"Italy":[42.8,12.8],"Spain":[40.4,-3.7],
+"Netherlands":[52.1,5.3],"Belgium":[50.5,4.5],"Poland":[51.9,19.1],"Russia":[61.5,105.3],
+"Turkey":[39,35.2],"Saudi Arabia":[23.9,45.1],"United Arab Emirates":[24.3,54.4],"UAE":[24.3,54.4],
+"Iran":[32.4,53.7],"Qatar":[25.3,51.2],"Kuwait":[29.3,47.5],"Oman":[21.5,55.9],
+"India":[22.6,79],"China":[35.9,104.2],"Japan":[36.2,138.3],"South Korea":[36.5,127.9],
+"Taiwan":[23.7,121],"Thailand":[15.9,100.9],"Singapore":[1.35,103.82],"Malaysia":[4.2,102],
+"Indonesia":[-2.5,118],"Vietnam":[14.1,108.3],"Philippines":[12.9,121.8],
+"Australia":[-25.3,133.8],"South Africa":[-30.6,22.9],"Egypt":[26.8,30.8],"Nigeria":[9.1,8.7],
+"Algeria":[28,1.7],"Morocco":[31.8,-7.1]};
+function gkey(region,country,location){return [region,country,location].map(x=>String(x||"").trim().toLowerCase()).join("|")}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function fastPoint(region,country,location){
+ let k=gkey(region,country,location);if(geo[k])return geo[k];
+ let base=COUNTRY_CENTER[country]||REGION_CENTER[region]||[0,0],h=hash(k);
+ let a=(h%360)*Math.PI/180,r=.7+((h>>>9)%170)/100;
+ return [base[0]+Math.sin(a)*r,base[1]+Math.cos(a)*r/Math.max(.35,Math.cos(base[0]*Math.PI/180))];
+}
+function redIcon(){return L.divIcon({className:"",html:'<div style="width:9px;height:9px;background:#e00000;border:1.3px solid #fff;border-radius:50%;box-shadow:0 0 2px #222"></div>',iconSize:[9,9],iconAnchor:[4,4]})}
+function initMap(){
+ aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true,preferCanvas:true}).setView([20,5],2);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
+ markerLayer=L.layerGroup().addTo(aroMap);setTimeout(()=>aroMap.invalidateSize(),100);updateMap();
+}
+function updateMap(){
+ if(!aroMap)return;markerLayer.clearLayers();
+ const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),pi=headers.indexOf("Product"),
+       oi=headers.indexOf("Operating Company"),li=headers.indexOf("Location"),cap=headers.indexOf("Capacity (kt)");
+ let grouped=new Map();
+ filteredRows.forEach(r=>{
+   let k=gkey(r[ri],r[ci],r[li]);
+   if(!grouped.has(k))grouped.set(k,{region:r[ri],country:r[ci],location:r[li],rows:[]});
+   grouped.get(k).rows.push(r);
+ });
+ let markers=[];
+ grouped.forEach(g=>{
+   let p=fastPoint(g.region,g.country,g.location);
+   // One marker per physical location; popup lists all products at that location.
+   let items=g.rows.map(r=>`<div style="margin:3px 0"><b>Product:</b> ${esc(r[pi]||"—")} &nbsp; <b>Capacity:</b> ${esc(fmt(r[cap],cap))} kt</div>`).join("");
+   let company=[...new Set(g.rows.map(r=>r[oi]).filter(Boolean))].join("; ");
+   let popup=`<b>${esc(company)}</b><br>${esc(g.location)}, ${esc(g.country)}<hr style="margin:5px 0">${items}`;
+   markers.push(L.marker(p,{icon:redIcon()}).bindPopup(popup,{maxWidth:420}).addTo(markerLayer));
+ });
+ document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" plant locations mapped";
+ if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});
+ else aroMap.setView([20,5],2);
+}
+window.addEventListener("load",initMap);
+</script>
+<script>
 let aroMap,markerLayer,mapToken=0;
 const GEO_KEY="gblAromaticsCoordinatesV3";let geo={};
 try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
