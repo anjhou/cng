@@ -135,11 +135,7 @@ function fastPoint(region,country,location){
 function redIcon(){return L.divIcon({className:"",html:'<div style="width:9px;height:9px;background:#e00000;border:1.3px solid #fff;border-radius:50%;box-shadow:0 0 2px #222"></div>',iconSize:[9,9],iconAnchor:[4,4]})}
 function initMap(){
  aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true,preferCanvas:true}).setView([20,5],2);
- L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{
- maxZoom:19,
- subdomains:"abcd",
- attribution:"© OpenStreetMap contributors © CARTO"
-}).addTo(aroMap);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
  markerLayer=L.layerGroup().addTo(aroMap);setTimeout(()=>aroMap.invalidateSize(),100);updateMap();
 }
 function updateMap(){
