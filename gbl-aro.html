@@ -100,288 +100,62 @@ document.getElementById("clear").onclick=()=>{activeFilters.fill("");document.ge
 renderHead();renderBody();
 </script>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-const ARO_COORDS={"North America|Canada|Scotford":[57.92628,-105.89795],"North America|Canada|Montreal":[56.69691,-107.02187],"North America|Mexico|La Cangrejera":[23.65235,-100.86409],"North America|US|Plaquemine":[38.11413,-101.89711],"North America|US|Belle Chasse":[38.4533,-99.32067],"Latin America and Caribbean|Argentina|San Lorenzo":[-37.54598,-63.81182],"Latin America and Caribbean|Argentina|Ensenada":[-39.80344,-64.11351],"Latin America and Caribbean|Brazil|Sao Paulo":[-12.46317,-51.45331],"Latin America and Caribbean|Brazil|Triunfo [RS]":[-14.47694,-52.96612],"Latin America and Caribbean|Venezuela|El Palito":[-0.05548,-1.05855],"Western Europe|Germany|Mannheim":[52.16,10.4],"Western Europe|Germany|Gelsenkirchen":[50.15036,8.00766],"Central and Eastern Europe|Serbia|Pancevo":[-0.71504,-1.68452],"Central and Eastern Europe|Slovakia|Bratislava":[1.08499,0.97693],"Central and Eastern Europe|Ukraine|Kremenchug":[-0.6297,1.3504],"Middle East|Iran|Esfahan":[31.69996,52.8709],"Middle East|Iran|Bandar Imam":[32.67219,55.09636],"Middle East|Iraq|Bayji":[28.43919,45.19833],"Middle East|Saudi Arabia|Al Jubail":[24.61297,45.62601],"Northeast Asia|China|Beijing":[35.71117,104.877],"Northeast Asia|Japan|Chiba":[35.49691,138.42245],"Northeast Asia|Japan|Mizushima":[36.73694,138.68416],"Northeast Asia|Japan|Kashima":[35.75948,138.97414],"Northeast Asia|South Korea|Daesan":[37.7208,127.46453],"Northeast Asia|South Korea|Yeosu":[35.99095,129.04243],"South Asia|India|Vadodara":[21.184,79.68288],"Northeast Asia|Japan|Kitakyushu":[36.04354,139.29749],"North America|Mexico|Altamira":[24.24578,-102.95765],"North America|Mexico|Costaleacaque":[24.30844,-102.07146],"North America|US|Cooper River":[38.27036,-100.60971],"North America|US|Kingsport":[39.90867,-100.18519],"North America|US|Columbia [SC]":[40.25694,-100.3734],"North America|US|Decatur [AL]":[37.6477,-100.46625],"North America|US|Corpus Christi":[40.49277,-99.22393],"Latin America and Caribbean|Brazil|Suape":[-13.86824,-50.95977],"Western Europe|Belgium|Geel":[51.8098,4.46406],"Western Europe|Netherlands|Rotterdam":[51.75,6.28687],"Western Europe|Portugal|Sines":[-1.20705,-0.08441],"Western Europe|Spain|San Roque":[40.19327,-2.7533],"Central and Eastern Europe|Poland|Wloclawek":[52.2082,20.40119],"Russia and Central Asia|Russia|Blagoveshchensk":[61.99959,107.04251],"Russia and Central Asia|Russia|Nizhnekamsk":[60.24306,105.90816],"Middle East|Qatar|Ras Laffan":[24.855,50.34746],"Middle East|Saudi Arabia|Yanbu":[23.37008,46.02758],"Middle East|Saudi Arabia|Jazan":[23.13185,45.24815],"Middle East|Turkey|Aliaga":[39.65643,37.18991],"South Asia|India|Panipat":[22.33403,78.28694],"South Asia|India|Paradip":[23.67661,79.33439],"South Asia|India|Dahej":[22.82513,79.7976],"South Asia|India|Hazira":[22.77771,78.16622],"South Asia|India|Patalganga":[21.42583,77.85484],"South Asia|India|Manali":[21.86366,79.82592],"South Asia|India|Mangalore":[22.11978,78.33423],"South Asia|India|Haldia":[22.75477,77.63462],"South Asia|Pakistan|Port Qasim":[22.63723,79.05831],"Northeast Asia|China|Ningbo":[36.93361,103.57765],"Northeast Asia|China|Liaoyang":[35.03474,105.97774],"Northeast Asia|China|Lianyungang":[34.46,104.2],"Northeast Asia|China|Luoyang":[35.99721,103.0582],"Northeast Asia|China|Jinshan":[37.3229,103.14454],"Northeast Asia|China|Tianjin":[37.47647,104.75805],"Northeast Asia|China|Nanjing":[34.596,104.63134],"Northeast Asia|China|Urumqi":[35.43565,103.411],"Northeast Asia|China|Zhuhai":[36.38178,105.47548],"Northeast Asia|China|Chongqing":[35.40505,103.47182],"Northeast Asia|China|Quanzhou":[36.38422,104.84103],"Northeast Asia|China|Sanya":[36.43068,102.29739],"Northeast Asia|China|Jiangyin":[35.20372,103.59813],"Northeast Asia|China|Shishi":[35.17036,103.61505],"Northeast Asia|China|Dalian":[37.67784,103.85239],"Northeast Asia|China|Shanghai":[35.23263,102.58307],"Northeast Asia|China|Guang'an":[34.423,103.81243],"Northeast Asia|China|Yizheng":[36.42579,104.6056],"Northeast Asia|China|Nantong":[34.72028,105.6064],"Northeast Asia|China|Jiaxing":[35.71682,105.36335],"Northeast Asia|China|Gulei":[35.37099,105.09886],"Northeast Asia|China|Pinghu":[36.1347,102.70946],"Northeast Asia|China|Shaoxing":[36.11162,103.44129],"Northeast Asia|Japan|Iwakuni":[36.71221,137.80409],"Northeast Asia|Japan|Tokai":[37.49155,137.26061],"Northeast Asia|South Korea|Ulsan":[35.68769,127.3627],"Northeast Asia|Taiwan|Mailiao":[24.18753,121.85207],"Northeast Asia|Taiwan|Loong-der":[24.34471,122.65873],"Northeast Asia|Taiwan|Kaohsiung":[24.045,120.3474],"Northeast Asia|Taiwan|Kuan Yin":[23.97742,120.28625],"Northeast Asia|Taiwan|Taoyuan":[23.9503,119.27414],"Southeast Asia|Indonesia|Karawang":[-1.90609,119.4005],"Southeast Asia|Indonesia|Merak":[-2.34399,119.78489],"Southeast Asia|Indonesia|Cilegon":[-3.24661,116.6518],"Southeast Asia|Malaysia|Kuantan":[5.13514,102.90549],"Southeast Asia|Thailand|Rayong":[14.30876,100.7261],"Southeast Asia|Thailand|Map Ta Phut":[14.12735,101.225],"North America|US|Joliet":[38.10197,-98.84446],"Northeast Asia|China|Danyang":[34.46088,104.13796],"Southeast Asia|Singapore|Jurong Island":[0.79602,102.77783],"North America|Canada|Sarnia":[57.33685,-106.73106],"North America|US|Donaldsonville":[38.58666,-99.14884],"North America|US|Port Arthur":[38.66317,-101.33392],"North America|US|Pascagoula":[39.69542,-98.9706],"North America|US|Sweeny":[38.11,-101.98357],"North America|US|Lake Charles":[40.27901,-99.36825],"North America|US|Lemont":[38.11669,-98.37676],"North America|US|Carville":[38.96196,-101.40171],"North America|US|Baton Rouge":[39.97985,-99.97799],"North America|US|Baytown":[37.68294,-99.76182],"North America|US|Beaumont [TX]":[39.93458,-101.65521],"North America|US|El Dorado [KS]":[40.68974,-100.03795],"North America|US|Bayport [TX]":[40.1253,-98.44722],"North America|US|Texas City":[39.96366,-98.99587],"North America|US|Channelview":[38.74602,-99.2301],"North America|US|Chocolate Bayou":[38.24289,-100.08523],"North America|US|Catlettsburg":[38.12033,-101.81145],"North America|US|Chalmette":[39.2847,-98.63279],"North America|US|Toledo [OH]":[38.17337,-98.77638],"North America|US|Philadelphia [PA]":[38.53161,-100.92808],"North America|US|Deer Park [TX]":[38.24898,-100.39044],"North America|US|Three Rivers [TX]":[39.5743,-100.44403],"Latin America and Caribbean|Brazil|Camacari":[-13.59827,-53.36226],"Latin America and Caribbean|Brazil|Volta Redonda":[-13.31054,-51.86796],"Latin America and Caribbean|Brazil|Cubatao":[-12.97838,-52.81553],"Latin America and Caribbean|Colombia|Barrancabermeja":[-1.44553,1.08929],"Western Europe|Belgium|Zelzate":[49.5437,4.04035],"Western Europe|Belgium|Antwerp":[49.73391,2.7144],"Western Europe|France|Feyzin":[45.39357,0.65383],"Western Europe|France|Gonfreville":[46.0817,3.07931],"Western Europe|Germany|Ludwigshafen":[51.66467,11.92045],"Western Europe|Germany|Cologne":[52.36572,8.8935],"Western Europe|Germany|Schwedt":[52.15272,9.65843],"Western Europe|Germany|Heide":[50.99194,12.49642],"Western Europe|Germany|Godorf":[50.36534,12.23338],"Western Europe|Germany|Wesseling":[51.81485,9.68708],"Western Europe|Italy|Porto Marghera":[42.3587,13.93117],"Western Europe|Italy|Priolo":[42.47582,14.57204],"Western Europe|Netherlands|Terneuzen":[52.70206,7.85324],"Western Europe|Netherlands|Botlek":[52.65786,4.9873],"Western Europe|Portugal|Porto":[-0.65901,1.01479],"Western Europe|Spain|Algeciras":[39.22586,-4.70126],"Western Europe|United Kingdom|Stanlow":[53.45338,-3.0169],"Central and Eastern Europe|Belarus|Novopolotsk":[-0.77952,-0.02722],"Central and Eastern Europe|Czech Republic|Valasske Mezirici":[-0.82,-0.0],"Central and Eastern Europe|Hungary|Szazhalombatta":[-0.91791,-0.37086],"Central and Eastern Europe|Poland|Kedzierzyn-Kozle":[51.37466,17.68305],"Central and Eastern Europe|Poland|Plock":[51.69052,17.91602],"Central and Eastern Europe|Romania|Ploiesti":[-0.61435,1.52058],"Russia and Central Asia|Russia|Novokuznetsk":[60.73285,102.00363],"Russia and Central Asia|Russia|Omsk":[61.70999,107.37044],"Russia and Central Asia|Russia|Salavat":[60.70273,102.91375],"Russia and Central Asia|Russia|Kirishi":[63.13775,105.47988],"Russia and Central Asia|Russia|Perm":[63.09569,106.25892],"Russia and Central Asia|Russia|Ryazan":[62.07286,105.10985],"Russia and Central Asia|Russia|Yaroslavl":[60.09788,106.73319],"Russia and Central Asia|Russia|Ufa":[61.07316,103.38162],"Africa|South Africa|Pretoria":[-31.50797,22.61735],"Middle East|Iran|Assaluyeh":[32.09149,52.91641],"Middle East|Israel|Haifa":[28.0186,45.05991],"Middle East|Saudi Arabia|Ras Tanura":[23.12924,45.58674],"Middle East|Turkey|Eregli":[38.25818,34.88985],"South Asia|India|Kochi":[23.60938,78.96182],"South Asia|India|Koyali":[22.03269,78.78841],"South Asia|India|Bongaigaon":[21.43935,78.15201],"South Asia|India|Bhilai":[22.06327,80.24675],"South Asia|India|Durgapur":[22.61291,79.80143],"South Asia|India|Rourkela":[21.86045,79.02797],"South Asia|Pakistan|Korangi":[21.0513,77.94638],"Northeast Asia|China|Baoshan":[35.5066,102.38749],"Northeast Asia|China|Huizhou":[35.9,105.54561],"Northeast Asia|China|Taizhou":[35.38887,104.67548],"Northeast Asia|China|Daqing":[36.85635,104.30329],"Northeast Asia|China|Dushanzi":[35.83753,106.40842],"Northeast Asia|China|Fushun":[36.69924,102.98157],"Northeast Asia|China|Renqiu":[36.71317,105.20387],"Northeast Asia|China|Jilin City":[37.66693,103.776],"Northeast Asia|China|Huludao":[36.54367,104.31168],"Northeast Asia|China|Jinzhou":[36.10838,105.6589],"Northeast Asia|China|Kunming":[36.46241,106.33683],"Northeast Asia|China|Lanzhou":[35.21393,105.32395],"Northeast Asia|China|Anshan":[35.4321,103.46067],"Northeast Asia|China|Panjin":[36.94574,103.4243],"Northeast Asia|China|Chengdu":[37.35744,103.81756],"Northeast Asia|China|Weihai":[35.9,105.34809],"Northeast Asia|China|Qingdao":[36.40517,103.4826],"Northeast Asia|China|Yanchang":[35.74564,104.86454],"Northeast Asia|China|Caojing":[36.84326,106.06352],"Northeast Asia|China|Yueyang":[35.1452,103.59488],"Northeast Asia|China|Guangzhou":[35.48161,103.09235],"Northeast Asia|China|Yangpu":[35.17992,104.94591],"Northeast Asia|China|Jingmen":[34.58131,105.02947],"Northeast Asia|China|Jiujiang":[35.20915,104.52738],"Northeast Asia|China|Maoming":[36.55357,105.44241],"Northeast Asia|China|Zibo":[35.64118,103.00756],"Northeast Asia|China|Gaoqiao":[35.67781,103.48544],"Northeast Asia|China|Zhanjiang":[34.20088,105.00518],"Northeast Asia|China|Xiamen":[36.79986,104.18061],"Northeast Asia|China|Zhoushan":[37.04003,105.04564],"Northeast Asia|China|Qinzhou":[36.14721,105.13927],"Northeast Asia|China|Cangzhou":[36.09837,104.87283],"Northeast Asia|China|Shijiazhuang":[34.66308,105.2692],"Northeast Asia|China|Wuhan":[35.87068,105.23635],"Northeast Asia|Japan|Tokuyama":[37.35059,136.60076],"Northeast Asia|Japan|Kasaoka":[34.5169,138.93767],"Northeast Asia|Japan|Chita":[37.10238,138.02119],"Northeast Asia|Japan|Kawasaki":[36.69791,137.74444],"Northeast Asia|Japan|Marifu":[35.54515,136.47735],"Northeast Asia|Japan|Muroran":[35.9484,139.5505],"Northeast Asia|Japan|Oita":[35.36438,139.53409],"Northeast Asia|Japan|Sakai":[36.87723,137.22583],"Northeast Asia|Japan|Wakayama":[35.44274,137.09888],"Northeast Asia|Japan|Tobata":[36.43591,137.64339],"Northeast Asia|Japan|Hirohata":[36.82637,136.55659],"Northeast Asia|Japan|Imabari":[36.41013,137.49857],"Northeast Asia|Japan|Yokkaichi":[34.93572,136.67762],"Northeast Asia|Japan|Matsuyama":[35.19904,136.46103],"Northeast Asia|South Korea|Gwangyang":[37.60778,129.2308],"Northeast Asia|South Korea|Incheon":[36.10634,125.77879],"Northeast Asia|Taiwan|Linyuan":[24.65474,121.10959],"Southeast Asia|Indonesia|Cilacap":[-3.79387,118.20512],"Southeast Asia|Indonesia|Tuban":[-1.91473,118.72343],"Southeast Asia|Malaysia|Kerteh":[4.33024,102.74059],"Southeast Asia|Malaysia|Pasir Gudang":[2.75995,103.04908],"Southeast Asia|Philippines|Limay":[8.74246,109.25024],"Southeast Asia|Thailand|Sri Racha":[17.02134,100.28005],"Southeast Asia|Vietnam|Nghi Son":[13.12139,107.71745],"Australasia|Australia|Clyde":[-26.53528,133.91954],"Australasia|Australia|Brisbane":[-23.74697,134.56481],"Australasia|Australia|Matraville":[-25.3975,134.67828],"North America|US|Unspecified":[40.68221,-99.37931],"Russia and Central Asia|Kazakhstan|Atyrau":[-0.37088,-0.69753],"Africa|Algeria|Skikda":[29.0648,2.71192],"Middle East|Kuwait|Al Zour":[28.00425,47.78882],"Middle East|Kuwait|Shuaiba":[29.21103,45.55329],"Middle East|Oman|Sohar":[21.91486,56.39521],"Middle East|Saudi Arabia|Rabigh":[24.55536,44.94763],"Middle East|UAE|Ruwais":[26.54487,43.66932],"Middle East|UAE|Fujairah":[27.45318,44.50883],"Middle East|Bahrain|Sitra":[26.25408,45.25595],"South Asia|India|Jamnagar":[23.9516,80.02512],"South Asia|Pakistan|Mouza Kund":[23.44801,78.08185],"Northeast Asia|China|Weifang":[36.83266,102.35742],"Northeast Asia|China|Unspecified":[37.13744,102.67238],"Northeast Asia|China|Dongying":[36.86925,105.13485],"Northeast Asia|Japan|Shimotsu":[36.05828,137.5393],"Southeast Asia|Brunei|Pulau Muara Besar":[8.08635,111.66393],"North America|US|Whiting [IN]":[39.55726,-99.68074],"Latin America and Caribbean|Argentina|Buenos Aires":[-37.53067,-63.89723],"Latin America and Caribbean|Brazil|Porto Alegre":[-13.73624,-52.41299],"Latin America and Caribbean|Venezuela|Punta Cardon":[0.84706,-0.55009],"Western Europe|France|Port Jerome":[47.29314,1.92152],"Western Europe|Netherlands|Vlissingen":[50.38221,6.37344],"Western Europe|United Kingdom|Fawley":[53.82316,-3.87092],"Central and Eastern Europe|Poland|Gdansk":[52.78168,17.1333],"Russia and Central Asia|Russia|Unspecified":[60.77701,102.45034],"Northeast Asia|China|Jinxi":[36.14717,106.1265],"Northeast Asia|Japan|Negishi":[37.16975,137.73962],"Northeast Asia|Japan|Sendai":[37.05646,137.73568],"Northeast Asia|Japan|Yamaguchi":[37.62927,138.51747],"Western Europe|Germany|Steyerberg":[49.79963,9.54212],"Central and Eastern Europe|Belarus|Mogilev":[-0.20673,-0.72095],"Russia and Central Asia|Russia|Novomoskovsk":[61.6777,108.84324],"Middle East|Turkey|Adana":[39.50795,36.73981],"South Asia|India|Mumbai":[23.98664,78.5408],"North America|US|Geismar":[39.78286,-98.32349],"North America|US|Freeport [TX]":[39.03716,-100.91235],"Latin America and Caribbean|Argentina|Cordoba":[-38.37609,-61.85213],"Western Europe|France|Pont De Claix":[45.90477,4.20677],"Western Europe|Germany|Schwarzheide":[49.63166,11.16522],"Western Europe|Germany|Dormagen":[51.87493,11.68366],"Western Europe|Germany|Brunsbuttel":[52.10536,8.73787],"Central and Eastern Europe|Hungary|Kazincbarcika":[-0.69921,-0.12329],"South Asia|India|Narmada Nagar":[21.83999,78.80994],"Northeast Asia|China|Taiyuan":[35.9335,103.0156],"Northeast Asia|China|Baiyin":[35.63872,105.49366],"Northeast Asia|China|Laiyang":[37.20712,104.88495],"Northeast Asia|Japan|Omuta":[35.985,137.37085],"Northeast Asia|Japan|Shinnanyo":[37.30461,138.88104],"Northeast Asia|Japan|Niihama":[34.96256,136.76655],"Northeast Asia|South Korea|Gunsan":[37.09937,126.05453],"Northeast Asia|Taiwan|Taichung":[23.02231,120.42176],"North America|Mexico|Lerma":[22.55616,-103.76512],"North America|Mexico|Cuautitlan":[22.54581,-102.37909],"North America|Mexico|Tampico":[22.64365,-102.40869],"North America|Mexico|Tlaxcala":[24.27732,-102.64367],"North America|US|Pasadena [TX]":[38.01426,-100.76214],"North America|US|Millsdale":[38.48275,-99.08391],"Latin America and Caribbean|Chile|Santiago":[-1.52562,0.67925],"Latin America and Caribbean|Colombia|Bogota":[0.64644,0.06794],"Latin America and Caribbean|Colombia|Medellin":[-0.13589,-1.29288],"Latin America and Caribbean|Venezuela|Valencia":[-0.09626,-1.37664],"Western Europe|Austria|Schwechat":[0.73135,1.21718],"Western Europe|Belgium|Oostende":[51.0484,4.20313],"Western Europe|Germany|Krefeld-Uerdingen":[51.32526,11.82234],"Western Europe|Italy|Scanzorosciate":[41.87435,13.09126],"Western Europe|Italy|San Giovanni Valdarno":[42.54691,13.74772],"Western Europe|Sweden|Nol":[0.1304,1.06202],"Central and Eastern Europe|Belarus|Lida":[1.71964,-0.6259],"Central and Eastern Europe|Bulgaria|Rousse":[1.39917,0.59391],"Central and Eastern Europe|Romania|Rimnicu Vilcea":[0.43837,-0.89879],"Central and Eastern Europe|Ukraine|Rubezhnoye":[-0.87817,-0.71113],"Africa|South Africa|Isipingo Beach":[-29.09082,23.40276],"Middle East|Turkey|Istanbul":[39.73001,36.36],"South Asia|India|Navi Mumbai":[22.20547,78.04015],"South Asia|India|Ranipet":[22.10768,80.25631],"South Asia|India|Ankleshwar":[20.77111,79.06918],"South Asia|India|Talaja":[21.92482,78.21574],"South Asia|Pakistan|Lahore":[21.20061,79.18667],"Northeast Asia|China|Changzhou":[35.04807,103.70958],"Northeast Asia|China|Harbin":[35.96711,105.14695],"Northeast Asia|China|Fuzhou":[36.72192,104.3426],"Northeast Asia|China|Tongling":[37.37433,105.2936],"Northeast Asia|China|Zhongshan":[36.19694,105.78778],"Northeast Asia|Japan|Nagoya":[37.48564,136.86549],"Northeast Asia|South Korea|Pohang":[37.10267,127.59709],"Southeast Asia|Indonesia|Gresik":[-3.55194,117.67808],"Southeast Asia|Malaysia|Gebeng":[4.17784,100.72677],"Southeast Asia|Thailand|Bangkok":[16.32026,102.24489],"Australasia|Australia|Rhodes":[-25.97985,132.5485],"Northeast Asia|Japan|Kurosaki":[36.72416,140.18644],"North America|US|Kalama":[39.59452,-100.68881],"North America|US|Niagara Falls":[38.11768,-98.25175],"Western Europe|Belgium|Tessenderlo":[49.74289,6.48094],"Western Europe|Germany|Leverkusen":[50.69803,12.38279],"Western Europe|Germany|Frankfurt":[51.82687,8.34882],"Western Europe|Italy|Pieve Vergonte":[43.77388,12.34297],"Western Europe|United Kingdom|Ellesmere Port":[53.18936,-4.98036],"Western Europe|United Kingdom|Oldbury":[54.97181,-5.22488],"Central and Eastern Europe|Estonia|Kohtla-Jarve":[-0.15112,1.23076],"South Asia|India|Rasayani":[23.72936,77.81867],"South Asia|India|Jhagadia":[23.02979,80.5227],"Latin America and Caribbean|Venezuela|Puerto Cabello":[1.67592,0.38692],"Northeast Asia|Japan|Ichihara":[37.06321,137.267],"||":[1.38664,-0.42394]};let aroMap,markerLayer;
-function initMap(){aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true}).setView([20,5],2);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);markerLayer=L.layerGroup().addTo(aroMap);setTimeout(()=>{aroMap.invalidateSize();updateMap()},200)}
-function updateMap(){if(!aroMap||!markerLayer)return;markerLayer.clearLayers();const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),li=headers.indexOf("Location"),pi=headers.indexOf("Product"),oi=headers.indexOf("Operating Company"),cap=headers.indexOf("Capacity (kt)");const groups=new Map();filteredRows.forEach(r=>{let k=String(r[ri])+"|"+String(r[ci])+"|"+String(r[li]);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r)});let markers=[];groups.forEach((g,k)=>{let pt=ARO_COORDS[k];if(!pt)return;let companies=[...new Set(g.map(r=>String(r[oi]||"")).filter(Boolean))].join("; ");let details=g.map(r=>'<div style="margin-top:5px"><b>Product:</b> '+esc(r[pi]||"—")+'<br><b>Capacity:</b> '+esc(fmt(r[cap],cap))+' kt</div>').join("");let popup='<div style="line-height:1.5;min-width:245px"><b>Company Name:</b> '+esc(companies||"—")+'<br><b>Location:</b> '+esc(g[0][li])+details+'</div>';let m=L.circleMarker(pt,{radius:5,color:"#fff",weight:1.5,fillColor:"#e00000",fillOpacity:1,opacity:1}).bindPopup(popup,{maxWidth:460});m.addTo(markerLayer);markers.push(m)});document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" plant locations mapped";if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});else aroMap.setView([20,5],2)}
-window.addEventListener("load",initMap);</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let aroMap,markerLayer;
-const GEO_KEY="gblAromaticsCoordinatesV3";let geo={};
-try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
-const REGION_CENTER={
-"North America":[39,-100],"Latin America":[-15,-60],"South America":[-15,-60],
-"Europe":[51,10],"Western Europe":[50,8],"Eastern Europe":[50,25],"Middle East":[27,45],
-"Africa":[5,20],"Asia":[30,105],"Asia Pacific":[20,115],"Northeast Asia":[35,120],
-"East Asia":[34,115],"South Asia":[22,78],"Southeast Asia":[8,110],"Oceania":[-25,135],
-"Russia & CIS":[56,70]};
-const COUNTRY_CENTER={
-"United States":[39.8,-98.6],"USA":[39.8,-98.6],"Canada":[56.1,-106.3],"Mexico":[23.6,-102.5],
-"Brazil":[-14.2,-51.9],"Argentina":[-38.4,-63.6],"Chile":[-33.4,-70.7],"Colombia":[4.6,-74.1],
-"Venezuela":[7,-66],"Peru":[-9.2,-75],"United Kingdom":[54.5,-3.4],"UK":[54.5,-3.4],
-"France":[46.2,2.2],"Germany":[51.2,10.4],"Italy":[42.8,12.8],"Spain":[40.4,-3.7],
-"Netherlands":[52.1,5.3],"Belgium":[50.5,4.5],"Poland":[51.9,19.1],"Russia":[61.5,105.3],
-"Turkey":[39,35.2],"Saudi Arabia":[23.9,45.1],"United Arab Emirates":[24.3,54.4],"UAE":[24.3,54.4],
-"Iran":[32.4,53.7],"Qatar":[25.3,51.2],"Kuwait":[29.3,47.5],"Oman":[21.5,55.9],
-"India":[22.6,79],"China":[35.9,104.2],"Japan":[36.2,138.3],"South Korea":[36.5,127.9],
-"Taiwan":[23.7,121],"Thailand":[15.9,100.9],"Singapore":[1.35,103.82],"Malaysia":[4.2,102],
-"Indonesia":[-2.5,118],"Vietnam":[14.1,108.3],"Philippines":[12.9,121.8],
-"Australia":[-25.3,133.8],"South Africa":[-30.6,22.9],"Egypt":[26.8,30.8],"Nigeria":[9.1,8.7],
-"Algeria":[28,1.7],"Morocco":[31.8,-7.1]};
-function gkey(region,country,location){return [region,country,location].map(x=>String(x||"").trim().toLowerCase()).join("|")}
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function fastPoint(region,country,location){
- let k=gkey(region,country,location);if(geo[k])return geo[k];
- let base=COUNTRY_CENTER[country]||REGION_CENTER[region]||[0,0],h=hash(k);
- let a=(h%360)*Math.PI/180,r=.7+((h>>>9)%170)/100;
- return [base[0]+Math.sin(a)*r,base[1]+Math.cos(a)*r/Math.max(.35,Math.cos(base[0]*Math.PI/180))];
+const ARO_COORDS={"North America|Canada|Scotford":[57.92628,-105.89795],"North America|Canada|Montreal":[56.69691,-107.02187],"North America|Mexico|La Cangrejera":[23.65235,-100.86409],"North America|US|Plaquemine":[38.11413,-101.89711],"North America|US|Belle Chasse":[38.4533,-99.32067],"Latin America and Caribbean|Argentina|San Lorenzo":[-37.54598,-63.81182],"Latin America and Caribbean|Argentina|Ensenada":[-39.80344,-64.11351],"Latin America and Caribbean|Brazil|Sao Paulo":[-12.46317,-51.45331],"Latin America and Caribbean|Brazil|Triunfo [RS]":[-14.47694,-52.96612],"Latin America and Caribbean|Venezuela|El Palito":[-0.05548,-1.05855],"Western Europe|Germany|Mannheim":[52.16,10.4],"Western Europe|Germany|Gelsenkirchen":[50.15036,8.00766],"Central and Eastern Europe|Serbia|Pancevo":[-0.71504,-1.68452],"Central and Eastern Europe|Slovakia|Bratislava":[1.08499,0.97693],"Central and Eastern Europe|Ukraine|Kremenchug":[-0.6297,1.3504],"Middle East|Iran|Esfahan":[31.69996,52.8709],"Middle East|Iran|Bandar Imam":[32.67219,55.09636],"Middle East|Iraq|Bayji":[28.43919,45.19833],"Middle East|Saudi Arabia|Al Jubail":[24.61297,45.62601],"Northeast Asia|China|Beijing":[35.71117,104.877],"Northeast Asia|Japan|Chiba":[35.49691,138.42245],"Northeast Asia|Japan|Mizushima":[36.73694,138.68416],"Northeast Asia|Japan|Kashima":[35.75948,138.97414],"Northeast Asia|South Korea|Daesan":[37.7208,127.46453],"Northeast Asia|South Korea|Yeosu":[35.99095,129.04243],"South Asia|India|Vadodara":[21.184,79.68288],"Northeast Asia|Japan|Kitakyushu":[36.04354,139.29749],"North America|Mexico|Altamira":[24.24578,-102.95765],"North America|Mexico|Costaleacaque":[24.30844,-102.07146],"North America|US|Cooper River":[38.27036,-100.60971],"North America|US|Kingsport":[39.90867,-100.18519],"North America|US|Columbia [SC]":[40.25694,-100.3734],"North America|US|Decatur [AL]":[37.6477,-100.46625],"North America|US|Corpus Christi":[40.49277,-99.22393],"Latin America and Caribbean|Brazil|Suape":[-13.86824,-50.95977],"Western Europe|Belgium|Geel":[51.8098,4.46406],"Western Europe|Netherlands|Rotterdam":[51.75,6.28687],"Western Europe|Portugal|Sines":[-1.20705,-0.08441],"Western Europe|Spain|San Roque":[40.19327,-2.7533],"Central and Eastern Europe|Poland|Wloclawek":[52.2082,20.40119],"Russia and Central Asia|Russia|Blagoveshchensk":[61.99959,107.04251],"Russia and Central Asia|Russia|Nizhnekamsk":[60.24306,105.90816],"Middle East|Qatar|Ras Laffan":[24.855,50.34746],"Middle East|Saudi Arabia|Yanbu":[23.37008,46.02758],"Middle East|Saudi Arabia|Jazan":[23.13185,45.24815],"Middle East|Turkey|Aliaga":[39.65643,37.18991],"South Asia|India|Panipat":[22.33403,78.28694],"South Asia|India|Paradip":[23.67661,79.33439],"South Asia|India|Dahej":[22.82513,79.7976],"South Asia|India|Hazira":[22.77771,78.16622],"South Asia|India|Patalganga":[21.42583,77.85484],"South Asia|India|Manali":[21.86366,79.82592],"South Asia|India|Mangalore":[22.11978,78.33423],"South Asia|India|Haldia":[22.75477,77.63462],"South Asia|Pakistan|Port Qasim":[22.63723,79.05831],"Northeast Asia|China|Ningbo":[36.93361,103.57765],"Northeast Asia|China|Liaoyang":[35.03474,105.97774],"Northeast Asia|China|Lianyungang":[34.46,104.2],"Northeast Asia|China|Luoyang":[35.99721,103.0582],"Northeast Asia|China|Jinshan":[37.3229,103.14454],"Northeast Asia|China|Tianjin":[37.47647,104.75805],"Northeast Asia|China|Nanjing":[34.596,104.63134],"Northeast Asia|China|Urumqi":[35.43565,103.411],"Northeast Asia|China|Zhuhai":[36.38178,105.47548],"Northeast Asia|China|Chongqing":[35.40505,103.47182],"Northeast Asia|China|Quanzhou":[36.38422,104.84103],"Northeast Asia|China|Sanya":[36.43068,102.29739],"Northeast Asia|China|Jiangyin":[35.20372,103.59813],"Northeast Asia|China|Shishi":[35.17036,103.61505],"Northeast Asia|China|Dalian":[37.67784,103.85239],"Northeast Asia|China|Shanghai":[35.23263,102.58307],"Northeast Asia|China|Guang'an":[34.423,103.81243],"Northeast Asia|China|Yizheng":[36.42579,104.6056],"Northeast Asia|China|Nantong":[34.72028,105.6064],"Northeast Asia|China|Jiaxing":[35.71682,105.36335],"Northeast Asia|China|Gulei":[35.37099,105.09886],"Northeast Asia|China|Pinghu":[36.1347,102.70946],"Northeast Asia|China|Shaoxing":[36.11162,103.44129],"Northeast Asia|Japan|Iwakuni":[36.71221,137.80409],"Northeast Asia|Japan|Tokai":[37.49155,137.26061],"Northeast Asia|South Korea|Ulsan":[35.68769,127.3627],"Northeast Asia|Taiwan|Mailiao":[24.18753,121.85207],"Northeast Asia|Taiwan|Loong-der":[24.34471,122.65873],"Northeast Asia|Taiwan|Kaohsiung":[24.045,120.3474],"Northeast Asia|Taiwan|Kuan Yin":[23.97742,120.28625],"Northeast Asia|Taiwan|Taoyuan":[23.9503,119.27414],"Southeast Asia|Indonesia|Karawang":[-1.90609,119.4005],"Southeast Asia|Indonesia|Merak":[-2.34399,119.78489],"Southeast Asia|Indonesia|Cilegon":[-3.24661,116.6518],"Southeast Asia|Malaysia|Kuantan":[5.13514,102.90549],"Southeast Asia|Thailand|Rayong":[14.30876,100.7261],"Southeast Asia|Thailand|Map Ta Phut":[14.12735,101.225],"North America|US|Joliet":[38.10197,-98.84446],"Northeast Asia|China|Danyang":[34.46088,104.13796],"Southeast Asia|Singapore|Jurong Island":[0.79602,102.77783],"North America|Canada|Sarnia":[57.33685,-106.73106],"North America|US|Donaldsonville":[38.58666,-99.14884],"North America|US|Port Arthur":[38.66317,-101.33392],"North America|US|Pascagoula":[39.69542,-98.9706],"North America|US|Sweeny":[38.11,-101.98357],"North America|US|Lake Charles":[40.27901,-99.36825],"North America|US|Lemont":[38.11669,-98.37676],"North America|US|Carville":[38.96196,-101.40171],"North America|US|Baton Rouge":[39.97985,-99.97799],"North America|US|Baytown":[37.68294,-99.76182],"North America|US|Beaumont [TX]":[39.93458,-101.65521],"North America|US|El Dorado [KS]":[40.68974,-100.03795],"North America|US|Bayport [TX]":[40.1253,-98.44722],"North America|US|Texas City":[39.96366,-98.99587],"North America|US|Channelview":[38.74602,-99.2301],"North America|US|Chocolate Bayou":[38.24289,-100.08523],"North America|US|Catlettsburg":[38.12033,-101.81145],"North America|US|Chalmette":[39.2847,-98.63279],"North America|US|Toledo [OH]":[38.17337,-98.77638],"North America|US|Philadelphia [PA]":[38.53161,-100.92808],"North America|US|Deer Park [TX]":[38.24898,-100.39044],"North America|US|Three Rivers [TX]":[39.5743,-100.44403],"Latin America and Caribbean|Brazil|Camacari":[-13.59827,-53.36226],"Latin America and Caribbean|Brazil|Volta Redonda":[-13.31054,-51.86796],"Latin America and Caribbean|Brazil|Cubatao":[-12.97838,-52.81553],"Latin America and Caribbean|Colombia|Barrancabermeja":[-1.44553,1.08929],"Western Europe|Belgium|Zelzate":[49.5437,4.04035],"Western Europe|Belgium|Antwerp":[49.73391,2.7144],"Western Europe|France|Feyzin":[45.39357,0.65383],"Western Europe|France|Gonfreville":[46.0817,3.07931],"Western Europe|Germany|Ludwigshafen":[51.66467,11.92045],"Western Europe|Germany|Cologne":[52.36572,8.8935],"Western Europe|Germany|Schwedt":[52.15272,9.65843],"Western Europe|Germany|Heide":[50.99194,12.49642],"Western Europe|Germany|Godorf":[50.36534,12.23338],"Western Europe|Germany|Wesseling":[51.81485,9.68708],"Western Europe|Italy|Porto Marghera":[42.3587,13.93117],"Western Europe|Italy|Priolo":[42.47582,14.57204],"Western Europe|Netherlands|Terneuzen":[52.70206,7.85324],"Western Europe|Netherlands|Botlek":[52.65786,4.9873],"Western Europe|Portugal|Porto":[-0.65901,1.01479],"Western Europe|Spain|Algeciras":[39.22586,-4.70126],"Western Europe|United Kingdom|Stanlow":[53.45338,-3.0169],"Central and Eastern Europe|Belarus|Novopolotsk":[-0.77952,-0.02722],"Central and Eastern Europe|Czech Republic|Valasske Mezirici":[-0.82,-0.0],"Central and Eastern Europe|Hungary|Szazhalombatta":[-0.91791,-0.37086],"Central and Eastern Europe|Poland|Kedzierzyn-Kozle":[51.37466,17.68305],"Central and Eastern Europe|Poland|Plock":[51.69052,17.91602],"Central and Eastern Europe|Romania|Ploiesti":[-0.61435,1.52058],"Russia and Central Asia|Russia|Novokuznetsk":[60.73285,102.00363],"Russia and Central Asia|Russia|Omsk":[61.70999,107.37044],"Russia and Central Asia|Russia|Salavat":[60.70273,102.91375],"Russia and Central Asia|Russia|Kirishi":[63.13775,105.47988],"Russia and Central Asia|Russia|Perm":[63.09569,106.25892],"Russia and Central Asia|Russia|Ryazan":[62.07286,105.10985],"Russia and Central Asia|Russia|Yaroslavl":[60.09788,106.73319],"Russia and Central Asia|Russia|Ufa":[61.07316,103.38162],"Africa|South Africa|Pretoria":[-31.50797,22.61735],"Middle East|Iran|Assaluyeh":[32.09149,52.91641],"Middle East|Israel|Haifa":[28.0186,45.05991],"Middle East|Saudi Arabia|Ras Tanura":[23.12924,45.58674],"Middle East|Turkey|Eregli":[38.25818,34.88985],"South Asia|India|Kochi":[23.60938,78.96182],"South Asia|India|Koyali":[22.03269,78.78841],"South Asia|India|Bongaigaon":[21.43935,78.15201],"South Asia|India|Bhilai":[22.06327,80.24675],"South Asia|India|Durgapur":[22.61291,79.80143],"South Asia|India|Rourkela":[21.86045,79.02797],"South Asia|Pakistan|Korangi":[21.0513,77.94638],"Northeast Asia|China|Baoshan":[35.5066,102.38749],"Northeast Asia|China|Huizhou":[35.9,105.54561],"Northeast Asia|China|Taizhou":[35.38887,104.67548],"Northeast Asia|China|Daqing":[36.85635,104.30329],"Northeast Asia|China|Dushanzi":[35.83753,106.40842],"Northeast Asia|China|Fushun":[36.69924,102.98157],"Northeast Asia|China|Renqiu":[36.71317,105.20387],"Northeast Asia|China|Jilin City":[37.66693,103.776],"Northeast Asia|China|Huludao":[36.54367,104.31168],"Northeast Asia|China|Jinzhou":[36.10838,105.6589],"Northeast Asia|China|Kunming":[36.46241,106.33683],"Northeast Asia|China|Lanzhou":[35.21393,105.32395],"Northeast Asia|China|Anshan":[35.4321,103.46067],"Northeast Asia|China|Panjin":[36.94574,103.4243],"Northeast Asia|China|Chengdu":[37.35744,103.81756],"Northeast Asia|China|Weihai":[35.9,105.34809],"Northeast Asia|China|Qingdao":[36.40517,103.4826],"Northeast Asia|China|Yanchang":[35.74564,104.86454],"Northeast Asia|China|Caojing":[36.84326,106.06352],"Northeast Asia|China|Yueyang":[35.1452,103.59488],"Northeast Asia|China|Guangzhou":[35.48161,103.09235],"Northeast Asia|China|Yangpu":[35.17992,104.94591],"Northeast Asia|China|Jingmen":[34.58131,105.02947],"Northeast Asia|China|Jiujiang":[35.20915,104.52738],"Northeast Asia|China|Maoming":[36.55357,105.44241],"Northeast Asia|China|Zibo":[35.64118,103.00756],"Northeast Asia|China|Gaoqiao":[35.67781,103.48544],"Northeast Asia|China|Zhanjiang":[34.20088,105.00518],"Northeast Asia|China|Xiamen":[36.79986,104.18061],"Northeast Asia|China|Zhoushan":[37.04003,105.04564],"Northeast Asia|China|Qinzhou":[36.14721,105.13927],"Northeast Asia|China|Cangzhou":[36.09837,104.87283],"Northeast Asia|China|Shijiazhuang":[34.66308,105.2692],"Northeast Asia|China|Wuhan":[35.87068,105.23635],"Northeast Asia|Japan|Tokuyama":[37.35059,136.60076],"Northeast Asia|Japan|Kasaoka":[34.5169,138.93767],"Northeast Asia|Japan|Chita":[37.10238,138.02119],"Northeast Asia|Japan|Kawasaki":[36.69791,137.74444],"Northeast Asia|Japan|Marifu":[35.54515,136.47735],"Northeast Asia|Japan|Muroran":[35.9484,139.5505],"Northeast Asia|Japan|Oita":[35.36438,139.53409],"Northeast Asia|Japan|Sakai":[36.87723,137.22583],"Northeast Asia|Japan|Wakayama":[35.44274,137.09888],"Northeast Asia|Japan|Tobata":[36.43591,137.64339],"Northeast Asia|Japan|Hirohata":[36.82637,136.55659],"Northeast Asia|Japan|Imabari":[36.41013,137.49857],"Northeast Asia|Japan|Yokkaichi":[34.93572,136.67762],"Northeast Asia|Japan|Matsuyama":[35.19904,136.46103],"Northeast Asia|South Korea|Gwangyang":[37.60778,129.2308],"Northeast Asia|South Korea|Incheon":[36.10634,125.77879],"Northeast Asia|Taiwan|Linyuan":[24.65474,121.10959],"Southeast Asia|Indonesia|Cilacap":[-3.79387,118.20512],"Southeast Asia|Indonesia|Tuban":[-1.91473,118.72343],"Southeast Asia|Malaysia|Kerteh":[4.33024,102.74059],"Southeast Asia|Malaysia|Pasir Gudang":[2.75995,103.04908],"Southeast Asia|Philippines|Limay":[8.74246,109.25024],"Southeast Asia|Thailand|Sri Racha":[17.02134,100.28005],"Southeast Asia|Vietnam|Nghi Son":[13.12139,107.71745],"Australasia|Australia|Clyde":[-26.53528,133.91954],"Australasia|Australia|Brisbane":[-23.74697,134.56481],"Australasia|Australia|Matraville":[-25.3975,134.67828],"North America|US|Unspecified":[40.68221,-99.37931],"Russia and Central Asia|Kazakhstan|Atyrau":[-0.37088,-0.69753],"Africa|Algeria|Skikda":[29.0648,2.71192],"Middle East|Kuwait|Al Zour":[28.00425,47.78882],"Middle East|Kuwait|Shuaiba":[29.21103,45.55329],"Middle East|Oman|Sohar":[21.91486,56.39521],"Middle East|Saudi Arabia|Rabigh":[24.55536,44.94763],"Middle East|UAE|Ruwais":[26.54487,43.66932],"Middle East|UAE|Fujairah":[27.45318,44.50883],"Middle East|Bahrain|Sitra":[26.25408,45.25595],"South Asia|India|Jamnagar":[23.9516,80.02512],"South Asia|Pakistan|Mouza Kund":[23.44801,78.08185],"Northeast Asia|China|Weifang":[36.83266,102.35742],"Northeast Asia|China|Unspecified":[37.13744,102.67238],"Northeast Asia|China|Dongying":[36.86925,105.13485],"Northeast Asia|Japan|Shimotsu":[36.05828,137.5393],"Southeast Asia|Brunei|Pulau Muara Besar":[8.08635,111.66393],"North America|US|Whiting [IN]":[39.55726,-99.68074],"Latin America and Caribbean|Argentina|Buenos Aires":[-37.53067,-63.89723],"Latin America and Caribbean|Brazil|Porto Alegre":[-13.73624,-52.41299],"Latin America and Caribbean|Venezuela|Punta Cardon":[0.84706,-0.55009],"Western Europe|France|Port Jerome":[47.29314,1.92152],"Western Europe|Netherlands|Vlissingen":[50.38221,6.37344],"Western Europe|United Kingdom|Fawley":[53.82316,-3.87092],"Central and Eastern Europe|Poland|Gdansk":[52.78168,17.1333],"Russia and Central Asia|Russia|Unspecified":[60.77701,102.45034],"Northeast Asia|China|Jinxi":[36.14717,106.1265],"Northeast Asia|Japan|Negishi":[37.16975,137.73962],"Northeast Asia|Japan|Sendai":[37.05646,137.73568],"Northeast Asia|Japan|Yamaguchi":[37.62927,138.51747],"Western Europe|Germany|Steyerberg":[49.79963,9.54212],"Central and Eastern Europe|Belarus|Mogilev":[-0.20673,-0.72095],"Russia and Central Asia|Russia|Novomoskovsk":[61.6777,108.84324],"Middle East|Turkey|Adana":[39.50795,36.73981],"South Asia|India|Mumbai":[23.98664,78.5408],"North America|US|Geismar":[39.78286,-98.32349],"North America|US|Freeport [TX]":[39.03716,-100.91235],"Latin America and Caribbean|Argentina|Cordoba":[-38.37609,-61.85213],"Western Europe|France|Pont De Claix":[45.90477,4.20677],"Western Europe|Germany|Schwarzheide":[49.63166,11.16522],"Western Europe|Germany|Dormagen":[51.87493,11.68366],"Western Europe|Germany|Brunsbuttel":[52.10536,8.73787],"Central and Eastern Europe|Hungary|Kazincbarcika":[-0.69921,-0.12329],"South Asia|India|Narmada Nagar":[21.83999,78.80994],"Northeast Asia|China|Taiyuan":[35.9335,103.0156],"Northeast Asia|China|Baiyin":[35.63872,105.49366],"Northeast Asia|China|Laiyang":[37.20712,104.88495],"Northeast Asia|Japan|Omuta":[35.985,137.37085],"Northeast Asia|Japan|Shinnanyo":[37.30461,138.88104],"Northeast Asia|Japan|Niihama":[34.96256,136.76655],"Northeast Asia|South Korea|Gunsan":[37.09937,126.05453],"Northeast Asia|Taiwan|Taichung":[23.02231,120.42176],"North America|Mexico|Lerma":[22.55616,-103.76512],"North America|Mexico|Cuautitlan":[22.54581,-102.37909],"North America|Mexico|Tampico":[22.64365,-102.40869],"North America|Mexico|Tlaxcala":[24.27732,-102.64367],"North America|US|Pasadena [TX]":[38.01426,-100.76214],"North America|US|Millsdale":[38.48275,-99.08391],"Latin America and Caribbean|Chile|Santiago":[-1.52562,0.67925],"Latin America and Caribbean|Colombia|Bogota":[0.64644,0.06794],"Latin America and Caribbean|Colombia|Medellin":[-0.13589,-1.29288],"Latin America and Caribbean|Venezuela|Valencia":[-0.09626,-1.37664],"Western Europe|Austria|Schwechat":[0.73135,1.21718],"Western Europe|Belgium|Oostende":[51.0484,4.20313],"Western Europe|Germany|Krefeld-Uerdingen":[51.32526,11.82234],"Western Europe|Italy|Scanzorosciate":[41.87435,13.09126],"Western Europe|Italy|San Giovanni Valdarno":[42.54691,13.74772],"Western Europe|Sweden|Nol":[0.1304,1.06202],"Central and Eastern Europe|Belarus|Lida":[1.71964,-0.6259],"Central and Eastern Europe|Bulgaria|Rousse":[1.39917,0.59391],"Central and Eastern Europe|Romania|Rimnicu Vilcea":[0.43837,-0.89879],"Central and Eastern Europe|Ukraine|Rubezhnoye":[-0.87817,-0.71113],"Africa|South Africa|Isipingo Beach":[-29.09082,23.40276],"Middle East|Turkey|Istanbul":[39.73001,36.36],"South Asia|India|Navi Mumbai":[22.20547,78.04015],"South Asia|India|Ranipet":[22.10768,80.25631],"South Asia|India|Ankleshwar":[20.77111,79.06918],"South Asia|India|Talaja":[21.92482,78.21574],"South Asia|Pakistan|Lahore":[21.20061,79.18667],"Northeast Asia|China|Changzhou":[35.04807,103.70958],"Northeast Asia|China|Harbin":[35.96711,105.14695],"Northeast Asia|China|Fuzhou":[36.72192,104.3426],"Northeast Asia|China|Tongling":[37.37433,105.2936],"Northeast Asia|China|Zhongshan":[36.19694,105.78778],"Northeast Asia|Japan|Nagoya":[37.48564,136.86549],"Northeast Asia|South Korea|Pohang":[37.10267,127.59709],"Southeast Asia|Indonesia|Gresik":[-3.55194,117.67808],"Southeast Asia|Malaysia|Gebeng":[4.17784,100.72677],"Southeast Asia|Thailand|Bangkok":[16.32026,102.24489],"Australasia|Australia|Rhodes":[-25.97985,132.5485],"Northeast Asia|Japan|Kurosaki":[36.72416,140.18644],"North America|US|Kalama":[39.59452,-100.68881],"North America|US|Niagara Falls":[38.11768,-98.25175],"Western Europe|Belgium|Tessenderlo":[49.74289,6.48094],"Western Europe|Germany|Leverkusen":[50.69803,12.38279],"Western Europe|Germany|Frankfurt":[51.82687,8.34882],"Western Europe|Italy|Pieve Vergonte":[43.77388,12.34297],"Western Europe|United Kingdom|Ellesmere Port":[53.18936,-4.98036],"Western Europe|United Kingdom|Oldbury":[54.97181,-5.22488],"Central and Eastern Europe|Estonia|Kohtla-Jarve":[-0.15112,1.23076],"South Asia|India|Rasayani":[23.72936,77.81867],"South Asia|India|Jhagadia":[23.02979,80.5227],"Latin America and Caribbean|Venezuela|Puerto Cabello":[1.67592,0.38692],"Northeast Asia|Japan|Ichihara":[37.06321,137.267],"||":[1.38664,-0.42394]};
+let aroMap=null, markerLayer=null;
+
+function initAroMap(){
+  const el=document.getElementById("aroMap");
+  if(!el || typeof L==="undefined") return;
+  aroMap=L.map(el,{minZoom:1,maxZoom:12,worldCopyJump:true}).setView([20,5],2);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    maxZoom:19,attribution:"© OpenStreetMap"
+  }).addTo(aroMap);
+  markerLayer=L.layerGroup().addTo(aroMap);
+  setTimeout(function(){aroMap.invalidateSize(true);updateMap();},200);
 }
-function redIcon(){return L.divIcon({className:"",html:'<div style="width:9px;height:9px;background:#e00000;border:1.3px solid #fff;border-radius:50%;box-shadow:0 0 2px #222"></div>',iconSize:[9,9],iconAnchor:[4,4]})}
-function initMap(){
- aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true,preferCanvas:true}).setView([20,5],2);
- L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
- markerLayer=L.layerGroup().addTo(aroMap);setTimeout(()=>aroMap.invalidateSize(),100);updateMap();
-}
+
 function updateMap(){
- if(!aroMap)return;markerLayer.clearLayers();
- const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),pi=headers.indexOf("Product"),
-       oi=headers.indexOf("Operating Company"),li=headers.indexOf("Location"),cap=headers.indexOf("Capacity (kt)");
- let grouped=new Map();
- filteredRows.forEach(r=>{
-   let k=gkey(r[ri],r[ci],r[li]);
-   if(!grouped.has(k))grouped.set(k,{region:r[ri],country:r[ci],location:r[li],rows:[]});
-   grouped.get(k).rows.push(r);
- });
- let markers=[];
- grouped.forEach(g=>{
-   let p=fastPoint(g.region,g.country,g.location);
-   // One marker per physical location; popup lists all products at that location.
-   let items=g.rows.map(r=>`<div style="margin:3px 0"><b>Product:</b> ${esc(r[pi]||"—")} &nbsp; <b>Capacity:</b> ${esc(fmt(r[cap],cap))} kt</div>`).join("");
-   let company=[...new Set(g.rows.map(r=>r[oi]).filter(Boolean))].join("; ");
-   let popup=`<b>${esc(company)}</b><br>${esc(g.location)}, ${esc(g.country)}<hr style="margin:5px 0">${items}`;
-   markers.push(L.marker(p,{icon:redIcon()}).bindPopup(popup,{maxWidth:420}).addTo(markerLayer));
- });
- document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" plant locations mapped";
- if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});
- else aroMap.setView([20,5],2);
-}
-window.addEventListener("load",initMap);
-</script>
-<script>
-let aroMap,markerLayer,mapToken=0;
-const GEO_KEY="gblAromaticsCoordinatesV3";let geo={};
-try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
+  if(!aroMap||!markerLayer)return;
+  markerLayer.clearLayers();
+  const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),li=headers.indexOf("Location"),
+        pi=headers.indexOf("Product"),oi=headers.indexOf("Operating Company"),cap=headers.indexOf("Capacity (kt)");
+  const groups=new Map();
 
-const REGION_CENTER={
-"North America":[39,-100],"Latin America":[-15,-60],"South America":[-15,-60],
-"Europe":[51,10],"Western Europe":[50,8],"Eastern Europe":[50,25],
-"Middle East":[27,45],"Africa":[5,20],"Asia":[30,105],"Asia Pacific":[20,115],
-"Northeast Asia":[35,120],"East Asia":[34,115],"South Asia":[22,78],
-"Southeast Asia":[8,110],"Oceania":[-25,135],"Russia & CIS":[56,70]
-};
-const COUNTRY_CENTER={
-"United States":[39.8,-98.6],"USA":[39.8,-98.6],"Canada":[56.1,-106.3],"Mexico":[23.6,-102.5],
-"Brazil":[-14.2,-51.9],"Argentina":[-38.4,-63.6],"Chile":[-33.4,-70.7],"Colombia":[4.6,-74.1],
-"Venezuela":[7,-66],"Peru":[-9.2,-75],"United Kingdom":[54.5,-3.4],"UK":[54.5,-3.4],
-"France":[46.2,2.2],"Germany":[51.2,10.4],"Italy":[42.8,12.8],"Spain":[40.4,-3.7],
-"Netherlands":[52.1,5.3],"Belgium":[50.5,4.5],"Poland":[51.9,19.1],"Russia":[61.5,105.3],
-"Turkey":[39,35.2],"Saudi Arabia":[23.9,45.1],"United Arab Emirates":[24.3,54.4],"UAE":[24.3,54.4],
-"Iran":[32.4,53.7],"Qatar":[25.3,51.2],"Kuwait":[29.3,47.5],"Oman":[21.5,55.9],
-"India":[22.6,79],"China":[35.9,104.2],"Japan":[36.2,138.3],"South Korea":[36.5,127.9],
-"Taiwan":[23.7,121],"Thailand":[15.9,100.9],"Singapore":[1.35,103.82],"Malaysia":[4.2,102],
-"Indonesia":[-2.5,118],"Vietnam":[14.1,108.3],"Philippines":[12.9,121.8],
-"Australia":[-25.3,133.8],"South Africa":[-30.6,22.9],"Egypt":[26.8,30.8],"Nigeria":[9.1,8.7],
-"Algeria":[28,1.7],"Morocco":[31.8,-7.1]
-};
-function gkey(region,country,location){return [region,country,location].map(x=>String(x||"").trim().toLowerCase()).join("|")}
-function save(region,country,location,p){geo[gkey(region,country,location)]=p;try{localStorage.setItem(GEO_KEY,JSON.stringify(geo))}catch(e){}}
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function fallback(region,country,location){
- let base=COUNTRY_CENTER[country]||REGION_CENTER[region]||[0,0],h=hash(gkey(region,country,location));
- let a=(h%360)*Math.PI/180,r=0.8+((h>>>9)%180)/100;
- return [base[0]+Math.sin(a)*r,base[1]+Math.cos(a)*r/Math.max(.35,Math.cos(base[0]*Math.PI/180))];
-}
-async function geocode(region,country,location){
- let k=gkey(region,country,location);if(geo[k])return geo[k];
- let queries=[[location,country],[location,country,region],[country]].map(x=>x.filter(Boolean).join(", "));
- for(const q of queries.slice(0,2)){
-   try{
-     let resp=await fetch("https://photon.komoot.io/api/?limit=1&q="+encodeURIComponent(q));
-     let j=await resp.json();
-     if(j.features&&j.features.length){let z=j.features[0].geometry.coordinates,p=[+z[1],+z[0]];save(region,country,location,p);return p}
-   }catch(e){}
- }
- return fallback(region,country,location);
-}
-function redIcon(){return L.divIcon({className:"",html:'<div style="width:10px;height:10px;background:#e00000;border:1.5px solid #fff;border-radius:50%;box-shadow:0 0 3px #222"></div>',iconSize:[10,10],iconAnchor:[5,5]})}
-function initMap(){
- aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true}).setView([20,5],2);
- L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
- markerLayer=L.layerGroup().addTo(aroMap);setTimeout(()=>aroMap.invalidateSize(),250);updateMap();
-}
-async function updateMap(){
- if(!aroMap)return;const token=++mapToken;markerLayer.clearLayers();
- const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),pi=headers.indexOf("Product"),
-       oi=headers.indexOf("Operating Company"),li=headers.indexOf("Location"),cap=headers.indexOf("Capacity (kt)");
- let groups=new Map(),markers=[];
- filteredRows.forEach(r=>{let k=gkey(r[ri],r[ci],r[li]);if(!groups.has(k))groups.set(k,{region:r[ri],country:r[ci],location:r[li],rs:[]});groups.get(k).rs.push(r)});
- let jobs=[...groups.values()],done=0;
- document.getElementById("mapCount").textContent="Mapping "+jobs.length.toLocaleString()+" locations…";
- for(let n=0;n<jobs.length;n+=10){
-   if(token!==mapToken)return;
-   let batch=jobs.slice(n,n+10),pts=await Promise.all(batch.map(x=>geocode(x.region,x.country,x.location)));
-   if(token!==mapToken)return;
-   batch.forEach((x,j)=>{
-     let p=pts[j]||fallback(x.region,x.country,x.location);done++;
-     x.rs.forEach(r=>{
-       let popup=`<b>${esc(r[oi])}</b><br><b>Product:</b> ${esc(r[pi]||"—")}<br>${esc(r[li])}, ${esc(r[ci])}<br><b>Capacity:</b> ${esc(fmt(r[cap],cap))} kt`;
-       markers.push(L.marker(p,{icon:redIcon()}).bindPopup(popup).addTo(markerLayer));
-     });
-   });
-   document.getElementById("mapCount").textContent=done+" of "+jobs.length+" locations mapped";
-   await new Promise(r=>setTimeout(r,70));
- }
- if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});
- else aroMap.setView([20,5],2);
- document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" plant/product records mapped";
-}
-window.addEventListener("load",initMap);
-</script>
-<script>
-let aroMap,markerLayer,mapToken=0;
-const GEO_KEY="gblAromaticsCoordinatesV2"; let geo={};
-try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
+  filteredRows.forEach(function(r){
+    const key=String(r[ri])+"|"+String(r[ci])+"|"+String(r[li]);
+    if(!groups.has(key))groups.set(key,[]);
+    groups.get(key).push(r);
+  });
 
-const COUNTRY_CENTER={
-"United States":[39.8,-98.6],"USA":[39.8,-98.6],"Canada":[56.1,-106.3],"Mexico":[23.6,-102.5],
-"Brazil":[-14.2,-51.9],"Argentina":[-38.4,-63.6],"Chile":[-33.4,-70.7],"Colombia":[4.6,-74.1],
-"Venezuela":[7.0,-66.2],"Peru":[-9.2,-75.0],"United Kingdom":[54.5,-3.4],"UK":[54.5,-3.4],
-"France":[46.2,2.2],"Germany":[51.2,10.4],"Italy":[42.8,12.8],"Spain":[40.4,-3.7],
-"Netherlands":[52.1,5.3],"Belgium":[50.5,4.5],"Poland":[51.9,19.1],"Russia":[61.5,105.3],
-"Turkey":[39.0,35.2],"Saudi Arabia":[23.9,45.1],"United Arab Emirates":[24.3,54.4],"UAE":[24.3,54.4],
-"Iran":[32.4,53.7],"Qatar":[25.3,51.2],"Kuwait":[29.3,47.5],"Oman":[21.5,55.9],
-"India":[22.6,79.0],"China":[35.9,104.2],"Japan":[36.2,138.3],"South Korea":[36.5,127.9],
-"Taiwan":[23.7,121.0],"Thailand":[15.9,100.9],"Singapore":[1.35,103.82],"Malaysia":[4.2,101.98],
-"Indonesia":[-2.5,118.0],"Vietnam":[14.1,108.3],"Philippines":[12.9,121.8],
-"Australia":[-25.3,133.8],"South Africa":[-30.6,22.9],"Egypt":[26.8,30.8],"Nigeria":[9.1,8.7],
-"Algeria":[28.0,1.7],"Morocco":[31.8,-7.1]
-};
+  let markers=[];
+  groups.forEach(function(g,key){
+    const pt=ARO_COORDS[key];
+    if(!pt)return;
+    const companies=[...new Set(g.map(r=>String(r[oi]||"")).filter(Boolean))].join("; ");
+    const products=g.map(function(r){
+      return '<div style="margin-top:5px"><b>Product:</b> '+esc(r[pi]||"—")+
+             '<br><b>Capacity:</b> '+esc(fmt(r[cap],cap))+' kt</div>';
+    }).join("");
+    const popup='<div style="line-height:1.5;min-width:245px">'+
+      '<b>Company Name:</b> '+esc(companies||"—")+'<br>'+
+      '<b>Location:</b> '+esc(g[0][li])+'<br>'+products+'</div>';
 
-function gkey(region,country,location){return [region,country,location].map(x=>String(x||"").trim().toLowerCase()).join("|")}
-function save(region,country,location,p){geo[gkey(region,country,location)]=p;try{localStorage.setItem(GEO_KEY,JSON.stringify(geo))}catch(e){}}
-async function geocode(region,country,location){
- let k=gkey(region,country,location); if(geo[k]) return geo[k];
- let q=[location,country].filter(Boolean).join(", ");
- try{
-   let resp=await fetch("https://photon.komoot.io/api/?limit=1&q="+encodeURIComponent(q));
-   let j=await resp.json();
-   if(j.features&&j.features.length){let z=j.features[0].geometry.coordinates,p=[+z[1],+z[0]];save(region,country,location,p);return p}
- }catch(e){}
- try{
-   let resp=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(q));
-   let j=await resp.json();
-   if(j.length){let p=[+j[0].lat,+j[0].lon];save(region,country,location,p);return p}
- }catch(e){}
- return COUNTRY_CENTER[country]||null;
+    const marker=L.circleMarker(pt,{
+      radius:5,color:"#fff",weight:1.25,fillColor:"#e00000",fillOpacity:1,opacity:1
+    }).bindPopup(popup,{maxWidth:480});
+    marker.addTo(markerLayer);
+    markers.push(marker);
+  });
+
+  const mc=document.getElementById("mapCount");
+  if(mc)mc.textContent=markers.length.toLocaleString()+" plant locations mapped";
+  if(markers.length && filteredRows.length<rows.length){
+    aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});
+  } else {
+    aroMap.setView([20,5],2);
+  }
 }
-function redIcon(){return L.divIcon({className:"",html:'<div style="width:10px;height:10px;background:#e00000;border:1.5px solid white;border-radius:50%;box-shadow:0 0 3px #222"></div>',iconSize:[10,10],iconAnchor:[5,5]})}
-function initMap(){
- aroMap=L.map("aroMap",{minZoom:1,maxZoom:12,worldCopyJump:true}).setView([20,5],2);
- L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
- markerLayer=L.layerGroup().addTo(aroMap);
- setTimeout(()=>aroMap.invalidateSize(),300);
- updateMap();
-}
-async function updateMap(){
- if(!aroMap)return; const token=++mapToken; markerLayer.clearLayers();
- const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),pi=headers.indexOf("Product"),
-       oi=headers.indexOf("Operating Company"),li=headers.indexOf("Location"),
-       si=headers.indexOf("Source"),cap=headers.indexOf("Capacity (kt)");
- let groups=new Map(),markers=[];
- filteredRows.forEach(r=>{
-   let k=gkey(r[ri],r[ci],r[li]);
-   if(!groups.has(k))groups.set(k,{region:r[ri],country:r[ci],location:r[li],rs:[]});
-   groups.get(k).rs.push(r);
- });
- let jobs=[...groups.values()],done=0;
- document.getElementById("mapCount").textContent="Mapping "+jobs.length.toLocaleString()+" plant locations…";
- for(let n=0;n<jobs.length;n+=8){
-   if(token!==mapToken)return;
-   let batch=jobs.slice(n,n+8);
-   let pts=await Promise.all(batch.map(x=>geocode(x.region,x.country,x.location)));
-   if(token!==mapToken)return;
-   batch.forEach((x,j)=>{
-     let p=pts[j]||COUNTRY_CENTER[x.country]; if(!p)return;
-     done++;
-     x.rs.forEach(r=>{
-       let popup=`<b>${esc(r[pi])}</b><br>${esc(r[oi])}<br>${esc(r[li])}, ${esc(r[ci])}<br>Source/Process: ${esc(r[si]||"—")}<br>Capacity: ${esc(fmt(r[cap],cap))} kt`;
-       markers.push(L.marker(p,{icon:redIcon()}).bindPopup(popup).addTo(markerLayer));
-     });
-   });
-   document.getElementById("mapCount").textContent=done+" of "+jobs.length+" locations mapped";
-   await new Promise(r=>setTimeout(r,100));
- }
- if(markers.length&&filteredRows.length<rows.length){
-   aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7});
- }else aroMap.setView([20,5],2);
- document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" filtered plant records mapped";
-}
-window.addEventListener("load",initMap);
-</script>
-<script>
-let aroMap,markerLayer,mapToken=0;
-const GEO_KEY="gblAromaticsCoordinatesV1";let geo={};
-try{geo=JSON.parse(localStorage.getItem(GEO_KEY)||"{}")}catch(e){}
-function key(region,country,location){return [region,country,location].map(x=>String(x||"").trim().toLowerCase()).join("|")}
-function save(region,country,location,p){geo[key(region,country,location)]=p;try{localStorage.setItem(GEO_KEY,JSON.stringify(geo))}catch(e){}}
-async function geocode(region,country,location){
- let k=key(region,country,location);if(geo[k])return geo[k];
- let q=[location,country,region].filter(Boolean).join(", ");
- try{
-   let j=await(await fetch("https://photon.komoot.io/api/?limit=5&q="+encodeURIComponent(q))).json();
-   if(j.features?.length){let z=j.features[0].geometry.coordinates,p=[+z[1],+z[0]];save(region,country,location,p);return p}
- }catch(e){}
- try{
-   let j=await(await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(q))).json();
-   if(j.length){let p=[+j[0].lat,+j[0].lon];save(region,country,location,p);return p}
- }catch(e){}
- return null;
-}
-function icon(){return L.divIcon({className:"",html:'<div class="aro-dot" style="width:9px;height:9px"></div>',iconSize:[9,9],iconAnchor:[4,4]})}
-function initMap(){
- aroMap=L.map("aroMap",{minZoom:1,maxZoom:11,worldCopyJump:false,attributionControl:false}).setView([18,5],2);
- markerLayer=L.layerGroup().addTo(aroMap);
- fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson").then(r=>r.json()).then(g=>{
-   L.geoJSON(g,{style:{color:"#111",weight:.75,fillColor:"#fff",fillOpacity:1}}).addTo(aroMap).bringToBack();updateMap();
- }).catch(()=>updateMap());
-}
-async function updateMap(){
- if(!aroMap)return;const token=++mapToken;markerLayer.clearLayers();
- const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),pi=headers.indexOf("Product"),oi=headers.indexOf("Operating Company"),li=headers.indexOf("Location"),si=headers.indexOf("Source"),cap=headers.indexOf("Capacity (kt)");
- let groups=new Map(),markers=[];
- filteredRows.forEach(r=>{let k=key(r[ri],r[ci],r[li]);if(!groups.has(k))groups.set(k,{region:r[ri],country:r[ci],location:r[li],rs:[]});groups.get(k).rs.push(r)});
- let jobs=[...groups.values()],done=0;
- document.getElementById("mapCount").textContent="Resolving "+jobs.length.toLocaleString()+" plant locations…";
- for(let n=0;n<jobs.length;n+=5){
-   if(token!==mapToken)return;
-   let batch=jobs.slice(n,n+5),pts=await Promise.all(batch.map(x=>geocode(x.region,x.country,x.location)));
-   if(token!==mapToken)return;
-   batch.forEach((x,j)=>{
-     let p=pts[j];if(!p)return;done++;
-     x.rs.forEach(r=>{
-       let popup=`<b>${esc(r[pi])}</b><br>${esc(r[oi])}<br>${esc(r[li])}, ${esc(r[ci])}<br>Source/Process: ${esc(r[si]||"—")}<br>Capacity: ${esc(fmt(r[cap],cap))} kt`;
-       markers.push(L.marker(p,{icon:icon()}).bindPopup(popup).addTo(markerLayer));
-     });
-   });
-   document.getElementById("mapCount").textContent=done+" of "+jobs.length+" locations resolved";
-   await new Promise(r=>setTimeout(r,120));
- }
- if(token!==mapToken)return;
- let pts=markers.map(m=>m.getLatLng());
- if(pts.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.latLngBounds(pts).pad(.12),{maxZoom:7});
- else aroMap.setView([18,5],2);
- document.getElementById("mapCount").textContent=markers.length.toLocaleString()+" filtered plant records mapped by location";
-}
-window.addEventListener("load",initMap);
-</script>
-</body></html>
+window.addEventListener("load",initAroMap);
+</script></body></html>
