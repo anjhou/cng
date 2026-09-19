@@ -1888,27 +1888,67 @@ function hashString(str){
  for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}
  return h>>>0;
 }
-function markerPoint(row,index){
- const ci=headers.indexOf("Country"), li=headers.indexOf("Location"), coi=headers.indexOf("Company");
- const country=(ci>=0?row[ci]:"").trim();
- const normalizedCountry = /^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(country)
-   ? "United States" : country;
- const loc=(li>=0?row[li]:"").trim();
- const naBase = (normalizedCountry==="United States" || normalizedCountry==="Canada")
-   ? NORTH_AMERICA_LOCATIONS[loc.toLowerCase()] : null;
- const latamKey = country.toLowerCase()+"|"+loc.toLowerCase();
- const latamBase = LATIN_AMERICA_LOCATIONS[latamKey] || null;
- const localBase = naBase || latamBase;
- const base=localBase || COUNTRY_CENTERS[normalizedCountry] || COUNTRY_CENTERS[country];
- if(!base) return null;
- const key=(coi>=0?row[coi]:"")+"|"+loc+"|"+index;
- const h=hashString(key);
- const a=(h%360)*Math.PI/180;
- const hasLocalBase = !!localBase;
- if(hasLocalBase) return [base[0],base[1]];
- const r = 0.25+((h>>>9)%1000)/1000*2.2;
+function normalizeCountryForGeocode(country){
+ const c=String(country||"").trim();
+ if(/^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(c)) return "United States";
+ if(/^south korea$/i.test(c)) return "South Korea";
+ if(/^russia(n federation)?$/i.test(c)) return "Russia";
+ return c;
+}
+function staticLocationPoint(row){
+ const ci=headers.indexOf("Country"), li=headers.indexOf("Location");
+ const country=(ci>=0?row[ci]:"").trim(), loc=(li>=0?row[li]:"").trim();
+ const nc=normalizeCountryForGeocode(country);
+ const na=(nc==="United States"||nc==="Canada") ? NORTH_AMERICA_LOCATIONS[loc.toLowerCase()] : null;
+ const la=LATIN_AMERICA_LOCATIONS[country.toLowerCase()+"|"+loc.toLowerCase()] || null;
+ return na||la||null;
+}
+const GEO_CACHE_KEY="gblChemLocationCoordinatesV3";
+let locationGeoCache={};
+try{ locationGeoCache=JSON.parse(localStorage.getItem(GEO_CACHE_KEY)||"{}"); }catch(e){}
+function geoKey(country,loc){return (normalizeCountryForGeocode(country)+"|"+String(loc||"")).toLowerCase();}
+function cachedPoint(country,loc){return locationGeoCache[geoKey(country,loc)]||null;}
+function savePoint(country,loc,pt){
+ locationGeoCache[geoKey(country,loc)]=pt;
+ try{localStorage.setItem(GEO_CACHE_KEY,JSON.stringify(locationGeoCache));}catch(e){}
+}
+async function geocodeListedLocation(country,loc){
+ const key=geoKey(country,loc);
+ if(locationGeoCache[key]) return locationGeoCache[key];
+ const q=[loc,normalizeCountryForGeocode(country)].filter(Boolean).join(", ");
+ // Photon: fast, no API key. Prefer result matching the requested country.
+ try{
+   const u="https://photon.komoot.io/api/?limit=5&q="+encodeURIComponent(q);
+   const j=await (await fetch(u)).json();
+   if(j.features&&j.features.length){
+     const wanted=normalizeCountryForGeocode(country).toLowerCase();
+     let f=j.features.find(x=>String(x.properties?.country||"").toLowerCase()===wanted) || j.features[0];
+     const c=f.geometry.coordinates, pt=[+c[1],+c[0]];
+     savePoint(country,loc,pt); return pt;
+   }
+ }catch(e){}
+ // Nominatim fallback for industrial locations not found by Photon.
+ try{
+   const u="https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(q);
+   const j=await (await fetch(u,{headers:{"Accept":"application/json"}})).json();
+   if(j.length){const pt=[+j[0].lat,+j[0].lon];savePoint(country,loc,pt);return pt;}
+ }catch(e){}
+ return null;
+}
+function fallbackCountryPoint(row,index){
+ const ci=headers.indexOf("Country"), coi=headers.indexOf("Company"), li=headers.indexOf("Location");
+ const country=normalizeCountryForGeocode(ci>=0?row[ci]:"");
+ const base=COUNTRY_CENTERS[country]||COUNTRY_CENTERS[ci>=0?row[ci]:""];
+ if(!base)return null;
+ const key=(coi>=0?row[coi]:"")+"|"+(li>=0?row[li]:"")+"|"+index;
+ const h=hashString(key),a=(h%360)*Math.PI/180,r=.15+((h>>>9)%1000)/1000*.9;
  const lonScale=Math.max(.35,Math.cos(base[0]*Math.PI/180));
- return [base[0]+Math.sin(a)*r, base[1]+Math.cos(a)*r/lonScale];
+ return [base[0]+Math.sin(a)*r,base[1]+Math.cos(a)*r/lonScale];
+}
+function markerPoint(row,index){
+ const ci=headers.indexOf("Country"), li=headers.indexOf("Location");
+ const country=ci>=0?row[ci]:"",loc=li>=0?row[li]:"";
+ return staticLocationPoint(row)||cachedPoint(country,loc)||fallbackCountryPoint(row,index);
 }
 function dotIcon(){
  return L.divIcon({className:"",html:'<div class="company-dot" style="width:8px;height:8px"></div>',iconSize:[8,8],iconAnchor:[4,4]});
@@ -1923,54 +1963,78 @@ function countryBoundsFromMarkers(country){
  const pts=filteredRows.map((r,i)=>norm(r[ci])===norm(country)?markerPoint(r,i):null).filter(Boolean);
  return pts.length?L.latLngBounds(pts):null;
 }
-function updateCompanyMap(){
- if(!companyMap) return;
- ++mapUpdateToken;
+async function updateCompanyMap(){
+ if(!companyMap)return;
+ const token=++mapUpdateToken;
  markerLayer.clearLayers();
 
- const ri=headers.indexOf("Region"), ci=headers.indexOf("Country"), coi=headers.indexOf("Company"),
-       li=headers.indexOf("Location"), si=headers.indexOf("Status");
- const countryFilter=ci>=0?activeFilters[ci]:"";
- const regionFilter=ri>=0?activeFilters[ri]:"";
- let plotted=0, bounds=[];
+ const ri=headers.indexOf("Region"),ci=headers.indexOf("Country"),coi=headers.indexOf("Company"),
+       li=headers.indexOf("Location"),si=headers.indexOf("Status");
+ const countryFilter=ci>=0?activeFilters[ci]:"",regionFilter=ri>=0?activeFilters[ri]:"";
+ const markerRecords=[], unresolved=new Map();
 
  filteredRows.forEach((r,i)=>{
-   const pt=markerPoint(r,i);
-   if(!pt) return;
-   plotted++; bounds.push(pt);
-   const company=coi>=0?r[coi]:"", loc=li>=0?r[li]:"", country=ci>=0?r[ci]:"", status=si>=0?r[si]:"";
-   L.marker(pt,{icon:dotIcon()})
-    .bindPopup("<b>"+escapeHtml(company)+"</b>"+(loc?"<br>"+escapeHtml(loc):"")+
-               (country?"<br>"+escapeHtml(country):"")+(status?"<br>Status: "+escapeHtml(status):""))
-    .addTo(markerLayer);
+   const country=ci>=0?r[ci]:"",loc=li>=0?r[li]:"";
+   const pt=staticLocationPoint(r)||cachedPoint(country,loc)||fallbackCountryPoint(r,i);
+   if(!pt)return;
+   const m=L.marker(pt,{icon:dotIcon()}).bindPopup(
+      "<b>"+escapeHtml(coi>=0?r[coi]:"")+"</b>"+(loc?"<br>"+escapeHtml(loc):"")+
+      (country?"<br>"+escapeHtml(country):"")+(si>=0&&r[si]?"<br>Status: "+escapeHtml(r[si]):"")
+   ).addTo(markerLayer);
+   markerRecords.push({row:r,index:i,marker:m});
+   if(!staticLocationPoint(r)&&!cachedPoint(country,loc)&&loc){
+      const k=geoKey(country,loc);
+      if(!unresolved.has(k))unresolved.set(k,{country,loc});
+   }
  });
 
- document.getElementById("mapCount").textContent =
-   plotted.toLocaleString()+" of "+filteredRows.length.toLocaleString()+" filtered companies mapped by listed location";
+ document.getElementById("mapCount").textContent=
+   markerRecords.length.toLocaleString()+" filtered companies mapped by listed location";
 
- // Explicit country filter: fit to that country's filtered markers.
- if(countryFilter){
-   const cb=countryBoundsFromMarkers(countryFilter);
-   if(cb && cb.isValid()){
-     if(plotted===1) companyMap.setView(cb.getCenter(),5);
-     else companyMap.fitBounds(cb.pad(.55),{maxZoom:6});
-     return;
-   }
-   const normalizedFilter=/^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(countryFilter)
-     ? "United States" : countryFilter;
-   const c=COUNTRY_CENTERS[normalizedFilter] || COUNTRY_CENTERS[countryFilter];
-   if(c){companyMap.setView(c,4);return;}
+ // Zoom according to selected filter immediately.
+ const currentPts=markerRecords.map(x=>x.marker.getLatLng());
+ if(countryFilter&&currentPts.length){
+   const b=L.latLngBounds(currentPts);
+   currentPts.length===1?companyMap.setView(b.getCenter(),5):companyMap.fitBounds(b.pad(.35),{maxZoom:6});
+ }else if(regionFilter&&REGION_BOUNDS[regionFilter]){
+   companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]});
+ }else if(currentPts.length&&currentPts.length<rows.length){
+   companyMap.fitBounds(L.latLngBounds(currentPts).pad(.15),{maxZoom:5});
+ }else companyMap.setView([18,5],2);
+
+ // Resolve every unique listed location, then move all matching markers to its true coordinates.
+ // Small batches avoid provider throttling; coordinates persist in browser cache for later visits.
+ const jobs=[...unresolved.values()];
+ let resolved=0;
+ for(let n=0;n<jobs.length;n+=4){
+   if(token!==mapUpdateToken)return;
+   const batch=jobs.slice(n,n+4);
+   const pts=await Promise.all(batch.map(x=>geocodeListedLocation(x.country,x.loc)));
+   if(token!==mapUpdateToken)return;
+   batch.forEach((job,j)=>{
+      const pt=pts[j]; if(!pt)return; resolved++;
+      markerRecords.forEach(rec=>{
+        const rc=ci>=0?rec.row[ci]:"",rl=li>=0?rec.row[li]:"";
+        if(geoKey(rc,rl)===geoKey(job.country,job.loc))rec.marker.setLatLng(pt);
+      });
+   });
+   document.getElementById("mapCount").textContent=
+     markerRecords.length.toLocaleString()+" companies mapped • "+resolved.toLocaleString()+"/"+
+     jobs.length.toLocaleString()+" new locations resolved";
+   await new Promise(r=>setTimeout(r,180));
  }
- // Explicit region filter: use region viewport, while markers remain limited to filtered rows.
- if(regionFilter && REGION_BOUNDS[regionFilter]){
-   companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]}); return;
+ if(token!==mapUpdateToken)return;
+
+ // Refit after exact locations are resolved.
+ const finalPts=markerRecords.map(x=>x.marker.getLatLng());
+ if(countryFilter&&finalPts.length){
+   const b=L.latLngBounds(finalPts);
+   finalPts.length===1?companyMap.setView(b.getCenter(),5):companyMap.fitBounds(b.pad(.18),{maxZoom:7});
+ }else if(regionFilter&&REGION_BOUNDS[regionFilter]){
+   companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]});
  }
- // Other filters (company/status/search): zoom to the actual filtered marker set.
- if(bounds.length && bounds.length<rows.length){
-   const b=L.latLngBounds(bounds);
-   if(bounds.length===1) companyMap.setView(b.getCenter(),5);
-   else companyMap.fitBounds(b.pad(.18),{maxZoom:5});
- } else companyMap.setView([18,5],2);
+ document.getElementById("mapCount").textContent=
+   markerRecords.length.toLocaleString()+" filtered companies mapped by listed location";
 }
 window.addEventListener("load",initCompanyMap);
 </script>
