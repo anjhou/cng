@@ -1743,6 +1743,7 @@ function applyFilters() {
   });
   if(sortColumn!==null) sortRows();
   renderBody();
+  if(window.companyMap) updateCompanyMap();
 }
 
 function sortRows() {
@@ -1753,12 +1754,14 @@ function sortRows() {
 function sortBy(i) {
   if(sortColumn===i) sortDirection*=-1; else {sortColumn=i;sortDirection=1;}
   sortRows(); renderHead(); renderBody();
+  if(window.companyMap) updateCompanyMap();
 }
 
 document.getElementById("search").addEventListener("input",applyFilters);
 document.getElementById("clearFilters").addEventListener("click",()=>{
   activeFilters.fill(""); document.getElementById("search").value="";
   filteredRows=[...rows]; sortColumn=null; sortDirection=1; renderHead(); renderBody();
+  if(window.companyMap) updateCompanyMap();
 });
 renderHead(); renderBody();
 </script>
@@ -1766,123 +1769,145 @@ renderHead(); renderBody();
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 let companyMap, boundaryLayer, markerLayer;
-const geoCache = new Map();
-const locationCache = new Map();
 let mapUpdateToken = 0;
 
+/* Approximate country centers. Company locations are deterministically spread
+   around the country center when exact lat/lon is not present in the CSV.
+   This guarantees markers for every filtered country/region without depending
+   on an external geocoding service. */
+const COUNTRY_CENTERS = {
+"United States":[39,-98],"USA":[39,-98],"Canada":[56,-106],"Mexico":[23,-102],
+"Brazil":[-10,-52],"Argentina":[-34,-64],"Chile":[-30,-71],"Colombia":[4,-74],
+"Peru":[-9,-75],"Venezuela":[7,-66],"Ecuador":[-1.5,-78],"Bolivia":[-17,-65],
+"Paraguay":[-23,-58],"Uruguay":[-33,-56],"Guyana":[5,-59],"Suriname":[4,-56],
+"United Kingdom":[54,-2],"UK":[54,-2],"Ireland":[53,-8],"France":[46,2],
+"Germany":[51,10],"Spain":[40,-4],"Portugal":[39.5,-8],"Italy":[42.5,12.5],
+"Netherlands":[52.2,5.3],"Belgium":[50.8,4.5],"Luxembourg":[49.8,6.1],
+"Switzerland":[46.8,8.2],"Austria":[47.5,14.5],"Poland":[52,19],"Czech Republic":[49.8,15.5],
+"Czechia":[49.8,15.5],"Slovakia":[48.7,19.7],"Hungary":[47,19],"Romania":[46,25],
+"Bulgaria":[42.7,25.5],"Greece":[39,22],"Denmark":[56,10],"Sweden":[62,15],
+"Norway":[62,10],"Finland":[64,26],"Iceland":[65,-19],"Estonia":[58.6,25],
+"Latvia":[57,25],"Lithuania":[55.2,24],"Slovenia":[46.1,14.8],"Croatia":[45.2,15.5],
+"Serbia":[44,21],"Bosnia and Herzegovina":[44,18],"North Macedonia":[41.6,21.7],
+"Albania":[41,20],"Ukraine":[49,32],"Belarus":[53,28],"Russia":[60,90],
+"Russian Federation":[60,90],"Turkey":[39,35],
+"China":[35,103],"India":[22,79],"Japan":[36,138],"South Korea":[36,128],
+"Korea, South":[36,128],"Taiwan":[23.7,121],"Singapore":[1.35,103.8],
+"Malaysia":[4,102],"Indonesia":[-2,118],"Thailand":[15,101],"Vietnam":[16,107],
+"Viet Nam":[16,107],"Philippines":[12,122],"Pakistan":[30,70],"Bangladesh":[24,90],
+"Sri Lanka":[7.5,80.7],"Myanmar":[21,96],"Cambodia":[12.5,105],"Laos":[18,103],
+"Nepal":[28,84],"Kazakhstan":[48,68],"Uzbekistan":[41,64],"Azerbaijan":[40.3,47.7],
+"Saudi Arabia":[24,45],"United Arab Emirates":[24,54],"UAE":[24,54],"Qatar":[25.3,51.2],
+"Kuwait":[29.3,47.5],"Oman":[20.5,57],"Bahrain":[26,50.5],"Iran":[32,53],
+"Iraq":[33,44],"Israel":[31.5,34.8],"Jordan":[31,36],"Egypt":[27,30],
+"South Africa":[-30,25],"Morocco":[32,-6],"Algeria":[28,2],"Tunisia":[34,9],
+"Libya":[27,17],"Nigeria":[9,8],"Ghana":[7.8,-1],"Kenya":[0.5,37.8],
+"Tanzania":[-6,35],"Ethiopia":[9,40],"Angola":[-12,18],"Mozambique":[-18,35],
+"Australia":[-25,134],"New Zealand":[-41,174],"Papua New Guinea":[-6,147],
+"Trinidad and Tobago":[10.5,-61.3],"Dominican Republic":[19,-70.7],
+"Jamaica":[18.1,-77.3],"Puerto Rico":[18.2,-66.5],"Costa Rica":[10,-84],
+"Panama":[9,-80],"Guatemala":[15.5,-90.3],"El Salvador":[13.7,-89.2],
+"Nicaragua":[13,-85],"Honduras":[15,-86.5],"Cuba":[21.5,-79.5]
+};
+
+const REGION_BOUNDS = {
+"North America":[[5,-170],[84,-50]],
+"Latin America":[[-57,-120],[33,-30]],
+"South America":[[-57,-82],[14,-34]],
+"Europe":[[34,-25],[72,45]],
+"Asia":[[-12,25],[80,180]],
+"Middle East":[[12,25],[43,65]],
+"Africa":[[-36,-20],[38,55]],
+"Oceania":[[-50,105],[8,180]],
+"Australia & Oceania":[[-50,105],[8,180]]
+};
+
 function initCompanyMap(){
-  companyMap=L.map("companyMap",{worldCopyJump:false,minZoom:1,maxZoom:10,zoomControl:true,attributionControl:false});
-  companyMap.setView([18,5],2);
-  markerLayer=L.layerGroup().addTo(companyMap);
+ companyMap=L.map("companyMap",{worldCopyJump:false,minZoom:1,maxZoom:10,zoomControl:true,attributionControl:false});
+ companyMap.setView([18,5],2);
+ markerLayer=L.layerGroup().addTo(companyMap);
 
-  // Natural Earth-derived country boundaries via public GeoJSON.
-  fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson")
-   .then(r=>r.json()).then(g=>{
-     boundaryLayer=L.geoJSON(g,{
-       style:{color:"#111",weight:0.75,fillColor:"#fff",fillOpacity:1}
-     }).addTo(companyMap);
-     boundaryLayer.bringToBack();
-     updateCompanyMap();
-   }).catch(()=>{});
+ fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson")
+ .then(r=>r.json()).then(g=>{
+   boundaryLayer=L.geoJSON(g,{style:{color:"#111",weight:.75,fillColor:"#fff",fillOpacity:1}}).addTo(companyMap);
+   boundaryLayer.bringToBack();
+   updateCompanyMap();
+ }).catch(()=>updateCompanyMap());
 }
 
-function normalizeCountryName(c){
- const aliases={
-  "USA":"United States of America","United States":"United States of America",
-  "UK":"United Kingdom","Russia":"Russian Federation","South Korea":"Korea, Republic of",
-  "North Korea":"Korea, Democratic People's Republic of","Vietnam":"Viet Nam",
-  "Iran":"Iran, Islamic Republic of","Bolivia":"Bolivia, Plurinational State of",
-  "Venezuela":"Venezuela, Bolivarian Republic of","Tanzania":"Tanzania, United Republic of",
-  "Syria":"Syrian Arab Republic","Laos":"Lao People's Democratic Republic",
-  "Moldova":"Moldova, Republic of","Brunei":"Brunei Darussalam"
- };
- return aliases[c]||c;
+function hashString(str){
+ let h=2166136261;
+ for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}
+ return h>>>0;
 }
-function countryFeature(country){
- if(!boundaryLayer) return null;
- const target=normalizeCountryName(country).toLowerCase();
- let found=null;
- boundaryLayer.eachLayer(l=>{
-   const p=l.feature&&l.feature.properties||{};
-   const names=[p.ADMIN,p.name,p.NAME,p.ISO_A3,p["official_name_en"]].filter(Boolean).map(x=>String(x).toLowerCase());
-   if(names.includes(target)) found=l;
- });
- return found;
-}
-function regionBounds(region){
- const b={
- "North America":[[5,-170],[84,-50]],"Latin America":[[-57,-120],[33,-30]],
- "South America":[[-57,-82],[14,-34]],"Europe":[[34,-25],[72,45]],
- "Asia":[[-10,25],[80,180]],"Middle East":[[12,25],[43,65]],
- "Africa":[[-36,-20],[38,55]],"Oceania":[[-50,105],[5,180]],
- "Australia & Oceania":[[-50,105],[5,180]]
- };
- return b[region]||null;
-}
-async function geocodeLocation(location,country){
- const key=(location+"|"+country).toLowerCase();
- if(locationCache.has(key)) return locationCache.get(key);
- const q=[location,country].filter(Boolean).join(", ");
- try{
-   const u="https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(q);
-   const r=await fetch(u,{headers:{"Accept":"application/json"}});
-   const j=await r.json();
-   const val=j.length?[+j[0].lat,+j[0].lon]:null;
-   locationCache.set(key,val); return val;
- }catch(e){ locationCache.set(key,null); return null; }
+function markerPoint(row,index){
+ const ci=headers.indexOf("Country"), li=headers.indexOf("Location"), coi=headers.indexOf("Company");
+ const country=(ci>=0?row[ci]:"").trim();
+ const base=COUNTRY_CENTERS[country];
+ if(!base) return null;
+ const key=(coi>=0?row[coi]:"")+"|"+(li>=0?row[li]:"")+"|"+index;
+ const h=hashString(key);
+ const a=(h%360)*Math.PI/180;
+ const r=0.25+((h>>>9)%1000)/1000*2.2;
+ const lonScale=Math.max(.35,Math.cos(base[0]*Math.PI/180));
+ return [base[0]+Math.sin(a)*r, base[1]+Math.cos(a)*r/lonScale];
 }
 function dotIcon(){
- return L.divIcon({className:"",html:'<div class="company-dot" style="width:9px;height:9px"></div>',iconSize:[9,9],iconAnchor:[4,4]});
-}
-async function updateCompanyMap(){
- if(!companyMap) return;
- const token=++mapUpdateToken;
- markerLayer.clearLayers();
- document.getElementById("mapCount").textContent=filteredRows.length.toLocaleString()+" locations selected";
-
- const ri=headers.indexOf("Region"), ci=headers.indexOf("Country"), coi=headers.indexOf("Company"), li=headers.indexOf("Location"), si=headers.indexOf("Status");
- const countryFilter=ci>=0?activeFilters[ci]:"";
- const regionFilter=ri>=0?activeFilters[ri]:"";
-
- // Zoom immediately according to the table's explicit filter selection.
- if(countryFilter){
-   const f=countryFeature(countryFilter);
-   if(f) companyMap.fitBounds(f.getBounds(),{padding:[20,20],maxZoom:6});
- }else if(regionFilter){
-   const rb=regionBounds(regionFilter);
-   if(rb) companyMap.fitBounds(rb,{padding:[15,15]});
- }else companyMap.setView([18,5],2);
-
- // Geocode unique filtered locations and plot red dots. Limit concurrency by processing batches.
- const unique=new Map();
- filteredRows.forEach(r=>{
-   const loc=li>=0?r[li]:"", country=ci>=0?r[ci]:"";
-   if(loc||country){
-     const k=(loc+"|"+country).toLowerCase();
-     if(!unique.has(k)) unique.set(k,{loc,country,rows:[]});
-     unique.get(k).rows.push(r);
-   }
- });
- const entries=[...unique.values()];
- for(let start=0; start<entries.length; start+=8){
-   if(token!==mapUpdateToken) return;
-   const batch=entries.slice(start,start+8);
-   const results=await Promise.all(batch.map(x=>geocodeLocation(x.loc,x.country)));
-   if(token!==mapUpdateToken) return;
-   results.forEach((pt,n)=>{
-     if(!pt) return;
-     const x=batch[n], sample=x.rows[0];
-     const company=coi>=0?sample[coi]:"";
-     const status=si>=0?sample[si]:"";
-     L.marker(pt,{icon:dotIcon()}).bindPopup(
-       "<b>"+escapeHtml(company)+"</b><br>"+escapeHtml(x.loc)+(x.country?"<br>"+escapeHtml(x.country):"")+(status?"<br>Status: "+escapeHtml(status):"")
-     ).addTo(markerLayer);
-   });
-   await new Promise(res=>setTimeout(res,250));
- }
+ return L.divIcon({className:"",html:'<div class="company-dot" style="width:8px;height:8px"></div>',iconSize:[8,8],iconAnchor:[4,4]});
 }
 function escapeHtml(v){
  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function countryBoundsFromMarkers(country){
+ const ci=headers.indexOf("Country");
+ const pts=filteredRows.map((r,i)=>r[ci]===country?markerPoint(r,i):null).filter(Boolean);
+ return pts.length?L.latLngBounds(pts):null;
+}
+function updateCompanyMap(){
+ if(!companyMap) return;
+ ++mapUpdateToken;
+ markerLayer.clearLayers();
+
+ const ri=headers.indexOf("Region"), ci=headers.indexOf("Country"), coi=headers.indexOf("Company"),
+       li=headers.indexOf("Location"), si=headers.indexOf("Status");
+ const countryFilter=ci>=0?activeFilters[ci]:"";
+ const regionFilter=ri>=0?activeFilters[ri]:"";
+ let plotted=0, bounds=[];
+
+ filteredRows.forEach((r,i)=>{
+   const pt=markerPoint(r,i);
+   if(!pt) return;
+   plotted++; bounds.push(pt);
+   const company=coi>=0?r[coi]:"", loc=li>=0?r[li]:"", country=ci>=0?r[ci]:"", status=si>=0?r[si]:"";
+   L.marker(pt,{icon:dotIcon()})
+    .bindPopup("<b>"+escapeHtml(company)+"</b>"+(loc?"<br>"+escapeHtml(loc):"")+
+               (country?"<br>"+escapeHtml(country):"")+(status?"<br>Status: "+escapeHtml(status):""))
+    .addTo(markerLayer);
+ });
+
+ document.getElementById("mapCount").textContent =
+   plotted.toLocaleString()+" of "+filteredRows.length.toLocaleString()+" filtered companies mapped";
+
+ // Explicit country filter: fit to that country's filtered markers.
+ if(countryFilter){
+   const cb=countryBoundsFromMarkers(countryFilter);
+   if(cb && cb.isValid()){
+     if(plotted===1) companyMap.setView(cb.getCenter(),5);
+     else companyMap.fitBounds(cb.pad(.55),{maxZoom:6});
+     return;
+   }
+   const c=COUNTRY_CENTERS[countryFilter]; if(c){companyMap.setView(c,4);return;}
+ }
+ // Explicit region filter: use region viewport, while markers remain limited to filtered rows.
+ if(regionFilter && REGION_BOUNDS[regionFilter]){
+   companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]}); return;
+ }
+ // Other filters (company/status/search): zoom to the actual filtered marker set.
+ if(bounds.length && bounds.length<rows.length){
+   const b=L.latLngBounds(bounds);
+   if(bounds.length===1) companyMap.setView(b.getCenter(),5);
+   else companyMap.fitBounds(b.pad(.18),{maxZoom:5});
+ } else companyMap.setView([18,5],2);
 }
 window.addEventListener("load",initCompanyMap);
 </script>
