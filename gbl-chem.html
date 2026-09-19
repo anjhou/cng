@@ -1833,6 +1833,31 @@ const NORTH_AMERICA_LOCATIONS = {
 "montreal":[45.50,-73.57],"sarnia":[42.97,-82.41],"scotford":[53.80,-113.00],"ioco":[49.30,-122.88]
 };
 
+const LATIN_AMERICA_LOCATIONS = {
+"argentina|buenos aires":[-34.6037,-58.3816],
+"argentina|cordoba":[-31.4201,-64.1888],
+"argentina|ensenada":[-34.8610,-57.9110],
+"argentina|san lorenzo":[-32.7490,-60.7350],
+"brazil|camacari":[-12.6975,-38.3242],
+"brazil|suape":[-8.3981,-34.9606],
+"brazil|rio de janeiro":[-22.9068,-43.1729],
+"brazil|volta redonda":[-22.5202,-44.0996],
+"brazil|porto alegre":[-30.0346,-51.2177],
+"brazil|triunfo [rs]":[-29.9433,-51.7181],
+"brazil|cubatao":[-23.8953,-46.4256],
+"brazil|paulinia":[-22.7611,-47.1541],
+"brazil|sao paulo":[-23.5505,-46.6333],
+"chile|santiago":[-33.4489,-70.6693],
+"colombia|barrancabermeja":[7.0653,-73.8547],
+"colombia|bogota":[4.7110,-74.0721],
+"colombia|medellin":[6.2442,-75.5812],
+"venezuela|el palito":[10.4828,-68.1167],
+"venezuela|puerto cabello":[10.4731,-68.0125],
+"venezuela|punta cardon":[11.6581,-70.2140],
+"venezuela|valencia":[10.1620,-68.0077]
+};
+
+
 const REGION_BOUNDS = {
 "North America":[[5,-170],[84,-50]],
 "Latin America":[[-57,-120],[33,-30]],
@@ -1869,8 +1894,11 @@ function markerPoint(row,index){
  const normalizedCountry = /^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(country)
    ? "United States" : country;
  const loc=(li>=0?row[li]:"").trim();
- const localBase = (normalizedCountry==="United States" || normalizedCountry==="Canada")
+ const naBase = (normalizedCountry==="United States" || normalizedCountry==="Canada")
    ? NORTH_AMERICA_LOCATIONS[loc.toLowerCase()] : null;
+ const latamKey = country.toLowerCase()+"|"+loc.toLowerCase();
+ const latamBase = LATIN_AMERICA_LOCATIONS[latamKey] || null;
+ const localBase = naBase || latamBase;
  const base=localBase || COUNTRY_CENTERS[normalizedCountry] || COUNTRY_CENTERS[country];
  if(!base) return null;
  const key=(coi>=0?row[coi]:"")+"|"+loc+"|"+index;
