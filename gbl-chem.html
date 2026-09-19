@@ -1776,7 +1776,7 @@ let mapUpdateToken = 0;
    This guarantees markers for every filtered country/region without depending
    on an external geocoding service. */
 const COUNTRY_CENTERS = {
-"United States":[39,-98],"USA":[39,-98],"Canada":[56,-106],"Mexico":[23,-102],
+"United States":[39,-98],"United States of America":[39,-98],"U.S.":[39,-98],"U.S.A.":[39,-98],"US":[39,-98],"USA":[39,-98],"Canada":[56,-106],"Mexico":[23,-102],
 "Brazil":[-10,-52],"Argentina":[-34,-64],"Chile":[-30,-71],"Colombia":[4,-74],
 "Peru":[-9,-75],"Venezuela":[7,-66],"Ecuador":[-1.5,-78],"Bolivia":[-17,-65],
 "Paraguay":[-23,-58],"Uruguay":[-33,-56],"Guyana":[5,-59],"Suriname":[4,-56],
@@ -1843,7 +1843,9 @@ function hashString(str){
 function markerPoint(row,index){
  const ci=headers.indexOf("Country"), li=headers.indexOf("Location"), coi=headers.indexOf("Company");
  const country=(ci>=0?row[ci]:"").trim();
- const base=COUNTRY_CENTERS[country];
+ const normalizedCountry = /^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(country)
+   ? "United States" : country;
+ const base=COUNTRY_CENTERS[normalizedCountry] || COUNTRY_CENTERS[country];
  if(!base) return null;
  const key=(coi>=0?row[coi]:"")+"|"+(li>=0?row[li]:"")+"|"+index;
  const h=hashString(key);
@@ -1860,7 +1862,9 @@ function escapeHtml(v){
 }
 function countryBoundsFromMarkers(country){
  const ci=headers.indexOf("Country");
- const pts=filteredRows.map((r,i)=>r[ci]===country?markerPoint(r,i):null).filter(Boolean);
+ const norm = v => /^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(String(v).trim())
+   ? "United States" : String(v).trim();
+ const pts=filteredRows.map((r,i)=>norm(r[ci])===norm(country)?markerPoint(r,i):null).filter(Boolean);
  return pts.length?L.latLngBounds(pts):null;
 }
 function updateCompanyMap(){
@@ -1896,7 +1900,10 @@ function updateCompanyMap(){
      else companyMap.fitBounds(cb.pad(.55),{maxZoom:6});
      return;
    }
-   const c=COUNTRY_CENTERS[countryFilter]; if(c){companyMap.setView(c,4);return;}
+   const normalizedFilter=/^(usa|us|u\.s\.|u\.s\.a\.|united states|united states of america)$/i.test(countryFilter)
+     ? "United States" : countryFilter;
+   const c=COUNTRY_CENTERS[normalizedFilter] || COUNTRY_CENTERS[countryFilter];
+   if(c){companyMap.setView(c,4);return;}
  }
  // Explicit region filter: use region viewport, while markers remain limited to filtered rows.
  if(regionFilter && REGION_BOUNDS[regionFilter]){
