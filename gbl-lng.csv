@@ -1,0 +1,52 @@
+Region,Country,Location,Plant Name,Company Name,Capacity (million tpy)
+North America,United States,"Sabine Pass, Louisiana",Sabine Pass LNG,Cheniere Energy,30.0
+North America,United States,"Corpus Christi, Texas",Corpus Christi LNG,Cheniere Energy,18.0
+North America,United States,"Freeport, Texas",Freeport LNG,Freeport LNG Development,15.0
+North America,United States,"Hackberry, Louisiana",Cameron LNG,Sempra Infrastructure / partners,13.5
+North America,United States,"Calcasieu Pass, Louisiana",Calcasieu Pass LNG,Venture Global,10.0
+North America,United States,"Plaquemines Parish, Louisiana",Plaquemines LNG,Venture Global,27.2
+North America,United States,"Cove Point, Maryland",Cove Point LNG,Berkshire Hathaway Energy,5.25
+North America,United States,"Elba Island, Georgia",Elba Island LNG,Kinder Morgan,2.5
+North America,United States,"Golden Pass, Texas",Golden Pass LNG,QatarEnergy / ExxonMobil,15.6
+North America,Canada,"Kitimat, British Columbia",LNG Canada,Shell / PETRONAS / PetroChina / Mitsubishi / KOGAS,14.0
+Latin America,Trinidad and Tobago,Point Fortin,Atlantic LNG,Shell / bp / NGC Trinidad and Tobago,12.0
+Latin America,Peru,Pampa Melchorita,Peru LNG,Hunt Oil / SK Innovation / Marubeni / MidOcean Energy,4.45
+Europe,Norway,"Melkøya, Hammerfest",Snøhvit LNG,Equinor / partners,4.3
+Russia & CIS,Russia,"Sabetta, Yamal Peninsula",Yamal LNG,NOVATEK / TotalEnergies / CNPC / Silk Road Fund,17.4
+Russia & CIS,Russia,"Prigorodnoye, Sakhalin",Sakhalin-2 LNG,Sakhalin Energy,11.6
+Russia & CIS,Russia,"Vysotsk, Leningrad Oblast",Cryogas-Vysotsk LNG,NOVATEK / Gazprombank,0.66
+Russia & CIS,Russia,"Portovaya, Leningrad Oblast",Portovaya LNG,Gazprom,1.5
+Russia & CIS,Russia,Gydan Peninsula,Arctic LNG 2,NOVATEK / partners,6.6
+Middle East,Qatar,Ras Laffan Industrial City,QatarEnergy LNG North,QatarEnergy / partners,40.8
+Middle East,Qatar,Ras Laffan Industrial City,QatarEnergy LNG South,QatarEnergy / partners,36.3
+Middle East,Oman,"Qalhat, Sur",Oman LNG,Oman LNG LLC,10.4
+Middle East,United Arab Emirates,"Das Island, Abu Dhabi",ADNOC LNG,ADNOC / Mitsui / bp / TotalEnergies,5.8
+Middle East,Yemen,"Balhaf, Shabwah",Yemen LNG,TotalEnergies / Hunt Oil / partners,6.7
+Africa,Algeria,"Arzew, Oran",Arzew-Bethioua LNG,Sonatrach,20.8
+Africa,Algeria,Skikda,Skikda LNG,Sonatrach,4.5
+Africa,Angola,"Soyo, Zaire Province",Angola LNG,Chevron / Sonangol / Azule Energy / TotalEnergies,5.2
+Africa,Egypt,"Idku, Beheira",Egyptian LNG (Idku),Shell / PETRONAS / EGAS / EGPC / TotalEnergies,7.2
+Africa,Egypt,Damietta,Damietta LNG,Eni / EGAS / EGPC,5.0
+Africa,Equatorial Guinea,"Punta Europa, Bioko Island",EG LNG,Marathon Oil / Sonagas / Mitsui / Marubeni,3.7
+Africa,Nigeria,"Bonny Island, Rivers State",Nigeria LNG,NNPC / Shell / TotalEnergies / Eni,22.2
+Africa,Cameroon,Kribi offshore,Cameroon FLNG (Hilli Episeyo),Golar LNG / Perenco / SNH,2.4
+Africa,Mozambique,"Area 4, Rovuma Basin offshore",Coral South FLNG,Eni / ExxonMobil / CNPC / KOGAS / ENH / Galp,3.4
+Africa,Republic of the Congo,"Marine XII offshore, Pointe-Noire",Congo LNG FLNG,Eni / partners,3.0
+Africa,Mauritania / Senegal,Maritime border offshore,Greater Tortue Ahmeyim LNG,bp / Kosmos Energy / PETROSEN / SMH,2.5
+Asia Pacific,Australia,"Karratha, Western Australia",North West Shelf LNG,Woodside Energy / partners,16.9
+Asia Pacific,Australia,"Barrow Island, Western Australia",Gorgon LNG,Chevron / ExxonMobil / Shell / Osaka Gas / Tokyo Gas / JERA,15.6
+Asia Pacific,Australia,"Onslow, Western Australia",Wheatstone LNG,Chevron / Kuwait Foreign Petroleum / Woodside / Kyushu Electric,8.9
+Asia Pacific,Australia,"Pluto, Karratha, Western Australia",Pluto LNG,Woodside Energy / partners,9.9
+Asia Pacific,Australia,"Darwin, Northern Territory",Darwin LNG,Santos / partners,3.7
+Asia Pacific,Australia,Browse Basin offshore,Prelude FLNG,Shell / INPEX / KOGAS / CPC,3.6
+Asia Pacific,Australia,"Curtis Island, Queensland",Queensland Curtis LNG,Shell / CNOOC / Tokyo Gas,8.5
+Asia Pacific,Australia,"Curtis Island, Queensland",Australia Pacific LNG,ConocoPhillips / Origin Energy / Sinopec,9.0
+Asia Pacific,Australia,"Curtis Island, Queensland",Gladstone LNG,Santos / PETRONAS / TotalEnergies / KOGAS,7.8
+Asia Pacific,Indonesia,"Bontang, East Kalimantan",Bontang LNG,Badak LNG / Pertamina-led partners,5.75
+Asia Pacific,Indonesia,"Tangguh, West Papua",Tangguh LNG,bp / partners,11.4
+Asia Pacific,Indonesia,"Donggi-Senoro, Central Sulawesi",Donggi-Senoro LNG,Mitsubishi / KOGAS / Pertamina / Medco,2.0
+Asia Pacific,Malaysia,"Bintulu, Sarawak",PETRONAS LNG Complex,PETRONAS / partners,29.3
+Asia Pacific,Malaysia,Kanowit gas field offshore Sarawak,PFLNG Satu,PETRONAS,1.2
+Asia Pacific,Malaysia,Rotan gas field offshore Sabah,PFLNG Dua,PETRONAS,1.5
+Asia Pacific,Brunei,Lumút,Brunei LNG,Brunei Government / Shell / Mitsubishi,7.2
+Asia Pacific,Papua New Guinea,Caution Bay near Port Moresby,PNG LNG,ExxonMobil / Santos / Kumul Petroleum / partners,8.3
