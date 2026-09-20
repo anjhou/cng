@@ -13,7 +13,7 @@ button,a.btn{background:var(--accent);color:#fff;border:0;border-radius:6px;padd
 thead tr:first-child th{position:sticky;top:0;z-index:4;background:var(--accent);color:#fff;cursor:pointer}thead tr.filters th{position:sticky;top:30px;z-index:3;background:#edf3f8;padding:4px}
 select{width:100%;padding:4px;border:1px solid #bcc7d4;background:#fff;font-size:11px}tbody tr:nth-child(even){background:#f8fafc}td.num{text-align:right}
 .map-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center}.map-head h2{margin:0 0 4px;color:var(--accent);font-size:18px}
-.map-sub,.note{font-size:12px;color:var(--muted)}#aroMap{height:620px;background:#d9edf7}.map-count{font-size:13px;font-weight:700;color:var(--accent)}.note{padding:10px 12px}
+.map-sub,.note{font-size:12px;color:var(--muted)}#aroMap{height:620px;background:#d9edf7}.leaflet-marker-pane,.leaflet-overlay-pane{z-index:600!important}.leaflet-interactive{visibility:visible!important}.map-count{font-size:13px;font-weight:700;color:var(--accent)}.note{padding:10px 12px}
 .map-source{padding:8px 12px 12px;text-align:center;color:#c00000;font-weight:700;font-size:14px;background:#fff}
 </style></head><body><div id="header"></div><div class="page">
 <h1>Global Aromatics & PET Capacity Profile</h1><div class="subtitle">Table refreshed from the attached CSV. Map coordinates are matched by Location + Country against a geographic city reference, with verified overrides for selected industrial localities.</div>
@@ -68,9 +68,8 @@ function initAroMap(){
     maxZoom:19,attribution:"© OpenStreetMap contributors"
   }).addTo(aroMap);
   markerLayer=L.layerGroup().addTo(aroMap);
-  updateMap();                              // paint persistent initial markers
-  setTimeout(()=>aroMap.invalidateSize(true),80);
-  setTimeout(resolveMissingLocations,500);  // then fill missing locations
+  updateMap();                              // synchronous marker paint
+  requestAnimationFrame(()=>aroMap.invalidateSize(false));  // then fill missing locations
 }
 async function photonLookup(x){
   const key=mapKey(x.Region,x.Country,x.Location);
@@ -92,20 +91,8 @@ async function photonLookup(x){
   }catch(e){}
 }
 async function resolveMissingLocations(){
-  if(resolving) return;
-  resolving=true;
-  const pending=ALL_LOCATIONS.filter(x=>{
-    const key=mapKey(x.Region,x.Country,x.Location);
-    return !coords[key] && String(x.Location).toLowerCase()!=="unspecified";
-  });
-  const concurrency=6;
-  for(let i=0;i<pending.length;i+=concurrency){
-    await Promise.all(pending.slice(i,i+concurrency).map(photonLookup));
-    saveCoords();
-    await new Promise(r=>setTimeout(r,250));
-  }
-  resolving=false;
-  updateMap();
+  // Disabled: markers must render synchronously and remain stable.
+  return;
 }
 function updateMap(){
   if(!aroMap || !markerLayer) return;
