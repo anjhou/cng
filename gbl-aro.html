@@ -63,7 +63,7 @@ function drawMarkers(){
    const lat=Number(g[0][lati]),lon=Number(g[0][loni]);
    const products=g.map(r=>'<b>Product:</b> '+esc(r[pi])+' — '+esc(fmt(r[cap],cap))+' kt').join('<br>');
    const companies=[...new Set(g.map(r=>String(r[oi]||"")).filter(Boolean))].join("; ");
-   const tip='<div style="line-height:1.5;min-width:245px"><b>Company Name:</b> '+esc(companies)+'<br><b>Country:</b> '+esc(g[0][ci])+'<br><b>Location:</b> '+esc(g[0][li])+'<br><b>Latitude:</b> '+lat.toFixed(5)+'<br><b>Longitude:</b> '+lon.toFixed(5)+(si>=0?'<br><b>Coordinate:</b> '+esc(g[0][si]):'')+'<br>'+products+'</div>';
+   const tip='<div style="line-height:1.5;min-width:245px"><b>Company Name:</b> '+esc(companies)+'<br><b>Country:</b> '+esc(g[0][ci])+'<br><b>Location:</b> '+esc(g[0][li])+'<br>'+products+'</div>';
    const m=L.marker([lat,lon],{icon:redIcon(),riseOnHover:true,zIndexOffset:1000}).bindTooltip(tip,{sticky:true,direction:"top",opacity:.98}).bindPopup(tip,{maxWidth:480}).addTo(markerLayer);
    markers.push(m);
  });
