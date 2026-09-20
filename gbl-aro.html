@@ -39,11 +39,11 @@ search.oninput=apply;document.getElementById("clear").onclick=()=>{search.value=
 let aroMap,markerLayer;
 function redIcon(){return L.divIcon({className:"",html:'<span class="aro-dot"></span>',iconSize:[12,12],iconAnchor:[6,6]})}
 function initMap(){
- aroMap=L.map("aroMap",{minZoom:1,maxZoom:13,worldCopyJump:true}).setView([20,5],2);
+ aroMap=L.map("aroMap",{minZoom:1,maxZoom:13,worldCopyJump:true}).setView([20,-8],2);
  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(aroMap);
  markerLayer=L.layerGroup().addTo(aroMap);
  drawMarkers();
- setTimeout(()=>aroMap.invalidateSize(true),100);
+ setTimeout(()=>{aroMap.invalidateSize(true);aroMap.panBy([0,0],{animate:false});},250);
 }
 function drawMarkers(){
  if(!aroMap||!markerLayer)return;
@@ -68,7 +68,7 @@ function drawMarkers(){
    markers.push(m);
  });
  document.getElementById("mapCount").textContent=groups.size.toLocaleString()+" locations mapped • "+markers.length.toLocaleString()+" red dots";
- if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7}); else aroMap.setView([20,5],2);
+ if(markers.length&&filteredRows.length<rows.length)aroMap.fitBounds(L.featureGroup(markers).getBounds().pad(.12),{maxZoom:7}); else aroMap.setView([20,-8],2);
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initMap,{once:true});else initMap();
 </script></body></html>
