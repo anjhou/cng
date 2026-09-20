@@ -68,9 +68,9 @@ function initAroMap(){
     maxZoom:19,attribution:"© OpenStreetMap contributors"
   }).addTo(aroMap);
   markerLayer=L.layerGroup().addTo(aroMap);
-  updateMap();                              // immediate markers from embedded/cache
+  updateMap();                              // paint persistent initial markers
   setTimeout(()=>aroMap.invalidateSize(true),80);
-  setTimeout(resolveMissingLocations,120);  // then fill missing locations
+  setTimeout(resolveMissingLocations,500);  // then fill missing locations
 }
 async function photonLookup(x){
   const key=mapKey(x.Region,x.Country,x.Location);
@@ -102,10 +102,10 @@ async function resolveMissingLocations(){
   for(let i=0;i<pending.length;i+=concurrency){
     await Promise.all(pending.slice(i,i+concurrency).map(photonLookup));
     saveCoords();
-    updateMap();
     await new Promise(r=>setTimeout(r,250));
   }
   resolving=false;
+  updateMap();
 }
 function updateMap(){
   if(!aroMap || !markerLayer) return;
