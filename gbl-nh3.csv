@@ -7,7 +7,7 @@ North America,United States,"Yazoo City, Mississippi",Yazoo City Nitrogen Comple
 North America,United States,"Woodward, Oklahoma",Woodward Nitrogen Complex,CF Industries,0.44
 North America,United States,"Texas City, Texas",Gulf Coast Ammonia,Yara International,1.3
 North America,United States,"Beaumont, Texas",Beaumont New Ammonia Plant,Woodside Energy,1.1
-North America,United States,"Enid, Oklahoma",Enid Fertilizer Complex,Koch Fertilizer,1.0
+North America,United States,"Enid, Oklahoma",Enid Fertilizer Complex,Koch Fertilizer,1
 North America,United States,"Fort Dodge, Iowa",Iowa Fertilizer Plant,OCI / Iowa Fertilizer Company,0.85
 North America,United States,"Borger, Texas",Borger Nitrogen Operations,Nutrien,0.5
 North America,United States,"Augusta, Georgia",Augusta Nitrogen Facility,Nutrien,0.5
@@ -16,7 +16,7 @@ North America,Canada,"Courtright, Ontario",Courtright Nitrogen Complex,CF Indust
 North America,Canada,"Redwater, Alberta",Redwater Nitrogen Operations,Nutrien,0.95
 North America,Canada,"Carseland, Alberta",Carseland Nitrogen Operations,Nutrien,0.7
 Latin America,Trinidad and Tobago,Point Lisas Industrial Estate,Point Lisas Ammonia Complex,Nutrien,1.2
-Latin America,Trinidad and Tobago,Point Lisas Industrial Estate,Point Lisas Ammonia Plants,Proman,2.0
+Latin America,Trinidad and Tobago,Point Lisas Industrial Estate,Point Lisas Ammonia Plants,Proman,2
 Latin America,Trinidad and Tobago,Point Lisas Industrial Estate,Tringen Ammonia Complex,Tringen / National Enterprises,0.95
 Latin America,Brazil,"Camaçari, Bahia",Camaçari Nitrogen Fertilizer Plant,Petrobras,0.47
 Latin America,Brazil,"Laranjeiras, Sergipe",Sergipe Nitrogen Fertilizer Plant,Petrobras,0.66
@@ -33,12 +33,12 @@ Europe,Norway,"Porsgrunn, Herøya",Yara Porsgrunn,Yara International,0.5
 Europe,United Kingdom,"Billingham, Teesside",Billingham Ammonia Plant,CF Fertilisers UK,0.4
 Europe,Spain,"Palos de la Frontera, Huelva",Palos Ammonia Plant,Fertiberia,0.4
 Europe,Italy,Ferrara,Ferrara Ammonia Plant,Yara Italia,0.6
-Russia & CIS,Russia,"Togliatti, Samara Oblast",TogliattiAzot Ammonia Complex,TogliattiAzot,3.0
+Russia & CIS,Russia,"Togliatti, Samara Oblast",TogliattiAzot Ammonia Complex,TogliattiAzot,3
 Russia & CIS,Russia,Veliky Novgorod,Acron Novgorod Ammonia Complex,Acron,1.1
 Russia & CIS,Russia,"Cherepovets, Vologda Oblast",Cherepovets Ammonia Complex,PhosAgro,1.15
 Russia & CIS,Russia,"Berezniki, Perm Krai",Azot Berezniki,Uralchem,1.2
-Russia & CIS,Russia,"Novomoskovsk, Tula Oblast",NAK Azot Novomoskovsk,EuroChem,1.0
-Russia & CIS,Russia,"Kingisepp, Leningrad Oblast",EuroChem Northwest Ammonia,EuroChem,1.0
+Russia & CIS,Russia,"Novomoskovsk, Tula Oblast",NAK Azot Novomoskovsk,EuroChem,1
+Russia & CIS,Russia,"Kingisepp, Leningrad Oblast",EuroChem Northwest Ammonia,EuroChem,1
 Russia & CIS,Uzbekistan,Navoiy,Navoiyazot Ammonia Complex,Navoiyazot,0.66
 Russia & CIS,Turkmenistan,"Garabogaz, Balkan",Garabogaz Ammonia-Urea Complex,Turkmenhimiya,0.66
 Russia & CIS,Kazakhstan,"Aktau, Mangystau",KazAzot Ammonia Plant,KazAzot,0.4
@@ -80,8 +80,8 @@ South Asia,Pakistan,"Daharki, Sindh",Engro Fertilizers Daharki,Engro Fertilizers
 South Asia,Pakistan,"Goth Machhi, Punjab",FFC Goth Machhi Complex,Fauji Fertilizer Company,1.2
 South Asia,Bangladesh,"Ghorashal, Narsingdi",Ghorashal-Polash Fertilizer Project,BCIC,0.58
 East Asia,China,"Yulin, Shaanxi",Yulin Ammonia / Fertilizer Complex,Shaanxi Coal & Chemical Industry,1.2
-East Asia,China,"Ordos, Inner Mongolia",Ordos Ammonia / Fertilizer Complex,China Coal / local operators,1.0
-East Asia,China,"Urumqi, Xinjiang",Xinjiang Ammonia / Fertilizer Complex,Xinjiang fertilizer producers,1.0
+East Asia,China,"Ordos, Inner Mongolia",Ordos Ammonia / Fertilizer Complex,China Coal / local operators,1
+East Asia,China,"Urumqi, Xinjiang",Xinjiang Ammonia / Fertilizer Complex,Xinjiang fertilizer producers,1
 East Asia,China,"Lanzhou, Gansu",Lanzhou Petrochemical Ammonia Plant,PetroChina,0.45
 East Asia,China,"Daqing, Heilongjiang",Daqing Petrochemical Ammonia Plant,PetroChina,0.45
 East Asia,China,"Ningbo, Zhejiang",Ningbo Ammonia / Fertilizer Complex,Chinese fertilizer operators,0.5
@@ -97,3 +97,4 @@ Southeast Asia,Vietnam,"Phu My, Ba Ria-Vung Tau",Phu My Fertilizer Ammonia,Petro
 Southeast Asia,Vietnam,Ca Mau,Ca Mau Fertilizer Ammonia,PetroVietnam Ca Mau Fertilizer,0.47
 Oceania,Australia,"Karratha, Western Australia",Yara Pilbara Ammonia Plant,Yara Pilbara Fertilisers,0.85
 Oceania,Australia,"Brisbane, Queensland",Gibson Island Ammonia Facility,Incitec Pivot / transition projects,0.3
+Global,,,Total (MMTPA),,96.95
