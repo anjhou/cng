@@ -1,11 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Centrifugal Pump Sizing</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf3f8;color:#18344e;font:14px Segoe UI,Arial}header{background:#102e4e;color:white;padding:22px 3%}h1{margin:0;font-size:26px}header p{margin:6px 0;color:#bed4e5}main{max-width:1550px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}button{cursor:pointer;border:0;border-radius:6px;padding:11px 17px;font-weight:650;background:#e0eaf3;color:#163d62}.tabs .on,.primary{background:#164b7b;color:white}.layout{display:grid;grid-template-columns:1fr 1.15fr;gap:16px}.panel{background:white;padding:20px;border:1px solid #d2e0ed;border-radius:10px;margin-bottom:15px}h2{margin:0 0 14px;font-size:19px;border-bottom:2px solid #e2eaf3;padding-bottom:9px}h3{margin:20px 0 9px;font-size:15px;color:#245b86}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{display:flex;flex-direction:column;font-weight:600;font-size:12px;gap:5px}input,select,textarea{width:100%;padding:9px;border:1px solid #afc2d2;border-radius:5px;font:inherit;color:#173852}table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid #dce5ec;text-align:left}td:last-child{text-align:right;font-weight:650}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#edf5fa;border-left:4px solid #32749f;padding:12px}.metric small{display:block}.metric strong{display:block;font-size:20px;margin-top:6px}.warn{background:#fff2dd;border-left:4px solid #d69a2c;padding:10px;margin:10px 0}.note{color:#637b8e;font-size:12px;line-height:1.5}.graphic{width:100%;max-height:310px}.sheet{background:white;padding:22px;width:100%}.sheethead{border:2px solid #173d60;padding:14px;display:flex;justify-content:space-between;gap:20px;align-items:center}.sheethead strong{font-size:22px}.sheethead label{min-width:150px}.sheettable{table-layout:fixed;font-size:12px;margin-top:12px}.sheettable td,.sheettable th{border:1px solid #8297aa;padding:5px;text-align:left;font-weight:normal}.sheettable .section th{background:#dbe8f2;font-weight:bold;font-size:13px}.sheettable input,.sheettable select,.sheettable textarea{border:0;background:#fffdf3;padding:5px}.sheettable td:first-child{width:31%}.sheettable td:nth-child(2){width:12%}.sheettable td:nth-child(n+3){width:14%}#sheetView[hidden],#calcView[hidden],#chartView[hidden]{display:none!important}@media(max-width:850px){.layout{grid-template-columns:1fr}.sheethead{flex-wrap:wrap}}@page{size:A4 landscape;margin:9mm}@media print{header,.tabs,.actions,#calcView{display:none!important}main{padding:0;max-width:none}.sheet{padding:0;border:0}.sheettable{font-size:9px}.sheettable input,.sheettable select{font-size:9px;padding:2px}.sheettable td,.sheettable th{padding:2px}h2{font-size:15px}}
-</style></head><body>
-<div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-</script>
-<h1>Centrifugal Pump Sizing &amp; Process Datasheet</h1><p>Preliminary hydraulic sizing, NPSH screening and editable process engineering specification</p><main><nav class="tabs"><button id="calcTab" class="on" onclick="tab(false)">Pump Sizing</button><button id="sheetTab" onclick="tab(true)">Zyqad Datasheet</button><button id="chartTab" onclick="showChart()">Pump Selection Chart</button></nav>
+
+.zy-options{display:flex;gap:12px;flex-wrap:wrap;padding:5px 2px}.zy-choice{display:inline-flex;flex-direction:row;align-items:center;gap:4px;font-weight:normal;font-size:12px;white-space:nowrap}.zy-choice input{width:auto;accent-color:#17507e}.zy-cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.zy-cases label{font-size:10px}.zy-cases input{min-width:0}@media print{#zyqadComplete{break-before:page;box-shadow:none;border:0;padding:0}.zy-choice{font-size:9px}.zy-options{gap:6px}.zy-cases input{font-size:9px}.sheettable{break-inside:avoid}}
+</style></head><body><header><h1>Centrifugal Pump Sizing &amp; Process Datasheet</h1><p>Preliminary hydraulic sizing, NPSH screening and editable process engineering specification</p></header><main><nav class="tabs"><button id="calcTab" class="on" onclick="tab(false)">Pump Sizing</button><button id="sheetTab" onclick="tab(true)">Zyqad Datasheet</button><button id="chartTab" onclick="showChart()">Pump Selection Chart</button></nav>
 <div id="calcView" class="layout"><div><section class="panel"><h2>Process and hydraulic inputs</h2><div class="fields">
 <label>Equipment number<input id="tag" value="P-101"></label><label>Project<input id="project" placeholder="Project name"></label>
 <label>Pumped liquid<input id="fluid" value="Water"></label><label>Operating temperature (°C)<input id="temp" type="number" value="45"></label>
@@ -24,8 +21,13 @@ fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header")
 <div><section class="panel"><h2>Calculated results</h2><div id="warning"></div><div class="metrics"><div class="metric"><small>Hydraulic power</small><strong id="hyd">—</strong></div><div class="metric"><small>Brake power</small><strong id="brake">—</strong></div><div class="metric"><small>Preliminary motor power</small><strong id="motor">—</strong></div><div class="metric"><small>NPSH available</small><strong id="npsha">—</strong></div></div><h3>Hydraulic and mechanical screening</h3><table id="result"></table></section><section class="panel"><h2>Centrifugal pump schematic</h2>
 <svg class="graphic" viewBox="0 0 650 330" role="img" aria-label="Centrifugal pump with suction and discharge nozzles and motor"><defs><marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#215a89"/></marker></defs>
 <path d="M20 194H188" stroke="#3375a5" stroke-width="22"/><path d="M265 118V34H360" stroke="#3375a5" stroke-width="22" fill="none"/><circle cx="245" cy="194" r="82" fill="#e6f1f8" stroke="#245b84" stroke-width="8"/><path d="M245 194C278 162 295 181 279 210S222 244 216 204S243 147 262 158" stroke="#387da9" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="245" cy="194" r="17" fill="#245b84"/><path d="M328 194H424" stroke="#576e81" stroke-width="13"/><rect x="424" y="133" width="190" height="119" rx="15" fill="#c8dbe9" stroke="#285678" stroke-width="6"/><path d="M450 137V248M478 137V248M506 137V248M534 137V248M562 137V248" stroke="#84a6bd" stroke-width="4"/><path d="M165 274H610" stroke="#607e96" stroke-width="9"/><path d="M70 173h80M287 49h62" stroke="#215a89" stroke-width="3" marker-end="url(#arrow)"/><g font-size="16" fill="#163e60"><text x="30" y="155">Suction</text><text x="303" y="25">Discharge</text><text x="211" y="310">Pump</text><text x="491" y="310">Motor</text></g></svg><p class="note">Illustrative schematic; no mechanical design or pump curve implied.</p></section></div></div>
-<div id="sheetView" hidden><section class="panel sheet"><div class="sheethead"><strong>CENTRIFUGAL PUMP<br>PROCESS ENGINEERING DATASHEET</strong><div><label>Item No.<input data-source="tag"></label><label>Project<input data-source="project"></label></div><div><label>Datasheet No.<input></label><label>Revision<input></label><label>Prepared by<input></label></div></div><div class="actions" style="margin:12px 0"><button class="primary" onclick="populate()">Update from sizing</button> <button onclick="window.print()">Print A4</button></div><div id="sheetFields"></div><p class="note">Editable datasheet modeled on the uploaded ZyqadDatasheet worksheet. Review all vendor-specific fields and operating cases before issuing.</p></section></div><div id="chartView" hidden><section class="panel"><h2>EMTL G5D-7200-02 Pump Selection Chart</h2><p class="note">Selection envelopes extracted from the PumpSelectionChart worksheet chart cache. Logarithmic capacity/head axes; chart boundaries adjust approximately with speed using affinity laws. Use as a screening reference, not a vendor selection.</p><div class="fields" style="max-width:570px"><label>Chart speed (rpm)<input id="chartRpm" type="number" value="3600" min="100" onchange="drawChart()"></label><label>Highlight pump family<select id="family" onchange="drawChart()"><option value="all">All envelopes</option></select></label></div><svg id="selectionSvg" viewBox="0 0 1040 640" style="width:100%;max-height:75vh;margin-top:12px;background:#fff;border:1px solid #cfdeea" aria-label="Logarithmic pump selection chart"></svg><div id="chartNote" class="note"></div><div class="actions" style="margin-top:12px"><button onclick="drawChart()">Refresh from sizing inputs</button><button onclick="window.print()">Print chart</button></div></section></div></main>
-
+<div id="sheetView" hidden><section class="panel sheet"><div class="sheethead"><strong>CENTRIFUGAL PUMP<br>PROCESS ENGINEERING DATASHEET</strong><div><label>Item No.<input data-source="tag"></label><label>Project<input data-source="project"></label></div><div><label>Datasheet No.<input></label><label>Revision<input></label><label>Prepared by<input></label></div></div><div class="actions" style="margin:12px 0"><button class="primary" onclick="populate()">Update from sizing</button> <button onclick="window.print()">Print A4</button></div><div id="sheetFields"></div>
+<section class="panel" id="zyqadComplete">
+<h2>ZyqadDatasheet — complete operating and specification fields</h2>
+<p class="note">Additional worksheet fields and mutually exclusive option buttons. Values requiring detailed engineering or vendor confirmation remain editable rather than assumed.</p>
+<div id="zyqadExtended"></div>
+</section>
+<p class="note">Editable datasheet modeled on the uploaded ZyqadDatasheet worksheet. Review all vendor-specific fields and operating cases before issuing.</p></section></div><div id="chartView" hidden><section class="panel"><h2>EMTL G5D-7200-02 Pump Selection Chart</h2><p class="note">Selection envelopes extracted from the PumpSelectionChart worksheet chart cache. Logarithmic capacity/head axes; chart boundaries adjust approximately with speed using affinity laws. Use as a screening reference, not a vendor selection.</p><div class="fields" style="max-width:570px"><label>Chart speed (rpm)<input id="chartRpm" type="number" value="3600" min="100" onchange="drawChart()"></label><label>Highlight pump family<select id="family" onchange="drawChart()"><option value="all">All envelopes</option></select></label></div><svg id="selectionSvg" viewBox="0 0 1040 640" style="width:100%;max-height:75vh;margin-top:12px;background:#fff;border:1px solid #cfdeea" aria-label="Logarithmic pump selection chart"></svg><div id="chartNote" class="note"></div><div class="actions" style="margin-top:12px"><button onclick="drawChart()">Refresh from sizing inputs</button><button onclick="window.print()">Print chart</button></div></section></div></main>
 <script>
 const $=id=>document.getElementById(id),n=id=>Number($(id).value),fmt=(v,d=2)=>Number.isFinite(v)?v.toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d}):'—';let rows=[];
 function tab(sheet){$('chartView').hidden=true;$('calcView').hidden=sheet;$('sheetView').hidden=!sheet;$('calcTab').classList.toggle('on',!sheet);$('sheetTab').classList.toggle('on',sheet);$('chartTab').classList.remove('on');if(sheet)populate(false)}
@@ -38,7 +40,7 @@ const sections=[
 ['Driver and design',[['Pump speed (rpm)','rpm'],['Hydraulic power (kW)','result:2'],['Estimated brake power (kW)','result:3'],['Preliminary motor power (kW)','result:4'],['Driver frequency (Hz)','text'],['Suction line inside diameter (mm)','sid'],['Discharge line inside diameter (mm)','did'],['Maximum suction design pressure','text'],['Design temperature range','text']]],
 ['Additional requirements',[['Polymerization potential','text'],['Plating / decomposition potential','text'],['Regulated fugitive emissions','text'],['Seal auxiliary cooling','text'],['Comments / design notes','textarea']]]];
 function buildSheet(){let html='';for(let [title,fields] of sections){html+='<table class="sheettable"><tr class="section"><th colspan="4">'+title+'</th></tr>';for(let i=0;i<fields.length;i+=2){let cells=fields.slice(i,i+2);html+='<tr>';for(let [label,source] of cells){html+='<td>'+label+'</td><td><input data-source="'+source.replaceAll('"','&quot;')+'"></td>'}if(cells.length===1)html+='<td></td><td></td>';html+='</tr>'}html+='</table>'}$('sheetFields').innerHTML=html}
-function populate(force=true){calculate();document.querySelectorAll('#sheetView [data-source]').forEach(el=>{let source=el.dataset.source,value=source.startsWith('result:')?rows[Number(source.split(':')[1])]?.[1]:$(source)?.value;if(source==='text'||!value)return;if(force||!el.value)el.value=value})}
+function populate(force=true){calculate();if(typeof populateZyqadExtended==='function')populateZyqadExtended(force);document.querySelectorAll('#sheetView [data-source]').forEach(el=>{let source=el.dataset.source,value=source.startsWith('result:')?rows[Number(source.split(':')[1])]?.[1]:$(source)?.value;if(source==='text'||!value)return;if(force||!el.value)el.value=value})}
 function exportCSV(){calculate();let csv=[['Parameter','Value'],...rows].map(r=>r.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(',')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='pump-sizing-results.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 
 const selectionEnvelopes=[{"label":"7202","points":[[1.0,944.882],[60.0,944.882],[120.0,708.661],[2400.0,141.732],[2400.0,1.0]]},{"label":"7210","points":[[1.0,1181.1],[600.0,1181.1],[3000.0,377.953],[3000.0,1.0]]},{"label":"7209","points":[[1.0,1417.32],[1200.0,1417.32],[4800.0,708.661],[36000.0,94.4882],[36000.0,1.0]]},{"label":"7217","points":[[12000.0,283.465],[120000.0,283.465],[120000.0,1.0]]},{"label":"7211","points":[[1.0,9448.82],[1200.0,9448.82],[1800.0,4724.41],[1800.0,1157.24]]},{"label":"7213","points":[[1.0,9448.82],[240.0,9448.82],[480.0,3779.53],[480.0,1.0]]},{"label":"7206/07","points":[[1.0,1417.32],[360.0,1417.32],[360.0,1.0]]},{"label":"7206","points":[[360.0,188.976],[1440.0,188.976],[1440.0,1.0]]},{"label":"7247","points":[[1.0,9448.82],[96.0,4724.41],[96.0,1417.32]]},{"label":"Additional envelope","points":[[1.0,101.784],[33.9411,944.882],[33.9411,1417.32]]}];
@@ -54,10 +56,67 @@ selectionEnvelopes.forEach((e,i)=>{if(sel!=='all'&&sel!==String(i))return;let pt
 if(q>0&&h>0){let xx=X(q),yy=Y(h);parts.push(`<circle cx="${xx}" cy="${yy}" r="9" fill="#d32d36" stroke="white" stroke-width="2"/><path d="M${xx-17} ${yy}h34 M${xx} ${yy-17}v34" stroke="#d32d36" stroke-width="2"/><text x="${Math.min(xx+12,830)}" y="${yy-16}" font-size="14" font-weight="bold" fill="#c12d38">Rated duty (${q.toFixed(1)} gpm, ${h.toFixed(1)} ft)</text>`)}
 svg.innerHTML=parts.join('');$('chartNote').textContent='Rated operating point comes from Pump Sizing inputs. Envelopes use the worksheet chart’s cached points and pump affinity scaling; the workbook’s full pump selection rules and compliance checks are not reproduced.'}
 const family=$('family');selectionEnvelopes.forEach((e,i)=>{let o=document.createElement('option');o.value=i;o.textContent=e.label;family.appendChild(o)});
+
+const zyqadSections=[
+['Document control',[
+['Datasheet No.','text'],['Project No.','text'],['Area / Unit','text'],['MST No.','text'],['P.O. No.','text'],['SAP No.','text'],['Owner ID','text'],['Prepared by','text'],['Checked by','text'],['Approved by','text'],['Issue date','date'],['Page / total pages','text'],['Client','text'],['Site','text'],['Reference P&ID','text'],['Number required','number'],['Motor item number(s)','text'],['Turbine item number(s)','text'],['Gearbox item number(s)','text']]],
+['Pump classification',[
+['Applicable standard','radio:Non API|API|Sealless'],['System design','radio:Stand Alone Operation|Parallel Operation|Series Operation'],['Operating service','radio:Continuous|Intermittent'],['Starts per day','number'],['System control method','radio:Speed|Throttle|System Resistance Only'],['Operates with item number','text'],['Downstream system pressure rating','text'],['Case pressure rating design conditions','text'],['Design maximum suction pressure','text'],['Design minimum temperature','text'],['Design maximum temperature','text']]],
+['Operating conditions — rated / maximum / normal / minimum',[
+['Capacity','cases:q|qmax|qnormal|qmin'],['Differential head','cases:head|||'],['Suction pressure','cases:|||'],['Discharge pressure','cases:|||'],['Differential pressure','cases:|||'],['Operating time','cases:|||'],['NPSH available','cases:|||']]],
+['Pumped fluid — operating cases',[
+['Pumping temperature','cases:temp|||'],['Vapor pressure at temperature','cases:pv|||'],['Viscosity','cases:mu|||'],['Specific gravity','cases:|||'],['Specific heat','cases:cp|||'],['Thermal conductivity','text'],['Atmospheric pressure boiling point','text'],['Freezing point','text'],['Liquid hazard','radio:Hazardous|Flammable|Other'],['NFPA health','text'],['NFPA flammability','text'],['NFPA reactivity','text'],['Corrosion / erosion caused by','text'],['Maximum solids wt%','number'],['Rated solids wt%','number'],['Maximum particle size','text'],['Solids particle specific gravity','number'],['Solids particle specific heat','number'],['Solids characterization','multi:Abrasive|Sticky|Stringy|Other'],['Special flushing or cleaning procedures','textarea'],['Stream regulated for fugitive emissions','radio:Yes|No'],['Fluid shear-sensitive','radio:Yes|No'],['Shear-sensitive description','textarea']]],
+['Pumped fluid — contaminants and instability',[
+['Dissolved contaminant','radio:Yes|No'],['Contaminant description','text'],['Contaminant % by weight','number'],['Contains polymerizing components','radio:Yes|No'],['Polymerization conditions','textarea'],['Contains components that plate out or decompose','radio:Yes|No'],['Plating / decomposition conditions','textarea'],['Other fluid considerations','textarea']]],
+['Sealing',[
+['Sealing type','radio:Mechanical Seal|Canned Motor|Mag Drive'],['Mechanical seal type','radio:Single|Dual|Dry Gas'],['Seal pressure configuration','radio:Pressurized|Unpressurized'],['Seal flush plan number(s)','text'],['Barrier / buffer liquid or gas','text'],['Barrier fluid SG at 15.6 °C / 60 °F','number'],['Barrier fluid viscosity at 40 °C','number'],['Barrier fluid viscosity at 100 °C','number'],['External flush supply minimum pressure','number'],['External flush supply maximum pressure','number'],['External flush minimum temperature','number'],['External flush maximum temperature','number'],['Quench fluid','text'],['Sealing remarks','textarea'],['Seal auxiliary cooling media','radio:Air Cooled|Water-Cooled|Air Cooled with Fan']]],
+['Materials',[
+['Casing material','text'],['Impeller material','text'],['Materials remarks','textarea']]],
+['Driver',[
+['Driver type','radio:Induction Motor (Fixed Speed)|Induction Motor (Variable Speed)|Steam Turbine|Other'],['Estimated brake power','text'],['Estimated driver rating','text'],['Driver frequency','number'],['Driver remarks','textarea']]],
+['Vertical sump pump',[
+['Sump depth','number'],['Minimum liquid level','number']]]
+];
+function buildZyqadExtended(){
+ const host=$('zyqadExtended');host.innerHTML='';
+ for(let [section,fields] of zyqadSections){
+  let table=document.createElement('table');table.className='sheettable';
+  let heading=document.createElement('tr');heading.className='section';heading.innerHTML='<th colspan="2">'+section+'</th>';table.appendChild(heading);
+  for(let [label,type] of fields){
+   let row=document.createElement('tr'),name=document.createElement('td'),value=document.createElement('td');
+   name.textContent=label;value.style.width='65%';
+   let key='zy-'+label.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+   if(type.startsWith('radio:')||type.startsWith('multi:')){
+    let radio=type.startsWith('radio:');
+    let choices=type.split(':')[1].split('|');
+    let group=document.createElement('div');group.className='zy-options';
+    for(let option of choices){
+     let l=document.createElement('label');l.className='zy-choice';
+     let i=document.createElement('input');i.type=radio?'radio':'checkbox';i.name=key;i.value=option;
+     l.append(i,document.createTextNode(' '+option));group.appendChild(l);
+    }value.appendChild(group);
+   }else if(type.startsWith('cases:')){
+    let group=document.createElement('div');group.className='zy-cases';
+    let sources=type.slice(6).split('|');
+    ['Rated','Max.','Normal','Min.'].forEach((caseName,index)=>{
+     let wrap=document.createElement('label');wrap.textContent=caseName;
+     let i=document.createElement('input');i.dataset.zySource=sources[index]||'';
+     i.placeholder=caseName;wrap.appendChild(i);group.appendChild(wrap);
+    });value.appendChild(group);
+   }else{
+    let i=document.createElement(type==='textarea'?'textarea':'input');
+    if(type==='date')i.type='date';else if(type==='number')i.type='number';
+    i.dataset.zyLabel=label;value.appendChild(i);
+   }
+   row.append(name,value);table.appendChild(row);
+  }host.appendChild(table);
+ }
+}
+function populateZyqadExtended(force=false){
+ const mapped={'Estimated brake power':()=>rows[3]?.[1]||'','Estimated driver rating':()=>rows[4]?.[1]||'','Driver frequency':()=>'', 'Site':()=>'', 'Number required':()=>''};
+ document.querySelectorAll('#zyqadExtended [data-zy-source]').forEach(i=>{let src=i.dataset.zySource;if(src&&$(src)&&(force||!i.value))i.value=$(src).value});
+ document.querySelectorAll('#zyqadExtended [data-zy-label]').forEach(i=>{let fn=mapped[i.dataset.zyLabel];if(fn&&(force||!i.value))i.value=fn()});
+}
+buildZyqadExtended();
 buildSheet();calculate();
-</script>
-<div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-</script>
-</body></html>
+</script></body></html>
