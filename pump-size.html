@@ -2,7 +2,13 @@
 *{box-sizing:border-box}body{margin:0;background:#edf3f8;color:#18344e;font:14px Segoe UI,Arial}header{background:#102e4e;color:white;padding:22px 3%}h1{margin:0;font-size:26px}header p{margin:6px 0;color:#bed4e5}main{max-width:1550px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}button{cursor:pointer;border:0;border-radius:6px;padding:11px 17px;font-weight:650;background:#e0eaf3;color:#163d62}.tabs .on,.primary{background:#164b7b;color:white}.layout{display:grid;grid-template-columns:1fr 1.15fr;gap:16px}.panel{background:white;padding:20px;border:1px solid #d2e0ed;border-radius:10px;margin-bottom:15px}h2{margin:0 0 14px;font-size:19px;border-bottom:2px solid #e2eaf3;padding-bottom:9px}h3{margin:20px 0 9px;font-size:15px;color:#245b86}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{display:flex;flex-direction:column;font-weight:600;font-size:12px;gap:5px}input,select,textarea{width:100%;padding:9px;border:1px solid #afc2d2;border-radius:5px;font:inherit;color:#173852}table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid #dce5ec;text-align:left}td:last-child{text-align:right;font-weight:650}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#edf5fa;border-left:4px solid #32749f;padding:12px}.metric small{display:block}.metric strong{display:block;font-size:20px;margin-top:6px}.warn{background:#fff2dd;border-left:4px solid #d69a2c;padding:10px;margin:10px 0}.note{color:#637b8e;font-size:12px;line-height:1.5}.graphic{width:100%;max-height:310px}.sheet{background:white;padding:22px;width:100%}.sheethead{border:2px solid #173d60;padding:14px;display:flex;justify-content:space-between;gap:20px;align-items:center}.sheethead strong{font-size:22px}.sheethead label{min-width:150px}.sheettable{table-layout:fixed;font-size:12px;margin-top:12px}.sheettable td,.sheettable th{border:1px solid #8297aa;padding:5px;text-align:left;font-weight:normal}.sheettable .section th{background:#dbe8f2;font-weight:bold;font-size:13px}.sheettable input,.sheettable select,.sheettable textarea{border:0;background:#fffdf3;padding:5px}.sheettable td:first-child{width:31%}.sheettable td:nth-child(2){width:12%}.sheettable td:nth-child(n+3){width:14%}#sheetView[hidden],#calcView[hidden],#chartView[hidden]{display:none!important}@media(max-width:850px){.layout{grid-template-columns:1fr}.sheethead{flex-wrap:wrap}}@page{size:A4 landscape;margin:9mm}@media print{header,.tabs,.actions,#calcView{display:none!important}main{padding:0;max-width:none}.sheet{padding:0;border:0}.sheettable{font-size:9px}.sheettable input,.sheettable select{font-size:9px;padding:2px}.sheettable td,.sheettable th{padding:2px}h2{font-size:15px}}
 
 .zy-options{display:flex;gap:12px;flex-wrap:wrap;padding:5px 2px}.zy-choice{display:inline-flex;flex-direction:row;align-items:center;gap:4px;font-weight:normal;font-size:12px;white-space:nowrap}.zy-choice input{width:auto;accent-color:#17507e}.zy-cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.zy-cases label{font-size:10px}.zy-cases input{min-width:0}@media print{#zyqadComplete{break-before:page;box-shadow:none;border:0;padding:0}.zy-choice{font-size:9px}.zy-options{gap:6px}.zy-cases input{font-size:9px}.sheettable{break-inside:avoid}}
-</style></head><body><header><h1>Centrifugal Pump Sizing &amp; Process Datasheet</h1><p>Preliminary hydraulic sizing, NPSH screening and editable process engineering specification</p></header><main><nav class="tabs"><button id="calcTab" class="on" onclick="tab(false)">Pump Sizing</button><button id="sheetTab" onclick="tab(true)">Zyqad Datasheet</button><button id="chartTab" onclick="showChart()">Pump Selection Chart</button></nav>
+</style></head><body>
+<div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script>
+
+<h1>Centrifugal Pump Sizing &amp; Process Datasheet</h1><p>Preliminary hydraulic sizing, NPSH screening and editable process engineering specification</p><main><nav class="tabs"><button id="calcTab" class="on" onclick="tab(false)">Pump Sizing</button><button id="sheetTab" onclick="tab(true)">Zyqad Datasheet</button><button id="chartTab" onclick="showChart()">Pump Selection Chart</button></nav>
 <div id="calcView" class="layout"><div><section class="panel"><h2>Process and hydraulic inputs</h2><div class="fields">
 <label>Equipment number<input id="tag" value="P-101"></label><label>Project<input id="project" placeholder="Project name"></label>
 <label>Pumped liquid<input id="fluid" value="Water"></label><label>Operating temperature (°C)<input id="temp" type="number" value="45"></label>
@@ -119,4 +125,9 @@ function populateZyqadExtended(force=false){
 }
 buildZyqadExtended();
 buildSheet();calculate();
-</script></body></html>
+</script>
+<div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+</body></html>
