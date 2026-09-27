@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top Companies | Houston Chemical and Energy</title>
+<style>
+:root{--navy:#0b2e59;--silver:#d9e2ef;--line:#c8d1dc;--muted:#52667d}
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#f4f4f4;color:#192d41}
+.container{max-width:1100px;margin:auto;padding:24px 20px}h1,h2{color:var(--navy)}h1{margin:12px 0 8px}
+.subtitle{color:var(--muted);line-height:1.5}.tabs{display:flex;flex-wrap:wrap;gap:5px;border-bottom:3px solid var(--navy);margin:26px 0 20px}
+.tab{font:700 14px Arial,sans-serif;padding:13px 17px;cursor:pointer;background:var(--silver);border:0;border-radius:6px 6px 0 0;color:var(--navy)}
+.tab:hover,.tab:focus-visible{outline:2px solid var(--navy);outline-offset:2px}.tab[aria-selected=true]{background:var(--navy);color:white}
+.section{background:white;padding:20px;margin-bottom:24px;border-radius:6px;box-shadow:0 2px 4px #0001}
+.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;justify-content:space-between}.search{padding:11px 12px;max-width:420px;width:100%;border:1px solid var(--line);border-radius:5px;font-size:15px}
+.download{display:inline-block;background:var(--navy);color:white;text-decoration:none;border-radius:5px;padding:11px 15px;font-weight:bold}
+.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:18px 0;background:white}th,td{border:1px solid var(--line);padding:11px;text-align:left}th{background:var(--navy);color:white}tbody tr:nth-child(even){background:#f3f6fa}
+.summary{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.summary span{background:var(--silver);border-radius:5px;padding:9px 12px;color:var(--navy);font-size:13px}
+.status{color:var(--muted)}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:640px){.container{padding:16px 10px}.tab{flex:1 1 45%}.toolbar{align-items:stretch}.search{max-width:none}}
+</style>
+</head>
+<body>
+<div id="header" data-include-html="header.html"></div>
+<main class="container">
+<h1>Top Companies Directory</h1>
+<p class="subtitle">Company names consolidated from the supplied ICIS 2014, oil and gas, and Fortune 2026 PDFs. Historical names are retained where present. Each company appears in one category.</p>
+<div class="summary" id="summary" aria-label="Company counts"></div>
+<div class="tabs" role="tablist" aria-label="Company categories" id="tabs"></div>
+<section class="section" id="company-panel" role="tabpanel" aria-live="polite">
+ <div class="toolbar"><div><h2 id="category-heading">Chemical</h2><p class="status" id="status">Loading companies…</p></div><a class="download" id="download" href="/static/data/top-company.csv" download="top-company.csv">Download CSV</a></div>
+ <label for="company-search" class="sr-only">Search companies in selected category</label>
+ <input class="search" id="company-search" type="search" placeholder="Search companies in this category…" autocomplete="off">
+ <div class="table-scroll"><table><thead><tr><th scope="col">Company</th><th scope="col">Category</th></tr></thead><tbody id="company-rows"></tbody></table></div>
+</section>
+<p class="subtitle">Classification is by primary business or source context, not an audited current corporate-status assessment. The Other tab includes companies outside the four specified energy/chemical sectors.</p>
+</main>
+<div id="footer" data-include-html="footer.html"></div>
+<script type="module">
+const CATEGORIES=['Chemical','Refinery','Upstream Oil & Gas','Technology Licensors','Other'];
+const state={companies:[],active:CATEGORIES[0],search:''};
+const el=id=>document.getElementById(id);
+async function loadIncludes(){for(const node of document.querySelectorAll('[data-include-html]')){try{const res=await fetch(node.dataset.includeHtml);if(!res.ok)throw Error(res.status);node.innerHTML=await res.text()}catch(e){console.warn('Shared include unavailable:',node.dataset.includeHtml,e)}}}
+// Small quoted-field CSV parser: supports UTF-8 BOM, escaped quotes and embedded newlines.
+function parseCSV(text){text=text.replace(/^\uFEFF/,'');let rows=[],row=[],field='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){field+='"';i++}else if(c==='"')quoted=false;else field+=c}else if(c==='"')quoted=true;else if(c===','){row.push(field);field=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(field);if(row.some(v=>v.trim()))rows.push(row);row=[];field=''}else field+=c}if(field||row.length){row.push(field);rows.push(row)}return rows}
+function createTabs(){const tabs=el('tabs');CATEGORIES.forEach((category,i)=>{const btn=document.createElement('button');btn.className='tab';btn.type='button';btn.role='tab';btn.id='tab-'+i;btn.setAttribute('aria-controls','company-panel');btn.textContent=category;btn.addEventListener('click',()=>{state.active=category;state.search='';el('company-search').value='';render()});tabs.append(btn)})}
+function render(){document.querySelectorAll('.tab').forEach((b,i)=>{const active=CATEGORIES[i]===state.active;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});el('category-heading').textContent=state.active;const list=state.companies.filter(x=>x.category===state.active&&x.company.toLowerCase().includes(state.search.toLowerCase()));const tbody=el('company-rows');tbody.replaceChildren();for(const item of list){const tr=document.createElement('tr');for(const value of [item.company,item.category]){const td=document.createElement('td');td.textContent=value;tr.append(td)}tbody.append(tr)}if(!list.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=2;td.textContent='No matching companies.';tr.append(td);tbody.append(tr)}el('status').textContent=`Showing ${list.length} of ${state.companies.filter(x=>x.category===state.active).length} companies`;el('summary').replaceChildren(...CATEGORIES.map(c=>{const span=document.createElement('span');span.textContent=`${c}: ${state.companies.filter(x=>x.category===c).length}`;return span}))}
+async function loadCompanies(){try{const res=await fetch('/static/data/top-company.csv',{cache:'no-cache'});if(!res.ok)throw Error(`HTTP ${res.status}`);const rows=parseCSV(await res.text());if(rows[0]?.[0]?.trim()!=='Company'||rows[0]?.[1]?.trim()!=='Category')throw Error('CSV headers must be Company,Category');const seen=new Set();state.companies=rows.slice(1).map(r=>({company:r[0]?.trim(),category:r[1]?.trim()})).filter(x=>{if(!x.company||!CATEGORIES.includes(x.category))throw Error(`Invalid CSV row: ${JSON.stringify(x)}`);const key=x.company.toLowerCase();if(seen.has(key))throw Error(`Duplicate company: ${x.company}`);seen.add(key);return true});render()}catch(err){console.error(err);el('status').textContent=`Unable to load /static/data/top-company.csv: ${err.message}. Serve the site over HTTP and place the CSV at that URL.`}}
+createTabs();el('company-search').addEventListener('input',e=>{state.search=e.target.value;render()});el('tabs').addEventListener('keydown',e=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;const i=CATEGORIES.indexOf(state.active);const next=e.key==='Home'?0:e.key==='End'?CATEGORIES.length-1:(i+(e.key==='ArrowRight'?1:-1)+CATEGORIES.length)%CATEGORIES.length;el('tabs').children[next].click();el('tabs').children[next].focus();e.preventDefault()});loadIncludes();loadCompanies();
+</script>
+</body></html>

@@ -1,0 +1,819 @@
+﻿Company,Category
+Agrium,Chemical
+Air Liquide,Chemical
+Air Products,Chemical
+Air Products &Chemicals,Chemical
+Airgas,Chemical
+AkzoNobel,Chemical
+Alpek,Chemical
+Applied Materials,Chemical
+Arkema,Chemical
+Asahi Kasei,Chemical
+Ashland,Chemical
+Axiall,Chemical
+BASF,Chemical
+Bayer,Chemical
+Borealis,Chemical
+Braskem,Chemical
+Celanese,Chemical
+CF Industries,Chemical
+Chevron Phillips Chemical,Chemical
+Corteva,Chemical
+Daicel Chemical Industries,Chemical
+DIC,Chemical
+Dow,Chemical
+Dow Chemical,Chemical
+Dow Corning,Chemical
+DSM,Chemical
+DuPont,Chemical
+Eastman Chemical,Chemical
+Ecolab,Chemical
+EuroChem,Chemical
+Evonik,Chemical
+Formosa Chemicals & Fibre,Chemical
+Formosa Plastics,Chemical
+Givaudan,Chemical
+Hanwha Chemical,Chemical
+Henkel Adhesive Technologies,Chemical
+Huntsman,Chemical
+ICL,Chemical
+Indorama Ventures,Chemical
+INEOS,Chemical
+International Flavors &Fragrances,Chemical
+K+S,Chemical
+Kaneka,Chemical
+Kuraray,Chemical
+LANXESS,Chemical
+LG Chem,Chemical
+Linde Group,Chemical
+Lonza,Chemical
+Lotte Chemical,Chemical
+LyondellBasell Industries,Chemical
+Merck Group,Chemical
+Mexichem,Chemical
+Mitsubishi Chemical,Chemical
+Mitsubishi Gas Chemical,Chemical
+Mitsui Chemicals,Chemical
+Momentive Specialty Chemicals,Chemical
+Mosaic,Chemical
+NOVA Chemicals,Chemical
+Occidental Chemical,Chemical
+Orica,Chemical
+Parsian Oil & Gas Development,Chemical
+Persian Gulf Petrochemical Industry Company,Chemical
+Petronas Chemical Group,Chemical
+PKN Orlen,Chemical
+PotashCorp,Chemical
+PPG Industries,Chemical
+Praxair,Chemical
+PTT Global Chemical,Chemical
+RPM,Chemical
+SABIC,Chemical
+Sasol,Chemical
+SCG Chemicals,Chemical
+Sekisui Chemical,Chemical
+Sherwin-Williams,Chemical
+Shin-Etsu,Chemical
+Showa Denko,Chemical
+SIBUR,Chemical
+SK Energy,Chemical
+Sojitz,Chemical
+Solvay,Chemical
+Styrolution,Chemical
+Sumitomo Chemical,Chemical
+Syngenta,Chemical
+Taiyo Nippon Sanso,Chemical
+Tasnee,Chemical
+Teijin,Chemical
+Toray,Chemical
+Tosoh,Chemical
+"Total a,",Chemical
+Trinseo,Chemical
+Valspar,Chemical
+Versalis,Chemical
+Vulcan Materials,Chemical
+Wacker-Chemie,Chemical
+Westlake,Chemical
+Yara International,Chemical
+Chevron,Refinery
+Compania Espanola de Petroleos,Refinery
+ExxonMobil,Refinery
+Formosa Petrochemical Corp,Refinery
+GS Caltex,Refinery
+Hess,Refinery
+HFSinclair,Refinery
+Marathon Petroleum,Refinery
+PBFEnergy,Refinery
+Phillips 66,Refinery
+Reliance Industries,Refinery
+Rosneft,Refinery
+Royal Dutch/Shell,Refinery
+Saudi Aramco,Refinery
+Shell,Refinery
+Sinopec,Refinery
+Statoil,Refinery
+Suncor Energy,Refinery
+Total,Refinery
+Valero Energy,Refinery
+Abraxas Petroleum Corp,Upstream Oil & Gas
+Abu Dhabi National Oil Company (ADNOC),Upstream Oil & Gas
+Aladdin Middle East Ltd,Upstream Oil & Gas
+Altima Resources Ltd,Upstream Oil & Gas
+Anadarko Petroleum Corporation,Upstream Oil & Gas
+Angara Resources Ltd,Upstream Oil & Gas
+Antero Resources,Upstream Oil & Gas
+APA,Upstream Oil & Gas
+Apache Corp,Upstream Oil & Gas
+Approach Resources Inc,Upstream Oil & Gas
+ARC Resources Limited,Upstream Oil & Gas
+Armstrong Energy Corp,Upstream Oil & Gas
+Artex Oil Company,Upstream Oil & Gas
+Aspen leaf Energy,Upstream Oil & Gas
+Bankers Petroleum,Upstream Oil & Gas
+"Barnwell of Canada, Ltd",Upstream Oil & Gas
+Baytex Energy Ltd,Upstream Oil & Gas
+Bellatrix Exploration,Upstream Oil & Gas
+Berry Petroleum Co,Upstream Oil & Gas
+BHP,Upstream Oil & Gas
+Birchcliff Energy Ltd,Upstream Oil & Gas
+Black Diamond Energy,Upstream Oil & Gas
+Black Hills Corp,Upstream Oil & Gas
+Bluestone Natural Resources,Upstream Oil & Gas
+Bonavista Energy Trust,Upstream Oil & Gas
+Bridge Energy AS,Upstream Oil & Gas
+Brigham Resources,Upstream Oil & Gas
+Cabot Oil & Gas Corp,Upstream Oil & Gas
+Cairn Energy Plc,Upstream Oil & Gas
+Calon Petroleum Co,Upstream Oil & Gas
+Canadian Natural Resources Corp,Upstream Oil & Gas
+Canadian Spirit,Upstream Oil & Gas
+Cancel Energy,Upstream Oil & Gas
+Carrizo Oil & Gas,Upstream Oil & Gas
+Cenovus Energy,Upstream Oil & Gas
+Centrica,Upstream Oil & Gas
+CEPSA,Upstream Oil & Gas
+CGX Energy,Upstream Oil & Gas
+Chaparral Energy,Upstream Oil & Gas
+Chariot Oil & Gas Ltd,Upstream Oil & Gas
+Chesapeake Energy Corp,Upstream Oil & Gas
+Chevron Corp,Upstream Oil & Gas
+Chinook Energy,Upstream Oil & Gas
+Cimarex,Upstream Oil & Gas
+CNOOC,Upstream Oil & Gas
+Coastal Energy Company,Upstream Oil & Gas
+Colt Energy Inc,Upstream Oil & Gas
+Comstock Resources,Upstream Oil & Gas
+Conacher Olgas Ltd,Upstream Oil & Gas
+Concho Resources,Upstream Oil & Gas
+Conoco Phillips,Upstream Oil & Gas
+CONSOL Energy,Upstream Oil & Gas
+Continental Resources,Upstream Oil & Gas
+Corridor Resources Inc,Upstream Oil & Gas
+Coterra Energy,Upstream Oil & Gas
+Cox Operating LLC,Upstream Oil & Gas
+Crawford Energy,Upstream Oil & Gas
+Crescent Point Energy,Upstream Oil & Gas
+Crew Energy Inc,Upstream Oil & Gas
+Dana Petroleum plc,Upstream Oil & Gas
+Delphi Energy Corp,Upstream Oil & Gas
+Devon Energy,Upstream Oil & Gas
+Diamondback Energy,Upstream Oil & Gas
+EOG Resources,Upstream Oil & Gas
+EQT,Upstream Oil & Gas
+Fonterra Oil & Gas Ltd,Upstream Oil & Gas
+Frontera Resources,Upstream Oil & Gas
+Gaastra Exploration Inc,Upstream Oil & Gas
+Gas Co. Energy,Upstream Oil & Gas
+Gazprom,Upstream Oil & Gas
+Gene Energy,Upstream Oil & Gas
+Goodrich Petroleum Corp,Upstream Oil & Gas
+Granters Energy,Upstream Oil & Gas
+Gulf Keystone,Upstream Oil & Gas
+Gulfport Energy Corp,Upstream Oil & Gas
+Hardy Oil and Gas,Upstream Oil & Gas
+Hemisphere Energy Corp,Upstream Oil & Gas
+Highpoint Resources,Upstream Oil & Gas
+Holloman Energy Corp,Upstream Oil & Gas
+Houston American Energy,Upstream Oil & Gas
+Imperial Oil,Upstream Oil & Gas
+Inlay Oil,Upstream Oil & Gas
+Insignia Energy Ltd,Upstream Oil & Gas
+Interrail E&P,Upstream Oil & Gas
+Intl. Frontier Resources,Upstream Oil & Gas
+JKX Oil & Gas PLC,Upstream Oil & Gas
+Kallista Energy,Upstream Oil & Gas
+KazMunaiGas,Upstream Oil & Gas
+Key Petroleum,Upstream Oil & Gas
+Kinder Morgan Production Company,Upstream Oil & Gas
+Kirkpatrick Oil Company,Upstream Oil & Gas
+Kuwait Oil Company,Upstream Oil & Gas
+Lario Oil & Gas,Upstream Oil & Gas
+Legacy Reserves,Upstream Oil & Gas
+Lenape Resources,Upstream Oil & Gas
+Linn Energy,Upstream Oil & Gas
+Lukoil,Upstream Oil & Gas
+Maersk Oil,Upstream Oil & Gas
+Magnum Hunter Resources,Upstream Oil & Gas
+Maharana ONGC,Upstream Oil & Gas
+Makil,Upstream Oil & Gas
+Marathon Oil Corp,Upstream Oil & Gas
+Marites Resources,Upstream Oil & Gas
+Maverick Natural Resources,Upstream Oil & Gas
+McCombs Energy,Upstream Oil & Gas
+McMorran Exploration Co,Upstream Oil & Gas
+Meade Energy Corp,Upstream Oil & Gas
+Meissen Development Corp,Upstream Oil & Gas
+Melrose Resources,Upstream Oil & Gas
+Meridian Resource Corp,Upstream Oil & Gas
+Merit Energy,Upstream Oil & Gas
+Merrion Oil & Gas,Upstream Oil & Gas
+Midnight Oil Exploration,Upstream Oil & Gas
+Midway Energy Ltd,Upstream Oil & Gas
+MKJ Exploration Inc,Upstream Oil & Gas
+Moissan Oil Company,Upstream Oil & Gas
+MOL Group,Upstream Oil & Gas
+Monterey Exploration,Upstream Oil & Gas
+Murex Petroleum Corp,Upstream Oil & Gas
+Murphy Oil Co,Upstream Oil & Gas
+National Oil Corporation,Upstream Oil & Gas
+Nautical Petroleum,Upstream Oil & Gas
+NCL Natural Resources,Upstream Oil & Gas
+Nelson Energy,Upstream Oil & Gas
+Newfield Exploration Co,Upstream Oil & Gas
+Newton Energy,Upstream Oil & Gas
+Nexin,Upstream Oil & Gas
+Nigerian National,Upstream Oil & Gas
+Niko Resources,Upstream Oil & Gas
+NM EXCO Resources,Upstream Oil & Gas
+Noble Energy,Upstream Oil & Gas
+Nonoil A/S,Upstream Oil & Gas
+Nordic Oil & Gas,Upstream Oil & Gas
+Norelco,Upstream Oil & Gas
+North Oil Company,Upstream Oil & Gas
+North Peace Energy Corp,Upstream Oil & Gas
+Northern Petroleum,Upstream Oil & Gas
+Novatel,Upstream Oil & Gas
+Occidental Petroleum,Upstream Oil & Gas
+Occidental Petroleum Corp,Upstream Oil & Gas
+Odyssey Petroleum Corp,Upstream Oil & Gas
+OGDCL (Pakistan),Upstream Oil & Gas
+Oil & Natural Gas,Upstream Oil & Gas
+Open Range Energy Corp,Upstream Oil & Gas
+Orca Exploration,Upstream Oil & Gas
+Orleans Energy,Upstream Oil & Gas
+Osage Energy Resources,Upstream Oil & Gas
+Ovintiv,Upstream Oil & Gas
+Pacific Rubiales,Upstream Oil & Gas
+Painted Pony Petroleum Ltd,Upstream Oil & Gas
+Pan Orient Energy Corp,Upstream Oil & Gas
+Panhandle Oil & Gas,Upstream Oil & Gas
+Paramount Resources,Upstream Oil & Gas
+Parsec Energy,Upstream Oil & Gas
+Pearl Exploration and Production,Upstream Oil & Gas
+Penn Virginia Oil & Gas Corp,Upstream Oil & Gas
+Penn West,Upstream Oil & Gas
+PERTAMINA,Upstream Oil & Gas
+"Petr oleos de Venezuela, SA (PDVSA)",Upstream Oil & Gas
+Petr oleos Mexicans,Upstream Oil & Gas
+Petro bank Energy,Upstream Oil & Gas
+Petro Energy,Upstream Oil & Gas
+Petro Quest Energy,Upstream Oil & Gas
+Petro Vietnam,Upstream Oil & Gas
+Petro Vista Energy,Upstream Oil & Gas
+Petro-reef Resources Ltd,Upstream Oil & Gas
+PetroChina,Upstream Oil & Gas
+Petroleum Basilio SA (Petrobras),Upstream Oil & Gas
+Petroleum Development of Oman (PDO),Upstream Oil & Gas
+Petroliferous,Upstream Oil & Gas
+Petronas,Upstream Oil & Gas
+Petrosa,Upstream Oil & Gas
+Peyto,Upstream Oil & Gas
+Pine Cliff Energy Ltd,Upstream Oil & Gas
+"Pinnacle Gas Resources, Inc",Upstream Oil & Gas
+Pioneer Natural Resources,Upstream Oil & Gas
+Plains Exploration and Production Company,Upstream Oil & Gas
+Polaris Resources,Upstream Oil & Gas
+Premier Oil,Upstream Oil & Gas
+Prose Resources,Upstream Oil & Gas
+Provident Energy,Upstream Oil & Gas
+Qatar Petroleum Company,Upstream Oil & Gas
+Quicksilver Resources,Upstream Oil & Gas
+Ram Energy Resources,Upstream Oil & Gas
+Range Resources,Upstream Oil & Gas
+Repsol YPF,Upstream Oil & Gas
+Rex Energy Corp,Upstream Oil & Gas
+Rio Petroleum,Upstream Oil & Gas
+ROC Oil,Upstream Oil & Gas
+Rock Energy Inc,Upstream Oil & Gas
+Rosetta Resources,Upstream Oil & Gas
+Sabine Oil & Gas,Upstream Oil & Gas
+San Leon Energy,Upstream Oil & Gas
+Sandridge Energy,Upstream Oil & Gas
+"Santos, Ltd",Upstream Oil & Gas
+Sargon Energy,Upstream Oil & Gas
+Saxes Petroleum,Upstream Oil & Gas
+Saxon Oil Company,Upstream Oil & Gas
+Sea Dragon Energy,Upstream Oil & Gas
+Seneca Resources,Upstream Oil & Gas
+Senex Energy,Upstream Oil & Gas
+Sentinel Rock Oil,Upstream Oil & Gas
+ShaMaran Petroleum,Upstream Oil & Gas
+Slawson Exploration,Upstream Oil & Gas
+Sonatrach,Upstream Oil & Gas
+South Oil Company,Upstream Oil & Gas
+Southwestern Energy Co,Upstream Oil & Gas
+Spartan Exploration,Upstream Oil & Gas
+St. Mary Land and Exploration Co,Upstream Oil & Gas
+Stealth Ventures,Upstream Oil & Gas
+Stone Energy Corp,Upstream Oil & Gas
+Storm Resources,Upstream Oil & Gas
+Storm Resources ltd,Upstream Oil & Gas
+Stream Oil & Gas,Upstream Oil & Gas
+Surgutneftegaz,Upstream Oil & Gas
+Swift Energy Corp,Upstream Oil & Gas
+Talisman Energy,Upstream Oil & Gas
+Tammany Oil & Gas,Upstream Oil & Gas
+Taylor Hill Exploration Ltd,Upstream Oil & Gas
+Terra Energy Corp,Upstream Oil & Gas
+Tethys Petroleum,Upstream Oil & Gas
+"TETRA Technologies, Inc",Upstream Oil & Gas
+TNK-BP,Upstream Oil & Gas
+TRAFINA Energy Ltd,Upstream Oil & Gas
+Trans Globe Energy,Upstream Oil & Gas
+Trans Pacific Oil,Upstream Oil & Gas
+Transatlantic Petroleum,Upstream Oil & Gas
+Triangle Petroleum,Upstream Oil & Gas
+Tullow Oil,Upstream Oil & Gas
+Tuscany Energy,Upstream Oil & Gas
+Ultra-Petroleum,Upstream Oil & Gas
+Valdo Energy,Upstream Oil & Gas
+Valiant Petroleum,Upstream Oil & Gas
+Vanguard Natural Resources,Upstream Oil & Gas
+Zone Energy LLC,Upstream Oil & Gas
+Clariant,Technology Licensors
+Honeywell,Technology Licensors
+Johnson Matthey,Technology Licensors
+KBR,Technology Licensors
+Abb Vie,Other
+Abbott Laboratories,Other
+ABMIndustries,Other
+Accendra Health,Other
+Ace Hard ware,Other
+Adobe,Other
+Advance Auto Parts,Other
+Advanced Micro Devices,Other
+AECOM,Other
+AES,Other
+Aflac,Other
+AGCO,Other
+AIG,Other
+Airbnb,Other
+Alaska Air Group,Other
+Alber tsons,Other
+Alcoa,Other
+Allstate,Other
+Ally Financial,Other
+Alphabet,Other
+Alpine Drilling,Other
+Altria Group,Other
+Amazon,Other
+Amen tum Holdings,Other
+Amer en,Other
+Ameri can Airlines Group,Other
+Ameri can Electric Power,Other
+Ameri can Express,Other
+Ameri can Family Insurance Group,Other
+Ameri can Financial Group,Other
+Ameri can Tower,Other
+Ameri prise Financial,Other
+Amgen,Other
+Amphenol,Other
+Analog Devices,Other
+Ander sons,Other
+APi Group,Other
+Apollo Global Management,Other
+Apple,Other
+Aramark,Other
+Archer Daniels Midland,Other
+Arista Networks,Other
+Arrow Electronics,Other
+Arthur J.Gallagher,Other
+Asbury Auto motive Group,Other
+Assurant,Other
+AT&T,Other
+Auto matic Data Processing,Other
+Auto Nation,Other
+Auto Zone,Other
+Auto-Owners Insurance,Other
+Autoliv,Other
+Avery Dennison,Other
+Avis Budget Group,Other
+Avnet,Other
+Baker Hughes,Other
+Ball,Other
+Bank of America,Other
+Bank of New York (BNY),Other
+Baxter International,Other
+Becton Dickinson,Other
+Berkshire Hathaway,Other
+Best Buy,Other
+Biogen,Other
+Bitgo Holdings,Other
+BJ’s Wholesale Club,Other
+Black Rock,Other
+Black stone,Other
+Block,Other
+Boeing,Other
+Booking Holdings,Other
+Booz Allen Hamil ton Holding,Other
+Borg Warn er,Other
+Boston Scientific,Other
+Bright Spring Health Services,Other
+Bristol-Myers Squibb,Other
+Broad com,Other
+Build ers First Source,Other
+Burlington Stores,Other
+C.H.Robinson Worldwide,Other
+CACIInternational,Other
+Caesars Entertainment,Other
+Camp bell’s,Other
+Capital One Financial,Other
+Car Max,Other
+Cardinal Health,Other
+Carrie r Global,Other
+Carvana,Other
+Casey ’s Gener,Other
+Cater pillar,Other
+CBREGroup,Other
+CDW,Other
+Cencora,Other
+Centene,Other
+Center Point Energy,Other
+Charles Schwab,Other
+Chart er Communications,Other
+Cheniere Energy,Other
+Chew y,Other
+Chipotle Mexican Grill,Other
+CHS,Other
+Cigna Group,Other
+Cincinnati Financial,Other
+Cintas,Other
+Cisco Systems,Other
+Citigroup,Other
+Citizens Financial Group,Other
+Cleveland-Cliffs,Other
+CMSEnergy,Other
+Coca-Cola,Other
+Cognizant Technology Solutions,Other
+Colgate-,Other
+Com merci al Metal s,Other
+Comcast,Other
+Comfort Systems USA,Other
+Community Health Systems,Other
+Conagra Brands,Other
+Concentrix,Other
+Consolidate d Edison,Other
+Constellation Brand s,Other
+Constellation Energy,Other
+Core & Main,Other
+Corebridge Financial,Other
+Corning,Other
+Costco,Other
+Coup ang,Other
+Crow n Holdings,Other
+CSX,Other
+Cummins,Other
+CVS Health,Other
+D.R.Horton,Other
+Da Vita,Other
+Dana,Other
+Dana her,Other
+Darden Restaurant s,Other
+Deere,Other
+Delek US,Other
+Dell Technologies,Other
+Delta Air Lines,Other
+Dick’s Sporting Goods,Other
+Dollar General,Other
+Dollar Tree,Other
+Dominion,Other
+Door Dash,Other
+Dover,Other
+DTEEnergy,Other
+Duke Energy,Other
+DXCTechnology,Other
+Ebay,Other
+Echo S tar,Other
+Edison Intern,Other
+Elevance Health,Other
+Eli Lilly,Other
+EMCO R Group,Other
+Emerson Electric,Other
+Energy Transfer,Other
+Entergy,Other
+Enterprise Products Partners,Other
+Equinix,Other
+Equitable Holdings,Other
+Erie Insurance Group,Other
+Estee Laude r,Other
+Evers ource Energy,Other
+Exelon,Other
+Expand Energy,Other
+Expedia Group,Other
+Expeditors Intl. of Washington,Other
+Fannie Mae,Other
+Farmers Insurance Exchange,Other
+Fastenal,Other
+Fed Ex,Other
+Ferguson Enterprises,Other
+Fidelity National Financial,Other
+Fidelity National Information (FIS),Other
+Fifth Third Bancorp,Other
+First Citizens,Other
+First Energy,Other
+Fiserv,Other
+Fluor,Other
+Ford Motor,Other
+Fox,Other
+Frankl in Resources,Other
+Freddie Mac,Other
+Freeport-Mc Mo Ran,Other
+Galax y Digital,Other
+Gap,Other
+GE Aerospace,Other
+GE Health Care Technologies,Other
+GE Verno va,Other
+General Dynamics,Other
+General Mills,Other
+General Motors,Other
+Genuine Parts,Other
+Gilead Sciences,Other
+Global,Other
+Global Partners,Other
+Gold man Sachs Group,Other
+Gold. com,Other
+Good year Tire &Rubber,Other
+Graphic Packaging Holding,Other
+Graybar Electric,Other
+Group 1Automotive,Other
+Guard ian Life Ins. Co. of America,Other
+Guide Well Mutual Holding,Other
+GXOLogistics,Other
+Halliburton,Other
+HCAHealthcare,Other
+Henry Schein,Other
+Hershey,Other
+Hertz Global Holdings,Other
+Hewlett Packard Enterprise,Other
+Hilton World wide Holdings,Other
+Home Depot,Other
+Honeywell International,Other
+Hormel Foods,Other
+How met Aerospace,Other
+Humana,Other
+Huntington Ingalls Indus tries,Other
+IBM,Other
+Icahn Enterprises,Other
+Illinois Tool Works,Other
+Ingersoll Rand,Other
+Ingram Micro Holding,Other
+Insight Enterprises,Other
+Intel,Other
+Interactive Broke,Other
+Intercontinental Exchange,Other
+International Paper,Other
+Intuit,Other
+Intuitive Surgical,Other
+IQVIAHoldings,Other
+J.B.Hunt Transport Services,Other
+J.M.Smucker,Other
+Jabil,Other
+Jacob s Solutions,Other
+Jefferies Financial Group,Other
+Jet Blue Airways,Other
+Johns on &Johnson,Other
+Jones Finan cial(Edward Jones),Other
+Jones Lang La Salle,Other
+JPMorgan Chase,Other
+Kenvue,Other
+Keurig Dr Pepper,Other
+Key Corp,Other
+Kimberly-Clark,Other
+Kinder Morgan,Other
+KKR,Other
+KLA,Other
+Kohl’s,Other
+Kraft Heinz,Other
+Kroger,Other
+Kyndryl Holdings,Other
+L3Harris Technologies,Other
+Labcorp Holdings,Other
+Lam Research,Other
+Land O’Lakes,Other
+Las Vegas Sands,Other
+Lear,Other
+Leidos Holdings,Other
+Lennar,Other
+Libert y Mutual Insurance Group,Other
+Lincoln National,Other
+Lithia Motors,Other
+Live Nation Entertainment,Other
+LKQ,Other
+Lockheed Marti n,Other
+Loews,Other
+Lowe’s,Other
+LPLFinancial Holdings,Other
+Lululemonathletica,Other
+Lumen Technologies,Other
+M&TBank,Other
+Macy’s,Other
+Manpower Group,Other
+Mark el Group,Other
+Marriott International,Other
+Mars h &Mc Lennan,Other
+Marv ell Technology,Other
+Mas Tec,Other
+Masco,Other
+Massa chuse tts Mutual Life,Other
+Mastercard,Other
+Mc Donald’s,Other
+McKesson,Other
+Medline,Other
+Merck,Other
+Met Life,Other
+Meta Platforms,Other
+MGM Resorts International,Other
+Micro n Technology,Other
+Microsoft,Other
+Mohawk Indus tries,Other
+Molin a Healthcare,Other
+Molson Coors Bever age,Other
+Mondelez International,Other
+Monster Bever age,Other
+Mood y’s,Other
+Morgan,Other
+Motorola Solutions,Other
+Murphy USA,Other
+Mutual of Omaha,Other
+Nasdaq,Other
+Nationwide,Other
+Netflix,Other
+New mont,Other
+New York Life Insurance,Other
+News Corp,Other
+Next Era Energy,Other
+Nike,Other
+Norfolk,Other
+North western Mutual,Other
+Northern Trust,Other
+Northrop Grumman,Other
+NOV,Other
+NRGEnergy,Other
+Nucor,Other
+Nvidia,Other
+NVR,Other
+Old Repu,Other
+Omni com Group,Other
+Oneok,Other
+Optimum Communications,Other
+Oracle,Other
+Oscar Health,Other
+Oshkosh,Other
+Otis World wide,Other
+Owen s Corning,Other
+O’Reilly Automotive,Other
+Paccar,Other
+Pacific Life,Other
+Packaging Corp. of Ameri ca,Other
+Palo Alto Networks,Other
+Para mount Skydance,Other
+Parke r-Hannifin,Other
+Pay Pal Holdings,Other
+Penske Auto motive Group,Other
+Pepsi Co,Other
+Performance Food Group,Other
+Peter Kiewi,Other
+Pfizer,Other
+PG&E,Other
+Philip Morris International,Other
+Plains GPHoldings,Other
+PNCFinancial Services Group,Other
+Post Holdings,Other
+PPL,Other
+Primo ris Services,Other
+Principal Financial,Other
+Procter &Gamble,Other
+Progressive,Other
+Prologis,Other
+Prudential Financial,Other
+Public Service Enterprise Group,Other
+Publix Super Markets,Other
+Pulte Group,Other
+PVH,Other
+Qualcomm,Other
+Quant a Services,Other
+Quest Diagnostics,Other
+QVCGrou,Other
+Raymond James Financial,Other
+Regen eron Phar mace uticals,Other
+Regions Financial,Other
+Reinsurance Group of,Other
+Reliance,Other
+Republic Services,Other
+Resideo Technologies,Other
+Rock well Auto mation,Other
+Roper Technologies,Other
+Ross Stores,Other
+RTX,Other
+Ryder System,Other
+S&PGlobal,Other
+Salesforce,Other
+Sanmina,Other
+Seaboard,Other
+Securian Financial Group,Other
+Sempra,Other
+Service Now,Other
+Sirius XMHoldings,Other
+Solve ntum,Other
+Somnigroup International,Other
+Sonic Auto motive,Other
+Sonoco Products,Other
+South west Airlines,Other
+Southern,Other
+Sprouts Farmers Mark et,Other
+Stanley Black & Decker,Other
+Starbucks,Other
+State Farm Insurance,Other
+State Street,Other
+Steel Dynamics,Other
+StoneX Group,Other
+Stryker,Other
+Super Micro Computer,Other
+Synch rony,Other
+Sysco,Other
+Targa Resources,Other
+Target,Other
+Taylor Morrison Home,Other
+TDSynnex,Other
+Tenet Healthcare,Other
+Tesla,Other
+Texas Instru,Other
+Textron,Other
+Thermo Fisher Scientific,Other
+Thor Indus tries,Other
+Thrivent Financial,Other
+TIAA,Other
+TJX,Other
+Toll Broth ers,Other
+Tractor Supply,Other
+Trans Digm Group,Other
+Travel ers,Other
+Truist Financial,Other
+Tyson Foods,Other
+U.S. Bancorp,Other
+Uber Technologies,Other
+Ulta Beauty,Other
+Union Pacifi,Other
+Unite d Airlines Holdings,Other
+Unite d Natural Foods,Other
+Unite d Renta ls,Other
+UnitedHealth Group,Other
+Universal Health Services,Other
+Unum Group,Other
+UPS,Other
+US Foods Holding,Other
+USAA,Other
+Venture Global,Other
+Verizon Communications,Other
+Vertex Phar mace uticals,Other
+Vertiv Holdings,Other
+Viatris,Other
+Visa,Other
+Vistra,Other
+Voya Financial,Other
+W.R.Berkley,Other
+W.W.Grainger,Other
+Walmart,Other
+Walt Disney,Other
+Warn er Bros.Discovery,Other
+Waste Management,Other
+Wayfair,Other
+WECEnergy Group,Other
+Wells Fargo,Other
+Welltower,Other
+WESCO International,Other
+Western &Southern Financial Group,Other
+Western Digital,Other
+Westinghouse Air Brake,Other
+Whirl pool,Other
+Williams,Other
+Williams-Sonoma,Other
+Work day,Other
+World Kinect,Other
+Xcel Energy,Other
+XPO,Other
+Xylem,Other
+Yum Brand s,Other
+Yum China Holdings,Other
+Zimmer Biomet Holdings,Other
+Zoetis,Other
