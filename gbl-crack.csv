@@ -1,449 +1,650 @@
-Region,Country,Plant,Location,Technology,C2 Capacity (kt),Op Rate,Ethane,E/P Mix,Propane,Butane,Naphtha,Gas Oil
-Middle East,Abu Dhabi,Borouge 1,Ruwais,KTI/Technimont,600.0,,,,,,,
-Africa,Algeria,Enip/Repsol,Arzew,,0.0,,,,,,,
-Africa,Algeria,Enip,Skikda,Linde,138.0,,,,,,,
-Africa,Egypt,Sidi Krir PC,Alexandria,Lummus/Crest,300.0,,,,,,,
-Africa,Egypt,Unspecified,Damietta,,400.0,,,,,,,
-Africa,Egypt,Tahrir Petrochemicals,Ain Sokhna,,1350.0,,,,,,,
-Middle East,Iran,Abadan PC,Abadan,,48.0,,,,,,,
-Middle East,Iran,Arak Petrochemical,Arak,KTI/TPL,306.0,,,,,,,
-Middle East,Iran,Olefins 11,Asaluyeh,Technip,2000.0,,,,,,,
-Middle East,Iran,Olefins 10,Asaluyeh,Technip,1320.0,,,,,,,
-Middle East,Iran,Arya Sasol PC,Asaluyeh,Technip,1000.0,,,,,,,
-Middle East,Iran,Olefins 6,Bandar Imam,Linde,520.0,,,,,,,
-Middle East,Iran,Gachsaran PC,Gachsaran,Linde,1000.0,,,,,,,
-Middle East,Iran,BIPC,Bandar Imam,Lummus/Crest,411.0,,,,,,,
-Middle East,Iran,Olefins 7,Bandar Imam,Linde,1100.0,,,,,,,
-Middle East,Iran,Tabriz PC,Tabriz,KTI/TPL,136.0,,,,,,,
-Middle East,Iraq,Iraq PC,Basrah,,0.0,,,,,,,
-Middle East,Iraq,Iraq PC,Mussayed,S&W,0.0,,,,,,,
-Middle East,Israel,Carmel Olefins,Haifa,,240.0,,,,,,,
-Middle East,Kuwait,Equate Petrochemical,Shuaybah,Technip,850.0,,,,,,,
-Middle East,Kuwait,Equate Petrochemical,Shuaybah,Technip,1005.0,,,,,,,
-Africa,Libya,Rasco,Ras Lanuf,S&W,330.0,,,,,,,
-Africa,Nigeria,Eleme Petrochemical,Port Harcourt,Kellogg,280.0,,,,,,,
-Middle East,Oman,ORPIC,Sohar,,800.0,,,,,,,
-Middle East,Qatar,Q-Chem ,Mesaieed,Kellogg,500.0,,,,,,,
-Middle East,Qatar,Q-Chem II / Qatofin,Ras Laffan,Technip,1300.0,,,,,,,
-Middle East,Qatar,Qapco,Mesaieed,Lummus,900.0,,,,,,,
-Middle East,Saudi Arabia,Saudi Kayan Petrochemical,Al Jubail,Kellogg,1440.0,,,,,,,
-Middle East,Saudi Arabia,Jubail United,Al Jubail,Kellogg,1400.0,,,,,,,
-Middle East,Saudi Arabia,Al-Jubail Petrochemical Co.,Al Jubail,Lummus,790.0,,,,,,,
-Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Kellogg,830.0,,,,,,,
-Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Lummus,800.0,,,,,,,
-Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Kellogg,800.0,,,,,,,
-Middle East,Saudi Arabia,Sadaf,Al Jubail,Braun,1090.0,,,,,,,
-Middle East,Saudi Arabia,Yansab,Yanbu,Technip,1300.0,,,,,,,
-Middle East,Saudi Arabia,Yanpet,Yanbu,Lummus,1000.0,,,,,,,
-Middle East,Saudi Arabia,Yanpet,Yanbu,Lummus,880.0,,,,,,,
-Africa,South Africa,Sasol,Sasolburg,,90.0,,,,,,,
-Africa,South Africa,Sasol,Secunda,,180.0,,,,,,,
-Africa,South Africa,Sasol,Secunda,,405.0,,,,,,,
-Middle East,Turkey,Petkim,Aliaga,S&W,587.0,,,,,,,
-Australasia,Australia,Qenos,Botany,Linde,300.0,,,,,,,
-Australasia,Australia,Flint Hills Resources,W. Footscray,,0.0,,,,,,,
-Northeast Asia,China,Sinopec Fujian R&C Co.,Quanzhou,,1100.0,,,,,,,
-Northeast Asia,China,CNOOC Shell,Huizhou,S&W,1000.0,,,,,,,
-Northeast Asia,China,Sinopec Beijing Yanshan PC,Beijing,,820.0,,,,,,,
-Northeast Asia,China,Tianjin Petrochemical,Tianjin,Lummus,1000.0,,,,,,,
-Northeast Asia,China,Sinopec Tianjin United Chemical,Tianjin,Lummus,200.0,,,,,,,
-Northeast Asia,China,Sinopec Zhongyuan PC,Puyang,Lummus,200.0,,,,,,,
-Northeast Asia,China,BASF / Yangzi Pc,Nanjing,S&W,740.0,,,,,,,
-Northeast Asia,China,Jiangsu Petrochemical,Nanjing,,10.0,,,,,,,
-Northeast Asia,China,PetroChina Liaoyang PC,Liaoyang,Technip,200.0,,,,,,,
-Northeast Asia,China,Liaoning Huajin Tongda,Panjin,,450.0,,,,,,,
-Northeast Asia,China,Shanghai Secco Petrochemical,Caojing,,1200.0,,,,,,,
-Northeast Asia,China,Sinopec Shanghai PC No. 2,Jinshan,S&W,900.0,,,,,,,
-Northeast Asia,China,Sinopec Shanghai PC No. 1,Jinshan,S&W,,,,,,,,
-Northeast Asia,China,PetroChina Company Limited,Dushanzi,Innovene G,220.0,,,,,,,
-South Asia,India,Reliance,Jamnagar,,1500.0,,,,,,,
-South Asia,India,BCPL,Lapetkata,Innovene G,220.0,,,,,,,
-South Asia,India,Reliance,Vadodara,,0.0,,,,,,,
-South Asia,India,Reliance,Vadodara,Lummus,200.0,,,,,,,
-South Asia,India,Reliance,Dahej,S&W,440.0,,,,,,,
-South Asia,India,Reliance,Hazira,S&W,910.0,,,,,,,
-South Asia,India,Reliance,Nagothane,S&W,460.0,,,,,,,
-South Asia,India,Nocil,Thane,S&W,,,,,,,,
-South Asia,India,Gas Authority Of India,Auraiya,S&W,450.0,,,,,,,
-South Asia,India,Indian Glycols,Khanpoor,,120.0,,,,,,,
-South Asia,India,Haldia PC,Haldia,Lummus,700.0,,,,,,,
-Southeast Asia,Indonesia,Chandra Asri,Cilegon,,860.0,,,,,,,
-Southeast Asia,Indonesia,Unspecified,Unspecified,,0.0,,,,,,,
-Northeast Asia,Japan,Idemitsu Kosan,Chiba,Kellogg,413.0,,,,,,,
-Northeast Asia,Japan,Maruzen Petrochemical,Chiba,Lummus,525.0,,,,,,,
-Northeast Asia,Japan,Mitsui Chemicals,Chiba,S&W,612.0,,,,,,,
-Northeast Asia,Japan,Keiyo Ethylene,Chiba,Lummus,757.0,,,,,,,
-Northeast Asia,Japan,Mitsui Chemicals,Iwakuni,,0.0,,,,,,,
-Northeast Asia,Japan,Mitsubishi Chemical No.1,Kashima,,,,,,,,,
-Northeast Asia,Japan,Mitsubishi Chemical No.2,Kashima,,541.0,,,,,,,
-Northeast Asia,Japan,JX Nippon Oil,Kawasaki,S&W,432.0,,,,,,,
-Northeast Asia,Japan,Tonen General,Kawasaki,ERE,540.0,,,,,,,
-Northeast Asia,Japan,Asahi Kasei Chemicals Corp.,Mizushima,,,,,,,,,
-Northeast Asia,Japan,Mitsubishi Chemical,Mizushima,Lummus,570.0,,,,,,,
-Northeast Asia,Japan,Showa Denko,Oita,S&W,691.0,,,,,,,
-Northeast Asia,Japan,Mitsui Chemicals,Osaka,Lummus,600.0,,,,,,,
-Northeast Asia,Japan,Idemitsu Kosan,Tokuyama,UOP-Kellogg,686.0,,,,,,,
-Northeast Asia,Japan,Tosoh Corp,Yokkaichi,Lummus,527.0,,,,,,,
-Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,,440.0,,,,,,,
-Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,S&W,290.0,,,,,,,
-Southeast Asia,Malaysia,Optimal Olefins Malaysia,Kerteh,,600.0,,,,,,,
-Southeast Asia,Malaysia,Ethylene Malaysia,Kerteh,Lummus,400.0,,,,,,,
-Northeast Asia,North Korea,State,Pyongyang,S&W,60.0,,,,,,,
-Southeast Asia,Philippines,JG Summit,Batangas,,320.0,,,,,,,
-Southeast Asia,Singapore,ExxonMobil No.1,Pulau Ayer  Chawan,,875.0,,,,,,,
-Southeast Asia,Singapore,PCS 2,Pulau Ayer Merbau,,515.0,,,,,,,
-Southeast Asia,Singapore,PCS 1,Pulau Ayer Merbau,S&W,625.0,,,,,,,
-Southeast Asia,Singapore,Shell,Pulau Bukom,,1000.0,,,,,,,
-Northeast Asia,South Korea,LG Chemicals,Daesan,,940.0,,,,,,,
-Northeast Asia,South Korea,Lotte Chemical,Daesan,Kellogg,1000.0,,,,,,,
-Northeast Asia,South Korea,Hanwha Total,Daesan,Lummus/Crest,1090.0,,,,,,,
-Northeast Asia,South Korea,KPIC,Ulsan,Lummus/Crest,800.0,,,,,,,
-Northeast Asia,South Korea,SK Energy 2,Ulsan,Kellogg,680.0,,,,,,,
-Northeast Asia,South Korea,SK Energy 1,Ulsan,Kellogg,190.0,,,,,,,
-Northeast Asia,South Korea,Lotte Chemical,Yeosu,Lummus,1000.0,,,,,,,
-Northeast Asia,South Korea,LG Chem,Yeosu,Lummus,1100.0,,,,,,,
-Northeast Asia,South Korea,YNCC No.1,Yeosu,Lummus/Crest,835.0,,,,,,,
-Northeast Asia,South Korea,YNCC No.2,Yeosu,S&W,800.0,,,,,,,
-Northeast Asia,South Korea,YNCC No.3,Yeosu,Lummus/Crest,450.0,,,,,,,
-Northeast Asia,Taiwan,Formosa PCC No.1,Mailiao,S&W,720.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 1,Kaohsiung,,0.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 2,Kaohsiung,,0.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 5,Kaohsiung,Kellogg,0.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 3,Lin-Yuan,,0.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 4,Lin-Yuan,,385.0,,,,,,,
-Northeast Asia,Taiwan,Formosa PCC No.2,Mailiao,Lummus,1035.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum,Lin-Yuan,,0.0,,,,,,,
-Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,,1000.0,,,,,,,
-Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,Lummus,467.0,,,,,,,
-Southeast Asia,Thailand,Rayong Olefins,Map Ta Phut,Lummus,800.0,,,,,,,
-Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,S&W,515.0,,,,,,,
-Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,,400.0,,,,,,,
-Southeast Asia,Thailand,Integrated Refining and Petrochemical Co.,Rayong,Linde,430.0,,,,,,,
-Southeast Asia,Vietnam,Long Son Petrochemicals,Vung Tau,,1400.0,,,,,,,
-Central and Eastern Europe,Bulgaria,Lukoil Neftokhim Burgas,Burgas,,0.0,,,,,,,
-Central and Eastern Europe,Bulgaria,Lukoil Neftokhim Burgas,Burgas,Kellogg,0.0,,,,,,,
-Russia and Central Asia,Azerbaijan,Azerikhimia,Sumgait,,300.0,,,,,,,
-Central and Eastern Europe,Belarus,Polimir,Novopolotsk,,120.0,,,,,,,
-Central and Eastern Europe,Belarus,Polimir,Novopolotsk,,60.0,,,,,,,
-Russia and Central Asia,Kazakhstan,AO Atoll,Atyrau,,0.0,,,,,,,
-Russia and Central Asia,Russia,Angarsk PCC,Angarsk,,450.0,,,,,,,
-Russia and Central Asia,Russia,Stavrolen ,Budyennovsk,Linde,350.0,,,,,,,
-Russia and Central Asia,Russia,Kazanorgsyntez,Kazan,Lummus,640.0,,,,,,,
-Russia and Central Asia,Russia,Sibur-Neftekhim,Nizhniy Novgor,,360.0,,,,,,,
-Russia and Central Asia,Russia,Nizhnekamskneftekhim,Nizhnekamsk,,1800.0,,,,,,,
-Russia and Central Asia,Russia,Gazprom,Novy Urengoi,Linde,420.0,,,,,,,
-Russia and Central Asia,Russia,Omsk Kauchuk,Omsk,,,,,,,,,
-Russia and Central Asia,Russia,Sibur-Khimprom,Perm,,60.0,,,,,,,
-Russia and Central Asia,Russia,Gazprom Neftekhim Salavat,Salavat,,340.0,,,,,,,
-Russia and Central Asia,Russia,Neftekhimya Samara,Samara,,180.0,,,,,,,
-Russia and Central Asia,Russia,Lukoil,Tomsk,,300.0,,,,,,,
-Russia and Central Asia,Russia,Ufaorgsintez,Ufa,Linde,230.0,,,,,,,
-Central and Eastern Europe,Ukraine,Lukor,Kalush,Linde,250.0,,,,,,,
-Central and Eastern Europe,Ukraine,Linos,Lisichansk,,0.0,,,,,,,
-Russia and Central Asia,Uzbekistan,Shurtan Gas Chemical,Karshi,Lummus,140.0,,,,,,,
-Central and Eastern Europe,Croatia,Dioki,Zagreb,KTI,0.0,,,,,,,
-Central and Eastern Europe,Czech Republic,Chemopetrol,Litvinov,Lummus,545.0,,,,,,,
-Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,Linde,290.0,,,,,,,
-Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,,0.0,,,,,,,
-Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,Linde,370.0,,,,,,,
-Central and Eastern Europe,Poland,PC Blachownia,Blachownia,,0.0,,,,,,,
-Central and Eastern Europe,Poland,PKN Orlen,Plock,,25.0,,,,,,,
-Central and Eastern Europe,Poland,PKN Orlen,Plock,Lummus,660.0,,,,,,,
-Central and Eastern Europe,Poland,PKN Orlen,Plock,Lummus,0.0,,,,,,,
-Central and Eastern Europe,Romania,Petromidia,Midia,Kellogg,0.0,,,,,,,
-Central and Eastern Europe,Romania,Oltchim,Pitesti,KTI,0.0,,,,,,,
-Central and Eastern Europe,Romania,Petrotel-Lukoil,Teleajen,,0.0,,,,,,,
-Central and Eastern Europe,Slovakia,Slovnaft,Bratislava,,0.0,,,,,,,
-Central and Eastern Europe,Slovakia,Slovnaft,Bratislava,Lummus,300.0,,,,,,,
-Central and Eastern Europe,Serbia,Hemijska Industrija,Pancevo,S&W,200.0,,,,,,,
-North America,Canada,Dow,Fort Saskatchewan,,1300.0,,,,,,,
-North America,Canada,Nova,Joffre,,771.0,,,,,,,
-North America,Canada,Nova/Dow,Joffre,S&W,1542.0,,,,,,,
-North America,Canada,ExxonMobil,Sarnia,Exxon,300.0,,,,,,,
-North America,Canada,Nova,Sarnia,Kellogg,1100.0,,,,,,,
-North America,Canada,Petromont,Montreal,,0.0,,,,,,,
-North America,Mexico,Pemex,Ciudad Madero,,0.0,,,,,,,
-North America,Mexico,Pemex,Reynosa,,0.0,,,,,,,
-North America,Mexico,Pemex,Morelos Complex,Lummus,600.0,,,,,,,
-North America,Mexico,Pemex,Cangrejera Complex,Lummus,600.0,,,,,,,
-North America,Mexico,Pemex,Cangrejera Complex,,0.0,,,,,,,
-North America,Mexico,Pemex,Pajaritos,Lummus,180.0,,,,,,,
-North America,Mexico,Pemex,Poza Rica,,0.0,,,,,,,
-North America,United States,ExxonMobil,Baton Rouge 1,,107.0,100,64.0,,4.0,14.0,6.0,12.0
-North America,United States,ExxonMobil,Baton Rouge 2,,177.0,100,64.0,,4.0,14.0,6.0,12.0
-North America,United States,ExxonMobil,Baton Rouge 3,S&W/Kellogg,739.0,100,64.0,,4.0,14.0,6.0,12.0
-North America,United States,ExxonMobil,Baytown 1,S&W/Kellogg,1179.0,100,89.0,,,4.0,1.0,6.0
-North America,United States,ExxonMobil,Baytown 2,S&W,1139.0,96,100.0,,,,,
-North America,United States,ExxonMobil,Baytown 3,,1500.0,,,,,,,
-North America,United States,ExxonMobil,Beaumont 1,Kellogg,450.0,100,88.0,,12.0,,,
-North America,United States,ExxonMobil,Beaumont 2,Kellogg,450.0,100,88.0,,12.0,,,
-North America,United States,Olin,Brandenburg,S&W,0.0,,,,,,,
-North America,United States,Sun,Brandenburg,Lummus,0.0,,,,,,,
-North America,United States,Westlake Polymers,Calvert City,Braun,290.0,100,100.0,,,,,
-North America,United States,Chevron Phillips Chemical,Cedar Bayou 1,Lummus,871.0,98,56.0,,33.0,11.0,,
-North America,United States,Chevron Phillips Chemical,Cedar Bayou 2,,1500.0,,,,,,,
-North America,United States,LyondellBasell,Channelview 1,Kellogg,930.0,94,25.0,,25.0,20.0,30.0,
-North America,United States,LyondellBasell,Channelview 2,Kellogg,930.0,94,25.0,,25.0,20.0,30.0,
-North America,United States,Ineos,Chocolate Bayou 1,Braun,935.0,100,67.0,,31.0,,2.0,
-North America,United States,Ineos,Chocolate Bayou 2,Braun,930.0,100,67.0,,31.0,,2.0,
-North America,United States,LyondellBasell,Chocolate Bayou,Lummus,0.0,,,,,,,
-North America,United States,Sun,Claymont,Lummus,0.0,,,,,,,
-North America,United States,LyondellBasell,Clinton,Kellogg,500.0,93,85.0,,15.0,,,
-North America,United States,Flint Hills Resources,Corpus Christi,,0.0,,,,,,,
-North America,United States,Javalena,Corpus Christi,,90.0,-,,,,,,
-North America,United States,LyondellBasell,Corpus Christi,S&W/Braun,1134.0,94,45.0,,20.0,15.0,20.0,
-North America,United States,Shell Chemicals,Deer Park 1,Kellogg,320.0,95,40.0,,30.0,20.0,5.0,5.0
-North America,United States,Shell Chemicals,Deer Park 2,Kellogg,835.0,95,40.0,,30.0,20.0,5.0,5.0
-North America,United States,Dow,Freeport 8,Lummus/Dow,907.0,95,,60.0,40.0,,,
-North America,United States,Dow,Freeport 7,Lummus/Dow,590.0,95,55.0,,45.0,,,
-North America,United States,Dow,Freeport,,1500.0,,,,,,,
-North America,United States,Williams,Geismar,Lummus/Kellogg,880.0,100,100.0,,,,,
-North America,United States,ExxonMobil,Houston,Kellogg,0.0,,,,,,,
-North America,United States,Oxy/Mexichem,Ingleside,,500.0,,,,,,,
-North America,United States,LyondellBasell,La Porte,Kellogg,1180.0,100,80.0,,10.0,10.0,,
-North America,United States,Indorama Ventures,Lake Charles,S&W/Braun,370.0,,,,,,,
-North America,United States,Lotte-Axiall,Lake Charles,,1000.0,,,,,,,
-North America,United States,Sasol,Lake Charles 1,Lummus,454.0,100,100.0,,,,,
-North America,United States,Sasol,Lake Charles 2,,1500.0,,,,,,,
-North America,United States,Westlake Polymers,Lake Charles 2,,745.0,100,85.0,,15.0,,,
-North America,United States,Westlake Polymers,Lake Charles 1,Kellogg,658.0,100,100.0,,,,,
-North America,United States,Texas Eastman,Longview 3,Kellogg,360.0,95,31.0,,69.0,,,
-North America,United States,Texas Eastman,Longview 2,Lummus,136.0,95,31.0,,69.0,,,
-North America,United States,Texas Eastman,Longview 1,Lummus,136.0,95,31.0,,69.0,,,
-North America,United States,Shell,Monaca,,1500.0,,,,,,,
-North America,United States,LyondellBasell,Morris,Lummus,567.0,97,94.0,,6.0,,,
-North America,United States,Shell Chemicals,Norco 5,Kellogg,850.0,100,40.0,,25.0,30.0,5.0,
-North America,United States,Shell Chemicals,Norco 1,Kellogg,520.0,100,45.0,,25.0,25.0,5.0,
-North America,United States,Dupont,Orange,Lummus,590.0,91,100.0,,,,,
-North America,United States,Dow,Plaquemine 3,Lummus/Dow,748.0,100,50.0,,45.0,,5.0,
-North America,United States,Dow,Plaquemine 2,Lummus/Dow,499.0,100,55.0,,45.0,,,
-North America,United States,Formosa Plastics,Point Comfort 1,Kellogg,771.0,95,,30.0,40.0,,30.0,
-North America,United States,Formosa Plastics,Point Comfort 2,Kellogg,862.0,97,,40.0,40.0,,20.0,
-North America,United States,Formosa Plastics,Point Comfort,Uhde STAR,1200.0,,,,,,,
-Latin America and Caribbean,Argentina,PQ Bahia Blanca ,Bahia Blanca,,425.0,,,,,,,
-Latin America and Caribbean,Argentina,PQ Bahia Blanca ,Bahia Blanca,Linde,275.0,,,,,,,
-Latin America and Caribbean,Argentina,Garavaglio-Zorraqu,Ensenada,Koppers,16.0,,,,,,,
-Latin America and Caribbean,Argentina,Akzo Nobel Argentina,San Lorenzo,Lurgi,55.0,,,,,,,
-Latin America and Caribbean,Argentina,Pasa,San Lorenzo,,28.0,,,,,,,
-Latin America and Caribbean,Brazil,Salgema,Maceio,,0.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Camacari,,650.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Camacari,Lummus,630.0,,,,,,,
-Latin America and Caribbean,Brazil,Coperto,Cabo,,0.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Duque de Caxias,,520.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Triunfo,,570.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Triunfo,Technip,685.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Maua,Lummus,700.0,,,,,,,
-Latin America and Caribbean,Brazil,Dow,Cubatao,,0.0,,,,,,,
-Latin America and Caribbean,Brazil,CBE,Sao Paulo,,0.0,,,,,,,
-Latin America and Caribbean,Chile,Petrox,Concepcion,,0.0,,,,,,,
-Latin America and Caribbean,Colombia,Ecopetrol,Barrancabermeja,KTI,86.0,,,,,,,
-Latin America and Caribbean,Peru,Paramonga,Paramonga,,4.0,,,,,,,
-Latin America and Caribbean,Venezuela,Pequiven,El Tablazo,Linde,350.0,,,,,,,
-Latin America and Caribbean,Venezuela,Pequiven,El Tablazo,Kellogg,250.0,,,,,,,
-Latin America and Caribbean,Venezuela,Braskem-Pequiven,Jose,DSM,0.0,,,,,,,
-Western Europe,Austria,OMV,Schwechat,Linde,500.0,,,,,,,
-Western Europe,Belgium,BASF,Antwerp,Linde,1080.0,,,,,,,
-Western Europe,Belgium,Total Olefins Antwerp,Antwerp,Kellogg,0.0,,,,,,,
-Western Europe,Belgium,Total Olefins Antwerp,Antwerp,Kellogg,600.0,,,,,,,
-Western Europe,Belgium,Total Olefins Antwerp,Antwerp,S&W,570.0,,,,,,,
-Western Europe,Finland,Borealis,Porvoo,Lummus,420.0,,,,,,,
-Western Europe,France,LyondellBasell,Berre,Lummus,456.0,,,,,,,
-Western Europe,France,Total Petrochemicals,Carling,Lummus,0.0,,,,,,,
-Western Europe,France,Versalis,Dunkerque,Lummus,360.0,,,,,,,
-Western Europe,France,AVFC,Feyzin,Lummus,245.0,,,,,,,
-Western Europe,France,Total Petrochemicals,Gonfreville,S&W,520.0,,,,,,,
-Western Europe,France,Total Petrochemicals,Lacq,KTI,0.0,,,,,,,
-Western Europe,France,Naphtachimie,Lavera,S&W,760.0,,,,,,,
-Western Europe,France,ExxonMobil,N.D. De Gravenchon,Exxon,400.0,,,,,,,
-Western Europe,Germany,Dow,Boehlen,Linde,540.0,,,,,,,
-Western Europe,Germany,OMV,Burghausen,Lurgi,450.0,,,,,,,
-Western Europe,Germany,BP,Gelsenkirchen,Linde,530.0,,,,,,,
-Western Europe,Germany,BP,Gelsenkirchen,Linde,515.0,,,,,,,
-Western Europe,Germany,Raffinerie Heide,Heide,Lummus,108.0,,,,,,,
-Western Europe,Germany,BASF,Ludwigshafen,Linde,400.0,,,,,,,
-Western Europe,Germany,BASF,Ludwigshafen,Lummus,210.0,,,,,,,
-Western Europe,Germany,LyondellBasell,Muenchsmuenster,Linde,345.0,,,,,,,
-Western Europe,Germany,LyondellBasell,Wesseling,,280.0,,,,,,,
-Western Europe,Germany,LyondellBasell,Wesseling,Linde,740.0,,,,,,,
-Western Europe,Germany,Shell Chemicals,Wesseling,Lummus,300.0,,,,,,,
-Western Europe,Germany,Shell Chemicals,Wesseling,Lummus,0.0,,,,,,,
-Western Europe,Germany,No 6,Cologne,Lummus,200.0,,,,,,,
-Western Europe,Germany,No 5,Cologne,Linde,510.0,,,,,,,
-Western Europe,Germany,No 4,Cologne,S&W,450.0,,,,,,,
-Western Europe,Greece,EKO,Thessaloniki,,0.0,,,,,,,
-Western Europe,Italy,Versalis,Brindisi,TPI/KTI,410.0,,,,,,,
-Western Europe,Italy,Versalis,Gela,S&W,0.0,,,,,,,
-Western Europe,Italy,Versalis,Porto Marghera,Lummus,0.0,,,,,,,
-Western Europe,Italy,Versalis,Porto Torres,KTI,0.0,,,,,,,
-Western Europe,Italy,Versalis,Priolo,KTI/Technimont,430.0,,,,,,,
-Western Europe,"Netherlands, The",SABIC,Geleen,Linde,550.0,,,,,,,
-Western Europe,"Netherlands, The",SABIC,Geleen,Lummus,675.0,,,,,,,
-Western Europe,"Netherlands, The",Shell Chemicals,Moerdijk,S&W,970.0,,,,,,,
-Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,600.0,,,,,,,
-Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,525.0,,,,,,,
-Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,675.0,,,,,,,
-Western Europe,Norway,Ineos,Bamble,Linde,600.0,,,,,,,
-Western Europe,Portugal,Repsol YPF,Sines,Linde,410.0,,,,,,,
-Western Europe,Spain,Repsol YPF,Puertollano,S&W,95.0,,,,,,,
-Western Europe,Spain,Dow,Tarragona,Linde,660.0,,,,,,,
-Western Europe,Spain,Repsol YPF,Tarragona,Linde,660.0,,,,,,,
-Western Europe,Sweden,Borealis,Stenungsund,S&W,610.0,,,,,,,
-Western Europe,Switzerland,Lonza AG,Visp,Lonza,25.0,,,,,,,
-Western Europe,United Kingdom,BP,Baglan Bay,S&W,0.0,,,,,,,
-Western Europe,United Kingdom,ExxonMobil,Fawley,S&W,0.0,,,,,,,
-Western Europe,United Kingdom,Ineos,Grangemouth,,740.0,,,,,,,
-Western Europe,United Kingdom,Ineos,Grangemouth,S&W,0.0,,,,,,,
-Western Europe,United Kingdom,Exxon/Shell,Mossmorran,Lummus/Crest,800.0,,,,,,,
-Western Europe,United Kingdom,Shell Chemicals,Stanlow,,0.0,,,,,,,
-Western Europe,United Kingdom,SABIC,Wilton,S&W,865.0,,,,,,,
-South Asia,India,Kerala SIDC,Cheemeni,,0.0,,,,,,,
-Central and Eastern Europe,Macedonia,Unspecified,Unspecified,,0.0,,,,,,,
-North America,United States,BASF-Total,Port Arthur,,1140.0,100,20.0,,25.0,25.0,30.0,
-North America,United States,Chevron Phillips Chemical,Port Arthur,Lummus,807.0,100,86.0,,14.0,,,
-Middle East,Saudi Arabia,Jubail Chevron Phillips,Al Jubail,,300.0,,,,,,,
-Latin America and Caribbean,Brazil,Polietilenos Uniao,Capuava,,0.0,,,,,,,
-Middle East,Abu Dhabi,Borouge 2,Ruwais,KTI/Technimont,1400.0,,,,,,,
-Middle East,Iran,Olefins 13,Ilam,S&W,450.0,,,,,,,
-Middle East,Iran,Olefins 5,Asaluyeh,Technip,500.0,,,,,,,
-North America,Canada,Keltic Petrochemicals,Goldboro,,0.0,,,,,,,
-North America,United States,Flint Hills Resources,Port Arthur,S&W,635.0,86,40.0,5.0,30.0,25.0,,
-Northeast Asia,Taiwan,Formosa PCC No.3,Mailiao,Lummus,1200.0,,,,,,,
-Middle East,Saudi Arabia,Saudi Ethylene & Polyethylene Co.,Al Jubail,Linde,1000.0,,,,,,,
-South Asia,India,Indian Oil Corp.,Panipat,Hostalen,850.0,,,,,,,
-Middle East,Saudi Arabia,PetroRabigh,Rabigh,Sumitomo,1600.0,,,,,,,
-Middle East,Saudi Arabia,Sharq,Al Jubail,S&W,1300.0,,,,,,,
-Northeast Asia,China,Zhenhai Refining & Chemical,Zhenhai,Lummus,1000.0,,,,,,,
-South Asia,India,ONGC Petro additions (OPaL),Dahej,Mitsui,1100.0,,,,,,,
-Northeast Asia,China,PetroChina Dushanzi PC No.2,Dushanzi,S&W,1000.0,,,,,,,
-Middle East,Iran,Olefins,Asaluyeh,Kellogg,0.0,,,,,,,
-Middle East,Iran,Olefins 12,Asaluyeh,,0.0,,,,,,,
-Australasia,Australia,Qenos,Altona,S&W,210.0,,,,,,,
-Middle East,Saudi Arabia,SABIC,Al Jubail,,1200.0,,,,,,,
-Middle East,Saudi Arabia,Saudi Chevron PC,Al Jubail,Lummus,1200.0,,,,,,,
-Latin America and Caribbean,Trinidad,Westlake,Point Lisas,,0.0,,,,,,,
-Russia and Central Asia,Kazakhstan,KAZMUNAYGAZ,Atyrau,,0.0,,,,,,,
-Northeast Asia,China,PetroChina Daqing PC No. 1,Daqing,Kellogg,680.0,,,,,,,
-Northeast Asia,China,PetroChina Fushun PC No. 1,Fushun,Lummus,180.0,,,,,,,
-Northeast Asia,China,PetroChina Fushun PC No. 2,Fushun,Lummus,800.0,,,,,,,
-Northeast Asia,China,PetroChina Lanzhou PC No. 1,Lanzhou,Kellogg,240.0,,,,,,,
-Northeast Asia,China,PetroChina Lanzhou PC No. 2,Lanzhou,Kellogg,450.0,,,,,,,
-Northeast Asia,China,Sinopec Guangzhou Co. No. 1,Guangzhou,S&W,260.0,,,,,,,
-Northeast Asia,China,Sinopec Maoming Co. No. 1,Maoming,S&W,380.0,,,,,,,
-Northeast Asia,China,Sinopec Maoming Co. No. 2,Maoming,S&W,640.0,,,,,,,
-Northeast Asia,China,Sinopec Qilu Petrochemical No. 1,Zibo,Lummus,570.0,,,,,,,
-Northeast Asia,China,Sinopec Qilu Petrochemical No. 2,Zibo,Lummus,270.0,,,,,,,
-Northeast Asia,China,Sinopec Yangzi PC No. 1,Nanjing,Lummus,450.0,,,,,,,
-Northeast Asia,China,Sinopec Yangzi PC No. 2,Nanjing,Lummus,300.0,,,,,,,
-Southeast Asia,Thailand,Map Ta Phut Olefins,Map Ta Phut,,1000.0,,,,,,,
-South Asia,India,Indian Oil Corp.,Paradip,,200.0,,,,,,,
-South Asia,India,Reliance,Kurkumbh,,0.0,,,,,,,
-Russia and Central Asia,Russia,Rosneft,Samara,,0.0,,,,,,,
-Russia and Central Asia,Russia,Sibur,Orenburg,,0.0,,,,,,,
-Africa,Algeria,Sonatrach/Total,Arzew,,0.0,,,,,,,
-Russia and Central Asia,Russia,TATNEFT,Nizhnekamsk,,0.0,,,,,,,
-Northeast Asia,China,Wuhan PC,Wuhan,,800.0,,,,,,,
-Northeast Asia,China,PetroChina Sichuan,Chengdu,S&W,800.0,,,,,,,
-Southeast Asia,Singapore,ExxonMobil No.2,Pulau Ayer  Chawan,,1000.0,,,,,,,
-Northeast Asia,China,Shenhua Baotou,Baotou,,300.0,,,,,,,
-South Asia,India,Essar,Vadinar,Lummus,0.0,,,,,,,
-North America,United States,Total,Port Arthur,,1000.0,,,,,,,
-Middle East,Abu Dhabi,Borouge 3,Ruwais,,1500.0,,,,,,,
-Latin America and Caribbean,Peru,PetroPeru,Arequipa,,0.0,,,,,,,
-South Asia,Pakistan,Engro Polymer & Chemicals Ltd,Unspecified,,0.0,,,,,,,
-Latin America and Caribbean,Brazil,Braskem,Triunfo,,200.0,,,,,,,
-North America,Mexico,Braskem Idesa,Coatzacoalcos,,1000.0,,,,,,,
-Russia and Central Asia,Russia,Stavrolen ,Budyennovsk,,0.0,,,,,,,
-North America,United States,Huntsman,Port Neches,,181.0,85,,100.0,,,,
-Northeast Asia,China,CNOOC Shell,Huizhou,,1000.0,,,,,,,
-Northeast Asia,Taiwan,Chinese Petroleum No. 6,Lin-Yuan,,,,,,,,,
-Northeast Asia,China,Yanchang & China Coal,Yulin,,600.0,,,,,,,
-Middle East,Kuwait,PIC,Shuaybah,,1400.0,,,,,,,
-North America,United States,Dow,Seadrift,S&W,0.0,,,,,,,
-Middle East,Saudi Arabia,Sadara,Al Jubail,,1500.0,,,,,,,
-Northeast Asia,China,Liaoning Huajin Tongda,Panjin,,160.0,,,,,,,
-Northeast Asia,China,Dalian PC,Dalian,,0.0,,,,,,,
-Northeast Asia,China,Hainan Petrochemical,Hainan,,1000.0,,,,,,,
-Northeast Asia,China,Qingdao Chemical,Qingdao,,0.0,,,,,,,
-Northeast Asia,China,Ningbo Heyuan,Ningbo,,300.0,,,,,,,
-Northeast Asia,China,Ningxia Baofeng Energy,Ningdong,,300.0,,,,,,,
-Northeast Asia,China,Pucheng Clean Energy Chemical Company,Pucheng,,300.0,,,,,,,
-Northeast Asia,China,Shaanxi Yanchang Petroleum,Yan'an,,400.0,,,,,,,
-Northeast Asia,China,Shanxi Coking Corporation,Hongdong,,300.0,,,,,,,
-Northeast Asia,China,Sinopec Zhijin,Zhijin,,300.0,,,,,,,
-Northeast Asia,China,Sinopec Zhongyuan PC,Puyang,,100.0,,,,,,,
-Northeast Asia,China,Wison Clean Energy,Nanjing,,130.0,,,,,,,
-Northeast Asia,China,Yili Meidianhua,Yili,,300.0,,,,,,,
-Northeast Asia,China,Yulin Energy and Chemical,Yulin,,300.0,,,,,,,
-Northeast Asia,China,Sinopec Guangzhou Co. No. 2,Guangzhou,,0.0,,,,,,,
-Northeast Asia,China,Shenyang Paraffin Wax,Shenyang,,150.0,,,,,,,
-Northeast Asia,Taiwan,Kuo Kuang,Unspecified,,0.0,,,,,,,
-South Asia,India,Gas Authority Of India,Auraiya,,450.0,,,,,,,
-North America,United States,Chevron Phillips Chemical,Sweeny 33,Braun,1043.0,93,100.0,,,,,
-Latin America and Caribbean,Brazil,Comperj(Petrobras),Rio,,0.0,,,,,,,
-Northeast Asia,China,Jiutai Energy,Ordos City,UNIPOL,250.0,,,,,,,
-Russia and Central Asia,Azerbaijan,SOCAR,Baku,,700.0,,,,,,,
-Western Europe,United Kingdom,Essar,Stanlow,,40.0,,,,,,,
-Northeast Asia,China,Sinopec China and Henan Coal,Henan,Gas Phase,300.0,,,,,,,
-Northeast Asia,China,Total & China Power,Ordos City,Innovene G,400.0,,,,,,,
-Northeast Asia,China,Qinghai Damei,Xining City,,300.0,,,,,,,
-Southeast Asia,Malaysia,Kuo Kuang,Pengerang,,0.0,,,,,,,
-Southeast Asia,Malaysia,Petronas (RAPID),Pengerang,,1000.0,,,,,,,
-Northeast Asia,China,PetroChina Jilin Chemical No. 1,Jilin,,150.0,,,,,,,
-Northeast Asia,China,PetroChina Jilin Chemical No. 2,Jilin,,700.0,,,,,,,
-North America,United States,Chevron Phillips Chemical,Sweeny,S&W/Braun,0.0,,,,,,,
-North America,United States,Chevron Phillips Chemical,Sweeny 22,S&W/Braun,295.0,50,76.0,,24.0,,,
-Latin America and Caribbean,Brazil,Dow/Mitsui,Santa Vitoria,,350.0,,,,,,,
-Northeast Asia,China,Shenhua Coal New Material,Urumqi,LYB Tublar,240.0,,,,,,,
-Northeast Asia,Japan,Sumitomo Chemical Co,Chiba,,,,,,,,,
-Northeast Asia,China,"Zhongtian Hechuang Energy Co., Ltd",Ordos City,Sinopec Gas Phase,650.0,,,,,,,
-Northeast Asia,China,Mengda New Energy,Ordos City,UNIPOL,300.0,,,,,,,
-Northeast Asia,China,Xinhu Group,Ordos City,,0.0,,,,,,,
-Northeast Asia,China,Shenhua Hulunbeier,Hulunbeier,,300.0,,,,,,,
-Northeast Asia,China,China National Coal Group,Hulunbeier,UNIPOL,0.0,,,,,,,
-Northeast Asia,China,Shenhua Yulin,Yulin,,750.0,,,,,,,
-Northeast Asia,China,Shenhua Yulin,Yulin,LYB Tublar,300.0,,,,,,,
+﻿Region,Country,Plant,Location,Technology,C2 Capacity (kt),Op Rate,Ethane,E/P Mix,Propane,Butane,Naphtha,Gas Oil,Survey 2014 Company,Survey 2014 Location,Survey 2014 Capacity (kt),Survey 2014 Ethane (%),Survey 2014 Propane (%),Survey 2014 Butane (%),Survey 2014 Naphtha (%),Survey 2014 Gas Oil (%),Survey 2014 Other,Survey Source,Survey Match Status
+Middle East,Abu Dhabi,Borouge 1,Ruwais,KTI/Technimont,600.0,,,,,,,,Borouge Abu Dhabi Polymers Co. Ltd.,"Ruwais, Abu Dhabi",600.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Africa,Algeria,Enip/Repsol,Arzew,,0.0,,,,,,,,,,,,,,,,,,
+Africa,Algeria,Enip,Skikda,Linde,138.0,,,,,,,,Sonatrach,Skikda,133.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Africa,Egypt,Sidi Krir PC,Alexandria,Lummus/Crest,300.0,,,,,,,,,,,,,,,,,,
+Africa,Egypt,Unspecified,Damietta,,400.0,,,,,,,,,,,,,,,,,,
+Africa,Egypt,Tahrir Petrochemicals,Ain Sokhna,,1350.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Abadan PC,Abadan,,48.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Arak Petrochemical,Arak,KTI/TPL,306.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 11,Asaluyeh,Technip,2000.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 10,Asaluyeh,Technip,1320.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Arya Sasol PC,Asaluyeh,Technip,1000.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 6,Bandar Imam,Linde,520.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Gachsaran PC,Gachsaran,Linde,1000.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,BIPC,Bandar Imam,Lummus/Crest,411.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 7,Bandar Imam,Linde,1100.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Tabriz PC,Tabriz,KTI/TPL,136.0,,,,,,,,Tabriz Petrochemical Co.,Tabriz,136.0,4,8,8,80,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Iraq,Iraq PC,Basrah,,0.0,,,,,,,,,,,,,,,,,,
+Middle East,Iraq,Iraq PC,Mussayed,S&W,0.0,,,,,,,,,,,,,,,,,,
+Middle East,Israel,Carmel Olefins,Haifa,,240.0,,,,,,,,,,,,,,,,,,
+Middle East,Kuwait,Equate Petrochemical,Shuaybah,Technip,850.0,,,,,,,,,,,,,,,,,,
+Middle East,Kuwait,Equate Petrochemical,Shuaybah,Technip,1005.0,,,,,,,,,,,,,,,,,,
+Africa,Libya,Rasco,Ras Lanuf,S&W,330.0,,,,,,,,,,,,,,,,,,
+Africa,Nigeria,Eleme Petrochemical,Port Harcourt,Kellogg,280.0,,,,,,,,,,,,,,,,,,
+Middle East,Oman,ORPIC,Sohar,,800.0,,,,,,,,,,,,,,,,,,
+Middle East,Qatar,Q-Chem ,Mesaieed,Kellogg,500.0,,,,,,,,Q-Chem I,Mesaieed,500.0,80,20,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Qatar,Q-Chem II / Qatofin,Ras Laffan,Technip,1300.0,,,,,,,,Ras Laffan Olefins Co.,Ras Laffan,1300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Qatar,Qapco,Mesaieed,Lummus,900.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Saudi Kayan Petrochemical,Al Jubail,Kellogg,1440.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Jubail United,Al Jubail,Kellogg,1400.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Al-Jubail Petrochemical Co.,Al Jubail,Lummus,790.0,,,,,,,,Al Jubail Petrochemical Co.,Jubail,800.0,50,50,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Kellogg,830.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Lummus,800.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Petrokemya ,Al Jubail,Kellogg,800.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Sadaf,Al Jubail,Braun,1090.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Yansab,Yanbu,Technip,1300.0,,,,,,,,Saudi Basic Industries Corp.,Yanbu,1300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Saudi Arabia,Yanpet,Yanbu,Lummus,1000.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Yanpet,Yanbu,Lummus,880.0,,,,,,,,Yanbu Petrochemical Co.,Yanbu,875.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Africa,South Africa,Sasol,Sasolburg,,90.0,,,,,,,,,,,,,,,,,,
+Africa,South Africa,Sasol,Secunda,,180.0,,,,,,,,,,,,,,,,,,
+Africa,South Africa,Sasol,Secunda,,405.0,,,,,,,,,,,,,,,,,,
+Middle East,Turkey,Petkim,Aliaga,S&W,587.0,,,,,,,,,,,,,,,,,,
+Australasia,Australia,Qenos,Botany,Linde,300.0,,,,,,,,,,,,,,,,,,
+Australasia,Australia,Flint Hills Resources,W. Footscray,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Fujian R&C Co.,Quanzhou,,1100.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,CNOOC Shell,Huizhou,S&W,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Beijing Yanshan PC,Beijing,,820.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Tianjin Petrochemical,Tianjin,Lummus,1000.0,,,,,,,,Sinopec,Tianjin,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,China,Sinopec Tianjin United Chemical,Tianjin,Lummus,200.0,,,,,,,,Sinopec,Tianjin,200.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,China,Sinopec Zhongyuan PC,Puyang,Lummus,200.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,BASF / Yangzi Pc,Nanjing,S&W,740.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Jiangsu Petrochemical,Nanjing,,10.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Liaoyang PC,Liaoyang,Technip,200.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Liaoning Huajin Tongda,Panjin,,450.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shanghai Secco Petrochemical,Caojing,,1200.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Shanghai PC No. 2,Jinshan,S&W,900.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Shanghai PC No. 1,Jinshan,S&W,,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Company Limited,Dushanzi,Innovene G,220.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Jamnagar,,1500.0,,,,,,,,,,,,,,,,,,
+South Asia,India,BCPL,Lapetkata,Innovene G,220.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Vadodara,,0.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Vadodara,Lummus,200.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Dahej,S&W,440.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Hazira,S&W,910.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Nagothane,S&W,460.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Nocil,Thane,S&W,,,,,,,,,,,,,,,,,,,
+South Asia,India,Gas Authority Of India,Auraiya,S&W,450.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Indian Glycols,Khanpoor,,120.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Haldia PC,Haldia,Lummus,700.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,Chandra Asri,Cilegon,,860.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,Unspecified,Unspecified,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Idemitsu Kosan,Chiba,Kellogg,413.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Maruzen Petrochemical,Chiba,Lummus,525.0,,,,,,,,Maruzen Petrochemicals,Chiba,525.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,Japan,Mitsui Chemicals,Chiba,S&W,612.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Keiyo Ethylene,Chiba,Lummus,757.0,,,,,,,,Keiyo Ethylene,"Ichihara, Chiba",768.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,Japan,Mitsui Chemicals,Iwakuni,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Mitsubishi Chemical No.1,Kashima,,,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Mitsubishi Chemical No.2,Kashima,,541.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,JX Nippon Oil,Kawasaki,S&W,432.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Tonen General,Kawasaki,ERE,540.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Asahi Kasei Chemicals Corp.,Mizushima,,,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Mitsubishi Chemical,Mizushima,Lummus,570.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Showa Denko,Oita,S&W,691.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Mitsui Chemicals,Osaka,Lummus,600.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Idemitsu Kosan,Tokuyama,UOP-Kellogg,686.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Tosoh Corp,Yokkaichi,Lummus,527.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,,440.0,,,,,,,,Titan Petrochemicals Sdn. Bhd.,"Pasir Gudang, Johor",436.0,,10,10,80,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,S&W,290.0,,,,,,,,Titan Petrochemicals Sdn. Bhd.,"Pasir Gudang, Johor",287.0,,10,10,80,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Southeast Asia,Malaysia,Optimal Olefins Malaysia,Kerteh,,600.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Malaysia,Ethylene Malaysia,Kerteh,Lummus,400.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,North Korea,State,Pyongyang,S&W,60.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Philippines,JG Summit,Batangas,,320.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Singapore,ExxonMobil No.1,Pulau Ayer  Chawan,,875.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Singapore,PCS 2,Pulau Ayer Merbau,,515.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Singapore,PCS 1,Pulau Ayer Merbau,S&W,625.0,,,,,,,,Petrochemical Corp. of Singapore Pte. Ltd.,Pulau Ayer Merbau,615.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Southeast Asia,Singapore,Shell,Pulau Bukom,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,LG Chemicals,Daesan,,940.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,Lotte Chemical,Daesan,Kellogg,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,Hanwha Total,Daesan,Lummus/Crest,1090.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,KPIC,Ulsan,Lummus/Crest,800.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,SK Energy 2,Ulsan,Kellogg,680.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,SK Energy 1,Ulsan,Kellogg,190.0,,,,,,,,SK Corp.,Ulsan,185.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,South Korea,Lotte Chemical,Yeosu,Lummus,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,LG Chem,Yeosu,Lummus,1100.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,YNCC No.1,Yeosu,Lummus/Crest,835.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,YNCC No.2,Yeosu,S&W,800.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,YNCC No.3,Yeosu,Lummus/Crest,450.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Formosa PCC No.1,Mailiao,S&W,720.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 1,Kaohsiung,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 2,Kaohsiung,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 5,Kaohsiung,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 3,Lin-Yuan,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 4,Lin-Yuan,,385.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Formosa PCC No.2,Mailiao,Lummus,1035.0,,,,,,,,Formosa Petrochemical Corp.,Mailiao,1035.0,,6.8,0.8,92.4,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,Taiwan,Chinese Petroleum,Lin-Yuan,,0.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,,1000.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,Lummus,467.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,Rayong Olefins,Map Ta Phut,Lummus,800.0,,,,,,,,Rayong Olefins Ltd.,"Map Ta Phut, Rayong",800.0,,,,,,"NGL-40 LPG-60,","Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,S&W,515.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,PTT Chemicals,Map Ta Phut,,400.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,Integrated Refining and Petrochemical Co.,Rayong,Linde,430.0,,,,,,,,PTT Chemical,"Map Ta Phut, Rayong",437.0,80,6,,,,LPG-14,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Southeast Asia,Vietnam,Long Son Petrochemicals,Vung Tau,,1400.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Bulgaria,Lukoil Neftokhim Burgas,Burgas,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Bulgaria,Lukoil Neftokhim Burgas,Burgas,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Azerbaijan,Azerikhimia,Sumgait,,300.0,,,,,,,,Azerichimia,Sumgait,300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Belarus,Polimir,Novopolotsk,,120.0,,,,,,,,Production Association Polymir,Novopolotsk,120.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Belarus,Polimir,Novopolotsk,,60.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Kazakhstan,AO Atoll,Atyrau,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Angarsk PCC,Angarsk,,450.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Stavrolen ,Budyennovsk,Linde,350.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Kazanorgsyntez,Kazan,Lummus,640.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Sibur-Neftekhim,Nizhniy Novgor,,360.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Nizhnekamskneftekhim,Nizhnekamsk,,1800.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Gazprom,Novy Urengoi,Linde,420.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Omsk Kauchuk,Omsk,,,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Sibur-Khimprom,Perm,,60.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Gazprom Neftekhim Salavat,Salavat,,340.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Neftekhimya Samara,Samara,,180.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Lukoil,Tomsk,,300.0,,,,,,,,Tomsk PCC,Tomsk,300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Russia and Central Asia,Russia,Ufaorgsintez,Ufa,Linde,230.0,,,,,,,,Uraorgsintes,Ufa,235.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Ukraine,Lukor,Kalush,Linde,250.0,,,,,,,,Chlorvinyl,Kalush,250.0,,,,,100,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Ukraine,Linos,Lisichansk,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Uzbekistan,Shurtan Gas Chemical,Karshi,Lummus,140.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Croatia,Dioki,Zagreb,KTI,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Czech Republic,Chemopetrol,Litvinov,Lummus,545.0,,,,,,,,Unipetrol,Litvinov,544.0,,2,6,56,,1 Hydrowax-40,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,Linde,290.0,,,,,,,,Tiszai Vegyi Kombinat Ltd.,Tiszaujvaros,290.0,,14.4,16.4,65.4,3.8,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Hungary,MOL Petrochemicals,Tiszaujvaros,Linde,370.0,,,,,,,,Tiszai Vegyi Kombinat Ltd.,Tiszaujvaros,370.0,,.01,5,95,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Central and Eastern Europe,Poland,PC Blachownia,Blachownia,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Poland,PKN Orlen,Plock,,25.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Poland,PKN Orlen,Plock,Lummus,660.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Poland,PKN Orlen,Plock,Lummus,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Romania,Petromidia,Midia,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Romania,Oltchim,Pitesti,KTI,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Romania,Petrotel-Lukoil,Teleajen,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Slovakia,Slovnaft,Bratislava,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Slovakia,Slovnaft,Bratislava,Lummus,300.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Serbia,Hemijska Industrija,Pancevo,S&W,200.0,,,,,,,,,,,,,,,,,,
+North America,Canada,Dow,Fort Saskatchewan,,1300.0,,,,,,,,,,,,,,,,,,
+North America,Canada,Nova,Joffre,,771.0,,,,,,,,,,,,,,,,,,
+North America,Canada,Nova/Dow,Joffre,S&W,1542.0,,,,,,,,,,,,,,,,,,
+North America,Canada,ExxonMobil,Sarnia,Exxon,300.0,,,,,,,,Imperial Oil Products & Chemicals,"Sarnia, Ont.",300.0,33,33,34,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,Canada,Nova,Sarnia,Kellogg,1100.0,,,,,,,,,,,,,,,,,,
+North America,Canada,Petromont,Montreal,,0.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Pemex,Ciudad Madero,,0.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Pemex,Reynosa,,0.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Pemex,Morelos Complex,Lummus,600.0,,,,,,,,Petroleos Mexicanos,"Morelos, Veracruz",600.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,Mexico,Pemex,Cangrejera Complex,Lummus,600.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Pemex,Cangrejera Complex,,0.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Pemex,Pajaritos,Lummus,180.0,,,,,,,,Petroleos Mexicanos,"Pajaritos, Veracruz",184.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,Mexico,Pemex,Poza Rica,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,ExxonMobil,Baton Rouge 1,,107.0,100,64.0,,4.0,14.0,6.0,12.0,,,,,,,,,,,
+North America,United States,ExxonMobil,Baton Rouge 2,,177.0,100,64.0,,4.0,14.0,6.0,12.0,,,,,,,,,,,
+North America,United States,ExxonMobil,Baton Rouge 3,S&W/Kellogg,739.0,100,64.0,,4.0,14.0,6.0,12.0,,,,,,,,,,,
+North America,United States,ExxonMobil,Baytown 1,S&W/Kellogg,1179.0,100,89.0,,,4.0,1.0,6.0,,,,,,,,,,,
+North America,United States,ExxonMobil,Baytown 2,S&W,1139.0,96,100.0,,,,,,,,,,,,,,,,
+North America,United States,ExxonMobil,Baytown 3,,1500.0,,,,,,,,,,,,,,,,,,
+North America,United States,ExxonMobil,Beaumont 1,Kellogg,450.0,100,88.0,,12.0,,,,,,,,,,,,,,
+North America,United States,ExxonMobil,Beaumont 2,Kellogg,450.0,100,88.0,,12.0,,,,,,,,,,,,,,
+North America,United States,Olin,Brandenburg,S&W,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Sun,Brandenburg,Lummus,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Westlake Polymers,Calvert City,Braun,290.0,100,100.0,,,,,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Cedar Bayou 1,Lummus,871.0,98,56.0,,33.0,11.0,,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Cedar Bayou 2,,1500.0,,,,,,,,,,,,,,,,,,
+North America,United States,LyondellBasell,Channelview 1,Kellogg,930.0,94,25.0,,25.0,20.0,30.0,,,,,,,,,,,,
+North America,United States,LyondellBasell,Channelview 2,Kellogg,930.0,94,25.0,,25.0,20.0,30.0,,,,,,,,,,,,
+North America,United States,Ineos,Chocolate Bayou 1,Braun,935.0,100,67.0,,31.0,,2.0,,,,,,,,,,,,
+North America,United States,Ineos,Chocolate Bayou 2,Braun,930.0,100,67.0,,31.0,,2.0,,,,,,,,,,,,
+North America,United States,LyondellBasell,Chocolate Bayou,Lummus,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Sun,Claymont,Lummus,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,LyondellBasell,Clinton,Kellogg,500.0,93,85.0,,15.0,,,,,,,,,,,,,,
+North America,United States,Flint Hills Resources,Corpus Christi,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Javalena,Corpus Christi,,90.0,-,,,,,,,,,,,,,,,,,
+North America,United States,LyondellBasell,Corpus Christi,S&W/Braun,1134.0,94,45.0,,20.0,15.0,20.0,,,,,,,,,,,,
+North America,United States,Shell Chemicals,Deer Park 1,Kellogg,320.0,95,40.0,,30.0,20.0,5.0,5.0,,,,,,,,,,,
+North America,United States,Shell Chemicals,Deer Park 2,Kellogg,835.0,95,40.0,,30.0,20.0,5.0,5.0,,,,,,,,,,,
+North America,United States,Dow,Freeport 8,Lummus/Dow,907.0,95,,60.0,40.0,,,,,,,,,,,,,,
+North America,United States,Dow,Freeport 7,Lummus/Dow,590.0,95,55.0,,45.0,,,,,,,,,,,,,,
+North America,United States,Dow,Freeport,,1500.0,,,,,,,,,,,,,,,,,,
+North America,United States,Williams,Geismar,Lummus/Kellogg,880.0,100,100.0,,,,,,,,,,,,,,,,
+North America,United States,ExxonMobil,Houston,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Oxy/Mexichem,Ingleside,,500.0,,,,,,,,,,,,,,,,,,
+North America,United States,LyondellBasell,La Porte,Kellogg,1180.0,100,80.0,,10.0,10.0,,,,,,,,,,,,,
+North America,United States,Indorama Ventures,Lake Charles,S&W/Braun,370.0,,,,,,,,,,,,,,,,,,
+North America,United States,Lotte-Axiall,Lake Charles,,1000.0,,,,,,,,,,,,,,,,,,
+North America,United States,Sasol,Lake Charles 1,Lummus,454.0,100,100.0,,,,,,,,,,,,,,,,
+North America,United States,Sasol,Lake Charles 2,,1500.0,,,,,,,,,,,,,,,,,,
+North America,United States,Westlake Polymers,Lake Charles 2,,745.0,100,85.0,,15.0,,,,,,,,,,,,,,
+North America,United States,Westlake Polymers,Lake Charles 1,Kellogg,658.0,100,100.0,,,,,,,,,,,,,,,,
+North America,United States,Texas Eastman,Longview 3,Kellogg,360.0,95,31.0,,69.0,,,,,,,,,,,,,,
+North America,United States,Texas Eastman,Longview 2,Lummus,136.0,95,31.0,,69.0,,,,,,,,,,,,,,
+North America,United States,Texas Eastman,Longview 1,Lummus,136.0,95,31.0,,69.0,,,,,,,,,,,,,,
+North America,United States,Shell,Monaca,,1500.0,,,,,,,,,,,,,,,,,,
+North America,United States,LyondellBasell,Morris,Lummus,567.0,97,94.0,,6.0,,,,,,,,,,,,,,
+North America,United States,Shell Chemicals,Norco 5,Kellogg,850.0,100,40.0,,25.0,30.0,5.0,,,,,,,,,,,,
+North America,United States,Shell Chemicals,Norco 1,Kellogg,520.0,100,45.0,,25.0,25.0,5.0,,,,,,,,,,,,
+North America,United States,Dupont,Orange,Lummus,590.0,91,100.0,,,,,,,,,,,,,,,,
+North America,United States,Dow,Plaquemine 3,Lummus/Dow,748.0,100,50.0,,45.0,,5.0,,Dow Chemical Co.,"Plaquemine (LHC 3), La.",740.0,,70,10,20,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,United States,Dow,Plaquemine 2,Lummus/Dow,499.0,100,55.0,,45.0,,,,,,,,,,,,,,
+North America,United States,Formosa Plastics,Point Comfort 1,Kellogg,771.0,95,,30.0,40.0,,30.0,,,,,,,,,,,,
+North America,United States,Formosa Plastics,Point Comfort 2,Kellogg,862.0,97,,40.0,40.0,,20.0,,,,,,,,,,,,
+North America,United States,Formosa Plastics,Point Comfort,Uhde STAR,1200.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Argentina,PQ Bahia Blanca ,Bahia Blanca,,425.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Argentina,PQ Bahia Blanca ,Bahia Blanca,Linde,275.0,,,,,,,,Dow Chemical Co.,Bahia Blanca (BB1),275.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Latin America and Caribbean,Argentina,Garavaglio-Zorraqu,Ensenada,Koppers,16.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Argentina,Akzo Nobel Argentina,San Lorenzo,Lurgi,55.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Argentina,Pasa,San Lorenzo,,28.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Salgema,Maceio,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Braskem,Camacari,,650.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Braskem,Camacari,Lummus,630.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Coperto,Cabo,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Braskem,Duque de Caxias,,520.0,,,,,,,,Rio Polimeros,Duque de Caxias,520.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Latin America and Caribbean,Brazil,Braskem,Triunfo,,570.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Braskem,Triunfo,Technip,685.0,,,,,,,,Copesul,"Triunfo, RS",700.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Latin America and Caribbean,Brazil,Braskem,Maua,Lummus,700.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Dow,Cubatao,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,CBE,Sao Paulo,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Chile,Petrox,Concepcion,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Colombia,Ecopetrol,Barrancabermeja,KTI,86.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Peru,Paramonga,Paramonga,,4.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Venezuela,Pequiven,El Tablazo,Linde,350.0,,,,,,,,Pequiven-Petroquimica de Venezuela SA,"El Tablazo, Zulia",350.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Latin America and Caribbean,Venezuela,Pequiven,El Tablazo,Kellogg,250.0,,,,,,,,Pequiven-Petroquimica de Venezuela SA,"El Tablazo, Zulia",250.0,30,70,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Latin America and Caribbean,Venezuela,Braskem-Pequiven,Jose,DSM,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Austria,OMV,Schwechat,Linde,500.0,,,,,,,,OMV AG,Schwechat,500.0,15,,23,62,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Belgium,BASF,Antwerp,Linde,1080.0,,,,,,,,BASF Antwerpen NV,Antwerp,1080.0,,6,,94,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Belgium,Total Olefins Antwerp,Antwerp,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Belgium,Total Olefins Antwerp,Antwerp,Kellogg,600.0,,,,,,,,,,,,,,,,,,
+Western Europe,Belgium,Total Olefins Antwerp,Antwerp,S&W,570.0,,,,,,,,Benelux FAO,Antwerp,580.0,16,16,18,50,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Finland,Borealis,Porvoo,Lummus,420.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,LyondellBasell,Berre,Lummus,456.0,,,,,,,,Societe du Craqueur de L’ Aubette SCA,Berre l’Etang,450.0,,,12,75,13,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,France,Total Petrochemicals,Carling,Lummus,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,Versalis,Dunkerque,Lummus,360.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,AVFC,Feyzin,Lummus,245.0,,,,,,,,A. P. Feyzin,Feyzin,250.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,France,Total Petrochemicals,Gonfreville,S&W,520.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,Total Petrochemicals,Lacq,KTI,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,Naphtachimie,Lavera,S&W,760.0,,,,,,,,,,,,,,,,,,
+Western Europe,France,ExxonMobil,N.D. De Gravenchon,Exxon,400.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,Dow,Boehlen,Linde,540.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,OMV,Burghausen,Lurgi,450.0,,,,,,,,OMV Deutschland GMBH,"Burghausen, Bavaria",450.0,2.5,6,6,84,1.5,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Germany,BP,Gelsenkirchen,Linde,530.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,BP,Gelsenkirchen,Linde,515.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,Raffinerie Heide,Heide,Lummus,108.0,,,,,,,,Shell & DEA Oil GMBH,Heide,110.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Germany,BASF,Ludwigshafen,Linde,400.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,BASF,Ludwigshafen,Lummus,210.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,LyondellBasell,Muenchsmuenster,Linde,345.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,LyondellBasell,Wesseling,,280.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,LyondellBasell,Wesseling,Linde,740.0,,,,,,,,Basell Polyfine GMBH,Wesseling,738.0,,,10,90,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Germany,Shell Chemicals,Wesseling,Lummus,300.0,,,,,,,,Basell Polyfine GMBH,Wesseling,305.0,,,,,100,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Germany,Shell Chemicals,Wesseling,Lummus,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,No 6,Cologne,Lummus,200.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,No 5,Cologne,Linde,510.0,,,,,,,,,,,,,,,,,,
+Western Europe,Germany,No 4,Cologne,S&W,450.0,,,,,,,,,,,,,,,,,,
+Western Europe,Greece,EKO,Thessaloniki,,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Italy,Versalis,Brindisi,TPI/KTI,410.0,,,,,,,,,,,,,,,,,,
+Western Europe,Italy,Versalis,Gela,S&W,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Italy,Versalis,Porto Marghera,Lummus,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Italy,Versalis,Porto Torres,KTI,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,Italy,Versalis,Priolo,KTI/Technimont,430.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",SABIC,Geleen,Linde,550.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",SABIC,Geleen,Lummus,675.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",Shell Chemicals,Moerdijk,S&W,970.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,600.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,525.0,,,,,,,,,,,,,,,,,,
+Western Europe,"Netherlands, The",Dow,Terneuzen,Lummus,675.0,,,,,,,,,,,,,,,,,,
+Western Europe,Norway,Ineos,Bamble,Linde,600.0,,,,,,,,,,,,,,,,,,
+Western Europe,Portugal,Repsol YPF,Sines,Linde,410.0,,,,,,,,,,,,,,,,,,
+Western Europe,Spain,Repsol YPF,Puertollano,S&W,95.0,,,,,,,,,,,,,,,,,,
+Western Europe,Spain,Dow,Tarragona,Linde,660.0,,,,,,,,,,,,,,,,,,
+Western Europe,Spain,Repsol YPF,Tarragona,Linde,660.0,,,,,,,,,,,,,,,,,,
+Western Europe,Sweden,Borealis,Stenungsund,S&W,610.0,,,,,,,,Borealis AB,Stenungsund,625.0,40,20,,40,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,Switzerland,Lonza AG,Visp,Lonza,25.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,BP,Baglan Bay,S&W,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,ExxonMobil,Fawley,S&W,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,Ineos,Grangemouth,,740.0,,,,,,,,INEOS,Grangemouth,730.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,United Kingdom,Ineos,Grangemouth,S&W,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,Exxon/Shell,Mossmorran,Lummus/Crest,800.0,,,,,,,,ExxonMobil Chemical Co.,Mossmorran Fife,800.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Western Europe,United Kingdom,Shell Chemicals,Stanlow,,0.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,SABIC,Wilton,S&W,865.0,,,,,,,,SABIC Europe,Wilton,865.0,,20,10,70,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+South Asia,India,Kerala SIDC,Cheemeni,,0.0,,,,,,,,,,,,,,,,,,
+Central and Eastern Europe,Macedonia,Unspecified,Unspecified,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,BASF-Total,Port Arthur,,1140.0,100,20.0,,25.0,25.0,30.0,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Port Arthur,Lummus,807.0,100,86.0,,14.0,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Jubail Chevron Phillips,Al Jubail,,300.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Polietilenos Uniao,Capuava,,0.0,,,,,,,,,,,,,,,,,,
+Middle East,Abu Dhabi,Borouge 2,Ruwais,KTI/Technimont,1400.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 13,Ilam,S&W,450.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 5,Asaluyeh,Technip,500.0,,,,,,,,,,,,,,,,,,
+North America,Canada,Keltic Petrochemicals,Goldboro,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Flint Hills Resources,Port Arthur,S&W,635.0,86,40.0,5.0,30.0,25.0,,,Flint Hills Corp.,"Port Arthur, Tex.",634.921,,,60,,,LPG-40,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,Taiwan,Formosa PCC No.3,Mailiao,Lummus,1200.0,,,,,,,,Formosa Petrochemical Corp.,Mailiao,1200.0,,0.6,5.8,93.6,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Saudi Arabia,Saudi Ethylene & Polyethylene Co.,Al Jubail,Linde,1000.0,,,,,,,,Jubail United Petrochemical Co.,Jubail,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+South Asia,India,Indian Oil Corp.,Panipat,Hostalen,850.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,PetroRabigh,Rabigh,Sumitomo,1600.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Sharq,Al Jubail,S&W,1300.0,,,,,,,,Eastern Petrochemical Co.,Jubail,1300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,China,Zhenhai Refining & Chemical,Zhenhai,Lummus,1000.0,,,,,,,,Sinopec,Zhenhai,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+South Asia,India,ONGC Petro additions (OPaL),Dahej,Mitsui,1100.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Dushanzi PC No.2,Dushanzi,S&W,1000.0,,,,,,,,Petrochina,Dushanzi,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Iran,Olefins,Asaluyeh,Kellogg,0.0,,,,,,,,,,,,,,,,,,
+Middle East,Iran,Olefins 12,Asaluyeh,,0.0,,,,,,,,,,,,,,,,,,
+Australasia,Australia,Qenos,Altona,S&W,210.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,SABIC,Al Jubail,,1200.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Saudi Chevron PC,Al Jubail,Lummus,1200.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Trinidad,Westlake,Point Lisas,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Kazakhstan,KAZMUNAYGAZ,Atyrau,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Daqing PC No. 1,Daqing,Kellogg,680.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Fushun PC No. 1,Fushun,Lummus,180.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Fushun PC No. 2,Fushun,Lummus,800.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Lanzhou PC No. 1,Lanzhou,Kellogg,240.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Lanzhou PC No. 2,Lanzhou,Kellogg,450.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Guangzhou Co. No. 1,Guangzhou,S&W,260.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Maoming Co. No. 1,Maoming,S&W,380.0,,,,,,,,Sinopec,"Maoming, Guangdong",380.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,China,Sinopec Maoming Co. No. 2,Maoming,S&W,640.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Qilu Petrochemical No. 1,Zibo,Lummus,570.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Qilu Petrochemical No. 2,Zibo,Lummus,270.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Yangzi PC No. 1,Nanjing,Lummus,450.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Yangzi PC No. 2,Nanjing,Lummus,300.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Thailand,Map Ta Phut Olefins,Map Ta Phut,,1000.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Indian Oil Corp.,Paradip,,200.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Reliance,Kurkumbh,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Rosneft,Samara,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Sibur,Orenburg,,0.0,,,,,,,,,,,,,,,,,,
+Africa,Algeria,Sonatrach/Total,Arzew,,0.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,TATNEFT,Nizhnekamsk,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Wuhan PC,Wuhan,,800.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Sichuan,Chengdu,S&W,800.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Singapore,ExxonMobil No.2,Pulau Ayer  Chawan,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Baotou,Baotou,,300.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Essar,Vadinar,Lummus,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Total,Port Arthur,,1000.0,,,,,,,,,,,,,,,,,,
+Middle East,Abu Dhabi,Borouge 3,Ruwais,,1500.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Peru,PetroPeru,Arequipa,,0.0,,,,,,,,,,,,,,,,,,
+South Asia,Pakistan,Engro Polymer & Chemicals Ltd,Unspecified,,0.0,,,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Braskem,Triunfo,,200.0,,,,,,,,,,,,,,,,,,
+North America,Mexico,Braskem Idesa,Coatzacoalcos,,1000.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Stavrolen ,Budyennovsk,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Huntsman,Port Neches,,181.0,85,,100.0,,,,,Huntsman Corp.,"Port Neches, Tex.",180.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Northeast Asia,China,CNOOC Shell,Huizhou,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Chinese Petroleum No. 6,Lin-Yuan,,,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Yanchang & China Coal,Yulin,,600.0,,,,,,,,,,,,,,,,,,
+Middle East,Kuwait,PIC,Shuaybah,,1400.0,,,,,,,,,,,,,,,,,,
+North America,United States,Dow,Seadrift,S&W,0.0,,,,,,,,,,,,,,,,,,
+Middle East,Saudi Arabia,Sadara,Al Jubail,,1500.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Liaoning Huajin Tongda,Panjin,,160.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Dalian PC,Dalian,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Hainan Petrochemical,Hainan,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Qingdao Chemical,Qingdao,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Ningbo Heyuan,Ningbo,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Ningxia Baofeng Energy,Ningdong,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Pucheng Clean Energy Chemical Company,Pucheng,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shaanxi Yanchang Petroleum,Yan'an,,400.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shanxi Coking Corporation,Hongdong,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Zhijin,Zhijin,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Zhongyuan PC,Puyang,,100.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Wison Clean Energy,Nanjing,,130.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Yili Meidianhua,Yili,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Yulin Energy and Chemical,Yulin,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec Guangzhou Co. No. 2,Guangzhou,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenyang Paraffin Wax,Shenyang,,150.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Taiwan,Kuo Kuang,Unspecified,,0.0,,,,,,,,,,,,,,,,,,
+South Asia,India,Gas Authority Of India,Auraiya,,450.0,,,,,,,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Sweeny 33,Braun,1043.0,93,100.0,,,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Comperj(Petrobras),Rio,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Jiutai Energy,Ordos City,UNIPOL,250.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Azerbaijan,SOCAR,Baku,,700.0,,,,,,,,,,,,,,,,,,
+Western Europe,United Kingdom,Essar,Stanlow,,40.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec China and Henan Coal,Henan,Gas Phase,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Total & China Power,Ordos City,Innovene G,400.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Qinghai Damei,Xining City,,300.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Malaysia,Kuo Kuang,Pengerang,,0.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Malaysia,Petronas (RAPID),Pengerang,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Jilin Chemical No. 1,Jilin,,150.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Jilin Chemical No. 2,Jilin,,700.0,,,,,,,,Jilin Chemical Industrial Co. Ltd.,Jilin,700.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,United States,Chevron Phillips Chemical,Sweeny,S&W/Braun,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Sweeny 22,S&W/Braun,295.0,50,76.0,,24.0,,,,,,,,,,,,,,
+Latin America and Caribbean,Brazil,Dow/Mitsui,Santa Vitoria,,350.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Coal New Material,Urumqi,LYB Tublar,240.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,Japan,Sumitomo Chemical Co,Chiba,,,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,"Zhongtian Hechuang Energy Co., Ltd",Ordos City,Sinopec Gas Phase,650.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Mengda New Energy,Ordos City,UNIPOL,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Xinhu Group,Ordos City,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Hulunbeier,Hulunbeier,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,China National Coal Group,Hulunbeier,UNIPOL,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Yulin,Yulin,,750.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Yulin,Yulin,LYB Tublar,300.0,,,,,,,,,,,,,,,,,,
 Northeast Asia,China,"China Coal Shaanxi Yulin Energy
 Chemical 
-",Yulin,UNIPOL,300.0,,,,,,,
-Northeast Asia,China,Shandong Yangmei Hengdong Chemical,Linyi,,120.0,,,,,,,
-Northeast Asia,China,Zhejiang Xingxing New Energy Technology,Jiaxing,,300.0,,,,,,,
-Northeast Asia,China,Jiangsu Sailboat Petrochemical,Lianyungang,,480.0,,,,,,,
-Northeast Asia,China,Xinwen Mining Group,Yili,,0.0,,,,,,,
-Northeast Asia,China,Hubei Yihua Group,Tacheng,,0.0,,,,,,,
-Northeast Asia,China,Xinjiang Dongming plastic,Changji,,0.0,,,,,,,
-Northeast Asia,China,China Guodian Xinjiang Corporation,Yili,,300.0,,,,,,,
-Northeast Asia,China,QingHai Salt Lake lndustry Group,Haixi,,160.0,,,,,,,
-Northeast Asia,China,Huahong Huijing,Pingliang,,300.0,,,,,,,
-Northeast Asia,China,Zhong'an United Coal and Chemical ,Huainan,Sinopec Gas Phase,300.0,,,,,,,
-Southeast Asia,Indonesia,Lotte Chemical Titan,Merak,,0.0,,,,,,,
-Southeast Asia,Indonesia,PTT Pertamina JV,Unspecified,,1000.0,,,,,,,
-Northeast Asia,China,PetroChina Daqing PC No. 2,Daqing,,680.0,,,,,,,
-North America,United States,Chevron Phillips Chemical,Sweeny 24,S&W/Braun,635.0,92,54.0,,29.0,17.0,,
-Northeast Asia,China,Gulei Refinery,Gulei,,800.0,,,,,,,
-Northeast Asia,China,Sinopec/KPC,Zhanjiang,,1000.0,,,,,,,
-Northeast Asia,China,Sinochem Quanzhou,Quanzhou,,1000.0,,,,,,,
-Northeast Asia,China,Fund Changzhou Energy,Changzhou,,200.0,,,,,,,
-Africa,Egypt,Ethydco,Alexandria,,460.0,,,,,,,
-North America,United States,Dow,Taft 1,Lummus,614.0,95,55.0,,40.0,,5.0,
-Russia and Central Asia,Uzbekistan,Ustyurt Gas Chemical,Karshi,,400.0,,,,,,,
-Southeast Asia,Indonesia,Chandra - Ferrostaal,Bintuni,,200.0,,,,,,,
-Southeast Asia,Indonesia,Unspecified,Unspecified,,600.0,,,,,,,
-Northeast Asia,South Korea,S-Oil,Ulsan,,200.0,,,,,,,
-Africa,Egypt,TCI Sanmar Chemicals,Alexandria,,60.0,,,,,,,
-North America,United States,Dow,Taft 2,,386.0,95,55.0,,40.0,,5.0,
-Northeast Asia,China,Shandong Shenda,Tengzhou,Exxon EVA,170.0,,,,,,,
-Northeast Asia,China,Dailan PC 2,Dalian,,0.0,,,,,,,
-Northeast Asia,China,Huajin Petrochemical,Panjin,,0.0,,,,,,,
-Northeast Asia,China,Shandong Dongrun Clean Energy,Dongying,,0.0,,,,,,,
-Northeast Asia,China,Shandong Betty Clean Energy,Dongying,,0.0,,,,,,,
-Northeast Asia,China,Liaocheng Meiwu New Materials,Liaocheng,,0.0,,,,,,,
-Northeast Asia,China,Wison Clean Energy 2,Nanjing,,300.0,,,,,,,
-Russia and Central Asia,Russia,Sibur,Svobodniy,,1200.0,,,,,,,
-Northeast Asia,China,Shenhua Baotou No.2,Baotou,,300.0,,,,,,,
-Northeast Asia,China,Shanxi Qiyi Energy,Xiangyuan,,300.0,,,,,,,
-Northeast Asia,China,Gulei Refinery,Gulei,,300.0,,,,,,,
-Northeast Asia,China,Qinghai Mining,Golmud,,300.0,,,,,,,
-Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,,0.0,,,,,,,
-North America,United States,PTTGC Marubeni,Unspecified,,0.0,,,,,,,
-North America,United States,Shintech,Unspecified,,500.0,,,,,,,
-North America,United States,Spec,Unspecified,Lummus/Kellogg,1000.0,,,,,,,
+",Yulin,UNIPOL,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shandong Yangmei Hengdong Chemical,Linyi,,120.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Zhejiang Xingxing New Energy Technology,Jiaxing,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Jiangsu Sailboat Petrochemical,Lianyungang,,480.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Xinwen Mining Group,Yili,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Hubei Yihua Group,Tacheng,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Xinjiang Dongming plastic,Changji,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,China Guodian Xinjiang Corporation,Yili,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,QingHai Salt Lake lndustry Group,Haixi,,160.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Huahong Huijing,Pingliang,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Zhong'an United Coal and Chemical ,Huainan,Sinopec Gas Phase,300.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,Lotte Chemical Titan,Merak,,0.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,PTT Pertamina JV,Unspecified,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,PetroChina Daqing PC No. 2,Daqing,,680.0,,,,,,,,,,,,,,,,,,
+North America,United States,Chevron Phillips Chemical,Sweeny 24,S&W/Braun,635.0,92,54.0,,29.0,17.0,,,,,,,,,,,,,
+Northeast Asia,China,Gulei Refinery,Gulei,,800.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinopec/KPC,Zhanjiang,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Sinochem Quanzhou,Quanzhou,,1000.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Fund Changzhou Energy,Changzhou,,200.0,,,,,,,,,,,,,,,,,,
+Africa,Egypt,Ethydco,Alexandria,,460.0,,,,,,,,,,,,,,,,,,
+North America,United States,Dow,Taft 1,Lummus,614.0,95,55.0,,40.0,,5.0,,,,,,,,,,,,
+Russia and Central Asia,Uzbekistan,Ustyurt Gas Chemical,Karshi,,400.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,Chandra - Ferrostaal,Bintuni,,200.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Indonesia,Unspecified,Unspecified,,600.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,South Korea,S-Oil,Ulsan,,200.0,,,,,,,,,,,,,,,,,,
+Africa,Egypt,TCI Sanmar Chemicals,Alexandria,,60.0,,,,,,,,,,,,,,,,,,
+North America,United States,Dow,Taft 2,,386.0,95,55.0,,40.0,,5.0,,,,,,,,,,,,
+Northeast Asia,China,Shandong Shenda,Tengzhou,Exxon EVA,170.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Dailan PC 2,Dalian,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Huajin Petrochemical,Panjin,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shandong Dongrun Clean Energy,Dongying,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shandong Betty Clean Energy,Dongying,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Liaocheng Meiwu New Materials,Liaocheng,,0.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Wison Clean Energy 2,Nanjing,,300.0,,,,,,,,,,,,,,,,,,
+Russia and Central Asia,Russia,Sibur,Svobodniy,,1200.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shenhua Baotou No.2,Baotou,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Shanxi Qiyi Energy,Xiangyuan,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Gulei Refinery,Gulei,,300.0,,,,,,,,,,,,,,,,,,
+Northeast Asia,China,Qinghai Mining,Golmud,,300.0,,,,,,,,,,,,,,,,,,
+Southeast Asia,Malaysia,Lotte Chemical Titan,Pasir Gudang,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,PTTGC Marubeni,Unspecified,,0.0,,,,,,,,,,,,,,,,,,
+North America,United States,Shintech,Unspecified,,500.0,,,,,,,,,,,,,,,,,,
+North America,United States,Spec,Unspecified,Lummus/Kellogg,1000.0,,,,,,,,,,,,,,,,,,
+South America,Argentina,Dow Chemical Co.,Bahia Blanca (BB2),,490.0,,,,,,,,Dow Chemical Co.,Bahia Blanca (BB2),490.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Argentina,Huntsman Corp.,San Lorenzo,,21.0,,,,,,,,Petrobras Energia,San Lorenzo,20.0,,100,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+South America,Argentina,Petrobras Energia,Puerto San Martin,,32.5,,,,,,,,Petrobras Energia,Puerto San Martin,32.5,,100,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Oceania,Australia,Huntsman Chemical Co. Australia Ltd.,"Melbourne, Vic.",,32.0,,,,,,,,Huntsman Chemical Co. Australia Ltd.,"Melbourne, Vic.",32.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Oceania,Australia,Qenos Pty. Ltd.,"Altona, Vic.",,180.0,,,,,,,,Qenos Pty. Ltd.,"Altona, Vic.",180.0,80,5,15,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Oceania,Australia,Qenos Pty. Ltd.,"Botany, NSW",,290.0,,,,,,,,Qenos Pty. Ltd.,"Botany, NSW",290.0,80,,,20,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,Azerbaijan,Azerichimia,Sumgait,,30.0,,,,,,,,Azerichimia,Sumgait,30.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Belarus,Production Association Polymir,Novopolotsk,,73.0,,,,,,,,Production Association Polymir,Novopolotsk,73.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Belgium,Benelux FAO,Antwerp,,230.0,,,,,,,,Benelux FAO,Antwerp,230.0,16,16,18,50,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Belgium,Benelux FAO,Antwerp,,570.0,,,,,,,,Benelux FAO,Antwerp,570.0,16,16,18,50,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Brazil,Braskem SA,"Camacari, Bahia",,600.0,,,,,,,,Braskem SA,"Camacari, Bahia",600.0,5,,,95,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Brazil,Braskem SA,"Camacari, Bahia",,680.0,,,,,,,,Braskem SA,"Camacari, Bahia",680.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Brazil,Copesul,"Triunfo, RS",,500.0,,,,,,,,Copesul,"Triunfo, RS",500.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Brazil,Petroquimica Uniao SA,"Santo Andre, Sao Paulo",,500.0,,,,,,,,Petroquimica Uniao SA,"Santo Andre, Sao Paulo",500.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Bulgaria,Lukoil Neftochim Bourgas JSC,Bourgas,,250.0,,,,,,,,Lukoil Neftochim Bourgas JSC,Bourgas,250.0,3.4,,10,86.6,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Bulgaria,Lukoil Neftochim Bourgas JSC,Bourgas,,150.0,,,,,,,,Lukoil Neftochim Bourgas JSC,Bourgas,150.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Dow Chemical Co.,"Ft. Sask., Alta.",,1285.0,,,,,,,,Dow Chemical Co.,"Ft. Sask., Alta.",1285.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Nova Chemicals Corp.,"Corunna, Ont.",,839.002,,,,,,,,Nova Chemicals Corp.,"Corunna, Ont.",839.002,25,30,20,25,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Nova Chemicals Corp.,"Joffre, Alta. (E1)",,725.624,,,,,,,,Nova Chemicals Corp.,"Joffre, Alta. (E1)",725.624,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Nova Chemicals Corp.,"Joffre, Alta. (E2)",,816.327,,,,,,,,Nova Chemicals Corp.,"Joffre, Alta. (E2)",816.327,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Nova Chemicals Corp.,"Joffre, Alta. (E3)",,1269.841,,,,,,,,Nova Chemicals Corp.,"Joffre, Alta. (E3)",1269.841,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Canada,Petromont,"Varennes, Que.",,295.0,,,,,,,,Petromont,"Varennes, Que.",295.0,,10,25,50,15,,"Oil & Gas Journal, July 7, 2014, p. 99; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Chile,Petrox SA,Concepcion,,45.0,,,,,,,,Petrox SA,Concepcion,45.0,8,,16,76,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,BASF-YPC Co. Ltd.,Nanjing,,600.0,,,,,,,,BASF-YPC Co. Ltd.,Nanjing,600.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,China National Offshore Oil Co.,"Daya Bay, Guangdong",,950.0,,,,,,,,China National Offshore Oil Co.,"Daya Bay, Guangdong",950.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,China National Offshore Oil Co.,Dushanzi,,140.0,,,,,,,,China National Offshore Oil Co.,Dushanzi,140.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,China Petrochemical Industrial Corp.,Daqing,,320.0,,,,,,,,China Petrochemical Industrial Corp.,Daqing,320.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Dalian Petrochemical Co.,Dalian,,4.0,,,,,,,,Dalian Petrochemical Co.,Dalian,4.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Fujian Petrochemical Co. Ltd.,Quanzhou,,800.0,,,,,,,,Fujian Petrochemical Co. Ltd.,Quanzhou,800.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Fushun Petrochemical Complex,Fushun,,115.0,,,,,,,,Fushun Petrochemical Complex,Fushun,115.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Gaoqiao Petrochemical Co.,Gaoqiao,,14.0,,,,,,,,Gaoqiao Petrochemical Co.,Gaoqiao,14.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Guangzhou Petrochemical Co.,Guangzhou,,150.0,,,,,,,,Guangzhou Petrochemical Co.,Guangzhou,150.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Lanzhou Chemical Industrial Co.,Lanzhou,,600.0,,,,,,,,Lanzhou Chemical Industrial Co.,Lanzhou,600.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Norinco/Zhenhua,Panjin,,480.0,,,,,,,,Norinco/Zhenhua,Panjin,480.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Panjin Ethylene Industry Corp.,Panjin,,130.0,,,,,,,,Panjin Ethylene Industry Corp.,Panjin,130.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Petrochina,Liaoning Province,,800.0,,,,,,,,Petrochina,Liaoning Province,800.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Saudi Basic Industries Corp.,Tianjin,,1200.0,,,,,,,,Saudi Basic Industries Corp.,Tianjin,1200.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,Beijing,,660.0,,,,,,,,Sinopec,Beijing,660.0,,,,30,70,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,"Caojing, Shanghai",,145.0,,,,,,,,Sinopec,"Caojing, Shanghai",145.0,,,,30,70,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,"Caojing, Shanghai",,700.0,,,,,,,,Sinopec,"Caojing, Shanghai",700.0,,,,60,40,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,"Guangzhou, Guandong",,140.0,,,,,,,,Sinopec,"Guangzhou, Guandong",140.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,Neijing,,650.0,,,,,,,,Sinopec,Neijing,650.0,,,,60,40,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,"Puyang, Henan",,180.0,,,,,,,,Sinopec,"Puyang, Henan",180.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,China,Sinopec,Qilu,,720.0,,,,,,,,Sinopec,Qilu,720.0,,,,80,20,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Taiwan,Chinese Petroleum Corp.,Kaohsiung Linyuan,,422.0,,,,,,,,Chinese Petroleum Corp.,Linyuan,419.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Asia,Taiwan,Chinese Petroleum Corp.,Linyuan,,230.0,,,,,,,,Chinese Petroleum Corp.,Linyuan,230.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Taiwan,Formosa Petrochemical Corp.,Mailiao,,700.0,,,,,,,,Formosa Petrochemical Corp.,Mailiao,700.0,,6.8,,93.2,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Colombia,Empresa Colombiana de Petroleos,Barrancabermeja,,100.0,,,,,,,,Empresa Colombiana de Petroleos,Barrancabermeja,100.0,80,20,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Croatia,Polimeri,Zagreb,,90.0,,,,,,,,Polimeri,Zagreb,90.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Africa,Egypt,Sidi Kerir Petrochemicals Co.,Alexandria,,330.0,,,,,,,,Sidi Kerir Petrochemicals Co.,Alexandria,330.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Finland,Borealis OY,Porvoo,,330.0,,,,,,,,Borealis OY,Porvoo,330.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,France,ExxonMobil Corp.,Notre Dame de Gravenchon,,400.0,,,,,,,,ExxonMobil Corp.,Notre Dame de Gravenchon,400.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,France,Naphthachimie,Lavera,,740.0,,,,,,,,Naphthachimie,Lavera,740.0,,,50,50,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,France,Versalis France SAS,Dunkerque,,370.0,,,,,,,,Versalis France SAS,Dunkerque,370.0,,8,16,76,,,"Oil & Gas Journal, July 7, 2014, p. 100; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,BASF AG,Ludwigshafen,,620.0,,,,,,,,BASF AG,Ludwigshafen,620.0,,5,5,90,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,BP Gelsenkirchen,Gelsenkirchen,,576.265,,,,,,,,BP Gelsenkirchen,Gelsenkirchen,576.265,,2,12,73,13,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,BP Gelsenkirchen,Gelsenkirchen,,484.0,,,,,,,,BP Gelsenkirchen,Gelsenkirchen,484.0,1,1,11,64,23,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,INEOS,Dormagen,,550.0,,,,,,,,INEOS,Dormagen,544.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Europe,Germany,LyondellBasell,Munchsmunster,,320.0,,,,,,,,LyondellBasell,Munchsmunster,320.0,13,17,17,53,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,Dow Chemical Co.,Bohlen,,560.0,,,,,,,,Dow Chemical Co.,Bohlen,560.0,,,100,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Germany,Shell & DEA Oil GMBH,Wesseling,,500.0,,,,,,,,Shell & DEA Oil GMBH,Wesseling,500.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Greece,EKO Chemicals Co. AE,Thessaloniki,,20.0,,,,,,,,EKO Chemicals Co. AE,Thessaloniki,20.0,,,,65,,gas-35 Ref.,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Gas Authority of India Ltd.,"Pata, Uttar Pradesh",,300.0,,,,,,,,Gas Authority of India Ltd.,"Pata, Uttar Pradesh",300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Haldia Petrochemicals Ltd.,"Haldia, West Bengal",,520.0,,,,,,,,Haldia Petrochemicals Ltd.,"Haldia, West Bengal",520.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Indian Oil Corp. Ltd.,"Haryana, New Delhi",,800.0,,,,,,,,Indian Oil Corp. Ltd.,"Haryana, New Delhi",800.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Indian Petrochemicals Corp. Ltd.,"Baroda, Gujarat",,130.0,,,,,,,,Indian Petrochemicals Corp. Ltd.,"Baroda, Gujarat",130.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Indian Petrochemicals Corp. Ltd.,"Gandhar, Gujarat",,300.0,,,,,,,,Indian Petrochemicals Corp. Ltd.,"Gandhar, Gujarat",300.0,,35-50,50-65,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Indian Petrochemicals Corp. Ltd.,"Nagothane, Maharashtra",,400.0,,,,,,,,Indian Petrochemicals Corp. Ltd.,"Nagothane, Maharashtra",400.0,,35-50,50-65,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,National Organic Chemical Industries Ltd.,"Thane, Maharashtra",,75.0,,,,,,,,National Organic Chemical Industries Ltd.,"Thane, Maharashtra",75.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,India,Reliance Industries Ltd.,"Hazira, Gujarat",,790.0,,,,,,,,Reliance Industries Ltd.,"Hazira, Gujarat",790.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Indonesia,PT Chandra Asri,"Cilegon, West Java",,600.0,,,,,,,,PT Chandra Asri,"Cilegon, West Java",600.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Amir Kabir Petrochemical Co.,Amir Kabir,,520.0,,,,,,,,Amir Kabir Petrochemical Co.,Amir Kabir,520.0,24,4,12,58,,2,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Arak Petrochemical,Arak,,247.0,,,,,,,,Arak Petrochemical,Arak,247.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Arya Sasol Polymer Co.,Assaluyeh Bushehr,,1000.0,,,,,,,,Arya Sasol Polymer Co.,Assaluyeh Bushehr,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Bandar Imam Petrochemical Co.,Bandar Imam,,311.0,,,,,,,,Bandar Imam Petrochemical Co.,Bandar Imam,311.0,20,3,10,,,67,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Jam Petrochemical Co.,Assaluyeh Bushehr,,1320.0,,,,,,,,Jam Petrochemical Co.,Assaluyeh Bushehr,1320.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Iran,Marun Petrochemical Co.,Bandar Assaluyeh,,1200.0,,,,,,,,Marun Petrochemical Co.,Bandar Assaluyeh,1200.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Israel,Carmel Olefins Ltd.,Haifa,,200.0,,,,,,,,Carmel Olefins Ltd.,Haifa,200.0,,10,10,80,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Italy,Polimeri Europa,Brindisi,,440.0,,,,,,,,Polimeri Europa,Brindisi,440.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 101; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,I,Polimeri Europa,Gela,,245.0,,,,,,,,Polimeri Europa,Gela,245.0,25,5,,70,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,I,Polimeri Europa,Porto Marghera,,490.0,,,,,,,,Polimeri Europa,Porto Marghera,490.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,I,Polimeri Europa,Priolo,,745.0,,,,,,,,Polimeri Europa,Priolo,745.0,2,,1,65,32,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,I,Syndial,Porto Torres,,250.0,,,,,,,,Syndial,Porto Torres,250.0,,,,70,30,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Asahikasei Chemicals Corp.,"Kurasiki, Okayama",,484.0,,,,,,,,Asahikasei Chemicals Corp.,"Kurasiki, Okayama",484.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Idemitsu Petrochemical Co. Ltd.,Chiba,,374.0,,,,,,,,Sumitomo Chemical Co. Ltd.,Chiba,380.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Asia,Japan,Idemitsu Petrochemical Co. Ltd.,Tokuyama,,450.0,,,,,,,,Idemitsu Petrochemical Co. Ltd.,Tokuyama,450.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Mitsubishi Chemical Corp.,Kashima (Unit 2),,453.0,,,,,,,,Mitsubishi Chemical Corp.,Kashima (Unit 2),453.0,,10,20,55,,NGL-15,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Mitsubishi Chemical Corp.,Mizushima,,450.0,,,,,,,,Mitsubishi Chemical Corp.,Mizushima,450.0,,5,5,80,,NGL-10,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Mitsui Chemicals Inc.,"Ichihara, Chiba",,553.0,,,,,,,,Mitsui Chemicals Inc.,"Ichihara, Chiba",553.0,,,10,90,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Mitsui Chemicals Inc.,"Takaishi City, Osaka",,450.0,,,,,,,,Mitsui Chemicals Inc.,"Takaishi City, Osaka",450.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Nippon Petrochemical,Kawasaki,,450.0,,,,,,,,Nippon Petrochemical,Kawasaki,450.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Showa Denko KK,Oita,,600.0,,,,,,,,Showa Denko KK,Oita,600.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Tonen Chemical Corp.,Kawasaki,,505.0,,,,,,,,Tonen Chemical Corp.,Kawasaki,505.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Japan,Tosoh Corp.,Yokkaichi,,493.0,,,,,,,,Tosoh Corp.,Yokkaichi,493.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,Kazakhstan,Akpo,Aktau,,100.0,,,,,,,,Akpo,Aktau,100.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,Kazakhstan,Government,Atyrau,,30.0,,,,,,,,Government,Atyrau,30.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Kuwait,Equate Petrochemical Co.,Shuaiba,,800.0,,,,,,,,Equate Petrochemical Co.,Shuaiba,800.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Kuwait,Equate Petrochemical Co. (Equate II),Shuaiba,,850.0,,,,,,,,Equate Petrochemical Co. (Equate II),Shuaiba,850.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Africa,Libya,National Oil Co.,Ras Lanuf,,350.0,,,,,,,,National Oil Co.,Ras Lanuf,350.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Malaysia,Ethylene Malaysia Sdn. Bhd.,Kertih,,400.0,,,,,,,,Ethylene Malaysia Sdn. Bhd.,Kertih,400.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Malaysia,Optimal Olefins Sdn. Bhd.,Kertih,,600.0,,,,,,,,Optimal Olefins Sdn. Bhd.,Kertih,600.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,Mexico,Petroleos Mexicanos,"La Cangrejera, Veracruz",,600.0,,,,,,,,Petroleos Mexicanos,"La Cangrejera, Veracruz",600.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Netherlands,Dow Chemical Co.,Terneuzen (No. 1),,580.0,,,,,,,,Dow Chemical Co.,Terneuzen (No. 2),585.0,,15,,85,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Europe,Netherlands,Dow Chemical Co.,Terneuzen (No. 3),,635.0,,,,,,,,Dow Chemical Co.,Terneuzen (No. 3),635.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Netherlands,SABIC Europe,Geleen (No. 3),,595.0,,,,,,,,SABIC Europe,Geleen (No. 3),595.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Netherlands,SABIC Europe,Geleen (No. 4),,670.0,,,,,,,,SABIC Europe,Geleen (No. 4),670.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Netherlands,Shell Nederland Chemie BV,Moerdijk,,900.0,,,,,,,,Shell Nederland Chemie BV,Moerdijk,900.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Africa,Nigeria,Eleme Petrochemical Co. Ltd.,Eleme River,,300.0,,,,,,,,Eleme Petrochemical Co. Ltd.,Eleme River,300.0,,,,,,NGL,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,North Korea,Namhung Youth Chemical Complex,"Anju, South P’yong’an Province",,60.0,,,,,,,,Namhung Youth Chemical Complex,"Anju, South P’yong’an Province",60.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 102; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Norway,Noretyl AS,"Rafnes, Bamble",,550.0,,,,,,,,Noretyl AS,"Rafnes, Bamble",550.0,30,45,25,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Poland,PKN Orlen SA,Plock,,700.0,,,,,,,,PKN Orlen SA,Plock,700.0,,5,5,90,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Portugal,Repsol YPF SA,Sines,,330.0,,,,,,,,Repsol YPF SA,Sines,330.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Qatar,Qatar Petrochemical Co.,Mesaieed,,720.0,,,,,,,,Qatar Petrochemical Co.,Mesaieed,720.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Romania,Petrom SA,Pitesti,,200.0,,,,,,,,Petrom SA,Pitesti,200.0,19.5,8.5,23.7,48.4,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Romania,Petromidia SA,Navodari,,200.0,,,,,,,,Petromidia SA,Navodari,200.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Romania,Petromidia SA,Constanta,,224.0,,,,,,,,Petromidia SA,Constanta,224.0,,10.7,5.0,54.7,,Kero.-29.6,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Romania,Petrotel SA,Teleajen,,220.0,,,,,,,,Petrotel SA,Teleajen,220.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Angarskneftorgsintez,"Angarsk, Siberia",,60.0,,,,,,,,Angarskneftorgsintez,"Angarsk, Siberia",60.0,,,5.2,89.2,5.6,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Angarskneftorgsintez,"Angarsk, Siberia",,240.0,,,,,,,,Angarskneftorgsintez,"Angarsk, Siberia",240.0,,,5.2,89.2,5.6,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Nizhnekamskneftekhim,Nizhnekamsk,,450.0,,,,,,,,Nizhnekamskneftekhim,Nizhnekamsk,450.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Omskykauchuyk,"Omsk, Siberia",,90.0,,,,,,,,Omskykauchuyk,"Omsk, Siberia",90.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Orgsintez,Kazan,,140.0,,,,,,,,Orgsintez,Kazan,140.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Orgsintez,Kazan,,100.0,,,,,,,,Orgsintez,Kazan,100.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Europe,Russia,Oxosyntez,Orsk,,45.0,,,,,,,,Oxosyntez,Orsk,45.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Salavatneftorgsintez,Salavat,,300.0,,,,,,,,Salavatneftorgsintez,Salavat,300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Sibur-Neftechim,Nizhny Novgorod,,300.0,,,,,,,,Sibur-Neftechim,Nizhny Novgorod,300.0,,,20,80,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Russia,Stavrapolpolymer,Prikumsk,,350.0,,,,,,,,Stavrapolpolymer,Prikumsk,350.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Arabian Petrochemical Co.,Jubail,,800.0,,,,,,,,Arabian Petrochemical Co.,Jubail,800.0,50,50,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+Middle East,Saudi Arabia,Arabian Petrochemical Co.,Jubail,,650.0,,,,,,,,Arabian Petrochemical Co.,Jubail,650.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Chevron Phillips Chemical Co. LP,Jubail,,205.0,,,,,,,,Chevron Phillips Chemical Co. LP,Jubail,205.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Saudi Kayan Petrochemical Co.,Jubail,,1350.0,,,,,,,,Saudi Kayan Petrochemical Co.,Jubail,1350.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Saudi Petrochemical Co.,Jubail,,1045.0,,,,,,,,Saudi Petrochemical Co.,Jubail,1045.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Saudi Polymers,Jubail,,1200.0,,,,,,,,Saudi Polymers,Jubail,1200.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Tasnee,Jubail,,1000.0,,,,,,,,Tasnee,Jubail,1000.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Saudi Arabia,Yanbu Petrochemical Co.,Yanbu,,830.0,,,,,,,,Yanbu Petrochemical Co.,Yanbu,830.0,16,16,18,50,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Serbia And Montenegro,Chemi Industria,Pancevo,,200.0,,,,,,,,Chemi Industria,Pancevo,200.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 103; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Singapore,ExxonMobil Chemical Co.,Jurong Island,,900.0,,,,,,,,ExxonMobil Chemical Co.,Jurong Island,900.0,,,,33,33,34,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Singapore,ExxonMobil Chemical Co.,Jurong Island,,2600.0,,,,,,,,ExxonMobil Chemical Co.,Jurong Island,2600.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Singapore,Petrochemical Corp. of Singapore Pte. Ltd.,Pulau Ayer Merbau,,465.0,,,,,,,,Petrochemical Corp. of Singapore Pte. Ltd.,Pulau Ayer Merbau,465.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Singapore,Shell Eastern Petroleum Ltd.,Bukom Island,,800.0,,,,,,,,Shell Eastern Petroleum Ltd.,Bukom Island,800.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Slovakia,Slovnaft Petrochemicals,Bratislava,,220.0,,,,,,,,Slovnaft Petrochemicals,Bratislava,220.0,,8.3,13.5,78.2,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Africa,South Africa,Sasol Polymers,Sasolburg,,110.0,,,,,,,,Sasol Polymers,Sasolburg,110.0,80,20,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Africa,South Africa,Sasol Polymers,Secunda,,475.0,,,,,,,,Sasol Polymers,Secunda,475.0,75,5,,20,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Honam Petrochemical,Yeochun,,700.0,,,,,,,,Honam Petrochemical,Yeochun,700.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Korea Petrochemical Industries Co. Ltd.,Ulsan,,320.0,,,,,,,,Korea Petrochemical Industries Co. Ltd.,Ulsan,320.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,LG Daesan Petrochemical,Daesan,,450.0,,,,,,,,LG Daesan Petrochemical,Daesan,450.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,LG Petrochemical Co. Ltd.,Yeosu City,,760.0,,,,,,,,LG Petrochemical Co. Ltd.,Yeosu City,760.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Lotte Daesan Petrochemical,Daesan,,600.0,,,,,,,,Lotte Daesan Petrochemical,Daesan,600.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Samsung General Chemicals,Daesan,,820.0,,,,,,,,Samsung General Chemicals,Daesan,820.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,SK Corp.,Ulsan,,545.0,,,,,,,,SK Corp.,Ulsan,545.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Yeochon,Yeochun,,480.0,,,,,,,,Yeochon,Yeochun,480.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Yeochon,Yeochun,,420.0,,,,,,,,Yeochon,Yeochun,420.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,South Korea,Yeochon,Yeochun,,350.0,,,,,,,,Yeochon,Yeochun,350.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Spain,Dow Chemical Co.,Tarragona,,580.0,,,,,,,,Dow Chemical Co.,Tarragona,580.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Spain,Repsol YPF SA,Puertollano,,250.0,,,,,,,,Repsol YPF SA,Puertollano,250.0,,,,,,streams Ref.,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Spain,Repsol YPF SA,Tarragona,,600.0,,,,,,,,Repsol YPF SA,Tarragona,600.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,Switzerland,Lonza Ltd.,Visp,,33.0,,,,,,,,Lonza Ltd.,Visp,33.0,,30,60,10,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Thailand,Map Ta Phut Olefins Co.,"Map Ta Phut, Rayong",,900.0,,,,,,,,Map Ta Phut Olefins Co.,"Map Ta Phut, Rayong",900.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Thailand,PTT Chemical,"Map Ta Phut, Rayong",,385.0,,,,,,,,PTT Chemical,"Map Ta Phut, Rayong",385.0,5,18,28,49,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Thailand,PTT Chemical,"Map Ta Phut, Rayong",,350.0,,,,,,,,PTT Chemical,"Map Ta Phut, Rayong",350.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Asia,Thailand,PTT Chemical,"Map Ta Phut, Rayong",,300.0,,,,,,,,PTT Chemical,"Map Ta Phut, Rayong",300.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,Turkey,Petkim Petrochemicals Holding Co.,"Aliaga, Izmir",,520.0,,,,,,,,Petkim Petrochemicals Holding Co.,"Aliaga, Izmir",520.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 104; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,I,TNK-BP,Lisichansk,,200.0,,,,,,,,TNK-BP,Lisichansk,200.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Middle East,UAE,Borouge Abu Dhabi Polymers Co. Ltd.,"Ruwais, Abu Dhabi",,1450.0,,,,,,,,Borouge Abu Dhabi Polymers Co. Ltd.,"Ruwais, Abu Dhabi",1450.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,United Kingdom,INEOS,Grangemouth,,340.0,,,,,,,,INEOS,Grangemouth,340.0,,,,100,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Europe,United Kingdom,ExxonMobil Chemical Co.,Fawley,,120.0,,,,,,,,ExxonMobil Chemical Co.,Fawley,120.0,9,8,8,25,25,25,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,BASF Fina Petrochemicals,"Port Arthur,Tex.",,860.0,,,,,,,,Chevron Phillips Chemical Co. LP,"Port Arthur,Tex.",855.0,80,15,5,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,United States,Chevron Phillips Chemical Co. LP,"Cedar Bayou,Tex.",,835.0,,,,,,,,Chevron Phillips Chemical Co. LP,"Cedar Bayou,Tex.",835.0,30,20,25,25,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",,945.0,,,,,,,,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",945.0,38,37,25,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",,665.0,,,,,,,,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",665.0,75,25,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",,255.0,,,,,,,,Chevron Phillips Chemical Co. LP,"Sweeny,Tex.",255.0,85,15,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Dow Chemical Co.,"Freeport (LHC 7), Tex.",,630.0,,,,,,,,Dow Chemical Co.,"Freeport (LHC 7), Tex.",630.0,50,50,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Dow Chemical Co.,"Freeport (LHC 8), Tex.",,1010.0,,,,,,,,Dow Chemical Co.,"Freeport (LHC 8), Tex.",1010.0,10,20,,70,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Dow Chemical Co.,"Plaquemine (LHC 2), La.",,520.0,,,,,,,,Dow Chemical Co.,"Plaquemine (LHC 2), La.",520.0,75,25,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Dow Chemical Co.,"Taft 1, La.",,590.0,,,,,,,,Dow Chemical Co.,"Taft 1, La.",590.0,20,40,,40,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Dow Chemical Co.,"Taft 2, La.",,410.0,,,,,,,,Dow Chemical Co.,"Taft 2, La.",410.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,DuPont,"Orange, Tex.",,680.0,,,,,,,,DuPont,"Orange, Tex.",680.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Eastman Chemical Co.,"Longview, Tex.",,781.0,,,,,,,,Eastman Chemical Co.,"Longview, Tex.",781.0,25,67,7,1,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Equistar Chemicals LP (LyondellBasell),"Channelview, Tex.",,875.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"Channelview, Tex.",875.0,5,,,95,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014","Matched by country, location and capacity"
+North America,United States,Equistar Chemicals LP (LyondellBasell),"Chocolate Bayou, Tex.",,544.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"Chocolate Bayou, Tex.",544.0,,,100,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Equistar Chemicals LP (LyondellBasell),"Clinton, Iowa",,476.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"Clinton, Iowa",476.0,80,20,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Equistar Chemicals LP (LyondellBasell),"Corpus Christi, Tex.",,771.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"Corpus Christi, Tex.",771.0,10,30,,60,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Equistar Chemicals LP (LyondellBasell),"LaPorte, Tex.",,789.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"LaPorte, Tex.",789.0,60,20,,20,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Equistar Chemicals LP (LyondellBasell),"Morris, Ill.",,550.0,,,,,,,,Equistar Chemicals LP (LyondellBasell),"Morris, Ill.",550.0,80,20,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,ExxonMobil Chemical Co.,"Baton Rouge, La.",,975.0,,,,,,,,ExxonMobil Chemical Co.,"Baton Rouge, La.",975.0,9,8,8,25,25,25,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,ExxonMobil Chemical Co.,"Baytown, Tex.",,2197.0,,,,,,,,ExxonMobil Chemical Co.,"Baytown, Tex.",2197.0,58,8,9,25,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,ExxonMobil Chemical Co.,"Beaumont, Tex.",,816.0,,,,,,,,ExxonMobil Chemical Co.,"Beaumont, Tex.",816.0,8,8,9,75,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,ExxonMobil Chemical Co.,"Houston, Tex.",,102.0,,,,,,,,ExxonMobil Chemical Co.,"Houston, Tex.",102.0,,,,,100,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Formosa Plastics Corp. USA,"Point Comfort, Tex.",,816.0,,,,,,,,Formosa Plastics Corp. USA,"Point Comfort, Tex.",816.0,45,15,,40,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Formosa Plastics Corp. USA,"Point Comfort, Tex.",,725.0,,,,,,,,Formosa Plastics Corp. USA,"Point Comfort, Tex.",725.0,45,15,,40,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,INEOS Olefins and Polymers USA,"Chocolate Bayou, Tex.",,1752.0,,,,,,,,INEOS Olefins and Polymers USA,"Chocolate Bayou, Tex.",1752.0,50,35,,15,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Javelina Co.,"Corpus Christi, Tex.",,151.0,,,,,,,,Javelina Co.,"Corpus Christi, Tex.",151.0,,,,,,Gas-100 Ref.,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Sasol North America Inc.,"Lake Charles, La.",,471.655,,,,,,,,Sasol North America Inc.,"Lake Charles, La.",471.655,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Shell Chemicals Ltd.,"Deer Park, Tex.",,1179.138,,,,,,,,Shell Chemicals Ltd.,"Deer Park, Tex.",1179.138,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Shell Chemicals Ltd.,"Norco, La.",,1451.247,,,,,,,,Shell Chemicals Ltd.,"Norco, La.",1451.247,5,,,35,60,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Westlake Petrochemicals Corp.,"Calvert City, Ky.",,204.082,,,,,,,,Westlake Petrochemicals Corp.,"Calvert City, Ky.",204.082,,100,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Westlake Petrochemicals Corp.,"Sulphur #1, La.",,567.0,,,,,,,,Westlake Petrochemicals Corp.,"Sulphur #1, La.",567.0,100,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Westlake Petrochemicals Corp.,"Sulphur #2, La.",,630.844,,,,,,,,Westlake Petrochemicals Corp.,"Sulphur #2, La.",630.844,70,30,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+North America,United States,Williams Olefins,"Geismar, La.",,612.245,,,,,,,,Williams Olefins,"Geismar, La.",612.245,92,8,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+Other,Uzbekistan,Uzbekneftegaz,Shurtan,,140.0,,,,,,,,Uzbekneftegaz,Shurtan,140.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
+South America,Venezuela,Polimerica,"Jose, Anzoategui",,1300.0,,,,,,,,Polimerica,"Jose, Anzoategui",1300.0,,,,,,,"Oil & Gas Journal, July 7, 2014, p. 105; capacities as of Jan. 1, 2014",Historical survey entry (2014); not merged
