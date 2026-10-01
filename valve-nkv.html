@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valve N & Kv Estimator</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eef3f7;color:#173a57;font:14px "Segoe UI",Arial,sans-serif}header{background:#103653;color:#fff;padding:24px 3%}h1{margin:0;font-size:25px}header p{margin:7px 0 0;color:#c9ddeb}main{max-width:1500px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.panel{background:#fff;border:1px solid #cad9e4;border-radius:9px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px #0000000d}h2{font-size:18px;margin:0 0 14px;padding-bottom:9px;border-bottom:2px solid #e1eaf0}h3{font-size:14px;margin:18px 0 8px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}label{font-size:12px;font-weight:650}input,select{width:100%;margin-top:5px;padding:9px;border:1px solid #afc1ce;border-radius:5px;background:#fff;color:#173a57}.selects{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{padding:12px;background:#eff6fa;border-left:4px solid #2f719c;border-radius:4px}.metric small{display:block;color:#5c7588}.metric strong{display:block;font-size:20px;margin-top:5px}.primary{background:#173f60;color:#fff;border:0;border-radius:5px;padding:10px 18px;font-weight:650;cursor:pointer;margin-top:13px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #dce6ed;text-align:right}th:first-child,td:first-child{text-align:left}td input{margin:0;padding:6px;text-align:right}.plotWrap{position:relative}svg{display:block;width:100%;height:440px;border:1px solid #d4e0e8;background:white}.surge{margin-top:10px;background:#eaf3f9;border-left:4px solid #2f719c;padding:12px}.surgeGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.surge b{display:block;font-size:17px;margin-top:3px}.note{font-size:12px;line-height:1.5;color:#5b7487}.legend{display:flex;gap:18px;flex-wrap:wrap;margin:8px 0 12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px}.actual{background:#2675a5}.pred{background:#d17a35}.warn{padding:9px;background:#fff2d9;border-left:4px solid #d29b3c;margin-bottom:10px}@media(max-width:950px){.grid{grid-template-columns:1fr}.selects{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.fields,.metrics,.surgeGrid,.selects{grid-template-columns:1fr}}@media print{header,.primary{display:none}.grid{display:block}.panel{break-inside:avoid}}</style></head>
+<body><header><h1>Valve N &amp; Kv Estimator</h1><p>Power-law valve characteristic fit based on VALVE.xlsm</p></header><main>
+<section class="panel"><h2>Valve Selection</h2><div class="selects">
+<label>Valve Type<select id="type"><option>Globe</option></select></label>
+<label>Valve Size<select id="size"><option value="3">3 in</option></select></label>
+<label>Open Cv<select id="openCv"><option value="136">136</option></select></label>
+<label>Manufacturer<select id="manufacturer"><option>Fisher</option></select></label>
+<label>Model<select id="model"><option>ED - Eq pct</option></select></label>
+</div></section>
+<div class="grid"><section class="panel"><h2>Inputs — Valve Characteristic Data</h2>
+<div class="fields"><label>Fraction open (%)<input id="fraction" type="number" min="0" max="100" step="1" value="30"></label>
+<label>Cv<input id="cv" type="number" min="0" step="any" value="15.5"></label></div>
+<button class="primary" id="apply">Apply Point &amp; Calculate</button>
+<h3>Curve-fit data from VALVE.xlsm</h3><table><thead><tr><th>Fraction Open (%)</th><th>Actual Cv</th><th>Predicted Cv</th><th>Error (%)</th></tr></thead><tbody id="dataRows"></tbody></table>
+<p class="note">The workbook fits the 10–40% opening points in log space. The 100% point is retained as the specified full-open Cv but is not part of the regression.</p></section>
+<section class="panel"><h2>Outputs</h2><div id="warning"></div><div class="metrics">
+<div class="metric"><small>Predicted Cv at selected opening</small><strong id="predCv">—</strong></div>
+<div class="metric"><small>n — valve curve exponent</small><strong id="n">—</strong></div>
+<div class="metric"><small>R² — curve fit</small><strong id="r2">—</strong></div>
+<div class="metric"><small>Pre-exponential coefficient</small><strong id="pre">—</strong></div>
+<div class="metric"><small>Kv — full-open valve loss</small><strong id="kv">—</strong></div>
+<div class="metric"><small>Full-open correction</small><strong id="foCorr">—</strong></div>
+</div><p class="note"><b>Workbook terminology:</b> Kv is the dimensionless full-open valve loss coefficient from the VALVE.xlsm surge calculation. The fitted <i>n</i> is the exponent describing the valve characteristic.</p></section></div>
+<section class="panel"><h2>Valve Characteristic Plot</h2><div class="legend"><span><i class="dot actual"></i>Actual data</span><span><i class="dot pred"></i>Predicted power-law curve</span></div>
+<div class="plotWrap"><svg id="plot" viewBox="0 0 1000 440"></svg></div>
+<div class="surge"><b style="font-size:14px">Surge Data</b><div class="surgeGrid">
+<div><small>Valve size</small><b id="sSize">—</b></div><div><small>Kv — full-open loss</small><b id="sKv">—</b></div><div><small>R²</small><b id="sR2">—</b></div><div><small>n — exponent</small><b id="sN">—</b></div><div><small>FO Correction</small><b id="sFO">—</b></div>
+</div></div><p id="hover" class="note">X-axis: Fraction open (%) · Y-axis: Fraction of full Cv (%)</p></section>
+<section class="panel"><h2>Calculation Basis</h2><p class="note">For fitted points, the workbook performs linear regression of ln(Cv) against ln(% open), giving Cv = a·(% open)<sup>n</sup>. Predicted fractional Cv is normalized to the specified full-open Cv. The surge calculation uses Kv = (29.9·Size² / Predicted Cv at 100%)² and FO Correction = (29.9·Size² / Open Cv)² − Kv. This HTML reproduces those formulas client-side.</p></section>
+</main><script>
+const $=x=>document.getElementById(x), fmt=(v,d=4)=>Number.isFinite(v)?v.toLocaleString('en-US',{maximumFractionDigits:d}):'—';
+let pts=[{x:10,y:5.11},{x:20,y:11.01},{x:30,y:15.5},{x:40,y:25}],fit={};
+function regression(){
+ const good=pts.filter(p=>p.x>0&&p.y>0); if(good.length<2)return null;
+ const X=good.map(p=>Math.log(p.x)),Y=good.map(p=>Math.log(p.y)),mx=X.reduce((a,b)=>a+b,0)/X.length,my=Y.reduce((a,b)=>a+b,0)/Y.length;
+ let sxx=0,syy=0,sxy=0;for(let i=0;i<X.length;i++){let dx=X[i]-mx,dy=Y[i]-my;sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy}
+ const n=sxy/sxx,b=my-n*mx,a=Math.exp(b),r2=(sxy*sxy)/(sxx*syy);return {n,a,r2,pred:x=>x<=0?0:a*Math.pow(x,n)}
+}
+function calc(){
+ fit=regression();if(!fit){$('warning').innerHTML='<div class="warn">At least two positive opening/Cv points are required.</div>';return}$('warning').innerHTML='';
+ const open=+$('fraction').value,size=+$('size').value,full=+$('openCv').value,p100=fit.pred(100),kv=Math.pow(29.9*size*size/p100,2),fo=Math.pow(29.9*size*size/full,2)-kv,pred=fit.pred(open);
+ $('predCv').textContent=fmt(pred,3);$('n').textContent=fmt(fit.n,5);$('r2').textContent=fmt(fit.r2,5);$('pre').textContent=fmt(fit.a,6);$('kv').textContent=fmt(kv,4);$('foCorr').textContent=fmt(fo,4);
+ $('sSize').textContent=fmt(size,2)+' in';$('sKv').textContent=fmt(kv,4);$('sR2').textContent=fmt(fit.r2,5);$('sN').textContent=fmt(fit.n,5);$('sFO').textContent=fmt(fo,4);
+ renderRows();draw(full)
+}
+function renderRows(){let full=+$('openCv').value;$('dataRows').innerHTML=pts.map((p,i)=>{let pr=fit.pred(p.x),er=(pr-p.y)/p.y*100;return `<tr><td><input class="px" data-i="${i}" value="${p.x}" type="number" min="1" max="99"></td><td><input class="py" data-i="${i}" value="${p.y}" type="number" min="0" step="any"></td><td>${fmt(pr,3)}</td><td>${fmt(er,2)}%</td></tr>`}).join('')+`<tr><td><b>100</b></td><td><b>${fmt(full,3)}</b></td><td>${fmt(fit.pred(100),3)}</td><td>${fmt((fit.pred(100)-full)/full*100,2)}%</td></tr>`;
+ document.querySelectorAll('.px,.py').forEach(e=>e.onchange=()=>{let i=+e.dataset.i;pts[i][e.classList.contains('px')?'x':'y']=+e.value;calc()})
+}
+function draw(full){let svg=$('plot'),L=82,T=28,W=880,H=330,B=T+H;let xp=x=>L+x/100*W,yp=y=>B-y/100*H;let h='<rect width="1000" height="440" fill="white"/>';
+ for(let i=0;i<=5;i++){let x=i*20,y=i*20;h+=`<line x1="${xp(x)}" x2="${xp(x)}" y1="${T}" y2="${B}" stroke="#e6edf2"/><line x1="${L}" x2="${L+W}" y1="${yp(y)}" y2="${yp(y)}" stroke="#e6edf2"/><text x="${xp(x)}" y="${B+25}" text-anchor="middle" font-size="12">${x}</text><text x="${L-10}" y="${yp(y)+4}" text-anchor="end" font-size="12">${y}</text>`}
+ let curve=[];for(let x=1;x<=100;x++)curve.push([x,100*fit.pred(x)/full]);h+=`<polyline fill="none" stroke="#d17a35" stroke-width="3" points="${curve.map(p=>xp(p[0])+','+yp(p[1])).join(' ')}"/>`;
+ pts.forEach(p=>{let y=100*p.y/full;h+=`<circle cx="${xp(p.x)}" cy="${yp(y)}" r="6" fill="#2675a5"><title>${p.x}% open; ${fmt(y,2)}% of full Cv; Cv ${p.y}</title></circle>`});h+=`<circle cx="${xp(100)}" cy="${yp(100)}" r="6" fill="#2675a5"/>`;
+ h+=`<text x="${L+W/2}" y="414" text-anchor="middle" font-size="14" font-weight="600">Fraction open (%)</text><text transform="translate(22 ${T+H/2}) rotate(-90)" text-anchor="middle" font-size="14" font-weight="600">Fraction of full Cv (%)</text><rect id="tracker" x="${L}" y="${T}" width="${W}" height="${H}" fill="transparent"/>`;svg.innerHTML=h;
+ $('tracker').onpointermove=e=>{let r=svg.getBoundingClientRect(),sx=(e.clientX-r.left)*1000/r.width,x=Math.max(1,Math.min(100,(sx-L)/W*100)),cv=fit.pred(x),pct=100*cv/full;$('hover').textContent=`Opening: ${fmt(x,1)}% · Predicted Cv: ${fmt(cv,3)} · Fraction of full Cv: ${fmt(pct,2)}%`}
+}
+$('apply').onclick=()=>{let x=+$('fraction').value,y=+$('cv').value,i=pts.findIndex(p=>Math.abs(p.x-x)<1e-9);if(x>0&&x<100&&y>0){if(i>=0)pts[i].y=y;else{pts.push({x,y});pts.sort((a,b)=>a.x-b.x)}calc()}};
+['fraction','cv','size','openCv','type','manufacturer','model'].forEach(id=>$(id).addEventListener('change',calc));calc();
+</script></body></html>
