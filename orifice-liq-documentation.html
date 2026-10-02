@@ -1,1 +1,107 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orifice Liquid Documentation</title><style>body{margin:0;background:#eef3f7;color:#173a57;font:15px Segoe UI,Arial,sans-serif}header{background:#103653;color:white;padding:24px 5%}main{max-width:1000px;margin:auto;padding:24px}.panel{background:white;border:1px solid #cad9e4;border-radius:9px;padding:24px;box-shadow:0 1px 3px #0001}h1{margin:0}h2{border-bottom:2px solid #e1eaf0;padding-bottom:8px}h3{margin-top:24px}.note{background:#eaf3f9;border-left:4px solid #2f719c;padding:12px;line-height:1.55}p{line-height:1.6}@media print{header{background:white;color:#173a57}}</style></head><body><header><h1>Series Orifice Anti-Cavitation Design — Documentation</h1></header><main><section class="panel"><p class="note"><b>Readable HTML replacement.</b> The workbook's Documentation sheet is stored as embedded graphics rather than selectable worksheet text. The readable instructions below are transcribed from the workbook's <b>User Instructions</b> content and retain its terminology and warnings.</p><h2>Design and Rating Guidance</h2><h3>1. Design-mode convergence</h3><p>After entering data for a new design, run the design convergence calculation to obtain converged results. Rating mode does not require this design convergence step.</p><h3>2. Optimization using downstream back pressure</h3><p>To help minimize the required number of orifice plates, the workbook recommends including downstream piping pressure drop as back pressure by adding it to the desired final downstream pressure. Static-head back pressure can also be increased by locating the plates below the discharge-vessel return nozzle where appropriate. The intent is to suppress flashing and subsequent cavitation.</p><h2>Warning Notes</h2><h3>Design Acceptable</h3><p>The design is acceptable when its operating point is to the left of the <b>Limiting Boundary for Orifice Plate Designs</b> and the difference between required total ΔP and design-provided total ΔP is less than 0.1%.</p><h3>Backside taper required</h3><p>If plate thickness divided by bore diameter exceeds 0.125, the workbook requires a tapered outlet on the backside of the orifice plate so the plate exhibits the intended flow characteristics and resistance. If one plate requires tapering, the workbook advises tapering all plates to reduce installation-error potential.</p><h3>Design Unacceptable — cavitation boundary</h3><p>If one or more plate operating points lie to the right of the limiting-boundary curve, the workbook directs the user to add plates and rerun the design calculation or obtain specialist assistance. The region between the Critical Cavitation Limit and the limiting boundary is intended only for limited cases where it changes the required plate count.</p><h3>Design Unacceptable — convergence error</h3><p>A difference greater than 0.1% between required and actual total ΔP indicates excessive convergence error. In rating mode this can indicate that the entered bore sizes do not provide the required total pressure drop. In design mode, verify that convergence was executed and that per-plate ΔP constraints are not preventing the required total ΔP from being achieved.</p><h3>Minimum Required Plate Thickness</h3><p>The workbook calculates a minimum allowable plate thickness from the maximum allowable stress of the selected plate material. Typical allowable-stress values versus temperature are provided on the <b>Plate Allowable Stress</b> sheet. The workbook notes that thicker plates may be used provided <b>t/d &lt; 0.125</b> is maintained; otherwise the outlet taper requirement applies.</p><h3>High plate power dissipation</h3><p>When plate power dissipation is excessive, the workbook recommends increasing the number of plates, reducing maximum ΔP per plate, or considering a multi-hole/perforated plate design. Its warning notes associate excessive dissipation with increased piping vibration and possible line damage.</p><h3>Rating Mode — Data Mismatch</h3><p>If required ΔP and actual ΔP do not agree, the workbook identifies a mismatch among flow rate, required differential pressure and entered orifice sizes. The original workbook provides a Solve Delta macro that varies design mass flow rate; alternatively an input orifice size can be adjusted.</p><h3>Rating Mode — Unacceptable Plate Cavitation Expected</h3><p>For rating cases, plate operating points to the right of the <b>Limiting Boundary for Orifice Designs</b> indicate unacceptable cavitation according to the workbook guidance. Use the Calculation-tab graph to identify the affected plate or plates.</p><h2>Source limitation</h2><p>The original Documentation worksheet contains two embedded graphics with equations and technical material rather than ordinary cell text. Those graphics did not convert to a readable PDF, so unsupported equations have not been reconstructed here.</p></section></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orifice Liquid — Documentation</title><style>*{box-sizing:border-box}body{margin:0;background:#eef3f7;color:#173a57;font:15px/1.62 "Segoe UI",Arial,sans-serif}header{background:#103653;color:#fff;padding:24px 4%}header h1{margin:0;font-size:25px}header p{margin:6px 0 0;color:#c9ddea}main{max-width:1050px;margin:22px auto;padding:0 20px 35px}.doc-section{background:#fff;border:1px solid #cad9e4;border-radius:9px;padding:30px 38px}.doc-section h1{font-size:25px;color:#123e60;margin-top:0;border-bottom:2px solid #dce8f0;padding-bottom:12px}.doc-section h2{font-size:19px;color:#174f78;margin-top:28px}.doc-section li{margin:14px 0}.math{font-family:"Cambria Math","Times New Roman",serif;font-size:1.08em;background:#f3f7fa;padding:2px 6px;border-radius:3px}@media(max-width:650px){.doc-section{padding:20px}}@media print{body{background:#fff}header{display:none}main{margin:0;max-width:none;padding:0}.doc-section{border:0;padding:0}}</style></head><body><header><h1>Orifice Liquid — Documentation</h1><p>Anti-cavitation orifice design calculation procedure</p></header><main><section id="documentation" class="doc-section">
+
+  <h1>Procedure for Estimating the Orifice Cavitation Limit Coefficient</h1>
+
+  <p>The cavitation index is defined by:</p>
+
+  <p>
+    <span class="math">
+      σ = ΔP / (P<sub>v</sub> − P<sub>s</sub>)
+    </span>
+  </p>
+
+  <p>
+    where ΔP is the macroscopic pressure drop across the orifice,<br>
+    P<sub>v</sub> is the vapor pressure of the liquid,<br>
+    P<sub>s</sub> is the pressure downstream of the orifice.
+  </p>
+
+  <p>
+    The cavitation resistance factor β is a correction applied to the cavitation index
+    for orifices or plates with similar cavitation behavior. β has a finite lower limit of 1.
+  </p>
+
+  <p>
+    When the operating cavitation index equals the critical cavitation index:
+  </p>
+
+  <p class="math">σ = σ<sub>c</sub></p>
+
+  <p>then:</p>
+
+  <p class="math">β = σ<sub>c</sub> / σ = 1</p>
+
+  <p>
+    For β &lt; 1, the operating cavitation index σ is less than the critical cavitation limit σ<sub>c</sub>.<br>
+    For β &gt; 1, the operating cavitation index σ is greater than the cavitation limit index σ<sub>c</sub>.
+  </p>
+
+  <h2>Calculation Procedure</h2>
+
+  <ol>
+    <li>
+      <strong>Calculate the dynamic pressure ratio (velocity head):</strong><br>
+      <span class="math">P<sub>v</sub> = (1/2) ρ V²</span>
+    </li>
+
+    <li>
+      <strong>Calculate the non-dimensional dynamic head:</strong><br>
+      <span class="math">σ = ΔP / P<sub>v</sub></span><br>
+      The product of this value and the orifice plate value is the operating cavitation index.
+    </li>
+
+    <li>
+      <strong>Calculate the maximum orifice limit:</strong><br>
+      <span class="math">K<sub>m</sub> = ΔP<sub>m</sub> / P<sub>v</sub></span><br>
+      where ΔP<sub>m</sub> is the user-specified maximum pressure drop per plate.
+    </li>
+
+    <li>
+      <strong>Assume a critical cavitation limit σ<sub>c</sub>.</strong><br>
+      The assumed value may be between 0 and 0.801.
+    </li>
+
+    <li>
+      <strong>Calculate the operating cavitation index based on σ<sub>c</sub> and β:</strong><br>
+      <span class="math">σ = σ<sub>c</sub> / β = σ<sub>c</sub> / (1 − (1 − σ<sub>c</sub>)(1 − β))</span><br><br>
+
+      For σ &lt; σ<sub>c</sub>:<br>
+      <span class="math">
+        β = 2.13109 σ<sub>c</sub><sup>1.15472 σ<sub>c</sub></sup> − 1.0376 σ<sub>c</sub> + 1.0055
+      </span>
+    </li>
+
+    <li>
+      <strong>Calculate the orifice loss coefficient:</strong><br>
+      <span class="math">K<sub>o</sub> = 2.8 β⁻¹ + (1 − β)</span>
+    </li>
+
+    <li>
+      <strong>Calculate the orifice resistance coefficient:</strong><br>
+      <span class="math">K<sub>r</sub> = σ K<sub>o</sub></span>
+    </li>
+
+    <li>
+      <strong>Calculate the error:</strong><br>
+      <span class="math">Error = K<sub>r</sub> − K<sub>m</sub></span><br><br>
+
+      If |Error| &lt; 0.001, the increment may be accepted.<br>
+      If |Error| &gt; 0.001, adjust the tolerance and repeat.<br>
+      If Error &lt; Tolerance → acceptable.<br>
+      If Error &gt; Tolerance → unacceptable.
+    </li>
+
+    <li>
+      <strong>Return to Step 4 or Exit.</strong>
+    </li>
+  </ol>
+
+  <h2>Citation</h2>
+  <p>
+    Cavitation data from Donald S. Miller, <em>Internal Flow Systems</em>, 1978, p.11.<br>
+    By Michael Olsan and Frank Schenck.<br>
+    Copyright © Fluid Flow Manual Chapter 2 Figure 2.
+  </p>
+
+</section>
+</main></body></html>
