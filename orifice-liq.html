@@ -1,6 +1,16 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Series Orifice Anti-Cavitation Design</title><style>
 *{box-sizing:border-box}body{margin:0;background:#eef3f7;color:#173a57;font:14px Segoe UI,Arial}header{background:#103653;color:#fff;padding:22px 3%}h1{margin:0;font-size:25px}header p{margin:6px 0 0;color:#cbdde9}.tabs{display:flex;gap:4px;background:#d8e3eb;padding:8px 3%}.tab{border:0;padding:10px 18px;background:#fff;color:#173a57;font-weight:700;border-radius:5px;cursor:pointer}.tab.active{background:#174f79;color:#fff}main{max-width:1500px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.panel{background:#fff;border:1px solid #c9d9e4;border-radius:8px;padding:17px;margin-bottom:16px;box-shadow:0 1px 3px #0000000b}h2{font-size:18px;margin:0 0 13px;border-bottom:2px solid #e2eaf0;padding-bottom:8px}h3{font-size:14px;margin:16px 0 8px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:12px;font-weight:650}input,select{width:100%;padding:8px;margin-top:4px;border:1px solid #afc1ce;border-radius:5px;background:#fff}.btn{background:#174f79;color:white;border:0;border-radius:5px;padding:10px 16px;font-weight:700;cursor:pointer;margin-top:12px}.help{background:#eaf3f9;border-left:4px solid #3277a2;padding:11px;line-height:1.5;margin-bottom:12px}.warn{background:#fff0d7;border-left:4px solid #d49a38;padding:10px;margin-bottom:10px}.ok{background:#e7f5eb;border-left:4px solid #3b8b55;padding:10px;margin-bottom:10px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.metric{background:#eff6fa;border-left:4px solid #3277a2;padding:11px}.metric small{display:block;color:#61798a}.metric strong{display:block;font-size:18px;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:7px;border-bottom:1px solid #dde6ec;text-align:right}th:first-child,td:first-child{text-align:left}.scroll{overflow:auto;max-height:420px}svg{width:100%;height:470px;border:1px solid #d2dee7;background:white}.legend{display:flex;flex-wrap:wrap;gap:14px;margin:7px 0;font-size:12px}.sw{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:4px}.note{font-size:12px;color:#5e7586;line-height:1.55}.docframe{width:100%;height:760px;border:1px solid #c9d9e4}.plateInputs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}@media(max-width:900px){.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}}@media(max-width:600px){.fields,.plateInputs,.metrics{grid-template-columns:1fr}}@media print{header,.tabs,.btn{display:none}.page{display:block!important}.panel{break-inside:avoid}}
-</style></head><body><header><h1>Series Orifice Anti-Cavitation Design</h1><p>Incompressible liquid service - converted from Series Orifice Anti-Cavitation Design.xlsm</p></header><nav class="tabs"><button class="tab active" data-p="calcPage">Calculation</button><button class="tab" data-p="docPage">Documentation</button></nav><main>
+
+.doc-section{background:#fff;border:1px solid #cad9e4;border-radius:9px;padding:30px 38px;line-height:1.62}
+.doc-section h1{font-size:25px;color:#123e60;margin-top:0;border-bottom:2px solid #dce8f0;padding-bottom:12px}
+.doc-section h2{font-size:19px;color:#174f78;margin-top:28px}
+.doc-section li{margin:14px 0}
+.math{font-family:"Cambria Math","Times New Roman",serif;font-size:1.08em;background:#f3f7fa;padding:2px 6px;border-radius:3px}
+@media(max-width:650px){.doc-section{padding:20px}}
+</style></head><body><div id="header"></div>
+<script>
+fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
+</script><nav class="tabs"><button class="tab active" data-p="calcPage">Calculation</button><button class="tab" data-p="docPage">Documentation</button></nav><main>
 <section id="calcPage" class="page active"><div class="help"><b>Design basis:</b> incompressible liquid flow only. The source workbook states that it is not applicable to gas service or laminar/non-Newtonian flow.</div><div class="grid"><section class="panel"><h2>Input Panel - rows A4:A16</h2><div class="fields">
 <label>Unit set<select id="units"><option>Mixed</option><option selected>English</option><option>SI</option><option>Metric</option><option>User Defined</option></select></label><label>Rate (0) or Design (1)<select id="design"><option value="0" selected>0 - Rate</option><option value="1">1 - Design</option></select></label>
 <label>Number of orifice plates<select id="nplates"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label>Design Mass Flowrate <span id="uflow"></span><input id="flow" type="number" value="38486.6"></label>
@@ -11,8 +21,116 @@
 <section class="panel"><h2>Output Panel - row A17 downward</h2><div id="status"></div><div class="metrics"><div class="metric"><small>Mode</small><strong id="mode">-</strong></div><div class="metric"><small>Required total dP</small><strong id="reqdp">-</strong></div><div class="metric"><small>Actual total dP</small><strong id="actdp">-</strong></div><div class="metric"><small>Cavitation tolerance factor</small><strong id="eta">-</strong></div><div class="metric"><small>Convergence error</small><strong id="err">-</strong></div><div class="metric"><small>Final calculated pressure</small><strong id="pcalc">-</strong></div></div><h3>Plate Results</h3><div class="scroll"><table><thead><tr><th>Result</th><th>Plate 1</th><th>Plate 2</th><th>Plate 3</th><th>Plate 4</th></tr></thead><tbody id="results"></tbody></table></div></section></div>
 <section class="panel"><h2>Anti-Cavitation Design Plot</h2><div class="legend"><span><i class="sw" style="background:#6d9fca"></i>Incipient cavitation</span><span><i class="sw" style="background:#d4aa2d"></i>Critical cavitation</span><span><i class="sw" style="background:#a55d54"></i>Incipient damage</span><span><i class="sw" style="background:#1d5b88"></i>Design limit boundary</span><span>● Plate operating point</span></div><svg id="chart" viewBox="0 0 1000 470"></svg><p class="note">X-axis: Cavitation Index, ΔP/(P1-Pv). Y-axis: beta = orifice bore / pipe inside diameter. The four boundary curves use the polynomial correlations stored in the workbook's Graph Plot Results sheet.</p></section>
 <div class="grid"><section class="panel"><h2>Plate Allowable Stress</h2><div class="scroll"><table id="stressTable"></table></div><p class="note">Source reference: ASME Code Book, Section II, Table 1B, 2001, as stated in the workbook. Values shown are the workbook's psi allowable stresses.</p></section><section class="panel"><h2>User Defined Units</h2><p class="note">The workbook allows the following user-defined display units. These fields are editable here and are used when “User Defined” is selected.</p><table><tbody><tr><td>Length</td><td><input id="ud_len" value="cm"></td></tr><tr><td>Mass rate</td><td><input id="ud_flow" value="kg/min"></td></tr><tr><td>Density</td><td><input id="ud_rho" value="kg/m3"></td></tr><tr><td>Pressure</td><td><input id="ud_p" value="psi(a)"></td></tr><tr><td>Power</td><td><input id="ud_pow" value="hp"></td></tr><tr><td>Differential pressure</td><td><input id="ud_dp" value="bar"></td></tr></tbody></table><h3>Workbook standard sets</h3><table><thead><tr><th>Quantity</th><th>English</th><th>SI</th><th>Metric</th></tr></thead><tbody><tr><td>Length</td><td>in</td><td>m</td><td>mm</td></tr><tr><td>Mass rate</td><td>lbm/hr</td><td>kg/s</td><td>kg/hr</td></tr><tr><td>Density</td><td>lbm/ft3</td><td>kg/m3</td><td>kg/m3</td></tr><tr><td>Pressure</td><td>psi(a)</td><td>Pa(a)</td><td>kPa(a)</td></tr><tr><td>Power</td><td>hp</td><td>kW</td><td>kW</td></tr><tr><td>dP</td><td>psi</td><td>Pa</td><td>kPa</td></tr></tbody></table></section></div></section>
-<section id="docPage" class="page"><section class="panel"><h2>Documentation</h2><p>The workbook Documentation sheet consists of two embedded document graphics. They are preserved in the PDF below.</p><a class="btn" style="display:inline-block;text-decoration:none" href="orifice-liq-documentation.pdf" download>Download Documentation (PDF)</a><p class="note">Equations for determining orifice size given cavitation-index adjustment, including cavitation tolerance factor, dynamic pressure, maximum orifice loss, beta/design-limit correlation, Kp, and the iterative sizing procedure.</p><object class="docframe" data="orifice-liq-documentation.pdf" type="application/pdf"><p>PDF preview is not supported by this browser. Use the download button above.</p></object></section></section>
-</main><script>
+<section id="docPage" class="page"><section id="documentation" class="doc-section">
+
+  <h1>Procedure for Estimating the Orifice Cavitation Limit Coefficient</h1>
+
+  <p>The cavitation index is defined by:</p>
+
+  <p>
+    <span class="math">
+      σ = ΔP / (P<sub>v</sub> − P<sub>s</sub>)
+    </span>
+  </p>
+
+  <p>
+    where ΔP is the macroscopic pressure drop across the orifice,<br>
+    P<sub>v</sub> is the vapor pressure of the liquid,<br>
+    P<sub>s</sub> is the pressure downstream of the orifice.
+  </p>
+
+  <p>
+    The cavitation resistance factor β is a correction applied to the cavitation index
+    for orifices or plates with similar cavitation behavior. β has a finite lower limit of 1.
+  </p>
+
+  <p>
+    When the operating cavitation index equals the critical cavitation index:
+  </p>
+
+  <p class="math">σ = σ<sub>c</sub></p>
+
+  <p>then:</p>
+
+  <p class="math">β = σ<sub>c</sub> / σ = 1</p>
+
+  <p>
+    For β &lt; 1, the operating cavitation index σ is less than the critical cavitation limit σ<sub>c</sub>.<br>
+    For β &gt; 1, the operating cavitation index σ is greater than the cavitation limit index σ<sub>c</sub>.
+  </p>
+
+  <h2>Calculation Procedure</h2>
+
+  <ol>
+    <li>
+      <strong>Calculate the dynamic pressure ratio (velocity head):</strong><br>
+      <span class="math">P<sub>v</sub> = (1/2) ρ V²</span>
+    </li>
+
+    <li>
+      <strong>Calculate the non-dimensional dynamic head:</strong><br>
+      <span class="math">σ = ΔP / P<sub>v</sub></span><br>
+      The product of this value and the orifice plate value is the operating cavitation index.
+    </li>
+
+    <li>
+      <strong>Calculate the maximum orifice limit:</strong><br>
+      <span class="math">K<sub>m</sub> = ΔP<sub>m</sub> / P<sub>v</sub></span><br>
+      where ΔP<sub>m</sub> is the user-specified maximum pressure drop per plate.
+    </li>
+
+    <li>
+      <strong>Assume a critical cavitation limit σ<sub>c</sub>.</strong><br>
+      The assumed value may be between 0 and 0.801.
+    </li>
+
+    <li>
+      <strong>Calculate the operating cavitation index based on σ<sub>c</sub> and β:</strong><br>
+      <span class="math">σ = σ<sub>c</sub> / β = σ<sub>c</sub> / (1 − (1 − σ<sub>c</sub>)(1 − β))</span><br><br>
+
+      For σ &lt; σ<sub>c</sub>:<br>
+      <span class="math">
+        β = 2.13109 σ<sub>c</sub><sup>1.15472 σ<sub>c</sub></sup> − 1.0376 σ<sub>c</sub> + 1.0055
+      </span>
+    </li>
+
+    <li>
+      <strong>Calculate the orifice loss coefficient:</strong><br>
+      <span class="math">K<sub>o</sub> = 2.8 β⁻¹ + (1 − β)</span>
+    </li>
+
+    <li>
+      <strong>Calculate the orifice resistance coefficient:</strong><br>
+      <span class="math">K<sub>r</sub> = σ K<sub>o</sub></span>
+    </li>
+
+    <li>
+      <strong>Calculate the error:</strong><br>
+      <span class="math">Error = K<sub>r</sub> − K<sub>m</sub></span><br><br>
+
+      If |Error| &lt; 0.001, the increment may be accepted.<br>
+      If |Error| &gt; 0.001, adjust the tolerance and repeat.<br>
+      If Error &lt; Tolerance → acceptable.<br>
+      If Error &gt; Tolerance → unacceptable.
+    </li>
+
+    <li>
+      <strong>Return to Step 4 or Exit.</strong>
+    </li>
+  </ol>
+
+  <h2>Citation</h2>
+  <p>
+    Cavitation data from Donald S. Miller, <em>Internal Flow Systems</em>, 1978, p.11.<br>
+    By Michael Olsan and Frank Schenck.<br>
+    Copyright © Fluid Flow Manual Chapter 2 Figure 2.
+  </p>
+
+</section></section></main><div id="footer"></div>
+<script>
+fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+</script>
+<script>
 const $=x=>document.getElementById(x),fmt=(x,d=5)=>Number.isFinite(x)?x.toLocaleString('en-US',{maximumFractionDigits:d}):'-';
 const sets={English:{p:'psi(a)',dp:'psi',dia:'in',flow:'lbm/hr',rho:'lbm/ft3',pow:'hp',P:6894.7573,D:.0254,F:.00012599788,R:16.018463,W:745.69987},SI:{p:'Pa(a)',dp:'Pa',dia:'m',flow:'kg/s',rho:'kg/m3',pow:'kW',P:1,D:1,F:1,R:1,W:1000},Metric:{p:'kPa(a)',dp:'kPa',dia:'mm',flow:'kg/hr',rho:'kg/m3',pow:'kW',P:1000,D:.001,F:1/3600,R:1,W:1000},Mixed:{p:'psi(a)',dp:'psi',dia:'in',flow:'lbm/hr',rho:'lbm/ft3',pow:'hp',P:6894.7573,D:.0254,F:.00012599788,R:16.018463,W:745.69987}};
 let lastSet='English';function currentSet(){let n=$('units').value;if(n==='User Defined')return sets.English;return sets[n]||sets.English}
