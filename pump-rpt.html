@@ -62,7 +62,7 @@
 <div class="chart-controls">
 <label>X-axis<select id="xvar"><option value="angle">Crank angle</option><option value="cycle">Pump cycle (%)</option></select></label>
 <label>Y-axis<select id="yvar"><option value="all">Suction + Discharge pressure</option><option value="suction">Suction pressure</option><option value="discharge">Discharge pressure</option><option value="velocity">Line velocity</option></select></label>
-</div><svg id="chart" viewBox="0 0 1100 480"></svg>
+</div><div class="chart-wrap"><svg id="chart" viewBox="0 0 1100 480"></svg><div id="chartTip" class="chart-tip" hidden></div></div>
 <p class="note">Workbook pressure waveform: mean → minimum → mean → maximum → mean over one pump-head cycle. The HTML interpolates the same cycle for display.</p>
 </section>
 
@@ -170,7 +170,41 @@ let ymin=Math.min(...vals),ymax=Math.max(...vals),pad=(ymax-ymin||1)*.12;ymin-=p
 let L=80,T=30,W=950,H=370,B=T+H,xmax=xmode==='cycle'?100:data[data.length-1].angle,xv=d=>xmode==='cycle'?d.cycle:d.angle,x=x=>L+x/xmax*W,y=v=>B-(v-ymin)/(ymax-ymin)*H,h='<rect width="1100" height="480" fill="white"/>';
 for(let i=0;i<=5;i++){let xx=xmax*i/5,yy=ymin+(ymax-ymin)*i/5;h+=`<line x1="${x(xx)}" x2="${x(xx)}" y1="${T}" y2="${B}" stroke="#e5edf2"/><text x="${x(xx)}" y="${B+22}" text-anchor="middle" font-size="11">${fmt(xx,1)}${xmode==='cycle'?'%':'°'}</text><line x1="${L}" x2="${L+W}" y1="${y(yy)}" y2="${y(yy)}" stroke="#e5edf2"/><text x="${L-8}" y="${y(yy)+4}" text-anchor="end" font-size="11">${fmt(yy,3)}</text>`}
 series.forEach((z,j)=>{let pts=data.map(d=>x(xv(d))+','+y(ymode==='velocity'?fromSI(d[z[1]],'velocity'):fromSI(d[z[1]],'pressure'))).join(' ');h+=`<polyline points="${pts}" fill="none" stroke="${z[2]}" stroke-width="2.5"/><text x="${L+15+j*235}" y="18" font-size="12" fill="${z[2]}">● ${z[0]}</text>`});
-h+=`<text x="${L+W/2}" y="460" text-anchor="middle" font-weight="600">${xmode==='cycle'?'Pump cycle (%)':'Crank angle (degrees)'}</text><text transform="translate(20 ${T+H/2}) rotate(-90)" text-anchor="middle" font-weight="600">${ymode==='velocity'?'Velocity ('+u.velocity[0]+')':'Pressure ('+u.pressure[0]+')'}</text>`;$('chart').innerHTML=h}
+h+=`<text x="${L+W/2}" y="460" text-anchor="middle" font-weight="600">${xmode==='cycle'?'Pump cycle (%)':'Crank angle (degrees)'}</text><text transform="translate(20 ${T+H/2}) rotate(-90)" text-anchor="middle" font-weight="600">${ymode==='velocity'?'Velocity ('+u.velocity[0]+')':'Pressure ('+u.pressure[0]+')'}</text>`;$('chart').innerHTML=h;
+window.chartHoverState={data,u,ymode,xmode,series,ymin,ymax,L,T,W,H,B,xmax};
+setupChartHover();
+}
+
+function setupChartHover(){
+ const svg=$('chart'),tip=$('chartTip'),st=window.chartHoverState;
+ if(!svg||!tip||!st)return;
+ svg.onmousemove=function(ev){
+   const r=svg.getBoundingClientRect(),sx=1100/r.width,sy=480/r.height;
+   const mx=(ev.clientX-r.left)*sx,my=(ev.clientY-r.top)*sy;
+   if(mx<st.L||mx>st.L+st.W||my<st.T||my>st.B){tip.hidden=true;clearHover();return}
+   const targetX=(mx-st.L)/st.W*st.xmax;
+   let best=st.data[0],bd=Infinity;
+   for(const d of st.data){const xv=st.xmode==='cycle'?d.cycle:d.angle,dd=Math.abs(xv-targetX);if(dd<bd){bd=dd;best=d}}
+   clearHover();
+   const ns='http://www.w3.org/2000/svg';
+   const xv=st.xmode==='cycle'?best.cycle:best.angle,px=st.L+xv/st.xmax*st.W;
+   const line=document.createElementNS(ns,'line');line.setAttribute('x1',px);line.setAttribute('x2',px);line.setAttribute('y1',st.T);line.setAttribute('y2',st.B);line.setAttribute('class','chart-hover chart-hover-line');svg.appendChild(line);
+   let rows=[];
+   for(const z of st.series){
+     const raw=best[z[1]],val=st.ymode==='velocity'?fromSI(raw,'velocity'):fromSI(raw,'pressure');
+     const py=st.B-(val-st.ymin)/(st.ymax-st.ymin)*st.H;
+     const c=document.createElementNS(ns,'circle');c.setAttribute('cx',px);c.setAttribute('cy',py);c.setAttribute('r','4.5');c.setAttribute('fill',z[2]);c.setAttribute('class','chart-hover chart-hover-dot');svg.appendChild(c);
+     rows.push(`<div><b>${z[0]}:</b> ${fmt(val,4)} ${st.ymode==='velocity'?st.u.velocity[0]:st.u.pressure[0]}</div>`);
+   }
+   tip.innerHTML=`<div><b>${st.xmode==='cycle'?'Pump cycle':'Crank angle'}:</b> ${fmt(xv,2)}${st.xmode==='cycle'?' %':'°'}</div>`+rows.join('');
+   tip.hidden=false;
+   let left=(px/1100)*r.width,top=(my/480)*r.height;
+   if(left>r.width-230)tip.style.transform='translate(-105%,-50%)';else tip.style.transform='translate(10px,-50%)';
+   tip.style.left=left+'px';tip.style.top=top+'px';
+ };
+ svg.onmouseleave=function(){tip.hidden=true;clearHover()};
+ function clearHover(){svg.querySelectorAll('.chart-hover').forEach(n=>n.remove())}
+}
 function convertSet(oldU,newU){let map=[['flow','flow'],['rho','density'],['pv','pressure'],['ps','pressure'],['pd','pressure'],['Ls','length'],['Ld','length'],['Ds','diameter'],['Dd','diameter'],['rpm','speed'],['plunger','diameter'],['stroke','diameter'],['npshr','head']];map.forEach(([id,q])=>{let si=+$(id).value*oldU[q][1];$(id).value=fmt(si/newU[q][1],8).replace(/,/g,'')})}
 let oldU=units.Metric;$('unitSet').onchange=()=>{let nu=U();convertSet(oldU,nu);oldU=nu;labels();calc()};$('liquid').onchange=()=>{$('K').value=$('liquid').value;calc()};$('pumpType').onchange=()=>{syncPumpSelectors();calc()};$('actingHead').onchange=()=>{syncPumpSelectors();calc()};$('calculate').onclick=calc;$('yvar').onchange=calc;$('xvar').onchange=calc;document.querySelectorAll('#calc input,#calc select').forEach(e=>{if(!['unitSet','liquid','pumpType','actingHead','xvar','yvar'].includes(e.id))e.addEventListener('change',calc)});document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.p).classList.add('active')});
 (function buildUnits(){let box=$('userUnits');for(const q in pref){let opts=Object.keys(userChoices[q]).map(x=>`<option ${x===pref[q]?'selected':''}>${x}</option>`).join('');box.innerHTML+=`<label>${q}<select id="uu_${q}">${opts}</select></label>`}box.querySelectorAll('select').forEach(e=>e.onchange=()=>{if($('unitSet').value==='User Defined'){let nu=U();convertSet(oldU,nu);oldU=nu;labels();calc()}});let rows=[['volumetric flow','gal/min','m3/s','m3/hr'],['diameter','in','m','mm'],['pressure','psi','Pa','bar'],['density','lbm/ft3','kg/m3','kg/m3'],['velocity','ft/s','m/s','m/s'],['length','in','m','m'],['head','ft','m','m'],['volume','gal','m3','L'],['speed','rpm','rps','rpm'],['force','lbf','N','N']];$('baseUnits').innerHTML=rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')})();labels();calc();
@@ -186,4 +220,12 @@ let oldU=units.Metric;$('unitSet').onchange=()=>{let nu=U();convertSet(oldU,nu);
 .base-sets-panel .table-fit{width:100%;overflow-x:auto}
 .base-sets-panel table{width:auto;min-width:min(100%,760px);max-width:100%;table-layout:auto}
 .base-sets-panel th,.base-sets-panel td{white-space:nowrap;padding-left:12px;padding-right:12px}
+</style>
+
+<style>
+.chart-wrap{position:relative;width:100%}
+#chart{display:block;width:100%;height:auto;cursor:crosshair}
+.chart-tip{position:absolute;z-index:5;pointer-events:none;background:rgba(20,45,64,.96);color:#fff;border-radius:6px;padding:8px 10px;font-size:12px;line-height:1.45;white-space:nowrap;box-shadow:0 3px 12px rgba(0,0,0,.18);transform:translate(10px,-50%)}
+.chart-hover-line{stroke:#536b7b;stroke-width:1;stroke-dasharray:4 3;pointer-events:none}
+.chart-hover-dot{stroke:#fff;stroke-width:1.5;pointer-events:none}
 </style>
