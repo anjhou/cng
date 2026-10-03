@@ -1,39 +1,76 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reciprocating Pump Sizing</title><style>
 *{box-sizing:border-box}body{margin:0;background:#eef3f7;color:#173a57;font:14px Segoe UI,Arial,sans-serif}#header,#footer{width:100%}.hero{background:#103653;color:#fff;padding:22px 3%}.hero h1{margin:0;font-size:25px}.hero p{margin:6px 0 0;color:#cbdde9}.tabs{display:flex;gap:4px;background:#d8e3eb;padding:8px 3%}.tab{border:0;padding:10px 18px;background:#fff;color:#173a57;font-weight:700;border-radius:5px;cursor:pointer}.tab.active{background:#174f79;color:#fff}main{max-width:1500px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{background:#fff;border:1px solid #c9d9e4;border-radius:8px;padding:17px;margin-bottom:16px;box-shadow:0 1px 3px #0000000b}h2{font-size:18px;margin:0 0 13px;border-bottom:2px solid #e2eaf0;padding-bottom:8px}h3{font-size:14px;margin:16px 0 8px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}label{font-size:12px;font-weight:650}input,select{width:100%;padding:8px;margin-top:4px;border:1px solid #afc1ce;border-radius:5px;background:#fff}.btn{background:#174f79;color:#fff;border:0;border-radius:5px;padding:10px 16px;font-weight:700;cursor:pointer}.help{background:#eaf3f9;border-left:4px solid #3277a2;padding:11px;line-height:1.5;margin-bottom:12px}.warn{background:#fff0d7;border-left:4px solid #d49a38;padding:10px;margin-bottom:10px}.ok{background:#e7f5eb;border-left:4px solid #3b8b55;padding:10px;margin-bottom:10px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.metric{background:#eff6fa;border-left:4px solid #3277a2;padding:11px}.metric small{display:block;color:#61798a}.metric strong{display:block;font-size:17px;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:7px;border-bottom:1px solid #dde6ec;text-align:right}th:first-child,td:first-child{text-align:left}.scroll{overflow:auto}.chart-controls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}svg{width:100%;height:480px;border:1px solid #d2dee7;background:#fff}.note{font-size:12px;color:#5e7586;line-height:1.55}.doc{max-width:1050px;margin:auto;line-height:1.65}.doc code{background:#f1f5f8;padding:2px 5px}.units-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:950px){.grid,.units-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}}@media(max-width:620px){.fields,.chart-controls,.metrics{grid-template-columns:1fr}}
+
+.fields-4{grid-template-columns:repeat(4,minmax(210px,1fr))}
+.result-block{margin-top:14px}
+.result-block table th,.result-block table td{text-align:right}
+.result-block table th:first-child,.result-block table td:first-child{text-align:left}
+.calculate-row{display:flex;justify-content:center;margin:4px 0 18px}
+.calculate-main{min-width:180px;font-size:15px;padding:11px 24px}
+.summary-section{margin-top:14px}
+.summary-section h3{background:#eaf3f9;border-left:4px solid #3277a2;padding:8px 10px;margin:12px 0 0}
+.summary-section table{margin-bottom:14px}
+@media(max-width:1150px){.fields-4{grid-template-columns:repeat(2,minmax(210px,1fr))}}
+@media(max-width:620px){.fields-4{grid-template-columns:1fr}}
 </style></head><body><div id="header"></div><script>fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});</script>
 <div class="hero"><h1>Reciprocating Pump Sizing</h1></div><nav class="tabs"><button class="tab active" data-p="calc">Calculation</button><button class="tab" data-p="docs">Documentation</button></nav><main>
-<section id="calc" class="page active"><div class="help"><b>Workbook basis:</b> calculations are performed internally in SI. The source workbook defines five selectable display sets: Mixed, English, SI, Metric and User Defined.</div>
-<div class="grid"><section class="panel"><h2>Process Conditions</h2><div class="fields">
+<section id="calc" class="page active">
+<div class="help"><b>Workbook basis:</b> calculations are performed internally in SI. Dropdowns and equations follow the workbook's Input_output, SI Calculation and Tables sheets.</div>
+
+<section class="panel"><h2>Process Conditions</h2><div class="fields fields-4">
 <label>Unit Set<select id="unitSet"><option>Mixed</option><option>English</option><option>SI</option><option selected>Metric</option><option>User Defined</option></select></label>
-<label>Mean / rated flow rate <span data-u="flow"></span><input id="flow" type="number" value="0.269999"></label>
+<label>Mean/rated flow rate <span data-u="flow"></span><input id="flow" type="number" value="0.269999"></label>
 <label>Density <span data-u="density"></span><input id="rho" type="number" value="980"></label>
-<label>Type of liquid<select id="liquid"><option value="1">Urea / minimum entrained air</option><option value="1.4" selected>Hot or deaerated water</option><option value="1.5">Amine, glycol or water</option><option value="2">Most hydrocarbons</option><option value="2.5">Hot oil</option></select></label>
-<label>Relative compressibility K<input id="K" type="number" value="1.4" readonly></label>
+<label>Type of liquid<select id="liquid"><option value="1">Urea and liquids with min. entrained air</option><option value="1.4" selected>Hot or deaerated water</option><option value="1.5">Amine, glycol or water</option><option value="2">Most hydrocarbons</option><option value="2.5">Hot oil</option></select></label>
+<label>Relative compressibility<input id="K" type="number" value="1.4" readonly></label>
 <label>Vapor pressure <span data-u="pressure"></span><input id="pv" type="number" value="0.25"></label>
-<label>Mean suction pressure <span data-u="pressure"></span><input id="ps" type="number" value="1"></label>
-<label>Mean discharge pressure <span data-u="pressure"></span><input id="pd" type="number" value="20"></label>
-<label>Suction line length <span data-u="length"></span><input id="Ls" type="number" value="4.49999"></label>
-<label>Discharge line length <span data-u="length"></span><input id="Ld" type="number" value="25"></label>
-<label>Suction line diameter <span data-u="diameter"></span><input id="Ds" type="number" value="52.5018"></label>
-<label>Discharge line diameter <span data-u="diameter"></span><input id="Dd" type="number" value="26.6446"></label>
+<label>Mean suction pressure pump <span data-u="pressure"></span><input id="ps" type="number" value="1"></label>
+<label>Mean discharge pressure pump <span data-u="pressure"></span><input id="pd" type="number" value="20"></label>
 </div></section>
-<section class="panel"><h2>Pump Properties</h2><div class="fields">
+
+<section class="panel"><h2>Pump Properties</h2><div class="fields fields-4">
+<label>Pump type<select id="pumpType"><option value="1">Simplex</option><option value="2">Duplex</option><option value="3" selected>Triplex</option><option value="5">Quintuplex</option><option value="7">Septuplex</option><option value="9">Nonuplex</option></select></label>
+<label>Single/Double acting pump head<select id="actingHead"><option value="1">Single acting</option><option value="2" selected>Double acting</option></select></label>
 <label>Pump speed <span data-u="speed"></span><input id="rpm" type="number" value="200"></label>
 <label>Plunger diameter <span data-u="diameter"></span><input id="plunger" type="number" value="15.85"></label>
 <label>Stroke <span data-u="diameter"></span><input id="stroke" type="number" value="28.9999"></label>
 <label>NPSHR <span data-u="head"></span><input id="npshr" type="number" value="0.5"></label>
-<label>Number of pump heads<select id="heads"><option>1</option><option>2</option><option selected>3</option><option>5</option><option>7</option><option>9</option></select></label>
-<label>Acting<select id="acting"><option value="1">Single acting</option><option value="2" selected>Double acting</option></select></label>
-<label>Pump coefficient C<input id="coef" readonly></label><label>Volumetric efficiency<input id="veff" readonly></label>
-<label>Displaced flow / revolution <span data-u="volume"></span><input id="vrev" readonly></label><label>Theoretical rated flow <span data-u="flow"></span><input id="qtheory" readonly></label>
-</div></section></div>
-<div class="grid"><section class="panel"><h2>Acceleration Head</h2><div id="accel"></div></section><section class="panel"><h2>Pulsation Dampener Sizing</h2><div class="fields">
-<label>Specific heat ratio, gas<input id="gamma" type="number" value="1.4"></label><label>Pre-charge ratio P0/P1<input id="pre" type="number" value="0.8"></label>
-<label>Suction residual pulsation ± fraction<input id="ys" type="number" value="0.01" step="0.001"></label><label>Discharge residual pulsation ± fraction<input id="yd" type="number" value="0.01" step="0.001"></label>
-</div><div id="damp"></div></section></div>
-<section class="panel"><h2>Summary</h2><div id="status"></div><div class="scroll"><table><thead><tr><th>Result</th><th>Suction — without dampener</th><th>Suction — with dampener</th><th>Discharge — without dampener</th><th>Discharge — with dampener</th></tr></thead><tbody id="summary"></tbody></table></div></section>
-<section class="panel"><h2>Crank-Angle Chart</h2><div class="chart-controls"><label>X-axis<select id="xvar"><option value="angle">Crank angle</option></select></label><label>Y-axis<select id="yvar"><option value="all">Suction + Discharge pressure</option><option value="suction">Suction pressure</option><option value="discharge">Discharge pressure</option><option value="velocity">Line velocity</option></select></label><button class="btn" id="calculate">Calculate</button></div><svg id="chart" viewBox="0 0 1100 480"></svg><p class="note">The source workbook plots five points over one pump-head cycle: mean → minimum → mean → maximum → mean. This HTML preserves that workbook waveform and adds interpolated crank-angle points for a smoother display.</p></section>
-<section class="panel"><h2>User Defined Units</h2><div class="units-grid"><div><p class="note">Editable preferred units from the workbook's User Defined Units sheet. Supported conversion choices are listed in each dropdown.</p><div id="userUnits"></div></div><div><h3>Workbook Base Sets</h3><table><thead><tr><th>Quantity</th><th>English</th><th>SI</th><th>Metric</th></tr></thead><tbody id="baseUnits"></tbody></table></div></div></section>
+<label>Number of pumpheads<input id="heads" type="number" value="3" readonly></label>
+<label>Single/Double acting<input id="acting" type="number" value="2" readonly></label>
+<label>Pump coefficient<input id="coef" readonly></label>
+<label>Displaced flow/revolution <span data-u="volume"></span><input id="vrev" readonly></label>
+<label>Theoretical rated flow <span data-u="flow"></span><input id="qtheory" readonly></label>
+<label>Volumetric efficiency<input id="veff" readonly></label>
+</div></section>
+
+<section class="panel"><h2>Calculation of Acceleration Head</h2>
+<div class="fields">
+<label>Suction length of line <span data-u="length"></span><input id="Ls" type="number" value="4.49999"></label>
+<label>Discharge length of line <span data-u="length"></span><input id="Ld" type="number" value="25"></label>
+<label>Suction diameter of line <span data-u="diameter"></span><input id="Ds" type="number" value="52.5018"></label>
+<label>Discharge diameter of line <span data-u="diameter"></span><input id="Dd" type="number" value="26.6446"></label>
+</div><div id="accel" class="result-block"></div></section>
+
+<section class="panel"><h2>Sizing Pulsation Dampener</h2><div class="fields">
+<label>Specific heat ratio dampener gas<input id="gamma" type="number" value="1.4"></label>
+<label>Pre charge pressure, P0/P1<input id="pre" type="number" value="0.8"></label>
+<label>Suction residual pulsation admitted<input id="ys" type="number" value="0.01" step="0.001"></label>
+<label>Discharge residual pulsation admitted<input id="yd" type="number" value="0.01" step="0.001"></label>
+</div><div id="damp" class="result-block"></div></section>
+
+<section class="panel"><h2>Crank-Angle Chart</h2>
+<div class="chart-controls">
+<label>X-axis<select id="xvar"><option value="angle">Crank angle</option><option value="cycle">Pump cycle (%)</option></select></label>
+<label>Y-axis<select id="yvar"><option value="all">Suction + Discharge pressure</option><option value="suction">Suction pressure</option><option value="discharge">Discharge pressure</option><option value="velocity">Line velocity</option></select></label>
+</div><svg id="chart" viewBox="0 0 1100 480"></svg>
+<p class="note">Workbook pressure waveform: mean → minimum → mean → maximum → mean over one pump-head cycle. The HTML interpolates the same cycle for display.</p>
+</section>
+
+<div class="calculate-row"><button class="btn calculate-main" id="calculate">Calculate</button></div>
+
+<section class="panel"><h2>Summarizing Results</h2><div id="status"></div><div id="summary"></div></section>
+
+<section class="panel"><h2>User Defined Units</h2><div class="units-grid"><div><p class="note">Editable preferred units from the workbook's User Defined Units sheet.</p><div id="userUnits"></div></div><div><h3>Workbook Base Sets</h3><table><thead><tr><th>Quantity</th><th>English</th><th>SI</th><th>Metric</th></tr></thead><tbody id="baseUnits"></tbody></table></div></div></section>
 </section>
 <section id="docs" class="page"><div class="panel doc"><h2>Documentation</h2><h3>Workbook scope</h3><p>This tool is derived from the workbook sheets <b>Input_output</b>, <b>SI Calculation</b>, <b>Tables</b>, <b>Constants</b>, <b>User Defined Units</b> and <b>Revisions</b>. The workbook performs the governing calculations in SI and converts display values to the selected unit set.</p><h3>Reciprocating-pump basis</h3><p>The displaced volume per revolution is <code>Vrev = π/4 · Dplunger² · Stroke · Number of heads · Acting factor</code>. Theoretical flow is <code>Vrev · rotational speed</code>, and volumetric efficiency is rated flow divided by theoretical flow.</p><h3>Acceleration head</h3><p>The workbook uses <code>hacc = L · v · n(rpm) · C / (K · g)</code>, where C is selected from the pump-head/acting table and K is the liquid relative-compressibility factor. Acceleration pressure is <code>pacc = hacc · g · ρ</code>. Minimum and maximum instantaneous pressures are the mean pressure minus/plus acceleration pressure.</p><h3>NPSHA</h3><p>Steady-state NPSHA is based on suction pressure minus vapor pressure plus velocity head. The undamped NPSHA uses the minimum suction pressure after acceleration-pressure deduction.</p><h3>Pulsation dampener</h3><p>For admitted residual pulsation y, the workbook sets <code>P1=(1−y)Pt</code> and <code>P2=(1+y)Pt</code>. Dampener volume is <code>V0 = Vrev·C/1.25 · (1/precharge)^(1/γ) / [1−(P1/P2)^(1/γ)]</code>. The workbook uses γ=1.4 for air or nitrogen and notes an 80% pre-charge ratio as standard.</p><h3>Assumptions and limitations</h3><p>The suction acceleration-head method is noted in the workbook as valid up to approximately 15 m / 50 ft line length; use virtual length where more than one diameter is present. The workbook does not provide viscosity, temperature, elevation, friction-factor, slip, or user-entered dampener-volume terms in its governing formulas, so this conversion does not invent them.</p><h3>Chart methodology</h3><p>The workbook chart uses a cycle length of <code>360/(number of heads × acting factor)</code> degrees and five pressure points: mean, minimum, mean, maximum, mean. Both suction and discharge are shown with and without dampening.</p></div></section>
 </main><div id="footer"></div><script>fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});</script><script>
@@ -48,17 +85,93 @@ const pref={flow:'gal/min',diameter:'in',pressure:'psi',density:'lbm/ft3',veloci
 function U(){if($('unitSet').value!=='User Defined')return units[$('unitSet').value];let z={};for(const q in pref){let n=$('uu_'+q)?.value||pref[q];z[q]=[n,userChoices[q][n]]}return z}
 function toSI(id,q){return +$(id).value*U()[q][1]} function fromSI(x,q){return x/U()[q][1]} function fmt(x,d=5){return Number.isFinite(x)?x.toLocaleString('en-US',{maximumFractionDigits:d}):'-'}
 const coeff={1:{1:.628,2:.2},2:{1:.2,2:.115},3:{1:.066,2:.066},5:{1:.04,2:.04},7:{1:.028,2:.028},9:{1:.022,2:.022}};
+const pumpHeadMap={1:'Simplex',2:'Duplex',3:'Triplex',5:'Quintuplex',7:'Septuplex',9:'Nonuplex'};
+function syncPumpSelectors(){
+  $('heads').value=$('pumpType').value;
+  $('acting').value=$('actingHead').value;
+}
+
 function labels(){let u=U();document.querySelectorAll('[data-u]').forEach(e=>{let q=e.dataset.u;e.textContent='('+u[q][0]+')'})}
-function calc(){try{let u=U(),Q=toSI('flow','flow'),rho=toSI('rho','density'),K=+$('K').value,pv=toSI('pv','pressure'),ps=toSI('ps','pressure'),pd=toSI('pd','pressure'),n=toSI('rpm','speed'),Dpl=toSI('plunger','diameter'),stroke=toSI('stroke','diameter'),npshr=toSI('npshr','head'),heads=+$('heads').value,acting=+$('acting').value,C=coeff[heads]?.[acting],Ls=toSI('Ls','length'),Ld=toSI('Ld','length'),Ds=toSI('Ds','diameter'),Dd=toSI('Dd','diameter'),gamma=+$('gamma').value,pre=+$('pre').value,ys=+$('ys').value,yd=+$('yd').value;if(!(Q>0&&rho>0&&K>0&&ps>pv&&pd>0&&n>0&&Dpl>0&&stroke>0&&C&&Ls>0&&Ld>0&&Ds>0&&Dd>0&&gamma>1&&pre>0&&ys>0&&yd>0))throw Error('Check all inputs. Suction pressure must exceed vapor pressure; dimensions, flow, density and speed must be positive.');
-let Vrev=Math.PI/4*Dpl**2*stroke*heads*acting,Qth=Vrev*n,veff=Q/Qth,vs=Q/(Math.PI/4*Ds**2),vd=Q/(Math.PI/4*Dd**2),hS=Ls*vs*(n*60)*C/(K*g),hD=Ld*vd*(n*60)*C/(K*g),paS=hS*g*rho,paD=hD*g*rho,minS=ps-paS,maxS=ps+paS,minD=pd-paD,maxD=pd+paD,pulS=paS/ps,pulD=paD/pd,npshaSteady=(ps-pv)/(g*rho)+vs**2/(2*g),npshaUnd=(minS-pv)/(g*rho)+vs**2/(2*g),s1=(1-ys)*ps,s2=(1+ys)*ps,d1=(1-yd)*pd,d2=(1+yd)*pd,npshaDamp=(s1-pv)/(g*rho)+vs**2/(2*g),vol=(p1,p2)=>Vrev*C/1.25*(1/pre)**(1/gamma)/(1-(p1/p2)**(1/gamma)),volS=vol(s1,s2),volD=vol(d1,d2);
-$('coef').value=fmt(C,5);$('veff').value=fmt(veff,6);$('vrev').value=fmt(fromSI(Vrev,'volume'),6);$('qtheory').value=fmt(fromSI(Qth,'flow'),6);
-$('accel').innerHTML=`<table><thead><tr><th>Result</th><th>Suction</th><th>Discharge</th></tr></thead><tbody><tr><td>Line velocity</td><td>${fmt(fromSI(vs,'velocity'))} ${u.velocity[0]}</td><td>${fmt(fromSI(vd,'velocity'))} ${u.velocity[0]}</td></tr><tr><td>Acceleration head</td><td>${fmt(fromSI(hS,'head'))} ${u.head[0]}</td><td>${fmt(fromSI(hD,'head'))} ${u.head[0]}</td></tr><tr><td>Acceleration pressure</td><td>${fmt(fromSI(paS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(paD,'pressure'))} ${u.pressure[0]}</td></tr><tr><td>Pulsation level</td><td>${fmt(pulS*100,4)}%</td><td>${fmt(pulD*100,4)}%</td></tr></tbody></table>`;
-$('damp').innerHTML=`<table><thead><tr><th>Result</th><th>Suction</th><th>Discharge</th></tr></thead><tbody><tr><td>Minimum pressure</td><td>${fmt(fromSI(s1,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d1,'pressure'))} ${u.pressure[0]}</td></tr><tr><td>Maximum pressure</td><td>${fmt(fromSI(s2,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d2,'pressure'))} ${u.pressure[0]}</td></tr><tr><td>Recommended dampener volume</td><td>${fmt(fromSI(volS,'volume'),6)} ${u.volume[0]}</td><td>${fmt(fromSI(volD,'volume'),6)} ${u.volume[0]}</td></tr></tbody></table>`;
-let rows=[['Minimum / peak-low pressure',minS,s1,minD,d1,'pressure'],['Maximum / peak-high pressure',maxS,s2,maxD,d2,'pressure'],['Pressure fluctuation ±',pulS,ys,pulD,yd,'pct'],['Acceleration head',hS,hS,hD,hD,'head'],['Dampener volume',0,volS,0,volD,'volume'],['NPSHA',npshaUnd,npshaDamp,NaN,NaN,'head'],['NPSH margin',npshaUnd-npshr,npshaDamp-npshr,NaN,NaN,'head']];$('summary').innerHTML=rows.map(r=>'<tr><td>'+r[0]+'</td>'+r.slice(1,5).map(x=>'<td>'+(!Number.isFinite(x)?'-':r[5]==='pct'?fmt(x*100,4)+' %':fmt(fromSI(x,r[5]),6)+' '+u[r[5]][0])+'</td>').join('')+'</tr>').join('');$('status').innerHTML=veff>1?'<div class="warn">Volumetric efficiency exceeds 100%. The workbook directs adjustment of speed, plunger diameter or stroke.</div>':npshaUnd<npshr?'<div class="warn">Undamped NPSHA is below NPSHR.</div>':'<div class="ok">Calculation completed. Workbook equations reproduced in SI and converted for display.</div>';
-let cyc=360/(heads*acting),data=[];for(let i=0;i<=120;i++){let a=cyc*i/120,phase=2*Math.PI*a/cyc,sin=Math.sin(phase),swo=ps-paS*sin,dwo=pd-paD*sin,sw=ps-ys*ps*sin,dw=pd-yd*pd*sin;data.push({angle:a,swo,sw,dwo,dw,vs,vd})}draw(data,u);window.last={Q,rho,K,pv,ps,pd,n,Dpl,stroke,npshr,heads,acting,C,Vrev,Qth,veff,vs,vd,hS,hD,paS,paD,minS,maxS,minD,maxD,pulS,pulD,npshaSteady,npshaUnd,volS,volD};}catch(e){$('status').innerHTML='<div class="warn">'+e.message+'</div>'}}
-function draw(data,u){let ymode=$('yvar').value,series=[];if(ymode==='all'||ymode==='suction'){series.push(['Suction — no dampener','swo','#1d5b88'],['Suction — dampened','sw','#5e9bc4'])}if(ymode==='all'||ymode==='discharge'){series.push(['Discharge — no dampener','dwo','#8a4d45'],['Discharge — dampened','dw','#c18a81'])}if(ymode==='velocity'){series=[['Suction velocity','vs','#1d5b88'],['Discharge velocity','vd','#8a4d45']]};let vals=[];series.forEach(s=>data.forEach(d=>vals.push(ymode==='velocity'?fromSI(d[s[1]],'velocity'):fromSI(d[s[1]],'pressure'))));let ymin=Math.min(...vals),ymax=Math.max(...vals),pad=(ymax-ymin||1)*.12;ymin-=pad;ymax+=pad;let L=80,T=30,W=950,H=370,B=T+H,xmax=data[data.length-1].angle,x=x=>L+x/xmax*W,y=v=>B-(v-ymin)/(ymax-ymin)*H,h='<rect width="1100" height="480" fill="white"/>';for(let i=0;i<=5;i++){let xx=xmax*i/5,yy=ymin+(ymax-ymin)*i/5;h+=`<line x1="${x(xx)}" x2="${x(xx)}" y1="${T}" y2="${B}" stroke="#e5edf2"/><text x="${x(xx)}" y="${B+22}" text-anchor="middle" font-size="11">${fmt(xx,1)}°</text><line x1="${L}" x2="${L+W}" y1="${y(yy)}" y2="${y(yy)}" stroke="#e5edf2"/><text x="${L-8}" y="${y(yy)+4}" text-anchor="end" font-size="11">${fmt(yy,3)}</text>`}series.forEach((s,j)=>{let pts=data.map(d=>x(d.angle)+','+y(ymode==='velocity'?fromSI(d[s[1]],'velocity'):fromSI(d[s[1]],'pressure'))).join(' ');h+=`<polyline points="${pts}" fill="none" stroke="${s[2]}" stroke-width="2.5"/><text x="${L+15+j*235}" y="18" font-size="12" fill="${s[2]}">● ${s[0]}</text>`});h+=`<text x="${L+W/2}" y="460" text-anchor="middle" font-weight="600">Crank angle (degrees)</text><text transform="translate(20 ${T+H/2}) rotate(-90)" text-anchor="middle" font-weight="600">${ymode==='velocity'?'Velocity ('+u.velocity[0]+')':'Pressure ('+u.pressure[0]+')'}</text>`;$('chart').innerHTML=h}
+function calc(){try{
+syncPumpSelectors();
+let u=U(),Q=toSI('flow','flow'),rho=toSI('rho','density'),K=+$('K').value,pv=toSI('pv','pressure'),ps=toSI('ps','pressure'),pd=toSI('pd','pressure'),n=toSI('rpm','speed'),Dpl=toSI('plunger','diameter'),stroke=toSI('stroke','diameter'),npshr=toSI('npshr','head'),heads=+$('heads').value,acting=+$('acting').value,C=coeff[heads]?.[acting],Ls=toSI('Ls','length'),Ld=toSI('Ld','length'),Ds=toSI('Ds','diameter'),Dd=toSI('Dd','diameter'),gamma=+$('gamma').value,pre=+$('pre').value,ys=+$('ys').value,yd=+$('yd').value;
+if(!(Q>0&&rho>0&&K>0&&ps>pv&&pd>0&&n>0&&Dpl>0&&stroke>0&&C&&Ls>0&&Ld>0&&Ds>0&&Dd>0&&gamma>1&&pre>0&&ys>0&&yd>0))throw Error('Check all inputs. Suction pressure must exceed vapor pressure; dimensions, flow, density and speed must be positive.');
+
+let Vrev=Math.PI/4*Dpl**2*stroke*heads*acting,Qth=Vrev*n,veff=Q/Qth,
+vs=Q/(Math.PI/4*Ds**2),vd=Q/(Math.PI/4*Dd**2),
+hS=Ls*vs*(n*60)*C/(K*g),hD=Ld*vd*(n*60)*C/(K*g),
+paS=hS*g*rho,paD=hD*g*rho,
+minS=ps-paS,maxS=ps+paS,minD=pd-paD,maxD=pd+paD,
+pulS=paS/ps,pulD=paD/pd,
+npshaSteady=(ps-pv)/(g*rho)+vs**2/(2*g),
+npshaUnd=(minS-pv)/(g*rho)+vs**2/(2*g),
+s1=(1-ys)*ps,s2=(1+ys)*ps,d1=(1-yd)*pd,d2=(1+yd)*pd,
+npshaDamp=(s1-pv)/(g*rho)+vs**2/(2*g),
+vol=(p1,p2)=>Vrev*C/1.25*(1/pre)**(1/gamma)/(1-(p1/p2)**(1/gamma)),
+volS=vol(s1,s2),volD=vol(d1,d2);
+
+$('coef').value=fmt(C,5);$('veff').value=fmt(veff,6);
+$('vrev').value=fmt(fromSI(Vrev,'volume'),6);$('qtheory').value=fmt(fromSI(Qth,'flow'),6);
+
+$('accel').innerHTML=`<table><thead><tr><th>Calculation of acceleration head</th><th>Suction</th><th>Discharge</th></tr></thead><tbody>
+<tr><td>Length of line</td><td>${fmt(fromSI(Ls,'length'))} ${u.length[0]}</td><td>${fmt(fromSI(Ld,'length'))} ${u.length[0]}</td></tr>
+<tr><td>Diameter of line</td><td>${fmt(fromSI(Ds,'diameter'))} ${u.diameter[0]}</td><td>${fmt(fromSI(Dd,'diameter'))} ${u.diameter[0]}</td></tr>
+<tr><td>Velocity in line</td><td>${fmt(fromSI(vs,'velocity'))} ${u.velocity[0]}</td><td>${fmt(fromSI(vd,'velocity'))} ${u.velocity[0]}</td></tr>
+<tr><td>Acceleration head</td><td>${fmt(fromSI(hS,'head'))} ${u.head[0]}</td><td>${fmt(fromSI(hD,'head'))} ${u.head[0]}</td></tr>
+<tr><td>Acceleration pressure</td><td>${fmt(fromSI(paS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(paD,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Pulsation level</td><td>${fmt(pulS*100,4)} %</td><td>${fmt(pulD*100,4)} %</td></tr>
+<tr><td>Minimum pressure</td><td>${fmt(fromSI(minS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(minD,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Maximum pressure</td><td>${fmt(fromSI(maxS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(maxD,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>NPSHA</td><td>${fmt(fromSI(npshaUnd,'head'))} ${u.head[0]}</td><td>—</td></tr></tbody></table>`;
+
+$('damp').innerHTML=`<table><thead><tr><th>Sizing pulsation dampener</th><th>Suction</th><th>Discharge</th></tr></thead><tbody>
+<tr><td>Specific heat ratio dampener gas</td><td>${fmt(gamma,4)}</td><td>${fmt(gamma,4)}</td></tr>
+<tr><td>Pre charge pressure, P0/P1</td><td>${fmt(pre,4)}</td><td>${fmt(pre,4)}</td></tr>
+<tr><td>Work pressure</td><td>${fmt(fromSI(ps,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(pd,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Residual pulsation admitted</td><td>${fmt(ys*100,4)} %</td><td>${fmt(yd*100,4)} %</td></tr>
+<tr><td>Minimum pressure</td><td>${fmt(fromSI(s1,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d1,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Maximum pressure</td><td>${fmt(fromSI(s2,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d2,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>NPSHA</td><td>${fmt(fromSI(npshaDamp,'head'))} ${u.head[0]}</td><td>—</td></tr>
+<tr><td>Dampener size</td><td>${fmt(fromSI(volS,'volume'),6)} ${u.volume[0]}</td><td>${fmt(fromSI(volD,'volume'),6)} ${u.volume[0]}</td></tr></tbody></table>`;
+
+$('summary').innerHTML=`
+<div class="summary-section"><h3>Mean / Steady State</h3><table><thead><tr><th>Result</th><th>Suction</th><th>Discharge</th></tr></thead><tbody>
+<tr><td>Mean pressure</td><td>${fmt(fromSI(ps,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(pd,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>NPSHA (Steady state value)</td><td>${fmt(fromSI(npshaSteady,'head'))} ${u.head[0]}</td><td>—</td></tr></tbody></table>
+<h3>Without dampener</h3><table><thead><tr><th>Result</th><th>Suction</th><th>Discharge</th></tr></thead><tbody>
+<tr><td>Minimum pressure</td><td>${fmt(fromSI(minS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(minD,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Maximum pressure</td><td>${fmt(fromSI(maxS,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(maxD,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Pulsation level</td><td>${fmt(pulS*100,4)} %</td><td>${fmt(pulD*100,4)} %</td></tr>
+<tr><td>NPSHA</td><td>${fmt(fromSI(npshaUnd,'head'))} ${u.head[0]}</td><td>—</td></tr>
+<tr><td>NPSH margin</td><td>${fmt(fromSI(npshaUnd-npshr,'head'))} ${u.head[0]}</td><td>—</td></tr></tbody></table>
+<h3>With dampener</h3><table><thead><tr><th>Result</th><th>Suction</th><th>Discharge</th></tr></thead><tbody>
+<tr><td>Dampener size</td><td>${fmt(fromSI(volS,'volume'),6)} ${u.volume[0]}</td><td>${fmt(fromSI(volD,'volume'),6)} ${u.volume[0]}</td></tr>
+<tr><td>Minimum pressure</td><td>${fmt(fromSI(s1,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d1,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Maximum pressure</td><td>${fmt(fromSI(s2,'pressure'))} ${u.pressure[0]}</td><td>${fmt(fromSI(d2,'pressure'))} ${u.pressure[0]}</td></tr>
+<tr><td>Pulsation level</td><td>${fmt(ys*100,4)} %</td><td>${fmt(yd*100,4)} %</td></tr>
+<tr><td>NPSHA</td><td>${fmt(fromSI(npshaDamp,'head'))} ${u.head[0]}</td><td>—</td></tr>
+<tr><td>NPSH margin</td><td>${fmt(fromSI(npshaDamp-npshr,'head'))} ${u.head[0]}</td><td>—</td></tr></tbody></table></div>`;
+
+$('status').innerHTML=veff>1?'<div class="warn">Volumetric efficiency exceeds 100%. Adjust pump speed, plunger diameter or stroke.</div>':npshaUnd<npshr?'<div class="warn">Undamped NPSHA is below NPSHR.</div>':'<div class="ok">Calculation completed using workbook equations.</div>';
+
+let cyc=360/(heads*acting),data=[];
+for(let i=0;i<=120;i++){let a=cyc*i/120,phase=2*Math.PI*a/cyc,sin=Math.sin(phase);data.push({angle:a,cycle:i/1.2,swo:ps-paS*sin,sw:ps-ys*ps*sin,dwo:pd-paD*sin,dw:pd-yd*pd*sin,vs,vd})}
+draw(data,u);
+window.last={Q,rho,K,pv,ps,pd,n,Dpl,stroke,npshr,heads,acting,C,Vrev,Qth,veff,vs,vd,hS,hD,paS,paD,minS,maxS,minD,maxD,pulS,pulD,npshaSteady,npshaUnd,npshaDamp,volS,volD};
+}catch(e){$('status').innerHTML='<div class="warn">'+e.message+'</div>'}}
+function draw(data,u){
+let ymode=$('yvar').value,xmode=$('xvar').value,series=[];
+if(ymode==='all'||ymode==='suction')series.push(['Suction — no dampener','swo','#1d5b88'],['Suction — dampened','sw','#5e9bc4']);
+if(ymode==='all'||ymode==='discharge')series.push(['Discharge — no dampener','dwo','#8a4d45'],['Discharge — dampened','dw','#c18a81']);
+if(ymode==='velocity')series=[['Suction velocity','vs','#1d5b88'],['Discharge velocity','vd','#8a4d45']];
+let vals=[];series.forEach(z=>data.forEach(d=>vals.push(ymode==='velocity'?fromSI(d[z[1]],'velocity'):fromSI(d[z[1]],'pressure'))));
+let ymin=Math.min(...vals),ymax=Math.max(...vals),pad=(ymax-ymin||1)*.12;ymin-=pad;ymax+=pad;
+let L=80,T=30,W=950,H=370,B=T+H,xmax=xmode==='cycle'?100:data[data.length-1].angle,xv=d=>xmode==='cycle'?d.cycle:d.angle,x=x=>L+x/xmax*W,y=v=>B-(v-ymin)/(ymax-ymin)*H,h='<rect width="1100" height="480" fill="white"/>';
+for(let i=0;i<=5;i++){let xx=xmax*i/5,yy=ymin+(ymax-ymin)*i/5;h+=`<line x1="${x(xx)}" x2="${x(xx)}" y1="${T}" y2="${B}" stroke="#e5edf2"/><text x="${x(xx)}" y="${B+22}" text-anchor="middle" font-size="11">${fmt(xx,1)}${xmode==='cycle'?'%':'°'}</text><line x1="${L}" x2="${L+W}" y1="${y(yy)}" y2="${y(yy)}" stroke="#e5edf2"/><text x="${L-8}" y="${y(yy)+4}" text-anchor="end" font-size="11">${fmt(yy,3)}</text>`}
+series.forEach((z,j)=>{let pts=data.map(d=>x(xv(d))+','+y(ymode==='velocity'?fromSI(d[z[1]],'velocity'):fromSI(d[z[1]],'pressure'))).join(' ');h+=`<polyline points="${pts}" fill="none" stroke="${z[2]}" stroke-width="2.5"/><text x="${L+15+j*235}" y="18" font-size="12" fill="${z[2]}">● ${z[0]}</text>`});
+h+=`<text x="${L+W/2}" y="460" text-anchor="middle" font-weight="600">${xmode==='cycle'?'Pump cycle (%)':'Crank angle (degrees)'}</text><text transform="translate(20 ${T+H/2}) rotate(-90)" text-anchor="middle" font-weight="600">${ymode==='velocity'?'Velocity ('+u.velocity[0]+')':'Pressure ('+u.pressure[0]+')'}</text>`;$('chart').innerHTML=h}
 function convertSet(oldU,newU){let map=[['flow','flow'],['rho','density'],['pv','pressure'],['ps','pressure'],['pd','pressure'],['Ls','length'],['Ld','length'],['Ds','diameter'],['Dd','diameter'],['rpm','speed'],['plunger','diameter'],['stroke','diameter'],['npshr','head']];map.forEach(([id,q])=>{let si=+$(id).value*oldU[q][1];$(id).value=fmt(si/newU[q][1],8).replace(/,/g,'')})}
-let oldU=units.Metric;$('unitSet').onchange=()=>{let nu=U();convertSet(oldU,nu);oldU=nu;labels();calc()};$('liquid').onchange=()=>{$('K').value=$('liquid').value;calc()};$('calculate').onclick=calc;$('yvar').onchange=calc;document.querySelectorAll('#calc input,#calc select').forEach(e=>{if(!['unitSet','liquid','yvar'].includes(e.id))e.addEventListener('change',calc)});document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.p).classList.add('active')});
+let oldU=units.Metric;$('unitSet').onchange=()=>{let nu=U();convertSet(oldU,nu);oldU=nu;labels();calc()};$('liquid').onchange=()=>{$('K').value=$('liquid').value;calc()};$('pumpType').onchange=()=>{syncPumpSelectors();calc()};$('actingHead').onchange=()=>{syncPumpSelectors();calc()};$('calculate').onclick=calc;$('yvar').onchange=calc;$('xvar').onchange=calc;document.querySelectorAll('#calc input,#calc select').forEach(e=>{if(!['unitSet','liquid','pumpType','actingHead','xvar','yvar'].includes(e.id))e.addEventListener('change',calc)});document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.p).classList.add('active')});
 (function buildUnits(){let box=$('userUnits');for(const q in pref){let opts=Object.keys(userChoices[q]).map(x=>`<option ${x===pref[q]?'selected':''}>${x}</option>`).join('');box.innerHTML+=`<label>${q}<select id="uu_${q}">${opts}</select></label>`}box.querySelectorAll('select').forEach(e=>e.onchange=()=>{if($('unitSet').value==='User Defined'){let nu=U();convertSet(oldU,nu);oldU=nu;labels();calc()}});let rows=[['volumetric flow','gal/min','m3/s','m3/hr'],['diameter','in','m','mm'],['pressure','psi','Pa','bar'],['density','lbm/ft3','kg/m3','kg/m3'],['velocity','ft/s','m/s','m/s'],['length','in','m','m'],['head','ft','m','m'],['volume','gal','m3','L'],['speed','rpm','rps','rpm'],['force','lbf','N','N']];$('baseUnits').innerHTML=rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')})();labels();calc();
 </script></body></html>
 
