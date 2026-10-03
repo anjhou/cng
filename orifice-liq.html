@@ -18,7 +18,7 @@
 <script>
 fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
 </script><nav class="tabs"><button class="tab active" data-p="calcPage">Calculation</button><button class="tab" data-p="docPage">Documentation</button></nav><main>
-<section id="calcPage" class="page active"><div class="help"><b>Design basis:</b> incompressible liquid flow only. The source workbook states that it is not applicable to gas service or laminar/non-Newtonian flow.</div><div class="calc-stack"><section class="panel input-panel"><h2>Input Panel</h2><div class="fields">
+<section id="calcPage" class="page active"><div class="help"><b>Design basis:</b> incompressible liquid flow only. It is not applicable to gas service or laminar/non-Newtonian flow.</div><div class="calc-stack"><section class="panel input-panel"><h2>Input Panel</h2><div class="fields">
 <label>Unit set<select id="units"><option>Mixed</option><option selected>English</option><option>SI</option><option>Metric</option><option>User Defined</option></select></label><label>Rate (0) or Design (1)<select id="design"><option value="0" selected>0 - Rate</option><option value="1">1 - Design</option></select></label>
 <label>Number of orifice plates<select id="nplates"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label>Design Mass Flowrate <span id="uflow"></span><input id="flow" type="number" value="38486.6"></label>
 <label>Fluid Density <span id="urho"></span><input id="rho" type="number" value="62.4"></label><label>Fluid Vapor Pressure <span class="upress"></span><input id="pv" type="number" value="4.35117"></label>
