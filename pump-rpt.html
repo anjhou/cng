@@ -70,7 +70,8 @@
 
 <section class="panel"><h2>Summarizing Results</h2><div id="status"></div><div id="summary"></div></section>
 
-<section class="panel"><h2>User Defined Units</h2><div class="units-grid"><div><p class="note">Editable preferred units from the workbook's User Defined Units sheet.</p><div id="userUnits"></div></div><div><h3>Workbook Base Sets</h3><table><thead><tr><th>Quantity</th><th>English</th><th>SI</th><th>Metric</th></tr></thead><tbody id="baseUnits"></tbody></table></div></div></section>
+<section class="panel units-panel"><h2>User Defined Units</h2><p class="note">Editable preferred units from the workbook's User Defined Units sheet.</p><div id="userUnits"></div></section>
+<section class="panel base-sets-panel"><h2>Workbook Base Sets</h2><div class="table-fit"><table><thead><tr><th>Quantity</th><th>English</th><th>SI</th><th>Metric</th></tr></thead><tbody id="baseUnits"></tbody></table></div></section>
 </section>
 <section id="docs" class="page"><div class="panel doc"><h2>Documentation</h2><h3>Workbook scope</h3><p>This tool is derived from the workbook sheets <b>Input_output</b>, <b>SI Calculation</b>, <b>Tables</b>, <b>Constants</b>, <b>User Defined Units</b> and <b>Revisions</b>. The workbook performs the governing calculations in SI and converts display values to the selected unit set.</p><h3>Reciprocating-pump basis</h3><p>The displaced volume per revolution is <code>Vrev = π/4 · Dplunger² · Stroke · Number of heads · Acting factor</code>. Theoretical flow is <code>Vrev · rotational speed</code>, and volumetric efficiency is rated flow divided by theoretical flow.</p><h3>Acceleration head</h3><p>The workbook uses <code>hacc = L · v · n(rpm) · C / (K · g)</code>, where C is selected from the pump-head/acting table and K is the liquid relative-compressibility factor. Acceleration pressure is <code>pacc = hacc · g · ρ</code>. Minimum and maximum instantaneous pressures are the mean pressure minus/plus acceleration pressure.</p><h3>NPSHA</h3><p>Steady-state NPSHA is based on suction pressure minus vapor pressure plus velocity head. The undamped NPSHA uses the minimum suction pressure after acceleration-pressure deduction.</p><h3>Pulsation dampener</h3><p>For admitted residual pulsation y, the workbook sets <code>P1=(1−y)Pt</code> and <code>P2=(1+y)Pt</code>. Dampener volume is <code>V0 = Vrev·C/1.25 · (1/precharge)^(1/γ) / [1−(P1/P2)^(1/γ)]</code>. The workbook uses γ=1.4 for air or nitrogen and notes an 80% pre-charge ratio as standard.</p><h3>Assumptions and limitations</h3><p>The suction acceleration-head method is noted in the workbook as valid up to approximately 15 m / 50 ft line length; use virtual length where more than one diameter is present. The workbook does not provide viscosity, temperature, elevation, friction-factor, slip, or user-entered dampener-volume terms in its governing formulas, so this conversion does not invent them.</p><h3>Chart methodology</h3><p>The workbook chart uses a cycle length of <code>360/(number of heads × acting factor)</code> degrees and five pressure points: mean, minimum, mean, maximum, mean. Both suction and discharge are shown with and without dampening.</p></div></section>
 </main><div id="footer"></div><script>fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});</script><script>
@@ -178,3 +179,11 @@ let oldU=units.Metric;$('unitSet').onchange=()=>{let nu=U();convertSet(oldU,nu);
 <style>.hero{padding-top:7px!important;padding-bottom:7px!important;min-height:0!important}.hero h1{margin:0!important;line-height:1.15!important}.hero p{display:none!important;margin:0!important}</style>
 
 <style>.tabs{background:transparent!important;box-shadow:none!important;border:none!important}</style>
+
+<style>
+.units-panel,.base-sets-panel{width:100%;box-sizing:border-box}
+.units-panel #userUnits{width:100%}
+.base-sets-panel .table-fit{width:100%;overflow-x:auto}
+.base-sets-panel table{width:auto;min-width:min(100%,760px);max-width:100%;table-layout:auto}
+.base-sets-panel th,.base-sets-panel td{white-space:nowrap;padding-left:12px;padding-right:12px}
+</style>
