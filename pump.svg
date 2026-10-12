@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="260" viewBox="90 390 125 130" role="img" aria-labelledby="title">
+<title id="title">Centrifugal pump</title>
+<!-- Pump geometry extracted from ext.svg; original page placement removed. -->
+<defs>
+<linearGradient id="gradientH"> 
+<stop offset="70%" stop-color="#0033cc" />
+<stop offset="90%" stop-color="#339966" />
+</linearGradient>
+<marker id="endarrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+<polygon points="0 0, 10 3.5, 0 7" fill="blue" />
+</marker>
+</defs>
+<g id="gpump">
+<line x1="108" y1="400" x2="108" y2="475" style="stroke:rgb(0, 51, 204);stroke-width:4" />
+<circle cx="7.5" cy="15" r="15" fill="url(#gradientH)" transform="translate(115, 460)"/>
+<polyline points="45,70 70,70 85,90 30,90 45,70" stroke="#D07735" stroke-width="0.1" fill="url(#gradientH)" transform="translate(65, 420)" />
+<line x1="117" y1="462" x2="180" y2="462" style="stroke:rgb(0, 51, 204);stroke-width:3" marker-end="url(#endarrow)"/>
+</g>
+</svg>
