@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="250" height="260" viewBox="90 390 125 130" role="img" aria-labelledby="title">
 <title id="title">Centrifugal pump</title>
-<!-- Pump geometry extracted from ext.svg; original page placement removed.  -->
+<!-- Pump geometry extracted from ext.svg; original page placement removed. -->
 <defs>
 <linearGradient id="gradientH"> 
 <stop offset="70%" stop-color="#0033cc" />
