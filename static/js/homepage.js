@@ -1,1 +1,15 @@
-const search=document.querySelector('.hce-search');if(search){const cards=[...document.querySelectorAll('[data-resource]')];const status=document.querySelector('#search-status');function filter(){let n=0;cards.forEach(c=>{c.hidden=!c.textContent.toLowerCase().includes(search.value.trim().toLowerCase());if(!c.hidden)n++;});status.textContent=n+' resources shown';}search.addEventListener('input',filter);filter();}
+(() => {
+  const search = document.querySelector('.hce-search');
+  if (!search) return;
+  const cards = Array.from(document.querySelectorAll('[data-resource]'), el => ({el, text: el.textContent.toLowerCase()}));
+  const status = document.querySelector('#search-status');
+  let frame = 0;
+  function filter() {
+    const query = search.value.trim().toLowerCase();
+    let count = 0;
+    for (const {el,text} of cards) { const visible = text.includes(query); el.hidden = !visible; if (visible) count++; }
+    if (status) status.textContent = `${count} resources shown`;
+  }
+  search.addEventListener('input', () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(filter); });
+  filter();
+})();
