@@ -7,7 +7,7 @@ const seriesLibrary = [
   { type:"Feedstock", label:"Waha Natural Gas", seriesId:"NG.RNGC1TX3.D", unit:"$/MMBtu", axis:"y1" },
   { type:"Product", label:"Gasoline Retail US", seriesId:"PET.EMM_EPM0_PTE_NUS_DPG.W", unit:"$/gal", axis:"y1" },
   { type:"Product", label:"Diesel Retail US", seriesId:"PET.EMD_EPD2D_PTE_NUS_DPG.W", unit:"$/gal", axis:"y1" },
-  { type:"Product", label:"Jet Fuel Spot NY Harbor", seriesId:"PET.EER_EPJK_PF4_RGC_DPG.D", unit:"$/gal", axis:"y1" },
+  { type:"Product", label:"Jet Fuel Spot US Gulf Coast", seriesId:"PET.EER_EPJK_PF4_RGC_DPG.D", unit:"$/gal", axis:"y1" },
   { type:"Product", label:"Propane Mont Belvieu", seriesId:"PET.EER_EPLLPA_PF4_Y44MB_DPG.D", unit:"$/gal", axis:"y1" },
   { type:"Product", label:"Ethane Mont Belvieu", seriesId:"PET.EER_EPLEM_PF4_Y44MB_DPG.D", unit:"$/gal", axis:"y1" },
   { type:"Product", label:"Normal Butane Mont Belvieu", seriesId:"PET.EER_EPLBN_PF4_Y44MB_DPG.D", unit:"$/gal", axis:"y1" },
@@ -68,6 +68,7 @@ function onChange(id, handler){
 function activateTab(id){
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === id));
   document.querySelectorAll(".tab-content").forEach(t => t.classList.toggle("active", t.id === id));
+  requestAnimationFrame(()=>{for(const c of [priceChart,spreadChart,normalChart])if(c)c.resize();});
 }
 
 function loadLibraryDropdown(){
@@ -88,6 +89,10 @@ function loadLibraryDropdown(){
 function resetDefaults(){
   selectedSeries = seriesLibrary.filter(s => defaultSeriesIds.includes(s.seriesId)).map(s => ({...s, plot:true}));
   selectedSpreads = [];
+  rawData={}; alignedLabels=[];
+  for(const c of [priceChart,spreadChart,normalChart])if(c)c.destroy();
+  priceChart=spreadChart=normalChart=null;
+  renderDataTable();
   renderSeriesTable();
   renderSpreadTable();
   refreshSelectors();
@@ -165,50 +170,48 @@ function refreshSelectors(){
 }
 
 async function loadPrices(){
-  setStatus("Loading EIA API v2 data...");
-  rawData = {};
-  alignedLabels = [];
-  const frequency = document.getElementById("frequencySelect")?.value || "weekly";
-  const lookbackYears = Number(document.getElementById("lookbackSelect")?.value || 3);
-  const active = selectedSeries.filter(s => s.plot && s.seriesId);
-  const failures = [];
-
-  for(const item of active){
-    try{
-      const data = await fetchSeriesV2(item.seriesId, frequency, lookbackYears);
-      rawData[item.seriesId] = data;
-    }catch(err){
-      failures.push(`${item.label}: ${err.message}`);
-      console.error(err);
-    }
-  }
-
-  alignedLabels = buildAlignedLabels(rawData);
-  renderPriceChart();
-  renderSpreadChart();
-  renderNormalChart();
-  renderDataTable();
-
-  if(failures.length){
-    setStatus(`Loaded ${Object.keys(rawData).length} series. Some failed: ${failures.join(" | ")}`);
-  }else{
-    setStatus(`Loaded ${Object.keys(rawData).length} EIA series successfully.`);
-  }
+ const btn=document.getElementById('btnLoad'); if(btn.disabled)return; btn.disabled=true;
+ setStatus('Loading EIA data…');
+ try {
+ if(typeof Chart==='undefined') throw Error('Chart.js failed to load. Check CDN access.');
+ const frequency=document.getElementById('frequencySelect').value;
+ const years=Number(document.getElementById('lookbackSelect').value);
+ const active=selectedSeries.filter(s=>s.plot && s.seriesId.trim()).map(s=>({...s}));
+ if(!active.length) throw Error('Select at least one series.');
+ const results=await Promise.allSettled(active.map(s=>fetchSeriesV2(s.seriesId.trim(),frequency,years)));
+ const next={}, failures=[];
+ results.forEach((r,i)=>{if(r.status==='fulfilled' && r.value.length)next[active[i].seriesId]=r.value;else failures.push(active[i].label+': '+(r.status==='rejected'?r.reason.message:'No observations'));});
+ if(!Object.keys(next).length) throw Error('No series loaded. '+failures.join(' | '));
+ rawData=next; alignedLabels=buildAlignedLabels(rawData);
+ renderPriceChart(); renderSpreadChart(); renderNormalChart(); renderDataTable();
+ setStatus('Loaded '+Object.keys(next).length+' series. '+(failures.length?'Unavailable: '+failures.join(' | '):'Refresh complete.'));
+ } catch(e){setStatus('Load failed: '+e.message);} finally {btn.disabled=false;}
 }
-
 async function fetchSeriesV2(seriesId, frequency, lookbackYears){
-  const start = new Date();
-  start.setFullYear(start.getFullYear() - lookbackYears);
-  const startDate = start.toISOString().slice(0,10);
-  const url = `https://api.eia.gov/v2/seriesid/${encodeURIComponent(seriesId)}?api_key=${EIA_API_KEY}&frequency=${frequency}&start=${startDate}`;
-  const response = await fetch(url);
-  if(!response.ok) throw new Error(`HTTP ${response.status}`);
-  const json = await response.json();
-  if(!json.response || !Array.isArray(json.response.data)) throw new Error("Invalid EIA v2 response");
-  return json.response.data
-    .map(r => ({date:normalizeDate(r.period), value:Number(r.value)}))
-    .filter(r => Number.isFinite(r.value))
-    .sort((a,b) => a.date.localeCompare(b.date));
+ const start=new Date(); start.setUTCFullYear(start.getUTCFullYear()-lookbackYears);
+ const native=({D:'daily',W:'weekly',M:'monthly',A:'annual',Q:'quarterly'})[seriesId.split('.').pop()];
+ const params=new URLSearchParams({api_key:EIA_API_KEY,length:'5000',offset:'0'});
+ if(native)params.set('frequency',native);
+ const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),25000);
+ try {
+ const rows=[]; let offset=0;
+ while(true){params.set('offset',String(offset));
+ const response=await fetch('https://api.eia.gov/v2/seriesid/'+encodeURIComponent(seriesId)+'?'+params,{signal:controller.signal});
+ if(!response.ok)throw Error('EIA HTTP '+response.status);
+ const json=await response.json(); const data=json.response?.data;
+ if(!Array.isArray(data))throw Error('Invalid EIA response');
+ rows.push(...data); offset+=data.length;
+ if(!data.length || offset>=Number(json.response.total||0) || data.length<5000)break;
+ if(offset>=50000)throw Error('Response exceeds safety limit');
+ }
+ const cutoff=start.toISOString().slice(0,10); const groups=new Map();
+ for(const r of rows){if(r.value===null||r.value===undefined||String(r.value).trim()==='')continue; const value=Number(r.value); let date=normalizeDate(r.period); if(!Number.isFinite(value)||date<cutoff)continue;
+ if(frequency==='monthly')date=date.slice(0,7)+'-01';
+ if(frequency==='weekly' && native==='daily'){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}
+ const g=groups.get(date)||[0,0];g[0]+=value;g[1]++;groups.set(date,g);
+ }
+ return [...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));
+ }catch(e){if(e.name==='AbortError')throw Error('Request timed out');throw e;}finally{clearTimeout(timer);}
 }
 
 function buildAlignedLabels(dataObj){
@@ -221,7 +224,7 @@ function renderPriceChart(){
   const canvas = document.getElementById("priceChart");
   if(!canvas || typeof Chart === "undefined") return;
   const ctx = canvas.getContext("2d");
-  if(priceChart) priceChart.destroy();
+  if(priceChart) {priceChart.destroy();priceChart=null;}
 
   const datasets = selectedSeries
     .filter(s => s.plot && rawData[s.seriesId])
@@ -232,7 +235,7 @@ function renderPriceChart(){
         data:alignedLabels.map(d => map.get(d) ?? null),
         yAxisID:s.axis || "y",
         borderWidth:2,
-        pointRadius:0,
+        pointRadius:0,spanGaps:true,
         tension:0.2
       };
     });
@@ -241,7 +244,7 @@ function renderPriceChart(){
     type:"line",
     data:{labels:alignedLabels,datasets},
     options:{
-      responsive:true,
+      responsive:true,maintainAspectRatio:false,
       interaction:{mode:"index",intersect:false},
       plugins:{title:{display:true,text:"Feedstock and Product Prices - Dual Axis"},legend:{position:"bottom"}},
       scales:{
@@ -257,6 +260,7 @@ function addSpread(){
   const productId = document.getElementById("spreadProductSelect")?.value;
   const feedId = document.getElementById("spreadFeedSelect")?.value;
   if(!productId || !feedId){ setStatus("Spread selectors are missing or empty."); return; }
+  if(selectedSeries.find(s=>s.seriesId===productId)?.unit !== selectedSeries.find(s=>s.seriesId===feedId)?.unit){setStatus("Spread requires matching units; no automatic conversion.");return;}
   if(productId === feedId){ setStatus("Select two different series for spread calculation."); return; }
   const p = selectedSeries.find(s => s.seriesId === productId);
   const f = selectedSeries.find(s => s.seriesId === feedId);
@@ -287,13 +291,13 @@ function renderSpreadChart(){
   const canvas = document.getElementById("spreadChart");
   if(!canvas || typeof Chart === "undefined") return;
   const ctx = canvas.getContext("2d");
-  if(spreadChart) spreadChart.destroy();
+  if(spreadChart) {spreadChart.destroy();spreadChart=null;}
   const datasets = selectedSpreads.filter(s => s.plot && rawData[s.productId] && rawData[s.feedId]).map(s => {
     const pMap = new Map(rawData[s.productId].map(r => [r.date,r.value]));
     const fMap = new Map(rawData[s.feedId].map(r => [r.date,r.value]));
-    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,tension:0.2};
+    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:true,tension:0.2};
   });
-  spreadChart = new Chart(ctx,{type:"line",data:{labels:alignedLabels,datasets},options:{responsive:true,interaction:{mode:"index",intersect:false},plugins:{title:{display:true,text:"Price Spread Calculations"},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Spread"}}}}});
+  spreadChart = new Chart(ctx,{type:"line",data:{labels:alignedLabels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{title:{display:true,text:"Price Spread Calculations"},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Spread"}}}}});
 }
 
 function renderNormalChart(){
@@ -303,14 +307,14 @@ function renderNormalChart(){
   const canvas = document.getElementById("normalChart");
   if(!canvas || typeof Chart === "undefined") return;
   const ctx = canvas.getContext("2d");
-  if(normalChart) normalChart.destroy();
+  if(normalChart) {normalChart.destroy();normalChart=null;}
   if(!source.length) return;
   const item = selectedSeries.find(s => s.seriesId === id);
   const avg = source.reduce((a,b) => a + b.value,0) / source.length;
   const sd = Math.sqrt(source.reduce((a,b) => a + Math.pow(b.value - avg,2),0) / source.length);
   const labels = source.map(r => r.date);
   const values = source.map(r => ((r.value - avg) / (sd || 1)));
-  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0}]},options:{responsive:true,plugins:{title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
+  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,spanGaps:true,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0,spanGaps:true},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0,spanGaps:true},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
 }
 
 function renderDataTable(){
