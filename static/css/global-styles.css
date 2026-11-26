@@ -1,3 +1,6 @@
+@import url("header.css");
+@import url("footer.css");
+@import url("homepage.css");
 /* ============================================================
    GLOBAL THEME VARIABLES — Deep Blue / Silver
    ============================================================ */
@@ -729,3 +732,6 @@ body.dark-mode .calc-results.fail {
         padding: 0 15px;
     }
 }
+
+/* Compatibility overrides for new shell only */
+body.hce-page{padding-bottom:0;}
