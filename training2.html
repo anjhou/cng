@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Training Center</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --primary:#1f5f8b;
+  --dark:#102a43;
+  --muted:#64748b;
+  --border:#d9e2ec;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+
+header{
+  background:linear-gradient(135deg,#123c69,#1f5f8b);
+  color:white;
+  padding:24px;
+  text-align:center;
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  background:white;
+  padding:14px;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+nav button,
+.control-btn{
+  border:none;
+  background:#e8f1fb;
+  color:#123c69;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+nav button.active,
+.control-btn:hover{
+  background:var(--primary);
+  color:white;
+}
+
+main{
+  max-width:1180px;
+  margin:24px auto;
+  padding:0 16px;
+}
+
+.section{
+  display:none;
+  background:var(--card);
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(15,23,42,.08);
+  min-height:520px;
+}
+
+.section.active{display:block}
+
+h2{margin-top:0;color:#123c69}
+
+.viewer{
+  display:grid;
+  gap:18px;
+  align-items:center;
+  justify-items:center;
+  text-align:center;
+}
+
+.media-box{
+  width:100%;
+  max-width:850px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#f8fafc;
+  padding:18px;
+}
+
+.gallery-img{
+  width:100%;
+  max-height:460px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+iframe{
+  width:100%;
+  height:440px;
+  border:0;
+  border-radius:12px;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+
+.counter{
+  color:var(--muted);
+  font-weight:600;
+}
+
+.pdf-text{
+  text-align:left;
+  line-height:1.65;
+  white-space:pre-line;
+  background:#f8fafc;
+  border:1px solid var(--border);
+  padding:18px;
+  border-radius:12px;
+  min-height:300px;
+}
+
+.chart-wrap{
+  width:100%;
+  max-width:850px;
+  margin:auto;
+}
+
+.profile-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
+.profile{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  background:#f8fafc;
+}
+
+.profile h3{
+  margin-bottom:4px;
+  color:#123c69;
+}
+
+.profile small{
+  color:var(--muted);
+  font-weight:700;
+}
+
+.quiz-search{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:16px;
+}
+
+.quiz-search input{
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  min-width:320px;
+}
+
+#quizSvg svg{
+  max-width:100%;
+  height:auto;
+}
+
+#quizSvg img{
+  max-width:100%;
+  max-height:400px;
+  object-fit:contain;
+  border:1px solid #ccc;
+  border-radius:8px;
+  background:#fff;
+}
+
+#quizChoices{
+  display:grid;
+  gap:10px;
+  text-align:left;
+  margin-top:14px;
+}
+
+.quiz-choice{
+  text-align:left;
+  background:#ffffff;
+  color:#123c69;
+  border:1px solid var(--border);
+}
+
+.quiz-choice.correct{
+  background:#dcfce7;
+  border-color:#15803d;
+  color:#166534;
+}
+
+.quiz-choice.incorrect{
+  background:#fee2e2;
+  border-color:#b91c1c;
+  color:#991b1b;
+}
+
+#quizFeedback{
+  font-weight:700;
+  margin-top:14px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Interactive Training Center</h1>
+  <p>Audio, images, videos, PDF text, charts, expert profiles, and CSV-driven quizzes</p>
+</header>
+
+<nav id="sectionNav">
+  <button class="active" onclick="showSection(0)">Audio Library</button>
+  <button onclick="showSection(1)">Image Gallery</button>
+  <button onclick="showSection(2)">Video Collection</button>
+  <button onclick="showSection(3)">PDF Text Viewer</button>
+  <button onclick="showSection(4)">Charts Dashboard</button>
+  <button onclick="showSection(5)">Expert Profiles</button>
+  <button onclick="showSection(6)">Quiz Library</button>
+</nav>
+
+<main>
+
+<section class="section active">
+  <h2>Section 1 – Audio Library</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="audioTitle"></h3>
+      <p id="audioDesc"></p>
+      <audio id="audioPlayer" controls style="width:100%"></audio>
+      <div class="controls">
+        <button class="control-btn" onclick="prevAudio()">Previous</button>
+        <span class="counter" id="audioCounter"></span>
+        <button class="control-btn" onclick="nextAudio()">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Section 2 – Image Gallery</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="imageTitle"></h3>
+      <img id="galleryImage" class="gallery-img" alt="Training image" />
+      <p id="imageDesc"></p>
+      <div class="controls">
+        <button class="control-btn" onclick="prevImage()">Previous</button>
+        <span class="counter" id="imageCounter"></span>
+        <button class="control-btn" onclick="nextImage()">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Section 3 – Video Collection</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="videoTitle"></h3>
+      <iframe id="videoFrame" allowfullscreen></iframe>
+      <p id="videoDesc"></p>
+      <div class="controls">
+        <button class="control-btn" onclick="prevVideo()">Previous</button>
+        <span class="counter" id="videoCounter"></span>
+        <button class="control-btn" onclick="nextVideo()">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Section 4 – PDF Text Viewer</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="pdfTitle"></h3>
+      <div id="pdfText" class="pdf-text"></div>
+      <div class="controls">
+        <button class="control-btn" onclick="prevPdfPage()">Previous Page</button>
+        <span class="counter" id="pdfCounter"></span>
+        <button class="control-btn" onclick="nextPdfPage()">Next Page</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Section 5 – Charts Dashboard</h2>
+  <div class="viewer">
+    <div class="media-box">
+      <h3 id="chartTitle"></h3>
+      <div class="chart-wrap">
+        <canvas id="trainingChart"></canvas>
+      </div>
+      <div class="controls">
+        <button class="control-btn" onclick="prevChart()">Previous Chart</button>
+        <span class="counter" id="chartCounter"></span>
+        <button class="control-btn" onclick="nextChart()">Next Chart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Section 6 – Expert Profiles</h2>
+  <div class="profile-grid" id="profileGrid"></div>
+</section>
+
+<section class="section">
+  <h2>Section 7 – Quiz Library</h2>
+  <div class="viewer">
+    <div class="media-box">
+
+      <div class="quiz-search">
+        <input 
+          id="quizSearchInput" 
+          type="text" 
+          placeholder="Search quiz topic, e.g. geometry, circle, triangle"
+		  onkeydown="if(event.key === 'Enter') loadQuizFromCsv(true);"
+        />
+        <button class="control-btn" onclick="loadQuizFromCsv(true)">Load Quiz</button>
+        <button class="control-btn" onclick="resetQuizAndReload()">Reload CSV</button>
+        <input
+          id="quizCsvFile"
+          type="file"
+          accept=".csv,text/csv"
+          onchange="loadQuizFromLocalFile(event)"
+          style="padding:9px;border:1px solid var(--border);border-radius:8px;background:#fff;color:#123c69;font-weight:600;"
+        />
+      </div>
+
+      <h3 id="quizTitle">Quiz Library</h3>
+      <p id="quizQuestion">Enter a query and load quiz questions from CSV.</p>
+
+      <div id="quizSvg" style="margin:14px auto;"></div>
+      <div id="quizChoices"></div>
+      <div id="quizFeedback"></div>
+      <div id="quizStats" style="margin-top:8px;color:var(--muted);font-weight:600;"></div>
+
+      <div class="controls">
+        <button class="control-btn" onclick="prevQuiz()">Previous Question</button>
+        <span class="counter" id="quizCounter">0 / 0</span>
+        <button class="control-btn" onclick="nextQuiz()">Next Question</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>Training Center © 2026</footer>
+
+<script>
+
+
+
+const sections = document.querySelectorAll(".section");
+const navButtons = document.querySelectorAll("#sectionNav button");
+
+function showSection(index){
+  sections.forEach(section => section.classList.remove("active"));
+  navButtons.forEach(button => button.classList.remove("active"));
+
+  sections[index].classList.add("active");
+  navButtons[index].classList.add("active");
+
+  if(index === 4){
+    renderChart();
+  }
+}
+
+/* Section 1 – Audio Library */
+const audioItems = [
+  {
+    title:"Module 1: Process Safety Introduction",
+    desc:"Overview of basic safety concepts and training objectives.",
+    src:"audio/process-safety-intro.mp3"
+  },
+  {
+    title:"Module 2: Equipment Walkthrough",
+    desc:"Narrated explanation of major process equipment.",
+    src:"audio/equipment-walkthrough.mp3"
+  },
+  {
+    title:"Module 3: Operating Discipline",
+    desc:"Short audio lesson on operating limits and procedural control.",
+    src:"audio/operating-discipline.mp3"
+  }
+];
+
+let audioIndex = 0;
+
+function renderAudio(){
+  const item = audioItems[audioIndex];
+  audioTitle.textContent = item.title;
+  audioDesc.textContent = item.desc;
+  audioPlayer.src = item.src;
+  audioCounter.textContent = `${audioIndex + 1} / ${audioItems.length}`;
+}
+
+function nextAudio(){
+  audioIndex = (audioIndex + 1) % audioItems.length;
+  renderAudio();
+}
+
+function prevAudio(){
+  audioIndex = (audioIndex - 1 + audioItems.length) % audioItems.length;
+  renderAudio();
+}
+
+/* Section 2 – Image Gallery */
+const imageItems = [
+  {
+    title:"Training Image 1: Process Overview",
+    desc:"Use this image to introduce the full system layout.",
+    src:"images/training-process-1.jpg"
+  },
+  {
+    title:"Training Image 2: Equipment Detail",
+    desc:"Detailed visual reference for key equipment.",
+    src:"images/training-equipment-2.jpg"
+  },
+  {
+    title:"Training Image 3: Safety Zones",
+    desc:"Illustration of restricted, caution, and operating zones.",
+    src:"images/training-safety-3.jpg"
+  }
+];
+
+let imageIndex = 0;
+
+function renderImage(){
+  const item = imageItems[imageIndex];
+  imageTitle.textContent = item.title;
+  imageDesc.textContent = item.desc;
+  galleryImage.src = item.src;
+  imageCounter.textContent = `${imageIndex + 1} / ${imageItems.length}`;
+}
+
+function nextImage(){
+  imageIndex = (imageIndex + 1) % imageItems.length;
+  renderImage();
+}
+
+function prevImage(){
+  imageIndex = (imageIndex - 1 + imageItems.length) % imageItems.length;
+  renderImage();
+}
+
+/* Section 3 – Video Collection */
+const videoItems = [
+  {
+    title:"Video 1: Safety Training Overview",
+    desc:"Introductory video for the training program.",
+    youtubeId:"ysz5S6PUM-U"
+  },
+  {
+    title:"Video 2: Process Operations",
+    desc:"Video lesson covering basic process operation concepts.",
+    youtubeId:"ScMzIvxBSi4"
+  },
+  {
+    title:"Video 3: Maintenance Awareness",
+    desc:"Training video for maintenance and reliability awareness.",
+    youtubeId:"jNQXAC9IVRw"
+  }
+];
+
+let videoIndex = 0;
+
+function renderVideo(){
+  const item = videoItems[videoIndex];
+  videoTitle.textContent = item.title;
+  videoDesc.textContent = item.desc;
+  videoFrame.src = `https://www.youtube.com/embed/${item.youtubeId}`;
+  videoCounter.textContent = `${videoIndex + 1} / ${videoItems.length}`;
+}
+
+function nextVideo(){
+  videoIndex = (videoIndex + 1) % videoItems.length;
+  renderVideo();
+}
+
+function prevVideo(){
+  videoIndex = (videoIndex - 1 + videoItems.length) % videoItems.length;
+  renderVideo();
+}
+
+/* Section 4 – PDF Text Viewer */
+const pdfPages = [
+  {
+    title:"PDF Training Manual – Page 1",
+    text:`Introduction
+
+This training module introduces the operating philosophy, safety basis, and expected learning outcomes.
+
+Learners should review the process overview before proceeding to equipment-specific training.`
+  },
+  {
+    title:"PDF Training Manual – Page 2",
+    text:`Operating Guidance
+
+Operators should verify flow, pressure, temperature, and equipment status before startup.
+
+Any abnormal deviation should be escalated according to the operating procedure.`
+  },
+  {
+    title:"PDF Training Manual – Page 3",
+    text:`Assessment Notes
+
+After completing the module, trainees should be able to explain the major hazards, safeguards, and key process variables.`
+  }
+];
+
+let pdfIndex = 0;
+
+function renderPdf(){
+  const page = pdfPages[pdfIndex];
+  pdfTitle.textContent = page.title;
+  pdfText.textContent = page.text;
+  pdfCounter.textContent = `Page ${pdfIndex + 1} / ${pdfPages.length}`;
+}
+
+function nextPdfPage(){
+  pdfIndex = (pdfIndex + 1) % pdfPages.length;
+  renderPdf();
+}
+
+function prevPdfPage(){
+  pdfIndex = (pdfIndex - 1 + pdfPages.length) % pdfPages.length;
+  renderPdf();
+}
+
+/* Section 5 – Charts Dashboard */
+const chartItems = [
+  {
+    title:"Training Completion by Module",
+    type:"bar",
+    labels:["Safety","Operations","Maintenance","Quality","Assessment"],
+    data:[88,76,69,82,91],
+    label:"Completion %"
+  },
+  {
+    title:"Assessment Scores",
+    type:"line",
+    labels:["Week 1","Week 2","Week 3","Week 4"],
+    data:[72,78,84,89],
+    label:"Average Score"
+  },
+  {
+    title:"Training Content Mix",
+    type:"doughnut",
+    labels:["Audio","Images","Videos","PDF","Charts"],
+    data:[15,20,30,20,15],
+    label:"Content Share"
+  }
+];
+
+let chartIndex = 0;
+let activeChart = null;
+
+function renderChart(){
+  const item = chartItems[chartIndex];
+
+  chartTitle.textContent = item.title;
+  chartCounter.textContent = `${chartIndex + 1} / ${chartItems.length}`;
+
+  if(activeChart){
+    activeChart.destroy();
+  }
+
+  activeChart = new Chart(document.getElementById("trainingChart"), {
+    type:item.type,
+    data:{
+      labels:item.labels,
+      datasets:[{
+        label:item.label,
+        data:item.data,
+        borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:true},
+        tooltip:{enabled:true}
+      },
+      scales:item.type === "doughnut" ? {} : {
+        y:{beginAtZero:true}
+      }
+    }
+  });
+}
+
+function nextChart(){
+  chartIndex = (chartIndex + 1) % chartItems.length;
+  renderChart();
+}
+
+function prevChart(){
+  chartIndex = (chartIndex - 1 + chartItems.length) % chartItems.length;
+  renderChart();
+}
+
+/* Section 6 – Expert Profiles */
+const experts = [
+  {
+    name:"Dr. Maya Reynolds",
+    role:"Process Safety Specialist",
+    bio:"Introduces hazard awareness, safeguards, and operating discipline."
+  },
+  {
+    name:"James Carter",
+    role:"Operations Training Lead",
+    bio:"Explains startup, shutdown, abnormal operation, and field response."
+  },
+  {
+    name:"Priya Nair",
+    role:"Reliability Engineer",
+    bio:"Connects equipment behavior, maintenance strategy, and failure prevention."
+  },
+  {
+    name:"Luis Hernandez",
+    role:"Data & Performance Analyst",
+    bio:"Uses charts and dashboards to interpret training progress and operating trends."
+  }
+];
+
+function renderProfiles(){
+  profileGrid.innerHTML = experts.map(expert => `
+    <div class="profile">
+      <h3>${expert.name}</h3>
+      <small>${expert.role}</small>
+      <p>${expert.bio}</p>
+    </div>
+  `).join("");
+}
+
+/* Section 7 – CSV-Driven Quiz Library */
+
+const QUIZ_CSV_PATHS = [
+  "data/quiz-library1.csv",
+  "quiz-library1.csv"
+];
+
+const QUIZ_DEFAULT_HEADERS = [
+  "topic",
+  "question",
+  "choiceA",
+  "choiceB",
+  "choiceC",
+  "choiceD",
+  "answer",
+  "svg",
+  "image"
+];
+
+let allQuizRows = [];
+let quizItems = [];
+let quizIndex = 0;
+
+async function fetchQuizCsv(forceReload = false){
+  let lastError = null;
+  const cacheBust = `?v=${Date.now()}`; // always cache-bust CSV requests
+
+  for(const path of QUIZ_CSV_PATHS){
+    try{
+      const url = path + cacheBust;
+      const response = await fetch(url, {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        }
+      });
+
+      if(response.ok){
+        const text = await response.text();
+        console.log(`Loaded quiz CSV from: ${url}; bytes=${text.length}`);
+        return text;
+      }
+
+      lastError = new Error(`Could not load ${url}; HTTP ${response.status}`);
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("CSV file could not be loaded.");
+}
+
+async function loadQuizFromLocalFile(event){
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+
+  try{
+    const csvText = await file.text();
+    allQuizRows = parseCsv(csvText);
+    quizItems = [...allQuizRows];
+    quizIndex = 0;
+
+    const searchBox = document.getElementById("quizSearchInput");
+    const query = normalizeQuizSearchQuery(searchBox.value);
+    if(query){
+      quizItems = allQuizRows.filter(row =>
+        Object.values(row).join(" ").toLowerCase().includes(query)
+      );
+    }
+
+    renderQuiz();
+    const stats = document.getElementById("quizStats");
+    if(stats){
+      stats.textContent = `Loaded local CSV: ${file.name} | Questions shown: ${quizItems.length} of ${allQuizRows.length}`;
+    }
+  }catch(error){
+    showQuizMessage("Local CSV Load Error", error.message);
+    console.error(error);
+  }finally{
+    event.target.value = ""; // allow selecting the same file again after editing
+  }
+}
+
+function normalizeQuizSearchQuery(value){
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[–—-]\s*question\s*\d+/g, "")
+    .replace(/\bquestion\s*\d+\b/g, "")
+    .trim();
+}
+
+async function loadQuizFromCsv(forceReload = false){
+  const rawQuery = document.getElementById("quizSearchInput").value;
+  const query = normalizeQuizSearchQuery(rawQuery);
+
+  try{
+    const csvText = await fetchQuizCsv(true); // always fetch fresh CSV
+    allQuizRows = parseCsv(csvText);
+    console.log("Total valid CSV questions:", allQuizRows.length);
+
+    if(query === ""){
+      quizItems = [...allQuizRows];
+    }else{
+      quizItems = allQuizRows.filter(row => {
+        const searchable = Object.values(row).join(" ").toLowerCase();
+        return searchable.includes(query);
+      });
+    }
+
+    quizIndex = 0;
+    console.log("Filtered questions:", quizItems.length, "Query:", query || "<blank>");
+    renderQuiz();
+
+    const stats = document.getElementById("quizStats");
+    if(stats){
+      stats.textContent = `Fresh CSV request completed | Questions shown: ${quizItems.length} of ${allQuizRows.length}${query ? ` | Query: ${rawQuery}` : ""}`;
+    }
+  }catch(error){
+    showQuizMessage(
+      "Quiz Load Error",
+      "Unable to load quiz-library.csv from the page path. Use the Choose CSV File button to load the updated CSV directly, or confirm quiz-library.csv is uploaded beside training.html or inside the data folder."
+    );
+    console.error(error);
+  }
+}
+
+function renderQuiz(){
+  if(!quizItems.length){
+    showQuizMessage(
+      "No Quiz Found",
+      "No matching quiz questions were found for this query. Clear the search box and click Load Quiz to display all questions."
+    );
+    updateQuizStats();
+    return;
+  }
+
+  const item = quizItems[quizIndex];
+
+  document.getElementById("quizTitle").textContent =
+    `${item.topic || "Quiz"} — Question ${quizIndex + 1}`;
+
+  document.getElementById("quizQuestion").textContent =
+    item.question || "";
+
+  renderQuizFigure(item);
+
+  document.getElementById("quizFeedback").textContent = "";
+
+  document.getElementById("quizCounter").textContent =
+    `${quizIndex + 1} / ${quizItems.length}`;
+
+  updateQuizStats();
+
+  const choices = [
+    {key:"A", text:item.choiceA},
+    {key:"B", text:item.choiceB},
+    {key:"C", text:item.choiceC},
+    {key:"D", text:item.choiceD}
+  ];
+
+  document.getElementById("quizChoices").innerHTML = choices
+    .filter(choice => choice.text)
+    .map(choice => `
+      <button 
+        class="control-btn quiz-choice"
+        onclick="checkQuizAnswer('${choice.key}')">
+        ${choice.key}. ${escapeHtml(choice.text)}
+      </button>
+    `).join("");
+}
+
+function renderQuizFigure(item){
+  const displayDiv = document.getElementById("quizSvg");
+  const imagePath = normalizeImagePath(item.image || "");
+  const svgMarkup = item.svg || "";
+
+  if(imagePath){
+    displayDiv.innerHTML = `
+      <img
+        src="${escapeHtml(imagePath)}"
+        alt="Quiz Figure"
+        onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=&quot;color:#b91c1c;font-weight:700;&quot;>Image not found: ${escapeHtml(imagePath)}</div>');"
+        style="
+          max-width:100%;
+          max-height:400px;
+          object-fit:contain;
+          border:1px solid #ccc;
+          border-radius:8px;
+          background:#fff;
+        ">
+    `;
+  }
+  else if(svgMarkup){
+    displayDiv.innerHTML = svgMarkup;
+  }
+  else{
+    displayDiv.innerHTML = "";
+  }
+}
+
+function normalizeImagePath(path){
+  return String(path || "")
+    .trim()
+    .replace(/^['"]|['"]$/g, "")
+    .replaceAll("\\\\", "/")
+    .replaceAll("\\", "/")
+    .replace(/^\/+/, "");
+}
+
+function updateQuizStats(){
+  const stats = document.getElementById("quizStats");
+  if(!stats) return;
+
+  const query = document.getElementById("quizSearchInput").value.trim();
+  stats.textContent = `Questions loaded: ${quizItems.length} of ${allQuizRows.length}${query ? ` | Query: ${query}` : ""}`;
+}
+
+function showQuizMessage(title, message){
+  document.getElementById("quizTitle").textContent = title;
+  document.getElementById("quizQuestion").textContent = message;
+  document.getElementById("quizSvg").innerHTML = "";
+  document.getElementById("quizChoices").innerHTML = "";
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizCounter").textContent = "0 / 0";
+}
+
+function checkQuizAnswer(selected){
+  if(!quizItems.length) return;
+
+  const item = quizItems[quizIndex];
+  const correct = String(item.answer || "").trim().toUpperCase();
+
+  document.querySelectorAll(".quiz-choice").forEach(button => {
+    button.disabled = true;
+    button.style.opacity = "0.85";
+
+    if(button.textContent.trim().startsWith(correct + ".")){
+      button.classList.add("correct");
+    }
+
+    if(button.textContent.trim().startsWith(selected + ".") && selected !== correct){
+      button.classList.add("incorrect");
+    }
+  });
+
+  if(selected === correct){
+    quizFeedback.textContent = "Correct answer.";
+    quizFeedback.style.color = "#15803d";
+  }else{
+    quizFeedback.textContent = `Incorrect. Correct answer is ${correct}.`;
+    quizFeedback.style.color = "#b91c1c";
+  }
+}
+
+function nextQuiz(){
+  if(!quizItems.length){
+    loadQuizFromCsv();
+    return;
+  }
+
+  quizIndex = (quizIndex + 1) % quizItems.length;
+  renderQuiz();
+}
+
+function prevQuiz(){
+  if(!quizItems.length){
+    loadQuizFromCsv();
+    return;
+  }
+
+  quizIndex = (quizIndex - 1 + quizItems.length) % quizItems.length;
+  renderQuiz();
+}
+
+function resetQuizAndReload(){
+  allQuizRows = [];
+  quizItems = [];
+  quizIndex = 0;
+  showQuizMessage("Reloading Quiz CSV", "Fetching the latest CSV file and clearing the previous in-memory quiz data.");
+  loadQuizFromCsv(true);
+}
+
+function parseCsv(csvText){
+  const rows = csvToRows(csvText)
+    .filter(values => values.some(value => String(value).trim()));
+
+  if(rows.length < 1){
+    return [];
+  }
+
+  let headers;
+  let dataRows;
+
+  const firstRow = rows[0].map(value => String(value).trim());
+  const normalizedFirstRow = firstRow.map(value => value.toLowerCase());
+  const hasHeader = ["topic", "question", "choicea", "choiceb", "choicec", "choiced", "answer"].every(header => normalizedFirstRow.includes(header));
+
+  if(hasHeader){
+    headers = firstRow.map(header => header.trim());
+
+    // Backward compatibility: old CSV files may have 8-column header but 9-column image rows.
+    if(!headers.includes("image") && rows.some(row => row.length >= 9)){
+      headers.push("image");
+    }
+
+    dataRows = rows.slice(1);
+  }else{
+    headers = [...QUIZ_DEFAULT_HEADERS];
+    dataRows = rows;
+  }
+
+  return dataRows
+    .filter(values => values.some(value => String(value).trim()))
+    .map(values => {
+      const repairedValues = repairQuizCsvRow(values, headers);
+      const row = {};
+
+      headers.forEach((header, index) => {
+        row[header] = repairedValues[index] ? String(repairedValues[index]).trim() : "";
+      });
+
+      // Ensure all expected keys exist even when the CSV has older headers.
+      QUIZ_DEFAULT_HEADERS.forEach(header => {
+        if(!(header in row)) row[header] = "";
+      });
+
+      return row;
+    })
+    .filter(row => row.question && row.answer);
+}
+
+
+function repairQuizCsvRow(values, headers){
+  const expected = headers.length;
+
+  // Common CSV error: a comma inside the question text, for example (4,3),
+  // is not quoted. That creates one or more extra columns. For this quiz CSV
+  // schema, the safest repair is to merge the extra columns back into question.
+  if(values.length > expected && headers[1] && headers[1].toLowerCase() === "question"){
+    const extra = values.length - expected;
+    return [
+      values[0],
+      values.slice(1, 2 + extra).join(","),
+      ...values.slice(2 + extra)
+    ];
+  }
+
+  return values;
+}
+
+function csvToRows(text){
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuotes = false;
+
+  for(let i = 0; i < text.length; i++){
+    const char = text[i];
+    const nextChar = text[i + 1];
+
+    if(char === '"' && insideQuotes && nextChar === '"'){
+      value += '"';
+      i++;
+    }
+    else if(char === '"'){
+      insideQuotes = !insideQuotes;
+    }
+    else if(char === "," && !insideQuotes){
+      row.push(value);
+      value = "";
+    }
+    else if((char === "\n" || char === "\r") && !insideQuotes){
+      if(value || row.length){
+        row.push(value);
+        rows.push(row);
+        row = [];
+        value = "";
+      }
+
+      if(char === "\r" && nextChar === "\n"){
+        i++;
+      }
+    }
+    else{
+      value += char;
+    }
+  }
+
+  if(value || row.length){
+    row.push(value);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+
+
+/* Initialize */
+renderAudio();
+renderImage();
+renderVideo();
+renderPdf();
+renderProfiles();
+renderChart();
+</script>
+
+</body>
+</html>
