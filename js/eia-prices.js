@@ -199,7 +199,7 @@ async function fetchSeriesV2(seriesId, frequency, lookbackYears){
  const response=await fetch('/api/eia?series='+encodeURIComponent(seriesId)+'&'+params,{signal:controller.signal});
  if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error || 'Proxy HTTP '+response.status);}
  const json=await response.json(); const data=json.response?.data;
- if(!Array.isArray(data))throw Error('Invalid proxy response; verify Pages Function deployment');
+ if(!Array.isArray(data))throw Error('Invalid proxy response; verify Worker deployment');
  rows.push(...data); offset+=data.length;
  if(!data.length || offset>=Number(json.response.total||0) || data.length<5000)break;
  if(offset>=50000)throw Error('Response exceeds safety limit');

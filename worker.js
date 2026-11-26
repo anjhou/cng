@@ -1,6 +1,7 @@
-export async function onRequestGet({request,env}) {
+async function eia({request,env}) {
  const input=new URL(request.url).searchParams;
  const reply=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
+ if(input.get('health')==='1')return reply({configured:Boolean(env.EIA_API_KEY),version:'worker-v5',message:'Upstream connectivity not tested.'});
  if(!env.EIA_API_KEY)return reply({error:'Cloudflare EIA_API_KEY secret is not configured'},503);
  if(input.get('health')==='1')return reply({configured:true,message:'Proxy deployed; API key configured. Upstream connectivity not tested.'});
  const series=input.get('series')||'';
@@ -21,3 +22,10 @@ export async function onRequestGet({request,env}) {
  }
  return reply({error:'EIA unavailable'},502);
 }
+
+export default {async fetch(request,env){
+ const path=new URL(request.url).pathname;
+ if(path==='/health')return Response.json({status:'OK',version:'worker-v5'},{headers:{'Cache-Control':'no-store'}});
+ if(path==='/api/eia') {if(request.method!=='GET')return new Response('Method not allowed',{status:405});return eia({request,env});}
+ return env.ASSETS.fetch(request);
+}};

@@ -1,0 +1,13 @@
+worker.js
+wrangler.jsonc
+wrangler.toml
+.assetsignore
+.git/
+.github/
+.wrangler/
+node_modules/
+functions/
+.env*
+.dev.vars*
+*.zip
+README-worker.txt
