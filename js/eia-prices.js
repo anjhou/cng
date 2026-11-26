@@ -1,4 +1,3 @@
-const EIA_API_KEY = "KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT";
 
 const seriesLibrary = [
   { type:"Feedstock", label:"WTI Crude Oil", seriesId:"PET.RWTC.D", unit:"$/bbl", axis:"y" },
@@ -190,28 +189,29 @@ async function loadPrices(){
 async function fetchSeriesV2(seriesId, frequency, lookbackYears){
  const start=new Date(); start.setUTCFullYear(start.getUTCFullYear()-lookbackYears);
  const native=({D:'daily',W:'weekly',M:'monthly',A:'annual',Q:'quarterly'})[seriesId.split('.').pop()];
- const params=new URLSearchParams({api_key:EIA_API_KEY,length:'5000',offset:'0'});
+ const cutoff=start.toISOString().slice(0,10);
+ const params=new URLSearchParams({start:native==='monthly'?cutoff.slice(0,7):native==='annual'?cutoff.slice(0,4):cutoff,length:'5000',offset:'0'});
  if(native)params.set('frequency',native);
- const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),25000);
+ const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),90000);
  try {
  const rows=[]; let offset=0;
  while(true){params.set('offset',String(offset));
- const response=await fetch('https://api.eia.gov/v2/seriesid/'+encodeURIComponent(seriesId)+'?'+params,{signal:controller.signal});
- if(!response.ok)throw Error('EIA HTTP '+response.status);
+ const response=await fetch('/api/eia?series='+encodeURIComponent(seriesId)+'&'+params,{signal:controller.signal});
+ if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error || 'Proxy HTTP '+response.status);}
  const json=await response.json(); const data=json.response?.data;
- if(!Array.isArray(data))throw Error('Invalid EIA response');
+ if(!Array.isArray(data))throw Error('Invalid proxy response; verify Pages Function deployment');
  rows.push(...data); offset+=data.length;
  if(!data.length || offset>=Number(json.response.total||0) || data.length<5000)break;
  if(offset>=50000)throw Error('Response exceeds safety limit');
  }
- const cutoff=start.toISOString().slice(0,10); const groups=new Map();
+ const groups=new Map();
  for(const r of rows){if(r.value===null||r.value===undefined||String(r.value).trim()==='')continue; const value=Number(r.value); let date=normalizeDate(r.period); if(!Number.isFinite(value)||date<cutoff)continue;
  if(frequency==='monthly')date=date.slice(0,7)+'-01';
  if(frequency==='weekly' && native==='daily'){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}
  const g=groups.get(date)||[0,0];g[0]+=value;g[1]++;groups.set(date,g);
  }
  return [...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));
- }catch(e){if(e.name==='AbortError')throw Error('Request timed out');throw e;}finally{clearTimeout(timer);}
+ }catch(e){if(e.name==='AbortError')throw Error('Proxy request exceeded 90 seconds');throw e;}finally{clearTimeout(timer);}
 }
 
 function buildAlignedLabels(dataObj){
