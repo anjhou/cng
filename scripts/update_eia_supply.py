@@ -63,7 +63,7 @@ def retrieve(sid,start,key):
     print(sid,'trying historical XLS',flush=True)
     try:return retrieve_xls(sid,start)
     except Exception as e:
-        print(sid,'XLS failed:',f'HTTP {e.code}' if isinstance(e,urllib.error.HTTPError) else type(e).__name__,flush=True)
+        print(sid,'XLS failed:',f'HTTP {e.code}' if isinstance(e,urllib.error.HTTPError) else str(e),flush=True)
     raise RuntimeError('Historical workbook unavailable; API fallback disabled')
     print(sid,'trying API fallback',flush=True)
     return retrieve_api(sid,start,key)
