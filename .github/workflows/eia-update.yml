@@ -1,6 +1,6 @@
 name: Update EIA price history
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
   schedule:
     - cron: '25 13 * * *'
 permissions:
