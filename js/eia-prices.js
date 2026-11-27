@@ -187,7 +187,7 @@ async function loadSnapshot(){
 function drawSnapshot(active,frequency,years){
  const start=new Date();start.setUTCFullYear(start.getUTCFullYear()-years);const cutoff=start.toISOString().slice(0,10);const next={};const notes=[];
  for(const s of active){const rows=[...(nativeCache[s.seriesId]?.values()||[])].filter(r=>r.period>=cutoff);const groups=new Map();
- for(const r of rows){let date=r.period;if(frequency==='monthly')date=date.slice(0,7)+'-01';if(frequency==='weekly'&&s.seriesId.endsWith('.D')){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}const g=groups.get(date)||[0,0];g[0]+=r.value;g[1]++;groups.set(date,g);}
+ for(const r of rows){let date=r.period;if(frequency==='monthly')date=date.slice(0,7)+'-01';if(frequency==='weekly'){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}const g=groups.get(date)||[0,0];g[0]+=r.value;g[1]++;groups.set(date,g);}
  if(groups.size){next[s.seriesId]=[...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));notes.push(s.label+': '+rows.map(r=>r.period).sort().at(-1)+' (retrieved '+rows.map(r=>r.stamp).sort().at(-1)+'; '+(rows.sort((a,b)=>a.period.localeCompare(b.period)).at(-1).source||'Source unknown')+')');}else notes.push(s.label+': no data');}
  rawData=next;alignedLabels=buildAlignedLabels(next);renderPriceChart();renderSpreadChart();renderNormalChart();renderDataTable();renderEconomics();document.getElementById('freshness').textContent=notes.join(' | ');return Object.keys(next).length;
 }
@@ -221,8 +221,9 @@ function renderPriceChart(){
         data:alignedLabels.map(d => map.get(d) ?? null),
         yAxisID:s.unit==="$/bbl"?"y":s.unit==="$/MMBtu"?"yGas":"y1",
         borderWidth:2,
-        pointRadius:0,spanGaps:false,
-        tension:0.2
+        pointRadius:rawData[s.seriesId].length === 1 ? 3 : 0,
+        pointHoverRadius:4,showLine:true,spanGaps:true,
+        tension:0
       };
     });
 
@@ -232,7 +233,7 @@ function renderPriceChart(){
     options:{
       responsive:true,maintainAspectRatio:false,
       interaction:{mode:"index",intersect:false},
-      plugins:{title:{display:true,text:"Feedstock and Product Prices - Dual Axis"},legend:{position:"bottom"}},
+      plugins:{title:{display:true,text:"Feedstock and Product Prices - Unit-Specific Axes"},legend:{position:"bottom"}},
       scales:{
         x:{title:{display:true,text:"Date"},ticks:{maxTicksLimit:14}},
         y:{type:"linear",position:"left",title:{display:true,text:"Crude oil ($/bbl)"}},
@@ -282,7 +283,7 @@ function renderSpreadChart(){
   const datasets = selectedSpreads.filter(s => s.plot && rawData[s.productId] && rawData[s.feedId]).map(s => {
     const pMap = new Map(rawData[s.productId].map(r => [r.date,r.value]));
     const fMap = new Map(rawData[s.feedId].map(r => [r.date,r.value]));
-    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:false,tension:0.2};
+    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:true,tension:0};
   });
   spreadChart = new Chart(ctx,{type:"line",data:{labels:alignedLabels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{title:{display:true,text:"Price Spread Calculations"},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Spread"}}}}});
 }
