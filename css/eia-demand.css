@@ -1,59 +1,59 @@
-* {
+.demand-app * {
   box-sizing: border-box;
 }
 
-body {
+ .demand-app {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f6f8;
   color: #1f2933;
 }
 
-.app {
+.demand-app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
 
-header {
+.demand-app header {
   margin-bottom: 20px;
 }
 
-h1 {
+.demand-app h1 {
   margin: 0 0 8px;
   font-size: 28px;
 }
 
-p {
+.demand-app p {
   margin: 0;
   color: #607080;
 }
 
-.tab-bar {
+.demand-app .tab-bar {
   display: flex;
   gap: 10px;
   margin-bottom: 18px;
 }
 
-.tab-btn {
+.demand-app .tab-btn {
   background: #dbe7f3;
   color: #1f2933;
 }
 
-.tab-btn.active {
+.demand-app .tab-btn.active {
   background: #0b5cab;
   color: white;
 }
 
-.tab-content {
+.demand-app .tab-content {
   display: none;
 }
 
-.tab-content.active {
+.demand-app .tab-content.active {
   display: block;
 }
 
-.panel {
+.demand-app .panel {
   background: #ffffff;
   border: 1px solid #d8dee6;
   border-radius: 10px;
@@ -62,23 +62,21 @@ p {
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
 }
 
-.controls {
+.demand-app .controls {
   display: flex;
   align-items: end;
   gap: 14px;
   flex-wrap: wrap;
 }
 
-label {
+.demand-app label {
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-weight: 600;
 }
 
-select,
-input,
-button {
+.demand-app select,.demand-app input,.demand-app button {
   height: 38px;
   padding: 0 12px;
   border-radius: 6px;
@@ -86,7 +84,7 @@ button {
   font-size: 14px;
 }
 
-button {
+.demand-app button {
   background: #0b5cab;
   color: white;
   cursor: pointer;
@@ -94,15 +92,15 @@ button {
   font-weight: 600;
 }
 
-button:hover {
+.demand-app button:hover {
   background: #084b8d;
 }
 
-button:active {
+.demand-app button:active {
   transform: scale(0.98);
 }
 
-.add-series-box {
+.demand-app .add-series-box {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
@@ -110,26 +108,25 @@ button:active {
   margin-top: 12px;
 }
 
-.add-series-box input,
-.add-series-box select {
+.demand-app .add-series-box input,.demand-app .add-series-box select {
   min-width: 220px;
 }
 
-.delete-series-btn {
+.demand-app .delete-series-btn {
   background: #b91c1c;
 }
 
-.delete-series-btn:hover {
+.demand-app .delete-series-btn:hover {
   background: #8f1414;
 }
 
-.status {
+.demand-app .status {
   margin-bottom: 12px;
   font-size: 14px;
   color: #506070;
 }
 
-.chart-container {
+.demand-app .chart-container {
   position: relative;
   width: 100%;
   height: 520px;
@@ -138,55 +135,51 @@ button:active {
   overflow: hidden;
 }
 
-#demandChart,
-#monthlyDemandChart {
+.demand-app #demandChart,.demand-app #monthlyDemandChart {
   width: 100% !important;
   height: 100% !important;
   display: block;
 }
 
-table {
+.demand-app table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th,
-td {
+.demand-app th,.demand-app td {
   border: 1px solid #d8dee6;
   padding: 10px;
   text-align: left;
   vertical-align: top;
 }
 
-th {
+.demand-app th {
   background: #eef3f8;
 }
 
-small {
+.demand-app small {
   color: #607080;
 }
 
 @media (max-width: 700px) {
-  .app {
+.demand-app {
     padding: 14px;
   }
 
-  .tab-bar,
-  .controls,
-  .add-series-box {
+.demand-app .tab-bar,.demand-app .controls,.demand-app .add-series-box {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .add-series-box input,
-  .add-series-box select {
+.demand-app .add-series-box input,.demand-app .add-series-box select {
     min-width: 100%;
   }
 
-  .chart-container {
+.demand-app .chart-container {
     height: 420px;
     min-height: 420px;
     max-height: 420px;
   }
 }
+main.demand-app{max-width:1500px;margin:auto;padding:24px;color:#172d46} .demand-app .demand-hero{background:#0b1e39;color:white;padding:24px;border-radius:10px}.demand-app .demand-hero p,.demand-app .demand-hero a{color:#e1edf5}.demand-app .tab-btn.active,.demand-app button{background:#007f86}.demand-app .panel{padding:16px;margin:12px 0}.demand-app .demand-table{overflow:auto}.demand-app .chart-container{height:460px;min-height:0;max-height:none}.demand-app .tab-content{padding:0}.demand-app table{display:table}.demand-app tr{display:table-row}.demand-app td,.demand-app th{display:table-cell;white-space:nowrap}.demand-app thead{display:table-header-group}.demand-app tbody{display:table-row-group}
