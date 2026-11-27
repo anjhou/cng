@@ -39,7 +39,10 @@ def retrieve_xls(sid,start):
             for c in range(1,sheet.ncols):
                 if str(sheet.cell_value(h,c)).strip().upper()!=code: continue
                 metadata=' '.join(str(sheet.cell_value(j,c)) for j in range(max(0,h-3),min(h+4,sheet.nrows))).lower()
-                if 'thousand barrels per day' not in metadata: continue
+                unit=next(s['unit'] for s in SERIES if s['seriesId']==sid)
+                if unit=='kbbl/d' and 'thousand barrels per day' not in metadata: continue
+                if unit=='kbbl' and ('thousand barrels' not in metadata or 'per day' in metadata): continue
+                if unit=='%' and 'percent' not in metadata: continue
                 for i in range(h+1,sheet.nrows):
                     try:
                         cell=sheet.cell(i,0)
@@ -61,7 +64,7 @@ def retrieve(sid,start,key):
     try:return retrieve_xls(sid,start)
     except Exception as e:
         print(sid,'XLS failed:',f'HTTP {e.code}' if isinstance(e,urllib.error.HTTPError) else type(e).__name__,flush=True)
-    if not key:raise RuntimeError('No API key for fallback')
+    raise RuntimeError('Historical workbook unavailable; API fallback disabled')
     print(sid,'trying API fallback',flush=True)
     return retrieve_api(sid,start,key)
 
@@ -73,7 +76,7 @@ def main():
     def start(sid):
         dates=[d for i,d in existing if i==sid]; return max(floor,dt.date.fromisoformat(max(dates)+('-01' if sid.endswith('.M') else ''))-dt.timedelta(days=120)) if dates else floor
     success=0
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=8) as pool:
         jobs={pool.submit(retrieve,s['seriesId'],start(s['seriesId']),key):s['seriesId'] for s in SERIES}
         for f in as_completed(jobs):
             sid=jobs[f]

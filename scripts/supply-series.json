@@ -2,111 +2,331 @@
   {
     "seriesId": "PET.WCRRIUS2.W",
     "label": "Crude Refinery Inputs",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MCRRIUS2.M",
     "label": "Crude Refinery Inputs",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WGFUPUS2.W",
     "label": "Gasoline Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MGFUPUS2.M",
     "label": "Gasoline Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WGFRPUS2.W",
     "label": "Gasoline Production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MGFRPUS2.M",
     "label": "Gasoline Production",
-    "unit": "kbbl/d"
-  },
-  {
-    "seriesId": "PET.WGBCPUS2.W",
-    "label": "Blend Components Supplied",
-    "unit": "kbbl/d"
-  },
-  {
-    "seriesId": "PET.MGBCPUS2.M",
-    "label": "Blend Components Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WDIUPUS2.W",
     "label": "Distillate Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MDIUPUS2.M",
     "label": "Distillate Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WKJUPUS2.W",
     "label": "Jet Fuel Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MKJUPUS2.M",
     "label": "Jet Fuel Product Supplied",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WCRFPUS2.W",
     "label": "Crude oil production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MCRFPUS2.M",
     "label": "Crude oil production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WDIRPUS2.W",
     "label": "Distillate refinery production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MDIRPUS2.M",
     "label": "Distillate refinery production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WKJRPUS2.W",
     "label": "Jet fuel refinery production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MKJRPUS2.M",
     "label": "Jet fuel refinery production",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WCRIMUS2.W",
     "label": "Crude oil imports",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MCRIMUS2.M",
     "label": "Crude oil imports",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.WCREXUS2.W",
     "label": "Crude oil exports",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
   },
   {
     "seriesId": "PET.MCREXUS2.M",
     "label": "Crude oil exports",
-    "unit": "kbbl/d"
+    "unit": "kbbl/d",
+    "group": "Supply"
+  },
+  {
+    "seriesId": "PET.WGRIUS2.W",
+    "label": "US gross refinery inputs",
+    "unit": "kbbl/d",
+    "group": "Refinery Operations",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MGRIUS2.M",
+    "label": "US gross refinery inputs",
+    "unit": "kbbl/d",
+    "group": "Refinery Operations",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WPULEUS3.W",
+    "label": "US refinery utilization",
+    "unit": "%",
+    "group": "Refinery Operations",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MPULEUS3.M",
+    "label": "US refinery utilization",
+    "unit": "%",
+    "group": "Refinery Operations",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WCESTUS1.W",
+    "label": "Commercial crude stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MCESTUS1.M",
+    "label": "Commercial crude stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WGTSTUS1.W",
+    "label": "Total gasoline stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MGTSTUS1.M",
+    "label": "Total gasoline stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WDISTUS1.W",
+    "label": "Distillate stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MDISTUS1.M",
+    "label": "Distillate stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WKJSTUS1.W",
+    "label": "Jet fuel stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MKJSTUS1.M",
+    "label": "Jet fuel stocks",
+    "unit": "kbbl",
+    "group": "Inventories",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WCRRIP32.W",
+    "label": "USGC crude refinery inputs",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MCRRIP32.M",
+    "label": "USGC crude refinery inputs",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WGRIP32.W",
+    "label": "USGC gross refinery inputs",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MGRIP32.M",
+    "label": "USGC gross refinery inputs",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WPULEP33.W",
+    "label": "USGC refinery utilization",
+    "unit": "%",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MPULEP33.M",
+    "label": "USGC refinery utilization",
+    "unit": "%",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WGFRPP32.W",
+    "label": "USGC gasoline net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MGFRPP32.M",
+    "label": "USGC gasoline net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WDIRPP32.W",
+    "label": "USGC distillate net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MDIRPP32.M",
+    "label": "USGC distillate net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WKJRPP32.W",
+    "label": "USGC jet net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MKJRPP32.M",
+    "label": "USGC jet net production",
+    "unit": "kbbl/d",
+    "group": "US Gulf Coast",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.EPOOXE_YOP_NUS_MBBLPD.W",
+    "label": "Fuel ethanol production",
+    "unit": "kbbl/d",
+    "group": "Supply",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.EPOOXE_YOP_NUS_MBBLPD.M",
+    "label": "Fuel ethanol production",
+    "unit": "kbbl/d",
+    "group": "Supply",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.EPM0F_YNP_NUS_MBBLPD.W",
+    "label": "Gasoline blending components net production",
+    "unit": "kbbl/d",
+    "group": "Supply",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.EPM0F_YNP_NUS_MBBLPD.M",
+    "label": "Gasoline blending components net production",
+    "unit": "kbbl/d",
+    "group": "Supply",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.WPRFPUS2.W",
+    "label": "Propane/propylene production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply",
+    "candidate": true
+  },
+  {
+    "seriesId": "PET.MPRFPUS2.M",
+    "label": "Propane/propylene production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply",
+    "candidate": true
   }
 ]
