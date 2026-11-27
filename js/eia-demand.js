@@ -224,11 +224,13 @@ async function loadDemandData() {
 
       return {
         label: result.label,
-        borderColor: ["#1677b8","#007f86","#d97706","#a855a8"][i%4],
+        borderColor: ["#36A2EB","#FF6384","#FF9F40","#4BC0C0"][i%4],
+        backgroundColor: ["#36A2EB66","#FF638466","#FF9F4066","#4BC0C066"][i%4],
         data: labels.map(label => lookup.get(label) ?? null),
         borderWidth: 2,
         showLine: true,
-        pointRadius: 1,
+        pointRadius: labels.length === 1 ? 3 : 0,
+        pointHitRadius: 12,
         pointHoverRadius: 5,
         tension: 0,
         spanGaps: false
@@ -271,11 +273,13 @@ async function loadMonthlyData() {
     renderMonthlyChart(labels, [
       {
         label: `${result.seriesId} - ${result.label}`,
-        borderColor: "#007f86",
+        borderColor: ["#FF9F40","#36A2EB","#9966FF","#4BC0C0","#FFCD56","#FF6384","#4BC0C0"][MONTHLY_SERIES.indexOf(selectedSeries)],
+        backgroundColor: ["#FF9F4066","#36A2EB66","#9966FF66","#4BC0C066","#FFCD5666","#FF638466","#4BC0C066"][MONTHLY_SERIES.indexOf(selectedSeries)],
         data: values,
         borderWidth: 2,
         showLine: true,
-        pointRadius: 1,
+        pointRadius: labels.length === 1 ? 3 : 0,
+        pointHitRadius: 12,
         pointHoverRadius: 5,
         tension: 0,
         spanGaps: false
@@ -348,16 +352,22 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
   return {
     responsive: true,
     maintainAspectRatio: false,
-    resizeDelay: 150,
+    resizeDelay: 100,
+    animation: false,
+    layout: {padding: 8},
     interaction: {
       mode: "index",
       intersect: false
     },
     plugins: {
+      title: {display:true,text: xAxisTitle === "Week" ? "U.S. Weekly Refinery Inputs and Product Supplied" : "U.S. Monthly Petroleum Trends"},
       legend: {
         position: "bottom",
         labels: {
-          usePointStyle: true
+          usePointStyle: false,
+          boxWidth: 36,
+          boxHeight: 12,
+          padding: 16
         },
         onClick: (e, legendItem, legend) => {
           const chart = legend.chart;
@@ -373,6 +383,9 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
       },
       tooltip: {
         enabled: true,
+        mode: "index",
+        intersect: false,
+        displayColors: true,
         callbacks: {
           title: items => `${xAxisTitle}: ${items[0].label}`,
           label: item => {
@@ -382,7 +395,7 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
               return `${item.dataset.label}: no data`;
             }
 
-            return `${item.dataset.label}: ${Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+            return `${item.dataset.label}: ${whole(value)} kbbl/d`;
           }
         }
       }
@@ -403,7 +416,7 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
           text: yAxisTitle
         },
         ticks: {
-          callback: value => Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
+          callback: value => whole(value)
         }
       }
     }
@@ -412,5 +425,6 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
 let cache=null;
 function snapshot(){if(!cache)cache=(async()=>{const r=await fetch('/static/data/eia-demand.csv',{cache:'no-cache',signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Snapshot unavailable: run demand GitHub workflow');const text=await r.text();const lines=text.trim().split(/\r?\n/);if(lines.shift()!=='series_id,period,value,retrieved_at,source')throw Error('Invalid demand CSV');const m=new Map();for(const line of lines){const [id,period,v,retrieved_at,source]=line.split(',');if(!v||!Number.isFinite(Number(v))||!/^\d{4}-\d{2}(-\d{2})?$/.test(period))continue;if(!m.has(id))m.set(id,[]);m.get(id).push({period,value:Number(v),retrieved_at,source});}for(const rows of m.values())rows.sort((a,b)=>a.period.localeCompare(b.period));return m;})().catch(e=>{cache=null;throw e});return cache;}
 function table(id,heads,rows){const el=document.getElementById(id);const t=document.createElement('table');const h=t.createTHead().insertRow();for(const v of heads){const th=document.createElement('th');th.textContent=v;h.append(th)}const body=t.createTBody();for(const row of rows){const tr=body.insertRow();for(const v of row)tr.insertCell().textContent=v;}el.replaceChildren(t);}
+const whole=v=>Number.isFinite(Number(v)) && v!==null && v!==undefined ? Number(v).toLocaleString("en-US",{maximumFractionDigits:0}):"—";
 const fmt=v=>Number.isFinite(v)?v.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
-function summary(tab,series){table(tab+'Summary',['Series','Latest period','Value (kbbl/d)','Year-over-year %','Retrieved UTC','Source'],series.map(s=>{const a=s.data.at(-1);const d=new Date(a.period+'-01'.slice(0,a.period.length===7?3:0)+'T00:00:00Z');const target=new Date(d);target.setUTCFullYear(target.getUTCFullYear()-1);const prev=s.data.reduce((best,r)=>{const t=new Date(r.period.length===7?r.period+'-01':r.period);return Math.abs(t-target)<Math.abs(new Date(best.period.length===7?best.period+'-01':best.period)-target)?r:best},s.data[0]);const delta=Math.abs(new Date(prev.period.length===7?prev.period+'-01':prev.period)-target);return [s.label,a.period,fmt(a.value),fmt(delta<=7*86400000&&prev.value!==0?100*(a.value/prev.value-1):NaN),a.retrieved_at,a.source];}));table(tab+'Season',['Series',...Array.from({length:12},(_,i)=>String(i+1))],series.map(s=>[s.label,...Array.from({length:12},(_,i)=>{const a=s.data.filter(r=>Number(r.period.slice(5,7))===i+1);return fmt(a.length?a.reduce((n,r)=>n+r.value,0)/a.length:NaN)})]));}
+function summary(tab,series){table(tab+'Summary',['Series','Latest period','Value (kbbl/d)','Year-over-year %','Retrieved UTC','Source'],series.map(s=>{const a=s.data.at(-1);const d=new Date(a.period+'-01'.slice(0,a.period.length===7?3:0)+'T00:00:00Z');const target=new Date(d);target.setUTCFullYear(target.getUTCFullYear()-1);const prev=s.data.reduce((best,r)=>{const t=new Date(r.period.length===7?r.period+'-01':r.period);return Math.abs(t-target)<Math.abs(new Date(best.period.length===7?best.period+'-01':best.period)-target)?r:best},s.data[0]);const delta=Math.abs(new Date(prev.period.length===7?prev.period+'-01':prev.period)-target);return [s.label,a.period,whole(a.value),fmt(delta<=7*86400000&&prev.value!==0?100*(a.value/prev.value-1):NaN),a.retrieved_at,a.source];}));table(tab+'Season',['Series',...Array.from({length:12},(_,i)=>String(i+1))],series.map(s=>[s.label,...Array.from({length:12},(_,i)=>{const a=s.data.filter(r=>Number(r.period.slice(5,7))===i+1);return whole(a.length?a.reduce((n,r)=>n+r.value,0)/a.length:NaN)})]));}
