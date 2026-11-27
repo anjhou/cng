@@ -195,3 +195,12 @@ main.supply-app{width:100%;max-width:1600px;box-sizing:border-box}
 
 .supply-app .supply-series{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}.supply-app .supply-series label{display:flex;flex-direction:row;align-items:center;background:#eef3f8;padding:8px;border-radius:5px;font-size:14px}.supply-app .supply-series input{height:auto;min-width:0}.supply-app .supply-scroll{max-height:420px}.supply-app th{position:sticky;top:0}.supply-app td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}.supply-app #range{min-width:100px}.supply-app h2{font-size:19px;margin:0 0 12px}.supply-app .panel{max-width:none;width:100%}.supply-app #status{margin-bottom:12px}.supply-app .chart-container{height:520px}@media(max-width:700px){.supply-app .chart-container{height:380px}}
 .supply-app .supply-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}.supply-app .supply-tabs button{background:#64748b;color:white}.supply-app .supply-tabs button.active{background:#007f86}
+/* V2.3.1: explicit table headers and readable source columns */
+.supply-app #latest table,.supply-app #dataTable{display:table!important;border-collapse:separate;border-spacing:0;width:100%}
+.supply-app #latest thead,.supply-app #dataTable thead{display:table-header-group!important;position:static!important;visibility:visible!important}
+.supply-app #latest tr,.supply-app #dataTable tr{display:table-row!important}
+.supply-app #latest th,.supply-app #dataTable th{display:table-cell!important;position:sticky!important;top:0;z-index:2;background:#1f3b5c!important;color:#fff!important;text-align:left;white-space:nowrap;font-weight:600}
+.supply-app #latest td,.supply-app #dataTable td{display:table-cell!important;text-align:left;white-space:nowrap}
+.supply-app #latest td::before,.supply-app #dataTable td::before{content:none!important;display:none!important}
+.supply-app #latest tbody tr:nth-child(even),.supply-app #dataTable tbody tr:nth-child(even){background:#eef3f8}
+.supply-app #dataTable td:nth-child(4){text-align:right;font-variant-numeric:tabular-nums}
