@@ -192,3 +192,16 @@ main.demand-app{width:100%;max-width:1600px;box-sizing:border-box}
 .demand-app .chart-container{width:100%;max-width:none;height:520px;min-height:0;margin:0}
 .demand-app .chart-container canvas{max-width:none!important;width:100%!important;height:100%!important;margin:0!important}
 @media(max-width:700px){main.demand-app{padding:12px}.demand-app .chart-container{height:380px}.demand-app .panel{padding:10px}}
+
+/* V2.3: consistent supply/demand table headers */
+.demand-app .demand-table{overflow-x:auto;max-width:100%}
+.demand-app .demand-table table{display:table!important;border-collapse:separate;border-spacing:0;width:100%}
+.demand-app .demand-table thead{display:table-header-group!important;position:static!important;visibility:visible!important;width:auto!important;height:auto!important;clip:auto!important}
+.demand-app .demand-table tbody{display:table-row-group!important}
+.demand-app .demand-table tr{display:table-row!important}
+.demand-app .demand-table th{display:table-cell!important;background:#1f3b5c!important;color:#fff!important;font-weight:600;text-align:left;white-space:nowrap;position:static!important}
+.demand-app .demand-table td{display:table-cell!important;text-align:left;white-space:nowrap}
+.demand-app .demand-table td::before{content:none!important;display:none!important}
+.demand-app .demand-table tbody tr:nth-child(even){background:#eef3f8}
+.demand-app [id$="Summary"] td:nth-child(4),.demand-app [id$="Summary"] td:nth-child(5),.demand-app [id$="Season"] td:nth-child(n+2):nth-child(-n+13){text-align:right;font-variant-numeric:tabular-nums}
+body.dark-mode .demand-app .demand-table tbody tr:nth-child(even){background:#243447;color:#fff}
