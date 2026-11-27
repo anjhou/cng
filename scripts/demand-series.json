@@ -1,0 +1,61 @@
+[
+  {
+    "category": "Feedstock",
+    "label": "Crude Oil Refinery Inputs",
+    "seriesId": "PET.WCRRIUS2.W",
+    "unit": "kbbl/d"
+  },
+  {
+    "category": "Product",
+    "label": "Finished Motor Gasoline Product Supplied",
+    "seriesId": "PET.WGFUPUS2.W",
+    "unit": "kbbl/d"
+  },
+  {
+    "category": "Product",
+    "label": "Distillate Fuel Oil Product Supplied",
+    "seriesId": "PET.WDIUPUS2.W",
+    "unit": "kbbl/d"
+  },
+  {
+    "category": "Product",
+    "label": "Kerosene-Type Jet Fuel Product Supplied",
+    "seriesId": "PET.WKJUPUS2.W",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Distillate Fuel Oil Product Supplied",
+    "seriesId": "PET.MDIUPUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Crude Oil Inputs to Refineries",
+    "seriesId": "PET.MCRRIUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Residual Fuel Oil Product Supplied",
+    "seriesId": "PET.MREUPUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Residual Fuel Oil Imports",
+    "seriesId": "PET.MREIMUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Residual Fuel Oil Exports",
+    "seriesId": "PET.MREEXUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Finished Motor Gasoline Product Supplied",
+    "seriesId": "PET.MGFUPUS2.M",
+    "unit": "kbbl/d"
+  },
+  {
+    "label": "Kerosene-Type Jet Fuel Product Supplied",
+    "seriesId": "PET.MKJUPUS2.M",
+    "unit": "kbbl/d"
+  }
+]
