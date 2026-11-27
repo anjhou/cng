@@ -1,12 +1,17 @@
-// Static pages already contain their shared shell; fetch only missing fragments.
+// Central shared navigation: header.html is authoritative.
 (() => {
+  if (window.__hceSharedShell) return;
+  window.__hceSharedShell = true;
   async function loadFragment(id, url, selector) {
     const el = document.getElementById(id);
-    if (!el || el.querySelector(selector)) return;
+    if (!el) return;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {cache:'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      el.innerHTML = await response.text();
+      const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+      const fragment = doc.querySelector(selector);
+      if (!fragment) throw new Error('Missing shared fragment');
+      el.replaceChildren(document.importNode(fragment, true));
     } catch (error) { console.error('Shared fragment:', url, error); }
   }
   const menus = () => Array.from(document.querySelectorAll('.hce-menu'));
