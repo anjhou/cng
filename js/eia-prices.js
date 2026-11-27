@@ -14,7 +14,8 @@ const seriesLibrary = [
   { type:"Product", label:"Natural Gasoline Mont Belvieu", seriesId:"PET.EER_EPLNG_PF4_Y44MB_DPG.D", unit:"$/gal", axis:"y1" }
 ];
 
-const defaultSeriesIds = ["PET.RWTC.D","PET.RBRTE.D","NG.RNGWHHD.D","PET.EMM_EPM0_PTE_NUS_DPG.W","PET.EMD_EPD2D_PTE_NUS_DPG.W","PET.EER_EPLLPA_PF4_Y44MB_DPG.D"];
+seriesLibrary.push({type:"Product",label:"USGC conventional gasoline spot",seriesId:"FRED.DGASUSGULF.D",unit:"$/gal",axis:"y1"},{type:"Product",label:"USGC ULSD spot",seriesId:"FRED.DDFUELUSGULF.D",unit:"$/gal",axis:"y1"});
+const defaultSeriesIds = ["PET.RWTC.D","PET.RBRTE.D","NG.RNGWHHD.D","PET.EMM_EPM0_PTE_NUS_DPG.W","PET.EMD_EPD2D_PTE_NUS_DPG.W","PET.EER_EPLLPA_PF4_Y44MB_DPG.D","PET.EER_EPJK_PF4_RGC_DPG.D","FRED.DGASUSGULF.D","FRED.DDFUELUSGULF.D"];
 
 let selectedSeries = [];
 let selectedSpreads = [];
@@ -35,7 +36,7 @@ function init(){
 
 function bindEvents(){
   onClick("btnAddSeries", addSelectedLibrarySeries);
-  onClick("btnLoad", () => loadPrices(true));
+  onClick("btnLoad", () => loadPrices(false));
   onClick("btnExport", exportCsv);
   onClick("btnReset", resetDefaults);
   onClick("btnAddSpread", addSpread);
@@ -69,7 +70,7 @@ function onChange(id, handler){
 function activateTab(id){
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === id));
   document.querySelectorAll(".tab-content").forEach(t => t.classList.toggle("active", t.id === id));
-  requestAnimationFrame(()=>{for(const c of [priceChart,spreadChart,normalChart])if(c)c.resize();});
+  requestAnimationFrame(()=>{for(const c of [priceChart,spreadChart,normalChart,econChart])if(c)c.resize();});
 }
 
 function loadLibraryDropdown(){
@@ -117,6 +118,7 @@ function addSelectedLibrarySeries(){
   selectedSeries.push({...item, plot:true});
   renderSeriesTable();
   refreshSelectors();
+  void loadPrices(false);
 }
 
 function renderSeriesTable(){
@@ -130,11 +132,11 @@ function renderSeriesTable(){
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td><input type="checkbox" ${s.plot ? "checked" : ""} data-idx="${idx}" data-field="plot"></td>
-      <td><select data-idx="${idx}" data-field="axis"><option value="y" ${s.axis === "y" ? "selected" : ""}>Left</option><option value="y1" ${s.axis === "y1" ? "selected" : ""}>Right</option></select></td>
+      <td><select data-idx="${idx}" data-field="axis" disabled><option value="y" ${s.axis === "y" ? "selected" : ""}>Left</option><option value="y1" ${s.axis === "y1" ? "selected" : ""}>Right</option></select></td>
       <td><select data-idx="${idx}" data-field="type"><option ${s.type === "Feedstock" ? "selected" : ""}>Feedstock</option><option ${s.type === "Product" ? "selected" : ""}>Product</option></select></td>
       <td><input value="${escapeHtml(s.label)}" data-idx="${idx}" data-field="label"></td>
-      <td><input value="${escapeHtml(s.seriesId)}" data-idx="${idx}" data-field="seriesId"></td>
-      <td><input value="${escapeHtml(s.unit)}" data-idx="${idx}" data-field="unit"></td>
+      <td><input value="${escapeHtml(s.seriesId)}" data-idx="${idx}" data-field="seriesId" readonly></td>
+      <td><input value="${escapeHtml(s.unit)}" data-idx="${idx}" data-field="unit" readonly></td>
       <td><button class="danger" data-remove="${idx}">Remove</button></td>
     `;
     tbody.appendChild(tr);
@@ -150,12 +152,14 @@ function updateSeriesFromInput(e){
   if(field === "plot") selectedSeries[idx][field] = e.target.checked;
   else selectedSeries[idx][field] = e.target.value;
   refreshSelectors();
+  void loadPrices(false);
 }
 
 function removeSeries(idx){
   selectedSeries.splice(idx,1);
   renderSeriesTable();
   refreshSelectors();
+  void loadPrices(false);
 }
 
 function refreshSelectors(){
@@ -176,16 +180,16 @@ async function loadSnapshot(){
  const r=await fetch('/static/data/eia-prices.csv',{cache:'no-cache',signal:AbortSignal.timeout(10000)});
  if(!r.ok)throw Error('Snapshot HTTP '+r.status);
  const lines=(await r.text()).trim().split(/\r?\n/);
- if(lines.shift()!=='series_id,period,value,retrieved_at')throw Error('Invalid snapshot header');
- for(const line of lines){const [id,period,value,stamp]=line.split(',');if(!seriesLibrary.some(s=>s.seriesId===id)||!/^\d{4}-\d{2}-\d{2}$/.test(period)||!value||!Number.isFinite(Number(value)))continue;
- const map=nativeCache[id] ||= new Map();const old=map.get(period);if(!old||old.stamp<=stamp)map.set(period,{period,value:Number(value),stamp});}
+ if(!/^series_id,period,value,retrieved_at(,source)?$/.test(lines.shift()))throw Error('Invalid snapshot header');
+ for(const line of lines){const [id,period,value,stamp,source]=line.split(',');if(!seriesLibrary.some(s=>s.seriesId===id)||!/^\d{4}-\d{2}-\d{2}$/.test(period)||!value||!Number.isFinite(Number(value)))continue;
+ const map=nativeCache[id] ||= new Map();const old=map.get(period);if(!old||old.stamp<=stamp)map.set(period,{period,value:Number(value),stamp,source:source||"Legacy source not recorded"});}
 }
 function drawSnapshot(active,frequency,years){
  const start=new Date();start.setUTCFullYear(start.getUTCFullYear()-years);const cutoff=start.toISOString().slice(0,10);const next={};const notes=[];
  for(const s of active){const rows=[...(nativeCache[s.seriesId]?.values()||[])].filter(r=>r.period>=cutoff);const groups=new Map();
  for(const r of rows){let date=r.period;if(frequency==='monthly')date=date.slice(0,7)+'-01';if(frequency==='weekly'&&s.seriesId.endsWith('.D')){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}const g=groups.get(date)||[0,0];g[0]+=r.value;g[1]++;groups.set(date,g);}
- if(groups.size){next[s.seriesId]=[...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));notes.push(s.label+': '+rows.map(r=>r.period).sort().at(-1)+' (retrieved '+rows.map(r=>r.stamp).sort().at(-1)+')');}else notes.push(s.label+': no data');}
- rawData=next;alignedLabels=buildAlignedLabels(next);renderPriceChart();renderSpreadChart();renderNormalChart();renderDataTable();document.getElementById('freshness').textContent=notes.join(' | ');return Object.keys(next).length;
+ if(groups.size){next[s.seriesId]=[...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));notes.push(s.label+': '+rows.map(r=>r.period).sort().at(-1)+' (retrieved '+rows.map(r=>r.stamp).sort().at(-1)+'; '+(rows.sort((a,b)=>a.period.localeCompare(b.period)).at(-1).source||'Source unknown')+')');}else notes.push(s.label+': no data');}
+ rawData=next;alignedLabels=buildAlignedLabels(next);renderPriceChart();renderSpreadChart();renderNormalChart();renderDataTable();renderEconomics();document.getElementById('freshness').textContent=notes.join(' | ');return Object.keys(next).length;
 }
 async function loadPrices(live=false){
  const btn=document.getElementById('btnLoad');if(btn.disabled)return;btn.disabled=true;
@@ -215,7 +219,7 @@ function renderPriceChart(){
       return {
         label:`${s.label} (${s.unit})`,
         data:alignedLabels.map(d => map.get(d) ?? null),
-        yAxisID:s.axis || "y",
+        yAxisID:s.unit==="$/bbl"?"y":s.unit==="$/MMBtu"?"yGas":"y1",
         borderWidth:2,
         pointRadius:0,spanGaps:false,
         tension:0.2
@@ -231,8 +235,9 @@ function renderPriceChart(){
       plugins:{title:{display:true,text:"Feedstock and Product Prices - Dual Axis"},legend:{position:"bottom"}},
       scales:{
         x:{title:{display:true,text:"Date"},ticks:{maxTicksLimit:14}},
-        y:{type:"linear",position:"left",title:{display:true,text:"Left Axis"}},
-        y1:{type:"linear",position:"right",title:{display:true,text:"Right Axis"},grid:{drawOnChartArea:false}}
+        y:{type:"linear",position:"left",title:{display:true,text:"Crude oil ($/bbl)"}},
+        y1:{type:"linear",position:"right",title:{display:true,text:"Products ($/gal)"},grid:{drawOnChartArea:false}},
+        yGas:{type:"linear",position:"right",title:{display:true,text:"Gas ($/MMBtu)"},grid:{drawOnChartArea:false}}
       }
     }
   });
@@ -349,3 +354,16 @@ function setStatus(msg){
   else console.log(msg);
 }
 function escapeHtml(text){ return String(text ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]); }
+
+let econChart=null;
+function renderEconomics(){
+ const ids=['PET.RWTC.D','PET.RBRTE.D','FRED.DGASUSGULF.D','FRED.DDFUELUSGULF.D','PET.EER_EPJK_PF4_RGC_DPG.D'];
+ const maps=ids.map(id=>nativeCache[id]||new Map());
+ const cutoff=new Date();cutoff.setUTCFullYear(cutoff.getUTCFullYear()-Number(document.getElementById('lookbackSelect').value));
+ const start=cutoff.toISOString().slice(0,10), freq=document.getElementById('frequencySelect').value;
+ const defs=[['Brent – WTI',[0,1],v=>v[1]-v[0]],['Gasoline crack',[0,2],v=>42*v[2]-v[0]],['ULSD crack',[0,3],v=>42*v[3]-v[0]],['Jet crack',[0,4],v=>42*v[4]-v[0]],['3-2-1 crack',[0,2,3],v=>42*(2*v[2]+v[3])/3-v[0]],['ULSD – gasoline',[2,3],v=>42*(v[3]-v[2])]];
+ const results=defs.map(([label,required,calc])=>{const groups=new Map();for(const d of maps[required[0]].keys()){if(d<start||!required.every(i=>maps[i].has(d)))continue;const v=maps.map(m=>m.get(d)?.value);let date=d;if(freq==='monthly')date=d.slice(0,7)+'-01';if(freq==='weekly'){const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+(5-t.getUTCDay()+7)%7);date=t.toISOString().slice(0,10);}const g=groups.get(date)||[0,0];g[0]+=calc(v);g[1]++;groups.set(date,g);}return {label,groups};});
+ const dates=[...new Set(results.flatMap(r=>[...r.groups.keys()]))].sort();
+ document.getElementById('econLatest').innerHTML=results.map(r=>{const d=[...r.groups.keys()].sort().at(-1);const g=r.groups.get(d);return `<div><strong>${r.label}</strong><span>${g?'$'+(g[0]/g[1]).toFixed(2)+'/bbl':'Unavailable'}</span><small>${d||'No matched dates'}${g?' · '+g[1]+' matched days':''}</small></div>`;}).join('');
+ if(econChart)econChart.destroy();econChart=new Chart(document.getElementById('econChart'),{type:'line',data:{labels:dates,datasets:results.map(r=>({label:r.label,data:dates.map(d=>{const g=r.groups.get(d);return g?g[0]/g[1]:null;}),pointRadius:0,borderWidth:2,spanGaps:false}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'USD/bbl'}},x:{ticks:{maxTicksLimit:14}}}}});
+}
