@@ -1,0 +1,112 @@
+[
+  {
+    "seriesId": "PET.WCRRIUS2.W",
+    "label": "Crude Refinery Inputs",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MCRRIUS2.M",
+    "label": "Crude Refinery Inputs",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WGFUPUS2.W",
+    "label": "Gasoline Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MGFUPUS2.M",
+    "label": "Gasoline Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WGFRPUS2.W",
+    "label": "Gasoline Production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MGFRPUS2.M",
+    "label": "Gasoline Production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WGBCPUS2.W",
+    "label": "Blend Components Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MGBCPUS2.M",
+    "label": "Blend Components Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WDIUPUS2.W",
+    "label": "Distillate Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MDIUPUS2.M",
+    "label": "Distillate Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WKJUPUS2.W",
+    "label": "Jet Fuel Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MKJUPUS2.M",
+    "label": "Jet Fuel Product Supplied",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WCRFPUS2.W",
+    "label": "Crude oil production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MCRFPUS2.M",
+    "label": "Crude oil production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WDIRPUS2.W",
+    "label": "Distillate refinery production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MDIRPUS2.M",
+    "label": "Distillate refinery production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WKJRPUS2.W",
+    "label": "Jet fuel refinery production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MKJRPUS2.M",
+    "label": "Jet fuel refinery production",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WCRIMUS2.W",
+    "label": "Crude oil imports",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MCRIMUS2.M",
+    "label": "Crude oil imports",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.WCREXUS2.W",
+    "label": "Crude oil exports",
+    "unit": "kbbl/d"
+  },
+  {
+    "seriesId": "PET.MCREXUS2.M",
+    "label": "Crude oil exports",
+    "unit": "kbbl/d"
+  }
+]
