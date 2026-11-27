@@ -90,7 +90,12 @@ function loadLibraryDropdown(){
 
 function resetDefaults(){
   selectedSeries = seriesLibrary.filter(s => defaultSeriesIds.includes(s.seriesId)).map(s => ({...s, plot:true}));
-  selectedSpreads = [];
+  selectedSpreads = [
+    {plot:true,productId:"PET.RBRTE.D",feedId:"PET.RWTC.D",label:"Brent – WTI"},
+    {plot:true,productId:"FRED.DGASUSGULF.D",feedId:"PET.RWTC.D",label:"USGC gasoline – WTI"},
+    {plot:true,productId:"FRED.DDFUELUSGULF.D",feedId:"PET.RWTC.D",label:"USGC ULSD – WTI"},
+    {plot:true,productId:"PET.EER_EPJK_PF4_RGC_DPG.D",feedId:"PET.RWTC.D",label:"USGC jet – WTI"}
+  ];
   rawData={}; alignedLabels=[];
   for(const c of [priceChart,spreadChart,normalChart])if(c)c.destroy();
   priceChart=spreadChart=normalChart=null;
@@ -248,7 +253,7 @@ function addSpread(){
   const productId = document.getElementById("spreadProductSelect")?.value;
   const feedId = document.getElementById("spreadFeedSelect")?.value;
   if(!productId || !feedId){ setStatus("Spread selectors are missing or empty."); return; }
-  if(selectedSeries.find(s=>s.seriesId===productId)?.unit !== selectedSeries.find(s=>s.seriesId===feedId)?.unit){setStatus("Spread requires matching units; no automatic conversion.");return;}
+  if(!spreadUnits(productId,feedId)){setStatus("Spread requires matching units or $/gal and $/bbl conversion.");return;}
   if(productId === feedId){ setStatus("Select two different series for spread calculation."); return; }
   const p = selectedSeries.find(s => s.seriesId === productId);
   const f = selectedSeries.find(s => s.seriesId === feedId);
@@ -257,6 +262,13 @@ function addSpread(){
   renderSpreadChart();
 }
 
+function spreadUnits(a,b){
+ const u=seriesLibrary.find(s=>s.seriesId===a)?.unit,v=seriesLibrary.find(s=>s.seriesId===b)?.unit;
+ if(!u||!v)return null;
+ if(u===v)return {unit:u,a:1,b:1};
+ if([u,v].every(x=>x==='$/gal'||x==='$/bbl'))return {unit:'$/bbl',a:u==='$/gal'?42:1,b:v==='$/gal'?42:1};
+ return null;
+}
 function renderSpreadTable(){
   const tbody = document.querySelector("#spreadTable tbody");
   if(!tbody) return;
@@ -266,7 +278,7 @@ function renderSpreadTable(){
     tr.innerHTML = `
       <td><input type="checkbox" ${s.plot ? "checked" : ""} data-spread-idx="${idx}"></td>
       <td>${escapeHtml(s.label)}</td>
-      <td>Product - Feedstock</td>
+      <td>${escapeHtml(spreadUnits(s.productId,s.feedId)?.unit || "Incompatible")} · First − second</td>
       <td><button class="danger" data-remove-spread="${idx}">Remove</button></td>
     `;
     tbody.appendChild(tr);
@@ -280,12 +292,25 @@ function renderSpreadChart(){
   if(!canvas || typeof Chart === "undefined") return;
   const ctx = canvas.getContext("2d");
   if(spreadChart) {spreadChart.destroy();spreadChart=null;}
-  const datasets = selectedSpreads.filter(s => s.plot && rawData[s.productId] && rawData[s.feedId]).map(s => {
-    const pMap = new Map(rawData[s.productId].map(r => [r.date,r.value]));
-    const fMap = new Map(rawData[s.feedId].map(r => [r.date,r.value]));
-    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:true,tension:0};
+  const frequency=document.getElementById('frequencySelect').value;
+  const cutoff=new Date();cutoff.setUTCFullYear(cutoff.getUTCFullYear()-Number(document.getElementById('lookbackSelect').value));
+  const start=cutoff.toISOString().slice(0,10);
+  const results=selectedSpreads.filter(s=>s.plot).flatMap(s=>{
+    const u=spreadUnits(s.productId,s.feedId);if(!u)return [];
+    const p=nativeCache[s.productId]||new Map(),f=nativeCache[s.feedId]||new Map();
+    const groups=new Map();
+    const bucket=d=>{if(frequency==='monthly')return d.slice(0,7)+'-01';if(frequency==='weekly'){const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+(5-t.getUTCDay()+7)%7);return t.toISOString().slice(0,10);}return d;};
+    // Match native observation dates before averaging; never fill missing values.
+    for(const [d,r] of p){if(d<start||!f.has(d))continue;const k=bucket(d),g=groups.get(k)||[0,0];g[0]+=u.a*r.value-u.b*f.get(d).value;g[1]++;groups.set(k,g);}
+    return [{label:s.label+' ('+u.unit+')',unit:u.unit,groups}];
   });
-  spreadChart = new Chart(ctx,{type:"line",data:{labels:alignedLabels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{title:{display:true,text:"Price Spread Calculations"},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Spread"}}}}});
+  const dates=[...new Set(results.flatMap(r=>[...r.groups.keys()]))].sort();
+  const units=[...new Set(results.map(r=>r.unit))];
+  const scales={x:{ticks:{maxTicksLimit:14}}};units.forEach((u,i)=>scales['spread'+i]={type:'linear',position:i?'right':'left',title:{display:true,text:u},grid:{drawOnChartArea:i===0}});
+  const datasets=results.filter(r=>r.groups.size).map(r=>({label:r.label,yAxisID:'spread'+units.indexOf(r.unit),data:dates.map(d=>{const g=r.groups.get(d);return g?g[0]/g[1]:null;}),borderWidth:2,pointRadius:r.groups.size===1?3:0,pointHoverRadius:4,showLine:true,spanGaps:true,tension:0}));
+  const message=document.getElementById('spreadMessage');if(message)message.textContent=datasets.length?'Spreads use matched observation dates. Product $/gal × 42 converts to $/bbl. Retail spreads are not refinery crack spreads.':'No matched observations. Add a compatible pair with available data.';
+  spreadChart=new Chart(ctx,{type:'line',data:{labels:dates,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{title:{display:true,text:'Price Spread Calculations'},legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(2)}}},scales}});
+
 }
 
 function renderNormalChart(){
@@ -302,7 +327,7 @@ function renderNormalChart(){
   const sd = Math.sqrt(source.reduce((a,b) => a + Math.pow(b.value - avg,2),0) / source.length);
   const labels = source.map(r => r.date);
   const values = source.map(r => ((r.value - avg) / (sd || 1)));
-  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,spanGaps:false,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0,spanGaps:false},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0,spanGaps:false},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
+  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,pointHoverRadius:5,pointHitRadius:12,spanGaps:false,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0,spanGaps:false},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0,spanGaps:false},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y.toFixed(2),afterBody:items=>items.length?["Original price: "+source[items[0].dataIndex].value.toFixed(2)+" "+(item?.unit||"")]:[]}},title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
 }
 
 function renderDataTable(){
@@ -312,7 +337,7 @@ function renderDataTable(){
   let html = "<thead><tr><th>Date</th>" + active.map(s => `<th>${escapeHtml(s.label)}<br>${escapeHtml(s.unit)}</th>`).join("") + "</tr></thead><tbody>";
   const maps = active.map(s => new Map(rawData[s.seriesId].map(r => [r.date,r.value])));
   alignedLabels.forEach(d => {
-    html += `<tr><td>${d}</td>` + maps.map(m => `<td>${m.has(d) ? m.get(d) : ""}</td>`).join("") + "</tr>";
+    html += `<tr><td>${d}</td>` + maps.map(m => `<td>${m.has(d) ? m.get(d).toFixed(2) : ""}</td>`).join("") + "</tr>";
   });
   html += "</tbody>";
   table.innerHTML = html;
