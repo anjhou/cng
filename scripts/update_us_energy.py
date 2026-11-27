@@ -18,6 +18,7 @@ def parse(raw):
         years.setdefault(period[:4],{})[SERIES[code]]=v
     rows=[dict(Year=y,**d,Source='EIA MER Table 1.3') for y,d in sorted(years.items()) if len(d)==6]
     if len(rows)<20 or not set(map(str,range(int(rows[-1]['Year'])-19,int(rows[-1]['Year'])+1))).issubset({r['Year'] for r in rows}): raise ValueError('Incomplete annual source')
+    print(f'Validated {len(rows)} annual records: {rows[0]["Year"]}–{rows[-1]["Year"]}')
     return rows
 if __name__=='__main__':
     req=urllib.request.Request(URL,headers={'User-Agent':'Houston Chemical Energy data refresh'})
@@ -31,4 +32,4 @@ if __name__=='__main__':
     with tmp.open('w',newline='') as f:
         w=csv.DictWriter(f,fieldnames=FIELDS);w.writeheader();w.writerows(rows)
     tmp.replace(dest)
-    (dest.parent/'us-energy-meta.json').write_text(json.dumps({'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':URL,'latest_year':rows[-1]['Year']}))
+    (dest.parent/'us-energy-meta.json').write_text(json.dumps({'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':URL,'latest_year':rows[-1]['Year'],'first_year':rows[0]['Year'],'annual_records':len(rows)}))
