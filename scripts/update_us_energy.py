@@ -8,10 +8,13 @@ def parse(raw):
     for r in csv.DictReader(io.StringIO(raw)):
         code=r['MSN']; period=r['YYYYMM']
         if code not in SERIES or not period.endswith('13') or not period[:4].isdigit() or int(period[:4])<2020: continue
-        try: v=float(r['Value'])/1000 # MER table 1.3: trillion Btu
+        try: v=float(r['Value'])
         except (ValueError,TypeError): continue
         if not math.isfinite(v): continue
-        if 'trillion' not in r.get('Unit','').lower(): raise ValueError('Unexpected EIA unit: '+str(r.get('Unit')))
+        unit=' '.join(r.get('Unit','').lower().split())
+        factors={'quadrillion btu':1, 'trillion btu':1/1000, 'billion btu':1/1000000}
+        if unit not in factors: raise ValueError('Unexpected EIA unit: '+str(r.get('Unit')))
+        v*=factors[unit]
         years.setdefault(period[:4],{})[SERIES[code]]=v
     rows=[dict(Year=y,**d,Source='EIA MER Table 1.3') for y,d in sorted(years.items()) if len(d)==6]
     if len(rows)<5 or not set(map(str,range(2020,2025))).issubset({r['Year'] for r in rows}): raise ValueError('Incomplete annual source')
