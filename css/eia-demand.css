@@ -183,3 +183,12 @@
   }
 }
 main.demand-app{max-width:1500px;margin:auto;padding:24px;color:#172d46} .demand-app .demand-hero{background:#0b1e39;color:white;padding:24px;border-radius:10px}.demand-app .demand-hero p,.demand-app .demand-hero a{color:#e1edf5}.demand-app .tab-btn.active,.demand-app button{background:#007f86}.demand-app .panel{padding:16px;margin:12px 0}.demand-app .demand-table{overflow:auto}.demand-app .chart-container{height:460px;min-height:0;max-height:none}.demand-app .tab-content{padding:0}.demand-app table{display:table}.demand-app tr{display:table-row}.demand-app td,.demand-app th{display:table-cell;white-space:nowrap}.demand-app thead{display:table-header-group}.demand-app tbody{display:table-row-group}
+
+/* V2.2: dashboard chart layout, scoped to demand page */
+main.demand-app{width:100%;max-width:1600px;box-sizing:border-box}
+.demand-app .tab-content,.demand-app .panel{width:100%;max-width:none;box-sizing:border-box}
+.demand-app .tab-btn{background:#64748b;color:#fff}
+.demand-app .tab-btn.active{background:#007f86}
+.demand-app .chart-container{width:100%;max-width:none;height:520px;min-height:0;margin:0}
+.demand-app .chart-container canvas{max-width:none!important;width:100%!important;height:100%!important;margin:0!important}
+@media(max-width:700px){main.demand-app{padding:12px}.demand-app .chart-container{height:380px}.demand-app .panel{padding:10px}}
