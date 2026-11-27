@@ -1,158 +1,7 @@
 "use strict";
-
-const EIA_API_KEY = "KXFkqy8m6vsXRW215DNxwLKWeQq52XG9kdS4UMLT";
-const STORAGE_KEY = "eiaDemandCustomSeries";
-
-const DEFAULT_SERIES = [
-  {
-    category: "Feedstock",
-    label: "Crude Oil Refinery Inputs",
-    seriesId: "PET.WCRRIUS2.W",
-    unit: "Mbbl/d"
-  },
-  {
-    category: "Product",
-    label: "Finished Motor Gasoline Product Supplied",
-    seriesId: "PET.WGFUPUS2.W",
-    unit: "Mbbl/d"
-  },
-  {
-    category: "Product",
-    label: "Distillate Fuel Oil Product Supplied",
-    seriesId: "PET.WDIUPUS2.W",
-    unit: "Mbbl/d"
-  },
-  {
-    category: "Product",
-    label: "Kerosene-Type Jet Fuel Product Supplied",
-    seriesId: "PET.WKJUPUS2.W",
-    unit: "Mbbl/d"
-  }
-];
-
-const MONTHLY_SERIES = [
-  {/*Working*/
-    label: "Distillate Fuel Oil Product Supplied",
-    seriesId: "PET.MDIUPUS2.M",
-    unit: "Thousand barrels per day"
-  },
-  {/**/
-    label: "Monthly sulfur stocks at refineries",
-    seriesId: "PET.MCRSSUS1.M",
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Crude Oil Stock Change",
-    seriesId: "PET.MCESTUS1.M", /*PET.WCESTUS1.W — Weekly*/
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Crude Oil Ending Stocks",
-    seriesId: "PET.MCESTUS1.M", /*PET.WCESTUS1.W — Weekly*/
-    unit: "EIA reported unit"
-  },
-  {
-    label: "Crude Oil Inputs to Refineries (Total)",
-    seriesId: "PET.MCRRIUS2.M", /*PET.WCRRIUS2.W — Weekly*/
-    unit: "EIA reported unit"
-  },
-  {
-    label: "Hydrocracker Feed (VGO)",
-    seriesId: "PET.MCRRIVGO.M", 
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Naphtha Product Supplied (Demand)",
-    seriesId: "PET.MNAPUPUS1.M",  /*PET.MNAPUPUS1.A*/
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Monthly Refinery Hydrogen Consumption",
-    seriesId: "PET.MCRHCPUS1.M", 
-    unit: "EIA reported unit"
-  },
-  {/*Working*/
-    label: "Natural Gas Industrial Consumption",
-    seriesId: "NG.N9130US2.M",
-    unit: "Million cubic feet"
-  },
-  {/*Working*/
-    label: "Natural Gas Electric Power Consumption",
-    seriesId: "NG.N9130US3.M",
-    unit: "Million cubic feet"
-  },
-  {
-    label: "Monthly U.S. Residential Natural Gas Consumption",
-    seriesId: "NG.N3010US2.M", /*NG.N3010US2.A*/
-    unit: "Million cubic feet"
-  },
-  {
-    label: "Natural Gas Total Consumption",
-    seriesId: "NG.NGTOTALUS.M",
-    unit: "Million cubic feet"
-  },
-  {/*Working*/
-    label: "Natural Gas Lease Fuel",
-    seriesId: "NG.N3010US2.M",
-    unit: "Million cubic feet"
-  },
-  {/*Working*/
-    label: "Natural Gas Pipeline Fuel",
-    seriesId: "NG.N3020US2.M",
-    unit: "Million cubic feet"
-  },
-  {
-    label: "Distillate Fuel Oil (Diesel + Heating Oil)",
-    seriesId: "PET.MDIUPUS2.M",
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Product Supplied (Demand)",
-    seriesId: "PET.MREUPUS2.M",
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Ending Stocks",
-    seriesId: "PET.MREOUS1.M", /*PET.WREOUS1.W*/
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Production",
-    seriesId: "PET.MCRRIRFO.M", /**/
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Imports",
-    seriesId: "PET.MREIMUS2.M", /**/
-    unit: "Thousand barrels per day"
-  },
-  {
-    label: "Residual Fuel Oil (Heavy Fuel Oil / HFO) -Exports",
-    seriesId: "PET.MREEXUS2.M", /**/
-    unit: "Thousand barrels per day"
-  },
-  {/*Working*/
-    label: "Natural Gas Vehicle Fuel",
-    seriesId: "NG.N3045US2.M", /*PET.WDIUPUS2.W*/
-    unit: "Million cubic feet"
-  },
-  {
-    label: "Natural Gas Delivered to Consumers",
-    seriesId: "NG.N3050US2.M",
-    unit: "Million cubic feet"
-  },
-  {
-    label: "Kerosene-Type Jet Fuel Product Supplied",
-    seriesId: "PET.MCKCPUS1.M",
-    unit: "EIA reported unit"
-  },
-  {
-    label: "Kerosene Product Supplied",
-    seriesId: "PET.MCKPPUS1.M",
-    unit: "EIA reported unit"
-  }
-];
-
+const STORAGE_KEY="eiaDemandV2";
+const DEFAULT_SERIES=[{"category": "Feedstock", "label": "Crude Oil Refinery Inputs", "seriesId": "PET.WCRRIUS2.W", "unit": "kbbl/d"}, {"category": "Product", "label": "Finished Motor Gasoline Product Supplied", "seriesId": "PET.WGFUPUS2.W", "unit": "kbbl/d"}, {"category": "Product", "label": "Distillate Fuel Oil Product Supplied", "seriesId": "PET.WDIUPUS2.W", "unit": "kbbl/d"}, {"category": "Product", "label": "Kerosene-Type Jet Fuel Product Supplied", "seriesId": "PET.WKJUPUS2.W", "unit": "kbbl/d"}];
+const MONTHLY_SERIES=[{"label": "Distillate Fuel Oil Product Supplied", "seriesId": "PET.MDIUPUS2.M", "unit": "kbbl/d"}, {"label": "Crude Oil Inputs to Refineries", "seriesId": "PET.MCRRIUS2.M", "unit": "kbbl/d"}, {"label": "Residual Fuel Oil Product Supplied", "seriesId": "PET.MREUPUS2.M", "unit": "kbbl/d"}, {"label": "Residual Fuel Oil Imports", "seriesId": "PET.MREIMUS2.M", "unit": "kbbl/d"}, {"label": "Residual Fuel Oil Exports", "seriesId": "PET.MREEXUS2.M", "unit": "kbbl/d"}, {"label": "Finished Motor Gasoline Product Supplied", "seriesId": "PET.MGFUPUS2.M", "unit": "kbbl/d"}, {"label": "Kerosene-Type Jet Fuel Product Supplied", "seriesId": "PET.MKJUPUS2.M", "unit": "kbbl/d"}];
 let SERIES = [];
 let demandChart = null;
 let monthlyDemandChart = null;
@@ -162,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSeries();
   populateMonthlyDropdown();
 
-  document.getElementById("loadDemandBtn").addEventListener("click", loadDemandData);
+  document.getElementById("loadDemandBtn").addEventListener("click", ()=>{cache=null;loadDemandData();});
   document.getElementById("addSeriesBtn").addEventListener("click", addSeries);
-  document.getElementById("loadMonthlyBtn").addEventListener("click", loadMonthlyData);
+  document.getElementById("loadMonthlyBtn").addEventListener("click", ()=>{cache=null;loadMonthlyData();});
 
   document.getElementById("resetZoomBtn").addEventListener("click", () => {
     if (demandChart) {
@@ -176,8 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   populateSeriesTable();
   loadDemandData();
-  loadMonthlyData();
-});
+  });
 
 function initializeTabs() {
   document.querySelectorAll(".tab-btn").forEach(button => {
@@ -198,6 +46,7 @@ function initializeTabs() {
       setTimeout(() => {
         if (demandChart) demandChart.resize();
         if (monthlyDemandChart) monthlyDemandChart.resize();
+        else if(targetTab === "monthlyTab") loadMonthlyData();
       }, 100);
     });
   });
@@ -214,6 +63,7 @@ function initializeSeries() {
 
   try {
     SERIES = JSON.parse(saved);
+    if(Array.isArray(SERIES)) SERIES=SERIES.filter(s=>DEFAULT_SERIES.some(d=>d.seriesId===s.seriesId));
 
     if (!Array.isArray(SERIES) || SERIES.length === 0) {
       SERIES = [...DEFAULT_SERIES];
@@ -267,11 +117,13 @@ async function addSeries() {
     return;
   }
 
+  const known=DEFAULT_SERIES.find(s=>s.seriesId===seriesId);
+  if(!known){status.textContent="Only configured weekly demand series can be added. Extend the retrieval catalog first.";return;}
   const newSeries = {
     category,
     label: label || seriesId,
     seriesId,
-    unit: "Mbbl/d"
+    unit: "kbbl/d"
   };
 
   try {
@@ -334,17 +186,8 @@ function populateSeriesTable() {
   SERIES.forEach(series => {
     const row = document.createElement("tr");
 
-    row.innerHTML = `
-      <td>${series.category}</td>
-      <td>${series.label}<br><small>${series.seriesId}</small></td>
-      <td>${series.unit}</td>
-      <td>
-        <button class="delete-series-btn" data-series-id="${series.seriesId}">
-          Delete
-        </button>
-      </td>
-    `;
-
+    for(const value of [series.category,series.label+' ('+series.seriesId+')',series.unit]) row.insertCell().textContent=value;
+    const btn=document.createElement('button');btn.className='delete-series-btn';btn.dataset.seriesId=series.seriesId;btn.textContent='Delete';row.insertCell().append(btn);
     tbody.appendChild(row);
   });
 }
@@ -376,21 +219,24 @@ async function loadDemandData() {
 
     const labels = buildUnifiedDateLabels(successfulSeries);
 
-    const datasets = successfulSeries.map(result => {
+    const datasets = successfulSeries.map((result,i) => {
       const lookup = new Map(result.data.map(item => [item.period, item.value]));
 
       return {
         label: result.label,
+        borderColor: ["#1677b8","#007f86","#d97706","#a855a8"][i%4],
         data: labels.map(label => lookup.get(label) ?? null),
         borderWidth: 2,
-        pointRadius: 0,
+        showLine: true,
+        pointRadius: 1,
         pointHoverRadius: 5,
-        tension: 0.25,
-        spanGaps: true
+        tension: 0,
+        spanGaps: false
       };
     });
 
     renderWeeklyChart(labels, datasets);
+    summary("weeklyTab",successfulSeries);
 
     status.textContent =
       `Loaded ${successfulSeries.length} weekly series` +
@@ -425,15 +271,18 @@ async function loadMonthlyData() {
     renderMonthlyChart(labels, [
       {
         label: `${result.seriesId} - ${result.label}`,
+        borderColor: "#007f86",
         data: values,
         borderWidth: 2,
-        pointRadius: 0,
+        showLine: true,
+        pointRadius: 1,
         pointHoverRadius: 5,
-        tension: 0.25,
-        spanGaps: true
+        tension: 0,
+        spanGaps: false
       }
     ]);
 
+    summary("monthlyTab",[result]);
     status.textContent = `Loaded monthly series: ${result.seriesId}`;
   } catch (error) {
     console.error(error);
@@ -442,36 +291,9 @@ async function loadMonthlyData() {
 }
 
 async function fetchEiaSeries(series, limit) {
-  const url =
-    `https://api.eia.gov/v2/seriesid/${series.seriesId}` +
-    `?api_key=${EIA_API_KEY}` +
-    `&length=${limit}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(`${series.seriesId} failed. HTTP ${response.status}`);
-  }
-
-  const json = await response.json();
-  const rows = json?.response?.data || [];
-
-  const data = rows
-    .map(row => ({
-      period: row.period,
-      value: Number(row.value)
-    }))
-    .filter(row => row.period && Number.isFinite(row.value))
-    .sort((a, b) => a.period.localeCompare(b.period));
-
-  if (!data.length) {
-    throw new Error(`No EIA data returned for ${series.seriesId}`);
-  }
-
-  return {
-    ...series,
-    data
-  };
+ const rows=(await snapshot()).get(series.seriesId)||[];
+ const data=rows.slice(-limit); if(!data.length) throw new Error('No cached observations for '+series.seriesId);
+ return {...series,data};
 }
 
 function buildUnifiedDateLabels(seriesResults) {
@@ -518,7 +340,7 @@ function renderMonthlyChart(labels, datasets) {
       labels,
       datasets
     },
-    options: buildChartOptions("Month", "EIA Reported Value")
+    options: buildChartOptions("Month", "Thousand Barrels per Day")
   });
 }
 
@@ -560,7 +382,7 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
               return `${item.dataset.label}: no data`;
             }
 
-            return `${item.dataset.label}: ${Number(value).toLocaleString()}`;
+            return `${item.dataset.label}: ${Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
           }
         }
       }
@@ -581,9 +403,14 @@ function buildChartOptions(xAxisTitle, yAxisTitle) {
           text: yAxisTitle
         },
         ticks: {
-          callback: value => Number(value).toLocaleString()
+          callback: value => Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
         }
       }
     }
   };
 }
+let cache=null;
+function snapshot(){if(!cache)cache=(async()=>{const r=await fetch('/static/data/eia-demand.csv',{cache:'no-cache',signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Snapshot unavailable: run demand GitHub workflow');const text=await r.text();const lines=text.trim().split(/\r?\n/);if(lines.shift()!=='series_id,period,value,retrieved_at,source')throw Error('Invalid demand CSV');const m=new Map();for(const line of lines){const [id,period,v,retrieved_at,source]=line.split(',');if(!v||!Number.isFinite(Number(v))||!/^\d{4}-\d{2}(-\d{2})?$/.test(period))continue;if(!m.has(id))m.set(id,[]);m.get(id).push({period,value:Number(v),retrieved_at,source});}for(const rows of m.values())rows.sort((a,b)=>a.period.localeCompare(b.period));return m;})().catch(e=>{cache=null;throw e});return cache;}
+function table(id,heads,rows){const el=document.getElementById(id);const t=document.createElement('table');const h=t.createTHead().insertRow();for(const v of heads){const th=document.createElement('th');th.textContent=v;h.append(th)}const body=t.createTBody();for(const row of rows){const tr=body.insertRow();for(const v of row)tr.insertCell().textContent=v;}el.replaceChildren(t);}
+const fmt=v=>Number.isFinite(v)?v.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+function summary(tab,series){table(tab+'Summary',['Series','Latest period','Value (kbbl/d)','Year-over-year %','Retrieved UTC','Source'],series.map(s=>{const a=s.data.at(-1);const d=new Date(a.period+'-01'.slice(0,a.period.length===7?3:0)+'T00:00:00Z');const target=new Date(d);target.setUTCFullYear(target.getUTCFullYear()-1);const prev=s.data.reduce((best,r)=>{const t=new Date(r.period.length===7?r.period+'-01':r.period);return Math.abs(t-target)<Math.abs(new Date(best.period.length===7?best.period+'-01':best.period)-target)?r:best},s.data[0]);const delta=Math.abs(new Date(prev.period.length===7?prev.period+'-01':prev.period)-target);return [s.label,a.period,fmt(a.value),fmt(delta<=7*86400000&&prev.value!==0?100*(a.value/prev.value-1):NaN),a.retrieved_at,a.source];}));table(tab+'Season',['Series',...Array.from({length:12},(_,i)=>String(i+1))],series.map(s=>[s.label,...Array.from({length:12},(_,i)=>{const a=s.data.filter(r=>Number(r.period.slice(5,7))===i+1);return fmt(a.length?a.reduce((n,r)=>n+r.value,0)/a.length:NaN)})]));}
