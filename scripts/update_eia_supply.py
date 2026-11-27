@@ -61,7 +61,13 @@ def retrieve_xls(sid,start):
 
 def retrieve(sid,start,key):
     print(sid,'trying historical XLS',flush=True)
-    try:return retrieve_xls(sid,start)
+    try:
+        rows=retrieve_xls(sid,start)
+        if any(s['seriesId']==sid and s['group']=='NGL Supply' for s in SERIES):
+            latest=max(period for _,period in rows)
+            if (today-dt.date.fromisoformat(latest+'-01')).days>150:
+                raise RuntimeError('NGL observations stale: '+latest)
+        return rows
     except Exception as e:
         print(sid,'XLS failed:',f'HTTP {e.code}' if isinstance(e,urllib.error.HTTPError) else str(e),flush=True)
     raise RuntimeError('Historical workbook unavailable; API fallback disabled')
@@ -72,7 +78,11 @@ def main():
     key=os.environ.get('EIA_API_KEY');
     existing={}
     if P.exists():
-        with P.open() as f: existing={(r['series_id'],r['period']):r for r in csv.DictReader(f)}
+        with P.open() as f:
+            reader=csv.DictReader(f)
+            if not {'series_id','period','value','retrieved_at','source'}.issubset(reader.fieldnames or []):
+                raise SystemExit('Invalid historical snapshot schema; do not use chart export as database')
+            existing={(r['series_id'],r['period']):{k:r.get(k,'') for k in F} for r in reader}
     def start(sid):
         dates=[d for i,d in existing if i==sid]; return max(floor,dt.date.fromisoformat(max(dates)+('-01' if sid.endswith('.M') else ''))-dt.timedelta(days=120)) if dates else floor
     success=0
@@ -80,7 +90,7 @@ def main():
         jobs={pool.submit(retrieve,s['seriesId'],start(s['seriesId']),key):s['seriesId'] for s in SERIES}
         for f in as_completed(jobs):
             sid=jobs[f]
-            try: rows=f.result();existing.update(rows);success+=1;print(sid,len(rows),'observations',flush=True)
+            try: rows=f.result();existing.update(rows);success+=1;print(sid,len(rows),'observations',min(d for _,d in rows),'to',max(d for _,d in rows),flush=True)
             except Exception as e: print(sid,'FAILED',f'HTTP {e.code}' if isinstance(e,urllib.error.HTTPError) else type(e).__name__,'prior data retained',flush=True)
     if not success:raise SystemExit('No successful series; snapshot unchanged')
     P.parent.mkdir(parents=True,exist_ok=True); tmp=P.with_suffix('.tmp')

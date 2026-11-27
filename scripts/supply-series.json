@@ -239,10 +239,39 @@
     "candidate": true
   },
   {
-    "seriesId": "PET.MPRFPUS2.M",
-    "label": "Propane/propylene production",
+    "seriesId": "PET.M_EPL2_FPF_NUS_MBBLD.M",
+    "label": "Total NGL production",
     "unit": "kbbl/d",
-    "group": "NGL Supply",
-    "candidate": true
+    "group": "NGL Supply"
+  },
+  {
+    "seriesId": "PET.M_EPLLEA_FPF_NUS_MBBLD.M",
+    "label": "Ethane production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply"
+  },
+  {
+    "seriesId": "PET.M_EPLLPA_FPF_NUS_MBBLD.M",
+    "label": "Propane production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply"
+  },
+  {
+    "seriesId": "PET.M_EPLLBAN_FPF_NUS_MBBLD.M",
+    "label": "Normal butane production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply"
+  },
+  {
+    "seriesId": "PET.M_EPLLBAI_FPF_NUS_MBBLD.M",
+    "label": "Isobutane production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply"
+  },
+  {
+    "seriesId": "PET.M_EPLLNG_FPF_NUS_MBBLD.M",
+    "label": "Natural gasoline production",
+    "unit": "kbbl/d",
+    "group": "NGL Supply"
   }
 ]
