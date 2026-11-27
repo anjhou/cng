@@ -75,3 +75,4 @@
 }
 
 .eia.layout{--panel:#fff;--line:#d7dee8;--muted:#526577;--red:#a52a2a;--eia-blue:#007078;--eia-dark:#00575e;max-width:1600px;width:100%;padding:18px;color:#17334e}.eia .app-header{background:#0b1e39;border-radius:10px;margin-bottom:16px}.eia .chart-box{position:relative;height:440px;min-width:0}.eia .chart-box canvas{width:100%!important;height:100%!important;max-height:none!important;margin:0}.eia th{background:#1f3b5c;color:white}.eia tbody tr:nth-child(even){background:#edf3f7}.eia #seriesTable{min-width:850px}.eia .note{font-size:12px;color:#526577}.eia button:disabled{opacity:.5;cursor:wait}.eia .tab-content:not(.active){display:none}.eia .tab-content.active{display:block}@media(max-width:900px){.eia .controls-grid,.eia .spread-builder{grid-template-columns:1fr}.eia .chart-box{height:340px}}
+.eia .freshness{font-size:.82rem;color:#1f3b5c;background:#eef5f7;padding:10px;overflow-wrap:anywhere}

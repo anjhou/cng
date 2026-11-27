@@ -30,16 +30,18 @@ function init(){
   bindEvents();
   loadLibraryDropdown();
   resetDefaults();
-  setStatus("Ready. Select series and click Load / Refresh EIA Data.");
+
 }
 
 function bindEvents(){
   onClick("btnAddSeries", addSelectedLibrarySeries);
-  onClick("btnLoad", loadPrices);
+  onClick("btnLoad", () => loadPrices(true));
   onClick("btnExport", exportCsv);
   onClick("btnReset", resetDefaults);
   onClick("btnAddSpread", addSpread);
   onChange("normalSeriesSelect", renderNormalChart);
+  onChange("frequencySelect", () => loadPrices(false));
+  onChange("lookbackSelect", () => loadPrices(false));
 
   document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => activateTab(btn.dataset.tab));
@@ -96,6 +98,7 @@ function resetDefaults(){
   renderSpreadTable();
   refreshSelectors();
   setStatus("Defaults restored.");
+  if(document.getElementById("btnLoad") && !document.getElementById("btnLoad").disabled) void loadPrices(false);
 }
 
 function addSelectedLibrarySeries(){
@@ -168,50 +171,29 @@ function refreshSelectors(){
   });
 }
 
-async function loadPrices(){
- const btn=document.getElementById('btnLoad'); if(btn.disabled)return; btn.disabled=true;
- setStatus('Loading EIA data…');
- try {
- if(typeof Chart==='undefined') throw Error('Chart.js failed to load. Check CDN access.');
- const frequency=document.getElementById('frequencySelect').value;
- const years=Number(document.getElementById('lookbackSelect').value);
- const active=selectedSeries.filter(s=>s.plot && s.seriesId.trim()).map(s=>({...s}));
- if(!active.length) throw Error('Select at least one series.');
- const results=await Promise.allSettled(active.map(s=>fetchSeriesV2(s.seriesId.trim(),frequency,years)));
- const next={}, failures=[];
- results.forEach((r,i)=>{if(r.status==='fulfilled' && r.value.length)next[active[i].seriesId]=r.value;else failures.push(active[i].label+': '+(r.status==='rejected'?r.reason.message:'No observations'));});
- if(!Object.keys(next).length) throw Error('No series loaded. '+failures.join(' | '));
- rawData=next; alignedLabels=buildAlignedLabels(rawData);
- renderPriceChart(); renderSpreadChart(); renderNormalChart(); renderDataTable();
- setStatus('Loaded '+Object.keys(next).length+' series. '+(failures.length?'Unavailable: '+failures.join(' | '):'Refresh complete.'));
- } catch(e){setStatus('Load failed: '+e.message);} finally {btn.disabled=false;}
+let nativeCache = {};
+async function loadSnapshot(){
+ const r=await fetch('/static/data/eia-prices.csv',{cache:'no-cache',signal:AbortSignal.timeout(10000)});
+ if(!r.ok)throw Error('Snapshot HTTP '+r.status);
+ const lines=(await r.text()).trim().split(/\r?\n/);
+ if(lines.shift()!=='series_id,period,value,retrieved_at')throw Error('Invalid snapshot header');
+ for(const line of lines){const [id,period,value,stamp]=line.split(',');if(!seriesLibrary.some(s=>s.seriesId===id)||!/^\d{4}-\d{2}-\d{2}$/.test(period)||!value||!Number.isFinite(Number(value)))continue;
+ const map=nativeCache[id] ||= new Map();const old=map.get(period);if(!old||old.stamp<=stamp)map.set(period,{period,value:Number(value),stamp});}
 }
-async function fetchSeriesV2(seriesId, frequency, lookbackYears){
- const start=new Date(); start.setUTCFullYear(start.getUTCFullYear()-lookbackYears);
- const native=({D:'daily',W:'weekly',M:'monthly',A:'annual',Q:'quarterly'})[seriesId.split('.').pop()];
- const cutoff=start.toISOString().slice(0,10);
- const params=new URLSearchParams({start:native==='monthly'?cutoff.slice(0,7):native==='annual'?cutoff.slice(0,4):cutoff,length:'5000',offset:'0'});
- if(native)params.set('frequency',native);
- const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),90000);
- try {
- const rows=[]; let offset=0;
- while(true){params.set('offset',String(offset));
- const response=await fetch('/api/eia?series='+encodeURIComponent(seriesId)+'&'+params,{signal:controller.signal});
- if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error || 'Proxy HTTP '+response.status);}
- const json=await response.json(); const data=json.response?.data;
- if(!Array.isArray(data))throw Error('Invalid proxy response; verify Worker deployment');
- rows.push(...data); offset+=data.length;
- if(!data.length || offset>=Number(json.response.total||0) || data.length<5000)break;
- if(offset>=50000)throw Error('Response exceeds safety limit');
- }
- const groups=new Map();
- for(const r of rows){if(r.value===null||r.value===undefined||String(r.value).trim()==='')continue; const value=Number(r.value); let date=normalizeDate(r.period); if(!Number.isFinite(value)||date<cutoff)continue;
- if(frequency==='monthly')date=date.slice(0,7)+'-01';
- if(frequency==='weekly' && native==='daily'){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}
- const g=groups.get(date)||[0,0];g[0]+=value;g[1]++;groups.set(date,g);
- }
- return [...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));
- }catch(e){if(e.name==='AbortError')throw Error('Proxy request exceeded 90 seconds');throw e;}finally{clearTimeout(timer);}
+function drawSnapshot(active,frequency,years){
+ const start=new Date();start.setUTCFullYear(start.getUTCFullYear()-years);const cutoff=start.toISOString().slice(0,10);const next={};const notes=[];
+ for(const s of active){const rows=[...(nativeCache[s.seriesId]?.values()||[])].filter(r=>r.period>=cutoff);const groups=new Map();
+ for(const r of rows){let date=r.period;if(frequency==='monthly')date=date.slice(0,7)+'-01';if(frequency==='weekly'&&s.seriesId.endsWith('.D')){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+(5-d.getUTCDay()+7)%7);date=d.toISOString().slice(0,10);}const g=groups.get(date)||[0,0];g[0]+=r.value;g[1]++;groups.set(date,g);}
+ if(groups.size){next[s.seriesId]=[...groups].map(([date,g])=>({date,value:g[0]/g[1]})).sort((a,b)=>a.date.localeCompare(b.date));notes.push(s.label+': '+rows.map(r=>r.period).sort().at(-1)+' (retrieved '+rows.map(r=>r.stamp).sort().at(-1)+')');}else notes.push(s.label+': no data');}
+ rawData=next;alignedLabels=buildAlignedLabels(next);renderPriceChart();renderSpreadChart();renderNormalChart();renderDataTable();document.getElementById('freshness').textContent=notes.join(' | ');return Object.keys(next).length;
+}
+async function loadPrices(live=false){
+ const btn=document.getElementById('btnLoad');if(btn.disabled)return;btn.disabled=true;
+ try{if(typeof Chart==='undefined')throw Error('Chart.js failed to load');const active=selectedSeries.filter(s=>s.plot).map(s=>({...s}));const frequency=document.getElementById('frequencySelect').value;const years=Number(document.getElementById('lookbackSelect').value);let warning='';
+ try{await loadSnapshot();}catch(e){warning='Snapshot unavailable: '+e.message;}
+ let count=drawSnapshot(active,frequency,years);setStatus(count?'Stored data loaded ('+count+' series). '+warning:'No stored observations yet. Run GitHub update or refresh live. '+warning);
+ if(live){setStatus('Refreshing EIA in background; existing data retained.');const results=await Promise.allSettled(active.map(async s=>{const start=new Date();start.setUTCFullYear(start.getUTCFullYear()-years);const q=new URLSearchParams({series:s.seriesId,start:start.toISOString().slice(0,10),offset:'0'});const r=await fetch('/api/eia?'+q,{signal:AbortSignal.timeout(40000)});const j=await r.json();if(!r.ok)throw Error(j.error||'HTTP '+r.status);if(!Array.isArray(j.response?.data)||!j.response.data.length)throw Error('No observations');const map=nativeCache[s.seriesId] ||= new Map();let n=0;for(const row of j.response.data){const period=normalizeDate(row.period);if(row.value==null||String(row.value).trim()===''||!Number.isFinite(Number(row.value))||!/^\d{4}-\d{2}-\d{2}$/.test(period))continue;map.set(period,{period,value:Number(row.value),stamp:new Date().toISOString()});n++;}if(!n)throw Error('No valid observations');}));count=drawSnapshot(active,frequency,years);const failures=results.flatMap((r,i)=>r.status==='rejected'?[active[i].label+': '+r.reason.message]:[]);setStatus(count+' series displayed. '+(failures.length?'Live refresh incomplete; stored data retained. '+failures.join(' | '):'Live refresh complete.'));}
+ }catch(e){setStatus('Load failed: '+e.message);}finally{btn.disabled=false;}
 }
 
 function buildAlignedLabels(dataObj){
@@ -235,7 +217,7 @@ function renderPriceChart(){
         data:alignedLabels.map(d => map.get(d) ?? null),
         yAxisID:s.axis || "y",
         borderWidth:2,
-        pointRadius:0,spanGaps:true,
+        pointRadius:0,spanGaps:false,
         tension:0.2
       };
     });
@@ -295,7 +277,7 @@ function renderSpreadChart(){
   const datasets = selectedSpreads.filter(s => s.plot && rawData[s.productId] && rawData[s.feedId]).map(s => {
     const pMap = new Map(rawData[s.productId].map(r => [r.date,r.value]));
     const fMap = new Map(rawData[s.feedId].map(r => [r.date,r.value]));
-    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:true,tension:0.2};
+    return {label:s.label,data:alignedLabels.map(d => (pMap.has(d) && fMap.has(d)) ? pMap.get(d) - fMap.get(d) : null),borderWidth:2,pointRadius:0,spanGaps:false,tension:0.2};
   });
   spreadChart = new Chart(ctx,{type:"line",data:{labels:alignedLabels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},plugins:{title:{display:true,text:"Price Spread Calculations"},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Spread"}}}}});
 }
@@ -314,7 +296,7 @@ function renderNormalChart(){
   const sd = Math.sqrt(source.reduce((a,b) => a + Math.pow(b.value - avg,2),0) / source.length);
   const labels = source.map(r => r.date);
   const values = source.map(r => ((r.value - avg) / (sd || 1)));
-  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,spanGaps:true,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0,spanGaps:true},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0,spanGaps:true},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
+  normalChart = new Chart(ctx,{type:"line",data:{labels,datasets:[{label:`${item ? item.label : id} z-score`,data:values,borderWidth:2,pointRadius:0,spanGaps:false,tension:0.2},{label:"Mean",data:labels.map(() => 0),borderWidth:1,pointRadius:0,spanGaps:false},{label:"+1 Std Dev",data:labels.map(() => 1),borderWidth:1,pointRadius:0,spanGaps:false},{label:"-1 Std Dev",data:labels.map(() => -1),borderWidth:1,pointRadius:0,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{title:{display:true,text:`Normalization Plot | Mean ${avg.toFixed(3)}, Std Dev ${sd.toFixed(3)}`},legend:{position:"bottom"}},scales:{x:{ticks:{maxTicksLimit:14}},y:{title:{display:true,text:"Z-score"}}}}});
 }
 
 function renderDataTable(){
