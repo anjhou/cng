@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Renewal - Market Intelligence Reader</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@3"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;background:#f4f4f4;color:#333}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Renewable Energy / Market Intelligence | Houston Chemical &amp; Energy</title><link rel="stylesheet" href="/static/css/global-styles.css?v=20261125p2"><script defer src="/static/js/global.js?v=20261127header1"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@3"></script><script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script><style>.renew-scope{
+
+
+
 .top-nav{position:sticky;top:0;z-index:1000;height:60px;background:#0b2e59;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 20px}
 .logo{font-size:20px;font-weight:bold}
 .page-nav{display:flex;gap:10px;flex-wrap:wrap}
@@ -47,7 +38,7 @@ tr:nth-child(even){background:#f8f9fb}
 /**/
 .table-container{margin-top:25px;background:#ffffff;padding:15px;border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
 .table-wrapper{max-height:500px;overflow-y:auto;}
-#inventoryDataTable{width:100%;border-collapse:collapse
+#inventoryDataTable{width:100%;border-collapse:collapse}
 #inventoryDataTable th,#inventoryDataTable td{border:1px solid #d0d0d0;padding:8px;text-align:center;}
 #inventoryDataTable th{background:#0b2e59;color:white;position:sticky;top:0;}
 #inventoryDataTable tbody tr:nth-child(even){background:#f7f7f7;}
@@ -66,24 +57,11 @@ tr:nth-child(even){background:#f8f9fb}
 .left-sidebar{width:100%;height:auto;position:relative;top:0}
 .reader-content{height:auto}
 }
-</style>
-</head>
-<body>
 
-<div class="top-nav">
-<div class="logo">Market Intelligence Reader</div>
-<div class="page-nav">
-<a href="index.html">Home</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="reports.html">Reports</a>
-<a href="analytics.html">Analytics</a>
-<a href="renewal.html">Renewal</a>
-<a href="settings.html">Settings</a>
-</div>
-</div>
-
-<div class="content-wrapper">
-
+.left-sidebar{position:static;height:auto;background:#f4f7fa;border:1px solid #d5dfe8;border-radius:6px}.reader-content{height:auto;overflow:visible;min-width:0;padding:12px}.content-wrapper{min-height:0;margin-top:15px}.charts-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,450px),1fr))}.section-card,.chart-card{border:1px solid #d5dfe8;box-shadow:none}.reader-toolbar button{background:#007078;color:white}.section-title,.chart-card h3{color:#0b1e39} table th{background:#1f3b5c;color:white} table td{color:#17334e;background:white} tr:nth-child(even) td{background:#edf3f7} .table-wrapper{overflow:auto} }</style><style>.feed-main{max-width:1320px!important;margin:auto;padding:22px 20px!important;color:#17334e}.feed-main section{padding:0!important;margin:18px 0!important}.feed-hero{background:linear-gradient(120deg,#0b1e39,#1f3b5c);color:white;padding:24px;border-radius:8px}.feed-hero h1{font-size:clamp(1.6rem,3vw,2.4rem);color:white;margin:5px 0 8px}.feed-hero p{max-width:1000px;margin:8px 0;line-height:1.5}.feed-kicker{font-size:12px;letter-spacing:1px;color:#b9e7e5;font-weight:700}.feed-main h2{font-size:1.25rem;margin:0 0 9px;color:#0b1e39}.feed-metrics,.feed-matrix,.feed-sanction,.feed-stages{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}.feed-metrics>div,.feed-stages>div{border:1px solid #d5dfe8;border-radius:6px;background:#f4f7fa;padding:12px}.feed-metrics strong{display:block;font-size:1.35rem;color:#007078}.feed-metrics small,.feed-note,.feed-caption{font-size:12px;line-height:1.45}.feed-controls{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:10px 0}.feed-controls label{display:grid;gap:4px;font-size:13px;font-weight:600}.feed-controls input,.feed-controls select{font:inherit;padding:8px;border:1px solid #aab8c7;border-radius:5px;background:white;color:#0b1e39;max-width:100%}.feed-controls input{width:min(340px,75vw)}.feed-card{border:1px solid #d5dfe8;border-radius:6px;overflow:hidden;background:white;align-self:start}.feed-card h3{margin:0!important;padding:9px;background:var(--discipline);color:white;font-size:14px;line-height:1.35}.feed-card h3 span{opacity:.85;font-size:12px}.feed-cells{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#dce4eb}.feed-cells>div,.feed-sanction>div{background:#f3f6f9;padding:7px 9px;font-size:13px;line-height:1.35;overflow-wrap:anywhere}.feed-cells>div:nth-child(even){background:#eaf0f5}.feed-note{padding:8px 10px;margin:0;color:#40536b}.feed-sanction{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}.feed-sanction>div{border-left:3px solid #007078}.feed-main [hidden]{display:none!important}.feed-main :focus-visible{outline:3px solid #007078;outline-offset:2px}.feed-cta{display:inline-block;background:#007078;color:white!important;padding:10px 15px;border-radius:5px;text-decoration:none;font-weight:600}.feed-apps{font-size:14px;line-height:1.7}.feed-main details{background:#f4f7fa;padding:12px;border:1px solid #d5dfe8;border-radius:5px}.feed-main summary{cursor:pointer;font-weight:600}@media(max-width:1000px){.feed-matrix{grid-template-columns:repeat(2,minmax(0,1fr))}.feed-sanction{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.feed-main{padding:12px!important}.feed-matrix,.feed-metrics,.feed-stages{grid-template-columns:1fr}.feed-hero{padding:16px}.feed-cells>div{font-size:12px}}@media print{.feed-controls,.feed-cta,#header,#footer{display:none!important}.feed-card{break-inside:avoid}.feed-matrix{grid-template-columns:repeat(2,1fr)}}.study-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}.study-scroll{overflow-x:auto}.study-table{width:100%;border-collapse:collapse;font-size:13px}.study-table th{background:#1f3b5c;color:white;text-align:left}.study-table td,.study-table th{padding:8px;border:1px solid #d5dfe8}.study-table tr:nth-child(even){background:#eaf0f5}@media(max-width:760px){.study-pair{grid-template-columns:1fr}.study-table td,.study-table th{display:table-cell!important}.study-table thead{display:table-header-group!important}.study-table tr{display:table-row!important}.study-table td:before{display:none!important}}
+.feed-main .pc-table{overflow-x:auto;margin:8px 0 12px}.feed-main .pc-table table{width:100%;border-collapse:collapse;font-size:13px}.feed-main .pc-table th{background:#1f3b5c;color:white;text-align:left}.feed-main .pc-table td,.feed-main .pc-table th{padding:8px 12px;border:1px solid #d5dfe8}.feed-main .pc-table tr:nth-child(even){background:#edf3f7}.feed-main .feed-stages p{font-size:13px;margin:6px 0;line-height:1.45}.feed-main #feed-count{font-size:13px;margin:4px 0 8px}@media(max-width:620px){.feed-main .pc-table table{display:table!important}.feed-main .pc-table thead{display:table-header-group!important}.feed-main .pc-table tbody{display:table-row-group!important}.feed-main .pc-table tr{display:table-row!important}.feed-main .pc-table td,.feed-main .pc-table th{display:table-cell!important;white-space:normal}.feed-main .pc-table td:before{display:none!important}} .up-main{max-width:1600px!important}.up-note{background:#edf3f7;border-left:4px solid #007078;padding:12px;font-size:13px}.up-tabs,.up-controls{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;align-items:center}.up-tabs button,.up-controls button{background:#eaf0f6;color:#17334e;border:1px solid #c5d2df;padding:8px 12px;border-radius:4px;cursor:pointer}.up-tabs button[aria-pressed=true]{background:#007078;color:white}.up-controls input{padding:8px;border:1px solid #aab8c7;border-radius:4px;background:white;color:#17334e}.up-scroll{overflow:auto;max-width:100%;max-height:65vh}.up-scroll table{display:table!important;border-collapse:collapse;width:100%;font-size:13px;margin:0!important}.up-scroll thead{display:table-header-group!important}.up-scroll tbody{display:table-row-group!important}.up-scroll tr{display:table-row!important}.up-scroll td,.up-scroll th{display:table-cell!important;text-align:left!important;padding:8px!important;border:1px solid #d5dfe8;min-width:88px;vertical-align:top;white-space:normal}.up-scroll th{position:sticky;top:0;background:#1f3b5c;color:white;z-index:1}.up-scroll td:before{display:none!important}.up-scroll td{background:white;color:#17334e}.up-scroll tr:nth-child(even) td{background:#edf3f7}.up-block{margin:12px 0}.up-block h3{font-size:15px;color:#0b1e39;margin:5px 0}.up-main [hidden]{display:none!important}@media print{.up-main .up-panel[hidden]{display:block!important}.up-tabs,.up-controls{display:none!important}.up-scroll{max-height:none;overflow:visible}}
+.training-sub{font-size:12px!important;margin:0!important;padding:6px 9px;background:#dce7ef;color:#17334e}.training-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.feed-main .feed-card h4{line-height:1.3}.feed-main .pc-table td{vertical-align:top}@media(max-width:700px){.training-pair{grid-template-columns:1fr}}
+.up-main a{overflow-wrap:anywhere} .up-main .section{padding:0!important;margin:12px 0} .up-main input,.up-main select{color:#17334e;background:white} </style></head><body class="hce-page"><a class="hce-skip" href="#main">Skip to content</a><div id="header"></div><main id="main" class="feed-main up-main"><div class="feed-hero"><div class="feed-kicker">HCE INTELLIGENCE / LEADERS’ PULSE</div><h1>Renewable Energy / Market Intelligence</h1><p>Market trends, supply and demand analytics, and historical data reader.</p></div><p class="up-note">Existing market reader retained. Its commodity selector and external data feeds are unchanged; they are not a dedicated renewable-energy dataset.</p><div class="renew-scope"><div class="content-wrapper">
 <div class="left-sidebar">
 <h3>Report Sections</h3>
 <ul>
@@ -94,51 +72,37 @@ tr:nth-child(even){background:#f8f9fb}
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-
 <div class="reader-content">
-
 <div class="reader-toolbar">
 <button onclick="window.print()">Print Report</button>
 <button onclick="expandAll()">Expand All</button>
 <button onclick="collapseAll()">Collapse All</button>
 </div>
-
 <!--Start - Add CSV File Selector -->
-
-					<select id="commoditySelect">
-
-					<option value="lng.csv">LNG</option>
-
-					<option value="propane.csv">
+<select id="commoditySelect">
+<option value="lng.csv">LNG</option>
+<option value="propane.csv">
 					Propane
 					</option>
-
-					<option value="ethane.csv">
+<option value="ethane.csv">
 					Ethane
 					</option>
-
-					<option value="crude.csv">
+<option value="crude.csv">
 					Crude
 					</option>
-
-					</select>
-
+</select>
 <!--End - Add CSV File Selector -->
-
 <!--Start - Add CSV File Selector - Add Export to Excel -->
-					<button onclick="location.reload()">
+<button onclick="location.reload()">
 					Refresh Data
 					</button>
-					
-					<button id="exportBtn">
+<button id="exportBtn">
 					Export Table
 					</button>
 <!--End - Add CSV File Selector - Add Export to Excel -->
-
-
-<div id="overview" class="section-card">
+<div class="section-card" id="overview">
 <h2 class="section-title">Executive Summary</h2>
-<div id="overviewText" class="text-area">Loading data...</div>
+<div class="text-area" id="overviewText">Loading data...</div>
 </div>
 <!--
 <div id="chart-section" class="section-card">
@@ -149,372 +113,236 @@ tr:nth-child(even){background:#f8f9fb}
 </div>
 -->
 <!--multi-chart dashboard section-->
-
-					<div id="chart-section" class="section-card">
-
-						<h2 class="section-title">
+<div class="section-card" id="chart-section">
+<h2 class="section-title">
 							Market Trend Dashboard
 						</h2>
-
-						<div class="charts-grid">
-
-							<div class="chart-card">
-								<h3>Supply vs Demand - line chart</h3>
-								<div class="chart-container">
-									<canvas id="supplyDemandChart"></canvas>
-								</div>
-							</div>
-
-							<div class="chart-card">
-								<h3>Market Balance - bar chart</h3>
-								<div class="chart-container">
-									<canvas id="balanceChart"></canvas>
-								</div>
-							</div>
-
-							<div class="chart-card">
-								<h3>Supply Trend - line chart</h3>
-								<div class="chart-container">
-									<canvas id="supplyChart"></canvas>
-								</div>
-							</div>
-
-							<div class="chart-card">
-								<h3>Demand Trend - line chart </h3>
-								<div class="chart-container">
-									<canvas id="demandChart"></canvas>
-								</div>
-							</div>
-							
-							<div class="chart-card">
-								<h3>Price Trend - line chart</h3>
-								<div class="chart-container">
-									<canvas id="priceChart"></canvas>
-								</div>
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Average Market Distribution - Pie Chart </h3>
-
-								<div class="chart-container">
-									<canvas id="averagePieChart"></canvas>
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Monthly Balance - Tornado Chart</h3>
-
-								<div class="chart-container">
-									<canvas id="tornadoChart"></canvas>
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Monthly Price - Bubble Chart</h3>
-
-								<div class="chart-container">
-									<canvas id="priceBubbleChart"></canvas>
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-									<h3>Monthly Market Radar (Spider) Chart </h3>
-
-									<div style="margin-bottom:10px;">
-
-										<label for="radarMonthSelect">
+<div class="charts-grid">
+<div class="chart-card">
+<h3>Supply vs Demand - line chart</h3>
+<div class="chart-container">
+<canvas id="supplyDemandChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Market Balance - bar chart</h3>
+<div class="chart-container">
+<canvas id="balanceChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Supply Trend - line chart</h3>
+<div class="chart-container">
+<canvas id="supplyChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Demand Trend - line chart </h3>
+<div class="chart-container">
+<canvas id="demandChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Price Trend - line chart</h3>
+<div class="chart-container">
+<canvas id="priceChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Average Market Distribution - Pie Chart </h3>
+<div class="chart-container">
+<canvas id="averagePieChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Monthly Balance - Tornado Chart</h3>
+<div class="chart-container">
+<canvas id="tornadoChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Monthly Price - Bubble Chart</h3>
+<div class="chart-container">
+<canvas id="priceBubbleChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Monthly Market Radar (Spider) Chart </h3>
+<div style="margin-bottom:10px;">
+<label for="radarMonthSelect">
 											Select Month:
 										</label>
-
-										<select id="radarMonthSelect">
-										</select>
-
-									</div>
-
-									<div class="chart-container">
-										<canvas id="marketRadarChart"></canvas>
-									</div>
-
-							</div>
-							
-							
-							<div class="chart-card">
-
-								<h3>Supply-Demand-Price Marimekko Chart</h3>
-
-								<div
-									id="marimekkoChart"
-									style="
+<select id="radarMonthSelect">
+</select>
+</div>
+<div class="chart-container">
+<canvas id="marketRadarChart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Supply-Demand-Price Marimekko Chart</h3>
+<div id="marimekkoChart" style="
 										width:100%;
 										height:500px;
 									">
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Market Treemap</h3>
-
-								<div class="chart-container">
-									<canvas id="marketTreemap"></canvas>
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Supply, Demand & Price Distribution - violin chart</h3>
-
-								<div
-									id="violinChart"
-									style="
+</div>
+</div>
+<div class="chart-card">
+<h3>Market Treemap</h3>
+<div class="chart-container">
+<canvas id="marketTreemap"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3>Supply, Demand &amp; Price Distribution - violin chart</h3>
+<div id="violinChart" style="
 										width:100%;
 										height:500px;
 									">
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Monthly Supply-Demand Sankey Diagram</h3>
-
-								<div
-									id="sankeyChart"
-									style="
+</div>
+</div>
+<div class="chart-card">
+<h3>Monthly Supply-Demand Sankey Diagram</h3>
+<div id="sankeyChart" style="
 										width:100%;
 										height:600px;
 									">
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Supply vs Demand Waterfall Chart</h3>
-
-								<div
-									id="waterfallChart"
-									style="
+</div>
+</div>
+<div class="chart-card">
+<h3>Supply vs Demand Waterfall Chart</h3>
+<div id="waterfallChart" style="
 										width:100%;
 										height:600px;
 									">
-								</div>
-
-							</div>
-							
-							<div class="chart-card">
-
-								<h3>Supply & Demand Heatmap</h3>
-
-								<div
-									id="heatmapChart"
-									style="
+</div>
+</div>
+<div class="chart-card">
+<h3>Supply &amp; Demand Heatmap</h3>
+<div id="heatmapChart" style="
 										width:100%;
 										height:500px;
 									">
-								</div>
-
-							</div>
-							<!-- -->
-							<div class="chart-card">
-
-								<h3>Supply vs Demand Waffle Chart</h3>
-
-								<div style="margin-bottom:10px;">
-
-									<label for="waffleMonthSelect">
+</div>
+</div>
+<!-- -->
+<div class="chart-card">
+<h3>Supply vs Demand Waffle Chart</h3>
+<div style="margin-bottom:10px;">
+<label for="waffleMonthSelect">
 										Select Month:
 									</label>
-
-									<select id="waffleMonthSelect"></select>
-
-								</div>
-
-								<div
-									id="waffleChart"
-									style="
+<select id="waffleMonthSelect"></select>
+</div>
+<div id="waffleChart" style="
 										width:100%;
 										height:600px;
 									">
-								</div>
-
-							</div>
-							<!--bbb -->
-							
-													
-							
-							<div class="section" id="inventory-dashboard">
-
-								<h2>US Petroleum Inventory Dashboard</h2>
-
-								<div class="inventory-controls">
-
-									<label for="inventoryProduct">
+</div>
+</div>
+<!--bbb -->
+<div class="section" id="inventory-dashboard">
+<h2>US Petroleum Inventory Dashboard</h2>
+<div class="inventory-controls">
+<label for="inventoryProduct">
 										Inventory Product:
 									</label>
-
-									<select id="inventoryProduct">
-
-										<option value="Crude">
+<select id="inventoryProduct">
+<option value="Crude">
 											Crude Oil
 										</option>
-
-										<option value="Gasoline">
+<option value="Gasoline">
 											Gasoline
 										</option>
-
-										<option value="Diesel">
+<option value="Diesel">
 											Diesel
 										</option>
-
-										<option value="Jet">
+<option value="Jet">
 											Jet Fuel
 										</option>
-
-										<option value="FuelOil">
+<option value="FuelOil">
 											Fuel Oil
 										</option>
-
-									</select>
-
-								</div>
-
-								<div class="chart-container">
-
-									<canvas
-										id="inventoryProductChart">
-									</canvas>
-
-								</div>
-
-							</div>
-												<!--aaa -->
-												<div class="table-container">
-
-											<h3 id="inventoryTableTitle">
+</select>
+</div>
+<div class="chart-container">
+<canvas id="inventoryProductChart">
+</canvas>
+</div>
+</div>
+<!--aaa -->
+<div class="table-container">
+<h3 id="inventoryTableTitle">
 												Inventory Data Table
 											</h3>
-
-											<div class="table-wrapper">
-
-												<table id="inventoryDataTable">
-
-													<thead>
-
-														<tr>
-
-															<th>Date</th>
-
-															<th id="inventoryProductHeader">
+<div class="table-wrapper">
+<table id="inventoryDataTable">
+<thead>
+<tr>
+<th>Date</th>
+<th id="inventoryProductHeader">
 																Inventory
 															</th>
-
-														</tr>
-
-													</thead>
-
-													<tbody>
-
-													</tbody>
-
-												</table>
-
-											</div>
-
-										</div>
-							<!--aaa -->
-							
-							
-							<!--bbb -->
-							
-							<!--ccc -->
-							<div class="section" id="inventoryNormalizationSection">
-
-								<h2>Inventory Normalization Curve</h2>
-
-								<div class="normalization-toolbar">
-
-									<label>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<!--aaa -->
+<!--bbb -->
+<!--ccc -->
+<div class="section" id="inventoryNormalizationSection">
+<h2>Inventory Normalization Curve</h2>
+<div class="normalization-toolbar">
+<label>
 										Stream:
 									</label>
-
-									<select id="normStream">
-
-										<option value="Crude">Crude Oil</option>
-										<option value="Gasoline">Gasoline</option>
-										<option value="Diesel">Diesel</option>
-										<option value="Jet">Jet Fuel</option>
-										<option value="FuelOil">Fuel Oil</option>
-
-									</select>
-
-									<label>
+<select id="normStream">
+<option value="Crude">Crude Oil</option>
+<option value="Gasoline">Gasoline</option>
+<option value="Diesel">Diesel</option>
+<option value="Jet">Jet Fuel</option>
+<option value="FuelOil">Fuel Oil</option>
+</select>
+<label>
 										History:
 									</label>
-
-									<select id="normYears">
-
-										<option value="1">1 Year</option>
-										<option value="2">2 Years</option>
-										<option value="3">3 Years</option>
-										<option value="5">5 Years</option>
-										<option value="6" selected>6 Years</option>
-										<option value="10">10 Years</option>
-										<option value="20">20 Years</option>
-
-									</select>
-
-								</div>
-
-								<div
-									id="inventoryNormalizationChart"
-									style="
+<select id="normYears">
+<option value="1">1 Year</option>
+<option value="2">2 Years</option>
+<option value="3">3 Years</option>
+<option value="5">5 Years</option>
+<option selected="" value="6">6 Years</option>
+<option value="10">10 Years</option>
+<option value="20">20 Years</option>
+</select>
+</div>
+<div id="inventoryNormalizationChart" style="
 										width:100%;
 										height:600px;
 									">
-								</div>
-
-								<table id="inventoryNormalizationStats">
-
-									<thead>
-
-										<tr>
-
-											<th>Metric</th>
-											<th>Value</th>
-
-										</tr>
-
-									</thead>
-
-									<tbody>
-
-									</tbody>
-
-								</table>
-
-							</div>
-							<!--ccc -->
-							
-						</div>
-
-						<div id="chartDescription" class="text-area">
+</div>
+<table id="inventoryNormalizationStats">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+<!--ccc -->
+</div>
+<div class="text-area" id="chartDescription">
 							Loading...
 						</div>
-
-					</div>
-
+</div>
 <!-- -->
-<div id="table-section" class="section-card">
+<div class="section-card" id="table-section">
 <h2 class="section-title">Market Data</h2>
 <table id="marketTable">
 <thead>
@@ -522,9 +350,8 @@ tr:nth-child(even){background:#f8f9fb}
 </thead>
 <tbody></tbody>
 </table>
-<div id="tableDescription" class="text-area">Loading data...</div>
+<div class="text-area" id="tableDescription">Loading data...</div>
 </div>
-
 <!-- 
 <div class="chart-card">
 
@@ -596,30 +423,23 @@ tr:nth-child(even){background:#f8f9fb}
 
 </div>
 -->
-
-<div id="market-insights" class="section-card">
+<div class="section-card" id="market-insights">
 <h2 class="section-title">Market Insights</h2>
-<div id="insightText" class="text-area">Loading data...</div>
+<div class="text-area" id="insightText">Loading data...</div>
 </div>
-
-<div id="conclusion" class="section-card">
+<div class="section-card" id="conclusion">
 <h2 class="section-title">Conclusion</h2>
-<div id="conclusionText" class="text-area">Loading data...</div>
-</div>
-
+<div class="text-area" id="conclusionText">Loading data...</div>
 </div>
 </div>
-
-<script>
+</div></div></main><div id="footer"></div><script>
 function expandAll(){
  document.querySelectorAll('.section-card').forEach(s=>s.style.display='block');
 }
 function collapseAll(){
  document.querySelectorAll('.section-card').forEach((s,i)=>{if(i>0)s.style.display='none';});
 }
-</script>
-
-<script>
+</script><script>
 
 const CSV_URL =
 "https://houstoncng.com/data/market_data.csv?v=" + Date.now();
@@ -2909,9 +2729,7 @@ helpData.push(0);
 
 });
 
-</script>
-
-<script>
+</script><script>
 /**/
 					let inventoryChart;
 					let deviationChart;
@@ -3235,10 +3053,7 @@ helpData.push(0);
 						}
 /**/
 /**/
-</script>
-
-
-						<script>
+</script><script>
 
 						let inventoryDataset = [];
 
@@ -3520,9 +3335,4 @@ helpData.push(0);
 
 						);
 
-</script>
-
-<script src="scripts/inventory-normalization.js"></script>
-
-</body>
-</html>
+</script><script src="scripts/inventory-normalization.js"></script></body></html>
