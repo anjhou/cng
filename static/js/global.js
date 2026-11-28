@@ -51,6 +51,14 @@
       move('/Training.html', group(consulting, 'Project development'), 'Training');
       consulting.querySelectorAll('a').forEach(a => { if (['modeling','model review','relief','instrumentation','relief review'].includes(a.textContent.trim().toLowerCase())) a.remove(); });
     });
+    const compare = (a,b) => { const x=a.textContent.trim().toLowerCase(), y=b.textContent.trim().toLowerCase(); return x<y?-1:x>y?1:0; };
+    document.querySelectorAll('.hce-nav .hce-mega').forEach(mega => {
+      const groups = Array.from(mega.children).filter(el => el.tagName === 'DIV' && el.querySelector('strong'));
+      groups.forEach(group => {
+        Array.from(group.children).filter(el => el.tagName === 'A').sort(compare).forEach(link => group.append(link));
+      });
+      groups.sort((a,b) => compare(a.querySelector('strong'), b.querySelector('strong'))).forEach(group => mega.append(group));
+    });
   }
   updateNavigation();
   void Promise.all([loadFragment('header','/header.html','header'),loadFragment('footer','/footer.html','footer')]).then(updateNavigation);
