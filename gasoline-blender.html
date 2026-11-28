@@ -1,134 +1,119 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Gasoline Blend Optimization Calculator</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; max-width: 950px; }
-    h1 { margin-bottom: 0.2rem; }
-    .subtitle { color: #555; margin-bottom: 1rem; font-size: 0.9rem; }
-    table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
-    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: center; font-size: 0.9rem; }
-    th { background: #f2f2f2; }
-    input[type="number"], input[type="text"] { width: 90px; }
-    .btn { padding: 8px 14px; background: #004b8d; color: #fff; border: none; cursor: pointer; border-radius: 3px; font-size: 0.9rem; }
-    .results { margin-top: 1rem; padding: 10px; border-radius: 4px; border: 1px solid #ccc; background: #fafafa; font-size: 0.9rem; }
-    .ok { border-color: #2e7d32; }
-    .fail { border-color: #c62828; }
-    .label { font-weight: bold; }
-    .row-header { text-align: left; font-weight: bold; background: #f9f9f9; }
-	#result { margin-top: 20px; font-size: 18px; }
-  </style>
-</head>
-<body>
-		<div id="header"></div>
-		<script>
-		fetch("header.html").then(r=>r.text()).then(d=>document.getElementById("header").innerHTML=d);
-		</script>
+<meta charset="utf-8"/>
+<title>Gasoline Blend Optimization Calculator</title>
 
-<h1>Gasoline Blend Optimization Calculator</h1>
-<div class="subtitle">
+<link href="/static/css/global-styles.css?v=20261125p2" rel="stylesheet"/><script defer="" src="/static/js/global.js?v=20261127header1"></script><meta content="width=device-width, initial-scale=1" name="viewport"/><style>#main{ font-family: Arial, sans-serif; margin: 20px; max-width: 950px; }
+#main h1{ margin-bottom: 0.2rem; }
+#main .subtitle{ color: #555; margin-bottom: 1rem; font-size: 0.9rem; }
+#main table{ border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
+#main th,#main td{ border: 1px solid #ccc; padding: 6px 8px; text-align: center; font-size: 0.9rem; }
+#main th{ background: #f2f2f2; }
+#main input[type="number"],#main input[type="text"]{ width: 90px; }
+#main .btn{ padding: 8px 14px; background: #004b8d; color: #fff; border: none; cursor: pointer; border-radius: 3px; font-size: 0.9rem; }
+#main .results{ margin-top: 1rem; padding: 10px; border-radius: 4px; border: 1px solid #ccc; background: #fafafa; font-size: 0.9rem; }
+#main .ok{ border-color: #2e7d32; }
+#main .fail{ border-color: #c62828; }
+#main .label{ font-weight: bold; }
+#main .row-header{ text-align: left; font-weight: bold; background: #f9f9f9; }
+#main #result{ margin-top: 20px; font-size: 18px; }
+#main #components table{min-width:1150px}#main #specifications table{max-width:1000px}#main #blendstocks{overflow-x:auto}
+body.hce-page{margin:0;max-width:none;background:#f4f7fa;color:#17334e;font-family:Arial,Helvetica,sans-serif}#main.hce-workspace{box-sizing:border-box;width:100%;max-width:1320px!important;margin:0 auto!important;padding:22px 20px!important;color:#17334e;min-width:0}#main .work-hero{background:linear-gradient(120deg,#0b1e39,#1f3b5c);color:white;padding:24px;border-radius:8px;margin:0 0 18px}#main .work-hero h1{color:white!important;font-size:clamp(1.6rem,3vw,2.4rem);margin:5px 0 8px;text-align:left!important}#main .work-hero p,#main .work-hero .subtitle{color:#e2edf5!important;margin:8px 0;line-height:1.5}#main .work-kicker{color:#b9e7e5;font-size:12px;letter-spacing:1px;font-weight:700}#main h2{color:#0b1e39;font-size:1.25rem;margin:0 0 12px}#main .work-panel{background:white;border:1px solid #d5dfe8;border-radius:8px;padding:16px;margin:14px 0;min-width:0}#main input,#main select{box-sizing:border-box;background:white;color:#17334e;border:1px solid #aab8c7;border-radius:5px;padding:8px;font:inherit;max-width:100%}#main button{background:#007078;color:white;border:1px solid transparent;border-radius:5px;padding:10px 15px;font-weight:600;cursor:pointer}#main button:hover{background:#005b63;color:white}#main button:disabled{opacity:.55;cursor:not-allowed}#main :focus-visible{outline:3px solid #007078;outline-offset:2px}#main .table-scroll{overflow-x:auto;max-width:100%}#main table{width:100%;border-collapse:collapse;font-size:13px}#main th,#main td{border:1px solid #d5dfe8;padding:8px;text-align:center}#main th{background:#1f3b5c!important;color:white!important}#main tbody tr:nth-child(even){background:#eaf0f5}#main td.row-header{background:#edf3f7;color:#17334e;text-align:left}#main table input{width:100%;min-width:70px}#main table input[type=text]{min-width:135px}#main .results{background:#f4f7fa;border:1px solid #aab8c7;padding:16px;border-radius:6px;margin:14px 0}#main .results.ok{border-color:#15803d}#main .results.fail{border-color:#b91c1c}#main .work-nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}#main .work-nav a,#main #sectionNav button{background:#eaf0f5;color:#17334e;border:1px solid #cbd5e1;border-radius:5px;padding:10px 14px;text-decoration:none;font-weight:600}#main #sectionNav button.active{background:#007078;color:white}#main #sectionNav button:hover{background:#d5e4ec;color:#17334e}#main #sectionNav button.active:hover{background:#005b63;color:white}#main .work-nav a:hover{background:#d5e4ec}#main .work-panel table{margin:0}#main .work-panel h2{margin-top:0}#main [hidden]{display:none!important}@media(max-width:620px){#main.hce-workspace{padding:12px!important}#main .work-hero{padding:16px}#main .work-panel{padding:12px}#main table{display:table!important}#main thead{display:table-header-group!important}#main tbody{display:table-row-group!important}#main tr{display:table-row!important}#main td,#main th{display:table-cell!important}#main td:before{display:none!important}}</style></head>
+<body class="hce-page"><div id="header"></div><main class="hce-main hce-workspace" id="main"><div class="work-hero"><div class="work-kicker">HCE ENGINEERING / OPTIMIZATION &amp; TRAINING</div><h1>Gasoline Blend Optimization Calculator</h1><div class="subtitle">
   3 component gasoline blend optimizer minimizing cost while meeting RON, MON, AKI, RVP, sulfur, aromatics, and benzene specs.
-</div>
-
-<h2>Component Data</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Component</th>
-      <th>Label</th>
-      <th>RON</th>
-      <th>MON</th>
-      <th>RVP (psi)</th>
-      <th>Sulfur (ppm)</th>
-      <th>Aromatics (%)</th>
-      <th>Benzene (%)</th>
-      <th>Density (kg/m³)</th>
-      <th>Price ($/gal)</th>
-      <th>Min %</th>
-      <th>Max %</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="row-header">Comp 1</td>
-      <td><input type="text" id="c1_label" value="Reformate" /></td>
-      <td><input type="number" id="c1_ron" value="98" /></td>
-      <td><input type="number" id="c1_mon" value="88" /></td>
-      <td><input type="number" id="c1_rvp" value="2" /></td>
-      <td><input type="number" id="c1_s" value="30" /></td>
-      <td><input type="number" id="c1_arom" value="65" /></td>
-      <td><input type="number" id="c1_benz" value="3" /></td>
-      <td><input type="number" id="c1_rho" value="780" /></td>
-      <td><input type="number" id="c1_price" value="2.20" step="0.01" /></td>
-      <td><input type="number" id="c1_min" value="0" /></td>
-      <td><input type="number" id="c1_max" value="100" /></td>
-    </tr>
-
-    <tr>
-      <td class="row-header">Comp 2</td>
-      <td><input type="text" id="c2_label" value="Alkylate" /></td>
-      <td><input type="number" id="c2_ron" value="94" /></td>
-      <td><input type="number" id="c2_mon" value="92" /></td>
-      <td><input type="number" id="c2_rvp" value="5" /></td>
-      <td><input type="number" id="c2_s" value="5" /></td>
-      <td><input type="number" id="c2_arom" value="2" /></td>
-      <td><input type="number" id="c2_benz" value="0.1" /></td>
-      <td><input type="number" id="c2_rho" value="700" /></td>
-      <td><input type="number" id="c2_price" value="2.50" step="0.01" /></td>
-      <td><input type="number" id="c2_min" value="0" /></td>
-      <td><input type="number" id="c2_max" value="100" /></td>
-    </tr>
-
-    <tr>
-      <td class="row-header">Comp 3</td>
-      <td><input type="text" id="c3_label" value="FCC Naphtha" /></td>
-      <td><input type="number" id="c3_ron" value="90" /></td>
-      <td><input type="number" id="c3_mon" value="80" /></td>
-      <td><input type="number" id="c3_rvp" value="10" /></td>
-      <td><input type="number" id="c3_s" value="150" /></td>
-      <td><input type="number" id="c3_arom" value="25" /></td>
-      <td><input type="number" id="c3_benz" value="1" /></td>
-      <td><input type="number" id="c3_rho" value="740" /></td>
-      <td><input type="number" id="c3_price" value="1.80" step="0.01" /></td>
-      <td><input type="number" id="c3_min" value="0" /></td>
-      <td><input type="number" id="c3_max" value="100" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>Blend Specifications</h2>
-<table>
-  <tbody>
-    <tr><td class="row-header">Min RON</td><td><input type="number" id="spec_ron" value="93" /></td></tr>
-    <tr><td class="row-header">Min MON</td><td><input type="number" id="spec_mon" value="83" /></td></tr>
-    <tr><td class="row-header">Max RVP (psi)</td><td><input type="number" id="spec_rvp" value="7" /></td></tr>
-    <tr><td class="row-header">Max Sulfur (ppm)</td><td><input type="number" id="spec_s" value="30" /></td></tr>
-    <tr><td class="row-header">Max Aromatics (%)</td><td><input type="number" id="spec_arom" value="35" /></td></tr>
-    <tr><td class="row-header">Max Benzene (%)</td><td><input type="number" id="spec_benz" value="1.0" /></td></tr>
-    <tr><td class="row-header">Max Cost ($/gal)</td><td><input type="number" id="spec_cost" /></td></tr>
-    <tr>
-      <td class="row-header">Search Step (%)</td>
-      <td><input type="number" id="step_pct" value="2" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<button class="btn" id="optimizeBtn">Optimize Blend</button>
-
-<div id="results" class="results" style="display:none;"></div>
-
-<h2>Gasoline Blendstock Properties</h2>
-<section>
+</div></div><nav aria-label="Calculator sections" class="work-nav"><a href="#components">Component data</a><a href="#specifications">Specifications &amp; results</a><a href="#blendstocks">Blendstock properties</a></nav><section class="work-panel" id="components"><h2>Component Data</h2><div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Label</th>
+<th>RON</th>
+<th>MON</th>
+<th>RVP (psi)</th>
+<th>Sulfur (ppm)</th>
+<th>Aromatics (%)</th>
+<th>Benzene (%)</th>
+<th>Density (kg/m³)</th>
+<th>Price ($/gal)</th>
+<th>Min %</th>
+<th>Max %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="row-header">Comp 1</td>
+<td><input id="c1_label" type="text" value="Reformate"/></td>
+<td><input id="c1_ron" type="number" value="98"/></td>
+<td><input id="c1_mon" type="number" value="88"/></td>
+<td><input id="c1_rvp" type="number" value="2"/></td>
+<td><input id="c1_s" type="number" value="30"/></td>
+<td><input id="c1_arom" type="number" value="65"/></td>
+<td><input id="c1_benz" type="number" value="3"/></td>
+<td><input id="c1_rho" type="number" value="780"/></td>
+<td><input id="c1_price" step="0.01" type="number" value="2.20"/></td>
+<td><input id="c1_min" type="number" value="0"/></td>
+<td><input id="c1_max" type="number" value="100"/></td>
+</tr>
+<tr>
+<td class="row-header">Comp 2</td>
+<td><input id="c2_label" type="text" value="Alkylate"/></td>
+<td><input id="c2_ron" type="number" value="94"/></td>
+<td><input id="c2_mon" type="number" value="92"/></td>
+<td><input id="c2_rvp" type="number" value="5"/></td>
+<td><input id="c2_s" type="number" value="5"/></td>
+<td><input id="c2_arom" type="number" value="2"/></td>
+<td><input id="c2_benz" type="number" value="0.1"/></td>
+<td><input id="c2_rho" type="number" value="700"/></td>
+<td><input id="c2_price" step="0.01" type="number" value="2.50"/></td>
+<td><input id="c2_min" type="number" value="0"/></td>
+<td><input id="c2_max" type="number" value="100"/></td>
+</tr>
+<tr>
+<td class="row-header">Comp 3</td>
+<td><input id="c3_label" type="text" value="FCC Naphtha"/></td>
+<td><input id="c3_ron" type="number" value="90"/></td>
+<td><input id="c3_mon" type="number" value="80"/></td>
+<td><input id="c3_rvp" type="number" value="10"/></td>
+<td><input id="c3_s" type="number" value="150"/></td>
+<td><input id="c3_arom" type="number" value="25"/></td>
+<td><input id="c3_benz" type="number" value="1"/></td>
+<td><input id="c3_rho" type="number" value="740"/></td>
+<td><input id="c3_price" step="0.01" type="number" value="1.80"/></td>
+<td><input id="c3_min" type="number" value="0"/></td>
+<td><input id="c3_max" type="number" value="100"/></td>
+</tr>
+</tbody>
+</table></div></section><section class="work-panel" id="specifications"><h2>Blend Specifications</h2><div class="table-scroll"><table>
+<tbody>
+<tr><td class="row-header">Min RON</td><td><input id="spec_ron" type="number" value="93"/></td></tr>
+<tr><td class="row-header">Min MON</td><td><input id="spec_mon" type="number" value="83"/></td></tr>
+<tr><td class="row-header">Max RVP (psi)</td><td><input id="spec_rvp" type="number" value="7"/></td></tr>
+<tr><td class="row-header">Max Sulfur (ppm)</td><td><input id="spec_s" type="number" value="30"/></td></tr>
+<tr><td class="row-header">Max Aromatics (%)</td><td><input id="spec_arom" type="number" value="35"/></td></tr>
+<tr><td class="row-header">Max Benzene (%)</td><td><input id="spec_benz" type="number" value="1.0"/></td></tr>
+<tr><td class="row-header">Max Cost ($/gal)</td><td><input id="spec_cost" type="number"/></td></tr>
+<tr>
+<td class="row-header">Search Step (%)</td>
+<td><input id="step_pct" type="number" value="2"/></td>
+</tr>
+</tbody>
+</table></div><button class="btn" id="optimizeBtn">Optimize Blend</button><div class="results" id="results" style="display:none;"></div></section><section class="work-panel" id="blendstocks"><h2>Gasoline Blendstock Properties</h2><section>
 <div id="blendstock-table-container"></div>
-</section>
+</section></section></main><div id="footer"></div>
 
 
 
-		<div id="footer"></div>
-		<script>
-		fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
-		</script>
+
+
+
+
+
+
+
+
+
+
 
 <script>
 function readComp(i) {
@@ -221,7 +206,6 @@ function optimize() {
 
 document.getElementById("optimizeBtn").addEventListener("click", optimize);
 </script>
-
 <script>
 async function loadCSVTable(csvPath, containerId) {
     const response = await fetch(csvPath);
@@ -265,6 +249,5 @@ async function loadCSVTable(csvPath, containerId) {
 loadCSVTable('/data/blendstock_properties.csv', 'blendstock-table-container');
 loadCSVTable('/data/diesel_blendstock_properties.csv', 'diesel-blendstock-table-container');
 </script>
-
 </body>
 </html>
