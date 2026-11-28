@@ -1,0 +1,26 @@
+/* HCE plant models V2.0: scoped presentation, no process changes */
+body.hce-plant {margin:0;background:#f5f7fa;color:#17324d;font-family:Arial,Helvetica,sans-serif;line-height:1.5;padding-bottom:0}
+.hce-plant .app-shell,.hce-plant .page {width:100%;max-width:1700px;margin:0 auto;padding:24px;box-sizing:border-box}
+.hce-plant .topbar,.hce-plant .panel,.hce-plant .diagram-panel,.hce-plant .section-card,.hce-plant .flowsheet-card {background:#fff;border:1px solid #dce3ea;border-radius:10px;box-shadow:0 3px 12px #0b1e3910;min-width:0}
+.hce-plant .topbar {border-top:4px solid #007F86;padding:18px 22px}
+.hce-plant .app-shell h1,.hce-plant .page h1 {color:#0b1e39;font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:0 0 12px}
+.hce-plant .app-shell h2,.hce-plant .page h2 {color:#1f3b5c;font-size:20px;margin:0 0 14px}
+.hce-plant .app-shell .controls button,.hce-plant .page button {background:#1f3b5c;color:#fff;border:1px solid #1f3b5c;border-radius:6px;box-shadow:none;padding:9px 14px;font-weight:600;cursor:pointer}
+.hce-plant .controls button:hover,.hce-plant .page button:hover {background:#007F86}
+.hce-plant .app-shell .diagram-panel,.hce-plant .page .flowsheet-card {overflow-x:auto}
+.hce-plant .app-shell table,.hce-plant .page table {width:100%;border-collapse:collapse;font-size:14px;line-height:1.45;margin:0;table-layout:auto}
+.hce-plant .plant-table-scroll {max-width:100%;overflow-x:auto;border:1px solid #dce3ea;border-radius:6px}
+.hce-plant .plant-table-scroll:focus-visible {outline:2px solid #007F86;outline-offset:2px}
+.hce-plant .app-shell table th,.hce-plant .page table th {display:table-cell!important;background:#1f3b5c!important;color:#fff!important;font-weight:700;text-align:left;padding:10px 12px;border:1px solid #415b77;vertical-align:middle}
+.hce-plant .app-shell table td,.hce-plant .page table td {padding:9px 12px;border:1px solid #dce3ea;vertical-align:top;color:#17324d;text-align:left}
+.hce-plant table tbody tr:nth-child(odd) {background:#fff}
+.hce-plant table tbody tr:nth-child(even) {background:#f0f4f8}
+.hce-plant table tbody tr:hover {background:#e5f1f2}
+.hce-plant table td.plant-numeric {text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hce-plant .pfd-footer {background:#f0f4f8;color:#17324d;border:1px solid #dce3ea;text-align:left;letter-spacing:normal}
+.hce-plant #header svg,.hce-plant #footer svg {min-width:0;width:auto;height:auto;background:none;border:0}
+.hce-plant #header .hce-brand img {width:48px;height:48px;flex:none}
+.hce-plant #footer .hce-footer {margin:0}
+.hce-plant #footer .hce-footer p {color:inherit;margin:0 0 6px}
+@media(max-width:850px){.hce-plant .app-shell,.hce-plant .page{padding:12px}.hce-plant .summary-grid{grid-template-columns:minmax(0,1fr)}.hce-plant .plant-table-scroll table{min-width:560px}.hce-plant .topbar{display:block}.hce-plant .controls{margin-top:12px}}
+@media print{.hce-plant #header,.hce-plant #footer,.hce-plant .controls{display:none!important}.hce-plant .app-shell,.hce-plant .page{padding:0;max-width:none}.hce-plant .plant-table-scroll,.hce-plant .diagram-panel{overflow:visible}.hce-plant .diagram-panel svg{min-width:0!important;max-width:100%}.hce-plant table thead{display:table-header-group}.hce-plant table th{print-color-adjust:exact;-webkit-print-color-adjust:exact}.hce-plant .pfd-footer{break-inside:avoid}}
