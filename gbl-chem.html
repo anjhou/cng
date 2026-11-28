@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><link rel="stylesheet" href="/static/css/global-styles.css?v=20261125p2"><script defer src="/static/js/global.js?v=20261127header1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global Chemical Company List</title>
@@ -46,14 +46,14 @@ tbody tr:hover td{background:var(--hover)}
 .company-dot{background:#e00000;border:1.5px solid #fff;border-radius:50%;box-shadow:0 0 2px #333}
 .leaflet-container{font-family:Arial,Helvetica,sans-serif}
 </style>
-</head>
-<body>
+<style>
+#hce-database{max-width:1700px;width:100%;margin:0 auto;padding:20px;box-sizing:border-box;color:#173653;text-align:left}#hce-database h1,#hce-database h2{color:#1f4e78;text-align:left}#hce-database .card,#hce-database .map-card{background:#fff;border:1px solid #d7dee7;border-radius:10px;box-shadow:0 2px 10px #0000000d;margin:0 0 18px;padding:18px;min-width:0}#hce-database .tools,#hce-database .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}#hce-database input,#hce-database select{background:white;color:#173653;border:1px solid #bcc7d4}#hce-database button,#hce-database a.btn{background:#1f4e78;color:#fff;border:0;border-radius:6px;padding:9px 12px;text-decoration:none}#hce-database .table-wrap{overflow:auto;max-height:650px}#hce-database table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}#hce-database th,#hce-database td{padding:7px 8px;border:1px solid #d9e0e8;white-space:nowrap;text-align:left}#hce-database thead tr:first-child th{position:sticky;top:0;height:32px;background:#1f4e78!important;color:white!important;z-index:4}#hce-database thead tr:nth-child(2) th{position:sticky;top:32px;background:#edf3f8!important;color:#173653!important;z-index:3}#hce-database tbody tr td{background:#fff!important;color:#173653!important}#hce-database tbody tr:nth-child(even) td{background:#f8fafc!important}#hce-database tbody tr:hover td{background:#e8f1fa!important}#hce-database .map-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:0 0 12px}#hce-database .map-source{text-align:center;color:#c00000;font-weight:700;font-size:14px;padding:8px}#hce-database .leaflet-container{height:65vh;min-height:360px;width:100%;background:#e9eef3;z-index:0}#hce-database .count,#hce-database .map-count{color:#1f4e78;font-weight:600} @media(max-width:700px){#hce-database{padding:8px}#hce-database .card,#hce-database .map-card{padding:10px}#hce-database .leaflet-container{height:450px;min-height:0}}
+</style><style>#hce-database #companyMap{height:65vh;min-height:360px;width:100%}@media(max-width:700px){#hce-database #companyMap{height:450px;min-height:0}}</style></head>
+<body class="hce-page">
 <div id="header"></div>
-<script>
-fetch("header.html").then(r=>r.ok?r.text():"").then(d=>document.getElementById("header").innerHTML=d).catch(()=>{});
-</script>
 
-<div class="wrap"><div class="card">
+
+<div class="wrap" id="hce-database"><div class="card">
   <div class="topbar">
     <h1>Global Chemical Company List</h1>
     <div class="subtitle">Global chemical companies and facilities by region, country, company, location, and operating status.</div>
@@ -76,14 +76,12 @@ fetch("header.html").then(r=>r.ok?r.text():"").then(d=>document.getElementById("
     <div class="map-sub">Red dots represent the currently filtered company locations. Selecting a Region or Country automatically zooms the map to that area.</div></div>
     <div id="mapCount" class="map-count"></div>
   </div>
-  <div id="companyMap"></div>
+  <div id="companyMap"></div><div class="map-source">Source: Houston Chemical and Energy</div>
 </div>
 </div>
 
 <div id="footer"></div>
-<script>
-fetch("footer.html").then(r=>r.ok?r.text():"").then(d=>document.getElementById("footer").innerHTML=d).catch(()=>{});
-</script>
+
 
 <script>
 const headers = [`Region`,`Country`,`Company`,`Location`,`Status`];
@@ -1871,16 +1869,9 @@ const REGION_BOUNDS = {
 };
 
 function initCompanyMap(){
- companyMap=L.map("companyMap",{worldCopyJump:false,minZoom:1,maxZoom:10,zoomControl:true,attributionControl:false});
- companyMap.setView([18,5],2);
- markerLayer=L.layerGroup().addTo(companyMap);
-
- fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson")
- .then(r=>r.json()).then(g=>{
-   boundaryLayer=L.geoJSON(g,{style:{color:"#111",weight:.75,fillColor:"#fff",fillOpacity:1}}).addTo(companyMap);
-   boundaryLayer.bringToBack();
-   updateCompanyMap();
- }).catch(()=>updateCompanyMap());
+ companyMap=L.map("companyMap",{worldCopyJump:true,minZoom:1,maxZoom:12,preferCanvas:true}).setView([20,0],2);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(companyMap);
+ markerLayer=L.layerGroup().addTo(companyMap);updateCompanyMap();requestAnimationFrame(()=>companyMap.invalidateSize());
 }
 
 function hashString(str){
@@ -1977,7 +1968,7 @@ async function updateCompanyMap(){
    const country=ci>=0?r[ci]:"",loc=li>=0?r[li]:"";
    const pt=staticLocationPoint(r)||cachedPoint(country,loc)||fallbackCountryPoint(r,i);
    if(!pt)return;
-   const m=L.marker(pt,{icon:dotIcon()}).bindPopup(
+   const m=L.circleMarker(pt,{radius:5,color:"#a71919",fillColor:"#e53935",fillOpacity:.85,weight:1}).bindPopup(
       "<b>"+escapeHtml(coi>=0?r[coi]:"")+"</b>"+(loc?"<br>"+escapeHtml(loc):"")+
       (country?"<br>"+escapeHtml(country):"")+(si>=0&&r[si]?"<br>Status: "+escapeHtml(r[si]):"")
    ).addTo(markerLayer);
@@ -1989,7 +1980,7 @@ async function updateCompanyMap(){
  });
 
  document.getElementById("mapCount").textContent=
-   markerRecords.length.toLocaleString()+" filtered companies mapped by listed location";
+   markerRecords.length.toLocaleString()+" filtered company records mapped (may include approximate locations)";
 
  // Zoom according to selected filter immediately.
  const currentPts=markerRecords.map(x=>x.marker.getLatLng());
@@ -2000,7 +1991,7 @@ async function updateCompanyMap(){
    companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]});
  }else if(currentPts.length&&currentPts.length<rows.length){
    companyMap.fitBounds(L.latLngBounds(currentPts).pad(.15),{maxZoom:5});
- }else companyMap.setView([18,5],2);
+ }else companyMap.setView([20,0],2);
 
  // Resolve every unique listed location, then move all matching markers to its true coordinates.
  // Small batches avoid provider throttling; coordinates persist in browser cache for later visits.
@@ -2034,9 +2025,9 @@ async function updateCompanyMap(){
    companyMap.fitBounds(REGION_BOUNDS[regionFilter],{padding:[12,12]});
  }
  document.getElementById("mapCount").textContent=
-   markerRecords.length.toLocaleString()+" filtered companies mapped by listed location";
+   markerRecords.length.toLocaleString()+" filtered company records mapped (may include approximate locations)";
 }
-window.addEventListener("load",initCompanyMap);
+if(typeof L!=="undefined")initCompanyMap();
 </script>
 
 </body>
