@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transportation | Houston CNG Consulting</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Transportation | Houston Chemical & Energy</title>
+    <link rel="stylesheet" href="/static/css/global-styles.css?v=20261125p2" />
+<script defer src="/static/js/global.js?v=20261127header1"></script>
+<style>
+#transportation {max-width:1440px;margin:auto;padding:24px 20px;color:#173653;}
+#transportation .article-section,#transportation .report-section {background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:22px;margin:0 0 20px;box-shadow:0 2px 8px #1234560c;}
+#transportation h1,#transportation h2,#transportation h3 {color:#123c62;margin:0 0 16px;line-height:1.3;}
+#transportation .intro {color:#43566a;margin:0 0 20px;}
+#transportation .table-wrapper {overflow-x:auto;margin:16px 0;}
+#transportation table {width:100%;border-collapse:collapse;font-size:.9rem;min-width:850px;}
+#transportation table thead th {background:#174b79!important;color:#fff!important;padding:12px;text-align:right;white-space:normal;}
+#transportation table tbody td {color:#173653!important;background:#fff!important;padding:12px;border-bottom:1px solid #cbd5e1;text-align:right;white-space:nowrap;}
+#transportation table tbody tr:nth-child(even) td {background:#edf3f8!important;}
+#transportation table tbody td:first-child {font-weight:700;text-align:left;}
+#transportation .btn-primary {display:inline-block;background:#174b79!important;color:#fff!important;border:1px solid #174b79;border-radius:6px;padding:10px 16px;text-decoration:none;cursor:pointer;font:inherit;}
+#transportation .btn-primary:hover {background:#0b2947!important;}
+#transportation select {background:#fff;color:#173653;border:1px solid #94a3b8;border-radius:6px;padding:10px;min-width:180px;margin:0 0 12px;}
+#transportation .chart-container {position:relative;height:360px;width:100%;min-width:0;}
+#transportation .articles-list {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;}
+#transportation .article-card {background:#f5f7fa;color:#173653;border:1px solid #cbd5e1;border-radius:8px;padding:18px;display:flex;flex-direction:column;align-items:flex-start;}
+#transportation .article-card h3 {font-size:1.05rem;overflow-wrap:anywhere;}
+#transportation .article-card p {flex:1;}
+#transportation .note {font-size:.85rem;color:#43566a;}
+@media(max-width:600px){#transportation{padding:12px;}#transportation .article-section,#transportation .report-section{padding:14px;}#transportation .chart-container{height:300px;}}
+</style>
 </head>
 
-<body>
-    <div id="header"></div><!-- Scroll Snap Container -->
-<div class="scroll-snap-container">
+<body class="hce-page">
+    <div id="header"></div>
+<main id="transportation" class="hce-main">
+<h1>Transportation</h1><p class="intro">U.S. vehicle miles traveled by vehicle type and selected states, with transportation and fuel demand reports.</p>
+<div>
 
     <!-- ========================= -->
     <!-- SECTION 1: NATIONAL VMT -->
     <!-- ========================= -->
-    <div class="scroll-snap-section">
+    <div class="transport-section">
         <section class="article-section">
             <h2 class="page-title">U.S. Vehicle Miles Traveled (VMT): 2010 to 2025</h2>
 
@@ -45,6 +70,7 @@
                 </table>
             </div>
 
+            <p class="note">Source: supplied transportation page; four benchmark years. Figures have not been independently verified.</p>
             <div class="chart-container">
                 <canvas id="nationalVMTChart" width="900" height="450"></canvas>
             </div>
@@ -54,10 +80,10 @@
     <!-- ========================= -->
     <!-- SECTION 2: STATE VMT -->
     <!-- ========================= -->
-    <div class="scroll-snap-section">
+    <div class="transport-section">
         <section class="article-section">
 
-            <h3 class="section-header">Top 10 States by Total VMT (Millions of Miles)</h3>
+            <h3 class="section-header">Selected States by Total VMT (Millions of Miles)</h3>
 
             <label for="stateSelect" class="dropdown-label">Select State:</label>
             <select id="stateSelect" class="dropdown">
@@ -78,7 +104,7 @@
     <!-- ========================= -->
     <!-- SECTION 3: TEXAS TREND -->
     <!-- ========================= -->
-    <div class="scroll-snap-section">
+    <div class="transport-section">
         <section class="article-section">
 
             <h3 class="section-header">Texas VMT Trend (Millions of Miles)</h3>
@@ -92,11 +118,13 @@
 
 </div>
 <!-- Articles -->
-<section id="articles-container" class="articles-list"></section>
+<section class="report-section"><h2>Transportation reports</h2><div id="articles-container" class="articles-list"></div></section>
+</main>
+<div id="footer"></div>
 <!-- ========================= -->
 <!-- INLINE CHART.JS SCRIPT -->
 <!-- ========================= -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
 
 <script>
 /* NATIONAL VMT CHART */
@@ -113,7 +141,7 @@ new Chart(document.getElementById('nationalVMTChart'), {
             { label: 'Motorcycles', data: [20802, 20380, 18884, 21000], borderColor: '#8c564b', fill: false }
         ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
 });
 
 /* STATE SELECTOR + CHART */
@@ -137,7 +165,7 @@ let stateChart = new Chart(stateCtx, {
             fill: false
         }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
 });
 
 document.getElementById("stateSelect").addEventListener("change", function () {
@@ -160,51 +188,27 @@ new Chart(document.getElementById('texasVMTChart'), {
             }
         ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
 });
 </script>
-    <script>
-        // Load shared header and footer
-        fetch("header.html").then(r => r.text()).then(html => {
-            document.getElementById("header").innerHTML = html;
-        });
-        fetch("footer.html").then(r => r.text()).then(html => {
-            document.getElementById("footer").innerHTML = html;
-        });
-    </script>
-	
-	<script>
-    // Load shared header and footer
-    fetch("header.html").then(r => r.text()).then(html => {
-        document.getElementById("header").innerHTML = html;
-    });
-    fetch("footer.html").then(r => r.text()).then(html => {
-        document.getElementById("footer").innerHTML = html;
-    });
-
-    // Load articles from GitHub JSON
-    fetch("https://raw.githubusercontent.com/anjhou/cng/main/data/transportation.json")
-        .then(response => response.json())
-        .then(articles => {
-            const container = document.getElementById("articles-container");
-
-            articles.forEach(article => {
-                const card = document.createElement("article");
-                card.className = "article-card";
-
-                card.innerHTML = `
-                    <h2>${article.title}</h2>
-                    <p>${article.description}</p>
-                    <a href="${article.pdf}" download class="btn-primary">Download PDF</a>
-                `;
-
-                container.appendChild(card);
-            });
-        })
-        .catch(err => {
-            console.error("Error loading articles:", err);
-        });
+<script>
+const reportFallback = [{"title": "Global VMT Outlook (2020–2026)", "description": "A comprehensive analysis of global VMT.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/Global_Vehicle_Miles_Traveled_(VMT)_Outlook_(2020–2026).pdf"}, {"title": "VMT Outlook (North America vs. Middle East vs. Asia)", "description": "A benchmarking study comparing VMT Outlook  across major regions.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/VMT_Outlook_(North_America_vs._Middle_East_vs._Asia).pdf"}, {"title": "VMT Outlook Market Drivers and  Trends (2019–2025)", "description": "A review of global VMT.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/VMT_Outlook_Market_Drivers_and_Trends_(2019–2025).pdf"}, {"title": "Vehicles_Energy_&_Fuel_Demand_Outlook_(2020–2026).pdf", "description": "A technical summary of Fuel Demand Outlook.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/Vehicles_Energy_&_Fuel_Demand_Outlook_(2020–2026).pdf"}, {"title": "EV Transition Impacts on Refinery Fuel Demand Outlook", "description": "An assessment of how electrification, refinery rationalization, and renewable fuels policies are reshaping Refinery Fuel Demand Outlook.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/EV_Transition_Impacts_on_Refinery_Fuel_Demand_Outlook.pdf"}, {"title": "North American VMT Outlook for Battery Producers", "description": "A forward-looking view of Light Duty Vehicles, Motorcycles, Buses, and Trucks  and All Vehicle competitiveness.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/North_American_VMT_Outlook_for_Battery_Producers.pdf"}, {"title": "Vehicle Miles Traveled (VMT) by vehicle type", "description": "A comparison of A forward-looking view of Light Duty Vehicles, Motorcycles, Buses, and Trucks  and All Vehicle competitiveness.", "pdf": "https://raw.githubusercontent.com/anjhou/cng/main/reports/Vehicle_Miles_Traveled_(VMT)_by_vehicle_type.pdf"}];
+function renderReports(articles) {
+ const container=document.getElementById('articles-container');
+ container.replaceChildren();
+ for(const article of articles){
+  const card=document.createElement('article'); card.className='article-card';
+  const title=document.createElement('h3'); title.textContent=article.title;
+  const desc=document.createElement('p'); desc.textContent=article.description;
+  const link=document.createElement('a'); link.className='btn-primary'; link.textContent='Download PDF'; link.href=article.pdf; link.target='_blank'; link.rel='noopener';
+  card.append(title,desc,link); container.append(card);
+ }
+}
+renderReports(reportFallback);
+fetch('/data/transportation.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json();}).then(a=>{if(Array.isArray(a)&&a.length)renderReports(a);}).catch(()=>{});
+document.getElementById('downloadCSV').addEventListener('click',()=>{
+ const csv=Array.from(document.querySelectorAll('#transportation table tr'),r=>Array.from(r.cells,c=>'"'+c.textContent.trim().replace(/"/g,'""')+'"').join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); const a=document.createElement('a');a.href=url;a.download='national-vmt.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
 </script>
-
-</body>
-</html>
+</body></html>
